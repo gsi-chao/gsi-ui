@@ -1,8 +1,23 @@
 {
   "name": "vertrax-ui-cmp",
   "version": "0.1.0",
+  "description": "UI Interface for Vertrax projects",
+  "author": "gsi-chao",
+  "license": "MIT",
+  "repository": "gsi-chao/vertrax-ui-cmp",
   "private": true,
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "babel": {
+    "presets": [
+      "react",
+      "env",
+      "stage-2"
+    ]
+  },
   "dependencies": {
+    "@blueprintjs/core": "^3.12.0",
+    "@blueprintjs/table": "^3.4.1",
     "@types/jest": "23.3.13",
     "@types/node": "10.12.18",
     "@types/react": "16.7.20",
@@ -14,7 +29,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "NODE_ENV=production && rm -rf dist && mkdir dist && npx babel src/components --out-dir dist --copy-files",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -26,5 +41,11 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1"
+  }
 }
