@@ -1,11 +1,22 @@
-import React, {Component} from "react";
-import {Cell, EditableCell, IMenuContext, ITableProps, Table, Utils} from "@blueprintjs/table";
+import React, { Component } from "react";
+import {
+  Cell,
+  EditableCell,
+  IMenuContext,
+  ITableProps,
+  Table,
+  Utils
+} from "@blueprintjs/table";
 
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/table/lib/css/table.css";
-import {Intent} from "@blueprintjs/core";
+import { Intent } from "@blueprintjs/core";
 import TableColumn from "./TableColumn";
-import {ActionCellsMenuItem, DefaultActions, IVContextualTableProps} from "./ActionCellsMenuItem";
+import {
+  ActionCellsMenuItem,
+  DefaultActions,
+  IVContextualTableProps
+} from "./ActionCellsMenuItem";
 
 export type IVTableOrder = "ASC" | "DESC";
 
@@ -22,8 +33,6 @@ export interface IVActionSortableTableProps extends IVActionsTableProps {
   onSort: (columnIndex: number, order: IVTableOrder) => void;
 }
 
-
-
 export interface IVTableProps {
   edit?: IVActionEditTableProps;
   search?: IVActionsTableProps;
@@ -32,7 +41,7 @@ export interface IVTableProps {
   contextual?: IVContextualTableProps;
   columns: string[];
   data: any;
-  reordering?:boolean;
+  reordering?: boolean;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -41,7 +50,7 @@ export interface IVTableState {
   sparseCellData: any[];
   sparseCellInvalid?: { [key: string]: Intent };
   sparseCellUpdateData?: { [key: string]: string };
-  columns:string[];
+  columns: string[];
 }
 
 export class VTable extends Component<IProps, IVTableState> {
@@ -57,7 +66,7 @@ export class VTable extends Component<IProps, IVTableState> {
     sparseCellData: this.props.data,
     sparseCellInvalid: {},
     sparseCellUpdateData: {},
-    columns:this.props.columns
+    columns: this.props.columns
   };
 
   render() {
@@ -69,12 +78,13 @@ export class VTable extends Component<IProps, IVTableState> {
     });
 
     return (
-      <Table 
-      numRows={this.state.sparseCellData.length} 
-      onColumnsReordered={this._handleColumnsReordered}
-      enableColumnReordering={this.props.reordering}
+      <Table
+        numRows={this.state.sparseCellData.length}
+        onColumnsReordered={this._handleColumnsReordered}
+        enableColumnReordering={this.props.reordering}
+        bodyContextMenuRenderer={this.renderBodyContextMenu}
       >
-      {columnsList}
+        {columnsList}
       </Table>
     );
   }
@@ -82,7 +92,7 @@ export class VTable extends Component<IProps, IVTableState> {
   public renderCell = (rowIndex: number, columnIndex: number) => {
     const dataKey = VTable.dataKey(rowIndex, columnIndex);
     const { edit } = this.props;
-    const  columns = this.state.columns;
+    const columns = this.state.columns;
     const data = this.state.sparseCellData;
     const value = data[rowIndex][columns[columnIndex]];
     return edit && edit.columns.indexOf(columns[columnIndex]) != -1 ? (
@@ -176,13 +186,15 @@ export class VTable extends Component<IProps, IVTableState> {
 
   private renderBodyContextMenu = (context: IMenuContext) => {
     return this.props.contextual ? (
-        <ActionCellsMenuItem
-          context={context}
-          getCellData={this.getCellData}
-          context_options={this.props.contextual!}
-          onDefaultActions={this.onDefaultActions}
-        />
-    ) : <div/>;
+      <ActionCellsMenuItem
+        context={context}
+        getCellData={this.getCellData}
+        context_options={this.props.contextual!}
+        onDefaultActions={this.onDefaultActions}
+      />
+    ) : (
+      <div />
+    );
   };
 
   private getCellData = (rowIndex: number, columnIndex: number) => {
@@ -190,29 +202,34 @@ export class VTable extends Component<IProps, IVTableState> {
     return data[this.state.columns[columnIndex]];
   };
 
-  private onDefaultActions(action: DefaultActions, value: any){
-      switch (action){
-          case 'copy':
-            console.log(value);
-            break;
-          case 'paste':
-            console.log(value);
-            break;
-          case 'export':
-            console.log(value);
-            break;
-      }
+  private onDefaultActions(action: DefaultActions, value: any) {
+    switch (action) {
+      case "copy":
+        console.log(value);
+        break;
+      case "paste":
+        console.log(value);
+        break;
+      case "export":
+        console.log(value);
+        break;
+    }
   }
 
-  private _handleColumnsReordered = (oldIndex: number, newIndex: number, length: number) => {
-    console.log(this.state.columns)
+  private _handleColumnsReordered = (
+    oldIndex: number,
+    newIndex: number,
+    length: number
+  ) => {
     if (oldIndex === newIndex) {
-        return;
-        
+      return;
     }
-    const nextChildren = Utils.reorderArray(this.state.columns, oldIndex, newIndex, length);
-    this.setState({columns:nextChildren});
-    console.log(this.state.columns);
-};
-
+    const nextChildren = Utils.reorderArray(
+      this.state.columns,
+      oldIndex,
+      newIndex,
+      length
+    );
+    this.setState({ columns: nextChildren });
+  };
 }
