@@ -28,6 +28,7 @@ class App extends Component {
       <VTable
           edit={{ columns: ["name"], validation: {name: nameValidation} }}
           columns={["name", "lastname"]}
+          reordering={true}
           sortable={{columns: ["name"], onSort: this.onSort}}
           contextual={{columns: ["name"], default_actions: ["copy", "paste", "export"], actions: [{
             icon: 'export', action: (item: any) => console.log(item), text: "Action Input"

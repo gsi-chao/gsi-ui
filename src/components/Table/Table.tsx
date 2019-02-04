@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Cell, EditableCell, IMenuContext, ITableProps, Table} from "@blueprintjs/table";
+import {Cell, EditableCell, IMenuContext, ITableProps, Table, Utils} from "@blueprintjs/table";
 
 import "@blueprintjs/table/lib/css/table.css";
 import {Intent} from "@blueprintjs/core";
@@ -31,17 +31,19 @@ export interface IVTableProps {
   contextual?: IVContextualTableProps;
   columns: string[];
   data: any;
+  reordering:boolean;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
 
-export interface IVTableEditableState {
+export interface IVTableState {
   sparseCellData: any[];
   sparseCellInvalid?: { [key: string]: Intent };
   sparseCellUpdateData?: { [key: string]: string };
+  columns:string[];
 }
 
-export class VTable extends Component<IProps, IVTableEditableState> {
+export class VTable extends Component<IProps, IVTableState> {
   constructor(props: IProps) {
     super(props);
   }
@@ -50,33 +52,36 @@ export class VTable extends Component<IProps, IVTableEditableState> {
     return `${rowIndex}-${columnIndex}`;
   };
 
-  public state: IVTableEditableState = {
+  public state: IVTableState = {
     sparseCellData: this.props.data,
     sparseCellInvalid: {},
-    sparseCellUpdateData: {}
+    sparseCellUpdateData: {},
+    columns:this.props.columns
   };
 
   render() {
-    const { columns, sortable } = this.props;
+    const { sortable } = this.props;
+    const columns = this.state.columns;
     const columnsList = columns.map((name: string, index: number) => {
       let col = new TableColumn(name, index, columns, sortable);
       return col.getColumn(this.renderCell);
     });
 
     return (
-      <Table
-        bodyContextMenuRenderer={this.renderBodyContextMenu}
-        numRows={this.state.sparseCellData.length}
-
+      <Table 
+      numRows={this.state.sparseCellData.length} 
+      onColumnsReordered={this._handleColumnsReordered}
+      enableColumnReordering={this.props.reordering}
       >
-        {columnsList}
+      {columnsList}
       </Table>
     );
   }
 
   public renderCell = (rowIndex: number, columnIndex: number) => {
     const dataKey = VTable.dataKey(rowIndex, columnIndex);
-    const { edit, columns } = this.props;
+    const { edit } = this.props;
+    const  columns = this.state.columns;
     const data = this.state.sparseCellData;
     const value = data[rowIndex][columns[columnIndex]];
     return edit && edit.columns.indexOf(columns[columnIndex]) != -1 ? (
@@ -96,9 +101,9 @@ export class VTable extends Component<IProps, IVTableEditableState> {
     if (
       this.props.edit &&
       this.props.edit.validation &&
-      this.props.edit.validation[this.props.columns[columnIndex]]
+      this.props.edit.validation[this.state.columns[columnIndex]]
     ) {
-      return this.props.edit.validation[this.props.columns[columnIndex]](value);
+      return this.props.edit.validation[this.state.columns[columnIndex]](value);
     } else {
       return true;
     }
@@ -162,7 +167,7 @@ export class VTable extends Component<IProps, IVTableEditableState> {
     value: string
   ) => {
     const data = this.state.sparseCellData;
-    data[rowIndex][this.props.columns[columnIndex]] = value;
+    data[rowIndex][this.state.columns[columnIndex]] = value;
     this.setState({
       sparseCellData: data
     });
@@ -181,7 +186,7 @@ export class VTable extends Component<IProps, IVTableEditableState> {
 
   private getCellData = (rowIndex: number, columnIndex: number) => {
     const data = this.state.sparseCellData[rowIndex];
-    return data[this.props.columns[columnIndex]];
+    return data[this.state.columns[columnIndex]];
   };
 
   private onDefaultActions(action: DefaultActions, value: any){
@@ -197,5 +202,16 @@ export class VTable extends Component<IProps, IVTableEditableState> {
             break;
       }
   }
+
+  private _handleColumnsReordered = (oldIndex: number, newIndex: number, length: number) => {
+    console.log(this.state.columns)
+    if (oldIndex === newIndex) {
+        return;
+        
+    }
+    const nextChildren = Utils.reorderArray(this.state.columns, oldIndex, newIndex, length);
+    this.setState({columns:nextChildren});
+    console.log(this.state.columns);
+};
 
 }

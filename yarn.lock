@@ -902,6 +902,16 @@
     classnames "^2.2"
     tslib "^1.9.0"
 
+"@blueprintjs/table@^3.4.1":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/table/-/table-3.4.1.tgz#28f5b3051d4179a01e57df73d0ef670b9aae626c"
+  integrity sha512-sFkugU0Wu/byoXpjvZLXdAif7MIxcP6B7mIe5v0Pcre6BEOrgHKkRkY0bYnQcDIpHtqwyPHEKyE4Vstye0nS3w==
+  dependencies:
+    "@blueprintjs/core" "^3.12.0"
+    classnames "^2.2"
+    prop-types "^15.6.0"
+    tslib "^1.9.0"
+
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
@@ -8484,7 +8494,7 @@ prompts@^0.1.9:
     kleur "^2.0.1"
     sisteransi "^0.1.1"
 
-prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
