@@ -1,11 +1,10 @@
 {
-  "name": "vertrax-ui-cmp",
+  "name": "bp-gsi-ui",
   "version": "0.1.0",
   "description": "UI Interface for Vertrax projects",
   "author": "gsi-chao",
   "license": "MIT",
   "repository": "gsi-chao/vertrax-ui-cmp",
-  "private": true,
   "main": "dist/index.js",
   "module": "dist/index.js",
   "babel": {

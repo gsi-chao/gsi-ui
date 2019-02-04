@@ -1,16 +1,10 @@
-import React, { Component } from "react";
-import {
-  Cell,
-  Column,
-  ColumnHeaderCell,
-  EditableCell,
-  ITableProps,
-  Table
-} from "@blueprintjs/table";
+import React, {Component} from "react";
+import {Cell, EditableCell, IMenuContext, ITableProps, Table} from "@blueprintjs/table";
 
 import "@blueprintjs/table/lib/css/table.css";
-import { Intent, Menu, MenuItem } from "@blueprintjs/core";
+import {Intent} from "@blueprintjs/core";
 import TableColumn from "./TableColumn";
+import {ActionCellsMenuItem, DefaultActions, IVContextualTableProps} from "./ActionCellsMenuItem";
 
 export type IVTableOrder = "ASC" | "DESC";
 
@@ -27,13 +21,7 @@ export interface IVActionSortableTableProps extends IVActionsTableProps {
   onSort: (columnIndex: number, order: IVTableOrder) => void;
 }
 
-export interface IVContextualItemTableProps {
-  action: (item: any) => void;
-}
 
-export interface IVContextualTableProps extends IVActionsTableProps {
-  item: IVContextualItemTableProps;
-}
 
 export interface IVTableProps {
   edit?: IVActionEditTableProps;
@@ -76,7 +64,13 @@ export class VTable extends Component<IProps, IVTableEditableState> {
     });
 
     return (
-      <Table numRows={this.state.sparseCellData.length}>{columnsList}</Table>
+      <Table
+        bodyContextMenuRenderer={this.renderBodyContextMenu}
+        numRows={this.state.sparseCellData.length}
+
+      >
+        {columnsList}
+      </Table>
     );
   }
 
@@ -173,4 +167,35 @@ export class VTable extends Component<IProps, IVTableEditableState> {
       sparseCellData: data
     });
   };
+
+  private renderBodyContextMenu = (context: IMenuContext) => {
+    return this.props.contextual ? (
+        <ActionCellsMenuItem
+          context={context}
+          getCellData={this.getCellData}
+          context_options={this.props.contextual!}
+          onDefaultActions={this.onDefaultActions}
+        />
+    ) : <div/>;
+  };
+
+  private getCellData = (rowIndex: number, columnIndex: number) => {
+    const data = this.state.sparseCellData[rowIndex];
+    return data[this.props.columns[columnIndex]];
+  };
+
+  private onDefaultActions(action: DefaultActions, value: any){
+      switch (action){
+          case 'copy':
+            console.log(value);
+            break;
+          case 'paste':
+            console.log(value);
+            break;
+          case 'export':
+            console.log(value);
+            break;
+      }
+  }
+
 }
