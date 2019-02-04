@@ -31,7 +31,7 @@ export interface IVTableProps {
   contextual?: IVContextualTableProps;
   columns: string[];
   data: any;
-  reordering:boolean;
+  reordering?:boolean;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
