@@ -44,7 +44,7 @@ export default class TableColumn implements ISortableColumn {
     let menuRenderer = null;
     if (
       this.sortable &&
-      this.sortable.columns.indexOf(this.columns[columnIndex]) != -1
+      this.sortable.columns.indexOf(this.columns[columnIndex]) !== -1
     ) {
       if (
         this.sortable.custom_render_menu &&

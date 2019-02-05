@@ -36,10 +36,9 @@ export interface IActionCellMenuItemProps {
 }
 
 export class ActionCellsMenuItem extends React.PureComponent<
-  IActionCellMenuItemProps,
-  {}
+  IActionCellMenuItemProps
 > {
-  public render() {
+  render() {
     const default_items = this.renderDefaultMenuItems();
     const actions = this.renderActionsMenuItems();
     return (
@@ -50,7 +49,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
     );
   }
 
-  public renderDefaultMenuItems = () => {
+  renderDefaultMenuItems = () => {
     if (
       this.props.context_options &&
       this.props.context_options.default_actions
@@ -83,7 +82,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
     }
   };
 
-  public renderActionsMenuItems = () => {
+  renderActionsMenuItems = () => {
     if (this.props.context_options && this.props.context_options.actions) {
       const actions = this.props.context_options.actions;
       return actions.map((value: IVContextualActionTableProps, key: number) => {

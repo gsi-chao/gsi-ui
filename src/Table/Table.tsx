@@ -73,7 +73,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const { sortable } = this.props;
     const columns = this.state.columns;
     const columnsList = columns.map((name: string, index: number) => {
-      let col = new TableColumn(name, index, columns, sortable);
+      const col = new TableColumn(name, index, columns, sortable);
       return col.getColumn(this.renderCell);
     });
 
@@ -95,7 +95,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const columns = this.state.columns;
     const data = this.state.sparseCellData;
     const value = data[rowIndex][columns[columnIndex]];
-    return edit && edit.columns.indexOf(columns[columnIndex]) != -1 ? (
+    return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <EditableCell
         value={value == null ? '' : value}
         intent={this.state.sparseCellInvalid![dataKey]}
@@ -115,9 +115,8 @@ export class VTable extends Component<IProps, IVTableState> {
       this.props.edit.validation[this.state.columns[columnIndex]]
     ) {
       return this.props.edit.validation[this.state.columns[columnIndex]](value);
-    } else {
-      return true;
     }
+    return true;
   };
 
   private cellValidator = (rowIndex: number, columnIndex: number) => {
@@ -166,7 +165,7 @@ export class VTable extends Component<IProps, IVTableState> {
 
   private clearSparseCellInvalid = (dataKey: string) => {
     if (this.state.sparseCellInvalid![dataKey]) {
-      let state = this.state;
+      const state = this.state;
       delete state.sparseCellInvalid![dataKey];
       this.setState(state);
     }

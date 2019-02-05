@@ -3,7 +3,11 @@
     "outDir": "./lib/",
     "declarationDir": "./lib/types/",
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": false,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
@@ -15,7 +19,16 @@
     "declaration": true,
     "esModuleInterop": true,
     "removeComments": true,
-    "jsx": "react"
+    "jsx": "preserve",
+    "isolatedModules": true,
+    "noEmit": true
   },
-  "exclude": ["node_modules", "**/*.spec.ts", "src/demo"]
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "src/demo"
+  ],
+  "include": [
+    "src"
+  ]
 }

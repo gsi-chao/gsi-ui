@@ -1,1 +1,1 @@
-export { VTable } from './Table/index';
+export { VTable } from './Table';
