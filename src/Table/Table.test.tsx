@@ -1,9 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { VTable } from './Table';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
+  const data = [
+    {
+      test: 'test1'
+    },
+    { test: 'test2' }
+  ];
+  ReactDOM.render(<VTable columns={['test']} data={data} />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

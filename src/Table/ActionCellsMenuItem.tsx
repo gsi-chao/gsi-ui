@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { IconName, Menu, MenuItem } from "@blueprintjs/core";
-import { Clipboard, IMenuContext, Regions } from "@blueprintjs/table";
+import { IconName, Menu, MenuItem } from '@blueprintjs/core';
+import { Clipboard, IMenuContext, Regions } from '@blueprintjs/table';
 
-export type DefaultActions = "copy" | "paste" | "export";
+export type DefaultActions = 'copy' | 'paste' | 'export';
 
 export interface IVContextualActionTableProps {
   action: (item: any) => void;
@@ -58,7 +58,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
       const default_actions = this.props.context_options.default_actions;
       return default_actions.map((value: string, key: number) => {
         switch (value) {
-          case "copy":
+          case 'copy':
             return (
               <MenuItem
                 key={key}
@@ -67,7 +67,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
                 onClick={this.handleCopy}
               />
             );
-          case "paste":
+          case 'paste':
             return (
               <MenuItem
                 key={key}
@@ -76,7 +76,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
                 onClick={this.handlePaste}
               />
             );
-          case "export":
+          case 'export':
             return <MenuItem key={key} icon="export" text="Export" />;
         }
       });
@@ -106,8 +106,6 @@ export class ActionCellsMenuItem extends React.PureComponent<
     const success = Clipboard.copyCells(sparse);
     console.log(sparse);
     console.log(context);
-    
-
   };
 
   private handlePaste = () => {

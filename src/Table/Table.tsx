@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Cell,
   EditableCell,
@@ -6,19 +6,19 @@ import {
   ITableProps,
   Table,
   Utils
-} from "@blueprintjs/table";
+} from '@blueprintjs/table';
 
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/table/lib/css/table.css";
-import { Intent } from "@blueprintjs/core";
-import TableColumn from "./TableColumn";
+import '@blueprintjs/core/lib/css/blueprint.css';
+import '@blueprintjs/table/lib/css/table.css';
+import { Intent } from '@blueprintjs/core';
+import TableColumn from './TableColumn';
 import {
   ActionCellsMenuItem,
   DefaultActions,
   IVContextualTableProps
-} from "./ActionCellsMenuItem";
+} from './ActionCellsMenuItem';
 
-export type IVTableOrder = "ASC" | "DESC";
+export type IVTableOrder = 'ASC' | 'DESC';
 
 export interface IVActionsTableProps {
   columns: string[];
@@ -97,7 +97,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const value = data[rowIndex][columns[columnIndex]];
     return edit && edit.columns.indexOf(columns[columnIndex]) != -1 ? (
       <EditableCell
-        value={value == null ? "" : value}
+        value={value == null ? '' : value}
         intent={this.state.sparseCellInvalid![dataKey]}
         onCancel={this.cellValidator(rowIndex, columnIndex)}
         onChange={this.cellValidator(rowIndex, columnIndex)}
@@ -204,13 +204,13 @@ export class VTable extends Component<IProps, IVTableState> {
 
   private onDefaultActions(action: DefaultActions, value: any) {
     switch (action) {
-      case "copy":
+      case 'copy':
         console.log(value);
         break;
-      case "paste":
+      case 'paste':
         console.log(value);
         break;
-      case "export":
+      case 'export':
         console.log(value);
         break;
     }

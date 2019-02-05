@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
-import { IVActionSortableTableProps } from "./Table";
-import { Cell, Column, ColumnHeaderCell } from "@blueprintjs/table";
-import { Menu, MenuItem } from "@blueprintjs/core";
+import { IVActionSortableTableProps } from './Table';
+import { Cell, Column, ColumnHeaderCell } from '@blueprintjs/table';
+import { Menu, MenuItem } from '@blueprintjs/core';
 
 export type ICellLookup = (rowIndex: number, columnIndex: number) => any;
 
@@ -30,8 +30,8 @@ export default class TableColumn implements ISortableColumn {
   };
 
   renderMenu = (index?: number) => {
-    const sortAsc = () => this.sortable!.onSort!(index!, "ASC");
-    const sortDesc = () => this.sortable!.onSort!(index!, "DESC");
+    const sortAsc = () => this.sortable!.onSort!(index!, 'ASC');
+    const sortDesc = () => this.sortable!.onSort!(index!, 'DESC');
     return (
       <Menu>
         <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc" />
