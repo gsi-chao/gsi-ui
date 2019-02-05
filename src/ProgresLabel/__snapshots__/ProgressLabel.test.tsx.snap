@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render correctly ProgressLabel component one segment 1`] = `
+<div
+  className="sc-bdVaJa elRznJ"
+>
+  <div
+    className="sc-ifAKCX eDCHnM"
+  >
+    <span
+      className="sc-EHOje iAZFpJ"
+    >
+      10 Hola Mundo
+    </span>
+  </div>
+</div>
+`;
+
+exports[`render correctly ProgressLabel component three segment 1`] = `
+<div
+  className="sc-bdVaJa elRznJ"
+>
+  <div
+    className="sc-bwzfXH EarXg"
+  >
+    <span
+      className="sc-EHOje iAZFpJ"
+    >
+      8 Hola Mundo
+    </span>
+  </div>
+  <div
+    className="sc-bxivhb glTCqr"
+  >
+    <span
+      className="sc-EHOje iAZFpJ"
+    >
+      4 Soy yo
+    </span>
+  </div>
+  <div
+    className="sc-htpNat naIiR"
+  >
+    <span
+      className="sc-EHOje iAZFpJ"
+    >
+      3 Soy yo
+    </span>
+  </div>
+</div>
+`;
+
+exports[`render correctly ProgressLabel component two segments 1`] = `
+<div
+  className="sc-bdVaJa elRznJ"
+>
+  <div
+    className="sc-bwzfXH xTpsF"
+  >
+    <span
+      className="sc-EHOje iAZFpJ"
+    >
+      10 Hola Mundo
+    </span>
+  </div>
+  <div
+    className="sc-htpNat kBBuKK"
+  >
+    <span
+      className="sc-EHOje iAZFpJ"
+    >
+      5 Soy yo
+    </span>
+  </div>
+</div>
+`;
