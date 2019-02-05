@@ -1,6 +1,5 @@
-import ProgressLabel from "./ProgressLabel";
+export {ProgressLabel} from "./ProgressLabel";
 
-export default ProgressLabel;
 
 /*
 *use example
