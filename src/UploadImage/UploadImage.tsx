@@ -13,7 +13,8 @@ interface IUploadImageState {
 }
 
 interface IUploadImageProps {
-  tittle?: string
+  tittle?: string,
+  onSelect?: (file: any) => void
 }
 
 export class UploadImage extends Component<IUploadImageProps, IUploadImageState> {
