@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render correctly Upload Image component not tittle 1`] = `
+<div
+  className="ui card sc-bwzfXH eqmVPJ"
+  onClick={[Function]}
+>
+  <div
+    className="content"
+  >
+    <div
+      className="sc-bdVaJa ywhAL"
+    />
+    <div
+      className="header"
+    />
+    <form
+      onSubmit={[Function]}
+    >
+      <label
+        className="ui large label"
+        htmlFor="file"
+        onClick={[Function]}
+      >
+        <i
+          aria-hidden="true"
+          className="upload icon"
+          onClick={[Function]}
+        />
+        icon
+      </label>
+      <input
+        hidden={true}
+        id="file"
+        onChange={[Function]}
+        type="file"
+      />
+      <a
+        className="ui large label"
+        htmlFor="file"
+        onClick={[Function]}
+      >
+        <i
+          aria-hidden="true"
+          className="save icon"
+          onClick={[Function]}
+        />
+        save
+      </a>
+    </form>
+  </div>
+</div>
+`;
+
+exports[`render correctly Upload Image component tittle 1`] = `
+<div
+  className="ui card sc-bwzfXH eqmVPJ"
+  onClick={[Function]}
+>
+  <div
+    className="content"
+  >
+    <div
+      className="sc-bdVaJa ywhAL"
+    />
+    <div
+      className="header"
+    >
+      Hola Mundo
+    </div>
+    <form
+      onSubmit={[Function]}
+    >
+      <label
+        className="ui large label"
+        htmlFor="file"
+        onClick={[Function]}
+      >
+        <i
+          aria-hidden="true"
+          className="upload icon"
+          onClick={[Function]}
+        />
+        icon
+      </label>
+      <input
+        hidden={true}
+        id="file"
+        onChange={[Function]}
+        type="file"
+      />
+      <a
+        className="ui large label"
+        htmlFor="file"
+        onClick={[Function]}
+      >
+        <i
+          aria-hidden="true"
+          className="save icon"
+          onClick={[Function]}
+        />
+        save
+      </a>
+    </form>
+  </div>
+</div>
+`;
