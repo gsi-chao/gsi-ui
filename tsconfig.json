@@ -19,9 +19,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "removeComments": true,
-    "jsx": "preserve",
-    "isolatedModules": true,
-    "noEmit": true
+    "jsx": "preserve"
   },
   "exclude": [
     "node_modules",
