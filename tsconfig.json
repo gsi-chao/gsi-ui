@@ -13,13 +13,15 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "declaration": true,
     "esModuleInterop": true,
     "removeComments": true,
-    "jsx": "react"
+    "jsx": "preserve",
+    "isolatedModules": true,
+    "noEmit": true
   },
   "exclude": [
     "node_modules",

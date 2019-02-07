@@ -40,7 +40,8 @@
     "eject": "react-scripts eject",
     "precommit": "pretty-quick --staged",
     "lint": "tslint './src/**/*.{ts,tsx}'",
-    "format": "prettier --write './src/**/*.{ts,tsx}'"
+    "format": "prettier --write './src/**/*.{ts,tsx}'",
+    "precheck": "npm run format && npm run precommit && npm run lint"
   },
   "husky": {
     "hooks": {

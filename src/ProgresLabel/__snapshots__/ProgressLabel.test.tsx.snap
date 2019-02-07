@@ -8,7 +8,7 @@ exports[`render correctly ProgressLabel component one segment 1`] = `
     className="sc-ifAKCX eDCHnM"
   >
     <span
-      className="sc-EHOje iAZFpJ"
+      className="sc-EHOje YINzU"
     >
       10 Hola Mundo
     </span>
@@ -24,7 +24,7 @@ exports[`render correctly ProgressLabel component three segment 1`] = `
     className="sc-bwzfXH EarXg"
   >
     <span
-      className="sc-EHOje iAZFpJ"
+      className="sc-EHOje YINzU"
     >
       8 Hola Mundo
     </span>
@@ -33,7 +33,7 @@ exports[`render correctly ProgressLabel component three segment 1`] = `
     className="sc-bxivhb glTCqr"
   >
     <span
-      className="sc-EHOje iAZFpJ"
+      className="sc-EHOje YINzU"
     >
       4 Soy yo
     </span>
@@ -42,7 +42,7 @@ exports[`render correctly ProgressLabel component three segment 1`] = `
     className="sc-htpNat naIiR"
   >
     <span
-      className="sc-EHOje iAZFpJ"
+      className="sc-EHOje YINzU"
     >
       3 Soy yo
     </span>
@@ -58,7 +58,7 @@ exports[`render correctly ProgressLabel component two segments 1`] = `
     className="sc-bwzfXH xTpsF"
   >
     <span
-      className="sc-EHOje iAZFpJ"
+      className="sc-EHOje YINzU"
     >
       10 Hola Mundo
     </span>
@@ -67,7 +67,7 @@ exports[`render correctly ProgressLabel component two segments 1`] = `
     className="sc-htpNat kBBuKK"
   >
     <span
-      className="sc-EHOje iAZFpJ"
+      className="sc-EHOje YINzU"
     >
       5 Soy yo
     </span>
