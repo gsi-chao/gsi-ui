@@ -10,7 +10,7 @@ import {
 
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/table/lib/css/table.css';
-import { Intent } from '@blueprintjs/core';
+import { IconName, Intent } from '@blueprintjs/core';
 import TableColumn from './TableColumn';
 import {
   ActionCellsMenuItem,
@@ -25,19 +25,25 @@ export interface IVActionsTableProps {
 }
 
 export interface IVActionEditTableProps extends IVActionsTableProps {
-  validation?: { [key: string]: (value: string) => boolean };
+  validation?:  { [key: string]: (value: string) => boolean };
+}
+
+export interface IVCustomActionSortableTableProp {
+  name: string;
+  text: string;
+  icon: IconName;
+  callback: (value: any) => void;
 }
 
 export interface IVActionSortableTableProps extends IVActionsTableProps {
-  custom_render_menu?: { [key: string]: (value: string) => boolean };
-  onSort: (columnIndex: number, order: IVTableOrder) => void;
+  custom_render_menu?: { [key: string]: IVCustomActionSortableTableProp };
+  onSort?: (columnIndex: number, order: IVTableOrder) => void;
 }
 
 export interface IVTableProps {
   edit?: IVActionEditTableProps;
   search?: IVActionsTableProps;
   sortable?: IVActionSortableTableProps;
-  sort?: IVActionsTableProps;
   contextual?: IVContextualTableProps;
   columns: string[];
   data: any;

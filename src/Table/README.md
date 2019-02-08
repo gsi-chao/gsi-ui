@@ -20,7 +20,51 @@ It has the following characteristics:
 ``
 - Sortable Columns Example:
 ``
-<VTable columns={['columns-list', 'separate', 'by', 'comma']} data={data} />
+<VTable
+      columns={['columns-list', 'separate', 'by', 'comma']}
+      data={data}
+      sortable={{
+        columns: ['columns-list', 'separate'],
+        onSort: callbackFunction,
+        custom_render_menu: {
+          separate: {
+            name: 'action',
+            text: 'Action',
+            icon: 'Icon',
+            callback: callback
+          }
+        }
+      }}
+    />
+``
+
+- Editable Cell and Ordenable Columns Example:
+``
+<VTable
+      columns={['columns-list', 'separate', 'by', 'comma']}
+      data={data}
+      reordering={true}
+      edit={{ columns: ['separate'], validation: {separate: validationFuction} }}
+    />
+``
+
+- Contextual Menu Example 
+``
+<VTable
+      columns={['columns-list', 'separate', 'by', 'comma']}
+      data={data}
+      contextual={{
+        columns: ['separate'],
+        default_actions: ['paste'],
+        actions: [
+          {
+            action: callback,
+            text: 'Text',
+            icon: 'SemanticIcon'
+          }
+        ]
+      }}
+    />
 ``
 
 ### Dependencies
