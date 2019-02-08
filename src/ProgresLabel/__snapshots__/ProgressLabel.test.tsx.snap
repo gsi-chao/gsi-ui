@@ -2,7 +2,7 @@
 
 exports[`render correctly ProgressLabel component one segment 1`] = `
 <div
-  className="sc-bdVaJa elRznJ"
+  className="sc-bdVaJa jYmnxs"
 >
   <div
     className="sc-ifAKCX eDCHnM"
@@ -18,7 +18,7 @@ exports[`render correctly ProgressLabel component one segment 1`] = `
 
 exports[`render correctly ProgressLabel component three segment 1`] = `
 <div
-  className="sc-bdVaJa elRznJ"
+  className="sc-bdVaJa jYmnxs"
 >
   <div
     className="sc-bwzfXH EarXg"
@@ -52,7 +52,7 @@ exports[`render correctly ProgressLabel component three segment 1`] = `
 
 exports[`render correctly ProgressLabel component two segments 1`] = `
 <div
-  className="sc-bdVaJa elRznJ"
+  className="sc-bdVaJa jYmnxs"
 >
   <div
     className="sc-bwzfXH xTpsF"
