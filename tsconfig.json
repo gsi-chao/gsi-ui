@@ -27,6 +27,6 @@
     "src/demo"
   ],
   "include": [
-    "src"
+    "src/components"
   ]
 }
