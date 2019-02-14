@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
-import {
-  Cell,
-  EditableCell,
-  IMenuContext,
-  ITableProps,
-  Table,
-  Utils
-} from '@blueprintjs/table';
+import { Cell, EditableCell, IMenuContext, ITableProps, Table, Utils } from '@blueprintjs/table';
 
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/table/lib/css/table.css';
 import { IconName, Intent } from '@blueprintjs/core';
 import TableColumn from './TableColumn';
-import {
-  ActionCellsMenuItem,
-  DefaultActions,
-  IVContextualTableProps
-} from './ActionCellsMenuItem';
+import { ActionCellsMenuItem, DefaultActions, IVContextualTableProps } from './ActionCellsMenuItem';
+import './table.css';
+import { Dropdown, Icon } from 'semantic-ui-react';
+import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
+import styled from 'styled-components';
+import { DivContainerDropdown } from './style';
+import moment from 'moment';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
@@ -25,7 +20,48 @@ export interface IVActionsTableProps {
 }
 
 export interface IVActionEditTableProps extends IVActionsTableProps {
-  validation?:  { [key: string]: (value: string) => boolean };
+  validation?: { [key: string]: (value: string) => boolean };
+}
+
+export interface IDropdownValue {
+  key: string,
+  text: string,
+  value: string,
+  content: string
+}
+
+export type TypeWidget = 'DEFAULT' | 'EDIT' | 'COLOR' | 'DROPDOWN' | 'DATETIME' | 'CUSTOMERCOMPONENT';
+
+export interface IVDropdownCell {
+  key: string,
+  text: string,
+  value: string,
+  content: string
+}
+
+export interface IVColorCell {
+  color: string
+}
+
+
+export interface IVDateTimeCell extends IDateFormatProps {
+  defaultValue?: Date
+}
+
+export interface Widget {
+  type: TypeWidget;
+  colorCell?: IVColorCell;
+  dropdownCell?: IVDropdownCell[];
+  dateTimeCell?: IVDateTimeCell;
+  editCell?: IVDateTimeCell;
+  cusmtomerCell?: IVDateTimeCell;
+
+}
+
+export interface IVWidgetTableProps {
+  row: number;
+  column: string,
+  widget: Widget;
 }
 
 export interface IVCustomActionSortableTableProp {
@@ -42,6 +78,7 @@ export interface IVActionSortableTableProps extends IVActionsTableProps {
 
 export interface IVTableProps {
   edit?: IVActionEditTableProps;
+  widgetsCell?: IVWidgetTableProps[];
   search?: IVActionsTableProps;
   sortable?: IVActionSortableTableProps;
   contextual?: IVContextualTableProps;
@@ -50,13 +87,15 @@ export interface IVTableProps {
   reordering?: boolean;
 }
 
-interface IProps extends IVTableProps, ITableProps {}
+interface IProps extends IVTableProps, ITableProps {
+}
 
 export interface IVTableState {
   sparseCellData: any[];
   sparseCellInvalid?: { [key: string]: Intent };
   sparseCellUpdateData?: { [key: string]: string };
   columns: string[];
+  widgetsCell?: IVWidgetTableProps[];
 }
 
 export class VTable extends Component<IProps, IVTableState> {
@@ -72,7 +111,8 @@ export class VTable extends Component<IProps, IVTableState> {
     sparseCellData: this.props.data,
     sparseCellInvalid: {},
     sparseCellUpdateData: {},
-    columns: this.props.columns
+    columns: this.props.columns,
+    widgetsCell: this.props.widgetsCell
   };
 
   render() {
@@ -95,12 +135,35 @@ export class VTable extends Component<IProps, IVTableState> {
     );
   }
 
+  private getWidgetCellValid = (): IVWidgetTableProps[] => {
+    const { columns, sparseCellData } = this.state;
+    const widgetsValid: IVWidgetTableProps[] = [];
+
+    this.state.widgetsCell && this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+      if (columns.indexOf(widget.column) !== -1 &&
+        widget.row < sparseCellData.length) {
+        widgetsValid.push(widget);
+      }
+    });
+
+    return widgetsValid;
+  };
+
   public renderCell = (rowIndex: number, columnIndex: number) => {
+
+
     const dataKey = VTable.dataKey(rowIndex, columnIndex);
     const { edit } = this.props;
+
     const columns = this.state.columns;
     const data = this.state.sparseCellData;
     const value = data[rowIndex][columns[columnIndex]];
+
+    const widgetCell = this.getWidgetCell(rowIndex, columns[columnIndex]);
+    const cellWidget = widgetCell && this.tryeRenderWidgetCell(widgetCell.widget, value);
+
+    if (cellWidget) return cellWidget;
+
     return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <EditableCell
         value={value == null ? '' : value}
@@ -112,6 +175,49 @@ export class VTable extends Component<IProps, IVTableState> {
     ) : (
       <Cell>{value}</Cell>
     );
+  };
+
+  private getWidgetCell = (rowIndex: number, columnName: string) => {
+    const widgetCellValid = this.state.widgetsCell && this.state.widgetsCell.length > 0 && this.getWidgetCellValid();
+    return widgetCellValid && widgetCellValid.find(x => x.row === rowIndex && x.column === columnName);
+  };
+
+
+  private tryeRenderWidgetCell = (widget: Widget, value: any) => {
+    if (widget) {
+      switch (widget.type) {
+        case 'COLOR': {
+          const color = widget.colorCell && widget.colorCell.color.toLowerCase();
+          const CellColor = styled(Cell)`background:${color}; `;
+          return <CellColor as={Cell}>{value}</CellColor>;
+        }
+        case 'DROPDOWN': {
+          const options = widget.dropdownCell;
+          if (options && options.length !== 0) {
+            return (
+              <DivContainerDropdown>
+                <Dropdown
+                  inline
+                  options={options}
+                  defaultValue={options[0].value}
+                />
+              </DivContainerDropdown>);
+          }
+        }
+        case 'DATETIME': {
+
+          if (widget && widget.dateTimeCell && moment(value, 'M/D/YYYY', true).isValid()) {
+            widget.dateTimeCell.defaultValue = new Date(value);
+            return (
+              <div>
+                <DateInput rightElement={(<Icon name='calendar alternate outline'/>)}  {...widget.dateTimeCell} />
+              </div>);
+          }
+        }
+      }
+
+    }
+
   };
 
   private isValidValue = (columnIndex: number, value: string) => {
@@ -198,7 +304,7 @@ export class VTable extends Component<IProps, IVTableState> {
         onDefaultActions={this.onDefaultActions}
       />
     ) : (
-      <div />
+      <div/>
     );
   };
 
