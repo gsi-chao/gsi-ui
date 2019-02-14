@@ -38,9 +38,7 @@ export interface IActionCellMenuItemProps {
     context_options: IVContextualTableProps;
 
     onDefaultActions: (action: DefaultActions, value: any) => void;
-    setCachedData: any;
-    cachedData: any;
-    setStateData: any;
+    hasCachedData: any;
 }
 
 export class ActionCellsMenuItem extends React.PureComponent<
@@ -77,6 +75,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
                     case 'paste':
                         return (
                             <MenuItem
+                                disabled={!this.props.hasCachedData()}
                                 key={key}
                                 icon="cut"
                                 text="Paste"
@@ -119,16 +118,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
             col: tempPivotCell[1],
             row: tempPivotCell[0]
         };
-        const cachedData = this.props.cachedData();
-        if (cachedData) {
-            cachedData.map( (cellData: any) => {
-                const {value, colFromPivot, rowFromPivot} = cellData;
-                const col = colFromPivot + pivotCell.col;
-                const row = rowFromPivot + pivotCell.row;
-                this.props.setStateData(row, col, value);
-            });
-            this.props.setCachedData(null);
-        }
+        this.props.onDefaultActions('paste', pivotCell);
     };
 
     getDataToCopy = (context: IMenuContext) => {
@@ -159,7 +149,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
                 colFromPivot++;
             }
         });
-        this.props.setCachedData(cellsArray);
+        this.props.onDefaultActions('copy', cellsArray);
     };
 
     createCellForCopy = (colFromPivot: number, rowFromPivot: number, value: any) => {

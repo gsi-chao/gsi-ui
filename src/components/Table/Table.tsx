@@ -14,7 +14,7 @@ import {IconName, Intent} from '@blueprintjs/core';
 import TableColumn from './TableColumn';
 import {
     ActionCellsMenuItem,
-    DefaultActions,
+    DefaultActions, ICell,
     IVContextualTableProps
 } from './ActionCellsMenuItem';
 
@@ -186,10 +186,12 @@ export class VTable extends Component<IProps, IVTableState> {
         value: string
     ) => {
         const data = this.state.sparseCellData;
-        data[rowIndex][this.state.columns[columnIndex]] = value;
-        this.setState({
-            sparseCellData: data
-        });
+        if (data.length > rowIndex) {
+            data[rowIndex][this.state.columns[columnIndex]] = value;
+            this.setState({
+                sparseCellData: data
+            });
+        }
     };
 
     setCachedData = (cachedData: any[]) => {
@@ -200,6 +202,10 @@ export class VTable extends Component<IProps, IVTableState> {
         return this.state.cachedData;
     };
 
+    hasCachedData = () => {
+        return !!this.state.cachedData && this.state.cachedData.length > 0;
+    };
+
     private renderBodyContextMenu = (context: IMenuContext) => {
         return this.props.contextual ? (
             <ActionCellsMenuItem
@@ -207,9 +213,7 @@ export class VTable extends Component<IProps, IVTableState> {
                 getCellData={this.getCellData}
                 context_options={this.props.contextual!}
                 onDefaultActions={this.onDefaultActions}
-                setCachedData={this.setCachedData}
-                cachedData={this.cachedData}
-                setStateData={this.setStateData}
+                hasCachedData={this.hasCachedData}
             />
         ) : (
             <div/>
@@ -224,16 +228,28 @@ export class VTable extends Component<IProps, IVTableState> {
     private onDefaultActions = (action: DefaultActions, value: any) => {
         switch (action) {
             case 'copy':
-                console.log(value);
+                this.setCachedData(value);
                 break;
             case 'paste':
-                console.log(value);
+                this.handlePaste(value);
                 break;
             case 'export':
                 console.log(value);
                 break;
         }
     };
+
+    handlePaste(pivotCell: ICell) {
+        const cachedData = this.cachedData();
+        if (cachedData) {
+            cachedData.map( (cellData: any) => {
+                const {value, colFromPivot, rowFromPivot} = cellData;
+                const col = colFromPivot + pivotCell.col;
+                const row = rowFromPivot + pivotCell.row;
+                this.setStateData(row, col, value);
+            });
+        }
+    }
 
     private _handleColumnsReordered = (
         oldIndex: number,
