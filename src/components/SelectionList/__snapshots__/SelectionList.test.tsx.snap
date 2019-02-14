@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render correctly SelectionList component one segment 1`] = `
+<div
+  className="ui basic segment"
+>
+  <div
+    className="ui top attached label"
+    onClick={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#fbbd08",
+      }
+    }
+  >
+    Header
+  </div>
+  <div
+    className="ui selection middle aligned list"
+    role="list"
+  >
+    <div
+      className="item sc-bdVaJa jeCsUV"
+      onClick={[Function]}
+      role="listitem"
+    >
+      <div
+        className="item"
+        data-value="firstv"
+        onClick={[Function]}
+        role="listitem"
+      >
+        <div
+          className="content"
+        >
+          <i
+            aria-hidden="true"
+            className="folder icon"
+            onClick={[Function]}
+            style={
+              Object {
+                "float": "left",
+              }
+            }
+          />
+          first
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`render correctly SelectionList component two segments 1`] = `
+<div
+  className="ui basic segment"
+>
+  <div
+    className="ui top attached label"
+    onClick={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#fbbd08",
+      }
+    }
+  >
+    Header
+  </div>
+  <div
+    className="ui selection middle aligned list"
+    role="list"
+  >
+    <div
+      className="item sc-bdVaJa jeCsUV"
+      onClick={[Function]}
+      role="listitem"
+    >
+      <div
+        className="item"
+        data-value="firstv"
+        onClick={[Function]}
+        role="listitem"
+      >
+        <div
+          className="content"
+        >
+          <i
+            aria-hidden="true"
+            className="folder icon"
+            onClick={[Function]}
+            style={
+              Object {
+                "float": "left",
+              }
+            }
+          />
+          first
+        </div>
+      </div>
+    </div>
+    <div
+      className="item sc-bdVaJa ffBesj"
+      onClick={[Function]}
+      role="listitem"
+    >
+      <div
+        className="active item"
+        data-value="secondv"
+        onClick={[Function]}
+        role="listitem"
+      >
+        <div
+          className="content"
+        >
+          second
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import { VTable } from "./components/Table/Table";
+import { SelectionList } from "./components/SelectionList/";
 
 class App extends Component {
   render() {
@@ -25,7 +26,13 @@ class App extends Component {
     };
 
     return (
-      <VTable
+      <SelectionList
+      elements={[{text:'first', value:'firstv', icon:'folder'}, {text:'second', value:'secondv', active:true}]}
+      header={{text:'Header', color:'#fbbd08'}}
+      onSelect={(list:any)=>console.log(list)}
+      selection={{background:'#00b5ad', textColor:'#fbbd08'}}
+      />
+      /*<VTable
           edit={{ columns: ["name"], validation: {name: nameValidation} }}
           columns={["name", "lastname"]}
           reordering={true}
@@ -34,7 +41,7 @@ class App extends Component {
             icon: 'export', action: (item: any) => console.log(item), text: "Action Input"
               }]}}
           data={data}
-      />
+      />*/
     );
   }
 
