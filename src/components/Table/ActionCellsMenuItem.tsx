@@ -4,6 +4,7 @@ import { IconName, Menu, MenuItem } from '@blueprintjs/core';
 import { Clipboard, IMenuContext, Regions } from '@blueprintjs/table';
 
 export type DefaultActions = 'copy' | 'paste' | 'export';
+import * as utils from './utils';
 
 export interface IVContextualActionTableProps {
     action: (item: any) => void;
@@ -129,14 +130,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
         };
         const cellsArray: any[] = [];
         regions.map(region => {
-            const startCell: ICell = {
-                col: region.cols && region.cols[0] || 0,
-                row: region.rows && region.rows[0] || 0
-            };
-            const endCell: ICell = {
-                col: region.cols && region.cols[1] || 0,
-                row: region.rows && region.rows[1] || 0
-            };
+            const {startCell, endCell} = utils.getStartAndEndCell(region);
             let rowFromPivot = startCell.row - firstPivotCell.row;
             let colFromPivot = startCell.col - firstPivotCell.col;
             for (let index = startCell.col; index <= endCell.col; index++) {

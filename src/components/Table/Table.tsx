@@ -3,6 +3,7 @@ import {
     Cell,
     EditableCell,
     IMenuContext,
+    IRegion,
     ITableProps,
     Table,
     Utils
@@ -17,6 +18,7 @@ import {
     DefaultActions, ICell,
     IVContextualTableProps
 } from './ActionCellsMenuItem';
+import * as utils from './utils';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
@@ -59,6 +61,7 @@ export interface IVTableState {
     sparseCellUpdateData?: { [key: string]: string };
     columns: string[];
     cachedData: any[];
+    selectedRegions: IRegion[];
 }
 
 export class VTable extends Component<IProps, IVTableState> {
@@ -76,6 +79,7 @@ export class VTable extends Component<IProps, IVTableState> {
         sparseCellUpdateData: {},
         columns: this.props.columns,
         cachedData: [],
+        selectedRegions: []
     };
 
     render() {
@@ -92,11 +96,105 @@ export class VTable extends Component<IProps, IVTableState> {
                 onColumnsReordered={this._handleColumnsReordered}
                 enableColumnReordering={this.props.reordering}
                 bodyContextMenuRenderer={this.renderBodyContextMenu}
+                onSelection={this.checkAndSetSelection}
+                selectedRegions={this.state.selectedRegions}
             >
                 {columnsList}
             </Table>
         );
     }
+
+    checkAndSetSelection = (regions: IRegion[]) => {
+        let validRegions = this.getRegionsWithMissingRowsOrCols(regions);
+        const selectedRegions = this.ifAlreadySelectedThenDeselect(validRegions);
+        this.setSelectedRegions(selectedRegions);
+    };
+
+    ifAlreadySelectedThenDeselect(regions: IRegion[]): IRegion[] {
+        const lastRegion = regions[regions.length - 1];
+        if( lastRegion && lastRegion.rows && lastRegion.rows[0] === lastRegion.rows[1]
+            && lastRegion.cols && lastRegion.cols[0] === lastRegion.cols[1] ) {
+            const checkRegion: ICell = {
+                col: lastRegion.cols[0],
+                row: lastRegion.rows[0]
+            };
+            regions.map((region, index) => {
+                if (this.isContainedRegion(index, regions.length - 1, region, checkRegion)) {
+                    const splittedRegion = this.splitRegion(region, checkRegion);
+                    regions.splice(index, 1, ...splittedRegion);
+                    regions = regions.filter(region =>
+                        region.rows && (
+                            region.rows[0] !== checkRegion.row || region.rows[1] !== checkRegion.row
+                        )
+                    );
+                }
+            });
+        }
+        return regions;
+    }
+
+    isContainedRegion = (index: number, length: number, region: IRegion, checkRegion: ICell): boolean => {
+        if (index < length) {
+            if (region.rows && (region.rows[0] <= checkRegion.row && region.rows[1] >= checkRegion.row) &&
+                region.cols && (region.cols[0] <= checkRegion.col && region.cols[1] >= checkRegion.col)
+            ) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    splitRegion = ( region: IRegion, cellToDeselect: ICell ): IRegion[] => {
+        const { endCell, startCell } = utils.getStartAndEndCell(region);
+        const splittedRegion = [];
+        for(let col = startCell.col; col <= endCell.col; col++) {
+            if (col !== cellToDeselect.col) {
+                const newRegion: IRegion = {
+                    rows: [startCell.row, endCell.row],
+                    cols: [col , col]
+                };
+                splittedRegion.push(newRegion);
+            } else {
+               if (startCell.row < cellToDeselect.row) {
+                   const aboveRegion: IRegion = {
+                       rows: [startCell.row, cellToDeselect.row - 1],
+                       cols: [col , col]
+                   };
+                   splittedRegion.push(aboveRegion)
+               }
+               if (endCell.row > cellToDeselect.row) {
+                   const bellowRegion: IRegion = {
+                       rows: [cellToDeselect.row + 1, endCell.row],
+                       cols: [col , col]
+                   };
+                   splittedRegion.push(bellowRegion)
+               }
+            }
+        }
+        return splittedRegion;
+    }
+
+    setSelectedRegions = (selectedRegions: IRegion[]) => {
+        this.setState({...this.state, selectedRegions})
+    }
+
+    getRowAndColsTotals = (): any => {
+        const numRows = this.state.sparseCellData.length || 0;
+        const numCols = Object.keys(this.state.sparseCellData[0]).length || 0;
+        return { numRows, numCols }
+    };
+
+    getRegionsWithMissingRowsOrCols = (regions: IRegion[]): IRegion[] => {
+        const { numRows, numCols } = this.getRowAndColsTotals();
+
+        if(regions.length > 0 && regions[regions.length - 1].rows === undefined) {
+            regions[regions.length - 1]['rows'] = [0, numRows - 1];
+        }
+        if(regions.length > 0 && regions[regions.length - 1].cols === undefined) {
+            regions[regions.length - 1]['cols'] = [0, numCols - 1];
+        }
+        return regions;
+    };
 
     public renderCell = (rowIndex: number, columnIndex: number) => {
         const dataKey = VTable.dataKey(rowIndex, columnIndex);
