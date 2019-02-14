@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { Cell, EditableCell, IMenuContext, ITableProps, Table, Utils } from '@blueprintjs/table';
-
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/table/lib/css/table.css';
 import { IconName, Intent } from '@blueprintjs/core';
 import TableColumn from './TableColumn';
 import { ActionCellsMenuItem, DefaultActions, IVContextualTableProps } from './ActionCellsMenuItem';
-import './table.css';
-import { Dropdown, Icon } from 'semantic-ui-react';
+import { Checkbox, Dropdown, Icon } from 'semantic-ui-react';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
 import styled from 'styled-components';
-import { DivContainerDropdown } from './style';
+import { DropdownCell,DatetimeCell,CheckboxCell } from './style';
 import moment from 'moment';
+import Widget from './fields-widget/Widget';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
@@ -30,7 +29,7 @@ export interface IDropdownValue {
   content: string
 }
 
-export type TypeWidget = 'DEFAULT' | 'EDIT' | 'COLOR' | 'DROPDOWN' | 'DATETIME' | 'CUSTOMERCOMPONENT';
+export type TypeWidget = 'DEFAULT' | 'EDIT' | 'COLOR' | 'DROPDOWN' | 'DATETIME' | 'CUSTOMERCOMPONENT' | 'CHECKBOX';
 
 export interface IVDropdownCell {
   key: string,
@@ -48,7 +47,7 @@ export interface IVDateTimeCell extends IDateFormatProps {
   defaultValue?: Date
 }
 
-export interface Widget {
+export interface IWidget {
   type: TypeWidget;
   colorCell?: IVColorCell;
   dropdownCell?: IVDropdownCell[];
@@ -61,7 +60,7 @@ export interface Widget {
 export interface IVWidgetTableProps {
   row: number;
   column: string,
-  widget: Widget;
+  widget: IWidget;
 }
 
 export interface IVCustomActionSortableTableProp {
@@ -135,20 +134,6 @@ export class VTable extends Component<IProps, IVTableState> {
     );
   }
 
-  private getWidgetCellValid = (): IVWidgetTableProps[] => {
-    const { columns, sparseCellData } = this.state;
-    const widgetsValid: IVWidgetTableProps[] = [];
-
-    this.state.widgetsCell && this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
-      if (columns.indexOf(widget.column) !== -1 &&
-        widget.row < sparseCellData.length) {
-        widgetsValid.push(widget);
-      }
-    });
-
-    return widgetsValid;
-  };
-
   public renderCell = (rowIndex: number, columnIndex: number) => {
 
 
@@ -161,7 +146,9 @@ export class VTable extends Component<IProps, IVTableState> {
 
     const widgetCell = this.getWidgetCell(rowIndex, columns[columnIndex]);
     const cellWidget = widgetCell && this.tryeRenderWidgetCell(widgetCell.widget, value);
-
+    const componetn = widgetCell && <Widget { ...widgetCell.widget} />;
+    // console.log('componete wdget',componetn);
+    // console.log('componete desde la tablrat',cellWidget);
     if (cellWidget) return cellWidget;
 
     return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
@@ -177,13 +164,26 @@ export class VTable extends Component<IProps, IVTableState> {
     );
   };
 
+  private getWidgetCellValid = (): IVWidgetTableProps[] => {
+    const { columns, sparseCellData } = this.state;
+    const widgetsValid: IVWidgetTableProps[] = [];
+
+    this.state.widgetsCell && this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+      if (columns.indexOf(widget.column) !== -1 &&
+        widget.row < sparseCellData.length) {
+        widgetsValid.push(widget);
+      }
+    });
+
+    return widgetsValid;
+  };
+
   private getWidgetCell = (rowIndex: number, columnName: string) => {
     const widgetCellValid = this.state.widgetsCell && this.state.widgetsCell.length > 0 && this.getWidgetCellValid();
     return widgetCellValid && widgetCellValid.find(x => x.row === rowIndex && x.column === columnName);
   };
 
-
-  private tryeRenderWidgetCell = (widget: Widget, value: any) => {
+  private tryeRenderWidgetCell = (widget: IWidget, value: any) => {
     if (widget) {
       switch (widget.type) {
         case 'COLOR': {
@@ -195,24 +195,31 @@ export class VTable extends Component<IProps, IVTableState> {
           const options = widget.dropdownCell;
           if (options && options.length !== 0) {
             return (
-              <DivContainerDropdown>
+              <DropdownCell >
                 <Dropdown
                   inline
                   options={options}
                   defaultValue={options[0].value}
                 />
-              </DivContainerDropdown>);
+              </DropdownCell>);
           }
         }
         case 'DATETIME': {
 
           if (widget && widget.dateTimeCell && moment(value, 'M/D/YYYY', true).isValid()) {
             widget.dateTimeCell.defaultValue = new Date(value);
+
             return (
-              <div>
+              <DatetimeCell as={Cell}>
                 <DateInput rightElement={(<Icon name='calendar alternate outline'/>)}  {...widget.dateTimeCell} />
-              </div>);
+              </DatetimeCell>);
           }
+        }
+        case  'CHECKBOX':{
+
+          return (<CheckboxCell as={Cell}>
+            <Checkbox checked={true} as={Cell}  label={value} />
+          </CheckboxCell>)
         }
       }
 

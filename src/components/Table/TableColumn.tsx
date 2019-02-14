@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IVActionSortableTableProps, Widget } from './Table';
+import { IVActionSortableTableProps } from './Table';
 import { Cell, Column, ColumnHeaderCell } from '@blueprintjs/table';
 import { Menu, MenuItem } from '@blueprintjs/core';
 

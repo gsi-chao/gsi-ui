@@ -48,7 +48,7 @@ class App extends Component {
         row: 7,
         column: 'name',
         widget: {
-          type: 'DROPDOWN',
+          type: 'CHECKBOX',
           dropdownCell: [{
             key: 'today',
             text: 'today',
