@@ -52,7 +52,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
     column: 'lastname',
     widget: {
       type: 'COLOR',
-      colorCell: { color: 'red' }
+      colorCell: { backgroundColor: 'red' }
     }
   },
   {
@@ -60,7 +60,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
     column: 'lastname',
     widget: {
       type: 'COLOR',
-      colorCell: { color: 'blue' }
+      colorCell: { backgroundColor: 'blue' }
     }
   },
   {
@@ -175,7 +175,7 @@ class App extends Component {
 
   handleChangeColor = ()=>{
     if( widgetsCell[0] &&   widgetsCell[0].widget && widgetsCell[0].widget.colorCell){
-      widgetsCell[0].widget.colorCell.color = 'green';
+      widgetsCell[0].widget.colorCell.backgroundColor = 'green';
       this.setState({
         changeColor:!this.state.changeColor
       })

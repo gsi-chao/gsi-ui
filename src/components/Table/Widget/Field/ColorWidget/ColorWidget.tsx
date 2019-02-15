@@ -5,7 +5,7 @@ import { Cell } from '@blueprintjs/table';
 export interface IColorWidget {
   backgroundColor: string;
   color?: string;
-  value: string;
+  value?: string;
 }
 
 interface IProps extends IColorWidget {}

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Cell } from '@blueprintjs/table';
-import { DropdownCell, DatetimeCell, CheckboxCell } from '../style';
-import { Dropdown, Icon } from 'semantic-ui-react';
+import { DropdownCell,  CheckboxCell } from '../style';
 import moment from 'moment';
-import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
+import {  IDateFormatProps } from '@blueprintjs/datetime';
 import { FilmSelect, IFilm } from '../../../App';
 import { Button, Checkbox } from '@blueprintjs/core';
 import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
-import ColorWidget from './Field/ColorWidget';
+import ColorWidget, { IColorWidget } from './Field/ColorWidget/ColorWidget';
+import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
 
 export interface IVWidgetTableProps {
   row: number;
@@ -18,16 +16,12 @@ export interface IVWidgetTableProps {
 
 export interface IWidget {
   type: TypeWidget;
-  colorCell?: IVColorCell;
+  colorCell?: IColorWidget;
   dropdownCell?: IVDropdownCell[];
   dateTimeCell?: IVDateTimeCell;
   editCell?: IVDateTimeCell;
   cusmtomerCell?: IVDateTimeCell;
   value?: any;
-}
-
-export interface IVColorCell {
-  color: string;
 }
 
 export interface IVDropdownCell {
@@ -79,7 +73,7 @@ class Widget extends Component<IWidget> {
   };
 
   private getColorCell = () => {
-    const color = this.props.colorCell && this.props.colorCell.color.toLowerCase();
+    const color = this.props.colorCell && this.props.colorCell.backgroundColor.toLowerCase();
     if (color) {
       return <ColorWidget backgroundColor={color} value={this.props.value}/>;
     }
@@ -141,12 +135,12 @@ class Widget extends Component<IWidget> {
     ) {
       this.props.dateTimeCell.defaultValue = new Date(this.props.value);
       return (
-        <DatetimeCell as={Cell}>
-          <DateInput
-            rightElement={<Icon name="calendar alternate outline"/>}
+
+          <DatetimeWidget
+            value={this.props.value}
             {...this.props.dateTimeCell}
           />
-        </DatetimeCell>
+
       );
     }
   };
