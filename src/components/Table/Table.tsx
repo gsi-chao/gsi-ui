@@ -17,7 +17,7 @@ import {
   IVContextualTableProps
 } from './ActionCellsMenuItem';
 import {  CellDiv } from './style';
-import Widget, { IVWidgetTableProps, IWidget } from './fields-widget/Widget';
+import Widget, { IVWidgetTableProps, IWidget } from './Widget/Widget';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
@@ -112,6 +112,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const widgetCell = this.getWidgetCell(rowIndex, columns[columnIndex]);
 
     if (widgetCell) widgetCell.widget.value = value;
+
     const component = widgetCell && <Widget {...widgetCell.widget} />;
 
     if (component) return <CellDiv as={Cell}>{component}</CellDiv>;

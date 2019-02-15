@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import { VTable } from './components/Table/Table';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
-import { Dropdown, Header, Icon } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
-import { IVWidgetTableProps } from './components/Table/fields-widget/Widget';
+import { IVWidgetTableProps } from './components/Table/Widget/Widget';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
-import { Button } from '@blueprintjs/core';
 
 export interface IFilm {
   /** Title of film. */
@@ -26,7 +24,86 @@ const TOP_100_FILMS: IFilm[] = [
 
 export const FilmSelect = Select.ofType<IFilm>();
 
+export const dropDown = {
+  row: 9,
+  column: 'lastname',
+  widget: {
+    type: 'Colro',
+    dropdownCell: [
+      {
+        key: 'today',
+        text: 'today',
+        value: 'today',
+        content: 'Today'
+      },
+      {
+        key: 'other asdasdf ',
+        text: 'other  ',
+        value: 'other ',
+        content: 'other '
+      }
+    ]
+  }
+};
+
+export const widgetsCell: IVWidgetTableProps[] = [
+  {
+    row: 3,
+    column: 'lastname',
+    widget: {
+      type: 'COLOR',
+      colorCell: { color: 'red' }
+    }
+  },
+  {
+    row: 5,
+    column: 'lastname',
+    widget: {
+      type: 'COLOR',
+      colorCell: { color: 'blue' }
+    }
+  },
+  {
+    row: 7,
+    column: 'name',
+    widget: {
+      type: 'CHECKBOX',
+      dropdownCell: [
+        {
+          key: 'today',
+          text: 'today',
+          value: 'today',
+          content: 'Today'
+        },
+        {
+          key: 'other asdasdf ',
+          text: 'other  ',
+          value: 'other ',
+          content: 'other '
+        }
+      ]
+    }
+  },
+  {
+    row: 11,
+    column: 'name',
+    widget: {
+      type: 'DATETIME',
+      dateTimeCell: {
+        formatDate: date => date.toLocaleDateString(),
+        parseDate: str => new Date(str),
+        placeholder: 'M/D/YYYY',
+        defaultValue: new Date('12-05-2018')
+      }
+    }
+  }
+];
+
 class App extends Component {
+
+  state ={
+    changeColor:false
+  };
   render() {
     const data = [
       { name: 'Carlos', lastname: 'Chao' },
@@ -48,80 +125,7 @@ class App extends Component {
       return value.length > 5;
     };
 
-    const dropDown = {
-      row: 9,
-      column: 'lastname',
-      widget: {
-        type: 'Colro',
-        dropdownCell: [
-          {
-            key: 'today',
-            text: 'today',
-            value: 'today',
-            content: 'Today'
-          },
-          {
-            key: 'other asdasdf ',
-            text: 'other  ',
-            value: 'other ',
-            content: 'other '
-          }
-        ]
-      }
-    };
 
-    const widgetsCell: IVWidgetTableProps[] = [
-      {
-        row: 3,
-        column: 'lastname',
-        widget: {
-          type: 'COLOR',
-          colorCell: { color: 'red' }
-        }
-      },
-      {
-        row: 5,
-        column: 'lastname',
-        widget: {
-          type: 'COLOR',
-          colorCell: { color: 'blue' }
-        }
-      },
-      {
-        row: 7,
-        column: 'name',
-        widget: {
-          type: 'CHECKBOX',
-          dropdownCell: [
-            {
-              key: 'today',
-              text: 'today',
-              value: 'today',
-              content: 'Today'
-            },
-            {
-              key: 'other asdasdf ',
-              text: 'other  ',
-              value: 'other ',
-              content: 'other '
-            }
-          ]
-        }
-      },
-      {
-        row: 11,
-        column: 'name',
-        widget: {
-          type: 'DATETIME',
-          dateTimeCell: {
-            formatDate: date => date.toLocaleDateString(),
-            parseDate: str => new Date(str),
-            placeholder: 'M/D/YYYY',
-            defaultValue: new Date('12-05-2018')
-          }
-        }
-      }
-    ];
 
     const jsDateFormatter: IDateFormatProps = {
       // note that the native implementation of Date functions differs between browsers
@@ -156,7 +160,7 @@ class App extends Component {
 
         <br />
         <DateInput {...jsDateFormatter} />
-
+        <button onClick={this.handleChangeColor} >cambiar color</button>
         {/*<FilmSelect*/}
           {/*items={TOP_100_FILMS}*/}
           {/*itemPredicate={this.filterFilm}*/}
@@ -169,10 +173,24 @@ class App extends Component {
     );
   }
 
+  handleChangeColor = ()=>{
+    if( widgetsCell[0] &&   widgetsCell[0].widget && widgetsCell[0].widget.colorCell){
+      widgetsCell[0].widget.colorCell.color = 'green';
+      this.setState({
+        changeColor:!this.state.changeColor
+      })
+
+    }
+
+
+};
+
   onSort = (index: number, order: string) => {
     console.log(index);
     console.log(order);
   };
+
+
 
   filterFilm: ItemPredicate<IFilm> = (query, film) => {
     return (

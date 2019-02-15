@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-
 import styled from 'styled-components';
 import { Cell } from '@blueprintjs/table';
 import { DropdownCell, DatetimeCell, CheckboxCell } from '../style';
-import {  Dropdown, Icon } from 'semantic-ui-react';
+import { Dropdown, Icon } from 'semantic-ui-react';
 import moment from 'moment';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
 import { FilmSelect, IFilm } from '../../../App';
 import { Button, Checkbox } from '@blueprintjs/core';
 import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
+import ColorWidget from './Field/ColorWidget';
 
 export interface IVWidgetTableProps {
   row: number;
@@ -56,7 +56,7 @@ class Widget extends Component<IWidget> {
   }
 
   render() {
-    return   this.tryRenderWidgetCell();
+    return this.tryRenderWidgetCell();
 
   }
 
@@ -79,12 +79,10 @@ class Widget extends Component<IWidget> {
   };
 
   private getColorCell = () => {
-    const color =
-      this.props.colorCell && this.props.colorCell.color.toLowerCase();
-    const CellColor = styled(Cell)`
-      background: ${color};
-    `;
-    return <CellColor as={Cell}>{this.props.value}</CellColor>;
+    const color = this.props.colorCell && this.props.colorCell.color.toLowerCase();
+    if (color) {
+      return <ColorWidget backgroundColor={color} value={this.props.value}/>;
+    }
   };
 
   private getDropdownCell = () => {
@@ -127,11 +125,13 @@ class Widget extends Component<IWidget> {
     }
     const text = `${film.rank}. ${film.title}`;
     return (
-      <p >{text}</p>
+      <p>{text}</p>
     );
   };
 
-  handleValueChange = (film: IFilm) => {console.log('cambio el combobox')};
+  handleValueChange = (film: IFilm) => {
+    console.log('cambio el combobox');
+  };
 
   private getDatetimeCell = () => {
     if (
@@ -153,7 +153,7 @@ class Widget extends Component<IWidget> {
 
   private getCheckboxCell = () => {
     if (typeof this.props.value === 'boolean') {
-      const checkboxBlue = <Checkbox checked={true} />;
+      const checkboxBlue = <Checkbox checked={true}/>;
       return <CheckboxCell>{checkboxBlue}</CheckboxCell>;
     }
   };
