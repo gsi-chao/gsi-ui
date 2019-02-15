@@ -62,6 +62,7 @@ export interface IVTableState {
     columns: string[];
     cachedData: any[];
     selectedRegions: IRegion[];
+    previousLastRegion: IRegion;
 }
 
 export class VTable extends Component<IProps, IVTableState> {
@@ -79,7 +80,8 @@ export class VTable extends Component<IProps, IVTableState> {
         sparseCellUpdateData: {},
         columns: this.props.columns,
         cachedData: [],
-        selectedRegions: []
+        selectedRegions: [],
+        previousLastRegion: {},
     };
 
     render() {
@@ -104,39 +106,89 @@ export class VTable extends Component<IProps, IVTableState> {
         );
     }
 
-    checkAndSetSelection = (regions: IRegion[]) => {
+    checkAndSetSelection = (givedRegions: IRegion[]) => {
+        const regions = this.validateMissingRegion(givedRegions);
+
         let validRegions = this.getRegionsWithMissingRowsOrCols(regions);
         const selectedRegions = this.ifAlreadySelectedThenDeselect(validRegions);
         this.setSelectedRegions(selectedRegions);
     };
 
-    ifAlreadySelectedThenDeselect(regions: IRegion[]): IRegion[] {
+    validateMissingRegion(givedRegions: IRegion[]) {
+        const regions = utils.clone(givedRegions);
         const lastRegion = regions[regions.length - 1];
-        if( lastRegion && lastRegion.rows && lastRegion.rows[0] === lastRegion.rows[1]
-            && lastRegion.cols && lastRegion.cols[0] === lastRegion.cols[1] ) {
-            const checkRegion: ICell = {
-                col: lastRegion.cols[0],
-                row: lastRegion.rows[0]
-            };
-            regions.map((region, index) => {
-                if (this.isContainedRegion(index, regions.length - 1, region, checkRegion)) {
-                    const splittedRegion = this.splitRegion(region, checkRegion);
-                    regions.splice(index, 1, ...splittedRegion);
-                    regions = regions.filter(region =>
-                        region.rows && (
-                            region.rows[0] !== checkRegion.row || region.rows[1] !== checkRegion.row
-                        )
-                    );
+        if(regions && regions.length > 1) {
+            const {selectedRegions} = this.state;
+            selectedRegions.map( (region) => {
+                if(!this.regionExistence(region, regions)) {
+                    regions.splice(regions.length - 1, 1, region, lastRegion);
                 }
             });
         }
         return regions;
     }
 
-    isContainedRegion = (index: number, length: number, region: IRegion, checkRegion: ICell): boolean => {
+    regionExistence = (region: IRegion, regions: IRegion[]) =>{
+        return regions.some(innerRegion =>
+            !!(innerRegion.cols && region.cols
+                && (innerRegion.cols[0] === region.cols[0] && innerRegion.cols[1] === region.cols[1])
+                && innerRegion.rows && region.rows
+                && (innerRegion.rows[0] === region.rows[0] && innerRegion.rows[1] === region.rows[1]))
+        )
+    };
+
+    isSingleCell = (region: IRegion) => {
+        return region && region.rows && region.rows[0] === region.rows[1]
+            && region.cols && region.cols[0] === region.cols[1];
+    };
+
+    ifAlreadySelectedThenDeselect(regions: IRegion[]): IRegion[] {
+        const lastRegion = regions[regions.length - 1];
+        if (lastRegion
+            && lastRegion.cols && lastRegion.rows
+            && this.isSingleCell(lastRegion)
+        ) {
+            const checkRegion: ICell = {
+                col: lastRegion.cols[0],
+                row: lastRegion.rows[0]
+            };
+            let alreadySplitted = false;
+            regions.map((region, index) => {
+                if (!alreadySplitted && this.isContainedRegion(index, regions.length - 1, region, lastRegion)) {
+                    const splittedRegion = this.splitRegion(region, checkRegion);
+                    regions.splice(index, 1);
+                    const newRegions = regions.filter((innerRegion) =>
+                        innerRegion.rows && (
+                            innerRegion.rows[0] !== checkRegion.row || innerRegion.rows[1] !== checkRegion.row
+                        ) || innerRegion.cols && (
+                            innerRegion.cols[0] !== checkRegion.col || innerRegion.cols[1] !== checkRegion.col
+                        )
+                    );
+                    regions = [...newRegions, ...splittedRegion];
+                    alreadySplitted = true;
+                }
+            });
+            this.setState({...this.state, previousLastRegion: regions[regions.length - 1]});
+            return regions;
+        } else {
+            if (regions.length > 2 && this.isContainedRegion(
+                regions.length - 2, regions.length - 1 ,lastRegion,regions[regions.length - 2]
+                )) {
+                regions.splice(regions.length - 2, 1);
+            } else if (regions.length > 2 && this.isContainedRegion(
+                regions.length - 2, regions.length - 1 ,regions[regions.length - 2],lastRegion
+            )) {
+                regions.splice(regions.length - 2, 1);
+            }
+            this.setState({...this.state, previousLastRegion: regions[regions.length - 1]});
+            return regions;
+        }
+    };
+
+    isContainedRegion = (index: number, length: number, region: IRegion, checkRegion: IRegion): boolean => {
         if (index < length) {
-            if (region.rows && (region.rows[0] <= checkRegion.row && region.rows[1] >= checkRegion.row) &&
-                region.cols && (region.cols[0] <= checkRegion.col && region.cols[1] >= checkRegion.col)
+            if (region.rows && checkRegion.rows && (region.rows[0] <= checkRegion.rows[0] && region.rows[1] >= checkRegion.rows[1]) &&
+                region.cols && checkRegion.cols && (region.cols[0] <= checkRegion.cols[0] && region.cols[1] >= checkRegion.cols[1])
             ) {
                 return true;
             }
@@ -144,39 +196,39 @@ export class VTable extends Component<IProps, IVTableState> {
         return false;
     };
 
-    splitRegion = ( region: IRegion, cellToDeselect: ICell ): IRegion[] => {
-        const { endCell, startCell } = utils.getStartAndEndCell(region);
+    splitRegion = (region: IRegion, cellToDeselect: ICell): IRegion[] => {
+        const {endCell, startCell} = utils.getStartAndEndCell(region);
         const splittedRegion = [];
-        for(let col = startCell.col; col <= endCell.col; col++) {
+        for (let col = startCell.col; col <= endCell.col; col++) {
             if (col !== cellToDeselect.col) {
                 const newRegion: IRegion = {
                     rows: [startCell.row, endCell.row],
-                    cols: [col , col]
+                    cols: [col, col]
                 };
                 splittedRegion.push(newRegion);
             } else {
-               if (startCell.row < cellToDeselect.row) {
-                   const aboveRegion: IRegion = {
-                       rows: [startCell.row, cellToDeselect.row - 1],
-                       cols: [col , col]
-                   };
-                   splittedRegion.push(aboveRegion)
-               }
-               if (endCell.row > cellToDeselect.row) {
-                   const bellowRegion: IRegion = {
-                       rows: [cellToDeselect.row + 1, endCell.row],
-                       cols: [col , col]
-                   };
-                   splittedRegion.push(bellowRegion)
-               }
+                if (startCell.row < cellToDeselect.row) {
+                    const aboveRegion: IRegion = {
+                        rows: [startCell.row, cellToDeselect.row - 1],
+                        cols: [col, col]
+                    };
+                    splittedRegion.push(aboveRegion)
+                }
+                if (endCell.row > cellToDeselect.row) {
+                    const bellowRegion: IRegion = {
+                        rows: [cellToDeselect.row + 1, endCell.row],
+                        cols: [col, col]
+                    };
+                    splittedRegion.push(bellowRegion)
+                }
             }
         }
         return splittedRegion;
-    }
+    };
 
     setSelectedRegions = (selectedRegions: IRegion[]) => {
         this.setState({...this.state, selectedRegions})
-    }
+    };
 
     getRowAndColsTotals = (): any => {
         const numRows = this.state.sparseCellData.length || 0;
@@ -185,12 +237,12 @@ export class VTable extends Component<IProps, IVTableState> {
     };
 
     getRegionsWithMissingRowsOrCols = (regions: IRegion[]): IRegion[] => {
-        const { numRows, numCols } = this.getRowAndColsTotals();
+        const {numRows, numCols} = this.getRowAndColsTotals();
 
-        if(regions.length > 0 && regions[regions.length - 1].rows === undefined) {
+        if (regions.length > 0 && regions[regions.length - 1].rows === undefined) {
             regions[regions.length - 1]['rows'] = [0, numRows - 1];
         }
-        if(regions.length > 0 && regions[regions.length - 1].cols === undefined) {
+        if (regions.length > 0 && regions[regions.length - 1].cols === undefined) {
             regions[regions.length - 1]['cols'] = [0, numCols - 1];
         }
         return regions;
