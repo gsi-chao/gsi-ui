@@ -28,7 +28,7 @@ export const dropDown = {
   row: 9,
   column: 'lastname',
   widget: {
-    type: 'Colro',
+    type: 'Color',
     dropdownCell: [
       {
         key: 'today',
@@ -84,6 +84,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
       ]
     }
   },
+  
   {
     row: 11,
     column: 'name',
@@ -95,6 +96,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
         placeholder: 'M/D/YYYY',
         defaultValue: new Date('12-05-2018')
       }
+
     }
   }
 ];

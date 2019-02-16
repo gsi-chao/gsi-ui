@@ -30,7 +30,7 @@ class ColorWidget extends Component<IProps, IColorWidget> {
         backgroundColor: this.props.backgroundColor,
         color: this.props.color
       });
-      console.log('sa cambio');
+
     }
   }
 

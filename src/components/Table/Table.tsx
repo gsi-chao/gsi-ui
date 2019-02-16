@@ -16,7 +16,7 @@ import {
   DefaultActions,
   IVContextualTableProps
 } from './ActionCellsMenuItem';
-import {  CellDiv } from './style';
+import { CellDiv } from './style';
 import Widget, { IVWidgetTableProps, IWidget } from './Widget/Widget';
 
 export type IVTableOrder = 'ASC' | 'DESC';
@@ -60,7 +60,6 @@ export interface IVTableState {
   sparseCellUpdateData?: { [key: string]: string };
   columns: string[];
   widgetsCell?: IVWidgetTableProps[];
-
 }
 
 export class VTable extends Component<IProps, IVTableState> {
@@ -108,12 +107,18 @@ export class VTable extends Component<IProps, IVTableState> {
     const columns = this.state.columns;
     const data = this.state.sparseCellData;
     const value = data[rowIndex][columns[columnIndex]];
-
     const widgetCell = this.getWidgetCell(rowIndex, columns[columnIndex]);
 
     if (widgetCell) widgetCell.widget.value = value;
 
-    const component = widgetCell && <Widget {...widgetCell.widget} />;
+    const component = widgetCell && (
+      <Widget
+        row={rowIndex}
+        column={columnIndex}
+        onClick={this.handleOnClickWidget}
+        {...widgetCell.widget}
+      />
+    );
 
     if (component) return <CellDiv as={Cell}>{component}</CellDiv>;
 
@@ -156,6 +161,16 @@ export class VTable extends Component<IProps, IVTableState> {
       widgetCellValid &&
       widgetCellValid.find(x => x.row === rowIndex && x.column === columnName)
     );
+  };
+
+  handleOnClickWidget = (
+    rowIndex: number,
+    columnIndex: number,
+    newValue: string
+  ) => {
+    const dataKey = VTable.dataKey(rowIndex, columnIndex);
+    this.setSparseCellUpdateData(dataKey, newValue);
+    this.setStateData(rowIndex, columnIndex, newValue);
   };
 
   private isValidValue = (columnIndex: number, value: string) => {

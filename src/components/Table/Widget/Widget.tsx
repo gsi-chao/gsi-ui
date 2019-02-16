@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { DropdownCell,  CheckboxCell } from '../style';
+import { DropdownCell, CheckboxCell } from '../style';
 import moment from 'moment';
-import {  IDateFormatProps } from '@blueprintjs/datetime';
+import { IDateFormatProps } from '@blueprintjs/datetime';
 import { FilmSelect, IFilm } from '../../../App';
 import { Button, Checkbox } from '@blueprintjs/core';
 import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
 import ColorWidget, { IColorWidget } from './Field/ColorWidget/ColorWidget';
 import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
+import { ICellLookup } from '../TableColumn';
 
 export interface IVWidgetTableProps {
   row: number;
@@ -22,6 +23,16 @@ export interface IWidget {
   editCell?: IVDateTimeCell;
   cusmtomerCell?: IVDateTimeCell;
   value?: any;
+
+}
+
+export interface ActionClickWidget {
+  onClick(rowIndex: number, columnIndex: number, newValue: string): void;
+}
+
+export interface IVWidget extends IWidget, ActionClickWidget{
+  row: number;
+  column: number;
 }
 
 export interface IVDropdownCell {
@@ -44,14 +55,14 @@ export type TypeWidget =
   | 'CUSTOMERCOMPONENT'
   | 'CHECKBOX';
 
-class Widget extends Component<IWidget> {
-  constructor(props: IWidget) {
+class Widget extends Component<IVWidget> {
+
+  constructor(props: IVWidget) {
     super(props);
   }
 
   render() {
     return this.tryRenderWidgetCell();
-
   }
 
   private tryRenderWidgetCell = () => {
@@ -73,59 +84,18 @@ class Widget extends Component<IWidget> {
   };
 
   private getColorCell = () => {
-    const color = this.props.colorCell && this.props.colorCell.backgroundColor.toLowerCase();
+    const color =
+      this.props.colorCell &&
+      this.props.colorCell.backgroundColor.toLowerCase();
     if (color) {
-      return <ColorWidget backgroundColor={color} value={this.props.value}/>;
+      return <ColorWidget backgroundColor={color} value={this.props.value} />;
     }
   };
 
   private getDropdownCell = () => {
-    const options = this.props.dropdownCell;
-    if (options && options.length !== 0) {
-      const TOP_100_FILMS: IFilm[] = [
-        { rank: 1, title: 'otro', year: 2019 },
-        { rank: 2, title: 'otro', year: 2019 },
-        { rank: 3, title: 'otro', year: 2019 },
-        { rank: 4, title: 'otro', year: 2019 }
-      ];
 
-      return (<FilmSelect
-        items={TOP_100_FILMS}
-        itemPredicate={this.filterFilm}
-        itemRenderer={this.renderFilm}
-        onItemSelect={this.handleValueChange}
-        popoverProps={{ usePortal: true }}
-      >
-
-        <Button
-          icon="film"
-          rightIcon="caret-down"
-          text={'(No selection)'}
-
-        />
-
-      </FilmSelect>);
-
-    }
-  };
-
-  filterFilm: ItemPredicate<IFilm> = (query, film) => {
-    return `${film.rank}. ${film.title.toLowerCase()} ${film.year}`.indexOf(query.toLowerCase()) >= 0;
-  };
-
-  renderFilm: ItemRenderer<IFilm> = (film, { handleClick, modifiers, query }) => {
-    if (!modifiers.matchesPredicate) {
-      return null;
-    }
-    const text = `${film.rank}. ${film.title}`;
-    return (
-      <p>{text}</p>
-    );
-  };
-
-  handleValueChange = (film: IFilm) => {
-    console.log('cambio el combobox');
-  };
+      return null
+    };
 
   private getDatetimeCell = () => {
     if (
@@ -135,19 +105,14 @@ class Widget extends Component<IWidget> {
     ) {
       this.props.dateTimeCell.defaultValue = new Date(this.props.value);
       return (
-
-          <DatetimeWidget
-            value={this.props.value}
-            {...this.props.dateTimeCell}
-          />
-
+        <DatetimeWidget column={this.props.column} row={this.props.row} onClick={this.props.onClick} value={this.props.value} {...this.props.dateTimeCell} />
       );
     }
   };
 
   private getCheckboxCell = () => {
     if (typeof this.props.value === 'boolean') {
-      const checkboxBlue = <Checkbox checked={true}/>;
+      const checkboxBlue = <Checkbox checked={true} />;
       return <CheckboxCell>{checkboxBlue}</CheckboxCell>;
     }
   };
