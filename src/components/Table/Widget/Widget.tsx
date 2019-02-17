@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-import { DropdownCell, CheckboxCell } from '../style';
 import moment from 'moment';
 import { IDateFormatProps } from '@blueprintjs/datetime';
-import { FilmSelect, IFilm } from '../../../App';
-import { Button, Checkbox } from '@blueprintjs/core';
-import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
 import ColorWidget, { IColorWidget } from './Field/ColorWidget/ColorWidget';
 import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
-import { ICellLookup } from '../TableColumn';
+import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
 
 export interface IVWidgetTableProps {
   row: number;
@@ -20,17 +16,20 @@ export interface IWidget {
   colorCell?: IColorWidget;
   dropdownCell?: IVDropdownCell[];
   dateTimeCell?: IVDateTimeCell;
-  editCell?: IVDateTimeCell;
   cusmtomerCell?: IVDateTimeCell;
+  checkboxCell?: IVCheckboxCell;
   value?: any;
-
 }
 
 export interface ActionClickWidget {
-  onClick(rowIndex: number, columnIndex: number, newValue: string): void;
+  onClick(
+    rowIndex: number,
+    columnIndex: number,
+    newValue: string | boolean
+  ): void;
 }
 
-export interface IVWidget extends IWidget, ActionClickWidget{
+export interface IVWidget extends IWidget, ActionClickWidget {
   row: number;
   column: number;
 }
@@ -40,6 +39,11 @@ export interface IVDropdownCell {
   text: string;
   value: string;
   content: string;
+}
+
+export interface IVCheckboxCell {
+  label?: string;
+  backgroundColor?: string;
 }
 
 export interface IVDateTimeCell extends IDateFormatProps {
@@ -56,7 +60,6 @@ export type TypeWidget =
   | 'CHECKBOX';
 
 class Widget extends Component<IVWidget> {
-
   constructor(props: IVWidget) {
     super(props);
   }
@@ -84,18 +87,29 @@ class Widget extends Component<IVWidget> {
   };
 
   private getColorCell = () => {
-    const color =
-      this.props.colorCell &&
-      this.props.colorCell.backgroundColor.toLowerCase();
-    if (color) {
-      return <ColorWidget backgroundColor={color} value={this.props.value} />;
+    if (this.props.colorCell) {
+      const backgroundColor = this.props.colorCell.backgroundColor.toLowerCase();
+      const color =
+        this.props.colorCell.color && this.props.colorCell.color.toLowerCase();
+
+      return backgroundColor && color ? (
+        <ColorWidget
+          backgroundColor={backgroundColor}
+          color={color}
+          value={this.props.value}
+        />
+      ) : (
+        <ColorWidget
+          backgroundColor={backgroundColor}
+          value={this.props.value}
+        />
+      );
     }
   };
 
   private getDropdownCell = () => {
-
-      return null
-    };
+    return null;
+  };
 
   private getDatetimeCell = () => {
     if (
@@ -105,15 +119,27 @@ class Widget extends Component<IVWidget> {
     ) {
       this.props.dateTimeCell.defaultValue = new Date(this.props.value);
       return (
-        <DatetimeWidget column={this.props.column} row={this.props.row} onClick={this.props.onClick} value={this.props.value} {...this.props.dateTimeCell} />
+        <DatetimeWidget
+          column={this.props.column}
+          row={this.props.row}
+          onClick={this.props.onClick}
+          value={this.props.value}
+          {...this.props.dateTimeCell}
+        />
       );
     }
   };
 
   private getCheckboxCell = () => {
     if (typeof this.props.value === 'boolean') {
-      const checkboxBlue = <Checkbox checked={true} />;
-      return <CheckboxCell>{checkboxBlue}</CheckboxCell>;
+      return (
+        <CheckboxWidget
+          column={this.props.column}
+          row={this.props.row}
+          onClick={this.props.onClick}
+          {...this.props.checkboxCell}
+        />
+      );
     }
   };
 }

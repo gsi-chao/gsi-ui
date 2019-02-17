@@ -42,11 +42,14 @@ class ColorWidget extends Component<IProps, IColorWidget> {
   };
 
   render() {
-    const color = this.state && this.state.backgroundColor.toLowerCase();
+    const backgroundColor = this.state && this.state.backgroundColor.toLowerCase();
+    const color = this.state && this.state.color && this.state.color.toLowerCase();
     const CellColor = styled(Cell)`
-      background: ${color};
+      background: ${backgroundColor};
+      color: ${color};
+      
     `;
-    return <CellColor as={Cell}>{this.state.value}</CellColor>;
+       return <CellColor as={Cell}>{this.state.value}</CellColor>;
   }
 }
 

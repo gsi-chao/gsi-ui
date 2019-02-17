@@ -52,7 +52,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
     column: 'lastname',
     widget: {
       type: 'COLOR',
-      colorCell: { backgroundColor: 'red' }
+      colorCell: { backgroundColor: 'orange' ,color:'white'}
     }
   },
   {
@@ -67,24 +67,11 @@ export const widgetsCell: IVWidgetTableProps[] = [
     row: 7,
     column: 'name',
     widget: {
-      type: 'CHECKBOX',
-      dropdownCell: [
-        {
-          key: 'today',
-          text: 'today',
-          value: 'today',
-          content: 'Today'
-        },
-        {
-          key: 'other asdasdf ',
-          text: 'other  ',
-          value: 'other ',
-          content: 'other '
-        }
-      ]
+      type: 'CHECKBOX'
+
     }
   },
-  
+
   {
     row: 11,
     column: 'name',

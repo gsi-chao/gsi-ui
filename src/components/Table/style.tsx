@@ -16,7 +16,3 @@ export const DropdownCell = styled.div`
 `;
 
 
-export const CheckboxCell = styled.div`
-  display: flex;
-  justify-content: center;
-`;

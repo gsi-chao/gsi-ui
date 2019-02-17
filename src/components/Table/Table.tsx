@@ -17,7 +17,7 @@ import {
   IVContextualTableProps
 } from './ActionCellsMenuItem';
 import { CellDiv } from './style';
-import Widget, { IVWidgetTableProps, IWidget } from './Widget/Widget';
+import Widget, { IVWidgetTableProps } from './Widget/Widget';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
