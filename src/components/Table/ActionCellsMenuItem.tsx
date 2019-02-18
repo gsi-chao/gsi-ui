@@ -4,7 +4,6 @@ import { IconName, Menu, MenuItem } from '@blueprintjs/core';
 import { Clipboard, IMenuContext, Regions } from '@blueprintjs/table';
 
 export type DefaultActions = 'copy' | 'paste' | 'export';
-import * as utils from './utils';
 
 export interface IVContextualActionTableProps {
     action: (item: any) => void;
@@ -40,6 +39,9 @@ export interface IActionCellMenuItemProps {
 
     onDefaultActions: (action: DefaultActions, value: any) => void;
     hasCachedData: any;
+    tableColsAndRowsTotals: any;
+    getDataToCopy: any;
+    getPivotCell: any;
 }
 
 export class ActionCellsMenuItem extends React.PureComponent<
@@ -108,47 +110,14 @@ export class ActionCellsMenuItem extends React.PureComponent<
 
     private handleCopy = () => {
         const {context} = this.props;
-        this.getDataToCopy(context);
+        const cellsArray = this.props.getDataToCopy(context);
+        this.props.onDefaultActions('copy', cellsArray);
     };
 
     private handlePaste = () => {
         const {context} = this.props;
-        const cells = context.getUniqueCells();
-        const tempPivotCell: number[] = cells[0];
-        const pivotCell: ICell = {
-            col: tempPivotCell[1],
-            row: tempPivotCell[0]
-        };
+        const cells = context.getSelectedRegions();
+        const pivotCell: ICell = this.props.getPivotCell(cells);
         this.props.onDefaultActions('paste', pivotCell);
     };
-
-    getDataToCopy = (context: IMenuContext) => {
-        const regions = context.getRegions();
-        const firstPivotCell: ICell = {
-            col: regions[0].cols && regions[0].cols[0] || 0,
-            row: regions[0].rows && regions[0].rows[0] || 0
-        };
-        const cellsArray: any[] = [];
-        regions.map(region => {
-            const {startCell, endCell} = utils.getStartAndEndCell(region);
-            let rowFromPivot = startCell.row - firstPivotCell.row;
-            let colFromPivot = startCell.col - firstPivotCell.col;
-            for (let index = startCell.col; index <= endCell.col; index++) {
-                for (let indexY = startCell.row; indexY <= endCell.row; indexY++) {
-                    const value = this.props.getCellData(indexY, index);
-                    cellsArray.push(this.createCellForCopy(colFromPivot, rowFromPivot, value));
-                    rowFromPivot++;
-                }
-                rowFromPivot = 0;
-                colFromPivot++;
-            }
-        });
-        this.props.onDefaultActions('copy', cellsArray);
-    };
-
-    createCellForCopy = (colFromPivot: number, rowFromPivot: number, value: any) => {
-        return {
-            colFromPivot, rowFromPivot, value
-        }
-    }
 }
