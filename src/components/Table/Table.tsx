@@ -25,7 +25,7 @@ export interface IVActionsTableProps {
 }
 
 export interface IVActionEditTableProps extends IVActionsTableProps {
-  validation?:  { [key: string]: (value: string) => boolean };
+  validation?: { [key: string]: (value: string) => boolean };
 }
 
 export interface IVCustomActionSortableTableProp {

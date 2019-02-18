@@ -1,5 +1,4 @@
-export {ProgressLabel} from './ProgressLabel';
-
+export { ProgressLabel } from './ProgressLabel';
 
 /*
 *use example

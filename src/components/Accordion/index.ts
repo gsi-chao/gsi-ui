@@ -1,1 +1,1 @@
-export {AccordionSummary} from './AccordionSummary';
+export { AccordionSummary } from './AccordionSummary';

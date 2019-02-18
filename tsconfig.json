@@ -12,6 +12,7 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "module": "commonjs",
     "moduleResolution": "node",

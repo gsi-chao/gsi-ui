@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {ProgressLabel} from './ProgressLabel';
+import { ProgressLabel } from './ProgressLabel';
 import { ISegment } from './IPregressLabel';
 import renderer from 'react-test-renderer';
 
