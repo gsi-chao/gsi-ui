@@ -114,6 +114,16 @@ export class VTable extends Component<IProps, IVTableState> {
         })
     }
 
+    /**
+     ** Select regions Table Fixture
+     **/
+
+    /**
+     ** @param argsRegions: The table context selected regions
+     ** @description set the current selected regions of the table after of process the regions in order of validate
+     ** the loss of regions , set the missing params of rows or cols, deselect the desired cells, and delete unnecessary
+     ** regions remains
+     **/
     checkAndSetSelection = (argsRegions: IRegion[]) => {
         const regions = this.createSelectedRegions(
             this.validateMissingRegion,
@@ -124,8 +134,17 @@ export class VTable extends Component<IProps, IVTableState> {
         this.setSelectedRegions(regions);
     };
 
+    /**
+     ** @param fns: Array of functions
+     ** @description realize a several functions to a passed region array and return the value of the processed regions.
+     **/
     createSelectedRegions = (...fns: any[]) => (regions: IRegion[] ): IRegion[] => fns.reduce((v, f) => f(v), regions);
 
+    /**
+     ** @param argsRegions: the regions of the table context
+     ** @description check if a region is missing in the current selection and is an error add the region to the selection.
+     ** @return the fixed regions.
+     **/
     validateMissingRegion = (argsRegions: IRegion[]) =>{
         const regions = utils.clone(argsRegions);
         if (regions && regions.length > 1) {
@@ -142,7 +161,33 @@ export class VTable extends Component<IProps, IVTableState> {
         return regions;
     };
 
-    ifAlreadySelectedThenDeselect = (regions: IRegion[]): IRegion[] => {
+    /**
+     ** @param argsRegions: the regions of the table context
+     ** @description check if a region don't have rows or cols , this happens when a full column or row is selected
+     ** and add the missing param.
+     ** @return the fixed regions.
+     **/
+    getRegionsWithMissingRowsOrCols = (argsRegions: IRegion[]): IRegion[] => {
+        const regions = utils.clone(argsRegions);
+        const {numRows, numCols} = this.getRowAndColsTotals();
+
+        if (regions.length > 0 && regions[regions.length - 1].rows === undefined) {
+            regions[regions.length - 1]['rows'] = [0, numRows - 1];
+        }
+        if (regions.length > 0 && regions[regions.length - 1].cols === undefined) {
+            regions[regions.length - 1]['cols'] = [0, numCols - 1];
+        }
+        return regions;
+    };
+
+    /**
+     ** @param argsRegions: the regions of the table context
+     ** @description check if a the last region is a single cell and if is selected deselect the region
+     ** if this region is contained inside other bigger region split the bigger one in several regions.
+     ** @return the regions with the actions applied.
+     **/
+    ifAlreadySelectedThenDeselect = (argsRegions: IRegion[]): IRegion[] => {
+        let regions: IRegion[] = utils.clone(argsRegions);
         const lastRegion = regions[regions.length - 1];
         if (lastRegion
             && lastRegion.cols && lastRegion.rows
@@ -179,19 +224,24 @@ export class VTable extends Component<IProps, IVTableState> {
                     }
                 });
             }
-            return regions;
         } else {
             if (regions.length > 2 && this.isContainedRegion(lastRegion, regions[regions.length - 2])) {
                 regions.splice(regions.length - 2, 1);
             } else if (regions.length > 2 && this.isContainedRegion(regions[regions.length - 2], lastRegion)) {
                 regions.splice(regions.length - 2, 1);
             }
-            return regions;
         }
+        return regions;
     };
 
-    deleteRegionRemain = (argRegions: IRegion[]): IRegion[] => {
-        const regions = utils.clone(argRegions);
+    /**
+     ** @param argsRegions: the regions of the table context
+     ** @description check if the last region has some remain when resizing it , a remain appear when go from a 2 cells
+     ** region to a one cell region, if some remain is founded it will be deleted.
+     ** @return the regions with the actions applied.
+     **/
+    deleteRegionRemain = (argsRegions: IRegion[]): IRegion[] => {
+        const regions = utils.clone(argsRegions);
         const lastRegion = regions[regions.length - 1];
         if (this.isSingleCell(lastRegion)) {
             const {selectedRegions} = this.state;
@@ -214,21 +264,33 @@ export class VTable extends Component<IProps, IVTableState> {
         return regions;
     };
 
-
+    /**
+     ** @param containerRegion: the region that may contain the other region
+     ** @param checkRegion: the possible contained region.
+     ** @param from: a value to avoid compare a region with it self in an array default 0.
+     ** @param to: a value to avoid compare a region with it self in an array default 1.
+     ** @return the if the checkRegion is contained by the containerRegion.
+     **/
     isContainedRegion = (containerRegion: IRegion, checkRegion: IRegion, from: number = 0, to: number = 1): boolean => {
         if (from < to) {
-            if (containerRegion.rows && checkRegion.rows && (containerRegion.rows[0] <= checkRegion.rows[0]
-                && containerRegion.rows[1] >= checkRegion.rows[1])
-                && containerRegion.cols && checkRegion.cols && (containerRegion.cols[0] <= checkRegion.cols[0]
-                    && containerRegion.cols[1] >= checkRegion.cols[1])
-            ) {
-                return true;
+            if (containerRegion.rows && checkRegion.rows && containerRegion.cols && checkRegion.cols) {
+                if ((containerRegion.rows[0] <= checkRegion.rows[0] && containerRegion.rows[1] >= checkRegion.rows[1])
+                    && (containerRegion.cols[0] <= checkRegion.cols[0] && containerRegion.cols[1] >= checkRegion.cols[1])
+                ) {
+                    return true;
+                }
             }
         }
         return false;
     };
 
-    splitRegion = (region: IRegion, cellToDeselect: ICell): IRegion[] => {
+    /**
+     ** @param argsRegion: the region to split
+     ** @param cellToDeselect: the cell to split the region.
+     ** @return an array of regions split by the cellToDeselect first selected by columns and then by rows.
+     **/
+    splitRegion = (argsRegion: IRegion, cellToDeselect: ICell): IRegion[] => {
+        const region = utils.clone(argsRegion);
         const {endCell, startCell} = utils.getStartAndEndCell(region);
         const splittedRegion = [];
         for (let col = startCell.col; col <= endCell.col; col++) {
@@ -258,6 +320,10 @@ export class VTable extends Component<IProps, IVTableState> {
         return splittedRegion;
     };
 
+    /**
+     ** @param region: the region
+     ** @return if exist a region with that exacts rows and cols.
+     **/
     regionExistence = (region: IRegion, regions: IRegion[]): boolean => {
         return regions.some(innerRegion =>
             !!(innerRegion.cols && region.cols
@@ -267,49 +333,35 @@ export class VTable extends Component<IProps, IVTableState> {
         )
     };
 
+    /**
+     ** @param region: the region
+     ** @return if exist a region is a single cell.
+     **/
     isSingleCell = (region: IRegion): boolean => {
         return !!(region && region.rows && region.rows[0] === region.rows[1]
             && region.cols && region.cols[0] === region.cols[1]);
     };
 
+    /**
+     ** @param selectedRegions: the region
+     ** @return set the selected regions in the state.
+     **/
     setSelectedRegions = (selectedRegions: IRegion[]) => {
         this.setState({...this.state, selectedRegions})
     };
 
+    /**
+     ** @return set the total of cols and rows of the table
+     **/
     getRowAndColsTotals = (): any => {
         const numRows = this.state.sparseCellData.length || 0;
         const numCols = this.props.columns && this.props.columns.length || 0;
         return {numRows, numCols}
     };
 
-    handleCtrlCAndV = (event: any) => {
-        let charCode = String.fromCharCode(event.which).toLowerCase();
-        if (event.ctrlKey || event.metaKey) {
-            if(event.ctrlKey && charCode === 'c') {
-                if(this.state.selectedRegions && this.state.selectedRegions.length > 0) {
-                    const cellsToCopy = this.getRegionsData(this.state.selectedRegions);
-                    this.setCachedData(cellsToCopy);
-                }
-            } else if(event.ctrlKey && charCode === 'v') {
-                if(this.state.selectedRegions && this.state.selectedRegions.length > 0) {
-                    const pivotCell = this.getPivotCell(this.state.selectedRegions)
-                    this.handlePaste(pivotCell);
-                }
-            }
-        }
-    };
-
-    getRegionsWithMissingRowsOrCols = (regions: IRegion[]): IRegion[] => {
-        const {numRows, numCols} = this.getRowAndColsTotals();
-
-        if (regions.length > 0 && regions[regions.length - 1].rows === undefined) {
-            regions[regions.length - 1]['rows'] = [0, numRows - 1];
-        }
-        if (regions.length > 0 && regions[regions.length - 1].cols === undefined) {
-            regions[regions.length - 1]['cols'] = [0, numCols - 1];
-        }
-        return regions;
-    };
+    /**
+     ** End select regions Table Fixture
+     **/
 
     public renderCell = (rowIndex: number, columnIndex: number) => {
         const dataKey = VTable.dataKey(rowIndex, columnIndex);
@@ -411,12 +463,12 @@ export class VTable extends Component<IProps, IVTableState> {
         this.setState({...this.state, cachedData})
     };
 
-    cachedData = () => {
-        return this.state.cachedData;
-    };
-
     hasCachedData = () => {
         return !!this.state.cachedData && this.state.cachedData.length > 0;
+    };
+
+    cachedData = () => {
+        return this.state.cachedData;
     };
 
     private renderBodyContextMenu = (context: IMenuContext) => {
@@ -455,11 +507,23 @@ export class VTable extends Component<IProps, IVTableState> {
         }
     };
 
+    /**
+    ** Copy and paste Table Fixture
+    **/
+
+    /**
+     ** @param context: The table context
+     *  @return the result of the getRegionsData function applied to the regions of the context
+     **/
     getDataToCopy = (context: IMenuContext) => {
         const regions = context.getRegions();
         return this.getRegionsData(regions);
     };
 
+    /**
+     ** @param regions: the selected regions of the table context
+     *  @return an array of cells with the distance of rows and columns of the regions first pivot and the value of the cell
+     **/
     getRegionsData(regions: IRegion[]) {
         const firstPivotCell = this.getPivotCell(regions);
         const cellsArray: any[] = [];
@@ -480,6 +544,10 @@ export class VTable extends Component<IProps, IVTableState> {
         return cellsArray;
     }
 
+    /**
+     ** @param regions: The table context regions
+     *  @return the pivot cell of all regions which is the first row of the first column (left, top)
+     **/
     getPivotCell = (regions: IRegion[]): ICell => {
         const { numRows, numCols } = this.getRowAndColsTotals();
         let firstPivotCell: ICell = {
@@ -506,23 +574,59 @@ export class VTable extends Component<IProps, IVTableState> {
         return firstPivotCell;
     };
 
+    /**
+     ** @param colFromPivot: distance of the cell with the regions pivot cell column
+     *  @param rowFromPivot: distance of the cell with the regions pivot cell row
+     *  @param value: the value of the current cell
+     *  @return an object with colFromPivot, rowFromPivot and value
+     **/
     createCellForCopy = (colFromPivot: number, rowFromPivot: number, value: any) => {
         return {
             colFromPivot, rowFromPivot, value
         }
     };
 
-    handlePaste(pivotCell: ICell) {
+    /**
+     ** @param pivotCell: the pivot cell to make the paste action
+     *  @description obtain the cached data to copy and set the value of the data of the table for each of the cached cells
+     **/
+    handlePaste(pivotCell: ICell): void {
         const cachedData = this.cachedData();
         if (cachedData) {
             cachedData.map((cellData: any) => {
                 const {value, colFromPivot, rowFromPivot} = cellData;
                 const col = colFromPivot + pivotCell.col;
                 const row = rowFromPivot + pivotCell.row;
+                const dataKey = VTable.dataKey(row, col);
+                this.setSparseCellUpdateData(dataKey, value);
                 this.setStateData(row, col, value);
             });
         }
     }
+
+    /**
+     *  @description capture the key actions of CTRL + C and CTRL + V and execute the appropriate function.
+     **/
+    handleCtrlCAndV = (event: any) => {
+        const charCode = String.fromCharCode(event.which).toLowerCase();
+        if (event.ctrlKey || event.metaKey) {
+            if(event.ctrlKey && charCode === 'c') {
+                if(this.state.selectedRegions && this.state.selectedRegions.length > 0) {
+                    const cellsToCopy = this.getRegionsData(this.state.selectedRegions);
+                    this.setCachedData(cellsToCopy);
+                }
+            } else if(event.ctrlKey && charCode === 'v') {
+                if(this.state.selectedRegions && this.state.selectedRegions.length > 0) {
+                    const pivotCell = this.getPivotCell(this.state.selectedRegions);
+                    this.handlePaste(pivotCell);
+                }
+            }
+        }
+    };
+
+    /**
+     ** End copy and paste Table Fixture
+     **/
 
     private _handleColumnsReordered = (
         oldIndex: number,
