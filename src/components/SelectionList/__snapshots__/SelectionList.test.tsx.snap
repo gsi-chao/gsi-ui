@@ -1,121 +1,153 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render correctly SelectionList component one segment 1`] = `
-<div
-  className="ui basic segment"
+<ul
+  className="bp3-menu bp3-elevation-1"
 >
-  <div
-    className="ui top attached label"
-    onClick={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#fbbd08",
+  <li
+    className=""
+  >
+    <a
+      className="bp3-menu-item bp3-popover-dismiss bp3-elevation-1"
+      style={
+        Object {
+          "background": "#394B59",
+          "color": "#FFFFFF",
+          "textAlign": "center",
+        }
       }
-    }
-  >
-    Header
-  </div>
-  <div
-    className="ui selection middle aligned list"
-    role="list"
-  >
-    <div
-      className="item sc-bdVaJa jeCsUV"
-      onClick={[Function]}
-      role="listitem"
     >
       <div
-        className="item"
-        data-value="firstv"
-        onClick={[Function]}
-        role="listitem"
+        className="bp3-text-overflow-ellipsis bp3-fill"
       >
-        <div
-          className="content"
-        >
-          <i
-            aria-hidden="true"
-            className="folder icon"
-            onClick={[Function]}
-            style={
-              Object {
-                "float": "left",
-              }
-            }
-          />
-          first
-        </div>
+        Header
       </div>
-    </div>
-  </div>
-</div>
+    </a>
+  </li>
+  <li
+    className=""
+  >
+    <a
+      className="bp3-menu-item bp3-popover-dismiss"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "",
+          "color": "",
+        }
+      }
+    >
+      <span
+        className="bp3-icon bp3-icon-cut"
+        icon="cut"
+      >
+        <svg
+          data-icon="cut"
+          height={16}
+          viewBox="0 0 16 16"
+          width={16}
+        >
+          <desc>
+            cut
+          </desc>
+          <path
+            d="M13 2s.71-1.29 0-2L8.66 5.07l1.05 1.32L13 2zm.07 8c-.42 0-.82.09-1.18.26L3.31 0c-.69.71 0 2 0 2l3.68 5.02-2.77 3.24A2.996 2.996 0 0 0 0 13c0 1.66 1.34 3 3 3s3-1.34 3-3c0-.46-.11-.89-.29-1.27L8.1 8.54l2.33 3.19c-.18.39-.29.82-.29 1.27 0 1.66 1.31 3 2.93 3S16 14.66 16 13s-1.31-3-2.93-3zM3 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm10.07 0c-.54 0-.98-.45-.98-1s.44-1 .98-1 .98.45.98 1-.44 1-.98 1z"
+            fillRule="evenodd"
+          />
+        </svg>
+      </span>
+      <div
+        className="bp3-text-overflow-ellipsis bp3-fill"
+      >
+        first
+      </div>
+    </a>
+  </li>
+</ul>
 `;
 
 exports[`render correctly SelectionList component two segments 1`] = `
-<div
-  className="ui basic segment"
+<ul
+  className="bp3-menu bp3-elevation-1"
 >
-  <div
-    className="ui top attached label"
-    onClick={[Function]}
-    style={
-      Object {
-        "backgroundColor": "#fbbd08",
+  <li
+    className=""
+  >
+    <a
+      className="bp3-menu-item bp3-popover-dismiss bp3-elevation-1"
+      style={
+        Object {
+          "background": "#394B59",
+          "color": "#FFFFFF",
+          "textAlign": "center",
+        }
       }
-    }
-  >
-    Header
-  </div>
-  <div
-    className="ui selection middle aligned list"
-    role="list"
-  >
-    <div
-      className="item sc-bdVaJa jeCsUV"
-      onClick={[Function]}
-      role="listitem"
     >
       <div
-        className="item"
-        data-value="firstv"
-        onClick={[Function]}
-        role="listitem"
+        className="bp3-text-overflow-ellipsis bp3-fill"
       >
-        <div
-          className="content"
+        Header
+      </div>
+    </a>
+  </li>
+  <li
+    className=""
+  >
+    <a
+      className="bp3-menu-item bp3-popover-dismiss"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "",
+          "color": "",
+        }
+      }
+    >
+      <span
+        className="bp3-icon bp3-icon-cut"
+        icon="cut"
+      >
+        <svg
+          data-icon="cut"
+          height={16}
+          viewBox="0 0 16 16"
+          width={16}
         >
-          <i
-            aria-hidden="true"
-            className="folder icon"
-            onClick={[Function]}
-            style={
-              Object {
-                "float": "left",
-              }
-            }
+          <desc>
+            cut
+          </desc>
+          <path
+            d="M13 2s.71-1.29 0-2L8.66 5.07l1.05 1.32L13 2zm.07 8c-.42 0-.82.09-1.18.26L3.31 0c-.69.71 0 2 0 2l3.68 5.02-2.77 3.24A2.996 2.996 0 0 0 0 13c0 1.66 1.34 3 3 3s3-1.34 3-3c0-.46-.11-.89-.29-1.27L8.1 8.54l2.33 3.19c-.18.39-.29.82-.29 1.27 0 1.66 1.31 3 2.93 3S16 14.66 16 13s-1.31-3-2.93-3zM3 14c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm10.07 0c-.54 0-.98-.45-.98-1s.44-1 .98-1 .98.45.98 1-.44 1-.98 1z"
+            fillRule="evenodd"
           />
-          first
-        </div>
+        </svg>
+      </span>
+      <div
+        className="bp3-text-overflow-ellipsis bp3-fill"
+      >
+        first
       </div>
-    </div>
-    <div
-      className="item sc-bdVaJa ffBesj"
+    </a>
+  </li>
+  <li
+    className=""
+  >
+    <a
+      className="bp3-menu-item bp3-active bp3-intent-primary bp3-popover-dismiss"
       onClick={[Function]}
-      role="listitem"
+      style={
+        Object {
+          "background": "#E1E8ED",
+          "color": "#fbbd08",
+        }
+      }
     >
       <div
-        className="active item"
-        data-value="secondv"
-        onClick={[Function]}
-        role="listitem"
+        className="bp3-text-overflow-ellipsis bp3-fill"
       >
-        <div
-          className="content"
-        >
-          second
-        </div>
+        second
       </div>
-    </div>
-  </div>
-</div>
+    </a>
+  </li>
+</ul>
 `;

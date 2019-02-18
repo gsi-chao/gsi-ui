@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { SemanticICONS, Label, Segment, List, Icon } from 'semantic-ui-react';
+import "normalize.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import { Classes, Menu, MenuItem } from "@blueprintjs/core";
 import {IItemsList,ISelctionListProps} from './ISelectionList';
-import {ListItem} from './style'
-
-
 
 interface ISelctionListState{
     listSelected:IItemsList[]
@@ -16,10 +16,10 @@ export class SelectionList extends Component<ISelctionListProps, ISelctionListSt
 
     public state:ISelctionListState = {
         listSelected:this.props.elements.filter(e=>e.active)
-    }
+    };
     isActive = (elements:IItemsList)=>{
           return  !!this.state.listSelected.find(e=>e.value === elements.value)
-    }
+    };
     onItemClick = (active:boolean, element:IItemsList)=>{
         const {listSelected} = this.state;
         let new_list:IItemsList[];
@@ -30,40 +30,43 @@ export class SelectionList extends Component<ISelctionListProps, ISelctionListSt
         :
         new_list = listSelected.concat(element);
 
-        this.setState({...listSelected, listSelected:new_list})
+        this.setState({...listSelected, listSelected:new_list});
         this.props.onSelect(new_list);
-    }
+    };
     render(){
         const {header, elements, selection} = this.props;
         
         return(
-            <Segment basic>
-                <Label attached="top" style={{backgroundColor:header.color || '#767676'}}>{header.text}</Label>
-                <List selection verticalAlign="middle">
+            <Menu className={Classes.ELEVATION_1}>
+                <MenuItem
+                    text={header.text}
+                    className={'bp3-elevation-1'}
+                    style={{background:header.color|| '#394B59', textAlign:'center', color:header.textColor || '#FFFFFF'}}
+                />
                 {
                     elements.map(element=>{
-                        const active = this.isActive(element);
+                        const active = this.isActive((element));
+                        const backgroundColor = (!!selection && !!selection.background ? selection!.background:'#00B3A4');
+                        const textColor = (!!selection && !!selection.textColor ? selection!.textColor:'#10161A');
                         return(
-                            <ListItem active={active} key={element.value} {...selection}>
-                                <List.Item
-                                    value={element.value}
-                                    active={active}
-                                    onClick={() => {
+                            <MenuItem
+                                key={element.value}
+                                active={active}
+                                text={element.text}
+                                style={{
+                                    background:(active)?backgroundColor:'',
+                                    color:(active)?textColor:''
+                                }}
+                                onClick={() => {
                                     this.onItemClick(active, element);
-                                    }}>                                    
-                                    <List.Content>
-                                        {
-                                            !!element.icon &&
-                                            <Icon name={element.icon} style={{float:(element.iconPosition !=='right')?'left':'inherit'}}/>
-                                        }
-                                        {element.text}
-                                    </List.Content>
-                                </List.Item>
-                            </ListItem>
-                    )})
+                                }}
+                                icon={element.icon}
+                            />
+                        );
+                    })
                 }
-                </List>
-            </Segment>
+            </Menu>
+
         );
     }
 }

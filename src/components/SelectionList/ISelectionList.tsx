@@ -1,11 +1,10 @@
-import { SemanticICONS} from 'semantic-ui-react';
+import { IconName } from "@blueprintjs/core";
 
 export interface IItemsList{
     text:string
-    icon?:SemanticICONS
+    icon?: IconName | JSX.Element | false | null | undefined
     value:string
-    active?:boolean,
-    iconPosition?: 'left' | 'right'
+    active?:boolean
 }
 
 export interface ISelctionListProps{
@@ -13,7 +12,8 @@ export interface ISelctionListProps{
     onSelect(list:IItemsList[]):void,
     header:{
         text:string
-        color?:string        
+        color?:string ,
+        textColor?:string
     },
     selection?:{
         textColor:string,
