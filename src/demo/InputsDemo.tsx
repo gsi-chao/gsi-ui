@@ -11,6 +11,7 @@ import TagInputField from '../components/Form/Inputs/TagInputField';
 import NumericField from '../components/Form/Inputs/NumericField';
 import CheckboxField from '../components/Form/Inputs/CheckboxField';
 import RadioGroupField from '../components/Form/Inputs/RadioGroupField';
+import BasicSliderField from '../components/Form/Inputs/BasicSliderField';
 
 @observer
 class InputsDemo extends Component {
@@ -25,7 +26,8 @@ class InputsDemo extends Component {
       tags: new FieldState('').validators(required),
       age: new FieldState('').validators(required),
       have_job: new FieldState('').validators(required),
-      sex: new FieldState('').validators(required)
+      sex: new FieldState('').validators(required),
+      range: new FieldState('').validators(required)
     });
   }
   render() {
@@ -105,6 +107,12 @@ class InputsDemo extends Component {
           label="Sex"
           inline
           fieldState={this.form.$.sex}
+        />
+        <BasicSliderField
+          id="range"
+          fieldState={this.form.$.range}
+          label="Range"
+          inline
         />
       </React.Fragment>
     );
