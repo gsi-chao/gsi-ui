@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
 import { VTable } from "./components/Table/Table";
+import { SelectionList } from "./components/SelectionList/";
 
 class App extends Component {
   render() {
+
     const data = [
       { name: "Carlos", lastname: "Chao" ,age:28},
       { name: "Name1", lastname: "Lastname1", age:27},
