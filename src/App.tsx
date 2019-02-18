@@ -5,18 +5,18 @@ import { VTable } from "./components/Table/Table";
 class App extends Component {
   render() {
     const data = [
-      { name: "Carlos", lastname: "Chao" },
-      { name: "Name1", lastname: "Lastname1" },
-      { name: "Name2", lastname: "Lastname2" },
-      { name: "Name3", lastname: "Lastname3" },
-      { name: "Name4", lastname: "Lastname4" },
-      { name: "Name5", lastname: "Lastname5" },
-      { name: "Name6", lastname: "Lastname6" },
-      { name: "Name7", lastname: "Lastname7" },
-      { name: "Name7", lastname: "Lastname7" },
-      { name: "Name7", lastname: "Lastname7" },
-      { name: "Name7", lastname: "Lastname7" },
-      { name: "Name7", lastname: "Lastname7" },
+      { name: "Carlos", lastname: "Chao" ,age:28},
+      { name: "Name1", lastname: "Lastname1", age:27},
+      { name: "Name2", lastname: "Lastname2" , age:25},
+      { name: "Name3", lastname: "Lastname3" , age:23},
+      { name: "Name4", lastname: "Lastname4" , age:19},
+      { name: "Name5", lastname: "Lastname5" , age:45},
+      { name: "Name6", lastname: "Lastname6" , age:33},
+      { name: "Name7", lastname: "Lastname7" , age:21},
+      { name: "Name7", lastname: "Lastname7" , age:44},
+      { name: "Name7", lastname: "Lastname7" , age:89},
+      { name: "Name7", lastname: "Lastname7" , age:11},
+      { name: "Name7", lastname: "Lastname7" , age:12},
     ];
 
     // validator example
@@ -27,7 +27,7 @@ class App extends Component {
     return (
       <VTable
           edit={{ columns: ["name"], validation: {name: nameValidation} }}
-          columns={["name", "lastname"]}
+          columns={["name", "lastname", "age"]}
           reordering={true}
           sortable={{columns: ["name"], onSort: this.onSort}}
           contextual={{columns: ["name"], default_actions: ["copy", "paste", "export"], actions: [{
