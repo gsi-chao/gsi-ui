@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { VTable } from './components/Table/Table';
-import { VTabsMenu } from './components/index';
-import {ITabsTypes} from './components/TabsMenu/types';
+import { VTable } from './components/index';
 
 class App extends Component {
   render() {
@@ -25,27 +23,9 @@ class App extends Component {
     const nameValidation = (value: string) => {
       return value.length > 5;
     };
-    const tabList: ITabsTypes[] = [{
-      icon: { intent: 'primary', icon: 'home', iconSize: 16 },
-      label: 'Home',
-      key: '1',
-      color: 'red',
-      navbarTabId: 'home'
-    }, {
-      label: 'Hogar',
-      key: '2',
-      color: 'red',
-      navbarTabId: 'hogar'
-    }, {
-      icon: { intent: 'primary', icon: 'home', iconSize: 16 },
-      label: 'Casa',
-      key: '3',
-      color: 'red',
-      navbarTabId: 'casa'
-    }];
+
     return (
       <React.Fragment>
-        <VTabsMenu tabList={tabList} handleChange={this.handleChangeTabMenu}/>
         <VTable
           edit={{ columns: ['name'], validation: { name: nameValidation } }}
           columns={['name', 'lastname']}
