@@ -3,8 +3,10 @@ import './App.css';
 import { VTable } from './components/Table/Table';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
 import 'semantic-ui-css/semantic.min.css';
-import { IVWidgetTableProps } from './components/Table/Widget/Widget';
+import { IVDropdownCell, IVWidgetTableProps } from './components/Table/Widget/Widget';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
+import { Button } from '@blueprintjs/core';
+import DropdownWidget from './components/Table/Widget/Field/DropdownWidget/DropdownWidget';
 
 export interface IFilm {
   /** Title of film. */
@@ -17,32 +19,27 @@ export interface IFilm {
 
 const TOP_100_FILMS: IFilm[] = [
   { rank: 1, title: 'otro', year: 2019 },
-  { rank: 2, title: 'otro', year: 2019 },
-  { rank: 3, title: 'otro', year: 2019 },
-  { rank: 4, title: 'otro', year: 2019 }
+  { rank: 2, title: 'mas', year: 2019 },
+  { rank: 3, title: 'lucia alvares', year: 2019 },
+  { rank: 4, title: 'jajajojo jujuju', year: 2019 }
 ];
 
 export const FilmSelect = Select.ofType<IFilm>();
 
-export const dropDown = {
+export const dropDown  = {
   row: 9,
   column: 'lastname',
   widget: {
-    type: 'Color',
-    dropdownCell: [
-      {
-        key: 'today',
-        text: 'today',
-        value: 'today',
-        content: 'Today'
-      },
-      {
-        key: 'other asdasdf ',
-        text: 'other  ',
-        value: 'other ',
-        content: 'other '
-      }
-    ]
+    type: 'DROPDOWN',
+    dropdownCell: {
+      options:[
+        { index: 1, value: 'otro' },
+        { index: 2, value: 'Lastname7' },
+        { index: 3, value: 'lucia alvares' },
+        { index: 4, value: 'jajajojo jujuju' }
+      ],
+      filterable:false
+    }
   }
 };
 
@@ -71,7 +68,9 @@ export const widgetsCell: IVWidgetTableProps[] = [
 
     }
   },
-
+  dropDown
+,
+  ,
   {
     row: 11,
     column: 'name',
@@ -105,7 +104,7 @@ class App extends Component {
       { name: true, lastname: 'Lastname7' },
       { name: '12/05/2018', lastname: 'Lastname7' },
       { name: 'Name7', lastname: 'Lastname7' },
-      { name: '12/05/2018', lastname: 'Lastname7' },
+      { name: 'name8', lastname: 'Lastname7' },
       { name: '12/05/2018', lastname: 'Lastname7' }
     ];
 
@@ -150,14 +149,8 @@ class App extends Component {
         <br />
         <DateInput {...jsDateFormatter} />
         <button onClick={this.handleChangeColor} >cambiar color</button>
-        {/*<FilmSelect*/}
-          {/*items={TOP_100_FILMS}*/}
-          {/*itemPredicate={this.filterFilm}*/}
-          {/*itemRenderer={this.renderFilm}*/}
-          {/*onItemSelect={this.handleValueChange}*/}
-        {/*>*/}
-          {/*<Button icon="film" rightIcon="caret-down" text={'(No selection)'} />*/}
-        {/*</FilmSelect>*/}
+      {/*<DropdownWidget/>*/}
+
       </React.Fragment>
     );
   }

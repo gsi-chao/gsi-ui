@@ -4,6 +4,10 @@ import { IDateFormatProps } from '@blueprintjs/datetime';
 import ColorWidget, { IColorWidget } from './Field/ColorWidget/ColorWidget';
 import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
 import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
+import DropdownWidget, {
+  IOption,
+  IProps
+} from './Field/DropdownWidget/DropdownWidget';
 
 export interface IVWidgetTableProps {
   row: number;
@@ -14,7 +18,7 @@ export interface IVWidgetTableProps {
 export interface IWidget {
   type: TypeWidget;
   colorCell?: IColorWidget;
-  dropdownCell?: IVDropdownCell[];
+  dropdownCell?: IVDropdownCell;
   dateTimeCell?: IVDateTimeCell;
   cusmtomerCell?: IVDateTimeCell;
   checkboxCell?: IVCheckboxCell;
@@ -27,6 +31,7 @@ export interface ActionClickWidget {
     columnIndex: number,
     newValue: string | boolean
   ): void;
+  isRenderized(isRender:boolean) :boolean;
 }
 
 export interface IVWidget extends IWidget, ActionClickWidget {
@@ -35,10 +40,8 @@ export interface IVWidget extends IWidget, ActionClickWidget {
 }
 
 export interface IVDropdownCell {
-  key: string;
-  text: string;
-  value: string;
-  content: string;
+  filterable?: boolean;
+  options: IOption[];
 }
 
 export interface IVCheckboxCell {
@@ -108,8 +111,31 @@ class Widget extends Component<IVWidget> {
   };
 
   private getDropdownCell = () => {
+    if (
+      this.props.dropdownCell &&
+      this.props.dropdownCell.options &&
+      this.exitsValueSelected(this.props.dropdownCell.options)
+    ) {
+      return (
+        <DropdownWidget
+          filterable={this.props.dropdownCell.filterable}
+          options={this.props.dropdownCell.options}
+          valueSelected={this.props.value}
+          onClick={this.props.onClick}
+          row={this.props.row}
+          column={this.props.column}
+          isRenderized={this.props.isRenderized}
+        />
+      );
+    }
     return null;
   };
+
+
+
+  private exitsValueSelected(options: IOption[]): boolean {
+    return options.find(x => x.value === this.props.value) !== undefined;
+  }
 
   private getDatetimeCell = () => {
     if (
@@ -124,6 +150,7 @@ class Widget extends Component<IVWidget> {
           row={this.props.row}
           onClick={this.props.onClick}
           value={this.props.value}
+          isRenderized={this.props.isRenderized}
           {...this.props.dateTimeCell}
         />
       );
@@ -137,6 +164,8 @@ class Widget extends Component<IVWidget> {
           column={this.props.column}
           row={this.props.row}
           onClick={this.props.onClick}
+          value={this.props.value}
+          isRenderized={this.props.isRenderized}
           {...this.props.checkboxCell}
         />
       );
