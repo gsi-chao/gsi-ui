@@ -10,7 +10,6 @@ it('renders without crashing Selection List', () => {
     
     ReactDOM.render(<SelectionList
         elements={array_elements}
-        header={{text:'Header', color:'#394B59'}}
         onSelect={(list:any)=>console.log(list)}
         selection={{background:'#E1E8ED', textColor:'#fbbd08'}}
         />, div);
@@ -25,7 +24,6 @@ it('render correctly SelectionList component one segment', () => {
     const TextInputComponent = renderer
       .create(<SelectionList
         elements={array_elements}
-        header={{text:'Header'}}
         onSelect={(list:any)=>console.log(list)}
         />)
       .toJSON();
@@ -38,7 +36,6 @@ it('render correctly SelectionList component one segment', () => {
     const TextInputComponent = renderer
       .create(<SelectionList
         elements={array_elements}
-        header={{text:'Header', color:'#394B59'}}
         onSelect={(list:any)=>console.log(list)}
         selection={{background:'#E1E8ED', textColor:'#fbbd08'}}
         />)
