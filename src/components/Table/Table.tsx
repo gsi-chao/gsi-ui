@@ -8,7 +8,6 @@ import {
   Table,
   Utils
 } from '@blueprintjs/table';
-
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/table/lib/css/table.css';
 import { IconName, Intent } from '@blueprintjs/core';
@@ -20,6 +19,9 @@ import {
   ICell,
   IVContextualTableProps
 } from './ActionCellsMenuItem';
+
+import { CellDiv } from './style';
+import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
 
 export type IVTableOrder = 'ASC' | 'DESC';
@@ -46,6 +48,7 @@ export interface IVActionSortableTableProps extends IVActionsTableProps {
 
 export interface IVTableProps {
   edit?: IVActionEditTableProps;
+  widgetsCell?: IVWidgetTableProps[];
   search?: IVActionsTableProps;
   sortable?: IVActionSortableTableProps;
   contextual?: IVContextualTableProps;
@@ -61,6 +64,7 @@ export interface IVTableState {
   sparseCellInvalid?: { [key: string]: Intent };
   sparseCellUpdateData?: { [key: string]: string };
   columns: string[];
+  widgetsCell?: IVWidgetTableProps[];
   cachedData: any[];
   selectedRegions: IRegion[];
   provisionalRegions: IRegion[];
@@ -80,6 +84,7 @@ export class VTable extends Component<IProps, IVTableState> {
     sparseCellInvalid: {},
     sparseCellUpdateData: {},
     columns: this.props.columns,
+    widgetsCell: this.props.widgetsCell,
     cachedData: [],
     selectedRegions: [],
     provisionalRegions: []
@@ -106,6 +111,89 @@ export class VTable extends Component<IProps, IVTableState> {
       </Table>
     );
   }
+
+  public renderCell = (rowIndex: number, columnIndex: number) => {
+    const dataKey = VTable.dataKey(rowIndex, columnIndex);
+    const { edit } = this.props;
+
+    const columns = this.state.columns;
+    const data = this.state.sparseCellData;
+    const value = data[rowIndex][columns[columnIndex]];
+    const widgetCell = this.getWidgetCell(rowIndex, columns[columnIndex]);
+
+    if (widgetCell) widgetCell.widget.value = value;
+
+    const component = widgetCell && (
+      <Widget
+        row={rowIndex}
+        column={columnIndex}
+        onClick={this.handleOnClickWidget}
+        {...widgetCell.widget}
+      />
+    );
+
+    if (component) return <CellDiv as={Cell}>{component}</CellDiv>;
+
+    return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
+      <EditableCell
+        value={value == null ? '' : value}
+        intent={this.state.sparseCellInvalid![dataKey]}
+        onCancel={this.cellValidator(rowIndex, columnIndex)}
+        onChange={this.cellValidator(rowIndex, columnIndex)}
+        onConfirm={this.cellSetter(rowIndex, columnIndex)}
+      />
+    ) : (
+      <Cell>{value}</Cell>
+    );
+  };
+
+  private getWidgetCellValid = (): IVWidgetTableProps[] => {
+    const { columns, sparseCellData } = this.state;
+    const widgetsValid: IVWidgetTableProps[] = [];
+
+    this.state.widgetsCell &&
+      this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+        if (
+          columns.indexOf(widget.column) !== -1 &&
+          widget.row < sparseCellData.length
+        ) {
+          widgetsValid.push(widget);
+        }
+      });
+
+    return widgetsValid;
+  };
+
+  private getWidgetCell = (rowIndex: number, columnName: string) => {
+    const widgetCellValid =
+      this.state.widgetsCell &&
+      this.state.widgetsCell.length > 0 &&
+      this.getWidgetCellValid();
+    return (
+      widgetCellValid &&
+      widgetCellValid.find(x => x.row === rowIndex && x.column === columnName)
+    );
+  };
+
+  handleOnClickWidget = (
+    rowIndex: number,
+    columnIndex: number,
+    newValue: string
+  ) => {
+    const dataKey = VTable.dataKey(rowIndex, columnIndex);
+    this.setSparseCellUpdateData(dataKey, newValue);
+    this.setStateData(rowIndex, columnIndex, newValue);
+  };
+
+  private isValidValue = (columnIndex: number, value: string) => {
+    if (
+      this.props.edit &&
+      this.props.edit.validation &&
+      this.props.edit.validation[this.state.columns[columnIndex]]
+    ) {
+      return this.props.edit.validation[this.state.columns[columnIndex]](value);
+    }
+  };
 
   componentDidMount() {
     const observer = fromEvent(window, 'keydown');
@@ -412,36 +500,6 @@ export class VTable extends Component<IProps, IVTableState> {
   /**
    ** End select regions Table Fixture
    **/
-
-  public renderCell = (rowIndex: number, columnIndex: number) => {
-    const dataKey = VTable.dataKey(rowIndex, columnIndex);
-    const { edit } = this.props;
-    const columns = this.state.columns;
-    const data = this.state.sparseCellData;
-    const value = data[rowIndex][columns[columnIndex]];
-    return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
-      <EditableCell
-        value={value == null ? '' : value}
-        intent={this.state.sparseCellInvalid![dataKey]}
-        onCancel={this.cellValidator(rowIndex, columnIndex)}
-        onChange={this.cellValidator(rowIndex, columnIndex)}
-        onConfirm={this.cellSetter(rowIndex, columnIndex)}
-      />
-    ) : (
-      <Cell>{value}</Cell>
-    );
-  };
-
-  private isValidValue = (columnIndex: number, value: string) => {
-    if (
-      this.props.edit &&
-      this.props.edit.validation &&
-      this.props.edit.validation[this.state.columns[columnIndex]]
-    ) {
-      return this.props.edit.validation[this.state.columns[columnIndex]](value);
-    }
-    return true;
-  };
 
   private cellValidator = (rowIndex: number, columnIndex: number) => {
     const dataKey = VTable.dataKey(rowIndex, columnIndex);
