@@ -10,11 +10,6 @@ export interface IItemsList{
 export interface ISelctionListProps{
     elements:IItemsList[]
     onSelect(list:IItemsList[]):void,
-    header:{
-        text:string
-        color?:string ,
-        textColor?:string
-    },
     selection?:{
         textColor:string,
         background:string

@@ -34,15 +34,10 @@ export class SelectionList extends Component<ISelctionListProps, ISelctionListSt
         this.props.onSelect(new_list);
     };
     render(){
-        const {header, elements, selection} = this.props;
+        const {elements, selection} = this.props;
         
         return(
             <Menu className={Classes.ELEVATION_1}>
-                <MenuItem
-                    text={header.text}
-                    className={'bp3-elevation-1'}
-                    style={{background:header.color|| '#394B59', textAlign:'center', color:header.textColor || '#FFFFFF'}}
-                />
                 {
                     elements.map(element=>{
                         const active = this.isActive((element));

@@ -8,26 +8,6 @@ exports[`render correctly SelectionList component one segment 1`] = `
     className=""
   >
     <a
-      className="bp3-menu-item bp3-popover-dismiss bp3-elevation-1"
-      style={
-        Object {
-          "background": "#394B59",
-          "color": "#FFFFFF",
-          "textAlign": "center",
-        }
-      }
-    >
-      <div
-        className="bp3-text-overflow-ellipsis bp3-fill"
-      >
-        Header
-      </div>
-    </a>
-  </li>
-  <li
-    className=""
-  >
-    <a
       className="bp3-menu-item bp3-popover-dismiss"
       onClick={[Function]}
       style={
@@ -70,26 +50,6 @@ exports[`render correctly SelectionList component two segments 1`] = `
 <ul
   className="bp3-menu bp3-elevation-1"
 >
-  <li
-    className=""
-  >
-    <a
-      className="bp3-menu-item bp3-popover-dismiss bp3-elevation-1"
-      style={
-        Object {
-          "background": "#394B59",
-          "color": "#FFFFFF",
-          "textAlign": "center",
-        }
-      }
-    >
-      <div
-        className="bp3-text-overflow-ellipsis bp3-fill"
-      >
-        Header
-      </div>
-    </a>
-  </li>
   <li
     className=""
   >
