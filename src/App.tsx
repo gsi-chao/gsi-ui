@@ -1,49 +1,32 @@
 import React, { Component, ReactNode } from 'react';
 import './App.css';
 import { VTable } from './components/Table/Table';
-import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
 import 'semantic-ui-css/semantic.min.css';
-import {  IVWidgetTableProps } from './components/Table/Widget/Widget';
-import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
+import { IVWidgetTableProps } from './components/Table/Widget/Widget';
 import { Icon } from '@blueprintjs/core';
 
-
-export interface IFilm {
-  /** Title of film. */
-  title: string;
-  /** Release year. */
-  year: number;
-  /** IMDb ranking. */
-  rank: number;
-}
-
-const TOP_100_FILMS: IFilm[] = [
-  { rank: 1, title: 'otro', year: 2019 },
-  { rank: 2, title: 'mas', year: 2019 },
-  { rank: 3, title: 'lucia alvares', year: 2019 },
-  { rank: 4, title: 'jajajojo jujuju', year: 2019 }
-];
-
-export const FilmSelect = Select.ofType<IFilm>();
-
-export const dropDown  = {
+export const dropDown: IVWidgetTableProps = {
   row: 9,
   column: 'lastname',
   widget: {
     type: 'DROPDOWN',
     dropdownCell: {
-      options:[
+      options: [
         { index: 1, value: 'otro' },
         { index: 2, value: 'Lastname7' },
         { index: 3, value: 'lucia alvares' },
         { index: 4, value: 'jajajojo jujuju' }
       ],
-      filterable:true
+      filterable: true
     }
   }
 };
-export const renderCustomer = (value: string) : ReactNode => {
-  return (<div><Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}</div>)
+export const renderCustomer = (value: string): ReactNode => {
+  return (
+    <div>
+      <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
+    </div>
+  );
 };
 export const widgetsCell: IVWidgetTableProps[] = [
   {
@@ -51,7 +34,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
     column: 'lastname',
     widget: {
       type: 'COLOR',
-      colorCell: { backgroundColor: 'orange' ,color:'white'}
+      colorCell: { backgroundColor: 'orange', color: 'white' }
     }
   },
   {
@@ -60,7 +43,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
     widget: {
       type: 'CUSTOMERCOMPONENT',
       cusmtomerCell: {
-        renderCustomer:renderCustomer
+        renderCustomer: renderCustomer
       }
     }
   },
@@ -68,19 +51,16 @@ export const widgetsCell: IVWidgetTableProps[] = [
     row: 7,
     column: 'name',
     widget: {
-      type: 'CHECKBOX',
-
-
+      type: 'CHECKBOX'
     }
   },
-  dropDown
-,
+  dropDown,
   {
     row: 11,
     column: 'name',
     widget: {
       type: 'DATETIME',
-      dateTimeCell:{
+      dateTimeCell: {
         icon: 'calendar'
       }
     }
@@ -88,10 +68,10 @@ export const widgetsCell: IVWidgetTableProps[] = [
 ];
 
 class App extends Component {
-
-  state ={
-    changeColor:false
+  state = {
+    changeColor: false
   };
+
   render() {
     const data = [
       { name: 'Carlos', lastname: 'Chao' },
@@ -111,15 +91,6 @@ class App extends Component {
     // validator example
     const nameValidation = (value: string) => {
       return value.length > 5;
-    };
-
-
-
-    const jsDateFormatter: IDateFormatProps = {
-      // note that the native implementation of Date functions differs between browsers
-      formatDate: date => date.toLocaleDateString(),
-      parseDate: str => new Date(str),
-      placeholder: 'M/D/YYYY'
     };
 
     return (
@@ -147,53 +118,29 @@ class App extends Component {
         </div>
 
         <br />
-        <DateInput {...jsDateFormatter} />
-        <button onClick={this.handleChangeColor} >cambiar color</button>
-      {/*<DropdownWidget/>*/}
 
+        <button onClick={this.handleChangeColor}>cambiar color</button>
       </React.Fragment>
     );
   }
 
-  handleChangeColor = ()=>{
-    if( widgetsCell[0] &&   widgetsCell[0].widget && widgetsCell[0].widget.colorCell){
+  handleChangeColor = () => {
+    if (
+      widgetsCell[0] &&
+      widgetsCell[0].widget &&
+      widgetsCell[0].widget.colorCell
+    ) {
       widgetsCell[0].widget.colorCell.backgroundColor = 'green';
       this.setState({
-        changeColor:!this.state.changeColor
-      })
-
+        changeColor: !this.state.changeColor
+      });
     }
-
-
-};
+  };
 
   onSort = (index: number, order: string) => {
     console.log(index);
     console.log(order);
   };
-
-
-
-  filterFilm: ItemPredicate<IFilm> = (query, film) => {
-    return (
-      `${film.rank}. ${film.title.toLowerCase()} ${film.year}`.indexOf(
-        query.toLowerCase()
-      ) >= 0
-    );
-  };
-
-  renderFilm: ItemRenderer<IFilm> = (
-    film,
-    { handleClick, modifiers }
-  ) => {
-    if (!modifiers.matchesPredicate) {
-      return null;
-    }
-    const text = `${film.rank}. ${film.title}`;
-    return <p>{text}</p>;
-  };
-
-  handleValueChange = (film: IFilm) => this.setState({ film });
 }
 
 export default App;

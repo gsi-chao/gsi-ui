@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ActionClickWidget } from '../../Widget';
 import { Checkbox } from '@blueprintjs/core';
-import styled from 'styled-components';
+import { CheckboxCell } from './style';
 
 export interface ICheckboxWidget {
   label?: string;
@@ -26,24 +26,15 @@ class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
 
   render() {
     const { value, backgroundColor, label } = this.state;
-    const CheckboxCell = styled.div`
-      display: flex;
-      justify-content: center;
 
-      & .bp3-control input:checked ~ .bp3-control-indicator {
-        background-color: ${backgroundColor};
-      }
-
-      & .bp3-control
-        input:not(:disabled):active:checked
-        ~ .bp3-control-indicator {
-        background: ${backgroundColor} !important;
-      }
-    `;
     const checkboxBlue = (
       <Checkbox onChange={this.handleToggle} label={label} checked={value} />
     );
-    return <CheckboxCell>{checkboxBlue}</CheckboxCell>;
+    return (
+      <CheckboxCell backgroundColor={backgroundColor}>
+        {checkboxBlue}
+      </CheckboxCell>
+    );
   }
 
   handleToggle = () => {

@@ -30,7 +30,6 @@ class ColorWidget extends Component<IProps, IColorWidget> {
         backgroundColor: this.props.backgroundColor,
         color: this.props.color
       });
-
     }
   }
 
@@ -42,14 +41,15 @@ class ColorWidget extends Component<IProps, IColorWidget> {
   };
 
   render() {
-    const backgroundColor = this.state && this.state.backgroundColor.toLowerCase();
-    const color = this.state && this.state.color && this.state.color.toLowerCase();
+    const backgroundColor =
+      this.state && this.state.backgroundColor.toLowerCase();
+    const color =
+      this.state && this.state.color && this.state.color.toLowerCase();
     const CellColor = styled(Cell)`
       background: ${backgroundColor};
       color: ${color};
-      
     `;
-       return <CellColor as={Cell}>{this.state.value}</CellColor>;
+    return <CellColor as={Cell}>{this.state.value}</CellColor>;
   }
 }
 
