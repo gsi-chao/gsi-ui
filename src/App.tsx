@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode } from 'react';
 import './App.css';
 import { VTable } from './components/Table/Table';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
 import 'semantic-ui-css/semantic.min.css';
 import {  IVWidgetTableProps } from './components/Table/Widget/Widget';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
+import { Icon } from '@blueprintjs/core';
 
 
 export interface IFilm {
@@ -41,7 +42,9 @@ export const dropDown  = {
     }
   }
 };
-
+export const renderCustomer = (value: string) : ReactNode => {
+  return (<div><Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}</div>)
+};
 export const widgetsCell: IVWidgetTableProps[] = [
   {
     row: 3,
@@ -55,8 +58,10 @@ export const widgetsCell: IVWidgetTableProps[] = [
     row: 5,
     column: 'lastname',
     widget: {
-      type: 'COLOR',
-      colorCell: { backgroundColor: 'blue' }
+      type: 'CUSTOMERCOMPONENT',
+      cusmtomerCell: {
+        renderCustomer:renderCustomer
+      }
     }
   },
   {
@@ -65,7 +70,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
     widget: {
       type: 'CHECKBOX',
 
-      checkboxCell:{ label:'jajajja', backgroundColor:'red'}
+
     }
   },
   dropDown
@@ -74,7 +79,10 @@ export const widgetsCell: IVWidgetTableProps[] = [
     row: 11,
     column: 'name',
     widget: {
-      type: 'DATETIME'
+      type: 'DATETIME',
+      dateTimeCell:{
+        icon: 'calendar'
+      }
     }
   }
 ];

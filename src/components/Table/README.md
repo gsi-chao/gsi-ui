@@ -8,7 +8,7 @@ It has the following characteristics:
 - Customizable cells.
 - Sort between columns.
 - Widgets cell
- 
+
 ## Next Features!
   - Customizable Columns.
   - Copy, Paste and Import Cells.
@@ -49,7 +49,7 @@ It has the following characteristics:
     />
 ``
 
-- Contextual Menu Example 
+- Contextual Menu Example
 ``
 <VTable
       columns={['columns-list', 'separate', 'by', 'comma']}
@@ -111,8 +111,10 @@ It has the following characteristics:
                               row: 7,
                               column: 'name',
                               widget: {
-                                type: 'DATETIME'
-
+                                type: 'DATETIME',
+                                dateTimeCell:{
+                                        icon: 'calendar'
+                                      }}
                               }]}
             columns={['name', 'lastname']}
             data={data}
@@ -135,6 +137,24 @@ It has the following characteristics:
                                        { index: 4, value: 'jajajojo jujuju' }
                                      ],
                                      filterable:false
+                                   }
+
+                              }]}
+            columns={['name', 'lastname']}
+            data={data}
+          />
+``
+
+- Customer cell
+``
+ <VTable
+            widgetsCell={[{
+                              row: 7,
+                              column: 'name',
+                              widget: {
+                               type: 'CUSTOMERCOMPONENT',
+                                   cusmtomerCell: {
+                                   renderCustomer: (value:string)=>(<div><Icon icon={'phone'} /> {value}</div>)
                                    }
 
                               }]}

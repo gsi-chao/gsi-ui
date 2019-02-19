@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode } from 'react';
 import moment from 'moment';
 import ColorWidget, { IColorWidget } from './Field/ColorWidget/ColorWidget';
 import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
 import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
 import DropdownWidget, { IOption } from './Field/DropdownWidget/DropdownWidget';
+import { MaybeElement } from '@blueprintjs/core/src/common/props';
+import { IconName } from '@blueprintjs/core';
 
 export interface IVWidgetTableProps {
   row: number;
@@ -16,7 +18,7 @@ export interface IWidget {
   colorCell?: IColorWidget;
   dropdownCell?: IVDropdownCell;
   dateTimeCell?: IVDateTimeCell;
-  cusmtomerCell?: IVDateTimeCell;
+  cusmtomerCell?: IVCustomerWidget;
   checkboxCell?: IVCheckboxCell;
   value?: any;
 }
@@ -39,6 +41,10 @@ export interface IVDropdownCell {
   options: IOption[];
 }
 
+export interface IVCustomerWidget {
+  renderCustomer: (value: string) => ReactNode;
+}
+
 export interface IVCheckboxCell {
   label?: string;
   backgroundColor?: string;
@@ -46,6 +52,7 @@ export interface IVCheckboxCell {
 
 export interface IVDateTimeCell {
   defaultValue?: Date;
+  icon?: IconName | MaybeElement;
 }
 
 export type TypeWidget =
@@ -79,6 +86,12 @@ class Widget extends Component<IVWidget> {
       }
       case 'CHECKBOX': {
         return this.getCheckboxCell();
+      }
+      case 'CUSTOMERCOMPONENT': {
+        if (this.props.cusmtomerCell) {
+          this.props.cusmtomerCell.renderCustomer(this.props.value);
+          return this.props.cusmtomerCell.renderCustomer(this.props.value);
+        }
       }
     }
     return null;

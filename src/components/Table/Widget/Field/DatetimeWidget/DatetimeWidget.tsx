@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
-import { Icon } from 'semantic-ui-react';
-import { SemanticICONS } from 'semantic-ui-react/dist/commonjs/generic';
+
 import moment from 'moment';
 import { DatetimeCell } from './styles';
 import { ActionClickWidget } from '../../Widget';
-
+import { Icon } from '@blueprintjs/core';
+import { MaybeElement } from '@blueprintjs/core/src/common/props';
+import { IconName } from "@blueprintjs/icons";
 export interface IDatetimeWidget  {
-  icon?: SemanticICONS;
+  icon?: IconName | MaybeElement;
   value: string;
 }
 
@@ -42,7 +43,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
 
     return this.state.icon ? (
       <DateInput
-        rightElement={<Icon name={this.state.icon} />}
+        rightElement={<Icon icon={this.state.icon} />}
         defaultValue={defaultValue}
         {...jsDateFormatter}
         onChange={this.handleDateChange}
@@ -51,6 +52,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
       <DateInput
         onChange={this.handleDateChange}
         defaultValue={defaultValue}
+        rightElement={<Icon icon={'calendar'}  />}
         {...jsDateFormatter}
       />
     );
