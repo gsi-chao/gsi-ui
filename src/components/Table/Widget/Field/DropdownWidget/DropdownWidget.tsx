@@ -28,7 +28,6 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
   constructor(props: IProps) {
     super(props);
     const valueSelected = this.findValueSelected(props);
-    console.log(valueSelected);
     this.state = {
       valueSelected: valueSelected ? valueSelected.value : undefined,
       filterable: props.filterable ? props.filterable : false,
@@ -43,7 +42,6 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
   render() {
     if (this.state.valueSelected) {
       const options = this.state.options;
-      this.props.isRenderized(true);
       return (
         <DefaultSelect
           items={options}
@@ -79,7 +77,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
 
   renderOption: ItemRenderer<IOption> = (
     option,
-    { handleClick, modifiers, query }
+    { handleClick, modifiers }
   ) => {
     if (!modifiers.matchesPredicate) {
       return null;
@@ -88,6 +86,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
 
     const Item = styled.p`
       cursor: pointer;
+      padding: 4px 8px;
       :hover {
         background-color: rgba(167, 182, 194, 0.3);
       }
@@ -101,7 +100,6 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
   };
 
   handleValueChange = (option: IOption) => {
-    console.log(option);
     this.setState({ valueSelected: option.value });
     this.props.onClick(this.props.row,this.props.column,option.value);
   };

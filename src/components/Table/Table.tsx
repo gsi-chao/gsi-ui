@@ -94,6 +94,7 @@ export class VTable extends Component<IProps, IVTableState> {
         enableColumnReordering={this.props.reordering}
         bodyContextMenuRenderer={this.renderBodyContextMenu}
         enableRowHeader={false}
+        minRowHeight={50}
       >
         {columnsList}
       </Table>
@@ -117,12 +118,11 @@ export class VTable extends Component<IProps, IVTableState> {
         row={rowIndex}
         column={columnIndex}
         onClick={this.handleOnClickWidget}
-        isRenderized={this.isRender}
         {...widgetCell.widget}
 
       />
     );
-    console.log(component);
+
     if (component) return <CellDiv as={Cell}>{component}</CellDiv>;
 
     return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
@@ -171,16 +171,11 @@ export class VTable extends Component<IProps, IVTableState> {
     columnIndex: number,
     newValue: string
   ) => {
-    console.log(`${rowIndex},${columnIndex} ,${newValue} `);
     const dataKey = VTable.dataKey(rowIndex, columnIndex);
     this.setSparseCellUpdateData(dataKey, newValue);
     this.setStateData(rowIndex, columnIndex, newValue);
   };
 
-  isRender = (isRender:boolean) =>{
-    console.log(isRender);
-    return isRender
-  };
   private isValidValue = (columnIndex: number, value: string) => {
     if (
       this.props.edit &&

@@ -6,7 +6,7 @@ import moment from 'moment';
 import { DatetimeCell } from './styles';
 import { ActionClickWidget } from '../../Widget';
 
-export interface IDatetimeWidget extends IDateFormatProps {
+export interface IDatetimeWidget  {
   icon?: SemanticICONS;
   value: string;
 }
@@ -21,9 +21,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
     super(props);
     this.state = {
       value: this.props.value,
-      icon: this.props.icon,
-      formatDate: this.props.formatDate,
-      parseDate: this.props.parseDate
+      icon: this.props.icon
     };
   }
 

@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { IDateFormatProps } from '@blueprintjs/datetime';
 import ColorWidget, { IColorWidget } from './Field/ColorWidget/ColorWidget';
 import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
 import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
-import DropdownWidget, {
-  IOption,
-  IProps
-} from './Field/DropdownWidget/DropdownWidget';
+import DropdownWidget, { IOption } from './Field/DropdownWidget/DropdownWidget';
 
 export interface IVWidgetTableProps {
   row: number;
@@ -31,7 +27,6 @@ export interface ActionClickWidget {
     columnIndex: number,
     newValue: string | boolean
   ): void;
-  isRenderized(isRender:boolean) :boolean;
 }
 
 export interface IVWidget extends IWidget, ActionClickWidget {
@@ -49,7 +44,7 @@ export interface IVCheckboxCell {
   backgroundColor?: string;
 }
 
-export interface IVDateTimeCell extends IDateFormatProps {
+export interface IVDateTimeCell {
   defaultValue?: Date;
 }
 
@@ -108,6 +103,7 @@ class Widget extends Component<IVWidget> {
         />
       );
     }
+    return null;
   };
 
   private getDropdownCell = () => {
@@ -124,37 +120,29 @@ class Widget extends Component<IVWidget> {
           onClick={this.props.onClick}
           row={this.props.row}
           column={this.props.column}
-          isRenderized={this.props.isRenderized}
         />
       );
     }
     return null;
   };
 
-
-
   private exitsValueSelected(options: IOption[]): boolean {
     return options.find(x => x.value === this.props.value) !== undefined;
   }
 
   private getDatetimeCell = () => {
-    if (
-      this.props &&
-      this.props.dateTimeCell &&
-      moment(this.props.value, 'M/D/YYYY', true).isValid()
-    ) {
-      this.props.dateTimeCell.defaultValue = new Date(this.props.value);
+    if (this.props && moment(this.props.value, 'M/D/YYYY', true).isValid()) {
       return (
         <DatetimeWidget
           column={this.props.column}
           row={this.props.row}
           onClick={this.props.onClick}
           value={this.props.value}
-          isRenderized={this.props.isRenderized}
           {...this.props.dateTimeCell}
         />
       );
     }
+    return null;
   };
 
   private getCheckboxCell = () => {
@@ -165,11 +153,11 @@ class Widget extends Component<IVWidget> {
           row={this.props.row}
           onClick={this.props.onClick}
           value={this.props.value}
-          isRenderized={this.props.isRenderized}
           {...this.props.checkboxCell}
         />
       );
     }
+    return null;
   };
 }
 

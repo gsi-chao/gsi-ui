@@ -3,10 +3,9 @@ import './App.css';
 import { VTable } from './components/Table/Table';
 import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
 import 'semantic-ui-css/semantic.min.css';
-import { IVDropdownCell, IVWidgetTableProps } from './components/Table/Widget/Widget';
+import {  IVWidgetTableProps } from './components/Table/Widget/Widget';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
-import { Button } from '@blueprintjs/core';
-import DropdownWidget from './components/Table/Widget/Field/DropdownWidget/DropdownWidget';
+
 
 export interface IFilm {
   /** Title of film. */
@@ -38,7 +37,7 @@ export const dropDown  = {
         { index: 3, value: 'lucia alvares' },
         { index: 4, value: 'jajajojo jujuju' }
       ],
-      filterable:false
+      filterable:true
     }
   }
 };
@@ -64,25 +63,18 @@ export const widgetsCell: IVWidgetTableProps[] = [
     row: 7,
     column: 'name',
     widget: {
-      type: 'CHECKBOX'
+      type: 'CHECKBOX',
 
+      checkboxCell:{ label:'jajajja', backgroundColor:'red'}
     }
   },
   dropDown
 ,
-  ,
   {
     row: 11,
     column: 'name',
     widget: {
-      type: 'DATETIME',
-      dateTimeCell: {
-        formatDate: date => date.toLocaleDateString(),
-        parseDate: str => new Date(str),
-        placeholder: 'M/D/YYYY',
-        defaultValue: new Date('12-05-2018')
-      }
-
+      type: 'DATETIME'
     }
   }
 ];
@@ -184,7 +176,7 @@ class App extends Component {
 
   renderFilm: ItemRenderer<IFilm> = (
     film,
-    { handleClick, modifiers, query }
+    { handleClick, modifiers }
   ) => {
     if (!modifiers.matchesPredicate) {
       return null;

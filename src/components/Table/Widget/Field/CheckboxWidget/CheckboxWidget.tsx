@@ -34,10 +34,10 @@ class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
         background-color: ${backgroundColor};
       }
 
-      .bp3-control
+      & .bp3-control
         input:not(:disabled):active:checked
         ~ .bp3-control-indicator {
-        background: ${backgroundColor};
+        background: ${backgroundColor} !important;
       }
     `;
     const checkboxBlue = (
