@@ -93,7 +93,6 @@ export class VTable extends Component<IProps, IVTableState> {
         onColumnsReordered={this._handleColumnsReordered}
         enableColumnReordering={this.props.reordering}
         bodyContextMenuRenderer={this.renderBodyContextMenu}
-        defaultRowHeight={30}
       >
         {columnsList}
       </Table>
