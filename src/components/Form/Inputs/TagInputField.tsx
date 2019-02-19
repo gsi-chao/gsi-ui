@@ -38,7 +38,7 @@ export interface IFieldProps {
  */
 
 @observer
-class TagInputField extends React.Component<IFieldProps> {
+export class VTagInputField extends React.Component<IFieldProps> {
   constructor(props: IFieldProps) {
     super(props);
   }
@@ -102,5 +102,3 @@ class TagInputField extends React.Component<IFieldProps> {
 
   private handleClear = () => this.handleChange([]);
 }
-
-export default TagInputField;

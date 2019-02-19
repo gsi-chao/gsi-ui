@@ -40,7 +40,7 @@ export interface IFieldProps {
  */
 
 @observer
-class NumericField extends React.Component<IFieldProps> {
+export class VNumericField extends React.Component<IFieldProps> {
   constructor(props: IFieldProps) {
     super(props);
   }
@@ -93,5 +93,3 @@ class NumericField extends React.Component<IFieldProps> {
     );
   }
 }
-
-export default NumericField;

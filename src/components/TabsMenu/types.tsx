@@ -32,7 +32,7 @@ export interface IIconTabsMenuProps {
 
 export interface ITabsTypes {
   key: string;
-  navbarTabId: TabId
+  navbarTabId: TabId;
   icon?: IIconTabsMenuProps;
   label?: string;
   color?: string;

@@ -36,7 +36,7 @@ export interface IFieldProps {
  */
 
 @observer
-class CheckboxField extends React.Component<IFieldProps> {
+export class VCheckboxField extends React.Component<IFieldProps> {
   constructor(props: IFieldProps) {
     super(props);
   }
@@ -79,5 +79,3 @@ class CheckboxField extends React.Component<IFieldProps> {
     );
   }
 }
-
-export default CheckboxField;

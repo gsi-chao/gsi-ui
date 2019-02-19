@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 
-import {
-  Icon,
-  Tab,
-  TabId,
-  Tabs
-} from '@blueprintjs/core';
+import { Icon, Tab, TabId, Tabs } from '@blueprintjs/core';
 import { ITabsMenuProps, ITabsMenuState, ITabsTypes } from './types';
 import { labelIcon, TabIcon, TabsStyle } from './style';
 
 export class VTabsMenu extends Component<ITabsMenuProps, ITabsMenuState> {
-
   constructor(props: ITabsMenuProps) {
     super(props);
     this.state = {
@@ -21,13 +15,14 @@ export class VTabsMenu extends Component<ITabsMenuProps, ITabsMenuState> {
   }
 
   public render() {
-
     const { ...options } = this.props;
     return (
-      <TabsStyle color={options!.color}
-                 indicatorActive={options!.indicatorActive!}
-                 hoverColor={options!.hoverColor}
-                 active={options.active}>
+      <TabsStyle
+        color={options!.color}
+        indicatorActive={options!.indicatorActive!}
+        hoverColor={options!.hoverColor}
+        active={options.active}
+      >
         <Tabs
           animate={this.state.animate}
           id="navbar"
@@ -38,14 +33,19 @@ export class VTabsMenu extends Component<ITabsMenuProps, ITabsMenuState> {
           {options.tabList.map(tab => {
             const label = tab.icon && (
               <TabIcon>
-                <Icon style={labelIcon} icon={tab.icon!.icon}
-                      iconSize={tab.icon.iconSize && tab.icon.iconSize}
-                      color={tab.icon.color && tab.icon.color}
-                      intent={tab.icon.intent && tab.icon.intent}/>
+                <Icon
+                  style={labelIcon}
+                  icon={tab.icon!.icon}
+                  iconSize={tab.icon.iconSize && tab.icon.iconSize}
+                  color={tab.icon.color && tab.icon.color}
+                  intent={tab.icon.intent && tab.icon.intent}
+                />
                 <span>{tab.label}</span>
               </TabIcon>
             );
-            return <Tab key={tab.key} id={tab.key} title={label || tab.label}/>;
+            return (
+              <Tab key={tab.key} id={tab.key} title={label || tab.label} />
+            );
           })}
         </Tabs>
       </TabsStyle>
@@ -54,8 +54,8 @@ export class VTabsMenu extends Component<ITabsMenuProps, ITabsMenuState> {
 
   private handleNavbarTabChange = (navbarTabId: TabId) => {
     this.setState({ navbarTabId });
-    this.props.tabList.forEach((item)=>{
-      if(item.navbarTabId===navbarTabId){
+    this.props.tabList.forEach(item => {
+      if (item.navbarTabId === navbarTabId) {
         this.props.handleChange(item);
       }
     });
