@@ -23,7 +23,7 @@ it('renders without crashing', () => {
     },
     { test: 'test2' }
   ];
-  ReactDOM.render(<VTable columns={['test']} data={data} />, div);
+  ReactDOM.render(<VTable columns_name={{test: 'Test'}} columns={['test']} data={data} />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
 

@@ -102,6 +102,7 @@ class TableWithWidgetDemo extends Component {
             edit={{ columns: ['name'], validation: { name: nameValidation } }}
             widgetsCell={widgetsCell}
             columns={['name', 'lastname']}
+            columns_name={{name: 'Namesito'}}
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
             contextual={{

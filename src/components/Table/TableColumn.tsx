@@ -15,6 +15,7 @@ export default class TableColumn implements ISortableColumn {
     protected name: string,
     protected index: number,
     protected columns: string[],
+    protected columns_name?: { [key: string]: string },
     protected sortable?: IVActionSortableTableProps
   ) {}
 
@@ -57,11 +58,14 @@ export default class TableColumn implements ISortableColumn {
         menuRenderer = this.renderMenu;
       }
     }
+
+    const columnName =
+      this.columns_name &&
+      this.columns_name.hasOwnProperty(this.columns[columnIndex])
+        ? this.columns_name[this.columns[columnIndex]]
+        : this.columns[columnIndex].replace(/\b\w/g, l => l.toUpperCase());
     return (
-      <ColumnHeaderCell
-        name={this.columns[columnIndex].replace(/\b\w/g, l => l.toUpperCase())}
-        menuRenderer={menuRenderer as any}
-      />
+      <ColumnHeaderCell name={columnName} menuRenderer={menuRenderer as any} />
     );
   };
 }
