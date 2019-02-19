@@ -1,0 +1,1 @@
+export { VTabsMenu } from './TabsMenu';
