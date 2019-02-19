@@ -93,7 +93,7 @@ export class VTable extends Component<IProps, IVTableState> {
 
   render() {
     const { sortable, columns_name } = this.props;
-    const {columns} = this.state;
+    const { columns } = this.state;
     const columnsList = columns.map((name: string, index: number) => {
       const col = new TableColumn(name, index, columns, columns_name, sortable);
       return col.getColumn(this.renderCell);
