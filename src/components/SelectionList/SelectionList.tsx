@@ -3,17 +3,17 @@ import 'normalize.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 import { Classes, Menu, MenuItem } from '@blueprintjs/core';
-import { IItemsList, ISelctionListProps } from './ISelectionList';
+import { IItemsList, ISelectionListProps } from './ISelectionList';
 
 interface ISelctionListState {
   listSelected: IItemsList[];
 }
 
-export class SelectionList extends Component<
-  ISelctionListProps,
+export class VSelectionList extends Component<
+  ISelectionListProps,
   ISelctionListState
 > {
-  constructor(props: ISelctionListProps) {
+  constructor(props: ISelectionListProps) {
     super(props);
   }
 

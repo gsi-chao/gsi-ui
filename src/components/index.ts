@@ -2,8 +2,15 @@ export { VTable } from './Table';
 export { ProgressLabel } from './ProgresLabel';
 export { PanelL } from './PanelL';
 export { AccordionSummary } from './Accordion';
-export { VTabsMenu } from './TabsMenu';
-export { VCardPanel } from './Card';
+export {
+  VTabsMenu,
+  ITabsTypes,
+  ITabsMenuStyle,
+  ITabsMenuState,
+  ITabsMenuProps,
+  IIconTabsMenuProps
+} from './TabsMenu';
+export { VCardPanel, HeaderOrientation, FlexJustify } from './Card';
 export { UploadImage } from './UploadImage';
 export {
   VInputField,
@@ -15,3 +22,4 @@ export {
   VBasicSliderField,
   VBasicSelectField
 } from './Form';
+export { VSelectionList, IItemsList } from './SelectionList';

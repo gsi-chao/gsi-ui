@@ -1,1 +1,3 @@
-export { SelectionList } from './SelectionList';
+export { IItemsList } from './ISelectionList';
+export { VSelectionList } from './SelectionList';
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import renderer from 'react-test-renderer';
-import { SelectionList } from './SelectionList';
+import { VSelectionList } from './SelectionList';
 import { IItemsList } from './ISelectionList';
 
 it('renders without crashing Selection List', () => {
@@ -12,7 +12,7 @@ it('renders without crashing Selection List', () => {
   ];
 
   ReactDOM.render(
-    <SelectionList
+    <VSelectionList
       elements={array_elements}
       onSelect={(list: any) => console.log(list)}
       selection={{ background: '#E1E8ED', textColor: '#fbbd08' }}
@@ -29,7 +29,7 @@ it('render correctly SelectionList component one segment', () => {
 
   const TextInputComponent = renderer
     .create(
-      <SelectionList
+      <VSelectionList
         elements={array_elements}
         onSelect={(list: any) => console.log(list)}
       />
