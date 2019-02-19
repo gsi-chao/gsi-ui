@@ -1,1 +1,1 @@
-export { VCardPanel } from './VCardPanel';
+export { VCardPanel, FlexJustify, HeaderOrientation } from './VCardPanel';

@@ -7,7 +7,7 @@ export interface IItemsList {
   active?: boolean;
 }
 
-export interface ISelctionListProps {
+export interface ISelectionListProps {
   elements: IItemsList[];
   onSelect(list: IItemsList[]): void;
   selection?: {
