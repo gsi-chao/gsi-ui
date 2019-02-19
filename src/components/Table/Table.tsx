@@ -53,6 +53,7 @@ export interface IVTableProps {
   sortable?: IVActionSortableTableProps;
   contextual?: IVContextualTableProps;
   columns: string[];
+  columns_name?: { [key: string]: string };
   data: any;
   reordering?: boolean;
 }
@@ -91,10 +92,10 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   render() {
-    const { sortable } = this.props;
-    const columns = this.state.columns;
+    const { sortable, columns_name } = this.props;
+    const {columns} = this.state;
     const columnsList = columns.map((name: string, index: number) => {
-      const col = new TableColumn(name, index, columns, sortable);
+      const col = new TableColumn(name, index, columns, columns_name, sortable);
       return col.getColumn(this.renderCell);
     });
 
