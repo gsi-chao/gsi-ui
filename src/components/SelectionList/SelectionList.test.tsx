@@ -32,14 +32,3 @@ it('render correctly SelectionList component one segment', () => {
       .toJSON();
     expect(TextInputComponent).toMatchSnapshot();
   });
-
-  const TextInputComponent = renderer
-    .create(
-      <SelectionList
-        elements={array_elements}
-        onSelect={(list:any)=>console.log(list)}
-        selection={{background:'#E1E8ED', textColor:'#fbbd08'}}
-        />)
-      .toJSON();
-    expect(TextInputComponent).toMatchSnapshot();
-  });
