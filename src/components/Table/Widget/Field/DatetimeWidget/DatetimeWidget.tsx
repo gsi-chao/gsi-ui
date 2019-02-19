@@ -34,7 +34,9 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
   }
 
   private getDatetime = () => {
-    const jsDateFormatter: IDateFormatProps = this.momentFormatter('MM/DD/YYYY');
+    const jsDateFormatter: IDateFormatProps = this.momentFormatter(
+      'MM/DD/YYYY'
+    );
     const defaultValue = new Date(this.state.value);
 
     return this.state.icon ? (
@@ -69,16 +71,17 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
   };
 
   momentFormatter = (format?: string): IDateFormatProps => {
-    return format?
-     {
-      formatDate: date => moment(date).format(format),
-      parseDate: str => moment(str, format).toDate(),
-      placeholder: `${format} (moment)`
-    } : {
-        formatDate: date => date.toLocaleDateString(),
-        parseDate: str => new Date(str),
-        placeholder: 'M/D/YYYY'
-      };
+    return format
+      ? {
+          formatDate: date => moment(date).format(format),
+          parseDate: str => moment(str, format).toDate(),
+          placeholder: `${format} (moment)`
+        }
+      : {
+          formatDate: date => date.toLocaleDateString(),
+          parseDate: str => new Date(str),
+          placeholder: 'M/D/YYYY'
+        };
   };
 }
 

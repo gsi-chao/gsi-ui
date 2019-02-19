@@ -4,8 +4,6 @@ import { Icon } from '@blueprintjs/core';
 import { VTable } from '../components/Table';
 import { Cell } from '@blueprintjs/table';
 
-
-
 export const dropDown: IVWidgetTableProps = {
   row: 9,
   column: 'lastname',
@@ -44,7 +42,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
     widget: {
       type: 'CUSTOMERCOMPONENT',
       cusmtomerCell: {
-         renderCustomer
+        renderCustomer
       }
     }
   },
@@ -94,7 +92,7 @@ class TableWithWidgetDemo extends Component {
     };
 
     const cellRenderer = (rowIndex: number) => {
-      return <Cell>{`$${(rowIndex * 10).toFixed(2)}`}</Cell>
+      return <Cell>{`$${(rowIndex * 10).toFixed(2)}`}</Cell>;
     };
 
     return (
@@ -124,17 +122,16 @@ class TableWithWidgetDemo extends Component {
         <br />
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
-        <div style={{display:'flex'}}>
+        <div style={{ display: 'flex' }}>
           {/*<Table numRows={10} enableRowHeader={false} defaultRowHeight={100}>*/}
-            {/*<Column name="Dollars" cellRenderer={cellRenderer}/>*/}
-            {/*<Column name="Dollarsss" cellRenderer={cellRenderer}/>*/}
+          {/*<Column name="Dollars" cellRenderer={cellRenderer}/>*/}
+          {/*<Column name="Dollarsss" cellRenderer={cellRenderer}/>*/}
           {/*</Table>*/}
           {/*<Table numRows={10}  enableRowHeader={false}>*/}
-            {/*<Column name="other" cellRenderer={cellRenderer}/>*/}
-            {/*<Column name="other2" cellRenderer={cellRenderer}/>*/}
+          {/*<Column name="other" cellRenderer={cellRenderer}/>*/}
+          {/*<Column name="other2" cellRenderer={cellRenderer}/>*/}
           {/*</Table>*/}
         </div>
-
       </React.Fragment>
     );
   }

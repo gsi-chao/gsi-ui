@@ -18,10 +18,9 @@ export interface IDropdownWidget {
   options: IOption[];
 }
 
-export interface IProps extends IDropdownWidget,ActionClickWidget {
+export interface IProps extends IDropdownWidget, ActionClickWidget {
   row: number;
   column: number;
-
 }
 
 class DropdownWidget extends Component<IProps, IDropdownWidget> {
@@ -36,7 +35,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
   }
 
   private findValueSelected(props: IProps) {
-     return props.options.find(x => x.value === props.valueSelected);
+    return props.options.find(x => x.value === props.valueSelected);
   }
 
   render() {
@@ -101,7 +100,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
 
   handleValueChange = (option: IOption) => {
     this.setState({ valueSelected: option.value });
-    this.props.onClick(this.props.row,this.props.column,option.value);
+    this.props.onClick(this.props.row, this.props.column, option.value);
   };
 }
 

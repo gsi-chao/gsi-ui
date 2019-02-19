@@ -5,17 +5,21 @@ import { SelectionList } from './SelectionList';
 import { IItemsList } from './ISelectionList';
 
 it('renders without crashing Selection List', () => {
+  const div = document.createElement('div');
+  const array_elements: IItemsList[] = [
+    { text: 'first', value: 'firstv', icon: 'cut' },
+    { text: 'second', value: 'secondv', active: true }
+  ];
 
-    const div = document.createElement('div');
-    const array_elements: IItemsList[]= [{text:'first', value:'firstv', icon:'cut'}, {text:'second', value:'secondv', active:true}];
-    
-    ReactDOM.render(<SelectionList
-        elements={array_elements}
-        onSelect={(list:any)=>console.log(list)}
-        selection={{background:'#E1E8ED', textColor:'#fbbd08'}}
-        />, div);
-    ReactDOM.unmountComponentAtNode(div);
-
+  ReactDOM.render(
+    <SelectionList
+      elements={array_elements}
+      onSelect={(list: any) => console.log(list)}
+      selection={{ background: '#E1E8ED', textColor: '#fbbd08' }}
+    />,
+    div
+  );
+  ReactDOM.unmountComponentAtNode(div);
 });
 
 it('render correctly SelectionList component one segment', () => {
@@ -27,8 +31,9 @@ it('render correctly SelectionList component one segment', () => {
     .create(
       <SelectionList
         elements={array_elements}
-        onSelect={(list:any)=>console.log(list)}
-        />)
-      .toJSON();
-    expect(TextInputComponent).toMatchSnapshot();
-  });
+        onSelect={(list: any) => console.log(list)}
+      />
+    )
+    .toJSON();
+  expect(TextInputComponent).toMatchSnapshot();
+});

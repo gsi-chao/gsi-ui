@@ -1,0 +1,1 @@
+export { VCardPanel } from './VCardPanel';

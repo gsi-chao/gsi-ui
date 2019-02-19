@@ -7,11 +7,11 @@ export interface IItemsList {
   active?: boolean;
 }
 
-export interface ISelctionListProps{
-    elements:IItemsList[]
-    onSelect(list:IItemsList[]):void,
-    selection?:{
-        textColor:string,
-        background:string
-    }
+export interface ISelctionListProps {
+  elements: IItemsList[];
+  onSelect(list: IItemsList[]): void;
+  selection?: {
+    textColor: string;
+    background: string;
+  };
 }

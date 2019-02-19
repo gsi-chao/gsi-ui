@@ -12,7 +12,7 @@ export const DatetimeCell = styled.div`
   .bp3-input-group {
     display: block;
     position: relative;
-    
+
     border-right: 1px solid #dfdfe0 !important;
   }
 
