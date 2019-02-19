@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import { VTable } from "./components/Table/Table";
-import { SelectionList } from "./components/SelectionList/";
+import InputsDemo from './demo/InputsDemo';
 
 class App extends Component {
   render() {
@@ -27,20 +27,26 @@ class App extends Component {
     };
 
     return (
-
       <React.Fragment>
-      <VTable
-          edit={{ columns: ["name"], validation: {name: nameValidation} }}
-          columns={["name", "lastname", "age"]}
+        <VTable
+          edit={{ columns: ['name'], validation: { name: nameValidation } }}
+          columns={['name', 'lastname']}
           reordering={true}
           sortable={{ columns: ['name'], onSort: this.onSort }}
           contextual={{
-            columns: ['name'], default_actions: ['copy', 'paste', 'export'], actions: [{
-              icon: 'export', action: (item: any) => console.log(item), text: 'Action Input'
-            }]
+            columns: ['name'],
+            default_actions: ['copy', 'paste', 'export'],
+            actions: [
+              {
+                icon: 'export',
+                action: (item: any) => console.log(item),
+                text: 'Action Input'
+              }
+            ]
           }}
           data={data}
         />
+        <InputsDemo />
       </React.Fragment>
     );
   }
