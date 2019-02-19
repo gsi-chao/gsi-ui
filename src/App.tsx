@@ -27,23 +27,32 @@ class App extends Component {
     };
 
     return (
+
+      <React.Fragment>
       <VTable
           edit={{ columns: ["name"], validation: {name: nameValidation} }}
           columns={["name", "lastname", "age"]}
           reordering={true}
-          sortable={{columns: ["name"], onSort: this.onSort}}
-          contextual={{columns: ["name"], default_actions: ["copy", "paste", "export"], actions: [{
-            icon: 'export', action: (item: any) => console.log(item), text: "Action Input"
-              }]}}
+          sortable={{ columns: ['name'], onSort: this.onSort }}
+          contextual={{
+            columns: ['name'], default_actions: ['copy', 'paste', 'export'], actions: [{
+              icon: 'export', action: (item: any) => console.log(item), text: 'Action Input'
+            }]
+          }}
           data={data}
-      />
+        />
+      </React.Fragment>
     );
   }
+
+  handleChangeTabMenu = (data: any) => {
+    console.log(data);
+  };
 
   onSort = (index: number, order: string) => {
     console.log(index);
     console.log(order);
-  }
+  };
 }
 
 export default App;
