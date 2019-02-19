@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {
-  ProgressLabelSegment, ProgressLabelSegmentCenter,
+  ProgressLabelSegment,
+  ProgressLabelSegmentCenter,
   ProgressLabelSegmentFirst,
-  ProgressLabelSegmentLast, ProgressLabelSegmentUnic,
+  ProgressLabelSegmentLast,
+  ProgressLabelSegmentUnic,
   SpanText
 } from './style';
 import { IProgressLabelProps, ISegment } from './IPregressLabel';
@@ -13,40 +15,36 @@ export class ProgressLabel extends Component<IProgressLabelProps> {
   }
 
   createSegment(total: number, segment: ISegment) {
-    let segmentResult = (<div>default</div>);
+    let segmentResult = <div>default</div>;
     const percent = (segment.amount * 100) / total;
     switch (segment.type) {
       case 'first':
-        segmentResult =
+        segmentResult = (
           <ProgressLabelSegmentFirst key={segment.key} Width={`${percent}%`}>
-            <SpanText>
-              {`${segment.amount} ${segment.label}`}
-            </SpanText>
-          </ProgressLabelSegmentFirst>;
+            <SpanText>{`${segment.amount} ${segment.label}`}</SpanText>
+          </ProgressLabelSegmentFirst>
+        );
         break;
       case 'last':
-        segmentResult =
+        segmentResult = (
           <ProgressLabelSegmentLast key={segment.key} Width={`${percent}%`}>
-            <SpanText>
-              {`${segment.amount} ${segment.label}`}
-            </SpanText>
-          </ProgressLabelSegmentLast>;
+            <SpanText>{`${segment.amount} ${segment.label}`}</SpanText>
+          </ProgressLabelSegmentLast>
+        );
         break;
       case 'unique':
-        segmentResult =
+        segmentResult = (
           <ProgressLabelSegmentUnic key={segment.key} Width={`${percent}%`}>
-            <SpanText>
-              {`${segment.amount} ${segment.label}`}
-            </SpanText>
-          </ProgressLabelSegmentUnic>;
+            <SpanText>{`${segment.amount} ${segment.label}`}</SpanText>
+          </ProgressLabelSegmentUnic>
+        );
         break;
       case 'center':
-        segmentResult =
+        segmentResult = (
           <ProgressLabelSegmentCenter key={segment.key} Width={`${percent}%`}>
-            <SpanText>
-              {`${segment.amount} ${segment.label}`}
-            </SpanText>
-          </ProgressLabelSegmentCenter>;
+            <SpanText>{`${segment.amount} ${segment.label}`}</SpanText>
+          </ProgressLabelSegmentCenter>
+        );
         break;
     }
     return segmentResult;
@@ -57,10 +55,6 @@ export class ProgressLabel extends Component<IProgressLabelProps> {
     const segmentsRender = segments.map(segment => {
       return this.createSegment(total, segment);
     });
-    return (
-      <ProgressLabelSegment>
-        {segmentsRender}
-      </ProgressLabelSegment>
-    );
+    return <ProgressLabelSegment>{segmentsRender}</ProgressLabelSegment>;
   }
 }

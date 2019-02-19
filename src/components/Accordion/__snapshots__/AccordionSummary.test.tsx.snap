@@ -11,7 +11,7 @@ exports[`render correctly Accordion All properties 1`] = `
   }
 >
   <div
-    className="active title sc-bdVaJa jFOaFQ"
+    className="active title sc-bdVaJa hnjgTQ"
     onClick={[Function]}
   >
     <i
@@ -53,7 +53,7 @@ exports[`render correctly Accordion less properties 1`] = `
   }
 >
   <div
-    className="active title sc-bdVaJa eoEjWk"
+    className="active title sc-bdVaJa hBYAyW"
     onClick={[Function]}
   >
     <i

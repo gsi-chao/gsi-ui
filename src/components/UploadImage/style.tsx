@@ -8,8 +8,9 @@ export const CardImage = {
   borderRadius: '3px'
 };
 export const CardHeader = styled.div`
-    max-width: 181px;
-    width: 181px;
-    max-height: 181px;
-    height: 181px;
-    margin-bottom: 5px;`;
+  max-width: 181px;
+  width: 181px;
+  max-height: 181px;
+  height: 181px;
+  margin-bottom: 5px;
+`;
