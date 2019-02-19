@@ -71,9 +71,9 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
         return (
             <VCard elevation={cardElevation || 0}
                    height={height}
-                   collapse={collapse}
-                   transitionDuration={transitionDuration}
-                   isOpen={isOpen}
+                   collapse={collapse ? "true" : "false"}
+                   transitionduration={transitionDuration}
+                   isopen={isOpen ? "true" : "false"}
                    width={width}>
                 {!noHeader?
                     <VCardHeader headerBackgroundColor={headerBackgroundColor}

@@ -9,26 +9,26 @@ interface ICardPanelProps {
     headerJustifyContent?: FlexJustify;
     height?: string;
     width?: string;
-    collapse?: boolean;
-    isOpen?: boolean;
-    transitionDuration?:number;
+    collapse?: string;
+    isopen?: string;
+    transitionduration?:number;
     bodyPadding?:string;
     headerOrientation? : HeaderOrientation
     headerTextJustify?: FlexJustify
 }
 
 export const VCard = styled(Card)`
-    padding: 0;
+    padding: 0!important;
     ${
-    (props: ICardPanelProps) => props.collapse ? `
+    (props: ICardPanelProps) => props.collapse === "true" ? `
     transition-property: height;
-    transition-duration: ${props.transitionDuration || '200'}ms;
+    transition-duration: ${props.transitionduration || '200'}ms;
     `: ''
     }
     ${
-    (props: ICardPanelProps) => props.collapse && !props.isOpen ? `height: 35px;` : 
-        props.collapse && props.isOpen ? `height: ${props.height};` : 
-            !props.collapse ? `height: ${props.height};` : ''
+    (props: ICardPanelProps) => props.collapse === "true" && props.isopen === "false" ? `height: 35px;` :
+        props.collapse === "true" && props.isopen === "true" ? `height: ${props.height};` :
+            props.collapse !== "true" ? `height: ${props.height};` : ''
     }
     
     ${(props: ICardPanelProps) => props.width ? `width: ${props.width};` : ''}
