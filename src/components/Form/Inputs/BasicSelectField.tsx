@@ -39,7 +39,7 @@ export interface IFieldProps {
  */
 
 @observer
-class BasicSelectField extends React.Component<IFieldProps> {
+export class VBasicSelectField extends React.Component<IFieldProps> {
   constructor(props: IFieldProps) {
     super(props);
   }
@@ -89,5 +89,3 @@ class BasicSelectField extends React.Component<IFieldProps> {
     );
   }
 }
-
-export default BasicSelectField;

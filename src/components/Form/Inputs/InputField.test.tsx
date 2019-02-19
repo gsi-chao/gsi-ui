@@ -5,7 +5,7 @@ import { FieldState, FormState } from 'formstate';
 import 'jest-styled-components';
 
 import { required } from '../Validators';
-import InputField from './InputField';
+import { VInputField } from './InputField';
 import { InputGroup } from '@blueprintjs/core';
 
 it('renders without crashing InputField All Properties', () => {
@@ -14,7 +14,7 @@ it('renders without crashing InputField All Properties', () => {
   });
   const InputComponent = renderer
     .create(
-      <InputField
+      <VInputField
         fieldState={form.$.username}
         inline={true}
         label={'Username'}
@@ -34,7 +34,7 @@ describe('Testing Input Field', () => {
       username: new FieldState('').validators(required)
     });
     const wrapper = mount(
-      <InputField id="test-input" fieldState={form.$.username} />
+      <VInputField id="test-input" fieldState={form.$.username} />
     );
     const input = wrapper.find('input');
 

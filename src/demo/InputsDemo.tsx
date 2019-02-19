@@ -3,15 +3,17 @@ import React, { Component } from 'react';
 import { FieldState, FormState } from 'formstate';
 import { observer } from 'mobx-react';
 import { required } from '../components/Form/Validators';
-import InputField from '../components/Form/Inputs/InputField';
-import BasicSelectField from '../components/Form/Inputs/BasicSelectField';
-import { Icon, IconName } from '@blueprintjs/core';
-import TextAreaField from '../components/Form/Inputs/TextAreaField';
-import TagInputField from '../components/Form/Inputs/TagInputField';
-import NumericField from '../components/Form/Inputs/NumericField';
-import CheckboxField from '../components/Form/Inputs/CheckboxField';
-import RadioGroupField from '../components/Form/Inputs/RadioGroupField';
-import BasicSliderField from '../components/Form/Inputs/BasicSliderField';
+import { Icon } from '@blueprintjs/core';
+import {
+  VInputField,
+  VBasicSelectField,
+  VBasicSliderField,
+  VTextAreaField,
+  VTagInputField,
+  VNumericField,
+  VCheckboxField,
+  VRadioGroupField
+} from '../components/Form';
 
 @observer
 class InputsDemo extends Component {
@@ -54,13 +56,13 @@ class InputsDemo extends Component {
     ];
     return (
       <React.Fragment>
-        <InputField
+        <VInputField
           fieldState={this.form.$.username}
           id="username"
           label={'Username'}
           inline={true}
         />
-        <InputField
+        <VInputField
           fieldState={this.form.$.search}
           id="username"
           label={'Search'}
@@ -68,7 +70,7 @@ class InputsDemo extends Component {
           type="search"
           leftIcon="search"
         />
-        <BasicSelectField
+        <VBasicSelectField
           options={store}
           inline
           label={'Store List'}
@@ -77,38 +79,38 @@ class InputsDemo extends Component {
           id="store"
           icon={{ icon: 'search', iconSize: Icon.SIZE_STANDARD }}
         />
-        <TextAreaField
+        <VTextAreaField
           id="description"
           label="Description"
           inline
           fieldState={this.form.$.description}
         />
-        <TagInputField
+        <VTagInputField
           id="tags"
           fieldState={this.form.$.tags}
           inline
           label="Tags"
         />
-        <NumericField
+        <VNumericField
           id="age"
           fieldState={this.form.$.age}
           label="Edad"
           inline
         />
-        <CheckboxField
+        <VCheckboxField
           fieldState={this.form.$.have_job}
           id="have_job"
           label="Have a job?"
           inline
         />
-        <RadioGroupField
+        <VRadioGroupField
           id="Sex"
           options={sex}
           label="Sex"
           inline
           fieldState={this.form.$.sex}
         />
-        <BasicSliderField
+        <VBasicSliderField
           id="range"
           fieldState={this.form.$.range}
           label="Range"

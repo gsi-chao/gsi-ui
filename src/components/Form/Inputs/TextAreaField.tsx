@@ -29,7 +29,7 @@ export interface IFieldProps {
  */
 
 @observer
-class TextAreaField extends React.Component<IFieldProps> {
+export class VTextAreaField extends React.Component<IFieldProps> {
   constructor(props: IFieldProps) {
     super(props);
   }
@@ -71,5 +71,3 @@ class TextAreaField extends React.Component<IFieldProps> {
     );
   }
 }
-
-export default TextAreaField;

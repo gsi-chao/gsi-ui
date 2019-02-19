@@ -36,7 +36,7 @@ export interface IFieldProps {
  */
 
 @observer
-class RadioGroupField extends React.Component<IFieldProps> {
+export class VRadioGroupField extends React.Component<IFieldProps> {
   constructor(props: IFieldProps) {
     super(props);
   }
@@ -79,5 +79,3 @@ class RadioGroupField extends React.Component<IFieldProps> {
     );
   }
 }
-
-export default RadioGroupField;

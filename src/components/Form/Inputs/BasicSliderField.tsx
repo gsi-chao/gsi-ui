@@ -5,7 +5,8 @@ import * as React from 'react';
   FormGroup,
   IconName,
   NumericInput,
-  Intent, Slider
+  Intent,
+  Slider
 } from '@blueprintjs/core';
 
 import { FieldState } from 'formstate';
@@ -38,7 +39,7 @@ export interface IFieldProps {
  */
 
 @observer
-class BasicSliderField extends React.Component<IFieldProps> {
+export class VBasicSliderField extends React.Component<IFieldProps> {
   constructor(props: IFieldProps) {
     super(props);
   }
@@ -83,5 +84,3 @@ class BasicSliderField extends React.Component<IFieldProps> {
     );
   }
 }
-
-export default BasicSliderField;

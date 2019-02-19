@@ -32,7 +32,7 @@ export interface IFieldProps {
  */
 
 @observer
-class InputField extends React.Component<IFieldProps> {
+export class VInputField extends React.Component<IFieldProps> {
   constructor(props: IFieldProps) {
     super(props);
   }
@@ -87,5 +87,3 @@ class InputField extends React.Component<IFieldProps> {
     );
   }
 }
-
-export default InputField;
