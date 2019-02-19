@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { VTable } from './components/Table/Table';
 import InputsDemo from './demo/InputsDemo';
+import TableWithWidgetDemo from './demo/TableWithWidgetDemo';
 
 class App extends Component {
   render() {
@@ -46,6 +47,7 @@ class App extends Component {
           data={data}
         />
         <InputsDemo />
+        <TableWithWidgetDemo />
       </React.Fragment>
     );
   }
