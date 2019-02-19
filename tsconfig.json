@@ -14,19 +14,18 @@
     "strict": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "declaration": true,
     "esModuleInterop": true,
     "removeComments": true,
-    "jsx": "preserve",
-    "isolatedModules": true,
-    "noEmit": true
+    "jsx": "react"
   },
   "exclude": [
     "node_modules",
     "**/*.spec.ts",
+    "**/*.test.*",
     "src/demo"
   ],
   "include": [
