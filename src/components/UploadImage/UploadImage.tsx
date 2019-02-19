@@ -4,20 +4,24 @@ import styled from 'styled-components';
 import { CardHeader, CardImage } from './style';
 
 const CardStyle = styled(Card)`
-    width: 209px !Important;
-    height: 261px;`;
+  width: 209px !Important;
+  height: 261px;
+`;
 
 interface IUploadImageState {
-  file: any,
-  imagePreviewUrl: string
+  file: any;
+  imagePreviewUrl: string;
 }
 
 interface IUploadImageProps {
-  tittle?: string,
-  onSelect?: (file: any) => void
+  tittle?: string;
+  onSelect?: (file: any) => void;
 }
 
-export class UploadImage extends Component<IUploadImageProps, IUploadImageState> {
+export class UploadImage extends Component<
+  IUploadImageProps,
+  IUploadImageState
+> {
   constructor(props: IUploadImageProps) {
     super(props);
     this.state = {
@@ -56,29 +60,37 @@ export class UploadImage extends Component<IUploadImageProps, IUploadImageState>
     let $imagePreview = null;
     let $imageName = <Card.Header>Icon name</Card.Header>;
     if (imagePreviewUrl) {
-      $imagePreview = (<img style={CardImage} src={imagePreviewUrl}/>);
+      $imagePreview = <img style={CardImage} src={imagePreviewUrl} />;
     }
     if (tittle) {
-      $imageName = (<Card.Header>{tittle}</Card.Header>);
+      $imageName = <Card.Header>{tittle}</Card.Header>;
     } else {
-      $imageName = (<Card.Header>{file.name}</Card.Header>);
+      $imageName = <Card.Header>{file.name}</Card.Header>;
     }
 
     return (
       <CardStyle>
         <Card.Content>
-          <CardHeader>
-            {$imagePreview}
-          </CardHeader>
+          <CardHeader>{$imagePreview}</CardHeader>
           {$imageName}
           <form onSubmit={this.handleSubmit}>
-            <Label as='label' htmlFor="file" size="large">
-              <Icon name="upload"/>
+            <Label as="label" htmlFor="file" size="large">
+              <Icon name="upload" />
               icon
             </Label>
-            <input id="file" onChange={this.handleImageChange} hidden type="file"/>
-            <Label as='a' onClick={this.handleSubmit} htmlFor="file" size="large">
-              <Icon name="save"/>
+            <input
+              id="file"
+              onChange={this.handleImageChange}
+              hidden
+              type="file"
+            />
+            <Label
+              as="a"
+              onClick={this.handleSubmit}
+              htmlFor="file"
+              size="large"
+            >
+              <Icon name="save" />
               save
             </Label>
           </form>

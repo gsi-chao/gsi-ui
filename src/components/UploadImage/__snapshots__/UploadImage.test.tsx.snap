@@ -2,14 +2,14 @@
 
 exports[`render correctly Upload Image component not tittle 1`] = `
 <div
-  className="ui card sc-bwzfXH eqmVPJ"
+  className="ui card sc-bwzfXH frTMGp"
   onClick={[Function]}
 >
   <div
     className="content"
   >
     <div
-      className="sc-bdVaJa ywhAL"
+      className="sc-bdVaJa eIrpKC"
     />
     <div
       className="header"
@@ -54,14 +54,14 @@ exports[`render correctly Upload Image component not tittle 1`] = `
 
 exports[`render correctly Upload Image component tittle 1`] = `
 <div
-  className="ui card sc-bwzfXH eqmVPJ"
+  className="ui card sc-bwzfXH frTMGp"
   onClick={[Function]}
 >
   <div
     className="content"
   >
     <div
-      className="sc-bdVaJa ywhAL"
+      className="sc-bdVaJa eIrpKC"
     />
     <div
       className="header"
