@@ -4,6 +4,7 @@ import { VTable } from './components/Table/Table';
 import 'semantic-ui-css/semantic.min.css';
 import { IVWidgetTableProps } from './components/Table/Widget/Widget';
 import { Icon } from '@blueprintjs/core';
+import { Cell, Column, Table } from '@blueprintjs/table';
 
 export const dropDown: IVWidgetTableProps = {
   row: 9,
@@ -56,7 +57,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
   },
   dropDown,
   {
-    row: 11,
+    row: 10,
     column: 'name',
     widget: {
       type: 'DATETIME',
@@ -82,15 +83,19 @@ class App extends Component {
       { name: 'Name5', lastname: 'Lastname5' },
       { name: 'Name6', lastname: 'Lastname6' },
       { name: true, lastname: 'Lastname7' },
-      { name: '12/05/2018', lastname: 'Lastname7' },
+      { name: 'name7', lastname: 'Lastname7' },
       { name: 'Name7', lastname: 'Lastname7' },
-      { name: 'name8', lastname: 'Lastname7' },
+      { name: '12/05/2018', lastname: 'Lastname7' },
       { name: '12/05/2018', lastname: 'Lastname7' }
     ];
 
     // validator example
     const nameValidation = (value: string) => {
       return value.length > 5;
+    };
+
+    const cellRenderer = (rowIndex: number) => {
+      return <Cell>{`$${(rowIndex * 10).toFixed(2)}`}</Cell>
     };
 
     return (
@@ -120,9 +125,22 @@ class App extends Component {
         <br />
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
+        <div style={{display:'flex'}}>
+          <Table numRows={10} enableRowHeader={false} defaultRowHeight={100}>
+            <Column name="Dollars" cellRenderer={cellRenderer}/>
+            <Column name="Dollarsss" cellRenderer={cellRenderer}/>
+          </Table>
+          <Table numRows={10}  enableRowHeader={false}>
+            <Column name="other" cellRenderer={cellRenderer}/>
+            <Column name="other2" cellRenderer={cellRenderer}/>
+          </Table>
+        </div>
+
       </React.Fragment>
     );
   }
+
+
 
   handleChangeColor = () => {
     if (

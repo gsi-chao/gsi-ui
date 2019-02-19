@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const DatetimeCell = styled.div`
   padding: 0px;
-  border-bottom: 1px solid #dfdfe0;
+  border-bottom: none;
 
   & span.bp3-popover-target {
     display: inline-block;
@@ -12,7 +12,7 @@ export const DatetimeCell = styled.div`
   .bp3-input-group {
     display: block;
     position: relative;
-    border-bottom: 1px solid #dfdfe0 !important;
+    
     border-right: 1px solid #dfdfe0 !important;
   }
 

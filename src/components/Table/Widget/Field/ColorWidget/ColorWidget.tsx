@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Cell } from '@blueprintjs/table';
 
 export interface IColorWidget {
   backgroundColor: string;
@@ -45,11 +44,12 @@ class ColorWidget extends Component<IProps, IColorWidget> {
       this.state && this.state.backgroundColor.toLowerCase();
     const color =
       this.state && this.state.color && this.state.color.toLowerCase();
-    const CellColor = styled(Cell)`
+    const CellColor = styled.div`
       background: ${backgroundColor};
       color: ${color};
-    `;
-    return <CellColor as={Cell}>{this.state.value}</CellColor>;
+      height: 100%;
+          `;
+    return <CellColor >{this.state.value}</CellColor>;
   }
 }
 
