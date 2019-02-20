@@ -11,6 +11,7 @@ It has the following characteristics:
 - Enable Column Resizing
 - Enable Row Resizing
 - Enable Row Header
+- Column Widths
 
 ## Next Features!
   - Customizable Columns.
@@ -71,7 +72,7 @@ It has the following characteristics:
     />
 ``
 
-- Enable Column Resizing,  Enable Row Resizing, Enable Row Header
+- Enable Column Resizing,  Enable Row Resizing, Enable Row Header, Column Widths
 
 ``
  <VTable
@@ -94,6 +95,7 @@ It has the following characteristics:
           enableColumnResizing={true}
           enableRowHeader={true}
           enableRowResizing={true}
+          columnWidths={[80,100]}
         />
 ``
 - Checkbox cell

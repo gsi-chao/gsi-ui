@@ -60,6 +60,7 @@ export interface IVTableProps {
   enableColumnResizing?: boolean;
   enableRowResizing?: boolean;
   enableRowHeader?: boolean;
+  columnWidths?: Array<number | null | undefined>;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -107,7 +108,7 @@ export class VTable extends Component<IProps, IVTableState> {
       enableColumnResizing,
       enableRowHeader
     } = this.getResizingProperties();
-    console.log();
+
     return (
       <Table
         numRows={this.state.sparseCellData.length}
@@ -120,13 +121,14 @@ export class VTable extends Component<IProps, IVTableState> {
         enableColumnResizing={enableColumnResizing}
         enableRowResizing={enableRowResizing}
         enableRowHeader={enableRowHeader}
+        columnWidths={this.getColumnsWidths()}
       >
         {columnsList}
       </Table>
     );
   }
 
-  getResizingProperties = () => {
+  getResizingProperties = ()  => {
     const enableRowResizing = this.props.enableRowResizing
       ? this.props.enableRowResizing
       : false;
@@ -142,6 +144,19 @@ export class VTable extends Component<IProps, IVTableState> {
       : false;
 
     return { enableRowHeader, enableColumnResizing, enableRowResizing };
+  };
+
+  getColumnsWidths = () : Array<number | null | undefined>=>  {
+    let columnWidths :any[] = [];
+    if(this.props.columnWidths && this.props.columnWidths.length === this.props.columns.length){
+      columnWidths = this.props.columnWidths
+    }else{
+      columnWidths = this.props.columns.map(x=>120);
+      if(this.props.columnWidths )
+      console.warn('Warning -Gsi-vx-ui- The last configuration to catch the width ' +
+        'of the columns does not correspond to the column amount of the table')
+    }
+    return columnWidths
   };
 
   public renderCell = (rowIndex: number, columnIndex: number) => {
