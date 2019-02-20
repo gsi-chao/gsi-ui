@@ -59,7 +59,6 @@ export class VCheckboxField extends React.Component<IFieldProps> {
         helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        label={label}
         labelFor={id}
         labelInfo={labelInfo}
       >
@@ -70,7 +69,8 @@ export class VCheckboxField extends React.Component<IFieldProps> {
             disabled,
             id,
             inline,
-            alignIndicator
+            alignIndicator,
+            label
           }}
           onChange={(e: any) => fieldState.onChange(e.target.checked)}
           checked={fieldState.value || false}
