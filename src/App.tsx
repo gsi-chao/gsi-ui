@@ -31,6 +31,7 @@ class App extends Component {
         <VTable
           edit={{ columns: ['name'], validation: { name: nameValidation } }}
           columns={['name', 'lastname']}
+          columns_name={{name:'mi nombre'}}
           reordering={true}
           sortable={{ columns: ['name'], onSort: this.onSort }}
           contextual={{
@@ -45,6 +46,10 @@ class App extends Component {
             ]
           }}
           data={data}
+          enableColumnResizing={true}
+          enableRowHeader={true}
+          enableRowResizing={true}
+          columnWidths={[20]}
         />
         <InputsDemo />
         <TableWithWidgetDemo />

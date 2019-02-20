@@ -117,6 +117,8 @@ class TableWithWidgetDemo extends Component {
               ]
             }}
             data={data}
+            enableColumnResizing={true}
+
           />
         </div>
 
