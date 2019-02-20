@@ -12,8 +12,32 @@ import {
   VTagInputField,
   VNumericField,
   VCheckboxField,
-  VRadioGroupField
+  VRadioGroupField, VSelectField
 } from '../components/Form';
+
+const store = [
+  {
+    label: 'Store 1',
+    value: 's1'
+  },
+  {
+    label: 'Store 2',
+    value: 's2'
+  }
+];
+
+const sex = [
+  {
+    label: 'Male',
+    value: 'm',
+    rep: 'M'
+  },
+  {
+    label: 'Female',
+    value: 'f',
+    rep: 'F'
+  }
+];
 
 @observer
 class InputsDemo extends Component {
@@ -29,31 +53,11 @@ class InputsDemo extends Component {
       age: new FieldState('').validators(required),
       have_job: new FieldState('').validators(required),
       sex: new FieldState('').validators(required),
-      range: new FieldState('').validators(required)
+      range: new FieldState('').validators(required),
+      places: new FieldState(sex[0]).validators(required)
     });
   }
   render() {
-    const store = [
-      {
-        label: 'Store 1',
-        value: 's1'
-      },
-      {
-        label: 'Store 2',
-        value: 's2'
-      }
-    ];
-
-    const sex = [
-      {
-        label: 'Male',
-        value: 'm'
-      },
-      {
-        label: 'Female',
-        value: 'f'
-      }
-    ];
     return (
       <React.Fragment>
         <VInputField
@@ -102,6 +106,7 @@ class InputsDemo extends Component {
           id="have_job"
           label="Have a job?"
           inline
+          alignIndicator="left"
         />
         <VRadioGroupField
           id="Sex"
@@ -116,6 +121,7 @@ class InputsDemo extends Component {
           label="Range"
           inline
         />
+        <VSelectField inline label="Places" options={sex} id="places" fieldState={this.form.$.places}/>
       </React.Fragment>
     );
   }

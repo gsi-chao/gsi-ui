@@ -6,3 +6,4 @@ export { VNumericField } from './Inputs/NumericField';
 export { VRadioGroupField } from './Inputs/RadioGroupField';
 export { VTagInputField } from './Inputs/TagInputField';
 export { VTextAreaField } from './Inputs/TextAreaField';
+export { VSelectField } from './Inputs/SelectField';

@@ -20,6 +20,7 @@ export {
   VTagInputField,
   VTextAreaField,
   VBasicSliderField,
-  VBasicSelectField
+  VBasicSelectField,
+  VSelectField
 } from './Form';
 export { VSelectionList, IItemsList } from './SelectionList';
