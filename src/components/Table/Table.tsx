@@ -56,6 +56,10 @@ export interface IVTableProps {
   columns_name?: { [key: string]: string };
   data: any;
   reordering?: boolean;
+  defaultColumnWidth?: number;
+  enableColumnResizing?: boolean;
+  enableRowResizing?: boolean;
+  enableRowHeader?: boolean;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -98,7 +102,12 @@ export class VTable extends Component<IProps, IVTableState> {
       const col = new TableColumn(name, index, columns, columns_name, sortable);
       return col.getColumn(this.renderCell);
     });
-
+    const {
+      enableRowResizing,
+      enableColumnResizing,
+      enableRowHeader
+    } = this.getResizingProperties();
+    console.log();
     return (
       <Table
         numRows={this.state.sparseCellData.length}
@@ -107,11 +116,33 @@ export class VTable extends Component<IProps, IVTableState> {
         bodyContextMenuRenderer={this.renderBodyContextMenu}
         onSelection={this.checkAndSetSelection}
         selectedRegions={this.state.selectedRegions}
+        defaultColumnWidth={this.props.defaultColumnWidth}
+        enableColumnResizing={enableColumnResizing}
+        enableRowResizing={enableRowResizing}
+        enableRowHeader={enableRowHeader}
       >
         {columnsList}
       </Table>
     );
   }
+
+  getResizingProperties = () => {
+    const enableRowResizing = this.props.enableRowResizing
+      ? this.props.enableRowResizing
+      : false;
+
+    const enableRowHeader = enableRowResizing
+      ? true
+      : this.props.enableRowHeader
+      ? this.props.enableRowHeader
+      : false;
+
+    const enableColumnResizing = this.props.enableColumnResizing
+      ? this.props.enableRowResizing
+      : false;
+
+    return { enableRowHeader, enableColumnResizing, enableRowResizing };
+  };
 
   public renderCell = (rowIndex: number, columnIndex: number) => {
     const dataKey = VTable.dataKey(rowIndex, columnIndex);

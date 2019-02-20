@@ -8,6 +8,9 @@ It has the following characteristics:
 - Customizable cells.
 - Sort between columns.
 - Widgets cell
+- Enable Column Resizing
+- Enable Row Resizing
+- Enable Row Header
 
 ## Next Features!
   - Customizable Columns.
@@ -68,6 +71,31 @@ It has the following characteristics:
     />
 ``
 
+- Enable Column Resizing,  Enable Row Resizing, Enable Row Header
+
+``
+ <VTable
+          edit={{ columns: ['name'], validation: { name: nameValidation } }}
+          columns={['name', 'lastname']}
+          reordering={true}
+          sortable={{ columns: ['name'], onSort: this.onSort }}
+          contextual={{
+            columns: ['name'],
+            default_actions: ['copy', 'paste', 'export'],
+            actions: [
+              {
+                icon: 'export',
+                action: (item: any) => console.log(item),
+                text: 'Action Input'
+              }
+            ]
+          }}
+          data={data}
+          enableColumnResizing={true}
+          enableRowHeader={true}
+          enableRowResizing={true}
+        />
+``
 - Checkbox cell
 ``
  <VTable

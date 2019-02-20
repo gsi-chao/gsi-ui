@@ -45,6 +45,9 @@ class App extends Component {
             ]
           }}
           data={data}
+          enableColumnResizing={true}
+          enableRowHeader={true}
+          enableRowResizing={true}
         />
         <InputsDemo />
         <TableWithWidgetDemo />
