@@ -11,6 +11,11 @@ export interface IVContextualActionTableProps {
   icon: IconName;
 }
 
+export interface ICell {
+  col: number;
+  row: number;
+}
+
 export interface IVContextualTableProps {
   columns: string[];
   actions?: IVContextualActionTableProps[];
@@ -33,6 +38,10 @@ export interface IActionCellMenuItemProps {
   context_options: IVContextualTableProps;
 
   onDefaultActions: (action: DefaultActions, value: any) => void;
+  hasCachedData: any;
+  tableColsAndRowsTotals: any;
+  getDataToCopy: any;
+  getPivotCell: any;
 }
 
 export class ActionCellsMenuItem extends React.PureComponent<
@@ -69,6 +78,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
           case 'paste':
             return (
               <MenuItem
+                disabled={!this.props.hasCachedData()}
                 key={key}
                 icon="cut"
                 text="Paste"
@@ -99,15 +109,15 @@ export class ActionCellsMenuItem extends React.PureComponent<
   };
 
   private handleCopy = () => {
-    const { context, getCellData } = this.props;
-    const cells = context.getUniqueCells();
-    const sparse = Regions.sparseMapCells(cells, getCellData);
-    const success = Clipboard.copyCells(sparse);
-    console.log(sparse);
-    console.log(context);
+    const { context } = this.props;
+    const cellsArray = this.props.getDataToCopy(context);
+    this.props.onDefaultActions('copy', cellsArray);
   };
 
   private handlePaste = () => {
-    const { context, getCellData } = this.props;
+    const { context } = this.props;
+    const cells = context.getSelectedRegions();
+    const pivotCell: ICell = this.props.getPivotCell(cells);
+    this.props.onDefaultActions('paste', pivotCell);
   };
 }

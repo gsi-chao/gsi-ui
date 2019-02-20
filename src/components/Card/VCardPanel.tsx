@@ -1,48 +1,55 @@
-import {Elevation, Collapse, IconName, Icon} from "@blueprintjs/core";
+import { Elevation, Collapse, IconName, Icon } from '@blueprintjs/core';
 import '@blueprintjs/core/lib/css/blueprint.css';
-import {VCardHeader, VCardBody, VCardTextSpan, VCard, VCardTextSpanContainer} from './style';
-import React, {Component} from 'react';
+import {
+  VCardHeader,
+  VCardBody,
+  VCardTextSpan,
+  VCard,
+  VCardTextSpanContainer
+} from './style';
+import React, { Component } from 'react';
 
 interface StyledCardProps {
-    noHeader?: boolean;
-    headerText?: string;
-    children?: any;
-    headerIcon?: any
-    headerBackgroundColor?: any;
-    backgroundColor?: any;
-    headerColor?: any;
-    headerHorizontalAlign?: FlexJustify;
-    cardElevation?: Elevation;
-    height?: string;
-    width?: string;
-    collapse?: boolean;
-    transitionDuration?: number;
-    bodyPadding?: string;
-    keepChildrenMounted?: boolean;
-    openIcon?: IconName;
-    closeIcon?: IconName;
-    headerOrientation?: HeaderOrientation
-    headerTextJustify?: FlexJustify
+  noHeader?: boolean;
+  headerText?: string;
+  children?: any;
+  headerIcon?: any;
+  headerBackgroundColor?: any;
+  backgroundColor?: any;
+  headerColor?: any;
+  headerHorizontalAlign?: FlexJustify;
+  cardElevation?: Elevation;
+  height?: string;
+  width?: string;
+  collapse?: boolean;
+  transitionDuration?: number;
+  bodyPadding?: string;
+  keepChildrenMounted?: boolean;
+  openIcon?: IconName;
+  closeIcon?: IconName;
+  headerOrientation?: HeaderOrientation;
+  headerTextJustify?: FlexJustify;
 }
 
 interface PanelState {
-    isOpen: boolean;
+  isOpen: boolean;
 }
 
 export type FlexJustify = 'center' | 'start' | 'end';
-export type HeaderOrientation = 'row' | 'row-reverse'
-export class VCardPanel extends Component<StyledCardProps, PanelState> {
-    constructor(props: StyledCardProps) {
-        super(props);
-        this.state = {
-            isOpen: false,
-        }
-    }
+export type HeaderOrientation = 'row' | 'row-reverse';
 
-    toggleCollapsed = () => {
-        const {isOpen} = this.state;
-        this.setState({...this.state, isOpen: !isOpen})
+export class VCardPanel extends Component<StyledCardProps, PanelState> {
+  constructor(props: StyledCardProps) {
+    super(props);
+    this.state = {
+      isOpen: false
     };
+  }
+
+  toggleCollapsed = () => {
+    const { isOpen } = this.state;
+    this.setState({ ...this.state, isOpen: !isOpen });
+  };
 
     render() {
         const {

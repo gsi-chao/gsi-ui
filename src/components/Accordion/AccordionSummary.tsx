@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
-import { Accordion, AccordionTitleProps, Icon, Segment, SemanticICONS } from 'semantic-ui-react';
+import {
+  Accordion,
+  AccordionTitleProps,
+  Icon,
+  Segment,
+  SemanticICONS
+} from 'semantic-ui-react';
 import { accordionStyle, TitleM, titleIcon, titleStyle } from './style';
 
 interface IAccordionState {
-  activeIndex: any
-  icon: SemanticICONS
+  activeIndex: any;
+  icon: SemanticICONS;
 }
 
 interface IAccordionProps {
-  title: string,
-  titleBackgroundColor?: string,
-  titleBorderColor?: string,
-  iconActive: SemanticICONS,
-  iconDeactivate: SemanticICONS
+  title: string;
+  titleBackgroundColor?: string;
+  titleBorderColor?: string;
+  iconActive: SemanticICONS;
+  iconDeactivate: SemanticICONS;
 }
 
-export class AccordionSummary extends Component<IAccordionProps, IAccordionState> {
-
+export class AccordionSummary extends Component<
+  IAccordionProps,
+  IAccordionState
+> {
   constructor(props: IAccordionProps) {
     super(props);
     this.state = {
@@ -25,14 +33,17 @@ export class AccordionSummary extends Component<IAccordionProps, IAccordionState
     };
   }
 
-  handleClick = (e: React.MouseEvent<HTMLDivElement>, titleProps: AccordionTitleProps) => {
+  handleClick = (
+    e: React.MouseEvent<HTMLDivElement>,
+    titleProps: AccordionTitleProps
+  ) => {
     e.preventDefault();
     const { index } = titleProps;
     const { activeIndex } = this.state;
     const { iconActive, iconDeactivate } = this.props;
     const newIndex = index === activeIndex ? -1 : index;
-    const icon = index === activeIndex ? iconActive :  iconDeactivate;
-    this.setState({ icon, activeIndex: newIndex  });
+    const icon = index === activeIndex ? iconActive : iconDeactivate;
+    this.setState({ icon, activeIndex: newIndex });
   };
 
   render() {
@@ -41,8 +52,14 @@ export class AccordionSummary extends Component<IAccordionProps, IAccordionState
 
     return (
       <Accordion styled style={accordionStyle}>
-        <TitleM background={titleBackgroundColor} border={titleBorderColor} active={activeIndex === 0} index={0} onClick={this.handleClick}>
-          <Icon style={titleIcon} name={icon}/>
+        <TitleM
+          background={titleBackgroundColor}
+          border={titleBorderColor}
+          active={activeIndex === 0}
+          index={0}
+          onClick={this.handleClick}
+        >
+          <Icon style={titleIcon} name={icon} />
           <span>{title}</span>
         </TitleM>
         <Accordion.Content active={activeIndex === 0}>

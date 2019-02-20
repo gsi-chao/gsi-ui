@@ -1,6 +1,6 @@
 {
   "name": "gsi-vx-ui",
-  "version": "0.1.1-beta-6",
+  "version": "0.1.2-beta-1",
   "description": "UI Interface for Vertrax projects",
   "author": "gsi-chao",
   "license": "MIT",
@@ -19,19 +19,27 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.12.0",
+    "@blueprintjs/datetime": "^3.7.1",
+    "@blueprintjs/select": "^3.6.1",
     "@blueprintjs/table": "^3.4.1",
     "@types/jest": "23.3.13",
     "@types/node": "10.12.18",
     "@types/react": "16.7.20",
     "@types/react-dom": "16.0.11",
     "@types/styled-components": "^4.1.8",
+    "moment": "^2.24.0",
+    "@types/validator": "^10.9.0",
+    "formstate": "^1.0.2",
+    "mobx": "^5.9.0",
+    "mobx-react": "^5.4.3",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.85.0",
     "styled-components": "^4.1.3",
-    "typescript": "3.2.4"
+    "typescript": "3.2.4",
+    "validator": "^10.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -59,12 +67,16 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/enzyme": "^3.1.18",
+    "@types/enzyme-adapter-react-16": "^1.0.4",
     "@types/react-test-renderer": "^16.0.3",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "cross-env": "^5.2.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.9.1",
     "husky": "^1.3.1",
     "jest-styled-components": "^6.3.1",
     "lint-staged": "^8.1.3",
