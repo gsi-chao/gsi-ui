@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders without crashing InputField All Properties 1`] = `
+<div
+  className="bp3-form-group bp3-inline"
+>
+  <label
+    className="bp3-label"
+    htmlFor="test-input"
+  >
+    Username
+     
+    <span
+      className="bp3-text-muted"
+    >
+      (info)
+    </span>
+  </label>
+  <div
+    className="bp3-form-content"
+  >
+    <div
+      className="bp3-input-group bp3-large"
+    >
+      <input
+        className="bp3-input"
+        id="test-input"
+        name="test-input"
+        onChange={[Function]}
+        placeholder="Username"
+        style={
+          Object {
+            "paddingRight": 10,
+          }
+        }
+        value=""
+      />
+      <span
+        className="bp3-input-action"
+      >
+        <div />
+      </span>
+    </div>
+  </div>
+</div>
+`;
