@@ -10,6 +10,7 @@ export const constStyle = {
 export const ContainerTabsPanel = styled.div`
     display: flex;
     flex-direction: column;
+    position: relative;
 `;
 
 export const ContainerTabs = styled.div`
