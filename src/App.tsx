@@ -3,6 +3,7 @@ import './App.css';
 import { VTable } from './components/Table/Table';
 import InputsDemo from './demo/InputsDemo';
 import TableWithWidgetDemo from './demo/TableWithWidgetDemo';
+import TabsPanelDemo from './demo/TabsPanelDemo';
 
 class App extends Component {
   render() {
@@ -52,6 +53,7 @@ class App extends Component {
           columnWidths={[200,500]}
         />
         <InputsDemo />
+        <TabsPanelDemo/>
         <TableWithWidgetDemo />
       </React.Fragment>
     );
