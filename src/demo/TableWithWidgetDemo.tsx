@@ -5,7 +5,6 @@ import { VTable } from '../components/Table';
 import { Cell } from '@blueprintjs/table';
 
 export const dropDown: IVWidgetTableProps = {
-  row: 9,
   column: 'lastname',
   widget: {
     type: 'DROPDOWN',
@@ -20,6 +19,51 @@ export const dropDown: IVWidgetTableProps = {
     }
   }
 };
+
+export const colorWidget: IVWidgetTableProps = {
+  column: 'lastname',
+  widget: {
+    type: 'COLOR',
+    colorCell: {
+      backgroundColor: 'orange',
+      color: 'white',
+      printColor: (value: string) => {return false}
+    }
+  }
+};
+
+export const checkboxWidget: IVWidgetTableProps = {
+  column: 'name',
+  widget: {
+    type: 'CHECKBOX'
+  }
+};
+
+export const datetimeWidget: IVWidgetTableProps = {
+  column: 'name',
+  widget: {
+    type: 'DATETIME',
+    dateTimeCell: {
+      icon: 'calendar'
+    }
+  }
+};
+
+export const customerwidget: IVWidgetTableProps = {
+  column: 'lastname',
+  widget: {
+    type: 'CUSTOMERCOMPONENT',
+    cusmtomerCell: {
+      renderCustomer: (value: string): ReactNode => {
+        return (
+          <div>
+            <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
+          </div>
+        );
+      }
+    }
+  }
+};
 export const renderCustomer = (value: string): ReactNode => {
   return (
     <div>
@@ -27,44 +71,7 @@ export const renderCustomer = (value: string): ReactNode => {
     </div>
   );
 };
-export const widgetsCell: IVWidgetTableProps[] = [
-  {
-    row: 3,
-    column: 'lastname',
-    widget: {
-      type: 'COLOR',
-      colorCell: { backgroundColor: 'orange', color: 'white' }
-    }
-  },
-  {
-    row: 5,
-    column: 'lastname',
-    widget: {
-      type: 'CUSTOMERCOMPONENT',
-      cusmtomerCell: {
-        renderCustomer
-      }
-    }
-  },
-  {
-    row: 7,
-    column: 'name',
-    widget: {
-      type: 'CHECKBOX'
-    }
-  },
-  dropDown,
-  {
-    row: 10,
-    column: 'name',
-    widget: {
-      type: 'DATETIME',
-      dateTimeCell: {
-        icon: 'calendar'
-      }
-    }
-  }
-];
+export const widgetsCell: IVWidgetTableProps[] = [];
 
 class TableWithWidgetDemo extends Component {
   state = {
@@ -73,12 +80,12 @@ class TableWithWidgetDemo extends Component {
   render() {
     const data = [
       { name: 'Carlos', lastname: 'Chao' },
-      { name: 'Name1', lastname: 'Lastname1' },
-      { name: 'Name2', lastname: 'Lastname2' },
-      { name: 'Name3', lastname: 'Lastname3' },
-      { name: 'Name4', lastname: 'Lastname4' },
-      { name: 'Name5', lastname: 'Lastname5' },
-      { name: 'Name6', lastname: 'Lastname6' },
+      { name: 'Name1', lastname: 'Lastname7' },
+      { name: 'Name2', lastname: 'Lastname7' },
+      { name: 'Name3', lastname: 'Lastname7' },
+      { name: 'Name4', lastname: 'Lastname7' },
+      { name: 'Name5', lastname: 'Lastname7' },
+      { name: 'Name6', lastname: 'Lastname7' },
       { name: true, lastname: 'Lastname7' },
       { name: 'name7', lastname: 'Lastname7' },
       { name: 'Name7', lastname: 'Lastname7' },
@@ -118,7 +125,7 @@ class TableWithWidgetDemo extends Component {
             }}
             data={data}
             enableColumnResizing={true}
-
+            enableRowResizing={true}
           />
         </div>
 

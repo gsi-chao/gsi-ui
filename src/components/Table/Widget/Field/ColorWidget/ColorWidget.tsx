@@ -5,11 +5,20 @@ export interface IColorWidget {
   backgroundColor: string;
   color?: string;
   value?: string;
+  printColor: (value: string) => boolean;
 }
 
-interface IProps extends IColorWidget {}
+export interface IColorWidgetState {
+  backgroundColor: string;
+  color?: string;
+  value?: string;
 
-class ColorWidget extends Component<IProps, IColorWidget> {
+}
+interface IProps extends IColorWidgetState {
+
+}
+
+class ColorWidget extends Component<IProps, IColorWidgetState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -48,7 +57,9 @@ class ColorWidget extends Component<IProps, IColorWidget> {
       background: ${backgroundColor};
       color: ${color};
       height: 100%;
-    `;
+      padding: 0px 10px
+      border-right: solid 1px #d6d9dc
+       `;
     return <CellColor>{this.state.value}</CellColor>;
   }
 }

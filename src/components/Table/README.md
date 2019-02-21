@@ -120,15 +120,15 @@ It has the following characteristics:
 ``
  <VTable
             widgetsCell={[{
-                              row: 7,
-                              column: 'name',
-                              widget: {
-                                type: 'COLOR'
-                                checkboxCell:{
-                                    backgroundColor: 'blue',
-                                    color: 'white'
-                                     }
-                              }]}
+                              column: 'lastname',
+                                widget: {
+                                  type: 'COLOR',
+                                  colorCell: {
+                                    backgroundColor: 'orange',
+                                    color: 'white',
+                                    printColor: (value: string) => {return true}
+                                  }
+                                }]}
             columns={['name', 'lastname']}
             data={data}
           />

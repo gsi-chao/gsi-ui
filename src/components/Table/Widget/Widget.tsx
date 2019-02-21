@@ -8,7 +8,6 @@ import { MaybeElement } from '@blueprintjs/core/src/common/props';
 import { IconName } from '@blueprintjs/core';
 
 export interface IVWidgetTableProps {
-  row: number;
   column: string;
   widget: IWidget;
 }
@@ -98,7 +97,7 @@ class Widget extends Component<IVWidget> {
   };
 
   private getColorCell = () => {
-    if (this.props.colorCell) {
+    if (this.props.colorCell && this.props.colorCell.printColor(this.props.value) ) {
       const backgroundColor = this.props.colorCell.backgroundColor.toLowerCase();
       const color =
         this.props.colorCell.color && this.props.colorCell.color.toLowerCase();
@@ -108,6 +107,7 @@ class Widget extends Component<IVWidget> {
           backgroundColor={backgroundColor}
           color={color}
           value={this.props.value}
+
         />
       ) : (
         <ColorWidget
@@ -116,6 +116,11 @@ class Widget extends Component<IVWidget> {
         />
       );
     }
+      return  <ColorWidget
+        backgroundColor={'transparent'}
+        value={this.props.value}
+      />;
+    
     return null;
   };
 

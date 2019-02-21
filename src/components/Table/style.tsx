@@ -2,7 +2,10 @@ import styled from 'styled-components';
 import { Cell } from '@blueprintjs/table';
 
 export const CellDiv = styled(Cell)`
-  padding:0px & .bp3-table-cell.bp3-table-truncated-cell {
+
+  padding:0px !important
+  
+  & .bp3-table-cell.bp3-table-truncated-cell {
     width: 100%;
     height: 100%;
   }
