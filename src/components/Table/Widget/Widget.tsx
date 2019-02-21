@@ -89,7 +89,7 @@ class Widget extends Component<IVWidget> {
       case 'CUSTOMERCOMPONENT': {
         if (this.props.cusmtomerCell) {
           this.props.cusmtomerCell.renderCustomer(this.props.value);
-          return this.props.cusmtomerCell.renderCustomer(this.props.value);
+          return (<div style={{padding: ' 0px 11px'}}>{this.props.cusmtomerCell.renderCustomer(this.props.value)}</div>)
         }
       }
     }

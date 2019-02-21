@@ -61,9 +61,12 @@ export interface IVTableProps {
   enableRowResizing?: boolean;
   enableRowHeader?: boolean;
   columnWidths?: Array<number | null | undefined>;
+  typeHeightRow?: defaultheightRow
 }
 
 interface IProps extends IVTableProps, ITableProps {}
+
+export type defaultheightRow = 'SHORT' | 'HALF' | 'LONG'
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -123,11 +126,24 @@ export class VTable extends Component<IProps, IVTableState> {
         enableRowResizing={resizingProperties.enableRowResizing}
         enableRowHeader={resizingProperties.enableRowHeader}
         columnWidths={columnWidths}
+        defaultRowHeight={this.getDefaultRowHeight()}
+
       >
         {columnsList}
       </Table>
     );
   }
+
+  getDefaultRowHeight = () : number =>{
+     if(this.props.typeHeightRow){
+      switch (this.props.typeHeightRow) {
+        case 'SHORT': return 22;
+        case 'HALF' : return 50;
+        default : return 100
+      }
+     }
+     return 22
+  };
 
   getResizingProperties = () => {
     const enableRowResizing = this.props.enableRowResizing
@@ -185,6 +201,8 @@ export class VTable extends Component<IProps, IVTableState> {
     );
 
     if (component) return <CellDiv as={Cell}>{component}</CellDiv>;
+
+
 
     return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <EditableCell

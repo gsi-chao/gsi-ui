@@ -102,7 +102,7 @@ It has the following characteristics:
 ``
  <VTable
             widgetsCell={[{
-                              row: 7,
+
                               column: 'name',
                               widget: {
                                 type: 'CHECKBOX'
@@ -138,7 +138,7 @@ It has the following characteristics:
 ``
  <VTable
             widgetsCell={[{
-                              row: 7,
+
                               column: 'name',
                               widget: {
                                 type: 'DATETIME',
@@ -155,7 +155,7 @@ It has the following characteristics:
 ``
  <VTable
             widgetsCell={[{
-                              row: 7,
+
                               column: 'name',
                               widget: {
                                type: 'DROPDOWN',
@@ -179,7 +179,7 @@ It has the following characteristics:
 ``
  <VTable
             widgetsCell={[{
-                              row: 7,
+
                               column: 'name',
                               widget: {
                                type: 'CUSTOMERCOMPONENT',

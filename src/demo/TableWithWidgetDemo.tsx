@@ -5,7 +5,7 @@ import { VTable } from '../components/Table';
 import { Cell } from '@blueprintjs/table';
 
 export const dropDown: IVWidgetTableProps = {
-  column: 'lastname',
+  column: 'dropdown',
   widget: {
     type: 'DROPDOWN',
     dropdownCell: {
@@ -21,26 +21,26 @@ export const dropDown: IVWidgetTableProps = {
 };
 
 export const colorWidget: IVWidgetTableProps = {
-  column: 'lastname',
+  column: 'color',
   widget: {
     type: 'COLOR',
     colorCell: {
       backgroundColor: 'orange',
       color: 'white',
-      printColor: (value: string) => {return false}
+      printColor: (value: string) => {return true}
     }
   }
 };
 
 export const checkboxWidget: IVWidgetTableProps = {
-  column: 'name',
+  column: 'checkbox',
   widget: {
     type: 'CHECKBOX'
   }
 };
 
 export const datetimeWidget: IVWidgetTableProps = {
-  column: 'name',
+  column: 'fecha',
   widget: {
     type: 'DATETIME',
     dateTimeCell: {
@@ -50,7 +50,7 @@ export const datetimeWidget: IVWidgetTableProps = {
 };
 
 export const customerwidget: IVWidgetTableProps = {
-  column: 'lastname',
+  column: 'customer',
   widget: {
     type: 'CUSTOMERCOMPONENT',
     cusmtomerCell: {
@@ -71,7 +71,7 @@ export const renderCustomer = (value: string): ReactNode => {
     </div>
   );
 };
-export const widgetsCell: IVWidgetTableProps[] = [];
+export const widgetsCell: IVWidgetTableProps[] = [dropDown,colorWidget,datetimeWidget,checkboxWidget,customerwidget];
 
 class TableWithWidgetDemo extends Component {
   state = {
@@ -79,18 +79,13 @@ class TableWithWidgetDemo extends Component {
   };
   render() {
     const data = [
-      { name: 'Carlos', lastname: 'Chao' },
-      { name: 'Name1', lastname: 'Lastname7' },
-      { name: 'Name2', lastname: 'Lastname7' },
-      { name: 'Name3', lastname: 'Lastname7' },
-      { name: 'Name4', lastname: 'Lastname7' },
-      { name: 'Name5', lastname: 'Lastname7' },
-      { name: 'Name6', lastname: 'Lastname7' },
-      { name: true, lastname: 'Lastname7' },
-      { name: 'name7', lastname: 'Lastname7' },
-      { name: 'Name7', lastname: 'Lastname7' },
-      { name: '12/05/2018', lastname: 'Lastname7' },
-      { name: '12/05/2018', lastname: 'Lastname7' }
+      { name: 'Carlos', dropdown: 'Lastname7', other: 'Lastname7', fecha: '12/05/2018', checkbox:true, color:'color', sinEditar:' some text' ,customer:'customer'},
+      { name: 'Carlos', dropdown: 'Lastname7', other: 'Lastname7', fecha: '12/05/2018', checkbox:false, color:'color', sinEditar:' some text',customer:'customer' },
+      { name: 'Carlos', dropdown: 'Lastname7', other: 'Lastname7', fecha: '12/05/2018', checkbox:true, color:'color', sinEditar:' some text',customer:'customer' },
+      { name: 'Carlos', dropdown: 'Lastname7', other: 'Lastname7', fecha: '12/05/2018', checkbox:false, color:'color', sinEditar:' some text', customer:'customer' },
+      { name: 'Carlos', dropdown: 'Lastname7', other: 'Lastname7', fecha: '12/05/2018', checkbox:true, color:'color', sinEditar:' some text', customer:'customer' },
+
+
     ];
 
     // validator example
@@ -108,7 +103,7 @@ class TableWithWidgetDemo extends Component {
           <VTable
             edit={{ columns: ['name'], validation: { name: nameValidation } }}
             widgetsCell={widgetsCell}
-            columns={['name', 'lastname']}
+            columns={['name', 'dropdown', 'other','fecha','checkbox','color','sinEditar','customer']}
             columns_name={{ name: 'Namesito' }}
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
@@ -124,8 +119,8 @@ class TableWithWidgetDemo extends Component {
               ]
             }}
             data={data}
-            enableColumnResizing={true}
-            enableRowResizing={true}
+
+            typeHeightRow={'SHORT'}
           />
         </div>
 
@@ -142,6 +137,8 @@ class TableWithWidgetDemo extends Component {
           {/*<Column name="other2" cellRenderer={cellRenderer}/>*/}
           {/*</Table>*/}
         </div>
+
+
       </React.Fragment>
     );
   }

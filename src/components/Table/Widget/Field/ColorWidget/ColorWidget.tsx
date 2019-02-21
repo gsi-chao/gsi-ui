@@ -59,8 +59,12 @@ class ColorWidget extends Component<IProps, IColorWidgetState> {
       height: 100%;
       padding: 0px 10px
       border-right: solid 1px #d6d9dc
+          border-bottom: solid 1px #d6d9dc
+         
+          
        `;
-    return <CellColor>{this.state.value}</CellColor>;
+
+    return <CellColor> <div>{this.state.value}</div></CellColor>;
   }
 }
 

@@ -36,7 +36,8 @@ export const DatetimeCell = styled.div`
     vertical-align: middle;
     line-height: 30px;
     color: #182026;
-    font-size: 13px;
+    font-size: 12px;
+    font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", "Icons16", sans-serif;
     font-weight: 400;
     transition: box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9);
     -webkit-appearance: none;
