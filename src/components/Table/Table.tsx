@@ -103,11 +103,12 @@ export class VTable extends Component<IProps, IVTableState> {
       const col = new TableColumn(name, index, columns, columns_name, sortable);
       return col.getColumn(this.renderCell);
     });
-    const {
-      enableRowResizing,
-      enableColumnResizing,
-      enableRowHeader
-    } = this.getResizingProperties();
+
+    const resizingProperties = this.getResizingProperties();
+    let { enableColumnResizing } = resizingProperties;
+
+    const columnWidths = this.getColumnsWidths();
+    enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
     return (
       <Table
@@ -119,16 +120,16 @@ export class VTable extends Component<IProps, IVTableState> {
         selectedRegions={this.state.selectedRegions}
         defaultColumnWidth={this.props.defaultColumnWidth}
         enableColumnResizing={enableColumnResizing}
-        enableRowResizing={enableRowResizing}
-        enableRowHeader={enableRowHeader}
-        columnWidths={this.getColumnsWidths()}
+        enableRowResizing={resizingProperties.enableRowResizing}
+        enableRowHeader={resizingProperties.enableRowHeader}
+        columnWidths={columnWidths}
       >
         {columnsList}
       </Table>
     );
   }
 
-  getResizingProperties = ()  => {
+  getResizingProperties = () => {
     const enableRowResizing = this.props.enableRowResizing
       ? this.props.enableRowResizing
       : false;
@@ -146,17 +147,22 @@ export class VTable extends Component<IProps, IVTableState> {
     return { enableRowHeader, enableColumnResizing, enableRowResizing };
   };
 
-  getColumnsWidths = () : Array<number | null | undefined>=>  {
-    let columnWidths :any[] = [];
-    if(this.props.columnWidths && this.props.columnWidths.length === this.props.columns.length){
-      columnWidths = this.props.columnWidths
-    }else{
-      columnWidths = this.props.columns.map(x=>120);
-      if(this.props.columnWidths )
-      console.warn('Warning -Gsi-vx-ui- The last configuration to catch the width ' +
-        'of the columns does not correspond to the column amount of the table')
+  getColumnsWidths = () => {
+    let columnWidths: any[] = [];
+    if (
+      this.props.columnWidths &&
+      this.props.columnWidths.length === this.props.columns.length
+    ) {
+      columnWidths = this.props.columnWidths;
+      return columnWidths;
     }
-    return columnWidths
+    if (this.props.columnWidths){
+      console.warn(
+        'Gsi-vx-ui => [Violation] The last configuration to catch the width ' +
+        'of the columns does not correspond to the column amount of the table'
+      );
+    }
+
   };
 
   public renderCell = (rowIndex: number, columnIndex: number) => {
