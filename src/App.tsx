@@ -49,7 +49,7 @@ class App extends Component {
           enableColumnResizing={true}
           enableRowHeader={true}
           enableRowResizing={true}
-          columnWidths={[20]}
+          columnWidths={[200,500]}
         />
         <InputsDemo />
         <TableWithWidgetDemo />

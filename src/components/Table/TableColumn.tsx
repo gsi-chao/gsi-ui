@@ -3,6 +3,7 @@ import React from 'react';
 import { IVActionSortableTableProps } from './Table';
 import { Cell, Column, ColumnHeaderCell } from '@blueprintjs/table';
 import { Menu, MenuItem } from '@blueprintjs/core';
+import styled from 'styled-components';
 
 export type ICellLookup = (rowIndex: number, columnIndex: number) => any;
 
@@ -26,6 +27,7 @@ export default class TableColumn implements ISortableColumn {
         columnHeaderCellRenderer={this.renderColumnHeader}
         key={this.index}
         name={this.name}
+
       />
     );
   };
