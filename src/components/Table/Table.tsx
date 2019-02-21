@@ -20,9 +20,10 @@ import {
   IVContextualTableProps
 } from './ActionCellsMenuItem';
 
-import { CellDiv } from './style';
+import { CellCenterText, CellDiv } from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
+import styled from 'styled-components';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
@@ -206,6 +207,7 @@ export class VTable extends Component<IProps, IVTableState> {
 
     return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <EditableCell
+        style={{textAlign:'center'}}
         value={value == null ? '' : value}
         intent={this.state.sparseCellInvalid![dataKey]}
         onCancel={this.cellValidator(rowIndex, columnIndex)}
@@ -213,7 +215,7 @@ export class VTable extends Component<IProps, IVTableState> {
         onConfirm={this.cellSetter(rowIndex, columnIndex)}
       />
     ) : (
-      <Cell>{value}</Cell>
+      <CellCenterText as={Cell}>{value}</CellCenterText>
     );
   };
 

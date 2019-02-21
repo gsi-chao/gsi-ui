@@ -119,8 +119,9 @@ class TableWithWidgetDemo extends Component {
               ]
             }}
             data={data}
-
-            typeHeightRow={'SHORT'}
+            enableColumnResizing={true}
+            enableRowResizing={true}
+            typeHeightRow={'HALF'}
           />
         </div>
 
@@ -144,11 +145,11 @@ class TableWithWidgetDemo extends Component {
   }
   handleChangeColor = () => {
     if (
-      widgetsCell[0] &&
-      widgetsCell[0].widget &&
-      widgetsCell[0].widget.colorCell
+      widgetsCell[1] &&
+      widgetsCell[1].widget &&
+      widgetsCell[1].widget.colorCell
     ) {
-      widgetsCell[0].widget.colorCell.backgroundColor = 'green';
+      widgetsCell[1].widget.colorCell.backgroundColor = 'green';
       this.setState({
         changeColor: !this.state.changeColor
       });

@@ -6,6 +6,7 @@ import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
 import DropdownWidget, { IOption } from './Field/DropdownWidget/DropdownWidget';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
 import { IconName } from '@blueprintjs/core';
+import { CenterWidget } from './style';
 
 export interface IVWidgetTableProps {
   column: string;
@@ -78,18 +79,24 @@ class Widget extends Component<IVWidget> {
         return this.getColorCell();
       }
       case 'DROPDOWN': {
-        return this.getDropdownCell();
+        return <CenterWidget>{this.getDropdownCell()}</CenterWidget>;
       }
       case 'DATETIME': {
-        return this.getDatetimeCell();
+        return <CenterWidget> {this.getDatetimeCell()}</CenterWidget>;
       }
       case 'CHECKBOX': {
-        return this.getCheckboxCell();
+        return <CenterWidget>{this.getCheckboxCell()}</CenterWidget>;
       }
       case 'CUSTOMERCOMPONENT': {
         if (this.props.cusmtomerCell) {
           this.props.cusmtomerCell.renderCustomer(this.props.value);
-          return (<div style={{padding: ' 0px 11px'}}>{this.props.cusmtomerCell.renderCustomer(this.props.value)}</div>)
+          return (
+            <CenterWidget>
+              <div style={{ padding: ' 0px 11px' }}>
+                {this.props.cusmtomerCell.renderCustomer(this.props.value)}
+              </div>
+            </CenterWidget>
+          );
         }
       }
     }
@@ -97,7 +104,10 @@ class Widget extends Component<IVWidget> {
   };
 
   private getColorCell = () => {
-    if (this.props.colorCell && this.props.colorCell.printColor(this.props.value) ) {
+    if (
+      this.props.colorCell &&
+      this.props.colorCell.printColor(this.props.value)
+    ) {
       const backgroundColor = this.props.colorCell.backgroundColor.toLowerCase();
       const color =
         this.props.colorCell.color && this.props.colorCell.color.toLowerCase();
@@ -107,7 +117,6 @@ class Widget extends Component<IVWidget> {
           backgroundColor={backgroundColor}
           color={color}
           value={this.props.value}
-
         />
       ) : (
         <ColorWidget
@@ -116,11 +125,10 @@ class Widget extends Component<IVWidget> {
         />
       );
     }
-      return  <ColorWidget
-        backgroundColor={'transparent'}
-        value={this.props.value}
-      />;
-    
+    return (
+      <ColorWidget backgroundColor={'transparent'} value={this.props.value} />
+    );
+
     return null;
   };
 

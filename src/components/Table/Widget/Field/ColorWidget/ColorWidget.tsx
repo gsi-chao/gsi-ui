@@ -37,6 +37,7 @@ class ColorWidget extends Component<IProps, IColorWidgetState> {
       this.setState({
         backgroundColor: this.props.backgroundColor,
         color: this.props.color
+
       });
     }
   }
@@ -61,10 +62,15 @@ class ColorWidget extends Component<IProps, IColorWidgetState> {
       border-right: solid 1px #d6d9dc
           border-bottom: solid 1px #d6d9dc
          
-          
+      & div{
+          text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+      }    
        `;
 
-    return <CellColor> <div>{this.state.value}</div></CellColor>;
+    return <CellColor> <div >{this.state.value}</div></CellColor>;
   }
 }
 
