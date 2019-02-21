@@ -10,16 +10,18 @@ class TabsPanelDemo extends Component {
     }, {
       label: 'Hogar',
       key: '2',
+      dataBadge: 3,
       content: <span>World </span>
     }, {
       icon: { intent: 'primary', icon: 'home', iconSize: 16 },
       label: 'deliveries actives for now',
       key: '3',
+      dataBadge: 12,
       content: <h3>it's me</h3>
     }];
     return (
-      <div style={{padding: '25px 25px'}}>
-        <VTabsPanel tabList={tabList} active={'3'} handleChange={this.handelChangeTab}/>
+      <div style={{ padding: '25px 25px' }}>
+        <VTabsPanel padding={'10px 25px'} tabList={tabList} active={'3'} handleChange={this.handelChangeTab}/>
       </div>
     );
   }

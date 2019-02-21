@@ -9,8 +9,7 @@ export interface ITabsPanelStyle {
   activeTextColor?: string;
   textColor?: string;
   elevation?: number;
-  paddingY?: number;
-  paddingX?: number;
+  padding?: string;
   borderColor?: string;
   borderBottom?: number;
 }
@@ -23,12 +22,15 @@ export interface ITabsPanelState {
 export interface ITabsPanelProps {
   tabList: ITabsPanelTypes[];
   active?: string;
+  padding?: string;
   elevation?: number;
+  textColor?: string;
   activeColor?: string;
   borderColor?: string;
   borderBottom?: number;
   activeTextColor?: string;
-  textColor?: string;
+
+
   handleChange(tab: ITabsPanelTypes): void;
 }
 
@@ -43,4 +45,7 @@ export interface ITabsPanelTypes {
   icon?: IIconTabsPanelProps;
   label?: string;
   content: any;
+  textColorBadge?: string;
+  backgroundColorBadge?: string;
+  dataBadge?: any;
 }

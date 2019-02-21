@@ -14,7 +14,7 @@ export const ContainerTabsPanel = styled.div`
 
 export const ContainerTabs = styled.div`
     display: flex;
-    border-bottom: ${(props: ITabsPanelStyle) => props.borderBottom ? props.borderBottom : 4}px solid;
+    border-bottom: ${(props: ITabsPanelStyle) => props.borderBottom ? props.borderBottom : 2}px solid;
     border-bottom-color: ${(props: ITabsPanelStyle) => props.activeColor ? props.activeColor : '#21bdb5'};
 `;
 
@@ -36,10 +36,10 @@ export const LabelIcon = styled.div`
     return '#21bdb5';
   }
 }
-  };;
+  };
   & > span{
-  ${(props: ITabsPanelStyle) => props.active && props.activeTextColor ? `color:${props.activeTextColor}!important;` : ''}
-  ${(props: ITabsPanelStyle) => !props.active && props.textColor ? `color:${props.textColor}!important;` : ''}
+  ${(props: ITabsPanelStyle) => props.active && props.activeTextColor ? `color:${props.activeTextColor}!important;` : ''};
+  ${(props: ITabsPanelStyle) => !props.active && props.textColor ? `color:${props.textColor}!important;` : ''};
   }
 }`;
 
@@ -47,6 +47,9 @@ export const ContainerContent = styled.div`
     border-width: 0 1px 1px 1px;
     border-style: solid;
     border-color: ${(props: ITabsPanelStyle) => props.borderColor ? props.borderColor : '#dbdcdd'};
-    padding:${(props: ITabsPanelStyle) => props.paddingY && props.paddingX ? ` ${props.paddingY}px ${props.paddingY}px` : `25px 25px`};
+    padding:${(props: ITabsPanelStyle) => {
+  console.log(props.padding);
+  return props.padding ? props.padding : '25px';
+}};
     border-radius: 0 1px 2px 2px;
 `;

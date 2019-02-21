@@ -40,10 +40,13 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
                        borderColor={options.borderColor}
                        activeColor={options.activeColor}
                        activeTextColor={options.activeTextColor}
+                       textColorBadge={tab.textColorBadge}
+                       backgroundColorBadge={tab.backgroundColorBadge}
+                       dataBadge={tab.dataBadge}
             />
           )}
         </ContainerTabs>
-        <ContainerContent borderColor={options.borderColor} elevation={options.elevation}>
+        <ContainerContent padding={options.padding} borderColor={options.borderColor} elevation={options.elevation}>
           {content}
         </ContainerContent>
       </ContainerTabsPanel>
