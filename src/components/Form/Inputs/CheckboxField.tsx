@@ -11,24 +11,15 @@ import * as React from 'react';
 } from '@blueprintjs/core';
 
 import { FieldState } from 'formstate';
+import {IFieldProps} from "./IFieldProps";
+import {StyledFormGroup} from "./style";
 
 /**
  * Field Props
  */
-export interface IFieldProps {
-  /** Any UI stuff you need */
-  label?: string;
-  labelInfo?: string;
+export interface ICheckBoxFieldProps extends IFieldProps{
   rightElement?: Element;
-  disabled?: boolean;
-  inline?: boolean;
-  size?: 'large';
-  loading?: boolean;
   alignIndicator?: Alignment;
-  id: string;
-
-  /** The fieldState */
-  fieldState: FieldState<any>;
 }
 
 /**
@@ -36,8 +27,8 @@ export interface IFieldProps {
  */
 
 @observer
-export class VCheckboxField extends React.Component<IFieldProps> {
-  constructor(props: IFieldProps) {
+export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
+  constructor(props: ICheckBoxFieldProps) {
     super(props);
   }
 
@@ -50,17 +41,21 @@ export class VCheckboxField extends React.Component<IFieldProps> {
       disabled,
       inline,
       alignIndicator,
-      id
+      id,
+      className,
+      layer
     } = this.props;
 
     return (
-      <FormGroup
+      <StyledFormGroup
+        className={className}
         disabled={disabled}
         helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
+        layer={layer}
       >
         <Checkbox
           name={id}
@@ -75,7 +70,7 @@ export class VCheckboxField extends React.Component<IFieldProps> {
           onChange={(e: any) => fieldState.onChange(e.target.checked)}
           checked={fieldState.value || false}
         />
-      </FormGroup>
+      </StyledFormGroup>
     );
   }
 }

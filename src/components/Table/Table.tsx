@@ -61,6 +61,7 @@ export interface IVTableProps {
   enableRowResizing?: boolean;
   enableRowHeader?: boolean;
   columnWidths?: Array<number | null | undefined>;
+  className?: string;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -112,6 +113,7 @@ export class VTable extends Component<IProps, IVTableState> {
 
     return (
       <Table
+        className={this.props.className}
         numRows={this.state.sparseCellData.length}
         onColumnsReordered={this._handleColumnsReordered}
         enableColumnReordering={this.props.reordering}

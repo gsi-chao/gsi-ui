@@ -3,34 +3,24 @@ import * as React from 'react';
 /** Blueprint */
 import { FormGroup, Intent, TextArea } from '@blueprintjs/core';
 /** FieldState */
-import { FieldState } from 'formstate';
+import {IFieldProps} from "./IFieldProps";
+import {StyledFormGroup} from "./style";
 
 /**
  * Field Props
  */
-export interface IFieldProps {
-  /** Any UI stuff you need */
-  label?: string;
-  labelInfo?: string;
-  disabled?: boolean;
-  inline?: boolean;
-  size?: 'large' | 'small';
-  type?: any;
-  loading?: boolean;
-  placeholder?: string;
-  id: string;
-
-  /** The fieldState */
-  fieldState: FieldState<any>;
-}
 
 /**
  * Field component. Must be an observer.
  */
 
+export interface ITextAreaFieldProps extends IFieldProps{
+    fill?:boolean;
+}
+
 @observer
-export class VTextAreaField extends React.Component<IFieldProps> {
-  constructor(props: IFieldProps) {
+export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
+  constructor(props: ITextAreaFieldProps) {
     super(props);
   }
 
@@ -42,19 +32,25 @@ export class VTextAreaField extends React.Component<IFieldProps> {
       size,
       disabled,
       inline,
-      id
+      id,
+      className,
+      fill,
+      layer
     } = this.props;
 
     return (
-      <FormGroup
+      <StyledFormGroup
+        className={className}
         disabled={disabled}
         helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        label={label}
         labelFor={id}
+        layer={layer}
         labelInfo={labelInfo}
+        fill={fill}
       >
+        <label>{label}</label>
         <TextArea
           large={size === 'large'}
           small={size === 'small'}
@@ -67,7 +63,7 @@ export class VTextAreaField extends React.Component<IFieldProps> {
             id
           }}
         />
-      </FormGroup>
+      </StyledFormGroup>
     );
   }
 }

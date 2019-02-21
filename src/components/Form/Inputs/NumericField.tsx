@@ -9,30 +9,19 @@ import * as React from 'react';
 } from '@blueprintjs/core';
 
 import { FieldState } from 'formstate';
+import {ILayer} from "./ILayer";
+import {IFieldProps} from "./IFieldProps";
+import {StyledFormGroup} from "./style";
 
 /**
  * Field Props
  */
-export interface IFieldProps {
-  /** Any UI stuff you need */
-  label?: string;
-  labelInfo?: string;
-  leftIcon?: IconName;
-  rightElement?: Element;
-  disabled?: boolean;
-  inline?: boolean;
-  size?: 'large';
-  type?: any;
-  loading?: boolean;
-  placeholder?: string;
-  id: string;
-  min?: number;
-  max?: number;
-  buttonPosition?: 'left' | 'right' | 'none';
-  fill?: boolean;
-
-  /** The fieldState */
-  fieldState: FieldState<any>;
+export interface INumericFieldProps extends IFieldProps{
+    leftIcon?: IconName;
+    min?: number;
+    max?: number;
+    buttonPosition?: 'left' | 'right' | 'none';
+    fill?: boolean;
 }
 
 /**
@@ -40,8 +29,8 @@ export interface IFieldProps {
  */
 
 @observer
-export class VNumericField extends React.Component<IFieldProps> {
-  constructor(props: IFieldProps) {
+export class VNumericField extends React.Component<INumericFieldProps> {
+  constructor(props: INumericFieldProps) {
     super(props);
   }
 
@@ -59,19 +48,24 @@ export class VNumericField extends React.Component<IFieldProps> {
       min,
       max,
       buttonPosition,
-      fill
+      fill,
+      className,
+      layer
     } = this.props;
 
     return (
-      <FormGroup
+      <StyledFormGroup
+        className={className}
         disabled={disabled}
         helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        label={label}
         labelFor={id}
         labelInfo={labelInfo}
+        layer={layer}
+        fill={fill}
       >
+        <label>{label}</label>
         <NumericInput
           name={id}
           large={size === 'large'}
@@ -89,7 +83,7 @@ export class VNumericField extends React.Component<IFieldProps> {
           value={fieldState.value || 0}
           intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         />
-      </FormGroup>
+      </StyledFormGroup>
     );
   }
 }

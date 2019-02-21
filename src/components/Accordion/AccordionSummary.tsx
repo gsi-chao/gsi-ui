@@ -19,6 +19,7 @@ interface IAccordionProps {
   titleBorderColor?: string;
   iconActive: SemanticICONS;
   iconDeactivate: SemanticICONS;
+  className?:string;
 }
 
 export class AccordionSummary extends Component<
@@ -47,11 +48,11 @@ export class AccordionSummary extends Component<
   };
 
   render() {
-    const { title, titleBackgroundColor, titleBorderColor } = this.props;
+    const { title, titleBackgroundColor, titleBorderColor, className } = this.props;
     const { activeIndex, icon } = this.state;
 
     return (
-      <Accordion styled style={accordionStyle}>
+      <Accordion styled style={accordionStyle} className={className}>
         <TitleM
           background={titleBackgroundColor}
           border={titleBorderColor}

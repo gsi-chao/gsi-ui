@@ -10,28 +10,19 @@ import * as React from 'react';
 } from '@blueprintjs/core';
 
 import { FieldState } from 'formstate';
+import {IFieldProps} from "./IFieldProps";
+import {StyledFormGroup} from "./style";
 
 /**
  * Field Props
  */
-export interface IFieldProps {
-  /** Any UI stuff you need */
-  label?: string;
-  labelInfo?: string;
-  disabled?: boolean;
-  inline?: boolean;
-  size?: 'large';
-  type?: any;
-  loading?: boolean;
-  id: string;
+export interface ISliderFieldProps extends IFieldProps{
   min?: number;
   max?: number;
   stepSize?: number;
   labelStepSize?: number;
   vertical?: boolean;
-
-  /** The fieldState */
-  fieldState: FieldState<any>;
+  fill?: boolean;
 }
 
 /**
@@ -39,8 +30,8 @@ export interface IFieldProps {
  */
 
 @observer
-export class VBasicSliderField extends React.Component<IFieldProps> {
-  constructor(props: IFieldProps) {
+export class VBasicSliderField extends React.Component<ISliderFieldProps> {
+  constructor(props: ISliderFieldProps) {
     super(props);
   }
 
@@ -55,19 +46,25 @@ export class VBasicSliderField extends React.Component<IFieldProps> {
       min,
       max,
       stepSize,
-      labelStepSize
+      labelStepSize,
+      className,
+      layer,
+      fill
     } = this.props;
 
     return (
-      <FormGroup
+      <StyledFormGroup
+        className={className}
         disabled={disabled}
         helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        label={label}
         labelFor={id}
         labelInfo={labelInfo}
+        fill={fill}
+        layer={layer}
       >
+        <label>{label}</label>
         <Slider
           {...{
             disabled,
@@ -80,7 +77,7 @@ export class VBasicSliderField extends React.Component<IFieldProps> {
           onChange={(_v: number) => fieldState.onChange(_v)}
           value={fieldState.value || 0}
         />
-      </FormGroup>
+      </StyledFormGroup>
     );
   }
 }
