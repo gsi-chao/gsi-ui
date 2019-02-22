@@ -3,10 +3,8 @@ import React, { Component } from 'react';
 import { FieldState, FormState } from 'formstate';
 import { observer } from 'mobx-react';
 import { required } from '../components/Form/Validators';
-import { Icon } from '@blueprintjs/core';
 import {
   VInputField,
-  VBasicSelectField,
   VBasicSliderField,
   VTextAreaField,
   VTagInputField,
@@ -15,6 +13,7 @@ import {
   VRadioGroupField,
   VSelectField
 } from '../components/Form';
+import { VCardPanel } from '../components';
 
 const store = [
   {
@@ -65,7 +64,6 @@ class InputsDemo extends Component {
           fieldState={this.form.$.username}
           layer={{
             labelWidth: 6,
-            inputWidth: 6
           }}
           id="username"
           label={'Username'}
@@ -74,7 +72,7 @@ class InputsDemo extends Component {
         <VInputField
           layer={{
             labelWidth: 6,
-            inputWidth: 6,
+            inputWidth: 2,
             labelOrientation: 'end',
             inputOrientation: 'start'
           }}
@@ -123,7 +121,6 @@ class InputsDemo extends Component {
         <VTagInputField
           layer={{
             labelWidth: 6,
-            inputWidth: 3,
             labelOrientation: 'end',
             inputOrientation: 'start'
           }}

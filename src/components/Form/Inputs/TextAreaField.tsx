@@ -5,6 +5,7 @@ import { FormGroup, Intent, TextArea } from '@blueprintjs/core';
 /** FieldState */
 import {IFieldProps} from "./IFieldProps";
 import {StyledFormGroup} from "./style";
+import { FormFieldContainer } from './FormFieldContainer';
 
 /**
  * Field Props
@@ -42,7 +43,6 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       <StyledFormGroup
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
@@ -50,7 +50,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         labelInfo={labelInfo}
         fill={fill}
       >
-        <label>{label}</label>
+        <FormFieldContainer label={label} fieldState={fieldState}>
         <TextArea
           large={size === 'large'}
           small={size === 'small'}
@@ -63,6 +63,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
             id
           }}
         />
+        </FormFieldContainer>
       </StyledFormGroup>
     );
   }

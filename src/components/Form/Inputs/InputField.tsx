@@ -5,6 +5,7 @@ import { IconName, InputGroup, Intent } from '@blueprintjs/core';
 /** FieldState */
 import { StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
+import { FormFieldContainer } from './FormFieldContainer';
 
 /**
  * Field component. Must be an observer.
@@ -56,8 +57,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
         layer={layer}
         fill={fill}
       >
-        <label>{label}</label>
-        <div className={'gsi-input-container'}>
+        <FormFieldContainer label={label} fieldState={fieldState}>
           <InputGroup
             large={size === 'large'}
             small={size === 'small'}
@@ -75,10 +75,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
             value={fieldState.value || ''}
             intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
           />
-          { fieldState.hasError ?
-            <span className={'gsi-error-span'}>{ fieldState.error}</span> : null
-          }
-        </div>
+        </FormFieldContainer>
       </StyledFormGroup>
     );
   }

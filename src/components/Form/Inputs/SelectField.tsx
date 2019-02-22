@@ -14,6 +14,7 @@ import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 import {IFieldProps} from "./IFieldProps";
 import {StyledFormGroup} from "./style";
+import { FormFieldContainer } from './FormFieldContainer';
 
 /**
  * Field Props
@@ -99,14 +100,13 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     return (
       <StyledFormGroup
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
       >
-        <label>{label}</label>
+        <FormFieldContainer label={label} fieldState={fieldState}>
         <ItemSelect
           itemPredicate={filterItem}
           itemRenderer={renderItem}
@@ -126,6 +126,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             text={this.state.item.label || '(No selection)'}
           />
         </ItemSelect>
+        </FormFieldContainer>
       </StyledFormGroup>
     );
   }

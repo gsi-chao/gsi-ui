@@ -1,1 +1,2 @@
-export { VCardPanel, FlexJustify, HeaderOrientation } from './VCardPanel';
+export {VCardPanel} from './VCardPanel';
+export {FlexJustify,HeaderOrientation} from './types'

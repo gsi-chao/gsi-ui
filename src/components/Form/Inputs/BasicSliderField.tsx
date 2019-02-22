@@ -13,6 +13,7 @@ import {
 import {FieldState} from 'formstate';
 import {IFieldProps} from "./IFieldProps";
 import {StyledFormGroup} from "./style";
+import { FormFieldContainer } from './FormFieldContainer';
 
 /**
  * Field Props
@@ -57,7 +58,6 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
             <StyledFormGroup
                 className={className}
                 disabled={disabled}
-                helperText={fieldState.hasError && fieldState.error}
                 inline={inline}
                 intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
                 labelFor={id}
@@ -65,8 +65,7 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
                 fill={fill}
                 layer={layer}
             >
-                <label>{label}</label>
-                <div className={'gsi-basic-slider-container'}>
+                <FormFieldContainer label={label} fieldState={fieldState}>
                     <Slider
                         {...{
                             disabled,
@@ -79,7 +78,7 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
                         onChange={(_v: number) => fieldState.onChange(_v)}
                         value={fieldState.value || 0}
                     />
-                </div>
+                </FormFieldContainer>
             </StyledFormGroup>
         );
     }

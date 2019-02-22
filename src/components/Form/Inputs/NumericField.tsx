@@ -1,27 +1,24 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
-/** FieldState */ import {
-  FormGroup,
-  IconName,
-  NumericInput,
-  Intent
-} from '@blueprintjs/core';
+/** FieldState */
+import { FormGroup, IconName, NumericInput, Intent } from '@blueprintjs/core';
 
 import { FieldState } from 'formstate';
-import {ILayer} from "./ILayer";
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { ILayer } from './ILayer';
+import { IFieldProps } from './IFieldProps';
+import { StyledFormGroup } from './style';
+import { FormFieldContainer } from './FormFieldContainer';
 
 /**
  * Field Props
  */
-export interface INumericFieldProps extends IFieldProps{
-    leftIcon?: IconName;
-    min?: number;
-    max?: number;
-    buttonPosition?: 'left' | 'right' | 'none';
-    fill?: boolean;
+export interface INumericFieldProps extends IFieldProps {
+  leftIcon?: IconName;
+  min?: number;
+  max?: number;
+  buttonPosition?: 'left' | 'right' | 'none';
+  fill?: boolean;
 }
 
 /**
@@ -57,7 +54,6 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       <StyledFormGroup
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
@@ -65,24 +61,27 @@ export class VNumericField extends React.Component<INumericFieldProps> {
         layer={layer}
         fill={fill}
       >
-        <label>{label}</label>
-        <NumericInput
-          name={id}
-          large={size === 'large'}
-          {...{
-            disabled,
-            placeholder,
-            id,
-            min,
-            max,
-            leftIcon,
-            fill,
-            buttonPosition
-          }}
-          onValueChange={(_v: number, value: string) => fieldState.onChange(_v)}
-          value={fieldState.value || 0}
-          intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        />
+        <FormFieldContainer label={label} fieldState={fieldState}>
+          <NumericInput
+            name={id}
+            large={size === 'large'}
+            {...{
+              disabled,
+              placeholder,
+              id,
+              min,
+              max,
+              leftIcon,
+              fill,
+              buttonPosition
+            }}
+            onValueChange={(_v: number, value: string) =>
+              fieldState.onChange(_v)
+            }
+            value={fieldState.value || 0}
+            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+          />
+        </FormFieldContainer>
       </StyledFormGroup>
     );
   }

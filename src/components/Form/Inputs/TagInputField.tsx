@@ -11,13 +11,14 @@ import {
 } from '@blueprintjs/core';
 /** FieldState */
 import { FieldState } from 'formstate';
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { IFieldProps } from './IFieldProps';
+import { StyledFormGroup } from './style';
+import { FormFieldContainer } from './FormFieldContainer';
 
 /**
  * Field Props
  */
-export interface ITagFieldProps extends IFieldProps{
+export interface ITagFieldProps extends IFieldProps {
   leftIcon?: IconName;
   tagProps?: ITagProps | ((value: React.ReactNode, index: number) => ITagProps);
   fill?: boolean;
@@ -47,7 +48,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       id,
       tagProps,
       className,
-      layer,
+      layer
     } = this.props;
 
     const clearButton = (
@@ -63,7 +64,6 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       <StyledFormGroup
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
@@ -71,24 +71,23 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         layer={layer}
         fill={fill}
       >
-          <label>{label}</label>
-        <div className={'gsi-tag-container'}>
-        <TagInput
-          {...{
-            leftIcon,
-            disabled,
-            placeholder,
-            id,
-            fill
-          }}
-          rightElement={clearButton}
-          tagProps={tagProps}
-          large={size === 'large'}
-          onChange={this.handleChange}
-          values={fieldState.value || []}
-          intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        />
-        </div>
+        <FormFieldContainer label={label} fieldState={fieldState}>
+          <TagInput
+            {...{
+              leftIcon,
+              disabled,
+              placeholder,
+              id,
+              fill
+            }}
+            rightElement={clearButton}
+            tagProps={tagProps}
+            large={size === 'large'}
+            onChange={this.handleChange}
+            values={fieldState.value || []}
+            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+          />
+        </FormFieldContainer>
       </StyledFormGroup>
     );
   }

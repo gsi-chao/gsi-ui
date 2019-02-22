@@ -12,6 +12,7 @@ import {
 import { FieldState } from 'formstate';
 import {IFieldProps} from "./IFieldProps";
 import {StyledFormGroup} from "./style";
+import { FormFieldContainer } from './FormFieldContainer';
 
 /**
  * Field Props
@@ -52,7 +53,6 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
     return (
       <StyledFormGroup
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
@@ -60,7 +60,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
         layer={layer}
         className={className}
       >
-        <label>{label}</label>
+        <FormFieldContainer label={label} fieldState={fieldState}>
         <HTMLSelect
           options={options}
           iconProps={icon}
@@ -75,6 +75,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
             minimal
           }}
         />
+        </FormFieldContainer>
       </StyledFormGroup>
     );
   }

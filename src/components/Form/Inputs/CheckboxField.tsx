@@ -13,6 +13,7 @@ import * as React from 'react';
 import { FieldState } from 'formstate';
 import { IFieldProps } from './IFieldProps';
 import { StyledFormGroup } from './style';
+import { FormFieldContainer } from './FormFieldContainer';
 
 /**
  * Field Props
@@ -52,7 +53,6 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       <StyledFormGroup
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
@@ -60,8 +60,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
         layer={layer}
         checkBoxAtLeft = {checkBoxAtLeft}
       >
-        <label>{label}</label>
-        <div className={'gsi-checkbox-container'}>
+        <FormFieldContainer label={label} fieldState={fieldState}>
           <Checkbox
             name={id}
             large={size === 'large'}
@@ -75,7 +74,8 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
             onChange={(e: any) => fieldState.onChange(e.target.checked)}
             checked={fieldState.value || false}
           />
-        </div>
+        </FormFieldContainer>
+
       </StyledFormGroup>
     );
   }
