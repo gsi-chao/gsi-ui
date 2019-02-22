@@ -10,28 +10,17 @@ import {
 } from '@blueprintjs/core';
 /** FieldState */
 import { FieldState } from 'formstate';
+import {IFieldProps} from "./IFieldProps";
+import {StyledFormGroup} from "./style";
 
 /**
  * Field Props
  */
-export interface IFieldProps {
-  /** Any UI stuff you need */
-  label?: string;
-  labelInfo?: string;
-  icon?: Partial<IIconProps>;
-  disabled?: boolean;
-  inline?: boolean;
-  options: IOptionProps[];
-  size?: 'large';
-  type?: any;
-  loading?: boolean;
-  minimal?: boolean;
-  fill?: boolean;
-  placeholder?: string;
-  id: string;
+export interface IBasicSelectFieldProps extends IFieldProps {
 
-  /** The fieldState */
-  fieldState: FieldState<any>;
+  icon?: Partial<IIconProps>;
+  options: IOptionProps[];
+  minimal?: boolean;
 }
 
 /**
@@ -39,8 +28,8 @@ export interface IFieldProps {
  */
 
 @observer
-export class VBasicSelectField extends React.Component<IFieldProps> {
-  constructor(props: IFieldProps) {
+export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
+  constructor(props: IBasicSelectFieldProps) {
     super(props);
   }
 
@@ -57,19 +46,22 @@ export class VBasicSelectField extends React.Component<IFieldProps> {
       placeholder,
       options,
       minimal,
-      fill
+      className,
+      layer
     } = this.props;
 
     return (
-      <FormGroup
+      <StyledFormGroup
         disabled={disabled}
         helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        label={label}
         labelFor={id}
         labelInfo={labelInfo}
+        layer={layer}
+        className={className}
       >
+        <label>{label}</label>
         <HTMLSelect
           options={options}
           iconProps={icon}
@@ -81,11 +73,10 @@ export class VBasicSelectField extends React.Component<IFieldProps> {
             disabled,
             placeholder,
             id,
-            minimal,
-            fill
+            minimal
           }}
         />
-      </FormGroup>
+      </StyledFormGroup>
     );
   }
 }

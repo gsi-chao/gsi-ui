@@ -2,20 +2,16 @@
 
 exports[`render correctly SelectionList component one segment 1`] = `
 <ul
-  className="bp3-menu bp3-elevation-1"
+  className="bp3-menu bp3-elevation-0 undefined sc-bwzfXH bFHdpU"
 >
   <li
     className=""
   >
     <a
-      className="bp3-menu-item bp3-popover-dismiss"
+      background="#00B3A4"
+      className="bp3-menu-item bp3-popover-dismiss sc-bdVaJa eibhmn"
+      color="#10161A"
       onClick={[Function]}
-      style={
-        Object {
-          "background": "",
-          "color": "",
-        }
-      }
     >
       <span
         className="bp3-icon bp3-icon-cut"

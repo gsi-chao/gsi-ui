@@ -29,6 +29,7 @@ interface StyledCardProps {
   closeIcon?: IconName;
   headerOrientation?: HeaderOrientation;
   headerTextJustify?: FlexJustify;
+  className?: string;
 }
 
 interface PanelState {
@@ -71,13 +72,15 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
             openIcon,
             headerOrientation,
             headerTextJustify,
-            noHeader
+            noHeader,
+            className
 
         } = this.props;
         const {isOpen} = this.state;
         return (
             <VCard elevation={cardElevation || 0}
                    height={height}
+                   className={className}
                    collapse={collapse ? "true" : "false"}
                    transitionduration={transitionDuration}
                    isopen={isOpen ? "true" : "false"}

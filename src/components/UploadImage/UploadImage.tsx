@@ -16,6 +16,7 @@ interface IUploadImageState {
 interface IUploadImageProps {
   tittle?: string;
   onSelect?: (file: any) => void;
+  className?: string;
 }
 
 export class UploadImage extends Component<
@@ -69,7 +70,7 @@ export class UploadImage extends Component<
     }
 
     return (
-      <CardStyle>
+      <CardStyle className={this.props.className}>
         <Card.Content>
           <CardHeader>{$imagePreview}</CardHeader>
           {$imageName}

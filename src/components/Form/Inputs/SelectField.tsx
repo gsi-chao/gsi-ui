@@ -9,30 +9,22 @@ import {
   MenuItem
 } from '@blueprintjs/core';
 /** FieldState */
-import { FieldState } from 'formstate';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
+import {IFieldProps} from "./IFieldProps";
+import {StyledFormGroup} from "./style";
 
 /**
  * Field Props
  */
-export interface IFieldProps {
-  /** Any UI stuff you need */
-  label?: string;
-  labelInfo?: string;
-  rightIcon?: IconName;
-  icon?: IconName;
-  disabled?: boolean;
-  inline?: boolean;
-  options: IItem[];
-  type?: any;
-  loading?: boolean;
-  filterable?:boolean;
-  id: string;
+export interface ISelectFieldProps extends IFieldProps{
+    filterable?:boolean;
+    options: IItem[];
+    rightIcon?: IconName;
+    icon?: IconName;
 
-  /** The fieldState */
-  fieldState: FieldState<any>;
+
 }
 
 /**
@@ -73,8 +65,8 @@ const filterItem: ItemPredicate<IItem> = (query, item) => {
 };
 
 @observer
-export class VSelectField extends React.Component<IFieldProps, IState> {
-  constructor(props: IFieldProps) {
+export class VSelectField extends React.Component<ISelectFieldProps, IState> {
+  constructor(props: ISelectFieldProps) {
     super(props);
     this.state = {
       item: this.props.fieldState.value || ''
@@ -92,26 +84,29 @@ export class VSelectField extends React.Component<IFieldProps, IState> {
       id,
       options,
       icon,
-      filterable
+      filterable,
+      className,
+      layer
     } = this.props;
 
     const initialContent =
       options && options.length === 0 ? (
-        <MenuItem disabled={true} text={`${options.length} items loaded.`} />
+        <MenuItem className={className} disabled={true} text={`${options.length} items loaded.`} />
       ) : (
         undefined
       );
 
     return (
-      <FormGroup
+      <StyledFormGroup
         disabled={disabled}
         helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        label={label}
         labelFor={id}
         labelInfo={labelInfo}
+        layer={layer}
       >
+        <label>{label}</label>
         <ItemSelect
           itemPredicate={filterItem}
           itemRenderer={renderItem}
@@ -131,7 +126,7 @@ export class VSelectField extends React.Component<IFieldProps, IState> {
             text={this.state.item.label || '(No selection)'}
           />
         </ItemSelect>
-      </FormGroup>
+      </StyledFormGroup>
     );
   }
   onItemSelected = (value: IItem) => {

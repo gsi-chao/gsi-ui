@@ -3,7 +3,8 @@ import 'normalize.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 import { Classes, Menu, MenuItem } from '@blueprintjs/core';
-import { IItemsList, ISelectionListProps } from './ISelectionList';
+import {ElevationType, IItemsList, ISelectionListProps} from './ISelectionList';
+import {StyledMenu, StyledMenuItem} from "./style";
 
 interface ISelctionListState {
   listSelected: IItemsList[];
@@ -33,11 +34,29 @@ export class VSelectionList extends Component<
     this.setState({ ...listSelected, listSelected: new_list });
     this.props.onSelect(new_list);
   };
+
+  getElevation = (elevation: ElevationType): any => {
+    switch (elevation) {
+        case 0:
+          return Classes.ELEVATION_0;
+        case 1:
+            return Classes.ELEVATION_1;
+        case 2:
+            return Classes.ELEVATION_2;
+        case 3:
+            return Classes.ELEVATION_3;
+        case 4:
+            return Classes.ELEVATION_4;
+        default:
+            return Classes.ELEVATION_0;
+    }
+  };
   render() {
-    const { elements, selection } = this.props;
+    const { elements, selection, elevation, className, padding } = this.props;
 
     return (
-      <Menu className={Classes.ELEVATION_1}>
+      <StyledMenu className={`${this.getElevation(elevation || 0)} ${className}`}
+            padding={padding}>
         {elements.map(element => {
           const active = this.isActive(element);
           const backgroundColor =
@@ -49,14 +68,12 @@ export class VSelectionList extends Component<
               ? selection!.textColor
               : '#10161A';
           return (
-            <MenuItem
+            <StyledMenuItem
               key={element.value}
               active={active}
+              background={backgroundColor}
+              color={textColor}
               text={element.text}
-              style={{
-                background: active ? backgroundColor : '',
-                color: active ? textColor : ''
-              }}
               onClick={() => {
                 this.onItemClick(active, element);
               }}
@@ -64,7 +81,7 @@ export class VSelectionList extends Component<
             />
           );
         })}
-      </Menu>
+      </StyledMenu>
     );
   }
 }
