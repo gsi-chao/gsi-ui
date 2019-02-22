@@ -1,21 +1,20 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
-import {IconName, InputGroup, Intent} from '@blueprintjs/core';
+import { IconName, InputGroup, Intent } from '@blueprintjs/core';
 /** FieldState */
-import {StyledFormGroup} from "./style";
-import {IFieldProps} from "./IFieldProps";
-
+import { StyledFormGroup } from './style';
+import { IFieldProps } from './IFieldProps';
 
 /**
  * Field component. Must be an observer.
  */
 
-export interface IInputFieldProps extends IFieldProps{
-    leftIcon?: IconName;
-    rightElement?: Element;
-    round?: boolean;
-    fill?:boolean;
+export interface IInputFieldProps extends IFieldProps {
+  leftIcon?: IconName;
+  rightElement?: Element;
+  round?: boolean;
+  fill?: boolean;
 }
 
 @observer
