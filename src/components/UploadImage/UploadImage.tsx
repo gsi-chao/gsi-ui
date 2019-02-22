@@ -70,7 +70,7 @@ export class UploadImage extends Component<
     }
 
     return (
-      <CardStyle clasName={this.props.className}>
+      <CardStyle className={this.props.className}>
         <Card.Content>
           <CardHeader>{$imagePreview}</CardHeader>
           {$imageName}

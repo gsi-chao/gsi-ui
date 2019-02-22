@@ -12,8 +12,7 @@ it('renders without crashing InputField All Properties', () => {
   const form = new FormState<any>({
     username: new FieldState('').validators(required)
   });
-  const InputComponent = renderer
-    .create(
+  const InputComponent = renderer.create(
       <VInputField
         fieldState={form.$.username}
         inline={true}
