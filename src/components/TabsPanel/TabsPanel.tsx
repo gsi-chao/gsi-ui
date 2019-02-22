@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ITabsPanelProps, ITabsPanelState } from './types';
-import VTabPanel from './TabPanel/TabPanel';
+import {VTabPanel} from './TabPanel/TabPanel';
 import { ContainerContent, ContainerTabs, ContainerTabsPanel } from './style';
 
 

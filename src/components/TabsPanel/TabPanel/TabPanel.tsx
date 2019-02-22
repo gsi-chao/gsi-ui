@@ -21,7 +21,7 @@ interface IVTabPanelProps {
 }
 
 
-class VTabPanel extends Component<IVTabPanelProps> {
+export class VTabPanel extends Component<IVTabPanelProps> {
   render() {
     const { label, icon, active, borderColor, activeColor, activeTextColor, textColor, backgroundColorBadge, dataBadge, textColorBadge } = this.props;
     return (
@@ -50,5 +50,3 @@ class VTabPanel extends Component<IVTabPanelProps> {
     this.props.handleOnClick(this.props.id);
   };
 }
-
-export default VTabPanel;
