@@ -4,6 +4,7 @@ import { VTable } from './components/Table/Table';
 import InputsDemo from './demo/InputsDemo';
 import TableWithWidgetDemo from './demo/TableWithWidgetDemo';
 import { Cell, Column, Table } from '@blueprintjs/table';
+import TabsPanelDemo from './demo/TabsPanelDemo';
 
 class App extends Component {
   render() {
@@ -87,6 +88,7 @@ class App extends Component {
           numFrozenRows={2} numFrozenColumns={1}
         />
         <InputsDemo />
+        <TabsPanelDemo/>
         <TableWithWidgetDemo />
 
         <br />
