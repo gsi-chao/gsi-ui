@@ -9,19 +9,19 @@ import * as React from 'react';
 } from '@blueprintjs/core';
 
 import { FieldState } from 'formstate';
-import {ILayer} from "./ILayer";
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { ILayer } from './ILayer';
+import { IFieldProps } from './IFieldProps';
+import { StyledFormGroup } from './style';
 
 /**
  * Field Props
  */
-export interface INumericFieldProps extends IFieldProps{
-    leftIcon?: IconName;
-    min?: number;
-    max?: number;
-    buttonPosition?: 'left' | 'right' | 'none';
-    fill?: boolean;
+export interface INumericFieldProps extends IFieldProps {
+  leftIcon?: IconName;
+  min?: number;
+  max?: number;
+  buttonPosition?: 'left' | 'right' | 'none';
+  fill?: boolean;
 }
 
 /**
@@ -79,11 +79,18 @@ export class VNumericField extends React.Component<INumericFieldProps> {
             fill,
             buttonPosition
           }}
-          onValueChange={(_v: number, value: string) => fieldState.onChange(_v)}
+          onValueChange={this.onChange}
           value={fieldState.value || 0}
           intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         />
       </StyledFormGroup>
     );
   }
+
+  onChange = (e: any, value: string) => {
+    this.props.fieldState.onChange(e);
+    if (this.props.onChange) {
+      this.props.onChange!(e);
+    }
+  };
 }

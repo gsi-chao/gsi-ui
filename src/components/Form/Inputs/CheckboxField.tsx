@@ -11,13 +11,13 @@ import * as React from 'react';
 } from '@blueprintjs/core';
 
 import { FieldState } from 'formstate';
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { IFieldProps } from './IFieldProps';
+import { StyledFormGroup } from './style';
 
 /**
  * Field Props
  */
-export interface ICheckBoxFieldProps extends IFieldProps{
+export interface ICheckBoxFieldProps extends IFieldProps {
   rightElement?: Element;
   alignIndicator?: Alignment;
 }
@@ -67,10 +67,17 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
             alignIndicator,
             label
           }}
-          onChange={(e: any) => fieldState.onChange(e.target.checked)}
+          onChange={this.onChange}
           checked={fieldState.value || false}
         />
       </StyledFormGroup>
     );
   }
+
+  onChange = (e: any) => {
+    this.props.fieldState.onChange(e.target.checked);
+    if (this.props.onChange) {
+      this.props.onChange!(e.target.checked);
+    }
+  };
 }

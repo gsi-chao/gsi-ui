@@ -3,8 +3,8 @@ import * as React from 'react';
 /** Blueprint */
 import { FormGroup, Intent, TextArea } from '@blueprintjs/core';
 /** FieldState */
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { IFieldProps } from './IFieldProps';
+import { StyledFormGroup } from './style';
 
 /**
  * Field Props
@@ -14,8 +14,8 @@ import {StyledFormGroup} from "./style";
  * Field component. Must be an observer.
  */
 
-export interface ITextAreaFieldProps extends IFieldProps{
-    fill?:boolean;
+export interface ITextAreaFieldProps extends IFieldProps {
+  fill?: boolean;
 }
 
 @observer
@@ -54,7 +54,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         <TextArea
           large={size === 'large'}
           small={size === 'small'}
-          onChange={(e: any) => fieldState.onChange(e.target.value)}
+          onChange={this.onChange}
           value={fieldState.value || ''}
           intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
           name={id}
@@ -65,5 +65,11 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         />
       </StyledFormGroup>
     );
+  }
+  onChange = (e: any) => {
+    this.props.fieldState.onChange(e.target.value);
+    if (this.props.onChange) {
+      this.props.onChange!(e.target.value);
+    }
   }
 }
