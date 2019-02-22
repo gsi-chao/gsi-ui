@@ -1,106 +1,174 @@
-import styled from "styled-components";
-import {FormGroup} from "@blueprintjs/core";
-import {ILayer} from "./ILayer";
+import styled from 'styled-components';
+import { FormGroup } from '@blueprintjs/core';
+import { ILayer } from './ILayer';
 
 export interface IStyledFieldProps {
-    inline?: boolean;
-    layer: any;
-    fill?: boolean,
+  inline?: boolean;
+  layer: any;
+  fill?: boolean;
+  checkBoxAtLeft?: boolean;
 }
 
 export const layerInPercent = (layer: ILayer): any => {
-    return {
-        containerWidth: layer.containerWidth ? layer.containerWidth / 12 * 100 : undefined,
-        inputWidth: layer.inputWidth ? layer.inputWidth / 12 * 100 : undefined,
-        labelWidth: layer.labelWidth ? layer.labelWidth / 12 * 100 : undefined
-    }
+  return {
+    containerWidth: layer.containerWidth
+      ? (layer.containerWidth / 12) * 100
+      : undefined,
+    inputWidth: layer.inputWidth ? (layer.inputWidth / 12) * 100 : undefined,
+    labelWidth: layer.labelWidth ? (layer.labelWidth / 12) * 100 : undefined
+  };
 };
 
 export const StyledFormGroup = styled(FormGroup)`
-   ${(props: IStyledFieldProps) => {
-    const {layer, fill} = props;
+  ${(props: IStyledFieldProps) => {
+    const { layer, fill, checkBoxAtLeft, inline } = props;
     let layerPercent: any = {};
     let inputOrientation = 'flex-start';
     let containerWidth = undefined;
     let labelWidth = undefined;
     let labelOrientation = undefined;
     let inputWidth = undefined;
-    if(layer) {
-        layerPercent = layer ? layerInPercent(layer) : undefined;
-        inputOrientation = layer.inputOrientation === 'center' ? 'center' : layer.inputOrientation === 'end' ? 'flex-end' : 'flex-start';
-        labelOrientation = layer.labelOrientation;
-        if (layerPercent) {
-            containerWidth = layerPercent.containerWidth;
-            labelWidth = layerPercent.labelWidth;
-            inputWidth = layerPercent.inputWidth;
-        }
+    if (layer) {
+      layerPercent = layer ? layerInPercent(layer) : undefined;
+      inputOrientation =
+        layer.inputOrientation === 'center'
+          ? 'center'
+          : layer.inputOrientation === 'end'
+          ? 'flex-end'
+          : 'flex-start';
+      labelOrientation = layer.labelOrientation;
+      if (layerPercent) {
+        containerWidth = layerPercent.containerWidth;
+        labelWidth = layerPercent.labelWidth;
+        inputWidth = layerPercent.inputWidth;
+      }
     }
-        return `
+    return `
         & .bp3-form-content {
             display: flex;
-            flex-direction:${(props: IStyledFieldProps) => props.inline ? `row;
-            align-content: center;` : 'column'}
-            ${containerWidth 
-                ? `width: ${containerWidth}%!important;` 
-                : 'width: 100%!important;'}
-                & label {
-                    margin-right: 7px;
-                    line-height: 30px;
-                    ${labelWidth 
-                        ? `width: ${labelWidth}%!important;`: ''}
-                    ${labelOrientation ?
-                        `text-align: ${labelOrientation}`
-                        :''}
-                }
-                & .bp3-input-group {
-                    width: ${inputWidth ? `${inputWidth}`: `${100 - labelWidth}`}%!important;
-                    ${inputOrientation ? 
-                        `display:flex;
+            flex-direction:${
+              inline
+                ? `row${checkBoxAtLeft ? `-reverse` : ''};
+            align-content: center;`
+                : 'column'
+            }
+            ${
+              containerWidth
+                ? `width: ${containerWidth}%!important;`
+                : 'width: 100%!important;'
+            }
+            & label {
+                margin-right: 10px;
+                line-height: 30px;
+                    ${labelWidth ? `width: ${labelWidth}%!important;` : ''}
+                    ${labelOrientation ? `text-align: ${labelOrientation}` : ''}
+                ${checkBoxAtLeft ? 
+                `margin-right:0px!important
+                 padding-left:10px` : ''}    
+            }
+            .gsi-error-span {
+                font-size: 12px;
+                color: #e21a1a;
+            }
+            & .bp3-input-group {
+                width: ${
+                  inputWidth ? `${inputWidth}` : `${100 - labelWidth}`
+                }%!important;
+                ${
+                  inputOrientation
+                    ? `display:flex;
                          justify-content:${inputOrientation};   
                         `
-                        : ''}
-                    & input, select {
-                        width: ${fill ? `100%` : `auto`};
-                    }
+                    : ''
                 }
-                & .bp3-control-group.bp3-numeric-input {
-                    width: ${inputWidth ? `${inputWidth}`: `${100 - labelWidth}`}%!important;
+                & input, select {
+                    width: ${fill ? `${100 - labelWidth}%` : `auto`};
+                }
+            }
+            & .bp3-control-group.bp3-numeric-input {
+                    width: ${
+                      inputWidth ? `${inputWidth}` : `${100 - labelWidth}`
+                    }%!important;
                     display: flex;
                     justify-content:${inputOrientation};
                     & .bp3-input-group {
                         width: auto!important;
-                        ${fill ? `
+                        ${
+                          fill
+                            ? `
                             width: calc(100% - 29px)!important;
                             & input {
                                 width: 100%!important;
                             }
-                            ` : ''}
+                            `
+                            : ''
+                        }
                     } 
                     
                 }
-                & .bp3-popover-wrapper {
-                    width: ${inputWidth ? `${inputWidth}`: `${100 - labelWidth}`}%!important;
+            & .bp3-popover-wrapper {
+                    width: ${
+                      inputWidth ? `${inputWidth}` : `${100 - labelWidth}`
+                    }%!important;
                     display: flex;
                     justify-content:${inputOrientation};
                 }
-                & textarea {
+            & textarea {
                     width: ${fill ? `${100 - labelWidth}%` : `auto`};
                     display: flex;
                     justify-content:${inputOrientation};
                 }
-                & .bp3-slider {
-                    width: ${fill ? `${100 - labelWidth}%` : `auto`};
-                    margin-left: 5px;
+            & .gsi-basic-slider-container {
+                    width: ${
+                      inputWidth ? `${inputWidth}` : `${100 - labelWidth}`
+                    }%!important;
+                    padding-left: 8px;
                     display: flex;
                     justify-content:${inputOrientation};
+                    
+                    & .bp3-slider {
+                        width: ${fill ? `calc(100% - 12px)` : `150px`};
+                    }
                 }
-                & .bp3-input,.bp3-tag-input {
-                    width: ${fill ? `${100 - labelWidth}%`: `auto`};
+            & .gsi-tag-container {
+                    width: ${
+                      inputWidth ? `${inputWidth}` : `${100 - labelWidth}`
+                    }%!important;
                     display: flex;
                     justify-content:${inputOrientation};
+                    
+                    & .bp3-input,.bp3-tag-input {
+                        width: ${fill ? `${100 - labelWidth}%` : `auto`};
+                    }
                 }
-                
+            & .gsi-checkbox-container {
+                    width: ${
+                      inputWidth
+                        ? `calc(${inputWidth}% - ${
+                            inputOrientation === 'flex-end' ? '38' : '0'
+                          }px)`
+                        : `${
+                            inputOrientation === 'flex-end'
+                              ? `calc(${100 - labelWidth}% - 38px)`
+                              : `${100 - labelWidth}%`
+                          }`
+                    }!important;
+                    display: flex;
+                    justify-content:${inputOrientation};
+             
+                    & .bp3-control,.bp3-checkbox,.bp3-inline,.bp3-align-right {
+	                      ${checkBoxAtLeft ? '' : `padding: 0!important;`}
+                        width: 0px!important;
+                        text-align: left;
+                        margin-right: 0px!important;
+                    
+	                      & span,.bp3-control-indicator {
+	                          margin-left: 0px!important -7px!important;
+                            float: left;
+	                      }
+                    }
+                }
         }          
 `;
-}}
+  }}
 `;

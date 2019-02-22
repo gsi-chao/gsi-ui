@@ -72,6 +72,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         fill={fill}
       >
           <label>{label}</label>
+        <div className={'gsi-tag-container'}>
         <TagInput
           {...{
             leftIcon,
@@ -87,6 +88,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
           values={fieldState.value || []}
           intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         />
+        </div>
       </StyledFormGroup>
     );
   }

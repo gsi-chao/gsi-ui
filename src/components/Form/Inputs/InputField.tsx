@@ -49,7 +49,6 @@ export class VInputField extends React.Component<IInputFieldProps> {
       <StyledFormGroup
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
@@ -58,23 +57,28 @@ export class VInputField extends React.Component<IInputFieldProps> {
         fill={fill}
       >
         <label>{label}</label>
-        <InputGroup
-          large={size === 'large'}
-          small={size === 'small'}
-          rightElement={rightEl}
-          name={id}
-          {...{
-            round,
-            leftIcon,
-            type,
-            disabled,
-            placeholder,
-            id
-          }}
-          onChange={(e: any) => fieldState.onChange(e.target.value)}
-          value={fieldState.value || ''}
-          intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        />
+        <div className={'gsi-input-container'}>
+          <InputGroup
+            large={size === 'large'}
+            small={size === 'small'}
+            rightElement={rightEl}
+            name={id}
+            {...{
+              round,
+              leftIcon,
+              type,
+              disabled,
+              placeholder,
+              id
+            }}
+            onChange={(e: any) => fieldState.onChange(e.target.value)}
+            value={fieldState.value || ''}
+            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+          />
+          { fieldState.hasError ?
+            <span className={'gsi-error-span'}>{ fieldState.error}</span> : null
+          }
+        </div>
       </StyledFormGroup>
     );
   }

@@ -66,7 +66,7 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
                 layer={layer}
             >
                 <label>{label}</label>
-                <div>
+                <div className={'gsi-basic-slider-container'}>
                     <Slider
                         {...{
                             disabled,

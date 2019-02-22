@@ -17,7 +17,6 @@ import {StyledFormGroup} from "./style";
  * Field Props
  */
 export interface IBasicSelectFieldProps extends IFieldProps {
-
   icon?: Partial<IIconProps>;
   options: IOptionProps[];
   minimal?: boolean;
