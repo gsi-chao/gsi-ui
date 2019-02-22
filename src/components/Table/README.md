@@ -13,6 +13,7 @@ It has the following characteristics:
 - Enable Row Header
 - Column Widths
 - Row height by type
+- Configuration Columns Header
 
 ## Next Features!
   - Customizable Columns.
@@ -194,6 +195,18 @@ It has the following characteristics:
             data={data}
           />
 ``
+
+- Configuration Columns Header
+
+<VTable
+
+            columns={['name', 'lastname']}
+             configColumnsHeader={[
+                          { column: 'name', textColor: 'white', backgroundColor: '#DB2C6F' },
+                          { column: 'lastname', textColor: 'white', backgroundColor: '#DB2C6F' },
+                        ]}
+            data={data}
+          />
 
 ### Dependencies
 VTables requires [Blueprint Tables](https://blueprintjs.com/docs/#table) v3+ to run.

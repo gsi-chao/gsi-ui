@@ -27,7 +27,9 @@ export const colorWidget: IVWidgetTableProps = {
     colorCell: {
       backgroundColor: 'orange',
       color: 'white',
-      printColor: (value: string) => {return true}
+      printColor: (value: string) => {
+        return true;
+      }
     }
   }
 };
@@ -71,7 +73,13 @@ export const renderCustomer = (value: string): ReactNode => {
     </div>
   );
 };
-export const widgetsCell: IVWidgetTableProps[] = [dropDown,colorWidget,datetimeWidget,checkboxWidget,customerwidget];
+export const widgetsCell: IVWidgetTableProps[] = [
+  dropDown,
+  colorWidget,
+  datetimeWidget,
+  checkboxWidget,
+  customerwidget
+];
 
 class TableWithWidgetDemo extends Component {
   state = {
@@ -79,13 +87,219 @@ class TableWithWidgetDemo extends Component {
   };
   render() {
     const data = [
-      { name: 'Carlos', dropdown: 'Lastname7', other: 'Lastname7', fecha: '12/05/2018', checkbox:true, color:'color', sinEditar:' some text' ,customer:'customer'},
-      { name: 'Carlos', dropdown: 'Lastname7', other: 'Lastname7', fecha: '12/05/2018', checkbox:false, color:'color', sinEditar:' some text',customer:'customer' },
-      { name: 'Carlos', dropdown: 'Lastname7', other: 'Lastname7', fecha: '12/05/2018', checkbox:true, color:'color', sinEditar:' some text',customer:'customer' },
-      { name: 'Carlos', dropdown: 'Lastname7', other: 'Lastname7', fecha: '12/05/2018', checkbox:false, color:'color', sinEditar:' some text', customer:'customer' },
-      { name: 'Carlos', dropdown: 'Lastname7', other: 'Lastname7', fecha: '12/05/2018', checkbox:true, color:'color', sinEditar:' some text', customer:'customer' },
-
-
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      }
     ];
 
     // validator example
@@ -103,7 +317,16 @@ class TableWithWidgetDemo extends Component {
           <VTable
             edit={{ columns: ['name'], validation: { name: nameValidation } }}
             widgetsCell={widgetsCell}
-            columns={['name', 'dropdown', 'other','fecha','checkbox','color','sinEditar','customer']}
+            columns={[
+              'name',
+              'dropdown',
+              'other',
+              'fecha',
+              'checkbox',
+              'color',
+              'sinEditar',
+              'customer'
+            ]}
             columns_name={{ name: 'Namesito' }}
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
@@ -119,9 +342,14 @@ class TableWithWidgetDemo extends Component {
               ]
             }}
             data={data}
-            enableColumnResizing={true}
-            enableRowResizing={true}
+            configColumnsHeader={[
+              { column: 'name', textColor: 'white', backgroundColor: '#DB2C6F' },
+              { column: 'fecha', textColor: 'white', backgroundColor: '#634DBF' },
+              { column: 'dropdown', textColor: 'white', backgroundColor: '#D13913' },
+              { column: 'color', textColor: 'white', backgroundColor: '#238C2C' },
+            ]}
             typeHeightRow={'HALF'}
+
           />
         </div>
 
@@ -138,8 +366,6 @@ class TableWithWidgetDemo extends Component {
           {/*<Column name="other2" cellRenderer={cellRenderer}/>*/}
           {/*</Table>*/}
         </div>
-
-
       </React.Fragment>
     );
   }
