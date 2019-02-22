@@ -11,7 +11,7 @@ import {
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/table/lib/css/table.css';
 import { IconName, Intent } from '@blueprintjs/core';
-import TableColumn from './TableColumn';
+import TableColumn, {  IVConfigHeader } from './TableColumn';
 import { fromEvent } from 'rxjs';
 import {
   ActionCellsMenuItem,
@@ -20,7 +20,7 @@ import {
   IVContextualTableProps
 } from './ActionCellsMenuItem';
 
-import { CellDiv } from './style';
+import { CellCenterText, CellDiv } from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
 
@@ -62,9 +62,13 @@ export interface IVTableProps {
   enableRowHeader?: boolean;
   columnWidths?: Array<number | null | undefined>;
   className?: string;
+  typeHeightRow?: defaultheightRow;
+  configColumnsHeader?: IVConfigHeader[];
 }
 
 interface IProps extends IVTableProps, ITableProps {}
+
+export type defaultheightRow = 'SHORT' | 'HALF' | 'LONG';
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -101,7 +105,18 @@ export class VTable extends Component<IProps, IVTableState> {
     const { sortable, columns_name } = this.props;
     const { columns } = this.state;
     const columnsList = columns.map((name: string, index: number) => {
-      const col = new TableColumn(name, index, columns, columns_name, sortable);
+      const configColumnsHeader = this.props.configColumnsHeader
+        ? this.props.configColumnsHeader
+        : [];
+
+      const col = new TableColumn(
+        name,
+        index,
+        columns,
+        configColumnsHeader,
+        columns_name,
+        sortable
+      );
       return col.getColumn(this.renderCell);
     });
 
@@ -125,11 +140,28 @@ export class VTable extends Component<IProps, IVTableState> {
         enableRowResizing={resizingProperties.enableRowResizing}
         enableRowHeader={resizingProperties.enableRowHeader}
         columnWidths={columnWidths}
+        defaultRowHeight={this.getDefaultRowHeight()}
+        numFrozenColumns={this.props.numFrozenColumns}
+        numFrozenRows={this.props.numFrozenRows}
       >
         {columnsList}
       </Table>
     );
   }
+
+  getDefaultRowHeight = (): number => {
+    if (this.props.typeHeightRow) {
+      switch (this.props.typeHeightRow) {
+        case 'SHORT':
+          return 22;
+        case 'HALF':
+          return 50;
+        default:
+          return 100;
+      }
+    }
+    return 22;
+  };
 
   getResizingProperties = () => {
     const enableRowResizing = this.props.enableRowResizing
@@ -158,13 +190,12 @@ export class VTable extends Component<IProps, IVTableState> {
       columnWidths = this.props.columnWidths;
       return columnWidths;
     }
-    if (this.props.columnWidths){
+    if (this.props.columnWidths) {
       console.warn(
         'Gsi-vx-ui => [Violation] The last configuration to catch the width ' +
-        'of the columns does not correspond to the column amount of the table'
+          'of the columns does not correspond to the column amount of the table'
       );
     }
-
   };
 
   public renderCell = (rowIndex: number, columnIndex: number) => {
@@ -191,6 +222,7 @@ export class VTable extends Component<IProps, IVTableState> {
 
     return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <EditableCell
+        style={{ textAlign: 'center' }}
         value={value == null ? '' : value}
         intent={this.state.sparseCellInvalid![dataKey]}
         onCancel={this.cellValidator(rowIndex, columnIndex)}
@@ -198,20 +230,17 @@ export class VTable extends Component<IProps, IVTableState> {
         onConfirm={this.cellSetter(rowIndex, columnIndex)}
       />
     ) : (
-      <Cell>{value}</Cell>
+      <CellCenterText as={Cell}>{value}</CellCenterText>
     );
   };
 
   private getWidgetCellValid = (): IVWidgetTableProps[] => {
-    const { columns, sparseCellData } = this.state;
+    const { columns } = this.state;
     const widgetsValid: IVWidgetTableProps[] = [];
 
     this.state.widgetsCell &&
       this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
-        if (
-          columns.indexOf(widget.column) !== -1 &&
-          widget.row < sparseCellData.length
-        ) {
+        if (columns.filter(x => x === widget.column).length === 1) {
           widgetsValid.push(widget);
         }
       });
@@ -224,9 +253,9 @@ export class VTable extends Component<IProps, IVTableState> {
       this.state.widgetsCell &&
       this.state.widgetsCell.length > 0 &&
       this.getWidgetCellValid();
+
     return (
-      widgetCellValid &&
-      widgetCellValid.find(x => x.row === rowIndex && x.column === columnName)
+      widgetCellValid && widgetCellValid.find(x => x.column === columnName)
     );
   };
 

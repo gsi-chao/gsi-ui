@@ -12,6 +12,8 @@ It has the following characteristics:
 - Enable Row Resizing
 - Enable Row Header
 - Column Widths
+- Row height by type
+- Configuration Columns Header
 
 ## Next Features!
   - Customizable Columns.
@@ -72,7 +74,7 @@ It has the following characteristics:
     />
 ``
 
-- Enable Column Resizing,  Enable Row Resizing, Enable Row Header, Column Widths
+- Enable Column Resizing,  Enable Row Resizing, Enable Row Header, Column Widths,  Row height by type
 
 ``
  <VTable
@@ -96,13 +98,14 @@ It has the following characteristics:
           enableRowHeader={true}
           enableRowResizing={true}
           columnWidths={[80,100]}
+          typeHeightRow={'HALF'}
         />
 ``
 - Checkbox cell
 ``
  <VTable
             widgetsCell={[{
-                              row: 7,
+
                               column: 'name',
                               widget: {
                                 type: 'CHECKBOX'
@@ -120,15 +123,15 @@ It has the following characteristics:
 ``
  <VTable
             widgetsCell={[{
-                              row: 7,
-                              column: 'name',
-                              widget: {
-                                type: 'COLOR'
-                                checkboxCell:{
-                                    backgroundColor: 'blue',
-                                    color: 'white'
-                                     }
-                              }]}
+                              column: 'lastname',
+                                widget: {
+                                  type: 'COLOR',
+                                  colorCell: {
+                                    backgroundColor: 'orange',
+                                    color: 'white',
+                                    printColor: (value: string) => {return true}
+                                  }
+                                }]}
             columns={['name', 'lastname']}
             data={data}
           />
@@ -138,7 +141,7 @@ It has the following characteristics:
 ``
  <VTable
             widgetsCell={[{
-                              row: 7,
+
                               column: 'name',
                               widget: {
                                 type: 'DATETIME',
@@ -155,7 +158,7 @@ It has the following characteristics:
 ``
  <VTable
             widgetsCell={[{
-                              row: 7,
+
                               column: 'name',
                               widget: {
                                type: 'DROPDOWN',
@@ -179,7 +182,7 @@ It has the following characteristics:
 ``
  <VTable
             widgetsCell={[{
-                              row: 7,
+
                               column: 'name',
                               widget: {
                                type: 'CUSTOMERCOMPONENT',
@@ -192,6 +195,18 @@ It has the following characteristics:
             data={data}
           />
 ``
+
+- Configuration Columns Header
+
+<VTable
+
+            columns={['name', 'lastname']}
+             configColumnsHeader={[
+                          { column: 'name', textColor: 'white', backgroundColor: '#DB2C6F' },
+                          { column: 'lastname', textColor: 'white', backgroundColor: '#DB2C6F' },
+                        ]}
+            data={data}
+          />
 
 ### Dependencies
 VTables requires [Blueprint Tables](https://blueprintjs.com/docs/#table) v3+ to run.

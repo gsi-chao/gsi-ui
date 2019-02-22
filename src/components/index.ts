@@ -24,3 +24,12 @@ export {
   VSelectField
 } from './Form';
 export { VSelectionList, IItemsList } from './SelectionList';
+export {
+  IIconTabsPanelProps,
+  ITabsPanelProps,
+  ITabsPanelState,
+  ITabsPanelStyle,
+  ITabsPanelTypes,
+  VTabsPanel
+} from './TabsPanel';
+export { IVBadgeProps, IVBadgeStyle, VBadge } from './Badge';

@@ -4,6 +4,7 @@ export interface IStyledCheckbox {
   backgroundColor?: string;
 }
 
+
 export const CheckboxCell = styled.div`
   display: flex;
   justify-content: center;

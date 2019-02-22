@@ -5,8 +5,7 @@ import { VTable } from '../components/Table';
 import { Cell } from '@blueprintjs/table';
 
 export const dropDown: IVWidgetTableProps = {
-  row: 9,
-  column: 'lastname',
+  column: 'dropdown',
   widget: {
     type: 'DROPDOWN',
     dropdownCell: {
@@ -20,6 +19,53 @@ export const dropDown: IVWidgetTableProps = {
     }
   }
 };
+
+export const colorWidget: IVWidgetTableProps = {
+  column: 'color',
+  widget: {
+    type: 'COLOR',
+    colorCell: {
+      backgroundColor: 'orange',
+      color: 'white',
+      printColor: (value: string) => {
+        return true;
+      }
+    }
+  }
+};
+
+export const checkboxWidget: IVWidgetTableProps = {
+  column: 'checkbox',
+  widget: {
+    type: 'CHECKBOX'
+  }
+};
+
+export const datetimeWidget: IVWidgetTableProps = {
+  column: 'fecha',
+  widget: {
+    type: 'DATETIME',
+    dateTimeCell: {
+      icon: 'calendar'
+    }
+  }
+};
+
+export const customerwidget: IVWidgetTableProps = {
+  column: 'customer',
+  widget: {
+    type: 'CUSTOMERCOMPONENT',
+    cusmtomerCell: {
+      renderCustomer: (value: string): ReactNode => {
+        return (
+          <div>
+            <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
+          </div>
+        );
+      }
+    }
+  }
+};
 export const renderCustomer = (value: string): ReactNode => {
   return (
     <div>
@@ -28,42 +74,11 @@ export const renderCustomer = (value: string): ReactNode => {
   );
 };
 export const widgetsCell: IVWidgetTableProps[] = [
-  {
-    row: 3,
-    column: 'lastname',
-    widget: {
-      type: 'COLOR',
-      colorCell: { backgroundColor: 'orange', color: 'white' }
-    }
-  },
-  {
-    row: 5,
-    column: 'lastname',
-    widget: {
-      type: 'CUSTOMERCOMPONENT',
-      cusmtomerCell: {
-        renderCustomer
-      }
-    }
-  },
-  {
-    row: 7,
-    column: 'name',
-    widget: {
-      type: 'CHECKBOX'
-    }
-  },
   dropDown,
-  {
-    row: 10,
-    column: 'name',
-    widget: {
-      type: 'DATETIME',
-      dateTimeCell: {
-        icon: 'calendar'
-      }
-    }
-  }
+  colorWidget,
+  datetimeWidget,
+  checkboxWidget,
+  customerwidget
 ];
 
 class TableWithWidgetDemo extends Component {
@@ -72,18 +87,219 @@ class TableWithWidgetDemo extends Component {
   };
   render() {
     const data = [
-      { name: 'Carlos', lastname: 'Chao' },
-      { name: 'Name1', lastname: 'Lastname1' },
-      { name: 'Name2', lastname: 'Lastname2' },
-      { name: 'Name3', lastname: 'Lastname3' },
-      { name: 'Name4', lastname: 'Lastname4' },
-      { name: 'Name5', lastname: 'Lastname5' },
-      { name: 'Name6', lastname: 'Lastname6' },
-      { name: true, lastname: 'Lastname7' },
-      { name: 'name7', lastname: 'Lastname7' },
-      { name: 'Name7', lastname: 'Lastname7' },
-      { name: '12/05/2018', lastname: 'Lastname7' },
-      { name: '12/05/2018', lastname: 'Lastname7' }
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },{
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      }
     ];
 
     // validator example
@@ -101,7 +317,16 @@ class TableWithWidgetDemo extends Component {
           <VTable
             edit={{ columns: ['name'], validation: { name: nameValidation } }}
             widgetsCell={widgetsCell}
-            columns={['name', 'lastname']}
+            columns={[
+              'name',
+              'dropdown',
+              'other',
+              'fecha',
+              'checkbox',
+              'color',
+              'sinEditar',
+              'customer'
+            ]}
             columns_name={{ name: 'Namesito' }}
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
@@ -117,7 +342,13 @@ class TableWithWidgetDemo extends Component {
               ]
             }}
             data={data}
-            enableColumnResizing={true}
+            configColumnsHeader={[
+              { column: 'name', textColor: 'white', backgroundColor: '#DB2C6F' },
+              { column: 'fecha', textColor: 'white', backgroundColor: '#634DBF' },
+              { column: 'dropdown', textColor: 'white', backgroundColor: '#D13913' },
+              { column: 'color', textColor: 'white', backgroundColor: '#238C2C' },
+            ]}
+            typeHeightRow={'HALF'}
 
           />
         </div>
@@ -140,11 +371,11 @@ class TableWithWidgetDemo extends Component {
   }
   handleChangeColor = () => {
     if (
-      widgetsCell[0] &&
-      widgetsCell[0].widget &&
-      widgetsCell[0].widget.colorCell
+      widgetsCell[1] &&
+      widgetsCell[1].widget &&
+      widgetsCell[1].widget.colorCell
     ) {
-      widgetsCell[0].widget.colorCell.backgroundColor = 'green';
+      widgetsCell[1].widget.colorCell.backgroundColor = 'green';
       this.setState({
         changeColor: !this.state.changeColor
       });
