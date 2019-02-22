@@ -3,6 +3,7 @@ import './App.css';
 import { VTable } from './components/Table/Table';
 import InputsDemo from './demo/InputsDemo';
 import TableWithWidgetDemo from './demo/TableWithWidgetDemo';
+import { Cell, Column, Table } from '@blueprintjs/table';
 
 class App extends Component {
   render() {
@@ -18,6 +19,39 @@ class App extends Component {
       { name: 'Name7', lastname: 'Lastname7', age: 44 },
       { name: 'Name7', lastname: 'Lastname7', age: 89 },
       { name: 'Name7', lastname: 'Lastname7', age: 11 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
+      { name: 'Name7', lastname: 'Lastname7', age: 12 },
       { name: 'Name7', lastname: 'Lastname7', age: 12 }
     ];
 
@@ -50,12 +84,25 @@ class App extends Component {
           enableRowHeader={true}
           enableRowResizing={true}
           columnWidths={[200,500]}
+          numFrozenRows={2} numFrozenColumns={1}
         />
         <InputsDemo />
         <TableWithWidgetDemo />
+
+        <br />
+        <div style={{height:'200px'}}>
+          <Table numRows={5}
+                 numFrozenRows={2} numFrozenColumns={1}>
+            <Column />
+            <Column />
+            <Column />
+          </Table>
+        </div>
       </React.Fragment>
     );
   }
+
+
 
   handleChangeTabMenu = (data: any) => {
     console.log(data);

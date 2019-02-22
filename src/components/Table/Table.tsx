@@ -11,7 +11,7 @@ import {
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/table/lib/css/table.css';
 import { IconName, Intent } from '@blueprintjs/core';
-import TableColumn from './TableColumn';
+import TableColumn, {  IVConfigHeader } from './TableColumn';
 import { fromEvent } from 'rxjs';
 import {
   ActionCellsMenuItem,
@@ -23,7 +23,6 @@ import {
 import { CellCenterText, CellDiv } from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
-import styled from 'styled-components';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
@@ -62,12 +61,13 @@ export interface IVTableProps {
   enableRowResizing?: boolean;
   enableRowHeader?: boolean;
   columnWidths?: Array<number | null | undefined>;
-  typeHeightRow?: defaultheightRow
+  typeHeightRow?: defaultheightRow;
+  configColumnsHeader?: IVConfigHeader[];
 }
 
 interface IProps extends IVTableProps, ITableProps {}
 
-export type defaultheightRow = 'SHORT' | 'HALF' | 'LONG'
+export type defaultheightRow = 'SHORT' | 'HALF' | 'LONG';
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -104,7 +104,18 @@ export class VTable extends Component<IProps, IVTableState> {
     const { sortable, columns_name } = this.props;
     const { columns } = this.state;
     const columnsList = columns.map((name: string, index: number) => {
-      const col = new TableColumn(name, index, columns, columns_name, sortable);
+      const configColumnsHeader = this.props.configColumnsHeader
+        ? this.props.configColumnsHeader
+        : [];
+
+      const col = new TableColumn(
+        name,
+        index,
+        columns,
+        configColumnsHeader,
+        columns_name,
+        sortable
+      );
       return col.getColumn(this.renderCell);
     });
 
@@ -128,22 +139,26 @@ export class VTable extends Component<IProps, IVTableState> {
         enableRowHeader={resizingProperties.enableRowHeader}
         columnWidths={columnWidths}
         defaultRowHeight={this.getDefaultRowHeight()}
-
+        numFrozenColumns={this.props.numFrozenColumns}
+        numFrozenRows={this.props.numFrozenRows}
       >
         {columnsList}
       </Table>
     );
   }
 
-  getDefaultRowHeight = () : number =>{
-     if(this.props.typeHeightRow){
+  getDefaultRowHeight = (): number => {
+    if (this.props.typeHeightRow) {
       switch (this.props.typeHeightRow) {
-        case 'SHORT': return 22;
-        case 'HALF' : return 50;
-        default : return 100
+        case 'SHORT':
+          return 22;
+        case 'HALF':
+          return 50;
+        default:
+          return 100;
       }
-     }
-     return 22
+    }
+    return 22;
   };
 
   getResizingProperties = () => {
@@ -203,11 +218,9 @@ export class VTable extends Component<IProps, IVTableState> {
 
     if (component) return <CellDiv as={Cell}>{component}</CellDiv>;
 
-
-
     return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <EditableCell
-        style={{textAlign:'center'}}
+        style={{ textAlign: 'center' }}
         value={value == null ? '' : value}
         intent={this.state.sparseCellInvalid![dataKey]}
         onCancel={this.cellValidator(rowIndex, columnIndex)}
@@ -233,8 +246,6 @@ export class VTable extends Component<IProps, IVTableState> {
     return widgetsValid;
   };
 
-
-
   private getWidgetCell = (rowIndex: number, columnName: string) => {
     const widgetCellValid =
       this.state.widgetsCell &&
@@ -242,7 +253,7 @@ export class VTable extends Component<IProps, IVTableState> {
       this.getWidgetCellValid();
 
     return (
-      widgetCellValid && widgetCellValid.find(x => x.column === columnName )
+      widgetCellValid && widgetCellValid.find(x => x.column === columnName)
     );
   };
 
