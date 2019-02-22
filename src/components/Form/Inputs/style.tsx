@@ -58,7 +58,6 @@ export const StyledFormGroup = styled(FormGroup)`
                 : 'width: 100%!important;'
             }
             & label.field-label {
-                margin-right: 10px;
                 line-height: 30px;
                     ${labelWidth ? `width: ${labelWidth}%!important;` : ''}
                     ${labelOrientation ? `text-align: ${labelOrientation}` : ''}
@@ -74,6 +73,7 @@ export const StyledFormGroup = styled(FormGroup)`
                 color: #e21a1a;
             }
             & .gsi-form-field-container {
+                padding-left: 10px!important;
                 width: ${
                   inputWidth
                     ? `calc(${inputWidth}% - ${
@@ -138,7 +138,8 @@ export const StyledFormGroup = styled(FormGroup)`
                 }
             
                     & .bp3-slider {
-                        width: ${fill ? `calc(100% - 12px)` : `150px`};
+                        margin-left: 9px;
+                        width: ${fill ? `calc(100% - 21px)` : `150px`};
                     }
                 
                     & .bp3-input.bp3-tag-input {
