@@ -78,7 +78,6 @@ export default class TableColumn implements ISortableColumn {
       x => x.column === this.columns[columnIndex]
     );
 
-    console.log(configHeader);
     if (configHeader) {
       backgroundColor = configHeader.backgroundColor;
       textColor = configHeader.textColor;

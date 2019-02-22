@@ -11,13 +11,13 @@ import {
 } from '@blueprintjs/core';
 /** FieldState */
 import { FieldState } from 'formstate';
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { IFieldProps } from './IFieldProps';
+import { StyledFormGroup } from './style';
 
 /**
  * Field Props
  */
-export interface ITagFieldProps extends IFieldProps{
+export interface ITagFieldProps extends IFieldProps {
   leftIcon?: IconName;
   tagProps?: ITagProps | ((value: React.ReactNode, index: number) => ITagProps);
   fill?: boolean;
@@ -47,7 +47,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       id,
       tagProps,
       className,
-      layer,
+      layer
     } = this.props;
 
     const clearButton = (
@@ -71,7 +71,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         layer={layer}
         fill={fill}
       >
-          <label>{label}</label>
+        <label>{label}</label>
         <TagInput
           {...{
             leftIcon,
@@ -93,6 +93,9 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
 
   private handleChange = (values: React.ReactNode[]) => {
     this.props.fieldState.onChange(values);
+    if (this.props.onChange) {
+      this.props.onChange!(values);
+    }
   };
 
   private handleClear = () => this.handleChange([]);

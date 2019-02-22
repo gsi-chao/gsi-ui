@@ -71,11 +71,19 @@ export class VInputField extends React.Component<IInputFieldProps> {
             placeholder,
             id
           }}
-          onChange={(e: any) => fieldState.onChange(e.target.value)}
+          onChange={this.onChange}
           value={fieldState.value || ''}
           intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         />
       </StyledFormGroup>
     );
+  }
+
+  onChange = (e: any) => {
+    this.props.fieldState.onChange(e.target.value);
+    if(this.props.onChange){
+      this.props.onChange(e.target.value);
+    }
+
   }
 }

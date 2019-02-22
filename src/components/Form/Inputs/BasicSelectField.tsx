@@ -10,14 +10,13 @@ import {
 } from '@blueprintjs/core';
 /** FieldState */
 import { FieldState } from 'formstate';
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { IFieldProps } from './IFieldProps';
+import { StyledFormGroup } from './style';
 
 /**
  * Field Props
  */
 export interface IBasicSelectFieldProps extends IFieldProps {
-
   icon?: Partial<IIconProps>;
   options: IOptionProps[];
   minimal?: boolean;
@@ -67,7 +66,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
           iconProps={icon}
           name={id}
           large={size === 'large'}
-          onChange={(e: any) => fieldState.onChange(e.target.value)}
+          onChange={this.onChange}
           value={fieldState.value || ''}
           {...{
             disabled,
@@ -79,4 +78,10 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
       </StyledFormGroup>
     );
   }
+  onChange = (e: any) => {
+    this.props.fieldState.onChange(e.target.value);
+    if (this.props.onChange) {
+      this.props.onChange(e.target.value);
+    }
+  };
 }
