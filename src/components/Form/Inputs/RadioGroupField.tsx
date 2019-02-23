@@ -10,9 +10,12 @@ import {
   RadioGroup,
   IOptionProps
 } from '@blueprintjs/core';
-import { IFieldProps } from './IFieldProps';
-import { IStyledFieldProps, layerInPercent, StyledFormGroup } from './style';
-import styled from 'styled-components';
+
+import {IFieldProps} from "./IFieldProps";
+import {IStyledFieldProps, layerInPercent, StyledFormGroup} from "./style";
+import styled from "styled-components";
+import { FormFieldContainer } from './FormFieldContainer';
+
 
 /**
  * Field Props
@@ -27,42 +30,43 @@ export interface IRadioButtonFieldProps extends IFieldProps {
  * Field component. Must be an observer.
  */
 
-export const StyledRadioButton = styled(StyledFormGroup)`
-  ${(props: IStyledFieldProps) => {
-    const { layer, fill } = props;
-    let layerPercent: any = {};
-    let inputOrientation = 'flex-start';
-    let labelWidth = undefined;
-    let inputWidth = undefined;
-    if (layer) {
-      layerPercent = layer ? layerInPercent(layer) : undefined;
-      inputOrientation =
-        layer.inputOrientation === 'center'
-          ? 'center'
-          : layer.inputOrientation === 'end'
-          ? 'flex-end'
-          : 'flex-start';
-      if (layerPercent) {
+
+export const StyledRadioButton = styled(StyledFormGroup)
+    `${(props: IStyledFieldProps) => {
+    const {layer} = props;
+let layerPercent: any = {};
+let inputOrientation = 'flex-start';
+let labelWidth = undefined;
+let inputWidth = undefined;
+if(layer) {
+    layerPercent = layer ? layerInPercent(layer) : undefined;
+    inputOrientation = layer.inputOrientation === 'center' ? 'center' : layer.inputOrientation === 'end' ? 'flex-end' : 'flex-start';
+    if (layerPercent) {
         labelWidth = layerPercent.labelWidth;
         inputWidth = layerPercent.inputWidth;
       }
     }
-    return `& .bp3-form-content {
-  & label {
-    line-height: 43px;
-  }
+}
+return`& .bp3-form-content {
+  & .gsi-form-field-container {
   & div {
     display: flex;
     position: relative;
     top: -5px;
-    width: ${inputWidth ? `${inputWidth}` : `${100 - labelWidth}`}%!important;
-                    display: flex;
-                    justify-content:${inputOrientation};
+    display: flex;
+    justify-content:${inputOrientation};
 ;
-    & label {
-      width:auto!important;
-      
-    }
+    & .bp3-control.bp3-radio.bp3-inline {
+	      padding: 0 26px!important;
+        width: auto!important;
+        margin-right: 10px!important;
+        line-height: 27px;
+	  .bp3-control-indicator {
+	      margin-left: -26px;
+	      margin-top: 0px;
+	}
+	}
+  }
   }
 }
 `;
@@ -93,14 +97,13 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
       <StyledRadioButton
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
       >
-        <label>{label}</label>
+        <FormFieldContainer label={label} fieldState={fieldState}>
         <RadioGroup
           name={id}
           {...{
@@ -113,6 +116,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
           selectedValue={fieldState.value}
           options={options}
         />
+        </FormFieldContainer>
       </StyledRadioButton>
     );
   }

@@ -10,9 +10,11 @@ import {
   Slider
 } from '@blueprintjs/core';
 
-import { FieldState } from 'formstate';
-import { IFieldProps } from './IFieldProps';
-import { StyledFormGroup } from './style';
+import {FieldState} from 'formstate';
+import {IFieldProps} from "./IFieldProps";
+import {StyledFormGroup} from "./style";
+import { FormFieldContainer } from './FormFieldContainer';
+
 
 /**
  * Field Props
@@ -53,35 +55,33 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
       fill
     } = this.props;
 
-    return (
-      <StyledFormGroup
-        className={className}
-        disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
-        inline={inline}
-        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        labelFor={id}
-        labelInfo={labelInfo}
-        fill={fill}
-        layer={layer}
-      >
-        <label>{label}</label>
-        <div>
-          <Slider
-            {...{
-              disabled,
-              id,
-              min,
-              max,
-              stepSize,
-              labelStepSize
-            }}
-            onChange={this.onChange}
-            value={fieldState.value || 0}
-          />
-        </div>
-      </StyledFormGroup>
-    );
+        return (
+            <StyledFormGroup
+                className={className}
+                disabled={disabled}
+                inline={inline}
+                intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+                labelFor={id}
+                labelInfo={labelInfo}
+                fill={fill}
+                layer={layer}
+            >
+                <FormFieldContainer label={label} fieldState={fieldState}>
+                    <Slider
+                        {...{
+                            disabled,
+                            id,
+                            min,
+                            max,
+                            stepSize,
+                            labelStepSize
+                        }}
+                        onChange={this.onChange}
+                        value={fieldState.value || 0}
+                    />
+                </FormFieldContainer>
+            </StyledFormGroup>
+        );
   }
 
   onChange = (e: any) => {

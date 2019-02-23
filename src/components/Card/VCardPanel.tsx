@@ -8,6 +8,7 @@ import {
   VCardTextSpanContainer
 } from './style';
 import React, { Component } from 'react';
+import { FlexJustify, HeaderOrientation } from './types';
 
 interface StyledCardProps {
   noHeader?: boolean;
@@ -32,12 +33,10 @@ interface StyledCardProps {
   className?: string;
 }
 
+
 interface PanelState {
   isOpen: boolean;
 }
-
-export type FlexJustify = 'center' | 'start' | 'end';
-export type HeaderOrientation = 'row' | 'row-reverse';
 
 export class VCardPanel extends Component<StyledCardProps, PanelState> {
   constructor(props: StyledCardProps) {

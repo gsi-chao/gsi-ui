@@ -3,17 +3,17 @@ import React, { Component } from 'react';
 import { FieldState, FormState } from 'formstate';
 import { observer } from 'mobx-react';
 import { required } from '../components/Form/Validators';
-import { Icon } from '@blueprintjs/core';
 import {
   VInputField,
-  VBasicSelectField,
   VBasicSliderField,
   VTextAreaField,
   VTagInputField,
   VNumericField,
   VCheckboxField,
-  VRadioGroupField, VSelectField
+  VRadioGroupField,
+  VSelectField
 } from '../components/Form';
+import { VCardPanel } from '../components';
 
 const store = [
   {
@@ -63,29 +63,30 @@ class InputsDemo extends Component {
         <VInputField
           fieldState={this.form.$.username}
           layer={{
-              labelWidth: 6,
-              inputWidth: 6,
-
+            labelWidth: 6,
           }}
-          fill
           id="username"
           label={'Username'}
-          inline={false}
+          inline={true}
         />
-          <VInputField
-              layer={{
-                  labelWidth: 6,
-                  inputWidth: 6,
-                  labelOrientation: 'end',
-                  inputOrientation: 'start'
-
-              }}
-              fieldState={this.form.$.username}
-              id="username"
-              label={'Username'}
-              inline={false}
-          />
         <VInputField
+          layer={{
+            labelWidth: 6,
+            inputWidth: 2,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
+          }}
+          fieldState={this.form.$.username}
+          id="username"
+          label={'Username'}
+          inline={true}
+        />
+        <VInputField
+          layer={{
+            labelWidth: 6,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
+          }}
           fieldState={this.form.$.search}
           id="username"
           label={'Search'}
@@ -95,11 +96,9 @@ class InputsDemo extends Component {
         />
         <VSelectField
           layer={{
-                labelWidth: 6,
-                inputWidth: 6,
-                labelOrientation: 'end',
-                inputOrientation: 'start'
-
+            labelWidth: 6,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
           }}
           options={store}
           inline
@@ -109,25 +108,22 @@ class InputsDemo extends Component {
           icon={'search'}
         />
         <VTextAreaField
-            fill
-            layer={{
-                labelWidth: 6,
-                inputWidth: 6,
-                labelOrientation: 'end',
-                inputOrientation: 'start'
-
-            }}
+          layer={{
+            labelWidth: 6,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
+          }}
           id="description"
           label="Description"
           inline
           fieldState={this.form.$.description}
         />
         <VTagInputField
-            layer={{
-                labelWidth: 6,
-                inputWidth: 6,
-                labelOrientation:'end',
-                inputOrientation:'start'}}
+          layer={{
+            labelWidth: 6,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
+          }}
           id="tags"
           fieldState={this.form.$.tags}
           inline
@@ -138,16 +134,19 @@ class InputsDemo extends Component {
           fieldState={this.form.$.age}
           label="Edad"
           layer={{
-              labelWidth: 6,
-              labelOrientation:'end',
-              inputOrientation:'start'}}
+            labelWidth: 6,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
+          }}
           inline
         />
         <VCheckboxField
-            layer={{
-                labelWidth: 6,
-                labelOrientation:'end',
-                inputOrientation:'start'}}
+          checkBoxAtLeft
+          layer={{
+            labelWidth: 6,
+            labelOrientation: 'start',
+            inputOrientation: 'end'
+          }}
           fieldState={this.form.$.have_job}
           id="have_job"
           label="Have a job?"
@@ -155,11 +154,11 @@ class InputsDemo extends Component {
           alignIndicator="right"
         />
         <VRadioGroupField
-            layer={{
-                labelWidth: 6,
-                inputWidth: 6,
-                labelOrientation:'end',
-                inputOrientation:'start'}}
+          layer={{
+            labelWidth: 6,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
+          }}
           id="Sex"
           options={sex}
           label="Sex"
@@ -167,26 +166,29 @@ class InputsDemo extends Component {
           fieldState={this.form.$.sex}
         />
         <VBasicSliderField
-            layer={{
-                labelWidth: 6,
-                inputWidth: 6,
-                labelOrientation:'center',
-                inputOrientation:'center'}}
+          layer={{
+            labelWidth: 6,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
+          }}
+          fill
           id="range"
           fieldState={this.form.$.range}
           label="Range"
           inline
         />
         <VSelectField
-            layer={{
-                labelWidth: 6,
-                inputWidth: 6,
-                labelOrientation:'center',
-                inputOrientation:'center'}}
-            inline label="Places"
-            options={sex}
-            id="places"
-            fieldState={this.form.$.places}/>
+          layer={{
+            labelWidth: 6,
+            labelOrientation: 'center',
+            inputOrientation: 'center'
+          }}
+          inline
+          label="Places"
+          options={sex}
+          id="places"
+          fieldState={this.form.$.places}
+        />
       </React.Fragment>
     );
   }

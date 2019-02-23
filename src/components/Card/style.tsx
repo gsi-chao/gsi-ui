@@ -1,6 +1,6 @@
 import { Card } from '@blueprintjs/core';
 import styled from 'styled-components';
-import { FlexJustify, HeaderOrientation } from './VCardPanel';
+import { FlexJustify, HeaderOrientation } from './types';
 
 interface ICardPanelProps {
     headerBackgroundColor?: string;

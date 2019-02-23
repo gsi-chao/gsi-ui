@@ -5,6 +5,7 @@ import { IconName, InputGroup, Intent } from '@blueprintjs/core';
 /** FieldState */
 import { StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
+import { FormFieldContainer } from './FormFieldContainer';
 
 /**
  * Field component. Must be an observer.
@@ -49,7 +50,6 @@ export class VInputField extends React.Component<IInputFieldProps> {
       <StyledFormGroup
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
@@ -57,24 +57,25 @@ export class VInputField extends React.Component<IInputFieldProps> {
         layer={layer}
         fill={fill}
       >
-        <label>{label}</label>
-        <InputGroup
-          large={size === 'large'}
-          small={size === 'small'}
-          rightElement={rightEl}
-          name={id}
-          {...{
-            round,
-            leftIcon,
-            type,
-            disabled,
-            placeholder,
-            id
-          }}
-          onChange={this.onChange}
-          value={fieldState.value || ''}
-          intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        />
+        <FormFieldContainer label={label} fieldState={fieldState}>
+          <InputGroup
+            large={size === 'large'}
+            small={size === 'small'}
+            rightElement={rightEl}
+            name={id}
+            {...{
+              round,
+              leftIcon,
+              type,
+              disabled,
+              placeholder,
+              id
+            }}
+            onChange={this.onChange}
+            value={fieldState.value || ''}
+            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+          />
+        </FormFieldContainer>
       </StyledFormGroup>
     );
   }

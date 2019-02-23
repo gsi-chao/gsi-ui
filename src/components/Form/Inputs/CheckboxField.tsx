@@ -13,6 +13,8 @@ import * as React from 'react';
 import { FieldState } from 'formstate';
 import { IFieldProps } from './IFieldProps';
 import { StyledFormGroup } from './style';
+import { FormFieldContainer } from './FormFieldContainer';
+
 
 /**
  * Field Props
@@ -20,6 +22,7 @@ import { StyledFormGroup } from './style';
 export interface ICheckBoxFieldProps extends IFieldProps {
   rightElement?: Element;
   alignIndicator?: Alignment;
+  checkBoxAtLeft?: boolean;
 }
 
 /**
@@ -43,33 +46,36 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       alignIndicator,
       id,
       className,
-      layer
+      layer,
+      checkBoxAtLeft
     } = this.props;
 
     return (
       <StyledFormGroup
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
+        checkBoxAtLeft = {checkBoxAtLeft}
       >
-        <Checkbox
-          name={id}
-          large={size === 'large'}
-          {...{
-            disabled,
-            id,
-            inline,
-            alignIndicator,
-            label
-          }}
-          onChange={this.onChange}
-          checked={fieldState.value || false}
-        />
+        <FormFieldContainer label={label} fieldState={fieldState}>
+          <Checkbox
+            name={id}
+            large={size === 'large'}
+            {...{
+              disabled,
+              id,
+              inline,
+              alignIndicator,
+              label: ''
+            }}
+            onChange={this.onChange}
+            checked={fieldState.value || false}
+          />
+        </FormFieldContainer>
       </StyledFormGroup>
     );
   }

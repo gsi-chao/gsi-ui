@@ -14,6 +14,9 @@ import { FieldState } from 'formstate';
 import { IFieldProps } from './IFieldProps';
 import { StyledFormGroup } from './style';
 
+import { FormFieldContainer } from './FormFieldContainer';
+
+
 /**
  * Field Props
  */
@@ -63,7 +66,6 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       <StyledFormGroup
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
@@ -71,22 +73,23 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         layer={layer}
         fill={fill}
       >
-        <label>{label}</label>
-        <TagInput
-          {...{
-            leftIcon,
-            disabled,
-            placeholder,
-            id,
-            fill
-          }}
-          rightElement={clearButton}
-          tagProps={tagProps}
-          large={size === 'large'}
-          onChange={this.handleChange}
-          values={fieldState.value || []}
-          intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        />
+        <FormFieldContainer label={label} fieldState={fieldState}>
+          <TagInput
+            {...{
+              leftIcon,
+              disabled,
+              placeholder,
+              id,
+              fill
+            }}
+            rightElement={clearButton}
+            tagProps={tagProps}
+            large={size === 'large'}
+            onChange={this.handleChange}
+            values={fieldState.value || []}
+            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+          />
+        </FormFieldContainer>
       </StyledFormGroup>
     );
   }
