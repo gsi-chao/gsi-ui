@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { IVActionSortableTableProps } from './Table';
-import { Cell, Column, ColumnHeaderCell } from '@blueprintjs/table';
+import {  Column } from '@blueprintjs/table';
 import { Menu, MenuItem } from '@blueprintjs/core';
+import { ColumnHeaderCellStyled } from './style';
 
 export type ICellLookup = (rowIndex: number, columnIndex: number) => any;
 
@@ -10,11 +11,21 @@ export interface ISortableColumn {
   getColumn(getCellData: ICellLookup): JSX.Element;
 }
 
+export interface IVConfigHeader extends IConfignHeader {
+  column: string;
+}
+
+export interface IConfignHeader {
+  backgroundColor: string;
+  textColor: string;
+}
+
 export default class TableColumn implements ISortableColumn {
   constructor(
     protected name: string,
     protected index: number,
     protected columns: string[],
+    protected header_config: IVConfigHeader[],
     protected columns_name?: { [key: string]: string },
     protected sortable?: IVActionSortableTableProps
   ) {}
@@ -43,6 +54,7 @@ export default class TableColumn implements ISortableColumn {
 
   renderColumnHeader = (columnIndex: number) => {
     let menuRenderer = null;
+
     if (
       this.sortable &&
       this.sortable.columns.indexOf(this.columns[columnIndex]) !== -1
@@ -59,13 +71,30 @@ export default class TableColumn implements ISortableColumn {
       }
     }
 
+    let backgroundColor = '#EBF1F5';
+    let textColor = 'black';
+
+    const configHeader = this.header_config.find(
+      x => x.column === this.columns[columnIndex]
+    );
+
+    if (configHeader) {
+      backgroundColor = configHeader.backgroundColor;
+      textColor = configHeader.textColor;
+    }
+
     const columnName =
       this.columns_name &&
       this.columns_name.hasOwnProperty(this.columns[columnIndex])
         ? this.columns_name[this.columns[columnIndex]]
         : this.columns[columnIndex].replace(/\b\w/g, l => l.toUpperCase());
     return (
-      <ColumnHeaderCell name={columnName} menuRenderer={menuRenderer as any} />
+      <ColumnHeaderCellStyled
+        backgroundColor={backgroundColor}
+        textColor={textColor}
+        name={columnName}
+        menuRenderer={menuRenderer as any}
+      />
     );
   };
 }

@@ -8,7 +8,9 @@ import { FieldState } from 'formstate';
 import { ILayer } from './ILayer';
 import { IFieldProps } from './IFieldProps';
 import { StyledFormGroup } from './style';
+
 import { FormFieldContainer } from './FormFieldContainer';
+
 
 /**
  * Field Props
@@ -75,9 +77,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
               fill,
               buttonPosition
             }}
-            onValueChange={(_v: number, value: string) =>
-              fieldState.onChange(_v)
-            }
+            onValueChange={this.onChange}
             value={fieldState.value || 0}
             intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
           />
@@ -85,4 +85,11 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       </StyledFormGroup>
     );
   }
+
+  onChange = (e: any, value: string) => {
+    this.props.fieldState.onChange(e);
+    if (this.props.onChange) {
+      this.props.onChange!(e);
+    }
+  };
 }

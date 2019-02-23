@@ -10,15 +10,17 @@ import {
   RadioGroup,
   IOptionProps
 } from '@blueprintjs/core';
+
 import {IFieldProps} from "./IFieldProps";
 import {IStyledFieldProps, layerInPercent, StyledFormGroup} from "./style";
 import styled from "styled-components";
 import { FormFieldContainer } from './FormFieldContainer';
 
+
 /**
  * Field Props
  */
-export interface IRadioButtonFieldProps extends IFieldProps{
+export interface IRadioButtonFieldProps extends IFieldProps {
   alignIndicator?: Alignment;
   rightElement?: Element;
   options: IOptionProps[];
@@ -27,6 +29,7 @@ export interface IRadioButtonFieldProps extends IFieldProps{
 /**
  * Field component. Must be an observer.
  */
+
 
 export const StyledRadioButton = styled(StyledFormGroup)
     `${(props: IStyledFieldProps) => {
@@ -41,6 +44,7 @@ if(layer) {
     if (layerPercent) {
         labelWidth = layerPercent.labelWidth;
         inputWidth = layerPercent.inputWidth;
+      }
     }
 }
 return`& .bp3-form-content {
@@ -65,7 +69,9 @@ return`& .bp3-form-content {
   }
   }
 }
-`;}}`;
+`;
+  }}
+`;
 
 @observer
 export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
@@ -106,7 +112,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
             inline,
             alignIndicator
           }}
-          onChange={(e: any) => fieldState.onChange(e.target.value)}
+          onChange={this.onChange}
           selectedValue={fieldState.value}
           options={options}
         />
@@ -114,4 +120,11 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
       </StyledRadioButton>
     );
   }
+
+  onChange = (e: any) => {
+    this.props.fieldState.onChange(e.target.value);
+    if (this.props.onChange) {
+      this.props.onChange!(e.target.value);
+    }
+  };
 }
