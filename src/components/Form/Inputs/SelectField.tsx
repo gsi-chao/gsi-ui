@@ -12,9 +12,11 @@ import {
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
+
 import {IFieldProps} from "./IFieldProps";
 import {StyledPopOverWrapper} from "./style";
 import { FormFieldContainer } from './FormFieldContainer';
+
 
 /**
  * Field Props
@@ -25,8 +27,6 @@ export interface ISelectFieldProps extends IFieldProps{
     rightIcon?: IconName;
     icon?: IconName;
     fill?: boolean;
-
-
 }
 
 /**
@@ -95,7 +95,11 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
 
     const initialContent =
       options && options.length === 0 ? (
-        <MenuItem className={className} disabled={true} text={`${options.length} items loaded.`} />
+        <MenuItem
+          className={className}
+          disabled={true}
+          text={`${options.length} items loaded.`}
+        />
       ) : (
         undefined
       );
@@ -138,5 +142,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   onItemSelected = (value: IItem) => {
     this.setState({ item: value });
     this.props.fieldState.onChange(value.value);
+    if (this.props.onChange) {
+      this.props.onChange!(value.value);
+    }
   };
 }

@@ -11,6 +11,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledCheckBoxInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 
+
 /**
  * Field Props
  */
@@ -69,12 +70,19 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
               alignIndicator,
               label: ''
             }}
-            onChange={(e: any) => fieldState.onChange(e.target.checked)}
+            onChange={this.onChange}
             checked={fieldState.value || false}
           />
         </FormFieldContainer>
-
       </StyledCheckBoxInput>
+
     );
   }
+
+  onChange = (e: any) => {
+    this.props.fieldState.onChange(e.target.checked);
+    if (this.props.onChange) {
+      this.props.onChange!(e.target.checked);
+    }
+  };
 }

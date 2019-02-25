@@ -9,8 +9,11 @@ import {
   TagInput
 } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
+
 import { StyledTagsInput } from './style';
+
 import { FormFieldContainer } from './FormFieldContainer';
+
 
 /**
  * Field Props
@@ -93,6 +96,9 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
 
   private handleChange = (values: React.ReactNode[]) => {
     this.props.fieldState.onChange(values);
+    if (this.props.onChange) {
+      this.props.onChange!(values);
+    }
   };
 
   private handleClear = () => this.handleChange([]);

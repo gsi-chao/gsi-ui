@@ -1,5 +1,5 @@
 import { FieldState } from 'formstate';
-import {ILayer} from "./ILayer";
+import { ILayer } from './ILayer';
 
 /**
  * Field Props
@@ -18,7 +18,6 @@ export interface IFieldProps {
     className?:string;
     noLabel?: boolean;
 
-    /** The fieldState */
-    fieldState: FieldState<any>;
-    layer?: ILayer;
+  /** The fieldState */
+  fieldState: FieldState<any>;
 }
