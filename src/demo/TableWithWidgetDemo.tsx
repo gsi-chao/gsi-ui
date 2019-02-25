@@ -146,7 +146,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -155,7 +156,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -164,7 +166,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -173,7 +176,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -182,7 +186,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -191,7 +196,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -200,7 +206,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -209,7 +216,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -218,7 +226,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -227,7 +236,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -236,7 +246,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -245,7 +256,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -254,7 +266,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -263,7 +276,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -272,7 +286,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -281,7 +296,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -290,7 +306,8 @@ class TableWithWidgetDemo extends Component {
         color: 'color',
         sinEditar: ' some text',
         customer: 'customer'
-      },{
+      },
+      {
         name: 'Carlos',
         dropdown: 'Lastname7',
         other: 'Lastname7',
@@ -343,13 +360,28 @@ class TableWithWidgetDemo extends Component {
             }}
             data={data}
             configColumnsHeader={[
-              { column: 'name', textColor: 'white', backgroundColor: '#DB2C6F' },
-              { column: 'fecha', textColor: 'white', backgroundColor: '#634DBF' },
-              { column: 'dropdown', textColor: 'white', backgroundColor: '#D13913' },
-              { column: 'color', textColor: 'white', backgroundColor: '#238C2C' },
+              {
+                column: 'name',
+                textColor: 'white',
+                backgroundColor: '#DB2C6F'
+              },
+              {
+                column: 'fecha',
+                textColor: 'white',
+                backgroundColor: '#634DBF'
+              },
+              {
+                column: 'dropdown',
+                textColor: 'white',
+                backgroundColor: '#D13913'
+              },
+              {
+                column: 'color',
+                textColor: 'white',
+                backgroundColor: '#238C2C'
+              }
             ]}
             typeHeightRow={'HALF'}
-
           />
         </div>
 

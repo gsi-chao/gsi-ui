@@ -11,11 +11,15 @@ import {
   IOptionProps
 } from '@blueprintjs/core';
 
-import {IFieldProps} from "./IFieldProps";
-import { IStyledFieldProps, layerInPercent, StyledFormGroup, StyledRadioButton } from './style';
-import styled from "styled-components";
+import { IFieldProps } from './IFieldProps';
+import {
+  IStyledFieldProps,
+  layerInPercent,
+  StyledFormGroup,
+  StyledRadioButton
+} from './style';
+import styled from 'styled-components';
 import { FormFieldContainer } from './FormFieldContainer';
-
 
 /**
  * Field Props
@@ -62,19 +66,23 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
         layer={layer}
         noLabel={noLabel}
       >
-        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
-        <RadioGroup
-          name={id}
-          {...{
-            disabled,
-            id,
-            inline,
-            alignIndicator
-          }}
-          onChange={this.onChange}
-          selectedValue={fieldState.value}
-          options={options}
-        />
+        <FormFieldContainer
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
+          <RadioGroup
+            name={id}
+            {...{
+              disabled,
+              id,
+              inline,
+              alignIndicator
+            }}
+            onChange={this.onChange}
+            selectedValue={fieldState.value}
+            options={options}
+          />
         </FormFieldContainer>
       </StyledRadioButton>
     );

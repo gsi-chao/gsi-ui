@@ -61,7 +61,11 @@ export class VInputField extends React.Component<IInputFieldProps> {
         fill={fill}
         noLabel={noLabel}
       >
-        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
+        <FormFieldContainer
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
           <InputGroup
             large={size === 'large'}
             small={size === 'small'}
@@ -86,9 +90,8 @@ export class VInputField extends React.Component<IInputFieldProps> {
 
   onChange = (e: any) => {
     this.props.fieldState.onChange(e.target.value);
-    if(this.props.onChange){
+    if (this.props.onChange) {
       this.props.onChange(e.target.value);
     }
-
-  }
+  };
 }

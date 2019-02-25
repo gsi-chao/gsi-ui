@@ -3,7 +3,6 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import { FieldState, FormState } from 'formstate';
 
-
 import { required } from '../Validators';
 import { VInputField } from './InputField';
 import { InputGroup } from '@blueprintjs/core';
@@ -33,7 +32,8 @@ it('renders without crashing InputField All Properties', () => {
   const form = new FormState<any>({
     username: new FieldState('').validators(required)
   });
-  const InputComponent = renderer.create(
+  const InputComponent = renderer
+    .create(
       <VInputField
         fieldState={form.$.username}
         inline={true}

@@ -30,7 +30,6 @@ export interface ITabsPanelProps {
   borderBottom?: number;
   activeTextColor?: string;
 
-
   handleChange(tab: ITabsPanelTypes): void;
 }
 

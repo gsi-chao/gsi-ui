@@ -10,8 +10,8 @@ import {
 } from '@blueprintjs/core';
 /** FieldState */
 import { FieldState } from 'formstate';
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { IFieldProps } from './IFieldProps';
+import { StyledFormGroup } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 
 /**
@@ -61,20 +61,20 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
         className={className}
       >
         <FormFieldContainer label={label} fieldState={fieldState}>
-        <HTMLSelect
-          options={options}
-          iconProps={icon}
-          name={id}
-          large={size === 'large'}
-          onChange={this.onChange}
-          value={fieldState.value || ''}
-          {...{
-            disabled,
-            placeholder,
-            id,
-            minimal
-          }}
-        />
+          <HTMLSelect
+            options={options}
+            iconProps={icon}
+            name={id}
+            large={size === 'large'}
+            onChange={this.onChange}
+            value={fieldState.value || ''}
+            {...{
+              disabled,
+              placeholder,
+              id,
+              minimal
+            }}
+          />
         </FormFieldContainer>
       </StyledFormGroup>
     );

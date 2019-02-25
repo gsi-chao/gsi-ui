@@ -14,7 +14,6 @@ import { StyledTagsInput } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
 
-
 /**
  * Field Props
  */
@@ -73,7 +72,11 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         fill={fill}
         noLabel={noLabel}
       >
-        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
+        <FormFieldContainer
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
           <TagInput
             {...{
               leftIcon,

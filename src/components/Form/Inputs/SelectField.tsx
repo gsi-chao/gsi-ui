@@ -13,20 +13,19 @@ import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
-import {IFieldProps} from "./IFieldProps";
-import {StyledPopOverWrapper} from "./style";
+import { IFieldProps } from './IFieldProps';
+import { StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-
 
 /**
  * Field Props
  */
-export interface ISelectFieldProps extends IFieldProps{
-    filterable?:boolean;
-    options: IItem[];
-    rightIcon?: IconName;
-    icon?: IconName;
-    fill?: boolean;
+export interface ISelectFieldProps extends IFieldProps {
+  filterable?: boolean;
+  options: IItem[];
+  rightIcon?: IconName;
+  icon?: IconName;
+  fill?: boolean;
 }
 
 /**
@@ -115,26 +114,30 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         fill={fill}
         noLabel={noLabel}
       >
-        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
-        <ItemSelect
-          itemPredicate={filterItem}
-          itemRenderer={renderItem}
-          items={options}
-          disabled={disabled}
-          initialContent={initialContent}
-          noResults={<MenuItem disabled={true} text="No results." />}
-          onItemSelect={this.onItemSelected}
-          filterable={filterable}
+        <FormFieldContainer
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
         >
-          <Button
-            {...{
-              icon,
-              disabled
-            }}
-            rightIcon={rightIcon || 'caret-down'}
-            text={this.state.item.label || '(No selection)'}
-          />
-        </ItemSelect>
+          <ItemSelect
+            itemPredicate={filterItem}
+            itemRenderer={renderItem}
+            items={options}
+            disabled={disabled}
+            initialContent={initialContent}
+            noResults={<MenuItem disabled={true} text="No results." />}
+            onItemSelect={this.onItemSelected}
+            filterable={filterable}
+          >
+            <Button
+              {...{
+                icon,
+                disabled
+              }}
+              rightIcon={rightIcon || 'caret-down'}
+              text={this.state.item.label || '(No selection)'}
+            />
+          </ItemSelect>
         </FormFieldContainer>
       </StyledPopOverWrapper>
     );

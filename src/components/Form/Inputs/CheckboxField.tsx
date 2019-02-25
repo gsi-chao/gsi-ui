@@ -1,16 +1,12 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
-/** FieldState */ import {
-  Intent,
-  Checkbox,
-  Alignment
-} from '@blueprintjs/core';
+/** FieldState */
+import { Intent, Checkbox, Alignment } from '@blueprintjs/core';
 
 import { IFieldProps } from './IFieldProps';
 import { StyledCheckBoxInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-
 
 /**
  * Field Props
@@ -56,10 +52,14 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
-        checkBoxAtLeft = {checkBoxAtLeft}
+        checkBoxAtLeft={checkBoxAtLeft}
         noLabel={noLabel}
       >
-        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
+        <FormFieldContainer
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
           <Checkbox
             name={id}
             large={size === 'large'}
@@ -75,7 +75,6 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
           />
         </FormFieldContainer>
       </StyledCheckBoxInput>
-
     );
   }
 

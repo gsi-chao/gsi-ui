@@ -8,7 +8,6 @@ import { IFieldProps } from './IFieldProps';
 import { StyledSlider } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 
-
 /**
  * Field Props
  */
@@ -61,7 +60,11 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
         layer={layer}
         noLabel={noLabel}
       >
-        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
+        <FormFieldContainer
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
           <Slider
             {...{
               disabled,
@@ -78,7 +81,7 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
       </StyledSlider>
     );
   }
-  
+
   onChange = (e: any) => {
     this.props.fieldState.onChange(e);
     if (this.props.onChange) {

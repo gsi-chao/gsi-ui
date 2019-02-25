@@ -11,7 +11,7 @@ import {
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/table/lib/css/table.css';
 import { IconName, Intent } from '@blueprintjs/core';
-import TableColumn, {  IVConfigHeader } from './TableColumn';
+import TableColumn, { IVConfigHeader } from './TableColumn';
 import { fromEvent } from 'rxjs';
 import {
   ActionCellsMenuItem,
@@ -60,7 +60,6 @@ export interface IVTableProps {
   enableColumnResizing?: boolean;
   enableRowResizing?: boolean;
   enableRowHeader?: boolean;
-  columnWidths?: Array<number | null | undefined>;
   className?: string;
   typeHeightRow?: defaultheightRow;
   configColumnsHeader?: IVConfigHeader[];

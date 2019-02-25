@@ -6,8 +6,8 @@ import { IIconTabsPanelProps } from '../types';
 import { VBadge } from '../../Badge';
 
 interface IVTabPanelProps {
-  label?: string,
-  id: string,
+  label?: string;
+  id: string;
   icon?: IIconTabsPanelProps;
   active: boolean;
   borderColor?: string;
@@ -20,28 +20,45 @@ interface IVTabPanelProps {
   dataBadge?: any;
 }
 
-
 export class VTabPanel extends Component<IVTabPanelProps> {
   render() {
-    const { label, icon, active, borderColor, activeColor, activeTextColor, textColor, backgroundColorBadge, dataBadge, textColorBadge } = this.props;
+    const {
+      label,
+      icon,
+      active,
+      borderColor,
+      activeColor,
+      activeTextColor,
+      textColor,
+      backgroundColorBadge,
+      dataBadge,
+      textColorBadge
+    } = this.props;
     return (
-      <LabelIcon borderColor={borderColor}
-                 activeColor={activeColor}
-                 activeTextColor={activeTextColor}
-                 textColor={textColor}
-                 active={active}
-                 onClick={this.handleOnClick}>
-        {icon && (<Icon
-          style={labelIcon}
-          icon={icon.icon}
-          iconSize={icon.iconSize && icon.iconSize}
-          intent={icon.intent && icon.intent}
-        />)}
+      <LabelIcon
+        borderColor={borderColor}
+        activeColor={activeColor}
+        activeTextColor={activeTextColor}
+        textColor={textColor}
+        active={active}
+        onClick={this.handleOnClick}
+      >
+        {icon && (
+          <Icon
+            style={labelIcon}
+            icon={icon.icon}
+            iconSize={icon.iconSize && icon.iconSize}
+            intent={icon.intent && icon.intent}
+          />
+        )}
         <span>{label}</span>
-        {dataBadge && <VBadge
-          backgroundColorBadge={backgroundColorBadge}
-          textColorBadge={textColorBadge}
-          dataBadge={dataBadge}/>}
+        {dataBadge && (
+          <VBadge
+            backgroundColorBadge={backgroundColorBadge}
+            textColorBadge={textColorBadge}
+            dataBadge={dataBadge}
+          />
+        )}
       </LabelIcon>
     );
   }

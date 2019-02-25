@@ -2,14 +2,14 @@
 
 exports[`render correctly SelectionList component one segment 1`] = `
 <ul
-  className="bp3-menu bp3-elevation-0 undefined sc-bwzfXH bFHdpU"
+  className="bp3-menu bp3-elevation-0 undefined sc-bwzfXH bGgvvP"
 >
   <li
     className=""
   >
     <a
       background="#00B3A4"
-      className="bp3-menu-item bp3-popover-dismiss sc-bdVaJa eibhmn"
+      className="bp3-menu-item bp3-popover-dismiss sc-bdVaJa iniwxh"
       color="#10161A"
       onClick={[Function]}
     >

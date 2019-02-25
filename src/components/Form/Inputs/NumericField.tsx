@@ -7,7 +7,6 @@ import { IFieldProps } from './IFieldProps';
 import { StyledNumericInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 
-
 /**
  * Field Props
  */
@@ -61,7 +60,11 @@ export class VNumericField extends React.Component<INumericFieldProps> {
         fill={fill}
         noLabel={noLabel}
       >
-        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
+        <FormFieldContainer
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
           <NumericInput
             name={id}
             large={size === 'large'}

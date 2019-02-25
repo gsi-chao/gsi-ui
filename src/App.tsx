@@ -66,7 +66,7 @@ class App extends Component {
         <VTable
           edit={{ columns: ['name'], validation: { name: nameValidation } }}
           columns={['name', 'lastname']}
-          columns_name={{name:'mi nombre'}}
+          columns_name={{ name: 'mi nombre' }}
           reordering={true}
           sortable={{ columns: ['name'], onSort: this.onSort }}
           contextual={{
@@ -84,17 +84,17 @@ class App extends Component {
           enableColumnResizing={true}
           enableRowHeader={true}
           enableRowResizing={true}
-          columnWidths={[200,500]}
-          numFrozenRows={2} numFrozenColumns={1}
+          columnWidths={[200, 500]}
+          numFrozenRows={2}
+          numFrozenColumns={1}
         />
         <InputsDemo />
-        <TabsPanelDemo/>
+        <TabsPanelDemo />
         <TableWithWidgetDemo />
 
         <br />
-        <div style={{height:'200px'}}>
-          <Table numRows={5}
-                 numFrozenRows={2} numFrozenColumns={1}>
+        <div style={{ height: '200px' }}>
+          <Table numRows={5} numFrozenRows={2} numFrozenColumns={1}>
             <Column />
             <Column />
             <Column />
@@ -103,8 +103,6 @@ class App extends Component {
       </React.Fragment>
     );
   }
-
-
 
   handleChangeTabMenu = (data: any) => {
     console.log(data);

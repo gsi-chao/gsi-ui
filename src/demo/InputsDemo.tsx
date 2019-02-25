@@ -187,19 +187,19 @@ class InputsDemo extends Component {
           inline
         />
         <div>
-        <VSelectField
-          layer={{
-            labelWidth: 6,
-            inputWidth: 2,
-            labelOrientation: 'end',
-            inputOrientation: 'start'
-          }}
-          inline
-          label="Places"
-          options={sex}
-          id="places"
-          fieldState={this.form.$.places}
-        />
+          <VSelectField
+            layer={{
+              labelWidth: 6,
+              inputWidth: 2,
+              labelOrientation: 'end',
+              inputOrientation: 'start'
+            }}
+            inline
+            label="Places"
+            options={sex}
+            id="places"
+            fieldState={this.form.$.places}
+          />
         </div>
       </React.Fragment>
     );

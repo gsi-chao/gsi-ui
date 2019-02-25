@@ -39,10 +39,10 @@ export class FormFieldContainer extends React.Component<
         ) : null}
         <div className={'gsi-form-field-container'}>
           <div className={'gsi-input-and-error-container'}>
-          {children}
-          {fieldState.hasError ? (
-            <span className={'gsi-error-span'}>{fieldState.error}</span>
-          ) : null}
+            {children}
+            {fieldState.hasError ? (
+              <span className={'gsi-error-span'}>{fieldState.error}</span>
+            ) : null}
           </div>
         </div>
       </React.Fragment>

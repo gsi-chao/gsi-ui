@@ -9,7 +9,6 @@ import { StyledTextArea } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
 
-
 /**
  * Field Props
  */
@@ -55,7 +54,11 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         fill={fill}
         noLabel={noLabel}
       >
-        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
+        <FormFieldContainer
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
           <TextArea
             large={size === 'large'}
             small={size === 'small'}
@@ -77,5 +80,5 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
     if (this.props.onChange) {
       this.props.onChange!(e.target.value);
     }
-  }
+  };
 }
