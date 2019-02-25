@@ -49,7 +49,6 @@ export class VInputField extends React.Component<IInputFieldProps> {
       rightEl = <div />;
     }
 
-    fieldState.validators(required, email);
     return (
       <StyledInput
         className={className}

@@ -7,11 +7,10 @@ export interface IStyledFieldProps {
   layer: any;
   fill?: boolean;
   checkBoxAtLeft?: boolean;
-  noLabel?:boolean;
+  noLabel?: boolean;
 }
 
 export const layerInPercent = (layer: ILayer): any => {
-  console.log(layer);
   return {
     containerWidth: layer.containerWidth
       ? (layer.containerWidth / 12) * 100
@@ -23,7 +22,7 @@ export const layerInPercent = (layer: ILayer): any => {
 
 export const StyledFormGroup = styled(FormGroup)`
   ${(props: IStyledFieldProps) => {
-    const { layer, noLabel, checkBoxAtLeft, inline } = props;
+    const { layer, noLabel, checkBoxAtLeft, inline, fill } = props;
     let layerPercent: any = {};
     let inputOrientation = 'flex-start';
     let containerWidth = undefined;
@@ -82,6 +81,10 @@ export const StyledFormGroup = styled(FormGroup)`
                 display: flex;
                 align-items:${inputOrientation};
                 flex-direction: column;
+                & .gsi-input-and-error-container {
+                ${ fill
+                    ? `width: ${100}%!important`
+                    : `max-width: 200px!important;`};
                 
             }
         }          
@@ -91,11 +94,12 @@ export const StyledFormGroup = styled(FormGroup)`
 export const StyledInput = styled(StyledFormGroup)`
   & .bp3-form-content {
     & .gsi-form-field-container {
-      & .bp3-input-group {
-        ${(props: IStyledFieldProps) =>
-          props.fill ? `width: ${100}%` : `max-width: 200px!important;`};
-        & input {
+      & .gsi-input-and-error-container {
+        & .bp3-input-group {
           width: 100%;
+          & input {
+            width: 100%;
+          }
         }
       }
     }
@@ -105,11 +109,12 @@ export const StyledInput = styled(StyledFormGroup)`
 export const StyledSelect = styled(StyledFormGroup)`
   & .bp3-form-content {
     & .gsi-form-field-container {
-      & .bp3-input-group {
-        ${(props: IStyledFieldProps) =>
-          props.fill ? `width: ${100}%` : `max-width: 200px!important;`};
-        & select {
+      & .gsi-input-and-error-container {
+        & .bp3-input-group {
           width: 100%;
+          & select {
+            width: 100%;
+          }
         }
       }
     }
@@ -119,11 +124,12 @@ export const StyledSelect = styled(StyledFormGroup)`
 export const StyledNumericInput = styled(StyledFormGroup)`
   & .bp3-form-content {
     & .gsi-form-field-container {
-      & .bp3-control-group.bp3-numeric-input {
-        ${(props: IStyledFieldProps) =>
-          props.fill ? `width: ${100}%` : `max-width: 200px!important;`};
-        & .bp3-input-group {
-          width: 100% !important;
+      & .gsi-input-and-error-container {
+        & .bp3-control-group.bp3-numeric-input {
+          width: 100%;
+          & .bp3-input-group {
+            width: 100% !important;
+          }
         }
       }
     }
@@ -142,30 +148,32 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
           : 0}px !important;
     }
     & .gsi-form-field-container {
-      & .bp3-control.bp3-checkbox,
-      .bp3-inline.bp3-align-right {
-        ${(props: IStyledFieldProps) =>
-          props.checkBoxAtLeft ? '' : `padding: 0!important;`};
-        width: 0 !important;
-        text-align: left;
-        margin-right: 0 !important;
-        ${(props: IStyledFieldProps) => {
-          const inputOrientation =
-            props.layer && props.layer.inputOrientation === 'center'
-              ? 'center'
-              : props.layer.inputOrientation === 'end'
-              ? 'flex-end'
-              : 'flex-start';
-          return `align-self: ${inputOrientation};`;
-        }};
-        & span.bp3-control-indicator {
-          margin-left: ${(props: IStyledFieldProps) =>
-            props.checkBoxAtLeft &&
-            props.layer &&
-            props.layer.inputOrientation === 'end'
-              ? 9
-              : 0}px !important;
-          float: left;
+      & .gsi-input-and-error-container {
+        & .bp3-control.bp3-checkbox,
+        .bp3-inline.bp3-align-right {
+          ${(props: IStyledFieldProps) =>
+            props.checkBoxAtLeft ? '' : `padding: 0!important;`};
+          width: 0 !important;
+          text-align: left;
+          margin-right: 0 !important;
+          ${(props: IStyledFieldProps) => {
+            const inputOrientation =
+              props.layer && props.layer.inputOrientation === 'center'
+                ? 'center'
+                : props.layer.inputOrientation === 'end'
+                ? 'flex-end'
+                : 'flex-start';
+            return `align-self: ${inputOrientation};`;
+          }};
+          & span.bp3-control-indicator {
+            margin-left: ${(props: IStyledFieldProps) =>
+              props.checkBoxAtLeft &&
+              props.layer &&
+              props.layer.inputOrientation === 'end'
+                ? 9
+                : 0}px !important;
+            float: left;
+          }
         }
       }
     }
@@ -175,9 +183,10 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
 export const StyledTagsInput = styled(StyledFormGroup)`
   & .bp3-form-content {
     & .gsi-form-field-container {
-      & .bp3-input.bp3-tag-input {
-        ${(props: IStyledFieldProps) =>
-          props.fill ? `width: ${100}%` : `max-width: 200px!important;`};
+      & .gsi-input-and-error-container {
+        & .bp3-input.bp3-tag-input {
+          width: 100%;
+        }
       }
     }
   }
@@ -186,9 +195,10 @@ export const StyledTagsInput = styled(StyledFormGroup)`
 export const StyledTextArea = styled(StyledFormGroup)`
   & .bp3-form-content {
     & .gsi-form-field-container {
-      & textarea {
-        ${(props: IStyledFieldProps) =>
-          props.fill ? `width: ${100}%` : `max-width: 200px!important;`};
+      & .gsi-input-and-error-container {
+        & textarea {
+          width: 100%;
+        }
       }
     }
   }
@@ -197,12 +207,15 @@ export const StyledTextArea = styled(StyledFormGroup)`
 export const StyledSlider = styled(StyledFormGroup)`
   & .bp3-form-content {
     & .gsi-form-field-container {
-      & .bp3-slider {
+      & .gsi-input-and-error-container {
         margin-left: 9px;
         ${(props: IStyledFieldProps) =>
           props.fill
             ? `width: calc(100% - 21px)!important;`
             : `max-width: 200px!important;`};
+      }
+      & .bp3-slider {
+        width: 100%;
       }
     }
   }
@@ -211,18 +224,21 @@ export const StyledSlider = styled(StyledFormGroup)`
 export const StyledPopOverWrapper = styled(StyledFormGroup)`
   & .bp3-form-content {
     & .gsi-form-field-container {
-      & .bp3-popover-wrapper {
+      & .gsi-input-and-error-container {
         ${(props: IStyledFieldProps) =>
           props.fill
             ? `width: calc(100% - 21px)!important;`
             : `max-width: 200px!important;`};
-        & .bp3-popover-target {
+        & .bp3-popover-wrapper {
           width: 100%;
-          div {
-            button {
-              width: 100%;
-              display: flex;
-              justify-content: space-between;
+          & .bp3-popover-target {
+            width: 100%;
+            div {
+              button {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+              }
             }
           }
         }
