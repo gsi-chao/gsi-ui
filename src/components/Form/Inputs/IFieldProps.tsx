@@ -16,6 +16,7 @@ export interface IFieldProps {
     placeholder?: string;
     id: string;
     className?:string;
+    noLabel?: boolean;
 
     /** The fieldState */
     fieldState: FieldState<any>;

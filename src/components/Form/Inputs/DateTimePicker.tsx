@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
-import { IconName, InputGroup, Intent } from '@blueprintjs/core';
+import { IconName, Intent } from '@blueprintjs/core';
+import { DateInput } from '@blueprintjs/datetime';
 /** FieldState */
-import { StyledInput } from './style';
+import { StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
-import { email, required } from '../Validators';
 
 /**
  * Field component. Must be an observer.
@@ -20,10 +20,14 @@ export interface IInputFieldProps extends IFieldProps {
 }
 
 @observer
-export class VInputField extends React.Component<IInputFieldProps> {
+export class VDateTimePicker extends React.Component<IInputFieldProps> {
   constructor(props: IInputFieldProps) {
     super(props);
   }
+
+  changedDate = (SelectedDate: any) => {
+    //this.props.fieldState.onChange(moment.f)
+  };
 
   public render() {
     const {
@@ -41,17 +45,15 @@ export class VInputField extends React.Component<IInputFieldProps> {
       id,
       className,
       layer,
-      fill,
-      noLabel
+      fill
     } = this.props;
     let rightEl;
     if (!rightElement) {
       rightEl = <div />;
     }
-
-    fieldState.validators(required, email);
+    console.log(fieldState);
     return (
-      <StyledInput
+      <StyledFormGroup
         className={className}
         disabled={disabled}
         inline={inline}
@@ -60,28 +62,18 @@ export class VInputField extends React.Component<IInputFieldProps> {
         labelInfo={labelInfo}
         layer={layer}
         fill={fill}
-        noLabel={noLabel}
       >
-        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
-          <InputGroup
-            large={size === 'large'}
-            small={size === 'small'}
-            rightElement={rightEl}
-            name={id}
-            {...{
-              round,
-              leftIcon,
-              type,
-              disabled,
-              placeholder,
-              id
-            }}
-            onChange={(e: any) => fieldState.onChange(e.target.value)}
-            value={fieldState.value || ''}
-            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        <FormFieldContainer label={label} fieldState={fieldState}>
+          <DateInput
+            formatDate={date => date.toLocaleString()}
+            parseDate={str => new Date(str)}
+            placeholder={placeholder}
+            disabled={disabled}
+            onChange={this.changedDate}
+            value={fieldState.value || null}
           />
         </FormFieldContainer>
-      </StyledInput>
+      </StyledFormGroup>
     );
   }
 }

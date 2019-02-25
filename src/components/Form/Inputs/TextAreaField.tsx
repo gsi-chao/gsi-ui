@@ -3,8 +3,8 @@ import * as React from 'react';
 /** Blueprint */
 import { FormGroup, Intent, TextArea } from '@blueprintjs/core';
 /** FieldState */
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { IFieldProps } from './IFieldProps';
+import { StyledTextArea } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 
 /**
@@ -15,8 +15,8 @@ import { FormFieldContainer } from './FormFieldContainer';
  * Field component. Must be an observer.
  */
 
-export interface ITextAreaFieldProps extends IFieldProps{
-    fill?:boolean;
+export interface ITextAreaFieldProps extends IFieldProps {
+  fill?: boolean;
 }
 
 @observer
@@ -36,11 +36,12 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       id,
       className,
       fill,
-      layer
+      layer,
+      noLabel
     } = this.props;
 
     return (
-      <StyledFormGroup
+      <StyledTextArea
         className={className}
         disabled={disabled}
         inline={inline}
@@ -49,22 +50,23 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         layer={layer}
         labelInfo={labelInfo}
         fill={fill}
+        noLabel={noLabel}
       >
-        <FormFieldContainer label={label} fieldState={fieldState}>
-        <TextArea
-          large={size === 'large'}
-          small={size === 'small'}
-          onChange={(e: any) => fieldState.onChange(e.target.value)}
-          value={fieldState.value || ''}
-          intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-          name={id}
-          {...{
-            disabled,
-            id
-          }}
-        />
+        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
+          <TextArea
+            large={size === 'large'}
+            small={size === 'small'}
+            onChange={(e: any) => fieldState.onChange(e.target.value)}
+            value={fieldState.value || ''}
+            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+            name={id}
+            {...{
+              disabled,
+              id
+            }}
+          />
         </FormFieldContainer>
-      </StyledFormGroup>
+      </StyledTextArea>
     );
   }
 }
