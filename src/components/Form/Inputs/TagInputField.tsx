@@ -3,16 +3,14 @@ import * as React from 'react';
 /** Blueprint */
 import {
   Button,
-  FormGroup,
   IconName,
   Intent,
   ITagProps,
   TagInput
 } from '@blueprintjs/core';
-/** FieldState */
-import { FieldState } from 'formstate';
 import { IFieldProps } from './IFieldProps';
-import { StyledFormGroup } from './style';
+
+import { StyledTagsInput } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
 
@@ -50,7 +48,8 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       id,
       tagProps,
       className,
-      layer
+      layer,
+      noLabel
     } = this.props;
 
     const clearButton = (
@@ -63,7 +62,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
     );
 
     return (
-      <StyledFormGroup
+      <StyledTagsInput
         className={className}
         disabled={disabled}
         inline={inline}
@@ -72,8 +71,9 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         labelInfo={labelInfo}
         layer={layer}
         fill={fill}
+        noLabel={noLabel}
       >
-        <FormFieldContainer label={label} fieldState={fieldState}>
+        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
           <TagInput
             {...{
               leftIcon,
@@ -90,7 +90,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
             intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
           />
         </FormFieldContainer>
-      </StyledFormGroup>
+      </StyledTagsInput>
     );
   }
 

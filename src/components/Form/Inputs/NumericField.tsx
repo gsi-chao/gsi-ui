@@ -2,13 +2,9 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
 /** FieldState */
-import { FormGroup, IconName, NumericInput, Intent } from '@blueprintjs/core';
-
-import { FieldState } from 'formstate';
-import { ILayer } from './ILayer';
+import { IconName, NumericInput, Intent } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
-import { StyledFormGroup } from './style';
-
+import { StyledNumericInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 
 
@@ -49,11 +45,12 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       buttonPosition,
       fill,
       className,
-      layer
+      layer,
+      noLabel
     } = this.props;
 
     return (
-      <StyledFormGroup
+      <StyledNumericInput
         className={className}
         disabled={disabled}
         inline={inline}
@@ -62,8 +59,9 @@ export class VNumericField extends React.Component<INumericFieldProps> {
         labelInfo={labelInfo}
         layer={layer}
         fill={fill}
+        noLabel={noLabel}
       >
-        <FormFieldContainer label={label} fieldState={fieldState}>
+        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
           <NumericInput
             name={id}
             large={size === 'large'}
@@ -82,7 +80,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
             intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
           />
         </FormFieldContainer>
-      </StyledFormGroup>
+      </StyledNumericInput>
     );
   }
 

@@ -14,18 +14,19 @@ import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
 import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import {StyledPopOverWrapper} from "./style";
 import { FormFieldContainer } from './FormFieldContainer';
 
 
 /**
  * Field Props
  */
-export interface ISelectFieldProps extends IFieldProps {
-  filterable?: boolean;
-  options: IItem[];
-  rightIcon?: IconName;
-  icon?: IconName;
+export interface ISelectFieldProps extends IFieldProps{
+    filterable?:boolean;
+    options: IItem[];
+    rightIcon?: IconName;
+    icon?: IconName;
+    fill?: boolean;
 }
 
 /**
@@ -87,7 +88,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       icon,
       filterable,
       className,
-      layer
+      layer,
+      fill,
+      noLabel
     } = this.props;
 
     const initialContent =
@@ -102,15 +105,17 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       );
 
     return (
-      <StyledFormGroup
+      <StyledPopOverWrapper
         disabled={disabled}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
+        fill={fill}
+        noLabel={noLabel}
       >
-        <FormFieldContainer label={label} fieldState={fieldState}>
+        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
         <ItemSelect
           itemPredicate={filterItem}
           itemRenderer={renderItem}
@@ -131,7 +136,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           />
         </ItemSelect>
         </FormFieldContainer>
-      </StyledFormGroup>
+      </StyledPopOverWrapper>
     );
   }
   onItemSelected = (value: IItem) => {

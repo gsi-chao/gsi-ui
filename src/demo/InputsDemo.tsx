@@ -13,7 +13,6 @@ import {
   VRadioGroupField,
   VSelectField
 } from '../components/Form';
-import { VCardPanel } from '../components';
 
 const store = [
   {
@@ -62,8 +61,12 @@ class InputsDemo extends Component {
       <React.Fragment>
         <VInputField
           fieldState={this.form.$.username}
+          fill
           layer={{
             labelWidth: 6,
+            inputWidth: 5,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
           }}
           id="username"
           label={'Username'}
@@ -72,9 +75,9 @@ class InputsDemo extends Component {
         <VInputField
           layer={{
             labelWidth: 6,
-            inputWidth: 2,
+            inputWidth: 6,
             labelOrientation: 'end',
-            inputOrientation: 'start'
+            inputOrientation: 'center'
           }}
           fieldState={this.form.$.username}
           id="username"
@@ -82,6 +85,7 @@ class InputsDemo extends Component {
           inline={true}
         />
         <VInputField
+          fill
           layer={{
             labelWidth: 6,
             labelOrientation: 'end',
@@ -97,8 +101,9 @@ class InputsDemo extends Component {
         <VSelectField
           layer={{
             labelWidth: 6,
+            inputWidth: 3,
             labelOrientation: 'end',
-            inputOrientation: 'start'
+            inputOrientation: 'center'
           }}
           options={store}
           inline
@@ -108,8 +113,10 @@ class InputsDemo extends Component {
           icon={'search'}
         />
         <VTextAreaField
+          fill
           layer={{
             labelWidth: 6,
+            inputWidth: 3,
             labelOrientation: 'end',
             inputOrientation: 'start'
           }}
@@ -119,8 +126,10 @@ class InputsDemo extends Component {
           fieldState={this.form.$.description}
         />
         <VTagInputField
+          fill
           layer={{
             labelWidth: 6,
+            inputWidth: 4,
             labelOrientation: 'end',
             inputOrientation: 'start'
           }}
@@ -132,11 +141,11 @@ class InputsDemo extends Component {
         <VNumericField
           id="age"
           fieldState={this.form.$.age}
-          label="Edad"
+          label=""
+          noLabel
           layer={{
-            labelWidth: 6,
             labelOrientation: 'end',
-            inputOrientation: 'start'
+            inputOrientation: 'center'
           }}
           inline
         />
@@ -166,22 +175,24 @@ class InputsDemo extends Component {
           fieldState={this.form.$.sex}
         />
         <VBasicSliderField
+          fill
           layer={{
             labelWidth: 6,
             labelOrientation: 'end',
             inputOrientation: 'start'
           }}
-          fill
           id="range"
           fieldState={this.form.$.range}
           label="Range"
           inline
         />
+        <div>
         <VSelectField
           layer={{
             labelWidth: 6,
-            labelOrientation: 'center',
-            inputOrientation: 'center'
+            inputWidth: 2,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
           }}
           inline
           label="Places"
@@ -189,6 +200,7 @@ class InputsDemo extends Component {
           id="places"
           fieldState={this.form.$.places}
         />
+        </div>
       </React.Fragment>
     );
   }

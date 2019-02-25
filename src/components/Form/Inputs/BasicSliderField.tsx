@@ -2,17 +2,10 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
 /** FieldState */
-import {
-  FormGroup,
-  IconName,
-  NumericInput,
-  Intent,
-  Slider
-} from '@blueprintjs/core';
+import { Intent, Slider } from '@blueprintjs/core';
 
-import {FieldState} from 'formstate';
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { IFieldProps } from './IFieldProps';
+import { StyledSlider } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 
 
@@ -52,38 +45,40 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
       labelStepSize,
       className,
       layer,
-      fill
+      fill,
+      noLabel
     } = this.props;
 
-        return (
-            <StyledFormGroup
-                className={className}
-                disabled={disabled}
-                inline={inline}
-                intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-                labelFor={id}
-                labelInfo={labelInfo}
-                fill={fill}
-                layer={layer}
-            >
-                <FormFieldContainer label={label} fieldState={fieldState}>
-                    <Slider
-                        {...{
-                            disabled,
-                            id,
-                            min,
-                            max,
-                            stepSize,
-                            labelStepSize
-                        }}
-                        onChange={this.onChange}
-                        value={fieldState.value || 0}
-                    />
-                </FormFieldContainer>
-            </StyledFormGroup>
-        );
+    return (
+      <StyledSlider
+        className={className}
+        disabled={disabled}
+        inline={inline}
+        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        labelFor={id}
+        labelInfo={labelInfo}
+        fill={fill}
+        layer={layer}
+        noLabel={noLabel}
+      >
+        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
+          <Slider
+            {...{
+              disabled,
+              id,
+              min,
+              max,
+              stepSize,
+              labelStepSize
+            }}
+            onChange={this.onChange}
+            value={fieldState.value || 0}
+          />
+        </FormFieldContainer>
+      </StyledSlider>
+    );
   }
-
+  
   onChange = (e: any) => {
     this.props.fieldState.onChange(e);
     if (this.props.onChange) {

@@ -2,35 +2,45 @@
 
 exports[`renders without crashing InputField All Properties 1`] = `
 <div
-  className="bp3-form-group bp3-inline sc-bdVaJa goxUSC"
+  className="bp3-form-group bp3-inline sc-bdVaJa sc-bwzfXH dIrdzL"
 >
   <div
     className="bp3-form-content"
   >
-    <label>
+    <label
+      className="field-label"
+    >
       Username
     </label>
     <div
-      className="bp3-input-group bp3-large"
+      className="gsi-form-field-container"
     >
-      <input
-        className="bp3-input"
-        id="test-input"
-        name="test-input"
-        onChange={[Function]}
-        placeholder="Username"
-        style={
-          Object {
-            "paddingRight": 10,
-          }
-        }
-        value=""
-      />
-      <span
-        className="bp3-input-action"
+      <div
+        className="gsi-input-and-error-container"
       >
-        <div />
-      </span>
+        <div
+          className="bp3-input-group bp3-large"
+        >
+          <input
+            className="bp3-input"
+            id="test-input"
+            name="test-input"
+            onChange={[Function]}
+            placeholder="Username"
+            style={
+              Object {
+                "paddingRight": 10,
+              }
+            }
+            value=""
+          />
+          <span
+            className="bp3-input-action"
+          >
+            <div />
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

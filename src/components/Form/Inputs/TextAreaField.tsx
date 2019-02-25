@@ -4,8 +4,9 @@ import * as React from 'react';
 import { FormGroup, Intent, TextArea } from '@blueprintjs/core';
 /** FieldState */
 
-import {IFieldProps} from "./IFieldProps";
-import {StyledFormGroup} from "./style";
+import { IFieldProps } from './IFieldProps';
+import { StyledTextArea } from './style';
+
 import { FormFieldContainer } from './FormFieldContainer';
 
 
@@ -38,11 +39,12 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       id,
       className,
       fill,
-      layer
+      layer,
+      noLabel
     } = this.props;
 
     return (
-      <StyledFormGroup
+      <StyledTextArea
         className={className}
         disabled={disabled}
         inline={inline}
@@ -51,22 +53,23 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         layer={layer}
         labelInfo={labelInfo}
         fill={fill}
+        noLabel={noLabel}
       >
-        <FormFieldContainer label={label} fieldState={fieldState}>
-        <TextArea
-          large={size === 'large'}
-          small={size === 'small'}
-          onChange={this.onChange}
-          value={fieldState.value || ''}
-          intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-          name={id}
-          {...{
-            disabled,
-            id
-          }}
-        />
+        <FormFieldContainer noLabel={noLabel} label={label} fieldState={fieldState}>
+          <TextArea
+            large={size === 'large'}
+            small={size === 'small'}
+            onChange={this.onChange}
+            value={fieldState.value || ''}
+            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+            name={id}
+            {...{
+              disabled,
+              id
+            }}
+          />
         </FormFieldContainer>
-      </StyledFormGroup>
+      </StyledTextArea>
     );
   }
   onChange = (e: any) => {
