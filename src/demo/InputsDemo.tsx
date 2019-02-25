@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { FieldState, FormState } from 'formstate';
 import { observer } from 'mobx-react';
-import { required } from '../components/Form/Validators';
 import {
   VInputField,
   VBasicSliderField,
@@ -13,6 +12,7 @@ import {
   VRadioGroupField,
   VSelectField
 } from '../components/Form';
+import { email, lt, exact } from '../components/Form/Validators';
 
 const store = [
   {
@@ -44,18 +44,22 @@ class InputsDemo extends Component {
   constructor(props: any) {
     super(props);
     this.form = new FormState<any>({
-      username: new FieldState('').validators(required),
-      search: new FieldState('').validators(required),
-      description: new FieldState('').validators(required),
-      store: new FieldState('').validators(required),
-      tags: new FieldState('').validators(required),
-      age: new FieldState('').validators(required),
-      have_job: new FieldState('').validators(required),
-      sex: new FieldState('').validators(required),
-      range: new FieldState('').validators(required),
-      places: new FieldState(sex[0]).validators(required)
+      username: new FieldState(''),
+      search: new FieldState(''),
+      description: new FieldState(''),
+      store: new FieldState(''),
+      tags: new FieldState(''),
+      age: new FieldState(''),
+      have_job: new FieldState(''),
+      sex: new FieldState(''),
+      range: new FieldState(''),
+      places: new FieldState(sex[0])
     });
   }
+  /**
+  * Example of validations functions, look in the search field
+  * */
+  searchingAnime = (value: any) => value.toString().indexOf('anime') !== -1 && `Can't search anime in work dude!!!!`;
   render() {
     return (
       <React.Fragment>
@@ -85,6 +89,8 @@ class InputsDemo extends Component {
           inline={true}
         />
         <VInputField
+          required
+          validators={[this.searchingAnime, lt(10), exact(9)]}
           fill
           layer={{
             labelWidth: 6,

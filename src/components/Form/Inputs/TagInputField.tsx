@@ -13,6 +13,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledTagsInput } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -48,9 +49,19 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       tagProps,
       className,
       layer,
-      noLabel
+      noLabel,
+      required,
+      validators
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     const clearButton = (
       <Button
         disabled={disabled}
@@ -73,6 +84,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         noLabel={noLabel}
       >
         <FormFieldContainer
+          required={required}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

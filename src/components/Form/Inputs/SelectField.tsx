@@ -16,6 +16,7 @@ import '@blueprintjs/select/lib/css/blueprint-select.css';
 import { IFieldProps } from './IFieldProps';
 import { StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -89,7 +90,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       className,
       layer,
       fill,
-      noLabel
+      noLabel,
+      required,
+      validators
     } = this.props;
 
     const initialContent =
@@ -102,6 +105,15 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       ) : (
         undefined
       );
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
 
     return (
       <StyledPopOverWrapper
@@ -115,6 +127,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         noLabel={noLabel}
       >
         <FormFieldContainer
+          required={required}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
