@@ -65,11 +65,6 @@ export const StyledFormGroup = styled(FormGroup)`
                       labelOrientation ? `text-align: ${labelOrientation}` : ''
                     }    
             }
-            .gsi-error-span {
-               padding-top: 1px;
-               font-size: 12px;
-               color: #e21a1a;
-            }
             & .gsi-form-field-container {
                 ${!noLabel ? `padding-left: 10px!important;` : ''}
                 width: ${
@@ -85,100 +80,86 @@ export const StyledFormGroup = styled(FormGroup)`
                 & .gsi-input-and-error-container {
                   display: flex;
                   flex-direction: column;
-                ${
-                  fill
-                    ? `width: ${100}%!important`
-                    : `max-width: 200px!important;`
-                };
-                
+                ${fill ? `width: ${100}%` : `max-width: 200px;`};
+                & .gsi-error-span {
+                    padding-top: 1px;
+                    font-size: 12px;
+                    color: #e21a1a;
+                  }
             }
         }          
 `;
   }}
 `;
 export const StyledInput = styled(StyledFormGroup)`
-  & .bp3-form-content {
-    & .gsi-form-field-container {
-      & .gsi-input-and-error-container {
-        & .bp3-input-group {
-          width: 100%;
-          & input {
-            width: 100%;
-          }
-        }
+  .gsi-input-and-error-container {
+    & .bp3-input-group {
+      width: 100%;
+      & input {
+        width: 100%;
       }
     }
   }
 `;
 
 export const StyledSelect = styled(StyledFormGroup)`
-  & .bp3-form-content {
-    & .gsi-form-field-container {
-      & .gsi-input-and-error-container {
-        & .bp3-input-group {
-          width: 100%;
-          & select {
-            width: 100%;
-          }
-        }
+  .gsi-input-and-error-container {
+    & .bp3-input-group {
+      width: 100%;
+      & select {
+        width: 100%;
       }
     }
   }
 `;
 
 export const StyledNumericInput = styled(StyledFormGroup)`
-  & .bp3-form-content {
-    & .gsi-form-field-container {
-      & .gsi-input-and-error-container {
-        & .bp3-control-group.bp3-numeric-input {
-          width: 100%;
-          & .bp3-input-group {
-            width: 100% !important;
-          }
-        }
+  .gsi-input-and-error-container {
+    & .bp3-control-group.bp3-numeric-input {
+      width: 100%;
+      & .bp3-input-group {
+        width: 100% !important;
       }
     }
   }
 `;
 
 export const StyledCheckBoxInput = styled(StyledFormGroup)`
-  & .bp3-form-content {
-    & label.field-label {
-      padding-left: ${(props: IStyledFieldProps) =>
-        props.checkBoxAtLeft &&
-        props.layer &&
-        (props.layer.labelOrientation === 'start' ||
-          !props.layer.labelOrientation)
-          ? 12
-          : 0}px !important;
-    }
-    & .gsi-form-field-container {
-      & .gsi-input-and-error-container {
-        & .bp3-control.bp3-checkbox,
-        .bp3-inline.bp3-align-right {
-          ${(props: IStyledFieldProps) =>
-            props.checkBoxAtLeft ? '' : `padding: 0!important;`};
-          width: 0 !important;
-          text-align: left;
-          margin-right: 0 !important;
-          ${(props: IStyledFieldProps) => {
-            const inputOrientation =
-              props.layer && props.layer.inputOrientation === 'center'
-                ? 'center'
-                : props.layer.inputOrientation === 'end'
-                ? 'flex-end'
-                : 'flex-start';
-            return `align-self: ${inputOrientation};`;
-          }};
-          & span.bp3-control-indicator {
-            margin-left: ${(props: IStyledFieldProps) =>
-              props.checkBoxAtLeft &&
-              props.layer &&
-              props.layer.inputOrientation === 'end'
-                ? 9
-                : 0}px !important;
-            float: left;
-          }
+  label.field-label {
+    padding-left: ${(props: IStyledFieldProps) =>
+      props.checkBoxAtLeft &&
+      props.layer &&
+      (props.layer.labelOrientation === 'start' ||
+        !props.layer.labelOrientation)
+        ? 12
+        : 0}px!important;
+  }
+  .gsi-form-field-container {
+    & .gsi-input-and-error-container {
+      & .bp3-control.bp3-checkbox,
+      .bp3-inline.bp3-align-right {
+        ${(props: IStyledFieldProps) =>
+          props.checkBoxAtLeft ? '' : `padding: 0!important;`};
+        width: 0 !important;
+        text-align: left;
+        margin-right: 0 !important;
+        ${(props: IStyledFieldProps) => {
+          const inputOrientation =
+            props.layer && props.layer.inputOrientation === 'center'
+              ? 'center'
+              : props.layer.inputOrientation === 'end'
+              ? 'flex-end'
+              : 'flex-start';
+          return `align-self: ${inputOrientation};`;
+        }};
+        & span.bp3-control-indicator {
+          margin-left: ${(props: IStyledFieldProps) =>
+            props.checkBoxAtLeft &&
+            props.layer &&
+            props.layer.inputOrientation === 'end'
+              ? 9
+              : 0}px !important;
+          float: left;
         }
       }
     }
@@ -186,65 +167,49 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
 `;
 
 export const StyledTagsInput = styled(StyledFormGroup)`
-  & .bp3-form-content {
-    & .gsi-form-field-container {
-      & .gsi-input-and-error-container {
-        & .bp3-input.bp3-tag-input {
-          width: 100%;
-        }
-      }
+  .gsi-input-and-error-container {
+    & .bp3-input.bp3-tag-input {
+      width: 100%;
     }
   }
 `;
 
 export const StyledTextArea = styled(StyledFormGroup)`
-  & .bp3-form-content {
-    & .gsi-form-field-container {
-      & .gsi-input-and-error-container {
-        & textarea {
-          width: 100%;
-        }
-      }
+  .gsi-input-and-error-container {
+    & textarea {
+      width: 100%;
     }
   }
 `;
 
 export const StyledSlider = styled(StyledFormGroup)`
-  & .bp3-form-content {
-    & .gsi-form-field-container {
-      & .gsi-input-and-error-container {
-        margin-left: 9px;
-        ${(props: IStyledFieldProps) =>
-          props.fill
-            ? `width: calc(100% - 21px)!important;`
-            : `max-width: 200px!important;`};
-      }
-      & .bp3-slider {
-        width: 100%;
-      }
+  .gsi-input-and-error-container {
+    padding-left: 9px !important;
+    ${(props: IStyledFieldProps) =>
+      props.fill
+        ? `width: calc(100% - 21px)!important;`
+        : `max-width: 200px!important;`};
+    & .bp3-slider {
+      width: 100%;
     }
   }
 `;
 
 export const StyledPopOverWrapper = styled(StyledFormGroup)`
-  & .bp3-form-content {
-    & .gsi-form-field-container {
-      & .gsi-input-and-error-container {
-        ${(props: IStyledFieldProps) =>
-          props.fill
-            ? `width: calc(100% - 21px)!important;`
-            : `max-width: 200px!important;`};
-        & .bp3-popover-wrapper {
-          width: 100%;
-          & .bp3-popover-target {
+  .gsi-input-and-error-container {
+    ${(props: IStyledFieldProps) =>
+      props.fill
+        ? `width: calc(100% - 21px)!important;`
+        : `max-width: 200px!important;`};
+    & .bp3-popover-wrapper {
+      width: 100%;
+      & .bp3-popover-target {
+        width: 100%;
+        div {
+          button {
             width: 100%;
-            div {
-              button {
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-              }
-            }
+            display: flex;
+            justify-content: space-between;
           }
         }
       }
