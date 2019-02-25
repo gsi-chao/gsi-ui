@@ -63,6 +63,8 @@ export interface IVTableProps {
   className?: string;
   typeHeightRow?: defaultheightRow;
   configColumnsHeader?: IVConfigHeader[];
+  toolbar?: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -101,7 +103,7 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   render() {
-    const { sortable, columns_name } = this.props;
+    const { sortable, columns_name, toolbar, footer } = this.props;
     const { columns } = this.state;
     const columnsList = columns.map((name: string, index: number) => {
       const configColumnsHeader = this.props.configColumnsHeader
@@ -126,25 +128,29 @@ export class VTable extends Component<IProps, IVTableState> {
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
     return (
-      <Table
-        className={this.props.className}
-        numRows={this.state.sparseCellData.length}
-        onColumnsReordered={this._handleColumnsReordered}
-        enableColumnReordering={this.props.reordering}
-        bodyContextMenuRenderer={this.renderBodyContextMenu}
-        onSelection={this.checkAndSetSelection}
-        selectedRegions={this.state.selectedRegions}
-        defaultColumnWidth={this.props.defaultColumnWidth}
-        enableColumnResizing={enableColumnResizing}
-        enableRowResizing={resizingProperties.enableRowResizing}
-        enableRowHeader={resizingProperties.enableRowHeader}
-        columnWidths={columnWidths}
-        defaultRowHeight={this.getDefaultRowHeight()}
-        numFrozenColumns={this.props.numFrozenColumns}
-        numFrozenRows={this.props.numFrozenRows}
-      >
-        {columnsList}
-      </Table>
+      <React.Fragment>
+        {toolbar && toolbar}
+        <Table
+          className={this.props.className}
+          numRows={this.state.sparseCellData.length}
+          onColumnsReordered={this._handleColumnsReordered}
+          enableColumnReordering={this.props.reordering}
+          bodyContextMenuRenderer={this.renderBodyContextMenu}
+          onSelection={this.checkAndSetSelection}
+          selectedRegions={this.state.selectedRegions}
+          defaultColumnWidth={this.props.defaultColumnWidth}
+          enableColumnResizing={enableColumnResizing}
+          enableRowResizing={resizingProperties.enableRowResizing}
+          enableRowHeader={resizingProperties.enableRowHeader}
+          columnWidths={columnWidths}
+          defaultRowHeight={this.getDefaultRowHeight()}
+          numFrozenColumns={this.props.numFrozenColumns}
+          numFrozenRows={this.props.numFrozenRows}
+        >
+          {columnsList}
+        </Table>
+        {footer && footer}
+      </React.Fragment>
     );
   }
 

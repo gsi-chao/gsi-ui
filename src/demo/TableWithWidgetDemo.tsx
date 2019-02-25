@@ -382,6 +382,20 @@ class TableWithWidgetDemo extends Component {
               }
             ]}
             typeHeightRow={'HALF'}
+            toolbar={
+              <div
+                style={{ width: '100%', height: 50, backgroundColor: 'teal' }}
+              >
+                Toolbar
+              </div>
+            }
+            footer={
+              <div
+                style={{ width: '100%', height: 50, backgroundColor: 'blue' }}
+              >
+                Toolbar
+              </div>
+            }
           />
         </div>
 
