@@ -66,8 +66,9 @@ export const StyledFormGroup = styled(FormGroup)`
                     }    
             }
             .gsi-error-span {
-                font-size: 12px;
-                color: #e21a1a;
+               padding-top: 1px;
+               font-size: 12px;
+               color: #e21a1a;
             }
             & .gsi-form-field-container {
                 ${!noLabel ? `padding-left: 10px!important;` : ''}
@@ -82,9 +83,13 @@ export const StyledFormGroup = styled(FormGroup)`
                 align-items:${inputOrientation};
                 flex-direction: column;
                 & .gsi-input-and-error-container {
-                ${ fill
+                  display: flex;
+                  flex-direction: column;
+                ${
+                  fill
                     ? `width: ${100}%!important`
-                    : `max-width: 200px!important;`};
+                    : `max-width: 200px!important;`
+                };
                 
             }
         }          

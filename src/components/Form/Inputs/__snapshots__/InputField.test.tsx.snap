@@ -2,7 +2,7 @@
 
 exports[`renders without crashing InputField All Properties 1`] = `
 <div
-  className="bp3-form-group bp3-inline sc-bdVaJa sc-bwzfXH hHVqNW"
+  className="bp3-form-group bp3-inline sc-bdVaJa sc-bwzfXH ggxFmA"
 >
   <div
     className="bp3-form-content"
@@ -16,26 +16,30 @@ exports[`renders without crashing InputField All Properties 1`] = `
       className="gsi-form-field-container"
     >
       <div
-        className="bp3-input-group bp3-large"
+        className="gsi-input-and-error-container"
       >
-        <input
-          className="bp3-input"
-          id="test-input"
-          name="test-input"
-          onChange={[Function]}
-          placeholder="Username"
-          style={
-            Object {
-              "paddingRight": 10,
-            }
-          }
-          value=""
-        />
-        <span
-          className="bp3-input-action"
+        <div
+          className="bp3-input-group bp3-large"
         >
-          <div />
-        </span>
+          <input
+            className="bp3-input"
+            id="test-input"
+            name="test-input"
+            onChange={[Function]}
+            placeholder="Username"
+            style={
+              Object {
+                "paddingRight": 10,
+              }
+            }
+            value=""
+          />
+          <span
+            className="bp3-input-action"
+          >
+            <div />
+          </span>
+        </div>
       </div>
     </div>
   </div>
