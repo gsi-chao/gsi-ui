@@ -9,10 +9,10 @@ import {
   IOptionProps
 } from '@blueprintjs/core';
 /** FieldState */
-import { FieldState } from 'formstate';
 import { IFieldProps } from './IFieldProps';
 import { StyledFormGroup } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -47,9 +47,20 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
       options,
       minimal,
       className,
-      layer
+      layer,
+      required,
+      validators,
+      noLabel
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
       <StyledFormGroup
         disabled={disabled}
@@ -60,7 +71,12 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
         layer={layer}
         className={className}
       >
-        <FormFieldContainer label={label} fieldState={fieldState}>
+        <FormFieldContainer
+          required={required}
+          label={label}
+          noLabel={noLabel}
+          fieldState={fieldState}
+        >
           <HTMLSelect
             options={options}
             iconProps={icon}

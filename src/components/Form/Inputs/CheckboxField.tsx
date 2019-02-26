@@ -7,6 +7,7 @@ import { Intent, Checkbox, Alignment } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledCheckBoxInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -40,9 +41,19 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       className,
       layer,
       checkBoxAtLeft,
-      noLabel
+      noLabel,
+      required,
+      validators
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
       <StyledCheckBoxInput
         className={className}
@@ -56,6 +67,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
         noLabel={noLabel}
       >
         <FormFieldContainer
+          required={required}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

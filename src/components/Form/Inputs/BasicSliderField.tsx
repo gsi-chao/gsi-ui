@@ -7,6 +7,7 @@ import { Intent, Slider } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledSlider } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -45,9 +46,19 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
       className,
       layer,
       fill,
-      noLabel
+      noLabel,
+      required,
+      validators
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
       <StyledSlider
         className={className}
@@ -61,6 +72,7 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
         noLabel={noLabel}
       >
         <FormFieldContainer
+          required={required}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

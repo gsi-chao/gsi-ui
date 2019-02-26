@@ -8,6 +8,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledTextArea } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -39,9 +40,19 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       className,
       fill,
       layer,
-      noLabel
+      noLabel,
+      required,
+      validators
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
       <StyledTextArea
         className={className}
@@ -55,6 +66,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         noLabel={noLabel}
       >
         <FormFieldContainer
+          required={required}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

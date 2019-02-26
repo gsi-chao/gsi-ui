@@ -6,7 +6,7 @@ import { IconName, InputGroup, Intent } from '@blueprintjs/core';
 import { StyledInput } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
-import { email, required } from '../Validators';
+import * as validator from '../Validators';
 
 /**
  * Field component. Must be an observer.
@@ -42,13 +42,23 @@ export class VInputField extends React.Component<IInputFieldProps> {
       className,
       layer,
       fill,
-      noLabel
+      noLabel,
+      required,
+      validators
     } = this.props;
     let rightEl;
     if (!rightElement) {
       rightEl = <div />;
     }
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
       <StyledInput
         className={className}
@@ -62,6 +72,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
         noLabel={noLabel}
       >
         <FormFieldContainer
+          required={required}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

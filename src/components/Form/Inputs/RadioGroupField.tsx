@@ -20,6 +20,7 @@ import {
 } from './style';
 import styled from 'styled-components';
 import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -52,9 +53,19 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
       options,
       className,
       layer,
-      noLabel
+      noLabel,
+      required,
+      validators
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
       <StyledRadioButton
         className={className}
@@ -67,6 +78,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
         noLabel={noLabel}
       >
         <FormFieldContainer
+          required={required}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
