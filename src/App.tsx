@@ -6,6 +6,7 @@ import TableWithWidgetDemo from './demo/TableWithWidgetDemo';
 import { Cell, Column, Table } from '@blueprintjs/table';
 import TabsPanelDemo from './demo/TabsPanelDemo';
 import VLoadProgressTaskDemo from './demo/VLoadProgressTaskDemo';
+import NotificationToastDemo from './demo/NotificationToastDemo';
 
 class App extends Component {
   render() {
@@ -102,6 +103,7 @@ class App extends Component {
           </Table>
         </div>
         <VLoadProgressTaskDemo />
+        <NotificationToastDemo/>
       </React.Fragment>
     );
   }
