@@ -31,9 +31,7 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
     props ? props.backgroundColor : 'gray'}!important;
   cursor: default;
   :hover {
-    background-color: ${(props: IConfignHeader) =>
-      props ? props.backgroundColor : 'gray'}!important;
-    opacity: 0.7;
+  filter: brightness(75%);
   }
   ::before {
     display: none;
