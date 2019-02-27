@@ -53,7 +53,7 @@ class InputsDemo extends Component {
       have_job: new FieldState(''),
       sex: new FieldState(''),
       range: new FieldState(''),
-      places: new FieldState(sex[0])
+      places: new FieldState(sex[0].value)
     });
   }
   /**
