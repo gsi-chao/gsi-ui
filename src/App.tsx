@@ -6,7 +6,9 @@ import TableWithWidgetDemo from './demo/TableWithWidgetDemo';
 import { Cell, Column, Table } from '@blueprintjs/table';
 import TabsPanelDemo from './demo/TabsPanelDemo';
 import VLoadProgressTaskDemo from './demo/VLoadProgressTaskDemo';
+import ColorPickerDemo from './demo/ColorPickerDemo';
 import NotificationToastDemo from './demo/NotificationToastDemo';
+
 
 class App extends Component {
   render() {
@@ -102,6 +104,9 @@ class App extends Component {
             <Column />
           </Table>
         </div>
+
+        <ColorPickerDemo />
+
         <VLoadProgressTaskDemo />
         <NotificationToastDemo />
       </React.Fragment>
