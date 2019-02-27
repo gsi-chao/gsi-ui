@@ -13,6 +13,7 @@ export interface ITabsPanelStyle {
   borderColor?: string;
   borderBottom?: number;
   lineColor?: string;
+  activeBorderColor?: string;
 }
 
 export interface ITabsPanelState {
@@ -31,6 +32,7 @@ export interface ITabsPanelProps {
   borderBottom?: number;
   lineColor?: string;
   activeTextColor?: string;
+  activeBorderColor?: string;
 
   handleChange(tab: ITabsPanelTypes): void;
 }
@@ -49,4 +51,5 @@ export interface ITabsPanelTypes {
   textColorBadge?: string;
   backgroundColorBadge?: string;
   dataBadge?: any;
+  activeBorderColor?: any;
 }

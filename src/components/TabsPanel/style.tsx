@@ -42,10 +42,10 @@ export const LabelIcon = styled.div`
   }};
   border-top: ${(props: ITabsPanelStyle) => {
     if (props.active) {
-      if (props.activeColor) {
-        return `2px solid ${props.activeColor} !important`;
+      if (props.activeBorderColor) {
+        return `2px solid ${props.activeBorderColor} !important`;
       }
-      return '2px solid #21bdb5 !important';
+      return '2px solid #3d3e3e !important';
     }
   }};
   background-color:${(props: ITabsPanelStyle) => {

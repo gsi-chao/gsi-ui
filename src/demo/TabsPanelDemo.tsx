@@ -28,6 +28,7 @@ class TabsPanelDemo extends Component {
         <VTabsPanel
           padding={'10px 25px'}
           tabList={tabList}
+          activeBorderColor={'red'}
           active={'3'}
           handleChange={this.handelChangeTab}
         />
