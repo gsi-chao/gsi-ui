@@ -103,7 +103,7 @@ class App extends Component {
           </Table>
         </div>
         <VLoadProgressTaskDemo />
-        <NotificationToastDemo/>
+        <NotificationToastDemo />
       </React.Fragment>
     );
   }

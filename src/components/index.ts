@@ -36,4 +36,4 @@ export {
 } from './TabsPanel';
 export { IVBadgeProps, IVBadgeStyle, VBadge } from './Badge';
 export { VLoadProgressTask } from './LoadProgressTask';
-export { showToastNotification } from './ToastNotification'
+export { showToastNotification } from './ToastNotification';

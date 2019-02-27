@@ -26,7 +26,7 @@ class TabsPanelDemo extends Component {
     return (
       <div style={{ padding: '25px 25px' }}>
         <VTabsPanel
-          size={'small'} 
+          size={'small'}
           padding={'10px 25px'}
           tabList={tabList}
           activeBorderColor={'red'}

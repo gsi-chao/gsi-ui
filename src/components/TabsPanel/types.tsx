@@ -12,7 +12,7 @@ export interface ITabsPanelStyle {
   padding?: string;
   borderColor?: string;
   borderBottom?: number;
-  size?: 'small'|'normal';
+  size?: 'small' | 'normal';
   lineColor?: string;
   activeBorderColor?: string;
 }
@@ -25,7 +25,7 @@ export interface ITabsPanelState {
 export interface ITabsPanelProps {
   tabList: ITabsPanelTypes[];
   active?: string;
-  size?: 'small'|'normal';
+  size?: 'small' | 'normal';
   padding?: string;
   elevation?: number;
   textColor?: string;
