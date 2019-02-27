@@ -41,7 +41,7 @@ interface IItem {
   rep?: string;
 }
 interface IState {
-  item: IItem;
+  item: IItem | undefined;
 }
 const ItemSelect = Select.ofType<IItem>();
 
@@ -73,8 +73,19 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   constructor(props: ISelectFieldProps) {
     super(props);
     this.state = {
-      item: this.props.fieldState.value || ''
+      item: this.getFieldValue()
     };
+  }
+
+  public getFieldValue() {
+    const fValue = this.props.fieldState.value;
+    if (fValue) {
+      const item = this.props.options.find((value: IItem) => {
+        return fValue === value.value;
+      });
+      return item;
+    }
+    return undefined;
   }
 
   public render() {
@@ -95,9 +106,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       noLabel,
       required,
       validators,
-      defaultText,
       fixedInputWidthPx
     } = this.props;
+
+    const defaultText = this.props.defaultText || 'No selection';
 
     const initialContent =
       options && options.length === 0 ? (
@@ -153,7 +165,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 disabled
               }}
               rightIcon={rightIcon || 'chevron-down'}
-              text={this.state.item.label || defaultText || 'No selection'}
+              text={this.state.item ? this.state.item.label : defaultText}
             />
           </ItemSelect>
         </FormFieldContainer>
