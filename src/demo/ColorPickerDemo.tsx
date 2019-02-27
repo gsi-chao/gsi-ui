@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import VColorPicker, { TypePickerColor } from '../components/ColorPicker/VColorPicker';
+import VColorPicker, { TypePickerColor, VColorResult } from '../components/ColorPicker/VColorPicker';
 
 
 interface IState {
@@ -27,14 +27,14 @@ class ColorPickerDemo extends Component<any, IState> {
          <button onClick={this.handleChangeTypeToChromePicker}>ChromePicker</button>
         <br />
         <br />
-        <VColorPicker onChange={this.handleChangeColor} typePickerColor={this.state.typePickerColor}/>
+        <VColorPicker  defaultColor={'blue'} onChange={this.handleChangeColor} typePickerColor={this.state.typePickerColor}/>
       </div>
     );
   }
 
 
-  handleChangeColor = (color: string) => {
-    console.log('ha cambiado el color', color);
+  handleChangeColor = (color: VColorResult) => {
+    //console.log('ha cambiado el color', color);
   };
 
   handleChangeTypeToChromePicker = () => {
