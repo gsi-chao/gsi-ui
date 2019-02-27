@@ -3,8 +3,12 @@ import 'normalize.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 import { Classes, Menu, MenuItem } from '@blueprintjs/core';
-import {ElevationType, IItemsList, ISelectionListProps} from './ISelectionList';
-import {StyledMenu, StyledMenuItem} from "./style";
+import {
+  ElevationType,
+  IItemsList,
+  ISelectionListProps
+} from './ISelectionList';
+import { StyledMenu, StyledMenuItem } from './style';
 
 interface ISelctionListState {
   listSelected: IItemsList[];
@@ -37,26 +41,28 @@ export class VSelectionList extends Component<
 
   getElevation = (elevation: ElevationType): any => {
     switch (elevation) {
-        case 0:
-          return Classes.ELEVATION_0;
-        case 1:
-            return Classes.ELEVATION_1;
-        case 2:
-            return Classes.ELEVATION_2;
-        case 3:
-            return Classes.ELEVATION_3;
-        case 4:
-            return Classes.ELEVATION_4;
-        default:
-            return Classes.ELEVATION_0;
+      case 0:
+        return Classes.ELEVATION_0;
+      case 1:
+        return Classes.ELEVATION_1;
+      case 2:
+        return Classes.ELEVATION_2;
+      case 3:
+        return Classes.ELEVATION_3;
+      case 4:
+        return Classes.ELEVATION_4;
+      default:
+        return Classes.ELEVATION_0;
     }
   };
   render() {
     const { elements, selection, elevation, className, padding } = this.props;
 
     return (
-      <StyledMenu className={`${this.getElevation(elevation || 0)} ${className}`}
-            padding={padding}>
+      <StyledMenu
+        className={`${this.getElevation(elevation || 0)} ${className}`}
+        padding={padding}
+      >
         {elements.map(element => {
           const active = this.isActive(element);
           const backgroundColor =

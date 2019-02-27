@@ -44,7 +44,11 @@ export class VTabsMenu extends Component<ITabsMenuProps, ITabsMenuState> {
               </TabIcon>
             );
             return (
-              <Tab key={tab.key} id={tab.navbarTabId} title={label || tab.label} />
+              <Tab
+                key={tab.key}
+                id={tab.navbarTabId}
+                title={label || tab.label}
+              />
             );
           })}
         </Tabs>

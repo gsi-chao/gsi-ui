@@ -8,6 +8,7 @@ import {
   VCardTextSpanContainer
 } from './style';
 import React, { Component } from 'react';
+import { FlexJustify, HeaderOrientation } from './types';
 
 interface StyledCardProps {
   noHeader?: boolean;
@@ -36,9 +37,6 @@ interface PanelState {
   isOpen: boolean;
 }
 
-export type FlexJustify = 'center' | 'start' | 'end';
-export type HeaderOrientation = 'row' | 'row-reverse';
-
 export class VCardPanel extends Component<StyledCardProps, PanelState> {
   constructor(props: StyledCardProps) {
     super(props);
@@ -52,69 +50,82 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
     this.setState({ ...this.state, isOpen: !isOpen });
   };
 
-    render() {
-        const {
-            headerIcon,
-            headerText,
-            children,
-            headerBackgroundColor,
-            headerHorizontalAlign,
-            headerColor,
-            backgroundColor,
-            cardElevation,
-            height,
-            width,
-            collapse,
-            transitionDuration,
-            bodyPadding,
-            keepChildrenMounted,
-            closeIcon,
-            openIcon,
-            headerOrientation,
-            headerTextJustify,
-            noHeader,
-            className
-
-        } = this.props;
-        const {isOpen} = this.state;
-        return (
-            <VCard elevation={cardElevation || 0}
-                   height={height}
-                   className={className}
-                   collapse={collapse ? "true" : "false"}
-                   transitionduration={transitionDuration}
-                   isopen={isOpen ? "true" : "false"}
-                   width={width}>
-                {!noHeader?
-                    <VCardHeader headerBackgroundColor={headerBackgroundColor}
-                                headerOrientation = {headerOrientation}
-                                headerJustifyContent={headerHorizontalAlign}>
-                        <VCardTextSpanContainer>
-                            <VCardTextSpan headerColor={headerColor}
-                                          headerTextJustify={headerTextJustify}>
-                                {headerIcon ? <Icon icon={headerIcon}/> : null}
-                                <h5>{headerText}</h5>
-                            </VCardTextSpan>
-                        </VCardTextSpanContainer>
-                        {collapse ?
-                            <span onClick={this.toggleCollapsed}>
-                            <Icon icon={isOpen ? closeIcon || 'chevron-up' : openIcon || 'chevron-down'}/>
-                        </span> : null}
-                    </VCardHeader>
-                    : null}
-                <VCardBody bodyPadding={bodyPadding}
-                          backgroundColor={backgroundColor}>
-                    {collapse ?
-                        <Collapse transitionDuration={transitionDuration || 200}
-                                  keepChildrenMounted={keepChildrenMounted}
-                                  isOpen={isOpen}>
-                            {children}
-                        </Collapse>
-                        :
-                        children
-                    }
-                </VCardBody>
-            </VCard>
-        );
-    }
+  render() {
+    const {
+      headerIcon,
+      headerText,
+      children,
+      headerBackgroundColor,
+      headerHorizontalAlign,
+      headerColor,
+      backgroundColor,
+      cardElevation,
+      height,
+      width,
+      collapse,
+      transitionDuration,
+      bodyPadding,
+      keepChildrenMounted,
+      closeIcon,
+      openIcon,
+      headerOrientation,
+      headerTextJustify,
+      noHeader,
+      className
+    } = this.props;
+    const { isOpen } = this.state;
+    return (
+      <VCard
+        elevation={cardElevation || 0}
+        height={height}
+        className={className}
+        collapse={collapse ? 'true' : 'false'}
+        transitionduration={transitionDuration}
+        isopen={isOpen ? 'true' : 'false'}
+        width={width}
+      >
+        {!noHeader ? (
+          <VCardHeader
+            headerBackgroundColor={headerBackgroundColor}
+            headerOrientation={headerOrientation}
+            headerJustifyContent={headerHorizontalAlign}
+          >
+            <VCardTextSpanContainer>
+              <VCardTextSpan
+                headerColor={headerColor}
+                headerTextJustify={headerTextJustify}
+              >
+                {headerIcon ? <Icon icon={headerIcon} /> : null}
+                <h5>{headerText}</h5>
+              </VCardTextSpan>
+            </VCardTextSpanContainer>
+            {collapse ? (
+              <span onClick={this.toggleCollapsed}>
+                <Icon
+                  icon={
+                    isOpen
+                      ? closeIcon || 'chevron-up'
+                      : openIcon || 'chevron-down'
+                  }
+                />
+              </span>
+            ) : null}
+          </VCardHeader>
+        ) : null}
+        <VCardBody bodyPadding={bodyPadding} backgroundColor={backgroundColor}>
+          {collapse ? (
+            <Collapse
+              transitionDuration={transitionDuration || 200}
+              keepChildrenMounted={keepChildrenMounted}
+              isOpen={isOpen}
+            >
+              {children}
+            </Collapse>
+          ) : (
+            children
+          )}
+        </VCardBody>
+      </VCard>
+    );
+  }
 }

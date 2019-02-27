@@ -6,8 +6,8 @@ import { IIconTabsPanelProps } from '../types';
 import { VBadge } from '../../Badge';
 
 interface IVTabPanelProps {
-  label?: string,
-  id: string,
+  label?: string;
+  id: string;
   icon?: IIconTabsPanelProps;
   active: boolean;
   borderColor?: string;
@@ -19,32 +19,52 @@ interface IVTabPanelProps {
   backgroundColorBadge?: string;
   dataBadge?: any;
   size?: 'small'|'normal';
+  activeBorderColor?: string;
 }
-
 
 export class VTabPanel extends Component<IVTabPanelProps> {
   render() {
-    const { size, label, icon, active, borderColor, activeColor, activeTextColor, textColor, backgroundColorBadge, dataBadge, textColorBadge } = this.props;
+    const {
+      size,
+      label,
+      icon,
+      active,
+      borderColor,
+      activeColor,
+      activeTextColor,
+      textColor,
+      backgroundColorBadge,
+      dataBadge,
+      textColorBadge,
+       size={size},
+      activeBorderColor
+    } = this.props;
     return (
-      <LabelIcon borderColor={borderColor}
-                 activeColor={activeColor}
-                 activeTextColor={activeTextColor}
-                 textColor={textColor}
-                 active={active}
-                 onClick={this.handleOnClick}
-                 size={size}
+      <LabelIcon
+        borderColor={borderColor}
+        activeColor={activeColor}
+        activeTextColor={activeTextColor}
+        textColor={textColor}
+        active={active}
+        onClick={this.handleOnClick}
+        activeBorderColor={activeBorderColor}
       >
-        {icon && (<Icon
-          style={labelIcon}
-          icon={icon.icon}
-          iconSize={icon.iconSize && icon.iconSize}
-          intent={icon.intent && icon.intent}
-        />)}
+        {icon && (
+          <Icon
+            style={labelIcon}
+            icon={icon.icon}
+            iconSize={icon.iconSize && icon.iconSize}
+            intent={icon.intent && icon.intent}
+          />
+        )}
         <span>{label}</span>
-        {dataBadge && <VBadge
-          backgroundColorBadge={backgroundColorBadge}
-          textColorBadge={textColorBadge}
-          dataBadge={dataBadge}/>}
+        {dataBadge && (
+          <VBadge
+            backgroundColorBadge={backgroundColorBadge}
+            textColorBadge={textColorBadge}
+            dataBadge={dataBadge}
+          />
+        )}
       </LabelIcon>
     );
   }

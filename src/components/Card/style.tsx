@@ -1,35 +1,39 @@
 import { Card } from '@blueprintjs/core';
 import styled from 'styled-components';
-import { FlexJustify, HeaderOrientation } from './VCardPanel';
+import { FlexJustify, HeaderOrientation } from './types';
 
 interface ICardPanelProps {
-    headerBackgroundColor?: string;
-    headerColor?: string
-    backgroundColor?: string;
-    headerJustifyContent?: FlexJustify;
-    height?: string;
-    width?: string;
-    collapse?: string;
-    isopen?: string;
-    transitionduration?:number;
-    bodyPadding?:string;
-    headerOrientation? : HeaderOrientation
-    headerTextJustify?: FlexJustify
+  headerBackgroundColor?: string;
+  headerColor?: string;
+  backgroundColor?: string;
+  headerJustifyContent?: FlexJustify;
+  height?: string;
+  width?: string;
+  collapse?: string;
+  isopen?: string;
+  transitionduration?: number;
+  bodyPadding?: string;
+  headerOrientation?: HeaderOrientation;
+  headerTextJustify?: FlexJustify;
 }
 
 export const VCard = styled(Card)`
     padding: 0!important;
-    ${
-    (props: ICardPanelProps) => props.collapse === "true" ? `
+    ${(props: ICardPanelProps) =>
+      props.collapse === 'true'
+        ? `
     transition-property: height;
     transition-duration: ${props.transitionduration || '200'}ms;
-    `: ''
-    }
-    ${
-    (props: ICardPanelProps) => props.collapse === "true" && props.isopen === "false" ? `height: 35px;` :
-        props.collapse === "true" && props.isopen === "true" ? `height: ${props.height};` :
-            props.collapse !== "true" ? `height: ${props.height};` : ''
-    }
+    `
+        : ''}
+    ${(props: ICardPanelProps) =>
+      props.collapse === 'true' && props.isopen === 'false'
+        ? `height: 35px;`
+        : props.collapse === 'true' && props.isopen === 'true'
+        ? `height: ${props.height};`
+        : props.collapse !== 'true'
+        ? `height: ${props.height};`
+        : ''}
     
     ${(props: ICardPanelProps) => (props.width ? `width: ${props.width};` : '')}
 `;

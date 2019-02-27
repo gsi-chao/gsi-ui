@@ -10,9 +10,17 @@ import {
   RadioGroup,
   IOptionProps
 } from '@blueprintjs/core';
+
 import { IFieldProps } from './IFieldProps';
-import { IStyledFieldProps, layerInPercent, StyledFormGroup } from './style';
+import {
+  IStyledFieldProps,
+  layerInPercent,
+  StyledFormGroup,
+  StyledRadioButton
+} from './style';
 import styled from 'styled-components';
+import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -26,48 +34,6 @@ export interface IRadioButtonFieldProps extends IFieldProps {
 /**
  * Field component. Must be an observer.
  */
-
-export const StyledRadioButton = styled(StyledFormGroup)`
-  ${(props: IStyledFieldProps) => {
-    const { layer, fill } = props;
-    let layerPercent: any = {};
-    let inputOrientation = 'flex-start';
-    let labelWidth = undefined;
-    let inputWidth = undefined;
-    if (layer) {
-      layerPercent = layer ? layerInPercent(layer) : undefined;
-      inputOrientation =
-        layer.inputOrientation === 'center'
-          ? 'center'
-          : layer.inputOrientation === 'end'
-          ? 'flex-end'
-          : 'flex-start';
-      if (layerPercent) {
-        labelWidth = layerPercent.labelWidth;
-        inputWidth = layerPercent.inputWidth;
-      }
-    }
-    return `& .bp3-form-content {
-  & label {
-    line-height: 43px;
-  }
-  & div {
-    display: flex;
-    position: relative;
-    top: -5px;
-    width: ${inputWidth ? `${inputWidth}` : `${100 - labelWidth}`}%!important;
-                    display: flex;
-                    justify-content:${inputOrientation};
-;
-    & label {
-      width:auto!important;
-      
-    }
-  }
-}
-`;
-  }}
-`;
 
 @observer
 export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
@@ -86,33 +52,50 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
       id,
       options,
       className,
-      layer
+      layer,
+      noLabel,
+      required,
+      validators
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
       <StyledRadioButton
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
+        noLabel={noLabel}
       >
-        <label>{label}</label>
-        <RadioGroup
-          name={id}
-          {...{
-            disabled,
-            id,
-            inline,
-            alignIndicator
-          }}
-          onChange={this.onChange}
-          selectedValue={fieldState.value}
-          options={options}
-        />
+        <FormFieldContainer
+          required={required}
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
+          <RadioGroup
+            name={id}
+            {...{
+              disabled,
+              id,
+              inline,
+              alignIndicator
+            }}
+            onChange={this.onChange}
+            selectedValue={fieldState.value}
+            options={options}
+          />
+        </FormFieldContainer>
       </StyledRadioButton>
     );
   }

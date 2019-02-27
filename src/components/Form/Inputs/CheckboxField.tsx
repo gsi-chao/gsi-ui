@@ -1,18 +1,13 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
-/** FieldState */ import {
-  FormGroup,
-  IconName,
-  NumericInput,
-  Intent,
-  Checkbox,
-  Alignment
-} from '@blueprintjs/core';
+/** FieldState */
+import { Intent, Checkbox, Alignment } from '@blueprintjs/core';
 
-import { FieldState } from 'formstate';
 import { IFieldProps } from './IFieldProps';
-import { StyledFormGroup } from './style';
+import { StyledCheckBoxInput } from './style';
+import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -20,6 +15,7 @@ import { StyledFormGroup } from './style';
 export interface ICheckBoxFieldProps extends IFieldProps {
   rightElement?: Element;
   alignIndicator?: Alignment;
+  checkBoxAtLeft?: boolean;
 }
 
 /**
@@ -43,34 +39,54 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       alignIndicator,
       id,
       className,
-      layer
+      layer,
+      checkBoxAtLeft,
+      noLabel,
+      required,
+      validators
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
-      <StyledFormGroup
+      <StyledCheckBoxInput
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
+        checkBoxAtLeft={checkBoxAtLeft}
+        noLabel={noLabel}
       >
-        <Checkbox
-          name={id}
-          large={size === 'large'}
-          {...{
-            disabled,
-            id,
-            inline,
-            alignIndicator,
-            label
-          }}
-          onChange={this.onChange}
-          checked={fieldState.value || false}
-        />
-      </StyledFormGroup>
+        <FormFieldContainer
+          required={required}
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
+          <Checkbox
+            name={id}
+            large={size === 'large'}
+            {...{
+              disabled,
+              id,
+              inline,
+              alignIndicator,
+              label: ''
+            }}
+            onChange={this.onChange}
+            checked={fieldState.value || false}
+          />
+        </FormFieldContainer>
+      </StyledCheckBoxInput>
     );
   }
 

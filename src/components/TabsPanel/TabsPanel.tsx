@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { ITabsPanelProps, ITabsPanelState } from './types';
-import {VTabPanel} from './TabPanel/TabPanel';
+import { VTabPanel } from './TabPanel/TabPanel';
 import { ContainerContent, ContainerTabs, ContainerTabsPanel } from './style';
-
 
 export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
   constructor(props: ITabsPanelProps) {
@@ -29,25 +28,36 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
     const { active, content } = this.state;
     return (
       <ContainerTabsPanel>
-        <ContainerTabs borderBottom={options.borderBottom} activeColor={options.activeColor}>
-          {options.tabList.map(tab =>
-            <VTabPanel key={tab.key} id={tab.key}
-                       handleOnClick={this.handleChangeTab}
-                       label={tab.label!}
-                       active={active === tab.key}
-                       icon={tab.icon}
-                       textColor={options.textColor}
-                       borderColor={options.borderColor}
-                       activeColor={options.activeColor}
-                       activeTextColor={options.activeTextColor}
-                       textColorBadge={tab.textColorBadge}
-                       backgroundColorBadge={tab.backgroundColorBadge}
-                       dataBadge={tab.dataBadge}
-                       size={options.size}
+        <ContainerTabs
+          borderBottom={options.borderBottom}
+          activeColor={options.activeColor}
+          lineColor={options.lineColor}
+        >
+          {options.tabList.map(tab => (
+            <VTabPanel
+              key={tab.key}
+              id={tab.key}
+              handleOnClick={this.handleChangeTab}
+              label={tab.label!}
+              active={active === tab.key}
+              icon={tab.icon}
+              textColor={options.textColor}
+              borderColor={options.borderColor}
+              activeColor={options.activeColor}
+              activeTextColor={options.activeTextColor}
+              textColorBadge={tab.textColorBadge}
+              backgroundColorBadge={tab.backgroundColorBadge}
+              dataBadge={tab.dataBadge}
+              size={options.size}
+              activeBorderColor={options.activeBorderColor}
             />
-          )}
+          ))}
         </ContainerTabs>
-        <ContainerContent padding={options.padding} borderColor={options.borderColor} elevation={options.elevation}>
+        <ContainerContent
+          padding={options.padding}
+          borderColor={options.borderColor}
+          elevation={options.elevation}
+        >
           {content}
         </ContainerContent>
       </ContainerTabsPanel>

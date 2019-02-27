@@ -3,16 +3,17 @@ import * as React from 'react';
 /** Blueprint */
 import {
   Button,
-  FormGroup,
   IconName,
   Intent,
   ITagProps,
   TagInput
 } from '@blueprintjs/core';
-/** FieldState */
-import { FieldState } from 'formstate';
 import { IFieldProps } from './IFieldProps';
-import { StyledFormGroup } from './style';
+
+import { StyledTagsInput } from './style';
+
+import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -47,9 +48,20 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       id,
       tagProps,
       className,
-      layer
+      layer,
+      noLabel,
+      required,
+      validators
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     const clearButton = (
       <Button
         disabled={disabled}
@@ -60,34 +72,40 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
     );
 
     return (
-      <StyledFormGroup
+      <StyledTagsInput
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
         fill={fill}
+        noLabel={noLabel}
       >
-        <label>{label}</label>
-        <TagInput
-          {...{
-            leftIcon,
-            disabled,
-            placeholder,
-            id,
-            fill
-          }}
-          rightElement={clearButton}
-          tagProps={tagProps}
-          large={size === 'large'}
-          onChange={this.handleChange}
-          values={fieldState.value || []}
-          intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        />
-      </StyledFormGroup>
+        <FormFieldContainer
+          required={required}
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
+          <TagInput
+            {...{
+              leftIcon,
+              disabled,
+              placeholder,
+              id,
+              fill
+            }}
+            rightElement={clearButton}
+            tagProps={tagProps}
+            large={size === 'large'}
+            onChange={this.handleChange}
+            values={fieldState.value || []}
+            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+          />
+        </FormFieldContainer>
+      </StyledTagsInput>
     );
   }
 

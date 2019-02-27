@@ -3,8 +3,12 @@ import * as React from 'react';
 /** Blueprint */
 import { FormGroup, Intent, TextArea } from '@blueprintjs/core';
 /** FieldState */
+
 import { IFieldProps } from './IFieldProps';
-import { StyledFormGroup } from './style';
+import { StyledTextArea } from './style';
+
+import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -35,35 +39,52 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       id,
       className,
       fill,
-      layer
+      layer,
+      noLabel,
+      required,
+      validators
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
-      <StyledFormGroup
+      <StyledTextArea
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         layer={layer}
         labelInfo={labelInfo}
         fill={fill}
+        noLabel={noLabel}
       >
-        <label>{label}</label>
-        <TextArea
-          large={size === 'large'}
-          small={size === 'small'}
-          onChange={this.onChange}
-          value={fieldState.value || ''}
-          intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-          name={id}
-          {...{
-            disabled,
-            id
-          }}
-        />
-      </StyledFormGroup>
+        <FormFieldContainer
+          required={required}
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
+          <TextArea
+            large={size === 'large'}
+            small={size === 'small'}
+            onChange={this.onChange}
+            value={fieldState.value || ''}
+            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+            name={id}
+            {...{
+              disabled,
+              id
+            }}
+          />
+        </FormFieldContainer>
+      </StyledTextArea>
     );
   }
   onChange = (e: any) => {
@@ -71,5 +92,5 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
     if (this.props.onChange) {
       this.props.onChange!(e.target.value);
     }
-  }
+  };
 }

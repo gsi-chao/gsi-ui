@@ -16,8 +16,11 @@ export interface IFieldProps {
   placeholder?: string;
   id: string;
   className?: string;
+  noLabel?: boolean;
   layer?: ILayer;
   onChange?: (value: any) => void;
+  required?: boolean;
+  validators?: any[];
 
   /** The fieldState */
   fieldState: FieldState<any>;

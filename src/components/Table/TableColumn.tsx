@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { IVActionSortableTableProps } from './Table';
-import {  Column } from '@blueprintjs/table';
+import { Column } from '@blueprintjs/table';
 import { Menu, MenuItem } from '@blueprintjs/core';
 import { ColumnHeaderCellStyled } from './style';
 

@@ -3,8 +3,10 @@ import * as React from 'react';
 /** Blueprint */
 import { IconName, InputGroup, Intent } from '@blueprintjs/core';
 /** FieldState */
-import { StyledFormGroup } from './style';
+import { StyledInput } from './style';
 import { IFieldProps } from './IFieldProps';
+import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field component. Must be an observer.
@@ -39,51 +41,68 @@ export class VInputField extends React.Component<IInputFieldProps> {
       id,
       className,
       layer,
-      fill
+      fill,
+      noLabel,
+      required,
+      validators
     } = this.props;
     let rightEl;
     if (!rightElement) {
       rightEl = <div />;
     }
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
-      <StyledFormGroup
+      <StyledInput
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
         fill={fill}
+        noLabel={noLabel}
       >
-        <label>{label}</label>
-        <InputGroup
-          large={size === 'large'}
-          small={size === 'small'}
-          rightElement={rightEl}
-          name={id}
-          {...{
-            round,
-            leftIcon,
-            type,
-            disabled,
-            placeholder,
-            id
-          }}
-          onChange={this.onChange}
-          value={fieldState.value || ''}
-          intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        />
-      </StyledFormGroup>
+        <FormFieldContainer
+          required={required}
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
+          <InputGroup
+            large={size === 'large'}
+            small={size === 'small'}
+            rightElement={rightEl}
+            name={id}
+            {...{
+              round,
+              leftIcon,
+              type,
+              disabled,
+              placeholder,
+              id
+            }}
+            onChange={this.onChange}
+            value={fieldState.value || ''}
+            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+          />
+        </FormFieldContainer>
+      </StyledInput>
     );
   }
 
   onChange = (e: any) => {
     this.props.fieldState.onChange(e.target.value);
-    if(this.props.onChange){
+    if (this.props.onChange) {
       this.props.onChange(e.target.value);
     }
-
-  }
+  };
 }

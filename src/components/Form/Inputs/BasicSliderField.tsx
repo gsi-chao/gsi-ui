@@ -2,17 +2,12 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
 /** FieldState */
-import {
-  FormGroup,
-  IconName,
-  NumericInput,
-  Intent,
-  Slider
-} from '@blueprintjs/core';
+import { Intent, Slider } from '@blueprintjs/core';
 
-import { FieldState } from 'formstate';
 import { IFieldProps } from './IFieldProps';
-import { StyledFormGroup } from './style';
+import { StyledSlider } from './style';
+import { FormFieldContainer } from './FormFieldContainer';
+import * as validator from '../Validators';
 
 /**
  * Field Props
@@ -50,23 +45,38 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
       labelStepSize,
       className,
       layer,
-      fill
+      fill,
+      noLabel,
+      required,
+      validators
     } = this.props;
-
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(validator.required, ...validators);
+      } else {
+        fieldState.validators(validator.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
     return (
-      <StyledFormGroup
+      <StyledSlider
         className={className}
         disabled={disabled}
-        helperText={fieldState.hasError && fieldState.error}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         fill={fill}
         layer={layer}
+        noLabel={noLabel}
       >
-        <label>{label}</label>
-        <div>
+        <FormFieldContainer
+          required={required}
+          noLabel={noLabel}
+          label={label}
+          fieldState={fieldState}
+        >
           <Slider
             {...{
               disabled,
@@ -79,8 +89,8 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
             onChange={this.onChange}
             value={fieldState.value || 0}
           />
-        </div>
-      </StyledFormGroup>
+        </FormFieldContainer>
+      </StyledSlider>
     );
   }
 

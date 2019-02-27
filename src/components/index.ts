@@ -1,3 +1,5 @@
+import { VLoadProgressTask } from './LoadProgressTask/VLoadProgressTask';
+
 export { VTable } from './Table';
 export { ProgressLabel } from './ProgresLabel';
 export { PanelL } from './PanelL';
@@ -33,3 +35,4 @@ export {
   VTabsPanel
 } from './TabsPanel';
 export { IVBadgeProps, IVBadgeStyle, VBadge } from './Badge';
+export { VLoadProgressTask } from './LoadProgressTask';

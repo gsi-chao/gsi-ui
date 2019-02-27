@@ -13,6 +13,8 @@ export interface ITabsPanelStyle {
   borderColor?: string;
   borderBottom?: number;
   size?: 'small'|'normal';
+  lineColor?: string;
+  activeBorderColor?: string;
 }
 
 export interface ITabsPanelState {
@@ -30,8 +32,9 @@ export interface ITabsPanelProps {
   activeColor?: string;
   borderColor?: string;
   borderBottom?: number;
+  lineColor?: string;
   activeTextColor?: string;
-
+  activeBorderColor?: string;
 
   handleChange(tab: ITabsPanelTypes): void;
 }
@@ -50,4 +53,5 @@ export interface ITabsPanelTypes {
   textColorBadge?: string;
   backgroundColorBadge?: string;
   dataBadge?: any;
+  activeBorderColor?: any;
 }

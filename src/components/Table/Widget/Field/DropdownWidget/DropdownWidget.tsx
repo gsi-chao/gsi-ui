@@ -48,11 +48,10 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
           itemRenderer={this.renderOption}
           filterable={this.state.filterable}
           onItemSelect={this.handleValueChange}
-
         >
           <DropdownStyled>
             <Button
-              style={{width:'100%'}}
+              style={{ width: '100%' }}
               rightIcon="caret-down"
               text={
                 this.state.valueSelected
