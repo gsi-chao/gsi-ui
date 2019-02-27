@@ -16,7 +16,7 @@ import { email, lt, exact } from '../components/Form/Validators';
 
 const store = [
   {
-    label: 'Store 1',
+    label: 'This is a store with a very big large text',
     value: 's1'
   },
   {
@@ -107,6 +107,9 @@ class InputsDemo extends Component {
           leftIcon="search"
         />
         <VSelectField
+          defaultText={'Please enter a text'}
+          fixedInputWidthPx={200}
+          fill
           layer={{
             labelWidth: 6,
             inputWidth: 3,
@@ -196,6 +199,7 @@ class InputsDemo extends Component {
         />
         <div>
           <VSelectField
+            defaultText={'Please enter a text'}
             layer={{
               labelWidth: 6,
               inputWidth: 2,

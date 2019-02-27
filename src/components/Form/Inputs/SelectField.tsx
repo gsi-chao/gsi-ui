@@ -27,6 +27,8 @@ export interface ISelectFieldProps extends IFieldProps {
   rightIcon?: IconName;
   icon?: IconName;
   fill?: boolean;
+  defaultText?: string;
+  fixedInputWidthPx?: number
 }
 
 /**
@@ -92,7 +94,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       fill,
       noLabel,
       required,
-      validators
+      validators,
+      defaultText,
+      fixedInputWidthPx
     } = this.props;
 
     const initialContent =
@@ -125,6 +129,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         layer={layer}
         fill={fill}
         noLabel={noLabel}
+        fixedInputWidthPx={fixedInputWidthPx}
       >
         <FormFieldContainer
           required={required}
@@ -141,14 +146,15 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             noResults={<MenuItem disabled={true} text="No results." />}
             onItemSelect={this.onItemSelected}
             filterable={filterable}
+
           >
             <Button
               {...{
                 icon,
                 disabled
               }}
-              rightIcon={rightIcon || 'caret-down'}
-              text={this.state.item.label || '(No selection)'}
+              rightIcon={rightIcon || 'chevron-down'}
+              text={this.state.item.label || defaultText || 'No selection'}
             />
           </ItemSelect>
         </FormFieldContainer>
