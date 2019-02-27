@@ -21,7 +21,7 @@ class TabsPanelDemo extends Component {
     }];
     return (
       <div style={{ padding: '25px 25px' }}>
-        <VTabsPanel padding={'10px 25px'} tabList={tabList} active={'3'} handleChange={this.handelChangeTab}/>
+        <VTabsPanel size={'small'} padding={'10px 25px'} tabList={tabList} active={'3'} handleChange={this.handelChangeTab}/>
       </div>
     );
   }

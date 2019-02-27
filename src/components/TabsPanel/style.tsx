@@ -22,10 +22,11 @@ export const ContainerTabs = styled.div`
 export const LabelIcon = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 5px 0 0;
+  margin:${(props:ITabsPanelStyle)=> props.size==='small'?'0 3px 0 0':'0 5px 0 0'};
   border-width: 1px 1px 0 1px;
   border-style: solid;
-  padding: 8px 30px;
+  ;
+  padding:${(props:ITabsPanelStyle)=> props.size==='small'?'6px 15px':'8px 30px'} ;
   cursor: pointer;
   border-radius: 8px 8px 0 0;
   border-color: ${(props: ITabsPanelStyle) => props.borderColor ? props.borderColor : '#dbdcdd'};
