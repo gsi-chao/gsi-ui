@@ -7,6 +7,7 @@ export interface IStyledCheckbox {
 export const CheckboxCell = styled.div`
   display: flex;
   justify-content: center;
+      margin-top: 10px;
 
   & .bp3-control input:checked ~ .bp3-control-indicator {
     background-color: ${(prop: IStyledCheckbox) =>
