@@ -31,6 +31,7 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
         <ContainerTabs
           borderBottom={options.borderBottom}
           activeColor={options.activeColor}
+          lineColor={options.lineColor}
         >
           {options.tabList.map(tab => (
             <VTabPanel
@@ -47,6 +48,8 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
               textColorBadge={tab.textColorBadge}
               backgroundColorBadge={tab.backgroundColorBadge}
               dataBadge={tab.dataBadge}
+              size={options.size}
+              activeBorderColor={options.activeBorderColor}
             />
           ))}
         </ContainerTabs>
