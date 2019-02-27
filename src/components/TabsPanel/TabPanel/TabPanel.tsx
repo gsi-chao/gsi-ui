@@ -18,12 +18,14 @@ interface IVTabPanelProps {
   textColorBadge?: string;
   backgroundColorBadge?: string;
   dataBadge?: any;
+  size?: 'small'|'normal';
   activeBorderColor?: string;
 }
 
 export class VTabPanel extends Component<IVTabPanelProps> {
   render() {
     const {
+      size,
       label,
       icon,
       active,
@@ -34,6 +36,7 @@ export class VTabPanel extends Component<IVTabPanelProps> {
       backgroundColorBadge,
       dataBadge,
       textColorBadge,
+       size={size},
       activeBorderColor
     } = this.props;
     return (

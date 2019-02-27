@@ -48,6 +48,7 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
               textColorBadge={tab.textColorBadge}
               backgroundColorBadge={tab.backgroundColorBadge}
               dataBadge={tab.dataBadge}
+              size={options.size}
               activeBorderColor={options.activeBorderColor}
             />
           ))}
