@@ -381,7 +381,7 @@ class TableWithWidgetDemo extends Component {
                 backgroundColor: '#238C2C'
               }
             ]}
-            typeHeightRow={'HALF'}
+            typeHeightRow={'SHORT'}
             toolbar={
               <div
                 style={{ width: '100%', height: 50, backgroundColor: 'teal' }}
