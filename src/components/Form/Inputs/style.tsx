@@ -8,6 +8,7 @@ export interface IStyledFieldProps {
   fill?: boolean;
   checkBoxAtLeft?: boolean;
   noLabel?: boolean;
+  fixedInputWidthPx?: number;
 }
 
 export const layerInPercent = (layer: ILayer): any => {
@@ -147,7 +148,7 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
           const inputOrientation =
             props.layer && props.layer.inputOrientation === 'center'
               ? 'center'
-              : props.layer.inputOrientation === 'end'
+              : props.layer && props.layer.inputOrientation === 'end'
               ? 'flex-end'
               : 'flex-start';
           return `align-self: ${inputOrientation};`;
@@ -199,7 +200,7 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
     ${(props: IStyledFieldProps) =>
       props.fill
-        ? `width: calc(100% - 21px)!important;`
+        ? `width: 100%!important;`
         : `max-width: 200px!important;`};
     & .bp3-popover-wrapper {
       width: 100%;
@@ -207,9 +208,21 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
         width: 100%;
         div {
           button {
-            width: 100%;
+            width: ${(props: IStyledFieldProps) => props.fixedInputWidthPx ? `${props.fixedInputWidthPx}px` : `100%`};
             display: flex;
             justify-content: space-between;
+            box-shadow: none;
+            background-image: none;
+            background-color: #dcdcdc!important;
+            &:focus {
+                outline: rgba(16, 22, 26, 0.4) auto 2px;
+                outline-offset: 2px;
+            }
+            & span.bp3-button-text {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow:ellipsis;
+            }
           }
         }
       }
