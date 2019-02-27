@@ -12,6 +12,7 @@ export interface ITabsPanelStyle {
   padding?: string;
   borderColor?: string;
   borderBottom?: number;
+  lineColor?: string;
 }
 
 export interface ITabsPanelState {
@@ -28,6 +29,7 @@ export interface ITabsPanelProps {
   activeColor?: string;
   borderColor?: string;
   borderBottom?: number;
+  lineColor?: string;
   activeTextColor?: string;
 
   handleChange(tab: ITabsPanelTypes): void;

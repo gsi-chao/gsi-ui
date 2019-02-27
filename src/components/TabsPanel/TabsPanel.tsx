@@ -31,6 +31,7 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
         <ContainerTabs
           borderBottom={options.borderBottom}
           activeColor={options.activeColor}
+          lineColor={options.lineColor}
         >
           {options.tabList.map(tab => (
             <VTabPanel
