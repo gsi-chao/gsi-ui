@@ -57,9 +57,11 @@ class InputsDemo extends Component {
     });
   }
   /**
-  * Example of validations functions, look in the search field
-  * */
-  searchingAnime = (value: any) => value.toString().indexOf('anime') !== -1 && `Can't search anime in work dude!!!!`;
+   * Example of validations functions, look in the search field
+   * */
+  searchingAnime = (value: any) =>
+    value.toString().indexOf('anime') !== -1 &&
+    `Can't search anime in work dude!!!!`;
   render() {
     return (
       <React.Fragment>

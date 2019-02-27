@@ -8,7 +8,7 @@ export const BadgeStyle = styled.span`
     content: attr(data-badge);
     position: absolute;
     top: -28px;
-    right: -36px;
+    right: -30px;
     background: ${(props: IVBadgeStyle) =>
       props.backgroundColorBadge ? props.backgroundColorBadge : 'red'};
     color: ${(props: IVBadgeStyle) =>
