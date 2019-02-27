@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import {
-  showToastNotification
-} from '../components/ToastNotification';
+import { showToastNotification } from '../components/ToastNotification';
 import { Button } from '@blueprintjs/core';
 import { IToastNotificationProps } from '../components/ToastNotification/VToastNotification';
 
@@ -11,7 +9,7 @@ class NotificationToastDemo extends Component {
       {
         type: 'success',
         message:
-          'This is a basic Success notification, Congratulations you do it well',
+          'This is a basic Success notification, Congratulations you do it well'
       },
       {
         type: 'warning',
@@ -35,18 +33,25 @@ class NotificationToastDemo extends Component {
         message: (
           <>
             This is a more complex Toast notification is much like the one in
-            the documentation <em>but better :)</em> it will print in the console just before this one banish and has a duration of
-            <em>5 s (5000 ms)</em> form more documentation: <a href={'https://blueprintjs.com/docs/#core/components/toast'} target={"_blank"}>the documentation</a>,
-            you can even pass a React component OMG!!!
+            the documentation <em>but better :)</em> it will print in the
+            console just before this one banish and has a duration of
+            <em>5 s (5000 ms)</em> form more documentation:{' '}
+            <a
+              href={'https://blueprintjs.com/docs/#core/components/toast'}
+              target={'_blank'}
+            >
+              the documentation
+            </a>
+            , you can even pass a React component OMG!!!
           </>
         ),
         timeout: 5000,
         onDismiss: () => console.log('notification dismissed'),
         action: {
-          href: "https://blueprintjs.com/docs/#core/components/toast",
-          target: "_blank",
-          text: <strong>This navigate to the site too</strong>,
-        },
+          href: 'https://blueprintjs.com/docs/#core/components/toast',
+          target: '_blank',
+          text: <strong>This navigate to the site too</strong>
+        }
       }
     ];
     return (
