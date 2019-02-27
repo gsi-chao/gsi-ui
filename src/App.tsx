@@ -9,7 +9,6 @@ import VLoadProgressTaskDemo from './demo/VLoadProgressTaskDemo';
 import ColorPickerDemo from './demo/ColorPickerDemo';
 import NotificationToastDemo from './demo/NotificationToastDemo';
 
-
 class App extends Component {
   render() {
     const data = [

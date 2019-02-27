@@ -199,29 +199,30 @@ export const StyledSlider = styled(StyledFormGroup)`
 export const StyledPopOverWrapper = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
     ${(props: IStyledFieldProps) =>
-      props.fill
-        ? `width: 100%!important;`
-        : `max-width: 200px!important;`};
+      props.fill ? `width: 100%!important;` : `max-width: 200px!important;`};
     & .bp3-popover-wrapper {
       width: 100%;
       & .bp3-popover-target {
         width: 100%;
         div {
           button {
-            width: ${(props: IStyledFieldProps) => props.fixedInputWidthPx ? `${props.fixedInputWidthPx}px` : `100%`};
+            width: ${(props: IStyledFieldProps) =>
+              props.fixedInputWidthPx
+                ? `${props.fixedInputWidthPx}px`
+                : `100%`};
             display: flex;
             justify-content: space-between;
             box-shadow: none;
             background-image: none;
-            background-color: #dcdcdc!important;
+            background-color: #dcdcdc !important;
             &:focus {
-                outline: rgba(16, 22, 26, 0.4) auto 2px;
-                outline-offset: 2px;
+              outline: rgba(16, 22, 26, 0.4) auto 2px;
+              outline-offset: 2px;
             }
             & span.bp3-button-text {
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow:ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
           }
         }

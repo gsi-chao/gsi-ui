@@ -28,7 +28,7 @@ export interface ISelectFieldProps extends IFieldProps {
   icon?: IconName;
   fill?: boolean;
   defaultText?: string;
-  fixedInputWidthPx?: number
+  fixedInputWidthPx?: number;
 }
 
 /**
@@ -146,7 +146,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             noResults={<MenuItem disabled={true} text="No results." />}
             onItemSelect={this.onItemSelected}
             filterable={filterable}
-
           >
             <Button
               {...{

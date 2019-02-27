@@ -127,7 +127,6 @@ class TableWithWidgetDemo extends Component {
         sinEditar: ' some text',
         customer: 'customer'
       }
-
     ];
 
     // validator example
