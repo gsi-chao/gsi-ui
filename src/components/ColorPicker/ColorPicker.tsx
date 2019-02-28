@@ -1,21 +1,16 @@
 import React, { Component } from 'react';
-import { Color, ColorResult, HSLColor, RGBColor } from 'react-color';
+import { Color, ColorResult,  RGBColor } from 'react-color';
 import { Popover } from '@blueprintjs/core';
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
+import { TypePickerColor, VColorResult } from './types';
 
-export type TypePickerColor = 'SketchPicker' | 'ChromePicker';
-export type TypeFormatColor = 'RGB' | 'HEX';
+
 
 export interface IState {
   displayColorPicker: boolean;
   color: Color;
 }
 
-export interface VColorResult {
-  hex: string;
-  hsl: HSLColor;
-  rgb: RGBColor;
-}
 
 export interface IProps {
   width?: number;
@@ -25,7 +20,7 @@ export interface IProps {
   onChange: (color: VColorResult) => void;
 }
 
-class VColorPicker extends Component<IProps, IState> {
+export class VColorPicker extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
@@ -81,4 +76,3 @@ class VColorPicker extends Component<IProps, IState> {
   };
 }
 
-export default VColorPicker;
