@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import VColorPicker, {
-  TypePickerColor,
-  VColorResult
-} from '../components/ColorPicker/VColorPicker';
+import { TypePickerColor, VColorPicker, VColorResult } from '../components/ColorPicker';
+
 
 interface IState {
   typePickerColor: TypePickerColor;
