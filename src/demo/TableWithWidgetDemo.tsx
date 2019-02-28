@@ -85,6 +85,9 @@ class TableWithWidgetDemo extends Component {
   state = {
     changeColor: false
   };
+  doSomethingAwesomeWithTheValue = (value: any) => {
+    console.log(value);
+  };
   render() {
     const data = [
       {
@@ -332,8 +335,9 @@ class TableWithWidgetDemo extends Component {
       <React.Fragment>
         <div>
           <VTable
+            onSelectionChange={this.doSomethingAwesomeWithTheValue}
             edit={{ columns: ['name'], validation: { name: nameValidation } }}
-            cellSelectionType={'FREE'}
+            cellSelectionType={'ENTIRE_ROW'}
             widgetsCell={widgetsCell}
             columns={[
               'name',

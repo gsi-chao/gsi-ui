@@ -313,13 +313,29 @@ export class VTable extends Component<IProps, IVTableState> {
       argsRegions.length > 0
     ) {
       regions = this.getEntireRowsRegions(argsRegions);
+      if (onSelectionChange) {
+        if (
+          regions &&
+          regions.length > 0 &&
+          regions[0].cols &&
+          regions[0].cols.length > 0
+        ) {
+          const data = this.getElementData(regions[0].cols[0]);
+          onSelectionChange(data);
+        }
+      }
     } else if (!cellSelectionType || cellSelectionType === 'FREE') {
       regions = this.getFreeSelectionRegions(argsRegions);
     }
     this.setSelectedRegions(regions);
-    if (onSelectionChange) {
-      onSelectionChange(this.state.selectedRegions);
+  };
+
+  getElementData = (rowIndex: number): any => {
+    const { data } = this.props;
+    if (data && data.length > rowIndex) {
+      return data[rowIndex];
     }
+    return undefined;
   };
 
   getFreeSelectionRegions = (argsRegions: IRegion[]): IRegion[] => {
