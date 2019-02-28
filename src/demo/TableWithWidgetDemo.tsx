@@ -88,14 +88,14 @@ class TableWithWidgetDemo extends Component {
   render() {
     const data = [
       {
-        name: 'Carlos',
-        dropdown: 'Lastname7',
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: true,
-        color: 'color',
-        sinEditar: ' some text',
-        customer: 'customer'
+        name: 'Arturo',
+        dropdown: 'otro',
+        other: 'OtherInfo',
+        fecha: '10/11/2019',
+        checkbox: false,
+        color: 'red',
+        sinEditar: 'another better text',
+        customer: 'passenger'
       },
       {
         name: 'Carlos',
@@ -333,6 +333,7 @@ class TableWithWidgetDemo extends Component {
         <div>
           <VTable
             edit={{ columns: ['name'], validation: { name: nameValidation } }}
+            cellSelectionType={'FREE'}
             widgetsCell={widgetsCell}
             columns={[
               'name',
@@ -348,7 +349,7 @@ class TableWithWidgetDemo extends Component {
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
             contextual={{
-              columns: ['name'],
+              columns: ['name', 'dropdown', 'other', 'fecha', 'checkbox'],
               default_actions: ['copy', 'paste', 'export'],
               actions: [
                 {

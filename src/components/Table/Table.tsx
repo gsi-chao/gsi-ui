@@ -65,11 +65,14 @@ export interface IVTableProps {
   configColumnsHeader?: IVConfigHeader[];
   toolbar?: React.ReactNode;
   footer?: React.ReactNode;
+  cellSelectionType?: CellSelectionType;
+  onSelectionChange?: any;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
 
 export type defaultheightRow = 'SHORT' | 'HALF' | 'LONG';
+export type CellSelectionType = 'FREE' | 'ENTIRE_ROW';
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -302,13 +305,45 @@ export class VTable extends Component<IProps, IVTableState> {
    ** regions remains
    **/
   checkAndSetSelection = (argsRegions: IRegion[]) => {
-    const regions = this.createSelectedRegions(
+    const { cellSelectionType, onSelectionChange } = this.props;
+    let regions: IRegion[] = [];
+    if (
+      cellSelectionType === 'ENTIRE_ROW' &&
+      argsRegions &&
+      argsRegions.length > 0
+    ) {
+      regions = this.getEntireRowsRegions(argsRegions);
+    } else if (!cellSelectionType || cellSelectionType === 'FREE') {
+      regions = this.getFreeSelectionRegions(argsRegions);
+    }
+    this.setSelectedRegions(regions);
+    if (onSelectionChange) {
+      onSelectionChange(this.state.selectedRegions);
+    }
+  };
+
+  getFreeSelectionRegions = (argsRegions: IRegion[]): IRegion[] => {
+    return this.createSelectedRegions(
       this.validateMissingRegion,
       this.getRegionsWithMissingRowsOrCols,
       this.ifAlreadySelectedThenDeselect,
       this.deleteRegionRemain
     )(argsRegions);
-    this.setSelectedRegions(regions);
+  };
+  getEntireRowsRegions = (argsRegions: IRegion[]): IRegion[] => {
+    const pivotRegion: IRegion = argsRegions[argsRegions.length - 1];
+    const { numCols } = this.getRowAndColsTotals();
+    const { rows } = pivotRegion;
+    if (rows && Number.isFinite(rows[1])) {
+      return [
+        {
+          cols: [0, numCols - 1],
+          rows: [rows[1], rows[1]]
+        }
+      ];
+    } else {
+      return [];
+    }
   };
 
   /**
@@ -537,6 +572,7 @@ export class VTable extends Component<IProps, IVTableState> {
 
   /**
    ** @param region: the region
+   ** @param regions: the regions to realize the check.
    ** @return if exist a region with that exacts rows and cols.
    **/
   regionExistence = (region: IRegion, regions: IRegion[]): boolean => {
@@ -669,7 +705,12 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   private renderBodyContextMenu = (context: IMenuContext) => {
-    return this.props.contextual ? (
+    let canCopy = true;
+    const target = context && context.getTarget();
+    if (target && target.cols && target.cols.length > 0) {
+      canCopy = this.canCellExecuteAction(target.cols[0]);
+    }
+    return this.props.contextual && canCopy ? (
       <ActionCellsMenuItem
         context={context}
         getCellData={this.getCellData}
@@ -731,9 +772,11 @@ export class VTable extends Component<IProps, IVTableState> {
       for (let index = startCell.col; index <= endCell.col; index++) {
         for (let indexY = startCell.row; indexY <= endCell.row; indexY++) {
           const value = this.getCellData(indexY, index);
-          cellsArray.push(
-            this.createCellForCopy(colFromPivot, rowFromPivot, value)
-          );
+          if (this.canCellExecuteAction(index, 'copy')) {
+            cellsArray.push(
+              this.createCellForCopy(colFromPivot, rowFromPivot, value)
+            );
+          }
           rowFromPivot++;
         }
         rowFromPivot = startCell.row - firstPivotCell.row;
@@ -802,12 +845,28 @@ export class VTable extends Component<IProps, IVTableState> {
         const { value, colFromPivot, rowFromPivot } = cellData;
         const col = colFromPivot + pivotCell.col;
         const row = rowFromPivot + pivotCell.row;
-        const dataKey = VTable.dataKey(row, col);
-        this.setSparseCellUpdateData(dataKey, value);
-        this.setStateData(row, col, value);
+        if (this.canCellExecuteAction(col, 'paste')) {
+          const dataKey = VTable.dataKey(row, col);
+          this.setSparseCellUpdateData(dataKey, value);
+          this.setStateData(row, col, value);
+        }
       });
     }
   }
+
+  canCellExecuteAction = (columnIndex: number, action?: DefaultActions) => {
+    const { columns } = this.state;
+    if (columnIndex < columns.length) {
+      const column = columns[columnIndex];
+      if (this.props.contextual) {
+        const { columns, default_actions } = this.props.contextual;
+        const hasColumn = columns.some(col => col === column);
+        const hasAction = default_actions.some(act => act === action);
+        return (hasAction && hasColumn) || (!action && hasColumn);
+      }
+    }
+    return false;
+  };
 
   /**
    *  @description capture the key actions of CTRL + C and CTRL + V and execute the appropriate function.
