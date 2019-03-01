@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Color, ColorResult,  RGBColor } from 'react-color';
+import { Color, ColorResult, RGBColor } from 'react-color';
 import { Popover } from '@blueprintjs/core';
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
-import { TypePickerColor, VColorResult } from './types';
-
-
+import { TypePickerColor, VColorResult, VPosition } from './types';
 
 export interface IState {
   displayColorPicker: boolean;
@@ -18,6 +16,7 @@ export interface IProps {
   defaultColor?: string | RGBColor;
   typePickerColor: TypePickerColor;
   onChange: (color: VColorResult) => void;
+  position?: VPosition;
 }
 
 export class VColorPicker extends Component<IProps, IState> {
@@ -38,12 +37,12 @@ export class VColorPicker extends Component<IProps, IState> {
 
   render() {
     const colorPicker = this.getPickerColor();
-
     return (
       <React.Fragment>
         <Popover
           content={colorPicker}
-          target={<InputColor defaultColor={this.state.color} />}
+          target={<InputColor defaultColor={this.state.color}/>}
+          position={this.props.position ? this.props.position : 'right'}
         />
       </React.Fragment>
     );

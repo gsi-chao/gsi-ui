@@ -18,21 +18,25 @@ class ColorPickerDemo extends Component<any, IState> {
   render() {
     return (
       <div>
-        <br />
-        <br />
+        <br/>
+        <br/>
         <button onClick={this.handleChangeTypeToSketchPicker}>
           SketchPicker
         </button>
         <button onClick={this.handleChangeTypeToChromePicker}>
           ChromePicker
         </button>
-        <br />
-        <br />
+        <br/>
+        <br/>
         <VColorPicker
           defaultColor={'blue'}
           onChange={this.handleChangeColor}
           typePickerColor={this.state.typePickerColor}
+          position={'right'}
+
         />
+
+
       </div>
     );
   }
