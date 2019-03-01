@@ -31,6 +31,7 @@ interface StyledCardProps {
   headerOrientation?: HeaderOrientation;
   headerTextJustify?: FlexJustify;
   className?: string;
+  defaultActive?: boolean;
 }
 
 interface PanelState {
@@ -43,6 +44,10 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
     this.state = {
       isOpen: false
     };
+  }
+
+  componentDidMount() {
+    this.setState({isOpen: this.props.defaultActive || false});
   }
 
   toggleCollapsed = () => {
