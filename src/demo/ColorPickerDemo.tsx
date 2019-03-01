@@ -33,7 +33,8 @@ class ColorPickerDemo extends Component<any, IState> {
           onChange={this.handleChangeColor}
           typePickerColor={this.state.typePickerColor}
           position={'right'}
-
+          width={50}
+          height={50}
         />
 
 
