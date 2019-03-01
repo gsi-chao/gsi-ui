@@ -87,7 +87,7 @@ class App extends Component {
           enableColumnResizing={true}
           enableRowHeader={true}
           enableRowResizing={true}
-          columnWidths={[200, 500]}
+          columnWidths={[200]}
           numFrozenRows={2}
           numFrozenColumns={1}
         />

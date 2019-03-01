@@ -23,6 +23,7 @@ import {
 import { CellCenterText, CellDiv } from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
+import ReactDOM from 'react-dom';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
@@ -83,11 +84,14 @@ export interface IVTableState {
   cachedData: any[];
   selectedRegions: IRegion[];
   provisionalRegions: IRegion[];
+  columnsWidth: any[];
 }
 
 export class VTable extends Component<IProps, IVTableState> {
+  tableRef: any;
   constructor(props: IProps) {
     super(props);
+    this.tableRef = React.createRef();
   }
 
   public static dataKey = (rowIndex: number, columnIndex: number) => {
@@ -102,7 +106,8 @@ export class VTable extends Component<IProps, IVTableState> {
     widgetsCell: this.props.widgetsCell,
     cachedData: [],
     selectedRegions: [],
-    provisionalRegions: []
+    provisionalRegions: [],
+    columnsWidth: []
   };
 
   render() {
@@ -127,13 +132,14 @@ export class VTable extends Component<IProps, IVTableState> {
     const resizingProperties = this.getResizingProperties();
     let { enableColumnResizing } = resizingProperties;
 
-    const columnWidths = this.getColumnsWidths();
+    const columnWidths = this.state.columnsWidth;
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
     return (
       <React.Fragment>
         {toolbar && toolbar}
         <Table
+          ref={this.tableRef}
           className={this.props.className}
           numRows={this.state.sparseCellData.length}
           onColumnsReordered={this._handleColumnsReordered}
@@ -145,7 +151,7 @@ export class VTable extends Component<IProps, IVTableState> {
           enableColumnResizing={enableColumnResizing}
           enableRowResizing={resizingProperties.enableRowResizing}
           enableRowHeader={resizingProperties.enableRowHeader}
-          columnWidths={columnWidths}
+          columnWidths={this.state.columnsWidth}
           defaultRowHeight={this.getDefaultRowHeight()}
           numFrozenColumns={this.props.numFrozenColumns}
           numFrozenRows={this.props.numFrozenRows}
@@ -190,13 +196,14 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   getColumnsWidths = () => {
-    let columnWidths: any[] = [];
-    if (
+    if (this.state.columnsWidth && this.state.columnsWidth.length > 0) {
+      return this.state.columnsWidth;
+    }
+    else if (
       this.props.columnWidths &&
       this.props.columnWidths.length === this.props.columns.length
     ) {
-      columnWidths = this.props.columnWidths;
-      return columnWidths;
+      return this.props.columnWidths;
     }
     if (this.props.columnWidths) {
       console.warn(
@@ -287,10 +294,67 @@ export class VTable extends Component<IProps, IVTableState> {
     }
   };
 
+
+  makeResponsiveTable = () => {
+    const rowNumber = this.props.enableRowHeader ? 30 : 0;
+    let tableWidth = this.tableRef.current.rootTableElement.clientWidth;
+    const {columns, columnWidths} = this.props;
+    const {fixedCellsTotal,reservedWidth} = this.getReservedWidthAndFixedCells(columnWidths || []);
+    const sizePerColumn =
+      columns.length > 0 && columns.length > fixedCellsTotal
+        ? (tableWidth - reservedWidth - rowNumber) / (columns.length - fixedCellsTotal)
+        : 0;
+    let columnsWidth: number[] = [];
+    if ( columns && columns.length > 0) {
+      columns.map((el, index) => {
+        if(columnWidths && index < columnWidths.length -1 ) {
+          columnsWidth.push(columnWidths[index] || sizePerColumn);
+        } else {
+          columnsWidth.push(sizePerColumn);
+        }
+      });
+      this.setColumnsWidth(columnsWidth);
+    }
+  };
+
+  setColumnsWidth = (columnsWidth: any[]) => {
+    this.setState({...this.state, columnsWidth});
+  };
+
+  componentWillMount() {
+    const {columns, columnWidths} = this.props;
+    const colsWidth = columnWidths || [];
+    while (colsWidth.length < columns.length) {
+      colsWidth.push(0);
+    }
+    this.setColumnsWidth(colsWidth);
+  }
+
+  getReservedWidthAndFixedCells = (columnWidths:any[]) => {
+    let reservedWidth = 0;
+    let fixedCellsTotal = 0;
+    if (columnWidths && columnWidths.length > 0) {
+      columnWidths.map( col => {
+        reservedWidth += col || 0;
+        if (col !== 0) {
+          fixedCellsTotal++;
+        }
+      });
+    }
+    return {reservedWidth, fixedCellsTotal};
+  }
+
+
+
   componentDidMount() {
+    this.makeResponsiveTable();
     const observer = fromEvent(window, 'keydown');
     observer.subscribe(event => {
       this.handleCtrlCAndV(event);
+    });
+    const observerResize = fromEvent(window, 'resize');
+    observerResize.subscribe(event => {
+      this.makeResponsiveTable();
     });
   }
 
