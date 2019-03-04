@@ -13,8 +13,6 @@ export const getBackground = (props: ITypeInputColor) => {
     props.defaultColor.g >= 0 &&
     props.defaultColor.b >= 0
   ) {
-    console.log(props.defaultColor);
-
     return `rgba(${props.defaultColor.r}, ${props.defaultColor.g}, ${
       props.defaultColor.b
     }, ${props.defaultColor.a})`;

@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { Color, ColorResult, RGBColor } from 'react-color';
+import { Color, ColorResult, HSLColor, RGBColor } from 'react-color';
 import { Popover } from '@blueprintjs/core';
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
-import { TypePickerColor, VColorResult, VPosition } from './types';
+import { TypePickerColor, VColorResult, VHSLColor, VPosition, VRGBColor } from './types';
 
 export interface IState {
   displayColorPicker: boolean;
-  color: Color;
+  color: Color | undefined;
+  defaultColor: Color | undefined;
 }
 
 export interface IProps {
   width?: number;
   height?: number;
-  defaultColor?: string | RGBColor;
+  Color: string | VHSLColor | VRGBColor;
   typePickerColor: TypePickerColor;
   onChange: (color: VColorResult) => void;
   position?: VPosition;
@@ -23,19 +24,36 @@ export class VColorPicker extends Component<IProps, IState> {
     super(props);
 
     this.state = {
-      color: this.props.defaultColor ? this.props.defaultColor : 'red',
-      displayColorPicker: false
+      color: undefined,
+      displayColorPicker: false,
+      defaultColor: props.Color ? props.Color : undefined
     };
   }
 
-  handleChange = (color: ColorResult) => {
-    this.setState({ color: color.rgb });
-
-    this.props.onChange(color);
-  };
+  // componentDidUpdate(
+  //   prevProps: Readonly<IProps>,
+  //   prevState: Readonly<IState>
+  // ): void {
+  //   console.log(` prevState.Color  anterrior ${prevState.Color } - color previo ${prevProps.Color} - color nuevo ${this.props.Color}`);
+  //   if (
+  //     prevState.Color === undefined &&
+  //     prevProps.Color !== this.props.Color
+  //   ) {
+  //     this.setState({
+  //       Color: this.props.Color
+  //     });
+  //     console.log('se cambio el color');
+  //     return;
+  //   }
+  //
+  // }
 
   render() {
     const colorPicker = this.getPickerColor();
+
+    const color = this.props.Color;
+
+
     return (
       <React.Fragment>
         <Popover
@@ -44,7 +62,7 @@ export class VColorPicker extends Component<IProps, IState> {
             <InputColor
               width={this.props.width}
               height={this.props.height}
-              defaultColor={this.state.color}
+              defaultColor={color}
             />
           }
           position={this.props.position ? this.props.position : 'right'}
@@ -58,14 +76,14 @@ export class VColorPicker extends Component<IProps, IState> {
       case 'SketchPicker':
         return (
           <SketchPickerStyled
-            color={this.state.color}
+            color={this.props.Color}
             onChange={this.handleChange}
           />
         );
       case 'ChromePicker':
         return (
           <ChromePickerStyled
-            color={this.state.color}
+            color={this.props.Color}
             onChange={this.handleChange}
           />
         );
@@ -77,5 +95,14 @@ export class VColorPicker extends Component<IProps, IState> {
           />
         );
     }
+  };
+
+  handleChange = (color: ColorResult) => {
+    // this.setState({
+    //   color: color.rgb,
+    //   Color: undefined
+    // });
+
+    this.props.onChange(color);
   };
 }
