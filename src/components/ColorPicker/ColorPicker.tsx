@@ -9,7 +9,6 @@ export interface IState {
   color: Color;
 }
 
-
 export interface IProps {
   width?: number;
   height?: number;
@@ -41,7 +40,13 @@ export class VColorPicker extends Component<IProps, IState> {
       <React.Fragment>
         <Popover
           content={colorPicker}
-          target={<InputColor width={this.props.width} height={this.props.height} defaultColor={this.state.color}/>}
+          target={
+            <InputColor
+              width={this.props.width}
+              height={this.props.height}
+              defaultColor={this.state.color}
+            />
+          }
           position={this.props.position ? this.props.position : 'right'}
         />
       </React.Fragment>
@@ -74,4 +79,3 @@ export class VColorPicker extends Component<IProps, IState> {
     }
   };
 }
-

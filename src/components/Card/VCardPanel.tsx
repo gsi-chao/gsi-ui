@@ -47,7 +47,7 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
   }
 
   componentDidMount() {
-    this.setState({isOpen: this.props.defaultActive || false});
+    this.setState({ isOpen: this.props.defaultActive || false });
   }
 
   toggleCollapsed = () => {

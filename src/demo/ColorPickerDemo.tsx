@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { TypePickerColor, VColorPicker, VColorResult } from '../components/ColorPicker';
-
+import {
+  TypePickerColor,
+  VColorPicker,
+  VColorResult
+} from '../components/ColorPicker';
 
 interface IState {
   typePickerColor: TypePickerColor;
@@ -18,16 +21,16 @@ class ColorPickerDemo extends Component<any, IState> {
   render() {
     return (
       <div>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <button onClick={this.handleChangeTypeToSketchPicker}>
           SketchPicker
         </button>
         <button onClick={this.handleChangeTypeToChromePicker}>
           ChromePicker
         </button>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <VColorPicker
           defaultColor={'blue'}
           onChange={this.handleChangeColor}
@@ -36,8 +39,6 @@ class ColorPickerDemo extends Component<any, IState> {
           width={50}
           height={50}
         />
-
-
       </div>
     );
   }

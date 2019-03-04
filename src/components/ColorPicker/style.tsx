@@ -32,8 +32,10 @@ export const ChromePickerStyled = styled(ChromePicker)`
 `;
 
 export const InputColor = styled.button`
-  width: ${(props: ITypeInputColor) => (props.width ? props.width + 'px' : '40px')};
-  height: ${(props: ITypeInputColor) => (props.height ? props.height  + 'px': '40px')};
+  width: ${(props: ITypeInputColor) =>
+    props.width ? `${props.width} px` : '40px'};
+  height: ${(props: ITypeInputColor) =>
+    props.height ? `${props.height} px` : '40px'};
 
   background: ${(props: ITypeInputColor) =>
     props.defaultColor ? getBackground(props) : '#A1A3A2'};

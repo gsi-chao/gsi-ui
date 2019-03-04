@@ -145,7 +145,7 @@ class TableWithWidgetDemo extends Component {
       <React.Fragment>
         <div>
           <VTable
-            columnWidths={[200,125,150,200, 100]}
+            columnWidths={[200, 125, 150, 200, 100]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             edit={{ columns: ['name'], validation: { name: nameValidation } }}
             cellSelectionType={'ENTIRE_ROW'}

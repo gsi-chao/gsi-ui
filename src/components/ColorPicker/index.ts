@@ -1,2 +1,2 @@
 export { VColorPicker } from './ColorPicker';
-export { TypePickerColor,VColorResult} from'./types'
+export { TypePickerColor, VColorResult } from './types';
