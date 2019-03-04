@@ -80,7 +80,6 @@ export const ContainerContent = styled.div`
   border-color: ${(props: ITabsPanelStyle) =>
     props.borderColor ? props.borderColor : '#dbdcdd'};
   padding: ${(props: ITabsPanelStyle) => {
-    console.log(props.padding);
     return props.padding ? props.padding : '25px';
   }};
   border-radius: 0 1px 2px 2px;
