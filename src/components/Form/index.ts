@@ -7,3 +7,5 @@ export { VRadioGroupField } from './Inputs/RadioGroupField';
 export { VTagInputField } from './Inputs/TagInputField';
 export { VTextAreaField } from './Inputs/TextAreaField';
 export { VSelectField } from './Inputs/SelectField';
+export {VDateTimePicker} from './Inputs/DateTimePicker';
+export {patchFormValues, getFormValue} from './utils'
