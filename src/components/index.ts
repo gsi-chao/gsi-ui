@@ -23,7 +23,10 @@ export {
   VTextAreaField,
   VBasicSliderField,
   VBasicSelectField,
-  VSelectField
+  VSelectField,
+  VDateTimePicker,
+  patchFormValues,
+  getFormValue
 } from './Form';
 export { VSelectionList, IItemsList } from './SelectionList';
 export {
