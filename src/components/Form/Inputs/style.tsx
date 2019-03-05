@@ -86,6 +86,7 @@ export const StyledFormGroup = styled(FormGroup)`
                     padding-top: 1px;
                     font-size: 12px;
                     color: #e21a1a;
+                    text-align: start;
                   }
             }
         }          
