@@ -310,7 +310,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const columnsWidth: number[] = [];
     if (columns && columns.length > 0) {
       columns.map((el, index) => {
-        if (columnWidths && index < columnWidths.length - 1) {
+        if (columnWidths && index <= columnWidths.length - 1) {
           columnsWidth.push(columnWidths[index] || sizePerColumn);
         } else {
           columnsWidth.push(sizePerColumn);
@@ -379,13 +379,14 @@ export class VTable extends Component<IProps, IVTableState> {
     ) {
       regions = this.getEntireRowsRegions(argsRegions);
       if (onSelectionChange) {
+        console.log(regions);
         if (
           regions &&
           regions.length > 0 &&
-          regions[0].cols &&
-          regions[0].cols.length > 0
+          regions[0].rows &&
+          regions[0].rows.length > 0
         ) {
-          const data = this.getElementData(regions[0].cols[0]);
+          const data = this.getElementData(regions[0].rows[0]);
           onSelectionChange(data);
         }
       }
