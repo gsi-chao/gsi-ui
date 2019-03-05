@@ -1,8 +1,10 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
+import moment from 'moment';
+
 /** Blueprint */
 import { IconName, Intent } from '@blueprintjs/core';
-import { DateInput } from '@blueprintjs/datetime';
+import { DateInput, IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
 /** FieldState */
 import { StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
@@ -17,7 +19,22 @@ export interface IInputFieldProps extends IFieldProps {
   rightElement?: Element;
   round?: boolean;
   fill?: boolean;
+  dateType: 'DATE' | 'DATETIME' | 'TIME';
 }
+
+const momentFormatter = (format: string): IDateFormatProps => {
+  return {
+    formatDate: date => moment(date).format(format),
+    parseDate: str => moment(str, format).toDate(),
+    placeholder: `${format}`
+  };
+};
+
+const FORMATS = {
+  DATE: momentFormatter('YYYY-MM-DD'),
+  DATETIME: momentFormatter('YYYY-MM-DD HH:mm:ss'),
+  TIME: momentFormatter('HH:mm:ss')
+};
 
 @observer
 export class VDateTimePicker extends React.Component<IInputFieldProps> {
@@ -25,8 +42,9 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
     super(props);
   }
 
-  changedDate = (SelectedDate: any) => {
-    // this.props.fieldState.onChange(moment.f)
+  changedDate = (date: any) => {
+    console.log(date);
+    this.props.fieldState.onChange(date);
   };
 
   public render() {
@@ -34,24 +52,16 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       label,
       labelInfo,
       fieldState,
-      leftIcon,
-      size,
       disabled,
       inline,
-      type,
       placeholder,
-      rightElement,
-      round,
       id,
       className,
       layer,
-      fill
+      fill,
+      dateType
     } = this.props;
-    let rightEl;
-    if (!rightElement) {
-      rightEl = <div />;
-    }
-    console.log(fieldState);
+
     return (
       <StyledFormGroup
         className={className}
@@ -64,14 +74,17 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
         fill={fill}
       >
         <FormFieldContainer label={label} fieldState={fieldState}>
-          <DateInput
-            formatDate={date => date.toLocaleString()}
-            parseDate={str => new Date(str)}
-            placeholder={placeholder}
-            disabled={disabled}
-            onChange={this.changedDate}
-            value={fieldState.value || null}
-          />
+          {dateType === 'DATETIME' || dateType === 'DATE' ? (
+            <DateInput
+              {...FORMATS[dateType]}
+              disabled={disabled}
+              onChange={this.changedDate}
+              value={fieldState.value || null}
+              timePrecision={dateType === 'DATETIME' ? 'second' : undefined}
+            />
+          ) : (
+            <TimePicker precision={'second'} onChange={this.changedDate} />
+          )}
         </FormFieldContainer>
       </StyledFormGroup>
     );

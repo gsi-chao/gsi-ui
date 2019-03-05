@@ -13,6 +13,7 @@ import {
   VSelectField
 } from '../components/Form';
 import { email, lt, exact } from '../components/Form/Validators';
+import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
 
 const store = [
   {
@@ -53,7 +54,8 @@ class InputsDemo extends Component {
       have_job: new FieldState(''),
       sex: new FieldState(''),
       range: new FieldState(''),
-      places: new FieldState(sex[0].value)
+      places: new FieldState(sex[0].value),
+      date: new FieldState('')
     });
   }
   /**
@@ -63,7 +65,7 @@ class InputsDemo extends Component {
     value.toString().indexOf('anime') !== -1 &&
     `Can't search anime in work dude!!!!`;
   render() {
-    console.log('render..')
+    console.log('render..');
     console.log('value before:', this.form.$.places);
     return (
       <React.Fragment>
@@ -199,6 +201,11 @@ class InputsDemo extends Component {
           label="Range"
           inline
         />
+        <VDateTimePicker
+          dateType="TIME"
+          id="date"
+          fieldState={this.form.$.date}
+        />
         <div>
           <VSelectField
             defaultText={'Please enter a text'}
@@ -220,15 +227,13 @@ class InputsDemo extends Component {
     );
   }
 
-  changeValueSelect =(value:any)=>{
-
-
+  changeValueSelect = (value: any) => {
     this.form.$.places.value = 'f';
 
     console.log('value after:', this.form.$.places);
 
-    this.setState({})
-  }
+    this.setState({});
+  };
 }
 
 export default InputsDemo;
