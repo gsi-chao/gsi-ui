@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import {
-  TypePickerColor,
-  VColorPicker,
-  VColorResult
-} from '../components/ColorPicker';
+import { TypePickerColor, VColorPicker, VColorResult } from '../components/ColorPicker';
+import { VHSLColor, VRGBColor } from '../components/ColorPicker/types';
+
 
 interface IState {
   typePickerColor: TypePickerColor;
+  color:string | VHSLColor | VRGBColor;
 }
 
 class ColorPickerDemo extends Component<any, IState> {
@@ -14,7 +13,8 @@ class ColorPickerDemo extends Component<any, IState> {
     super(props);
 
     this.state = {
-      typePickerColor: 'SketchPicker'
+      typePickerColor: 'ChromePicker',
+      color:'blue'
     };
   }
 
@@ -32,19 +32,38 @@ class ColorPickerDemo extends Component<any, IState> {
         <br />
         <br />
         <VColorPicker
-          defaultColor={'blue'}
+          Color={this.state.color}
           onChange={this.handleChangeColor}
           typePickerColor={this.state.typePickerColor}
           position={'right'}
-          width={50}
-          height={50}
+          width={30}
+          height={30}
         />
+        <br/>
+        <button onClick={()=>{
+          this.setState({
+            color:'red'
+          })
+        }}>change color to red</button>
+
+        <button onClick={()=>{
+          this.setState({
+            color:'blue'
+          })
+        }}>change color to blue</button>
+        <br/>
       </div>
+
     );
   }
 
   handleChangeColor = (color: VColorResult) => {
-    // console.log('ha cambiado el color', color);
+    this.setState({
+      color:color.rgb
+    })
+
+   // console.log(' color:', color.hex)
+
   };
 
   handleChangeTypeToChromePicker = () => {

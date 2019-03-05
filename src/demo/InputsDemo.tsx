@@ -63,6 +63,8 @@ class InputsDemo extends Component {
     value.toString().indexOf('anime') !== -1 &&
     `Can't search anime in work dude!!!!`;
   render() {
+    console.log('render..')
+    console.log('value before:', this.form.$.places);
     return (
       <React.Fragment>
         <VInputField
@@ -212,9 +214,20 @@ class InputsDemo extends Component {
             id="places"
             fieldState={this.form.$.places}
           />
+          <button onClick={this.changeValueSelect}>change value select</button>
         </div>
       </React.Fragment>
     );
+  }
+
+  changeValueSelect =(value:any)=>{
+
+
+    this.form.$.places.value = 'f'; //<---- Es este
+
+    console.log('value after:', this.form.$.places);
+
+    this.setState({})
   }
 }
 

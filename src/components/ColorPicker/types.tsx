@@ -9,3 +9,18 @@ export interface VColorResult {
   hsl: HSLColor;
   rgb: RGBColor;
 }
+
+export interface VHSLColor {
+  a?: number;
+  h: number;
+  l: number;
+  s: number;
+}
+
+export interface VRGBColor {
+  a?: number;
+  b: number;
+  g: number;
+  r: number;
+}
+

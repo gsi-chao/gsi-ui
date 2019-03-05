@@ -13,8 +13,6 @@ export const getBackground = (props: ITypeInputColor) => {
     props.defaultColor.g >= 0 &&
     props.defaultColor.b >= 0
   ) {
-    console.log(props.defaultColor);
-
     return `rgba(${props.defaultColor.r}, ${props.defaultColor.g}, ${
       props.defaultColor.b
     }, ${props.defaultColor.a})`;
@@ -33,9 +31,9 @@ export const ChromePickerStyled = styled(ChromePicker)`
 
 export const InputColor = styled.button`
   width: ${(props: ITypeInputColor) =>
-    props.width ? `${props.width} px` : '40px'};
+    props.width ? `${props.width}px` : '40px'};
   height: ${(props: ITypeInputColor) =>
-    props.height ? `${props.height} px` : '40px'};
+    props.height ? `${props.height}px` : '40px'};
 
   background: ${(props: ITypeInputColor) =>
     props.defaultColor ? getBackground(props) : '#A1A3A2'};
