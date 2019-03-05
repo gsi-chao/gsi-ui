@@ -23,7 +23,6 @@ import {
 import { CellCenterText, CellDiv } from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
-import ReactDOM from 'react-dom';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
@@ -222,6 +221,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const value = data[rowIndex][columns[columnIndex]];
     const widgetCell = this.getWidgetCell(rowIndex, columns[columnIndex]);
 
+
     if (widgetCell) widgetCell.widget.value = value;
 
     const component = widgetCell && (
@@ -357,6 +357,8 @@ export class VTable extends Component<IProps, IVTableState> {
     observerResize.subscribe(event => {
       this.makeResponsiveTable();
     });
+
+
   }
 
   /**

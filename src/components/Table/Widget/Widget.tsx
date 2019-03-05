@@ -138,6 +138,7 @@ class Widget extends Component<IVWidget> {
       this.props.dropdownCell.options &&
       this.exitsValueSelected(this.props.dropdownCell.options)
     ) {
+
       return (
         <DropdownWidget
           filterable={this.props.dropdownCell.filterable}
@@ -153,6 +154,7 @@ class Widget extends Component<IVWidget> {
   };
 
   private exitsValueSelected(options: IOption[]): boolean {
+
     return options.find(x => x.value === this.props.value) !== undefined;
   }
 

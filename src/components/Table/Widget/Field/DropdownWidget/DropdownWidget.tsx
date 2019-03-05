@@ -39,7 +39,8 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
   }
 
   render() {
-    if (this.state.valueSelected) {
+  const valueSelected =  this.findValueSelected(this.props);
+    if (valueSelected) {
       const options = this.state.options;
       return (
         <DefaultSelect
@@ -54,8 +55,8 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
               style={{ width: '100%' }}
               rightIcon="caret-down"
               text={
-                this.state.valueSelected
-                  ? this.state.valueSelected
+                valueSelected
+                  ? valueSelected.value
                   : '(No selection)'
               }
             />

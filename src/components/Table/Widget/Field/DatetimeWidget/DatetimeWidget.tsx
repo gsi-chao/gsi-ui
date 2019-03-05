@@ -37,19 +37,19 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
     const jsDateFormatter: IDateFormatProps = this.momentFormatter(
       'MM/DD/YYYY'
     );
-    const defaultValue = new Date(this.state.value);
+    const defaultValue = new Date(this.props.value);
 
     return this.state.icon ? (
       <DateInput
         rightElement={<Icon icon={this.state.icon} />}
-        defaultValue={defaultValue}
+        value={defaultValue}
         {...jsDateFormatter}
         onChange={this.handleDateChange}
       />
     ) : (
       <DateInput
         onChange={this.handleDateChange}
-        defaultValue={defaultValue}
+        value={defaultValue}
         rightElement={<Icon icon={'calendar'} />}
         {...jsDateFormatter}
       />
@@ -65,9 +65,10 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
   };
 
   isValidValueProps = () => {
-    return (
-      this.state.value && moment(this.state.value, 'MM/DD/YYYY', true).isValid()
-    );
+
+    const result = this.props.value && moment(this.props.value, 'MM/DD/YYYY', true).isValid();
+
+    return result;
   };
 
   momentFormatter = (format?: string): IDateFormatProps => {
