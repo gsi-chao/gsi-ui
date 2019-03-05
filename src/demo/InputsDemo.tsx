@@ -223,7 +223,7 @@ class InputsDemo extends Component {
   changeValueSelect =(value:any)=>{
 
 
-    this.form.$.places.value = 'f'; //<---- Es este
+    this.form.$.places.value = 'f';
 
     console.log('value after:', this.form.$.places);
 
