@@ -37,4 +37,4 @@ export {
 export { IVBadgeProps, IVBadgeStyle, VBadge } from './Badge';
 export { VLoadProgressTask } from './LoadProgressTask';
 export { showToastNotification } from './ToastNotification';
-export { VColorPicker, VColorResult, TypePickerColor } from './ColorPicker';
+export {VColorPicker,VColorResult,TypePickerColor,VHSLColor,VPosition,VRGBColor } from './ColorPicker'

@@ -13,7 +13,7 @@ class ColorPickerDemo extends Component<any, IState> {
     super(props);
 
     this.state = {
-      typePickerColor: 'SketchPicker',
+      typePickerColor: 'ChromePicker',
       color:'blue'
     };
   }
@@ -32,14 +32,13 @@ class ColorPickerDemo extends Component<any, IState> {
         <br />
         <br />
         <VColorPicker
-         Color={this.state.color}
+          Color={this.state.color}
           onChange={this.handleChangeColor}
           typePickerColor={this.state.typePickerColor}
           position={'right'}
           width={30}
           height={30}
         />
-        <br/>
         <br/>
         <button onClick={()=>{
           this.setState({
@@ -52,8 +51,9 @@ class ColorPickerDemo extends Component<any, IState> {
             color:'blue'
           })
         }}>change color to blue</button>
-
+        <br/>
       </div>
+
     );
   }
 
@@ -62,7 +62,7 @@ class ColorPickerDemo extends Component<any, IState> {
       color:color.rgb
     })
 
-    console.log(' color:', color.hex)
+   // console.log(' color:', color.hex)
 
   };
 

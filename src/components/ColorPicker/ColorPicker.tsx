@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Color, ColorResult, HSLColor, RGBColor } from 'react-color';
+import { Color, ColorResult} from 'react-color';
 import { Popover } from '@blueprintjs/core';
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
 import { TypePickerColor, VColorResult, VHSLColor, VPosition, VRGBColor } from './types';
@@ -29,24 +29,6 @@ export class VColorPicker extends Component<IProps, IState> {
       defaultColor: props.Color ? props.Color : undefined
     };
   }
-
-  // componentDidUpdate(
-  //   prevProps: Readonly<IProps>,
-  //   prevState: Readonly<IState>
-  // ): void {
-  //   console.log(` prevState.Color  anterrior ${prevState.Color } - color previo ${prevProps.Color} - color nuevo ${this.props.Color}`);
-  //   if (
-  //     prevState.Color === undefined &&
-  //     prevProps.Color !== this.props.Color
-  //   ) {
-  //     this.setState({
-  //       Color: this.props.Color
-  //     });
-  //     console.log('se cambio el color');
-  //     return;
-  //   }
-  //
-  // }
 
   render() {
     const colorPicker = this.getPickerColor();
