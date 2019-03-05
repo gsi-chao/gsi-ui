@@ -23,4 +23,3 @@ export interface VRGBColor {
   g: number;
   r: number;
 }
-
