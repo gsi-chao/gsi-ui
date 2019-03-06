@@ -46,6 +46,8 @@ export interface IVActionSortableTableProps extends IVActionsTableProps {
   onSort?: (columnIndex: number, order: IVTableOrder) => void;
 }
 
+export type Edit= 'ALL'
+
 export interface IVTableProps {
   edit?: IVActionEditTableProps;
   widgetsCell?: IVWidgetTableProps[];
@@ -69,7 +71,8 @@ export interface IVTableProps {
   onSelectionChange?: any;
 }
 
-interface IProps extends IVTableProps, ITableProps {}
+interface IProps extends IVTableProps, ITableProps {
+}
 
 export type defaultheightRow = 'SHORT' | 'HALF' | 'LONG';
 export type CellSelectionType = 'FREE' | 'ENTIRE_ROW';
@@ -84,10 +87,12 @@ export interface IVTableState {
   selectedRegions: IRegion[];
   provisionalRegions: IRegion[];
   columnsWidth: any[];
+  edit: boolean;
 }
 
 export class VTable extends Component<IProps, IVTableState> {
   tableRef: any;
+
   constructor(props: IProps) {
     super(props);
     this.tableRef = React.createRef();
@@ -106,7 +111,8 @@ export class VTable extends Component<IProps, IVTableState> {
     cachedData: [],
     selectedRegions: [],
     provisionalRegions: [],
-    columnsWidth: []
+    columnsWidth: [],
+    edit: true
   };
 
   render() {
@@ -184,8 +190,8 @@ export class VTable extends Component<IProps, IVTableState> {
     const enableRowHeader = enableRowResizing
       ? true
       : this.props.enableRowHeader
-      ? this.props.enableRowHeader
-      : false;
+        ? this.props.enableRowHeader
+        : false;
 
     const enableColumnResizing = this.props.enableColumnResizing
       ? this.props.enableRowResizing
@@ -207,7 +213,7 @@ export class VTable extends Component<IProps, IVTableState> {
     if (this.props.columnWidths) {
       console.warn(
         'Gsi-vx-ui => [Violation] The last configuration to catch the width ' +
-          'of the columns does not correspond to the column amount of the table'
+        'of the columns does not correspond to the column amount of the table'
       );
     }
   };
@@ -221,7 +227,6 @@ export class VTable extends Component<IProps, IVTableState> {
     const value = data[rowIndex][columns[columnIndex]];
     const widgetCell = this.getWidgetCell(rowIndex, columns[columnIndex]);
 
-
     if (widgetCell) widgetCell.widget.value = value;
 
     const component = widgetCell && (
@@ -230,20 +235,23 @@ export class VTable extends Component<IProps, IVTableState> {
         column={columnIndex}
         onClick={this.handleOnClickWidget}
         {...widgetCell.widget}
+        disable={!this.state.edit}
+
       />
     );
 
     if (component) return <CellDiv as={Cell}>{component}</CellDiv>;
 
+
     return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
-      <EditableCell
-        style={{ textAlign: 'center' }}
-        value={value == null ? '' : value}
-        intent={this.state.sparseCellInvalid![dataKey]}
-        onCancel={this.cellValidator(rowIndex, columnIndex)}
-        onChange={this.cellValidator(rowIndex, columnIndex)}
-        onConfirm={this.cellSetter(rowIndex, columnIndex)}
-      />
+      <CellDiv as={Cell}> <Widget
+        row={rowIndex}
+        column={columnIndex}
+        onClick={this.handleOnClickWidget}
+        type={'EDIT'}
+        value={value}
+        disable={!this.state.edit }
+      /></CellDiv>
     ) : (
       <CellCenterText as={Cell}>{value}</CellCenterText>
     );
@@ -254,11 +262,11 @@ export class VTable extends Component<IProps, IVTableState> {
     const widgetsValid: IVWidgetTableProps[] = [];
 
     this.state.widgetsCell &&
-      this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
-        if (columns.filter(x => x === widget.column).length === 1) {
-          widgetsValid.push(widget);
-        }
-      });
+    this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+      if (columns.filter(x => x === widget.column).length === 1) {
+        widgetsValid.push(widget);
+      }
+    });
 
     return widgetsValid;
   };
@@ -282,6 +290,8 @@ export class VTable extends Component<IProps, IVTableState> {
     const dataKey = VTable.dataKey(rowIndex, columnIndex);
     this.setSparseCellUpdateData(dataKey, newValue);
     this.setStateData(rowIndex, columnIndex, newValue);
+
+    //console.log(rowIndex, columnIndex, newValue)
   };
 
   private isValidValue = (columnIndex: number, value: string) => {
@@ -305,7 +315,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const sizePerColumn =
       columns.length > 0 && columns.length > fixedCellsTotal
         ? (tableWidth - reservedWidth - rowNumber) /
-          (columns.length - fixedCellsTotal)
+        (columns.length - fixedCellsTotal)
         : 0;
     const columnsWidth: number[] = [];
     if (columns && columns.length > 0) {
@@ -804,7 +814,7 @@ export class VTable extends Component<IProps, IVTableState> {
         getPivotCell={this.getPivotCell}
       />
     ) : (
-      <div />
+      <div/>
     );
   };
 

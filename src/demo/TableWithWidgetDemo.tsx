@@ -116,7 +116,7 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
 
 
   doSomethingAwesomeWithTheValue = (value: any) => {
-    console.log(value);
+   // console.log(value);
   };
   render() {
 

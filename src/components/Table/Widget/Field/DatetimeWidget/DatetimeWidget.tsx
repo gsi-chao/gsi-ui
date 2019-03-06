@@ -3,7 +3,7 @@ import { DateInput, IDateFormatProps } from '@blueprintjs/datetime';
 
 import moment from 'moment';
 import { DatetimeCell } from './styles';
-import { ActionClickWidget } from '../../Widget';
+import { ActionClickWidget, IPropsWidgets } from '../../Widget';
 import { Icon } from '@blueprintjs/core';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
 import { IconName } from '@blueprintjs/icons';
@@ -12,9 +12,8 @@ export interface IDatetimeWidget {
   value: string;
 }
 
-export interface IProps extends IDatetimeWidget, ActionClickWidget {
-  row: number;
-  column: number;
+export interface IProps extends IDatetimeWidget, ActionClickWidget, IPropsWidgets {
+
 }
 
 class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
