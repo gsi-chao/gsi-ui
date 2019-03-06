@@ -32,6 +32,7 @@ interface StyledCardProps {
   headerTextJustify?: FlexJustify;
   className?: string;
   defaultActive?: boolean;
+  headerCustomComponent?: any;
 }
 
 interface PanelState {
@@ -76,7 +77,8 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
       headerOrientation,
       headerTextJustify,
       noHeader,
-      className
+      className,
+      headerCustomComponent
     } = this.props;
     const { isOpen } = this.state;
     return (
@@ -115,6 +117,11 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
                 />
               </span>
             ) : null}
+            { headerCustomComponent ?
+              <div>
+                {headerCustomComponent}
+              </div> : null
+            }
           </VCardHeader>
         ) : null}
         <VCardBody bodyPadding={bodyPadding} backgroundColor={backgroundColor}>

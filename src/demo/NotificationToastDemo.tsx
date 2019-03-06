@@ -2,8 +2,20 @@ import React, { Component } from 'react';
 import { showToastNotification } from '../components/ToastNotification';
 import { Button } from '@blueprintjs/core';
 import { IToastNotificationProps } from '../components/ToastNotification/VToastNotification';
+import { VCardPanel } from '../components/Card';
+import styled from 'styled-components';
 
+export const RowButtons = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 class NotificationToastDemo extends Component {
+  buttonsHeaderRow = () => (
+    <RowButtons>
+      <Button minimal icon={'plus'} text={'New'} />
+      <Button minimal icon={'edit'} text={'Edit'} />
+    </RowButtons>
+  );
   render() {
     const propsList: IToastNotificationProps[] = [
       {
@@ -54,8 +66,13 @@ class NotificationToastDemo extends Component {
         }
       }
     ];
+
     return (
       <div style={{ padding: '25px' }}>
+        <VCardPanel
+          headerText={'Testing Custom Header Panel'}
+          headerCustomComponent={this.buttonsHeaderRow()}
+        />
         {propsList.map((props, index) => {
           const text =
             index === propsList.length - 1
