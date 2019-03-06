@@ -7,6 +7,7 @@ import { ActionClickWidget, IPropsWidgets } from '../../Widget';
 import { Icon } from '@blueprintjs/core';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
 import { IconName } from '@blueprintjs/icons';
+
 export interface IDatetimeWidget {
   icon?: IconName | MaybeElement;
   value: string;
@@ -43,6 +44,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
         rightElement={<Icon icon={this.state.icon} />}
         value={defaultValue}
         {...jsDateFormatter}
+        disabled={this.props.disable}
         onChange={this.handleDateChange}
       />
     ) : (
@@ -50,6 +52,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
         onChange={this.handleDateChange}
         value={defaultValue}
         rightElement={<Icon icon={'calendar'} />}
+        disabled={this.props.disable}
         {...jsDateFormatter}
       />
     );
@@ -65,9 +68,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
 
   isValidValueProps = () => {
 
-    const result = this.props.value && moment(this.props.value, 'MM/DD/YYYY', true).isValid();
-
-    return result;
+    return this.props.value && moment(this.props.value, 'MM/DD/YYYY', true).isValid();
   };
 
   momentFormatter = (format?: string): IDateFormatProps => {
