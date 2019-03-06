@@ -54,9 +54,9 @@ class ColorWidget extends Component<IProps, IColorWidgetState> {
       background: ${backgroundColor};
       color: ${color};
       height: 100%;
-      padding: 0px 10px
-      border-right: solid 1px #d6d9dc
-          border-bottom: solid 1px #d6d9dc
+      padding: 0px 10px;
+      border-right: solid 1px #d6d9dc;
+          border-bottom: solid 1px #d6d9dc;
          
       & div {
         text-align: center;
@@ -69,7 +69,7 @@ class ColorWidget extends Component<IProps, IColorWidgetState> {
     return (
       <CellColor>
         {' '}
-        <div>{this.state.value}</div>
+        <div>{this.props.value}</div>
       </CellColor>
     );
   }

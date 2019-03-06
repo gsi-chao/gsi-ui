@@ -3,7 +3,6 @@ import './App.css';
 import { VTable } from './components/Table/Table';
 import InputsDemo from './demo/InputsDemo';
 import TableWithWidgetDemo from './demo/TableWithWidgetDemo';
-import { Cell, Column, Table } from '@blueprintjs/table';
 import TabsPanelDemo from './demo/TabsPanelDemo';
 import VLoadProgressTaskDemo from './demo/VLoadProgressTaskDemo';
 import ColorPickerDemo from './demo/ColorPickerDemo';
@@ -96,14 +95,6 @@ class App extends Component {
         <TableWithWidgetDemo />
 
         <br />
-        <div style={{ height: '200px' }}>
-          <Table numRows={5} numFrozenRows={2} numFrozenColumns={1}>
-            <Column />
-            <Column />
-            <Column />
-          </Table>
-        </div>
-
         <ColorPickerDemo />
 
         <VLoadProgressTaskDemo />

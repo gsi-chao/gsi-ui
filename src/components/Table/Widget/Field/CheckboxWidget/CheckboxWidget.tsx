@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActionClickWidget } from '../../Widget';
+import { ActionClickWidget, IPropsWidgets } from '../../Widget';
 import { Checkbox } from '@blueprintjs/core';
 import { CheckboxCell } from './style';
 
@@ -9,9 +9,8 @@ export interface ICheckboxWidget {
   value?: boolean;
 }
 
-interface IProps extends ICheckboxWidget, ActionClickWidget {
-  row: number;
-  column: number;
+interface IProps extends ICheckboxWidget, ActionClickWidget,IPropsWidgets {
+
 }
 
 class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
@@ -25,8 +24,8 @@ class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
   }
 
   render() {
-    const { value, backgroundColor, label } = this.state;
-
+    const { backgroundColor, label } = this.state;
+    const value = this.props.value ? this.props.value : false;
     const checkboxBlue = (
       <Checkbox onChange={this.handleToggle} label={label} checked={value} />
     );

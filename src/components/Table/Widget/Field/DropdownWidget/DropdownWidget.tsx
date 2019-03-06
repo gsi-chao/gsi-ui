@@ -3,7 +3,7 @@ import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 import { Button } from '@blueprintjs/core';
 import styled from 'styled-components';
 import { DropdownStyled } from './style';
-import { ActionClickWidget } from '../../Widget';
+import { ActionClickWidget, IPropsWidgets } from '../../Widget';
 
 export interface IOption {
   value: string;
@@ -18,9 +18,8 @@ export interface IDropdownWidget {
   options: IOption[];
 }
 
-export interface IProps extends IDropdownWidget, ActionClickWidget {
-  row: number;
-  column: number;
+export interface IProps extends IDropdownWidget, ActionClickWidget,IPropsWidgets {
+
 }
 
 class DropdownWidget extends Component<IProps, IDropdownWidget> {
@@ -39,7 +38,8 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
   }
 
   render() {
-    if (this.state.valueSelected) {
+  const valueSelected =  this.findValueSelected(this.props);
+    if (valueSelected) {
       const options = this.state.options;
       return (
         <DefaultSelect
@@ -54,8 +54,8 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
               style={{ width: '100%' }}
               rightIcon="caret-down"
               text={
-                this.state.valueSelected
-                  ? this.state.valueSelected
+                valueSelected
+                  ? valueSelected.value
                   : '(No selection)'
               }
             />

@@ -2,7 +2,6 @@ import React, { Component, ReactNode } from 'react';
 import { IVWidgetTableProps } from '../components/Table/Widget/Widget';
 import { Icon } from '@blueprintjs/core';
 import { VTable } from '../components/Table';
-import { Cell } from '@blueprintjs/table';
 
 export const dropDown: IVWidgetTableProps = {
   column: 'dropdown',
@@ -81,64 +80,49 @@ export const widgetsCell: IVWidgetTableProps[] = [
   customerwidget
 ];
 
-class TableWithWidgetDemo extends Component {
-  state = {
-    changeColor: false
-  };
+interface IProps {
+
+}
+
+interface IState {
+  changeColor:boolean;
+  data: IData[];
+}
+
+interface IData {
+  name: string;
+  dropdown: string;
+  other: string;
+  fecha: string;
+  checkbox: boolean;
+  color: string;
+  sinEditar: string;
+  customer: string;
+}
+
+class TableWithWidgetDemo extends Component<IProps,IState> {
+
+
+  constructor(props:any){
+    super(props);
+    this.state={
+
+        changeColor: false,
+        data: this.getData()
+
+    }
+  }
+
+
+
   doSomethingAwesomeWithTheValue = (value: any) => {
-    console.log(value);
+   // console.log(value);
   };
   render() {
-    const data = [
-      {
-        name: 'Arturo',
-        dropdown: 'otro',
-        other: 'OtherInfo',
-        fecha: '10/11/2019',
-        checkbox: false,
-        color: 'red',
-        sinEditar: 'another better text',
-        customer: 'passenger'
-      },
-      {
-        name: 'Carlos',
-        dropdown: 'Lastname7',
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'color',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Carlos',
-        dropdown: 'Lastname7',
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: true,
-        color: 'color',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Carlos',
-        dropdown: 'Lastname7',
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'color',
-        sinEditar: ' some text',
-        customer: 'customer'
-      }
-    ];
 
     // validator example
     const nameValidation = (value: string) => {
       return value.length > 5;
-    };
-
-    const cellRenderer = (rowIndex: number) => {
-      return <Cell>{`$${(rowIndex * 10).toFixed(2)}`}</Cell>;
     };
 
     return (
@@ -147,7 +131,8 @@ class TableWithWidgetDemo extends Component {
           <VTable
             columnWidths={[200, 125, 150, 200, 100]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
-            edit={{ columns: ['name'], validation: { name: nameValidation } }}
+            // edit={{ columns: ['name'], validation: { name: nameValidation } }}
+            edit={'ALL'}
             cellSelectionType={'ENTIRE_ROW'}
             widgetsCell={widgetsCell}
             columns={[
@@ -164,7 +149,7 @@ class TableWithWidgetDemo extends Component {
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
             contextual={{
-              columns: ['name', 'dropdown', 'other', 'fecha', 'checkbox'],
+              columns: ['name', 'dropdown', 'other', 'fecha', 'checkbox','color', 'customer'],
               default_actions: ['copy', 'paste', 'export'],
               actions: [
                 {
@@ -174,7 +159,7 @@ class TableWithWidgetDemo extends Component {
                 }
               ]
             }}
-            data={data}
+            data={this.state.data}
             configColumnsHeader={[
               {
                 column: 'name',
@@ -218,16 +203,8 @@ class TableWithWidgetDemo extends Component {
         <br />
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
-        <div style={{ display: 'flex' }}>
-          {/*<Table numRows={10} enableRowHeader={false} defaultRowHeight={100}>*/}
-          {/*<Column name="Dollars" cellRenderer={cellRenderer}/>*/}
-          {/*<Column name="Dollarsss" cellRenderer={cellRenderer}/>*/}
-          {/*</Table>*/}
-          {/*<Table numRows={10}  enableRowHeader={false}>*/}
-          {/*<Column name="other" cellRenderer={cellRenderer}/>*/}
-          {/*<Column name="other2" cellRenderer={cellRenderer}/>*/}
-          {/*</Table>*/}
-        </div>
+        <button onClick={ ()=>{this.changeData('red')}}>cambiar datos</button>
+
       </React.Fragment>
     );
   }
@@ -248,6 +225,61 @@ class TableWithWidgetDemo extends Component {
     console.log(index);
     console.log(order);
   };
+
+
+  changeData =(colorFiltered?:string)=>{
+    this.setState({
+      data:this.getData(colorFiltered)
+    })
+  };
+
+  getData =(colorFiltered?:string) :IData[] => {
+
+    const data = [
+      {
+        name: 'Arturo',
+        dropdown: 'otro',
+        other: 'OtherInfo',
+        fecha: '10/11/2019',
+        checkbox: false,
+        color: 'red',
+        sinEditar: 'another better text',
+        customer: 'passenger'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'red',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Manuel',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      }
+    ];
+
+    return colorFiltered?  data.filter(x=>x.color === colorFiltered) : data
+  }
 }
 
 export default TableWithWidgetDemo;

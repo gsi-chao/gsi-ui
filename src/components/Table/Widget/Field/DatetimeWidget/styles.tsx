@@ -4,7 +4,7 @@ export const DatetimeCell = styled.div`
   padding: 23px;
   border-bottom: none;
   max-width: 145px;
-
+ 
   & span.bp3-popover-target {
     display: inline-block;
     width: 100%;
@@ -16,23 +16,34 @@ export const DatetimeCell = styled.div`
 
     border-right: none;
   }
+  
+ & .bp3-input:disabled{
+  cursor: cell;
+  }
 
+
+& .bp3-input-group.bp3-disabled {
+    cursor: cell;
+}
+
+& .bp3-input-group{
+    cursor: cell;
+}
   .bp3-input:focus,
   .bp3-input.bp3-active {
     box-shadow: 0 0 0 0 rgba(19, 124, 189, 0), 0 0 0 0 rgba(19, 124, 189, 0),
-      inset 0 0 0 0px rgba(16, 22, 26, 0.15),
-      inset 0 0px 0px rgba(16, 22, 26, 0.2);
+      inset 0 0 0 0 rgba(16, 22, 26, 0.15),
+      inset 0 0 0 rgba(16, 22, 26, 0.2);
   }
 
   .bp3-input {
     outline: none !important;
     border: none !important;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
     box-shadow: 0 0 0 0 rgba(19, 124, 189, 0), 0 0 0 0 rgba(19, 124, 189, 0),
-      inset 0 0 0 0px rgba(16, 22, 26, 0.15),
-      inset 0 0px 0px rgba(16, 22, 26, 0.2);
+      inset 0 0 0 0 rgba(16, 22, 26, 0.15),
+      inset 0 0 0 rgba(16, 22, 26, 0.2);
     background: #ffffff;
-    height: 30px;
     padding: 0 10px;
     vertical-align: middle;
     line-height: 30px;
