@@ -46,10 +46,10 @@ export interface IVActionSortableTableProps extends IVActionsTableProps {
   onSort?: (columnIndex: number, order: IVTableOrder) => void;
 }
 
-export type Edit= 'ALL'
+export type Edit = 'ALL'
 
 export interface IVTableProps {
-  edit?: IVActionEditTableProps;
+  edit?: IVActionEditTableProps | Edit;
   widgetsCell?: IVWidgetTableProps[];
   search?: IVActionsTableProps;
   sortable?: IVActionSortableTableProps;
@@ -112,7 +112,7 @@ export class VTable extends Component<IProps, IVTableState> {
     selectedRegions: [],
     provisionalRegions: [],
     columnsWidth: [],
-    edit: true
+    edit: false
   };
 
   render() {
@@ -242,7 +242,16 @@ export class VTable extends Component<IProps, IVTableState> {
 
     if (component) return <CellDiv as={Cell}>{component}</CellDiv>;
 
-
+    if (edit && edit === 'ALL') {
+      return (<CellDiv as={Cell}> <Widget
+        row={rowIndex}
+        column={columnIndex}
+        onClick={this.handleOnClickWidget}
+        type={'EDIT'}
+        value={value}
+        disable={!this.state.edit}
+      /></CellDiv>);
+    }
     return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <CellDiv as={Cell}> <Widget
         row={rowIndex}
@@ -250,7 +259,7 @@ export class VTable extends Component<IProps, IVTableState> {
         onClick={this.handleOnClickWidget}
         type={'EDIT'}
         value={value}
-        disable={!this.state.edit }
+        disable={!this.state.edit}
       /></CellDiv>
     ) : (
       <CellCenterText as={Cell}>{value}</CellCenterText>
@@ -295,8 +304,10 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   private isValidValue = (columnIndex: number, value: string) => {
+
+
     if (
-      this.props.edit &&
+      this.props.edit && this.props.edit !=='ALL' &&
       this.props.edit.validation &&
       this.props.edit.validation[this.state.columns[columnIndex]]
     ) {

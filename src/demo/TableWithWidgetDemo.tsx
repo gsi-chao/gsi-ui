@@ -131,7 +131,8 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
           <VTable
             columnWidths={[200, 125, 150, 200, 100]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
-            edit={{ columns: ['name'], validation: { name: nameValidation } }}
+            // edit={{ columns: ['name'], validation: { name: nameValidation } }}
+            edit={'ALL'}
             cellSelectionType={'ENTIRE_ROW'}
             widgetsCell={widgetsCell}
             columns={[
