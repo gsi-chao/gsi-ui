@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   Cell,
-  EditableCell,
   IMenuContext,
   IRegion,
   ITableProps,
@@ -300,7 +299,7 @@ export class VTable extends Component<IProps, IVTableState> {
     this.setSparseCellUpdateData(dataKey, newValue);
     this.setStateData(rowIndex, columnIndex, newValue);
 
-    //console.log(rowIndex, columnIndex, newValue)
+
   };
 
   private isValidValue = (columnIndex: number, value: string) => {

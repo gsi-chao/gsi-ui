@@ -48,6 +48,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
           itemRenderer={this.renderOption}
           filterable={this.state.filterable}
           onItemSelect={this.handleValueChange}
+          disabled={this.props.disable}
         >
           <DropdownStyled>
             <Button

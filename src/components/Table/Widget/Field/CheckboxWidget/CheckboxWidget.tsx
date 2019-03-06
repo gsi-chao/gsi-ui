@@ -27,7 +27,7 @@ class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
     const { backgroundColor, label } = this.state;
     const value = this.props.value ? this.props.value : false;
     const checkboxBlue = (
-      <Checkbox onChange={this.handleToggle} label={label} checked={value} />
+      <Checkbox disabled={this.props.disable} onChange={this.handleToggle} label={label} checked={value} />
     );
     return (
       <CheckboxCell backgroundColor={backgroundColor}>
