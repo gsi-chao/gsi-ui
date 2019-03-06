@@ -132,7 +132,16 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
             columnWidths={[200, 125, 150, 200, 100]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             // edit={{ columns: ['name'], validation: { name: nameValidation } }}
-            edit={'ALL'}
+            edit={{
+              editColumn:'ALL',
+              editToolbar:{
+                textSave:'Salvar',
+                textCancel:'Cancelar',
+                iconCancel:'cross',
+                iconEdit:'take-action',
+                iconSave:'share'
+              }
+            }}
             cellSelectionType={'ENTIRE_ROW'}
             widgetsCell={widgetsCell}
             columns={[

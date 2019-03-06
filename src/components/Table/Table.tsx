@@ -22,6 +22,8 @@ import {
 import { CellCenterText, CellDiv } from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
+import EditToolBar from './EditToolBar/EditToolBar';
+import { MaybeElement } from '@blueprintjs/core/src/common/props';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
@@ -45,10 +47,23 @@ export interface IVActionSortableTableProps extends IVActionsTableProps {
   onSort?: (columnIndex: number, order: IVTableOrder) => void;
 }
 
-export type Edit = 'ALL'
+export type Edit = 'ALL';
+
+export interface ISetupEditToolbar {
+  textSave?: string;
+  textCancel?: string;
+  iconSave?: IconName | MaybeElement;
+  iconCancel?: IconName | MaybeElement;
+  iconEdit?: IconName | MaybeElement;
+}
+
+export interface EditSetup {
+  editToolbar?: ISetupEditToolbar;
+  editColumn: IVActionEditTableProps | Edit;
+}
 
 export interface IVTableProps {
-  edit?: IVActionEditTableProps | Edit;
+  edit?: EditSetup;
   widgetsCell?: IVWidgetTableProps[];
   search?: IVActionsTableProps;
   sortable?: IVActionSortableTableProps;
@@ -68,10 +83,10 @@ export interface IVTableProps {
   footer?: React.ReactNode;
   cellSelectionType?: CellSelectionType;
   onSelectionChange?: any;
+  editSetup?: EditSetup;
 }
 
-interface IProps extends IVTableProps, ITableProps {
-}
+interface IProps extends IVTableProps, ITableProps {}
 
 export type defaultheightRow = 'SHORT' | 'HALF' | 'LONG';
 export type CellSelectionType = 'FREE' | 'ENTIRE_ROW';
@@ -142,6 +157,13 @@ export class VTable extends Component<IProps, IVTableState> {
     return (
       <React.Fragment>
         {toolbar && toolbar}
+        <EditToolBar
+          edit={this.state.edit}
+          onSave={this.saveEdit}
+          onCancel={this.cancelEdit}
+          onEdit={this.toggleEdit}
+          setupEditToolbar={this.props.edit && this.props.edit.editToolbar}
+        />
         <Table
           ref={this.tableRef}
           className={this.props.className}
@@ -167,6 +189,27 @@ export class VTable extends Component<IProps, IVTableState> {
     );
   }
 
+  toggleEdit = () => {
+    //todo Comprobacion si hay cambios
+
+    this.setState({
+      edit: true
+    });
+  };
+
+  cancelEdit = () => {
+    //todo limpiar lista para salvar
+    this.setState({
+      edit: false
+    });
+  };
+
+  saveEdit = () => {
+    this.setState({
+      edit: false
+    });
+  };
+
   getDefaultRowHeight = (): number => {
     if (this.props.typeHeightRow) {
       switch (this.props.typeHeightRow) {
@@ -189,8 +232,8 @@ export class VTable extends Component<IProps, IVTableState> {
     const enableRowHeader = enableRowResizing
       ? true
       : this.props.enableRowHeader
-        ? this.props.enableRowHeader
-        : false;
+      ? this.props.enableRowHeader
+      : false;
 
     const enableColumnResizing = this.props.enableColumnResizing
       ? this.props.enableRowResizing
@@ -212,7 +255,7 @@ export class VTable extends Component<IProps, IVTableState> {
     if (this.props.columnWidths) {
       console.warn(
         'Gsi-vx-ui => [Violation] The last configuration to catch the width ' +
-        'of the columns does not correspond to the column amount of the table'
+          'of the columns does not correspond to the column amount of the table'
       );
     }
   };
@@ -235,31 +278,40 @@ export class VTable extends Component<IProps, IVTableState> {
         onClick={this.handleOnClickWidget}
         {...widgetCell.widget}
         disable={!this.state.edit}
-
       />
     );
 
     if (component) return <CellDiv as={Cell}>{component}</CellDiv>;
 
-    if (edit && edit === 'ALL') {
-      return (<CellDiv as={Cell}> <Widget
-        row={rowIndex}
-        column={columnIndex}
-        onClick={this.handleOnClickWidget}
-        type={'EDIT'}
-        value={value}
-        disable={!this.state.edit}
-      /></CellDiv>);
+    if (edit && edit.editColumn === 'ALL') {
+      return (
+        <CellDiv as={Cell}>
+          {' '}
+          <Widget
+            row={rowIndex}
+            column={columnIndex}
+            onClick={this.handleOnClickWidget}
+            type={'EDIT'}
+            value={value}
+            disable={!this.state.edit}
+          />
+        </CellDiv>
+      );
     }
-    return edit && edit.columns.indexOf(columns[columnIndex]) !== -1 ? (
-      <CellDiv as={Cell}> <Widget
-        row={rowIndex}
-        column={columnIndex}
-        onClick={this.handleOnClickWidget}
-        type={'EDIT'}
-        value={value}
-        disable={!this.state.edit}
-      /></CellDiv>
+    return edit &&
+      edit.editColumn !== 'ALL' &&
+      edit.editColumn.columns.indexOf(columns[columnIndex]) !== -1 ? (
+      <CellDiv as={Cell}>
+        {' '}
+        <Widget
+          row={rowIndex}
+          column={columnIndex}
+          onClick={this.handleOnClickWidget}
+          type={'EDIT'}
+          value={value}
+          disable={!this.state.edit}
+        />
+      </CellDiv>
     ) : (
       <CellCenterText as={Cell}>{value}</CellCenterText>
     );
@@ -270,11 +322,11 @@ export class VTable extends Component<IProps, IVTableState> {
     const widgetsValid: IVWidgetTableProps[] = [];
 
     this.state.widgetsCell &&
-    this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
-      if (columns.filter(x => x === widget.column).length === 1) {
-        widgetsValid.push(widget);
-      }
-    });
+      this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+        if (columns.filter(x => x === widget.column).length === 1) {
+          widgetsValid.push(widget);
+        }
+      });
 
     return widgetsValid;
   };
@@ -298,19 +350,18 @@ export class VTable extends Component<IProps, IVTableState> {
     const dataKey = VTable.dataKey(rowIndex, columnIndex);
     this.setSparseCellUpdateData(dataKey, newValue);
     this.setStateData(rowIndex, columnIndex, newValue);
-
-
   };
 
   private isValidValue = (columnIndex: number, value: string) => {
-
-
     if (
-      this.props.edit && this.props.edit !=='ALL' &&
-      this.props.edit.validation &&
-      this.props.edit.validation[this.state.columns[columnIndex]]
+      this.props.edit &&
+      this.props.edit.editColumn !== 'ALL' &&
+      this.props.edit.editColumn.validation &&
+      this.props.edit.editColumn.validation[this.state.columns[columnIndex]]
     ) {
-      return this.props.edit.validation[this.state.columns[columnIndex]](value);
+      return this.props.edit.editColumn.validation[
+        this.state.columns[columnIndex]
+      ](value);
     }
   };
 
@@ -325,7 +376,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const sizePerColumn =
       columns.length > 0 && columns.length > fixedCellsTotal
         ? (tableWidth - reservedWidth - rowNumber) /
-        (columns.length - fixedCellsTotal)
+          (columns.length - fixedCellsTotal)
         : 0;
     const columnsWidth: number[] = [];
     if (columns && columns.length > 0) {
@@ -377,8 +428,6 @@ export class VTable extends Component<IProps, IVTableState> {
     observerResize.subscribe(event => {
       this.makeResponsiveTable();
     });
-
-
   }
 
   /**
@@ -483,7 +532,7 @@ export class VTable extends Component<IProps, IVTableState> {
 
   /**
    ** @param argsRegions: the regions of the table context
-   ** @description check if a region don't have rows or cols , this happens when a full column or row is selected
+   ** @description check if a region don'toggleEdit have rows or cols , this happens when a full column or row is selected
    ** and add the missing param.
    ** @return the fixed regions.
    **/
@@ -825,7 +874,7 @@ export class VTable extends Component<IProps, IVTableState> {
         getPivotCell={this.getPivotCell}
       />
     ) : (
-      <div/>
+      <div />
     );
   };
 
