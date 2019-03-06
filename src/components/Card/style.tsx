@@ -78,6 +78,7 @@ export const VCardTextSpanContainer = styled.div`
 `;
 
 export const VCardBody = styled.div`
+  height: calc(100% - 35px);
   background: ${(props: ICardPanelProps) =>
     props.backgroundColor || 'transparent'};
   padding: ${(props: ICardPanelProps) => props.bodyPadding || '15px'};
