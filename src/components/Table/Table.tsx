@@ -24,7 +24,12 @@ import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
 import EditToolBar from './EditToolBar/EditToolBar';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
-import { CellSelectionType, DefaultheightRow,  EditSetup, IDataEdited } from './type';
+import {
+  CellSelectionType,
+  DefaultheightRow,
+  EditSetup,
+  IDataEdited
+} from './type';
 
 export type IVTableOrder = 'ASC' | 'DESC';
 
@@ -56,7 +61,6 @@ export interface ISetupEditToolbar {
   iconEdit?: IconName | MaybeElement;
 }
 
-
 export interface IVTableProps {
   edit?: EditSetup;
   widgetsCell?: IVWidgetTableProps[];
@@ -81,9 +85,7 @@ export interface IVTableProps {
   editSetup?: EditSetup;
 }
 
-interface IProps extends IVTableProps, ITableProps {
-}
-
+interface IProps extends IVTableProps, ITableProps {}
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -106,27 +108,34 @@ export class VTable extends Component<IProps, IVTableState> {
   constructor(props: IProps) {
     super(props);
     this.tableRef = React.createRef();
+    this.state = {
+      sparseCellData: this.props.data,
+      sparseCellInvalid: {},
+      sparseCellUpdateData: {},
+      columns: this.props.columns,
+      widgetsCell: this.props.widgetsCell,
+      cachedData: [],
+      selectedRegions: [],
+      provisionalRegions: [],
+      columnsWidth: this.initColumnsWidth(),
+      edit: false,
+      dataBeforeEdit: [],
+      dateEdited: []
+    };
   }
 
   public static dataKey = (rowIndex: number, columnIndex: number) => {
     return `${rowIndex}-${columnIndex}`;
   };
 
-  public state: IVTableState = {
-    sparseCellData: this.props.data,
-    sparseCellInvalid: {},
-    sparseCellUpdateData: {},
-    columns: this.props.columns,
-    widgetsCell: this.props.widgetsCell,
-    cachedData: [],
-    selectedRegions: [],
-    provisionalRegions: [],
-    columnsWidth: [],
-    edit: false,
-    dataBeforeEdit: [],
-    dateEdited: []
+  static getDerivedStateFromProps(props: IProps, state: IVTableState) {
+    if (props.data !== state.sparseCellData) {
+      return { ...state, ...{ sparseCellData: props.data } };
+    }
 
-  };
+    // No state update necessary
+    return null;
+  }
 
   render() {
     const { sortable, columns_name, toolbar, footer } = this.props;
@@ -200,7 +209,6 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   cancelEdit = () => {
-
     this.setState({
       edit: false,
       sparseCellData: this.state.dataBeforeEdit
@@ -213,10 +221,7 @@ export class VTable extends Component<IProps, IVTableState> {
       edit: false,
       dateEdited: [],
       dataBeforeEdit: []
-
     });
-
-
   };
 
   getDefaultRowHeight = (): number => {
@@ -241,8 +246,8 @@ export class VTable extends Component<IProps, IVTableState> {
     const enableRowHeader = enableRowResizing
       ? true
       : this.props.enableRowHeader
-        ? this.props.enableRowHeader
-        : false;
+      ? this.props.enableRowHeader
+      : false;
 
     const enableColumnResizing = this.props.enableColumnResizing
       ? this.props.enableRowResizing
@@ -264,9 +269,10 @@ export class VTable extends Component<IProps, IVTableState> {
     if (this.props.columnWidths) {
       console.warn(
         'Gsi-vx-ui => [Violation] The last configuration to catch the width ' +
-        'of the columns does not correspond to the column amount of the table'
+          'of the columns does not correspond to the column amount of the table'
       );
     }
+    return [];
   };
 
   public renderCell = (rowIndex: number, columnIndex: number) => {
@@ -308,8 +314,8 @@ export class VTable extends Component<IProps, IVTableState> {
       );
     }
     return edit &&
-    edit.editColumn !== 'ALL' &&
-    edit.editColumn.columns.indexOf(columns[columnIndex]) !== -1 ? (
+      edit.editColumn !== 'ALL' &&
+      edit.editColumn.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <CellDiv as={Cell}>
         {' '}
         <Widget
@@ -331,11 +337,11 @@ export class VTable extends Component<IProps, IVTableState> {
     const widgetsValid: IVWidgetTableProps[] = [];
 
     this.state.widgetsCell &&
-    this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
-      if (columns.filter(x => x === widget.column).length === 1) {
-        widgetsValid.push(widget);
-      }
-    });
+      this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+        if (columns.filter(x => x === widget.column).length === 1) {
+          widgetsValid.push(widget);
+        }
+      });
 
     return widgetsValid;
   };
@@ -381,7 +387,7 @@ export class VTable extends Component<IProps, IVTableState> {
     ) {
       return this.props.edit.editColumn.validation[
         this.state.columns[columnIndex]
-        ](value);
+      ](value);
     }
   };
 
@@ -396,7 +402,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const sizePerColumn =
       columns.length > 0 && columns.length > fixedCellsTotal
         ? (tableWidth - reservedWidth - rowNumber) /
-        (columns.length - fixedCellsTotal)
+          (columns.length - fixedCellsTotal)
         : 0;
     const columnsWidth: number[] = [];
     if (columns && columns.length > 0) {
@@ -415,13 +421,13 @@ export class VTable extends Component<IProps, IVTableState> {
     this.setState({ ...this.state, columnsWidth });
   };
 
-  componentWillMount() {
+  initColumnsWidth() {
     const { columns, columnWidths } = this.props;
     const colsWidth = columnWidths || [];
     while (colsWidth.length < columns.length) {
       colsWidth.push(0);
     }
-    this.setColumnsWidth(colsWidth);
+    return colsWidth;
   }
 
   getReservedWidthAndFixedCells = (columnWidths: any[]) => {
@@ -470,7 +476,6 @@ export class VTable extends Component<IProps, IVTableState> {
     ) {
       regions = this.getEntireRowsRegions(argsRegions);
       if (onSelectionChange) {
-        console.log(regions);
         if (
           regions &&
           regions.length > 0 &&
@@ -894,7 +899,7 @@ export class VTable extends Component<IProps, IVTableState> {
         getPivotCell={this.getPivotCell}
       />
     ) : (
-      <div/>
+      <div />
     );
   };
 
