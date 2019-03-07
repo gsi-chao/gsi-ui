@@ -134,6 +134,7 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
             // edit={{ columns: ['name'], validation: { name: nameValidation } }}
             edit={{
               editColumn:'ALL',
+              onSave:this.onSave,
               editToolbar:{
                 textSave:'Salvar',
                 textCancel:'Cancelar',
@@ -217,6 +218,10 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
       </React.Fragment>
     );
   }
+
+    onSave = (data:any) =>{
+        console.log("datos salvados..", data)
+      };
   handleChangeColor = () => {
     if (
       widgetsCell[1] &&

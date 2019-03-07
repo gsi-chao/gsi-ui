@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import {
-  AnchorButton,
-  Button,
-  IconName,
-
-  Toaster
-} from '@blueprintjs/core';
+import { AnchorButton, Button, IconName, Toaster } from '@blueprintjs/core';
 import { ISetupEditToolbar } from '../Table';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
 
@@ -46,13 +40,17 @@ class EditToolBar extends Component<IProps, IState> {
   getButtonActions = () => {
     return (
       <div>
-        <AnchorButton onClick={this.props.onSave} minimal rightIcon={this.getSaveIcon()}>
+        <AnchorButton
+          onClick={this.props.onSave}
+          minimal
+          icon={this.getSaveIcon()}
+        >
           {this.getSaveText()}
         </AnchorButton>
         <AnchorButton
           onClick={this.onCancel}
           minimal
-          rightIcon={this.getCancelIcon()}
+          icon={this.getCancelIcon()}
         >
           {this.getCancelText()}
         </AnchorButton>
@@ -107,13 +105,12 @@ class EditToolBar extends Component<IProps, IState> {
     return 'edit';
   };
 
-
   existSetupToolbarProp = () => {
     return !!this.props.setupEditToolbar;
   };
 
   onCancel = () => {
-    this.confirmCancel();
+    this.props.onCancel();
   };
 
   confirmCancel = () => {
