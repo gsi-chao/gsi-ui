@@ -14,6 +14,7 @@ import {
 } from '../components/Form';
 import { email, lt, exact } from '../components/Form/Validators';
 import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
+import { Icon } from '@blueprintjs/core';
 
 const store = [
   {
@@ -202,9 +203,10 @@ class InputsDemo extends Component {
           inline
         />
         <VDateTimePicker
-          dateType="TIME"
+          dateType="DATE"
           id="date"
           fieldState={this.form.$.date}
+          icon={{iconName: 'calendar'}}
         />
         <div>
           <VSelectField
