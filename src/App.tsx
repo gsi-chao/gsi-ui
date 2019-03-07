@@ -67,7 +67,9 @@ class App extends Component {
     return (
       <React.Fragment>
         <VTable
-          edit={{ columns: ['name'], validation: { name: nameValidation } }}
+          edit={{
+            editColumn:{ columns: ['name'], validation: { name: nameValidation } }
+          }}
           columns={['name', 'lastname']}
           columns_name={{ name: 'mi nombre' }}
           reordering={true}

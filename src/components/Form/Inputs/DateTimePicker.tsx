@@ -3,10 +3,10 @@ import * as React from 'react';
 import moment from 'moment';
 
 /** Blueprint */
-import { IconName, Intent } from '@blueprintjs/core';
+import { Icon, IconName, Intent } from '@blueprintjs/core';
 import { DateInput, IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
 /** FieldState */
-import { StyledFormGroup } from './style';
+import { IconDate, StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
 
@@ -16,10 +16,18 @@ import { FormFieldContainer } from './FormFieldContainer';
 
 export interface IInputFieldProps extends IFieldProps {
   leftIcon?: IconName;
-  rightElement?: Element;
+  rightElement?: JSX.Element;
   round?: boolean;
   fill?: boolean;
   dateType: 'DATE' | 'DATETIME' | 'TIME';
+  icon?: IIcon;
+}
+
+interface IIcon {
+  backgroundColor?: string;
+  color?: string;
+  size?: number;
+  iconName: IconName;
 }
 
 const momentFormatter = (format: string): IDateFormatProps => {
@@ -61,9 +69,19 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       className,
       layer,
       fill,
-      dateType
+      dateType,
+      rightElement,
+      icon
     } = this.props;
-
+    let iconJSX;
+    if (icon) {
+      iconJSX =
+        <IconDate backgroundColor={icon.backgroundColor}>
+          <Icon color={icon.color} icon={icon.iconName} iconSize={icon.size || 16}/>
+        </IconDate>;
+    } else {
+      iconJSX = rightElement;
+    }
     return (
       <StyledFormGroup
         className={className}
@@ -83,9 +101,10 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               onChange={this.changedDate}
               value={fieldState.value || null}
               timePrecision={dateType === 'DATETIME' ? 'second' : undefined}
+              rightElement={iconJSX}
             />
           ) : (
-            <TimePicker precision={'second'} onChange={this.changedDate} />
+            <TimePicker precision={'second'} onChange={this.changedDate}/>
           )}
         </FormFieldContainer>
       </StyledFormGroup>

@@ -123,7 +123,17 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             columnWidths={[200, 125, 150, 200, 100]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             // edit={{ columns: ['name'], validation: { name: nameValidation } }}
-            edit={'ALL'}
+            edit={{
+              editColumn:'ALL',
+              onSave:this.onSave,
+              editToolbar:{
+                textSave:'Salvar',
+                textCancel:'Cancelar',
+                iconCancel:'cross',
+                iconEdit:'take-action',
+                iconSave:'share'
+              }
+            }}
             cellSelectionType={'ENTIRE_ROW'}
             widgetsCell={widgetsCell}
             columns={[
@@ -212,6 +222,10 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       </React.Fragment>
     );
   }
+
+    onSave = (data:any) =>{
+        console.log("datos salvados..", data)
+      };
   handleChangeColor = () => {
     if (
       widgetsCell[1] &&
