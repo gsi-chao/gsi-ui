@@ -79,7 +79,13 @@ class DNDDemo extends Component<{}, {}> {
     };
   }
   render() {
-    return <DragAndDropList list={list} containerOrientation={'horizontal'}/>;
+    return (
+      <DragAndDropList
+        list={list}
+        containerOrientation={'horizontal'}
+        onDragAndDrop={output => console.log(output)}
+      />
+    );
   }
 }
 

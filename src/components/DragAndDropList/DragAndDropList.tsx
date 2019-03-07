@@ -26,6 +26,7 @@ interface IAppState {
 interface IProps {
   containerOrientation?: 'horizontal' | 'vertical';
   list: IDNDList[];
+  onDragAndDrop?: (list: IDNDList[]) => void;
 }
 
 const reorder = (
@@ -102,6 +103,9 @@ export class DragAndDropList extends React.Component<IProps, IAppState> {
       );
 
       this.setState({ ...this.state, ...items });
+    }
+    if (this.props.onDragAndDrop) {
+      this.props.onDragAndDrop(this.state.items);
     }
   }
 
