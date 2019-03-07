@@ -245,8 +245,50 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
   };
 
   changeData = (colorFiltered?: string) => {
+    const data = [
+      {
+        name: 'Arturo',
+        dropdown: 'otro',
+        other: 'OtherInfo',
+        fecha: '10/11/2019',
+        checkbox: false,
+        color: 'red',
+        sinEditar: 'another better text',
+        customer: 'passenger'
+      },
+      {
+        name: 'Carlos',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'red',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Manuel',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: true,
+        color: 'color',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 'Lastname7',
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      }
+    ];
     this.setState({
-      data: this.getData(colorFiltered)
+      data: this.state.data.concat(data)
     });
   };
 
