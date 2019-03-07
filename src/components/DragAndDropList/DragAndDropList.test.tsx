@@ -66,13 +66,13 @@ it('renders without crashing Drag and Drop', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 it('render correctly Drag and Drop component', () => {
-  const wrapper = mount(<DragAndDropList
-    list={list}
-    containerOrientation={'horizontal'}
-    onDragAndDrop={output => console.log(output)}
-  />);
+  const wrapper = mount(
+    <DragAndDropList
+      list={list}
+      containerOrientation={'horizontal'}
+      onDragAndDrop={output => console.log(output)}
+    />
+  );
 
   expect(wrapper.find('.bp3-card')).toHaveLength(2);
 });
-
-

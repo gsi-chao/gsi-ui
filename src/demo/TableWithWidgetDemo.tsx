@@ -124,14 +124,14 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             // edit={{ columns: ['name'], validation: { name: nameValidation } }}
             edit={{
-              editColumn:'ALL',
-              onSave:this.onSave,
-              editToolbar:{
-                textSave:'Salvar',
-                textCancel:'Cancelar',
-                iconCancel:'cross',
-                iconEdit:'take-action',
-                iconSave:'share'
+              editColumn: 'ALL',
+              onSave: this.onSave,
+              editToolbar: {
+                textSave: 'Salvar',
+                textCancel: 'Cancelar',
+                iconCancel: 'cross',
+                iconEdit: 'take-action',
+                iconSave: 'share'
               }
             }}
             cellSelectionType={'ENTIRE_ROW'}
@@ -223,9 +223,9 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     );
   }
 
-    onSave = (data:any) =>{
-        console.log("datos salvados..", data)
-      };
+  onSave = (data: any) => {
+    console.log('datos salvados..', data);
+  };
   handleChangeColor = () => {
     if (
       widgetsCell[1] &&

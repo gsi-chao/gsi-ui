@@ -75,10 +75,15 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
     } = this.props;
     let iconJSX;
     if (icon) {
-      iconJSX =
+      iconJSX = (
         <IconDate backgroundColor={icon.backgroundColor}>
-          <Icon color={icon.color} icon={icon.iconName} iconSize={icon.size || 16}/>
-        </IconDate>;
+          <Icon
+            color={icon.color}
+            icon={icon.iconName}
+            iconSize={icon.size || 16}
+          />
+        </IconDate>
+      );
     } else {
       iconJSX = rightElement;
     }
@@ -104,7 +109,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               rightElement={iconJSX}
             />
           ) : (
-            <TimePicker precision={'second'} onChange={this.changedDate}/>
+            <TimePicker precision={'second'} onChange={this.changedDate} />
           )}
         </FormFieldContainer>
       </StyledFormGroup>

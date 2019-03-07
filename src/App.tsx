@@ -68,7 +68,10 @@ class App extends Component {
       <React.Fragment>
         <VTable
           edit={{
-            editColumn:{ columns: ['name'], validation: { name: nameValidation } }
+            editColumn: {
+              columns: ['name'],
+              validation: { name: nameValidation }
+            }
           }}
           columns={['name', 'lastname']}
           columns_name={{ name: 'mi nombre' }}
@@ -102,7 +105,7 @@ class App extends Component {
 
         <VLoadProgressTaskDemo />
         <NotificationToastDemo />
-        <DNDDemo/>
+        <DNDDemo />
       </React.Fragment>
     );
   }

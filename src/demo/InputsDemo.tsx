@@ -206,7 +206,7 @@ class InputsDemo extends Component {
           dateType="DATE"
           id="date"
           fieldState={this.form.$.date}
-          icon={{iconName: 'calendar'}}
+          icon={{ iconName: 'calendar' }}
         />
         <div>
           <VSelectField
