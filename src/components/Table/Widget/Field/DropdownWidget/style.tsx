@@ -14,13 +14,13 @@ export const DropdownStyled = styled.div`
   & .bp3-button {
     padding: 0px 10px;
     min-height: 0px;
-    
   }
-  
-  & span.bp3-button-text{
-  font-size:12px;
-  font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", "Icons16", sans-serif;
 
+  & span.bp3-button-text {
+    font-size: 12px;
+    font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
+      'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', 'Icons16',
+      sans-serif;
   }
   & :focus {
     outline: rgba(255, 255, 255, 0.6) auto 2px;
@@ -31,5 +31,4 @@ export const DropdownStyled = styled.div`
     outline-offset: 2px;
     -moz-outline-radius: 6px;
   }
-
 `;

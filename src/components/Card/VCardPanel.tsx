@@ -117,11 +117,7 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
                 />
               </span>
             ) : null}
-            { headerCustomComponent ?
-              <div>
-                {headerCustomComponent}
-              </div> : null
-            }
+            {headerCustomComponent ? <div>{headerCustomComponent}</div> : null}
           </VCardHeader>
         ) : null}
         <VCardBody bodyPadding={bodyPadding} backgroundColor={backgroundColor}>

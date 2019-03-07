@@ -18,9 +18,10 @@ export interface IDropdownWidget {
   options: IOption[];
 }
 
-export interface IProps extends IDropdownWidget, ActionClickWidget,IPropsWidgets {
-
-}
+export interface IProps
+  extends IDropdownWidget,
+    ActionClickWidget,
+    IPropsWidgets {}
 
 class DropdownWidget extends Component<IProps, IDropdownWidget> {
   constructor(props: IProps) {
@@ -38,7 +39,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
   }
 
   render() {
-  const valueSelected =  this.findValueSelected(this.props);
+    const valueSelected = this.findValueSelected(this.props);
     if (valueSelected) {
       const options = this.state.options;
       return (
@@ -54,11 +55,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
             <Button
               style={{ width: '100%' }}
               rightIcon="caret-down"
-              text={
-                valueSelected
-                  ? valueSelected.value
-                  : '(No selection)'
-              }
+              text={valueSelected ? valueSelected.value : '(No selection)'}
             />
           </DropdownStyled>
         </DefaultSelect>

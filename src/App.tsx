@@ -7,6 +7,7 @@ import TabsPanelDemo from './demo/TabsPanelDemo';
 import VLoadProgressTaskDemo from './demo/VLoadProgressTaskDemo';
 import ColorPickerDemo from './demo/ColorPickerDemo';
 import NotificationToastDemo from './demo/NotificationToastDemo';
+import DNDDemo from './demo/DNDDemo';
 
 class App extends Component {
   render() {
@@ -99,6 +100,7 @@ class App extends Component {
 
         <VLoadProgressTaskDemo />
         <NotificationToastDemo />
+        <DNDDemo/>
       </React.Fragment>
     );
   }

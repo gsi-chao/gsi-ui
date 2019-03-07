@@ -13,9 +13,10 @@ export interface IDatetimeWidget {
   value: string;
 }
 
-export interface IProps extends IDatetimeWidget, ActionClickWidget, IPropsWidgets {
-
-}
+export interface IProps
+  extends IDatetimeWidget,
+    ActionClickWidget,
+    IPropsWidgets {}
 
 class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
   constructor(props: IProps) {
@@ -67,8 +68,9 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
   };
 
   isValidValueProps = () => {
-
-    return this.props.value && moment(this.props.value, 'MM/DD/YYYY', true).isValid();
+    return (
+      this.props.value && moment(this.props.value, 'MM/DD/YYYY', true).isValid()
+    );
   };
 
   momentFormatter = (format?: string): IDateFormatProps => {

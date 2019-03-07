@@ -48,3 +48,4 @@ export {
   VPosition,
   VRGBColor
 } from './ColorPicker';
+export {DragAndDropList} from './DragAndDropList'

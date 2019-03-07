@@ -44,6 +44,9 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
 
   changedDate = (date: any) => {
     this.props.fieldState.onChange(date);
+    if (this.props.onChange) {
+      this.props.onChange(date);
+    }
   };
 
   public render() {
