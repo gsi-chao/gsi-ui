@@ -62,7 +62,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
     this.props.onClick(
       this.props.row,
       this.props.column,
-      moment(date).format('M/D/YYYY')
+      moment(date).format('MM/DD/YYYY')
     );
   };
 
@@ -81,7 +81,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
       : {
           formatDate: date => date.toLocaleDateString(),
           parseDate: str => new Date(str),
-          placeholder: 'M/D/YYYY'
+          placeholder: 'MM/DD/YYYY'
         };
   };
 }

@@ -5,7 +5,7 @@ import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
 import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
 import DropdownWidget, { IOption } from './Field/DropdownWidget/DropdownWidget';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
-import { IconName, InputGroup, Intent } from '@blueprintjs/core';
+import { IconName   } from '@blueprintjs/core';
 import { CenterWidget } from './style';
 import InputWidget from './Field/InputWidget/InputWidget';
 
@@ -181,7 +181,7 @@ class Widget extends Component<IVWidget> {
   }
 
   private getDatetimeCell = () => {
-    if (this.props && moment(this.props.value, 'M/D/YYYY', true).isValid()) {
+    if (this.props && moment(this.props.value, 'MM/DD/YYYY', true).isValid()) {
       return (
         <DatetimeWidget
           column={this.props.column}
