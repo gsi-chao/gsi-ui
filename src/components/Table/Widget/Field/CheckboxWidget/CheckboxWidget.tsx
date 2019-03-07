@@ -9,9 +9,7 @@ export interface ICheckboxWidget {
   value?: boolean;
 }
 
-interface IProps extends ICheckboxWidget, ActionClickWidget,IPropsWidgets {
-
-}
+interface IProps extends ICheckboxWidget, ActionClickWidget, IPropsWidgets {}
 
 class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
   constructor(props: IProps) {
@@ -27,7 +25,12 @@ class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
     const { backgroundColor, label } = this.state;
     const value = this.props.value ? this.props.value : false;
     const checkboxBlue = (
-      <Checkbox disabled={this.props.disable} onChange={this.handleToggle} label={label} checked={value} />
+      <Checkbox
+        disabled={this.props.disable}
+        onChange={this.handleToggle}
+        label={label}
+        checked={value}
+      />
     );
     return (
       <CheckboxCell backgroundColor={backgroundColor}>

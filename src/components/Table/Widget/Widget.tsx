@@ -22,7 +22,7 @@ export interface IWidget {
   cusmtomerCell?: IVCustomerWidget;
   checkboxCell?: IVCheckboxCell;
   value?: any;
-  disable?:boolean
+  disable?: boolean;
 }
 
 export interface ActionClickWidget {
@@ -33,10 +33,10 @@ export interface ActionClickWidget {
   ): void;
 }
 
-export interface IPropsWidgets{
+export interface IPropsWidgets {
   row: number;
   column: number;
-  disable:boolean;
+  disable: boolean;
 }
 
 export interface IVWidget extends IWidget, ActionClickWidget {
@@ -106,23 +106,23 @@ class Widget extends Component<IVWidget> {
             </CenterWidget>
           );
         }
-        }
-      case 'EDIT' :{
-        return  <CenterWidget>
-          <InputWidget
-            onClick={this.props.onClick}
-            value={this.props.value}
-            row={this.props.row}
-            column={this.props.column}
-            disable={this.getDisable()}
-          />
+      }
+      case 'EDIT': {
+        return (
+          <CenterWidget>
+            <InputWidget
+              onClick={this.props.onClick}
+              value={this.props.value}
+              row={this.props.row}
+              column={this.props.column}
+              disable={this.getDisable()}
+            />
           </CenterWidget>
+        );
       }
     }
     return null;
   };
-
-
 
   private getColorCell = () => {
     if (
@@ -159,7 +159,6 @@ class Widget extends Component<IVWidget> {
       this.props.dropdownCell.options &&
       this.exitsValueSelected(this.props.dropdownCell.options)
     ) {
-
       return (
         <DropdownWidget
           filterable={this.props.dropdownCell.filterable}
@@ -176,7 +175,6 @@ class Widget extends Component<IVWidget> {
   };
 
   private exitsValueSelected(options: IOption[]): boolean {
-
     return options.find(x => x.value === this.props.value) !== undefined;
   }
 
@@ -212,9 +210,9 @@ class Widget extends Component<IVWidget> {
     return null;
   };
 
-  getDisable =() : boolean=>{
-    return this.props.disable !==undefined ? this.props.disable: true;
-  }
+  getDisable = (): boolean => {
+    return this.props.disable !== undefined ? this.props.disable : true;
+  };
 }
 
 export default Widget;
