@@ -44,5 +44,5 @@ export const clone = (obj: any): any => {
     });
     return copy;
   }
-  throw new Error("Unable to copy obj! Its type isn't supported.");
+  throw new Error("Unable to copy obj! Its type isn'toggleEdit supported.");
 };
