@@ -2,6 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import { IVWidgetTableProps } from '../components/Table/Widget/Widget';
 import { Icon } from '@blueprintjs/core';
 import { VTable } from '../components/Table';
+import { showToastNotification } from '../components/ToastNotification';
 
 export const dropDown: IVWidgetTableProps = {
   column: 'dropdown',
@@ -116,16 +117,38 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       return value.length > 5;
     };
 
+    const fechaValidation = (value: string) => {
+      return value.length < 5;
+    };
+
     return (
       <React.Fragment>
         <div>
           <VTable
             columnWidths={[200, 125, 150, 200, 100]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
-            // edit={{ columns: ['name'], validation: { name: nameValidation } }}
             edit={{
-              editColumn: 'ALL',
+              editColumn: {
+                columns: 'ALL',
+                validation: {
+                  name: nameValidation,
+                  dropdown: nameValidation,
+                  fecha: fechaValidation
+                }
+              },
+
               onSave: this.onSave,
+              invalidDataMessage: (invalidColumns: string[]) => {
+                showToastNotification({
+                  type: 'danger',
+                  message: `No se puede guardar porq las siguiente columnas tienen datos invalidos: ${invalidColumns.join(
+                    ' , '
+                  )}`,
+                  timeout:8000
+                });
+                console.log();
+              },
+
               editToolbar: {
                 textSave: 'Salvar',
                 textCancel: 'Cancelar',
@@ -191,7 +214,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 backgroundColor: '#238C2C'
               }
             ]}
-            typeHeightRow={'SHORT'}
+            typeHeightRow={'HALF'}
             toolbar={
               <div
                 style={{ width: '100%', height: 50, backgroundColor: 'teal' }}
@@ -244,52 +267,11 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     console.log(order);
   };
 
-  changeData = (colorFiltered?: string) => {
-    const data = [
-      {
-        name: 'Arturo',
-        dropdown: 'otro',
-        other: 'OtherInfo',
-        fecha: '10/11/2019',
-        checkbox: false,
-        color: 'red',
-        sinEditar: 'another better text',
-        customer: 'passenger'
-      },
-      {
-        name: 'Carlos',
-        dropdown: 'Lastname7',
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'red',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Manuel',
-        dropdown: 'Lastname7',
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: true,
-        color: 'color',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 'Lastname7',
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      }
-    ];
+
+  changeData =(colorFiltered?:string)=>{
     this.setState({
-      data: this.state.data.concat(data)
-    });
+      data:this.getData(colorFiltered)
+    })
   };
 
   getData = (colorFiltered?: string): IData[] => {

@@ -29,7 +29,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
 
   render() {
     if (this.isValidValueProps()) {
-      return <DatetimeCell>{this.getDatetime()}</DatetimeCell>;
+      return <DatetimeCell isValid={this.props.isValid!}>{this.getDatetime()}</DatetimeCell>;
     }
     return null;
   }
@@ -63,7 +63,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
     this.props.onClick(
       this.props.row,
       this.props.column,
-      moment(date).format('M/D/YYYY')
+      moment(date).format('MM/DD/YYYY')
     );
   };
 
@@ -83,7 +83,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
       : {
           formatDate: date => date.toLocaleDateString(),
           parseDate: str => new Date(str),
-          placeholder: 'M/D/YYYY'
+          placeholder: 'MM/DD/YYYY'
         };
   };
 }

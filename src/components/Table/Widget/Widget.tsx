@@ -5,7 +5,7 @@ import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
 import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
 import DropdownWidget, { IOption } from './Field/DropdownWidget/DropdownWidget';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
-import { IconName, InputGroup, Intent } from '@blueprintjs/core';
+import { IconName   } from '@blueprintjs/core';
 import { CenterWidget } from './style';
 import InputWidget from './Field/InputWidget/InputWidget';
 
@@ -22,7 +22,8 @@ export interface IWidget {
   cusmtomerCell?: IVCustomerWidget;
   checkboxCell?: IVCheckboxCell;
   value?: any;
-  disable?: boolean;
+  disable?:boolean;
+  isValid?:boolean;
 }
 
 export interface ActionClickWidget {
@@ -33,10 +34,11 @@ export interface ActionClickWidget {
   ): void;
 }
 
-export interface IPropsWidgets {
+export interface IPropsWidgets{
   row: number;
   column: number;
-  disable: boolean;
+  disable:boolean;
+  isValid?:boolean;
 }
 
 export interface IVWidget extends IWidget, ActionClickWidget {
@@ -106,23 +108,24 @@ class Widget extends Component<IVWidget> {
             </CenterWidget>
           );
         }
-      }
-      case 'EDIT': {
-        return (
-          <CenterWidget>
-            <InputWidget
-              onClick={this.props.onClick}
-              value={this.props.value}
-              row={this.props.row}
-              column={this.props.column}
-              disable={this.getDisable()}
-            />
+        }
+      case 'EDIT' :{
+        return  <CenterWidget>
+          <InputWidget
+            onClick={this.props.onClick}
+            value={this.props.value}
+            row={this.props.row}
+            column={this.props.column}
+            disable={this.getDisable()}
+            isValid={this.props.isValid}
+          />
           </CenterWidget>
-        );
       }
     }
     return null;
   };
+
+
 
   private getColorCell = () => {
     if (
@@ -159,6 +162,7 @@ class Widget extends Component<IVWidget> {
       this.props.dropdownCell.options &&
       this.exitsValueSelected(this.props.dropdownCell.options)
     ) {
+
       return (
         <DropdownWidget
           filterable={this.props.dropdownCell.filterable}
@@ -168,6 +172,7 @@ class Widget extends Component<IVWidget> {
           row={this.props.row}
           column={this.props.column}
           disable={this.getDisable()}
+          isValid={this.props.isValid}
         />
       );
     }
@@ -175,11 +180,12 @@ class Widget extends Component<IVWidget> {
   };
 
   private exitsValueSelected(options: IOption[]): boolean {
+
     return options.find(x => x.value === this.props.value) !== undefined;
   }
 
   private getDatetimeCell = () => {
-    if (this.props && moment(this.props.value, 'M/D/YYYY', true).isValid()) {
+    if (this.props && moment(this.props.value, 'MM/DD/YYYY', true).isValid()) {
       return (
         <DatetimeWidget
           column={this.props.column}
@@ -188,6 +194,8 @@ class Widget extends Component<IVWidget> {
           value={this.props.value}
           {...this.props.dateTimeCell}
           disable={this.getDisable()}
+          isValid={this.props.isValid}
+
         />
       );
     }
