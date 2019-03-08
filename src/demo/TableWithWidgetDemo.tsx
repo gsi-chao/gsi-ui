@@ -130,11 +130,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             edit={{
               editColumn: {
                 columns: 'ALL',
-                validation: {
-                  name: nameValidation,
-                  dropdown: nameValidation,
-                  fecha: fechaValidation
-                }
+
               },
 
               onSave: this.onSave,
@@ -157,7 +153,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 iconSave: 'share'
               }
             }}
-            cellSelectionType={'ENTIRE_ROW'}
+            cellSelectionType={'FREE'}
             widgetsCell={widgetsCell}
             columns={[
               'name',

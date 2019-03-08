@@ -101,7 +101,6 @@ export interface IVTableState {
   edit: boolean;
   dataBeforeEdit: any[];
   dateEdited: IDataEdited[];
-  invalidColumns: number[];
   invalidCells: { row: number; column: number }[];
 }
 
@@ -130,12 +129,12 @@ export class VTable extends Component<IProps, IVTableState> {
     edit: false,
     dataBeforeEdit: [],
     dateEdited: [],
-    invalidColumns: [],
     invalidCells: []
   };
 
   static getDerivedStateFromProps(props: IProps, state: IVTableState) {
-    if (props.data !== state.sparseCellData) {
+  const notAreSame =  JSON.stringify(props.data) !== JSON.stringify(state.sparseCellData);
+    if (  notAreSame) {
       return { ...state, ...{ sparseCellData: props.data } };
     }
 
@@ -168,13 +167,6 @@ export class VTable extends Component<IProps, IVTableState> {
     const columnWidths = this.state.columnsWidth;
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
-    let bodyContextMenuRenderer = {};
-    if (this.state.edit) {
-      bodyContextMenuRenderer = {
-        bodyContextMenuRenderer: this.renderBodyContextMenu
-      };
-    }
-
     return (
       <React.Fragment>
         {toolbar && toolbar}
@@ -188,6 +180,7 @@ export class VTable extends Component<IProps, IVTableState> {
             setupEditToolbar={this.props.edit && this.props.edit.editToolbar}
           />
         )}
+
 
         <Table
           ref={this.tableRef}
@@ -205,7 +198,7 @@ export class VTable extends Component<IProps, IVTableState> {
           defaultRowHeight={this.getDefaultRowHeight()}
           numFrozenColumns={this.props.numFrozenColumns}
           numFrozenRows={this.props.numFrozenRows}
-          {...bodyContextMenuRenderer}
+          bodyContextMenuRenderer={this.renderBodyContextMenu}
         >
           {columnsList}
         </Table>
@@ -226,8 +219,7 @@ export class VTable extends Component<IProps, IVTableState> {
       edit: false,
       sparseCellData: this.state.dataBeforeEdit,
       cachedData: [],
-      invalidCells: [],
-      invalidColumns: []
+      invalidCells: []
     });
   };
 
@@ -237,8 +229,7 @@ export class VTable extends Component<IProps, IVTableState> {
       this.setState({
         edit: false,
         dateEdited: [],
-        dataBeforeEdit: [],
-        invalidColumns: []
+        dataBeforeEdit: []
       });
     } else {
       let columnsInvalid = this.getInvalidColumns();
@@ -953,6 +944,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const data = this.state.sparseCellData;
     if (data.length > rowIndex && rowIndex >= 0) {
       data[rowIndex][this.state.columns[columnIndex]] = value;
+      data[rowIndex][this.state.columns[columnIndex]] = value;
       this.setState({
         sparseCellData: data
       });
@@ -979,6 +971,7 @@ export class VTable extends Component<IProps, IVTableState> {
     }
     return this.props.contextual && canCopy ? (
       <ActionCellsMenuItem
+        modeEdit={this.state.edit}
         context={context}
         getCellData={this.getCellData}
         context_options={this.props.contextual!}

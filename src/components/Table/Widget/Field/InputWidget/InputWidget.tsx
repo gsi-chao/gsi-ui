@@ -47,7 +47,6 @@ class InputWidget extends Component<IProps, IState> {
 
   };
   onChange = (e: any) => {
-    console.log(e.target.value);
     this.props.onClick(this.props.row, this.props.column, e.target.value);
   };
 }
