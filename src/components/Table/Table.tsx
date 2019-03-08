@@ -32,7 +32,6 @@ import {
   IDataEdited
 } from './type';
 
-
 export type IVTableOrder = 'ASC' | 'DESC';
 
 export interface IVActionsTableProps {
@@ -62,7 +61,6 @@ export interface ISetupEditToolbar {
   iconCancel?: IconName | MaybeElement;
   iconEdit?: IconName | MaybeElement;
 }
-
 
 export interface IVTableProps {
   edit?: EditSetup;
@@ -104,6 +102,7 @@ export interface IVTableState {
   dataBeforeEdit: any[];
   dateEdited: IDataEdited[];
   invalidColumns: number[];
+  invalidCells: { row: number; column: number }[];
 }
 
 export class VTable extends Component<IProps, IVTableState> {
@@ -131,7 +130,8 @@ export class VTable extends Component<IProps, IVTableState> {
     edit: false,
     dataBeforeEdit: [],
     dateEdited: [],
-    invalidColumns: []
+    invalidColumns: [],
+    invalidCells: []
   };
 
   static getDerivedStateFromProps(props: IProps, state: IVTableState) {
@@ -222,16 +222,17 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   cancelEdit = () => {
-
     this.setState({
       edit: false,
       sparseCellData: this.state.dataBeforeEdit,
-      cachedData: []
+      cachedData: [],
+      invalidCells: [],
+      invalidColumns: []
     });
   };
 
   saveEdit = () => {
-    if (this.state.invalidColumns.length === 0) {
+    if (this.state.invalidCells.length === 0) {
       this.props.edit!.onSave(this.state.dateEdited);
       this.setState({
         edit: false,
@@ -239,16 +240,39 @@ export class VTable extends Component<IProps, IVTableState> {
         dataBeforeEdit: [],
         invalidColumns: []
       });
-    }
+    } else {
+      let columnsInvalid = this.getInvalidColumns();
 
-    const invalidColumnName = this.state.invalidColumns.map(colunmIndex => {
-      return this.state.columns[colunmIndex];
-    });
-
-    if (this.props.edit && this.props.edit.invalidDataMessage) {
-      this.props.edit.invalidDataMessage(invalidColumnName);
+      if (this.props.edit && this.props.edit.invalidDataMessage) {
+        this.props.edit.invalidDataMessage(columnsInvalid);
+      }
     }
   };
+
+  private getInvalidColumns() {
+    let columnsInvalid: string[] = [];
+
+    this.state.invalidCells.forEach(invalidCell => {
+      let nameColumn = this.getInvalidColumnName(invalidCell);
+
+      if (columnsInvalid.filter(x => x === nameColumn).length === 0) {
+        columnsInvalid.push(nameColumn);
+      }
+    });
+    return columnsInvalid;
+  }
+
+  private getInvalidColumnName(invalidCell:{column:number}) {
+    let nameColumn = this.state.columns[invalidCell.column];
+    if (this.props.columns_name) {
+      Object.keys(this.props.columns_name).map(key => {
+        if (key === nameColumn) {
+          nameColumn = this.props.columns_name![key];
+        }
+      });
+    }
+    return nameColumn;
+  }
 
   getDefaultRowHeight = (): number => {
     if (this.props.typeHeightRow) {
@@ -272,8 +296,8 @@ export class VTable extends Component<IProps, IVTableState> {
     const enableRowHeader = enableRowResizing
       ? true
       : this.props.enableRowHeader
-        ? this.props.enableRowHeader
-        : false;
+      ? this.props.enableRowHeader
+      : false;
 
     const enableColumnResizing = this.props.enableColumnResizing
       ? this.props.enableRowResizing
@@ -312,7 +336,7 @@ export class VTable extends Component<IProps, IVTableState> {
 
     if (widgetCell) widgetCell.widget.value = value;
     const isValid = this.isValid(columnIndex, value);
-    this.updateInvalidColumns(isValid, columnIndex);
+    this.updateInvalidColumns(isValid, columnIndex, rowIndex);
 
     const component = widgetCell && (
       <Widget
@@ -368,11 +392,25 @@ export class VTable extends Component<IProps, IVTableState> {
     );
   };
 
-  private updateInvalidColumns(isValid: boolean, columnIndex: number) {
-    const invalidColumns = this.state.invalidColumns;
-    !isValid &&
-      invalidColumns.find(x => x === columnIndex) === undefined &&
-      invalidColumns.push(columnIndex);
+  private updateInvalidColumns(
+    isValid: boolean,
+    columnIndex: number,
+    rowIndex: number
+  ) {
+    const invalidCells = this.state.invalidCells;
+
+    const exitsInvalidCells = invalidCells.find(
+      x => x.row === rowIndex && x.column === columnIndex
+    );
+
+    if (!isValid && exitsInvalidCells === undefined) {
+      invalidCells.push({ column: columnIndex, row: rowIndex });
+    } else if (isValid && exitsInvalidCells) {
+      const index = invalidCells.indexOf(exitsInvalidCells, 0);
+      if (index > -1) {
+        invalidCells.splice(index, 1);
+      }
+    }
   }
 
   private isValid(columnIndex: number, value: string) {
@@ -432,13 +470,12 @@ export class VTable extends Component<IProps, IVTableState> {
   private isValidValue = (columnIndex: number, value: string) => {
     if (
       this.props.edit &&
-
       this.props.edit.editColumn.validation &&
       this.props.edit.editColumn.validation[this.state.columns[columnIndex]]
     ) {
       return this.props.edit.editColumn.validation[
         this.state.columns[columnIndex]
-        ](value);
+      ](value);
     }
     return true;
   };
@@ -952,7 +989,7 @@ export class VTable extends Component<IProps, IVTableState> {
         getPivotCell={this.getPivotCell}
       />
     ) : (
-      <div/>
+      <div />
     );
   };
 
