@@ -1,5 +1,11 @@
 import styled from 'styled-components';
 
+
+export interface IProps {
+
+  isValid: boolean;
+}
+
 export const DatetimeCell = styled.div`
   padding: 23px;
   border-bottom: none;
@@ -43,11 +49,11 @@ export const DatetimeCell = styled.div`
     box-shadow: 0 0 0 0 rgba(19, 124, 189, 0), 0 0 0 0 rgba(19, 124, 189, 0),
       inset 0 0 0 0 rgba(16, 22, 26, 0.15),
       inset 0 0 0 rgba(16, 22, 26, 0.2);
-    background: #ffffff;
+    background: rgba(255,255,255,0);
     padding: 0 10px;
     vertical-align: middle;
     line-height: 30px;
-    color: #182026;
+     ${(props:IProps)=>{ return props.isValid? 'color: Black' : 'color: #f73636;' }};
     font-size: 12px;
     font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
       'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', 'Icons16',

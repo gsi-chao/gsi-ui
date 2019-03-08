@@ -2,6 +2,7 @@ import React, { Component, ReactNode } from 'react';
 import { IVWidgetTableProps } from '../components/Table/Widget/Widget';
 import { Icon } from '@blueprintjs/core';
 import { VTable } from '../components/Table';
+import { showToastNotification } from '../components/ToastNotification';
 
 export const dropDown: IVWidgetTableProps = {
   column: 'dropdown',
@@ -80,12 +81,10 @@ export const widgetsCell: IVWidgetTableProps[] = [
   customerwidget
 ];
 
-interface IProps {
-
-}
+interface IProps {}
 
 interface IState {
-  changeColor:boolean;
+  changeColor: boolean;
   data: IData[];
 }
 
@@ -100,29 +99,26 @@ interface IData {
   customer: string;
 }
 
-class TableWithWidgetDemo extends Component<IProps,IState> {
-
-
-  constructor(props:any){
+class TableWithWidgetDemo extends Component<IProps, IState> {
+  constructor(props: any) {
     super(props);
-    this.state={
-
-        changeColor: false,
-        data: this.getData()
-
-    }
+    this.state = {
+      changeColor: false,
+      data: this.getData()
+    };
   }
 
-
-
   doSomethingAwesomeWithTheValue = (value: any) => {
-   // console.log(value);
+    // console.log(value);
   };
   render() {
-
     // validator example
     const nameValidation = (value: string) => {
       return value.length > 5;
+    };
+
+    const fechaValidation = (value: string) => {
+      return value.length < 5;
     };
 
     return (
@@ -131,16 +127,34 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
           <VTable
             columnWidths={[200, 125, 150, 200, 100]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
-            // edit={{ columns: ['name'], validation: { name: nameValidation } }}
             edit={{
-              editColumn:'ALL',
-              onSave:this.onSave,
-              editToolbar:{
-                textSave:'Salvar',
-                textCancel:'Cancelar',
-                iconCancel:'cross',
-                iconEdit:'take-action',
-                iconSave:'share'
+              editColumn: {
+                columns: 'ALL',
+                validation: {
+                  name: nameValidation,
+                  dropdown: nameValidation,
+                  fecha: fechaValidation
+                }
+              },
+
+              onSave: this.onSave,
+              invalidDataMessage: (invalidColumns: string[]) => {
+                showToastNotification({
+                  type: 'danger',
+                  message: `No se puede guardar porq las siguiente columnas tienen datos invalidos: ${invalidColumns.join(
+                    ' , '
+                  )}`,
+                  timeout:8000
+                });
+                console.log();
+              },
+
+              editToolbar: {
+                textSave: 'Salvar',
+                textCancel: 'Cancelar',
+                iconCancel: 'cross',
+                iconEdit: 'take-action',
+                iconSave: 'share'
               }
             }}
             cellSelectionType={'ENTIRE_ROW'}
@@ -159,7 +173,15 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
             contextual={{
-              columns: ['name', 'dropdown', 'other', 'fecha', 'checkbox','color', 'customer'],
+              columns: [
+                'name',
+                'dropdown',
+                'other',
+                'fecha',
+                'checkbox',
+                'color',
+                'customer'
+              ],
               default_actions: ['copy', 'paste', 'export'],
               actions: [
                 {
@@ -192,7 +214,7 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
                 backgroundColor: '#238C2C'
               }
             ]}
-            typeHeightRow={'SHORT'}
+            typeHeightRow={'HALF'}
             toolbar={
               <div
                 style={{ width: '100%', height: 50, backgroundColor: 'teal' }}
@@ -213,15 +235,20 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
         <br />
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
-        <button onClick={ ()=>{this.changeData('red')}}>cambiar datos</button>
-
+        <button
+          onClick={() => {
+            this.changeData('red');
+          }}
+        >
+          cambiar datos
+        </button>
       </React.Fragment>
     );
   }
 
-    onSave = (data:any) =>{
-        console.log("datos salvados..", data)
-      };
+  onSave = (data: any) => {
+    console.log('datos salvados..', data);
+  };
   handleChangeColor = () => {
     if (
       widgetsCell[1] &&
@@ -240,15 +267,13 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
     console.log(order);
   };
 
-
-  changeData =(colorFiltered?:string)=>{
+  changeData = (colorFiltered?: string) => {
     this.setState({
-      data:this.getData(colorFiltered)
-    })
+      data: this.getData(colorFiltered)
+    });
   };
 
-  getData =(colorFiltered?:string) :IData[] => {
-
+  getData = (colorFiltered?: string): IData[] => {
     const data = [
       {
         name: 'Arturo',
@@ -292,8 +317,8 @@ class TableWithWidgetDemo extends Component<IProps,IState> {
       }
     ];
 
-    return colorFiltered?  data.filter(x=>x.color === colorFiltered) : data
-  }
+    return colorFiltered ? data.filter(x => x.color === colorFiltered) : data;
+  };
 }
 
 export default TableWithWidgetDemo;

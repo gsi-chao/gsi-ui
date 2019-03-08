@@ -22,7 +22,8 @@ export interface IWidget {
   cusmtomerCell?: IVCustomerWidget;
   checkboxCell?: IVCheckboxCell;
   value?: any;
-  disable?:boolean
+  disable?:boolean;
+  isValid?:boolean;
 }
 
 export interface ActionClickWidget {
@@ -37,6 +38,7 @@ export interface IPropsWidgets{
   row: number;
   column: number;
   disable:boolean;
+  isValid?:boolean;
 }
 
 export interface IVWidget extends IWidget, ActionClickWidget {
@@ -115,6 +117,7 @@ class Widget extends Component<IVWidget> {
             row={this.props.row}
             column={this.props.column}
             disable={this.getDisable()}
+            isValid={this.props.isValid}
           />
           </CenterWidget>
       }
@@ -169,6 +172,7 @@ class Widget extends Component<IVWidget> {
           row={this.props.row}
           column={this.props.column}
           disable={this.getDisable()}
+          isValid={this.props.isValid}
         />
       );
     }
@@ -190,6 +194,8 @@ class Widget extends Component<IVWidget> {
           value={this.props.value}
           {...this.props.dateTimeCell}
           disable={this.getDisable()}
+          isValid={this.props.isValid}
+
         />
       );
     }

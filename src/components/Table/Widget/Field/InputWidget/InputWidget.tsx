@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ActionClickWidget, IPropsWidgets } from '../../Widget';
 
-interface IProps extends IState, ActionClickWidget , IPropsWidgets{
+interface IProps extends IState, ActionClickWidget, IPropsWidgets {
   onChange?: (value: string) => void;
 
 }
@@ -23,7 +23,7 @@ class InputWidget extends Component<IProps, IState> {
     return (
 
       <input
-        style={{ textAlign: 'center', ...this.getStyle(disable) }}
+        style={{ textAlign: 'center', ...this.getStyle(this.props.isValid!) }}
         disabled={disable}
         value={this.props.value}
         onChange={this.onChange}
@@ -33,17 +33,16 @@ class InputWidget extends Component<IProps, IState> {
     );
   }
 
-  getStyle = (disable: boolean) => {
+  getStyle = (isValid: boolean) => {
 
-    const style = {
+    return {
       width: '99%',
       border: 'none',
       fontSize: '12px',
       fontFamily: 'Segoe UI',
-      color: 'black'
-
+      color: isValid ? 'Black' : '#f73636 ',
+      backgroundColor: 'transparent'
     };
-    return disable ? { backgroundColor: 'white', ...style } : style;
 
 
   };
