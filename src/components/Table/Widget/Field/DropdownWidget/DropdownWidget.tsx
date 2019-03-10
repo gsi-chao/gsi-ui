@@ -6,14 +6,15 @@ import { DropdownStyled } from './style';
 import { ActionClickWidget, IPropsWidgets } from '../../Widget';
 
 export interface IOption {
-  value: string;
+  value: string | number;
+  label: string;
   index: number;
 }
 
 export const DefaultSelect = Select.ofType<IOption>();
 
 export interface IDropdownWidget {
-  valueSelected?: string;
+  valueSelected?: string | number;
   filterable?: boolean;
   options: IOption[];
 }
@@ -50,12 +51,13 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
           filterable={this.state.filterable}
           onItemSelect={this.handleValueChange}
           disabled={this.props.disable}
+          popoverProps={{minimal:true}}
         >
-          <DropdownStyled isValid={this.props.isValid!} >
+          <DropdownStyled isValid={this.props.isValid!}>
             <Button
               style={{ width: '100%' }}
               rightIcon="caret-down"
-              text={valueSelected ? valueSelected.value : '(No selection)'}
+              text={valueSelected ? valueSelected.label : '(No selection)'}
             />
           </DropdownStyled>
         </DefaultSelect>
@@ -67,7 +69,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
 
   filterOption: ItemPredicate<IOption> = (query, option) => {
     return (
-      `${option.index}. ${option.value.toLowerCase()} `.indexOf(
+      `${option.index}. ${option.label.toLowerCase()} `.indexOf(
         query.toLowerCase()
       ) >= 0
     );
@@ -80,7 +82,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
     if (!modifiers.matchesPredicate) {
       return null;
     }
-    const text = ` ${option.value}`;
+    const text = ` ${option.label}`;
 
     const Item = styled.p`
       cursor: pointer;

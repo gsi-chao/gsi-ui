@@ -5,9 +5,13 @@ import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
 import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
 import DropdownWidget, { IOption } from './Field/DropdownWidget/DropdownWidget';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
-import { IconName   } from '@blueprintjs/core';
+import { IconName } from '@blueprintjs/core';
 import { CenterWidget } from './style';
 import InputWidget from './Field/InputWidget/InputWidget';
+import {
+  printErrorWidget,
+  printErrorWidgetByType
+} from './handleErrorSetupWidgets';
 
 export interface IVWidgetTableProps {
   column: string;
@@ -22,23 +26,23 @@ export interface IWidget {
   cusmtomerCell?: IVCustomerWidget;
   checkboxCell?: IVCheckboxCell;
   value?: any;
-  disable?:boolean;
-  isValid?:boolean;
+  disable?: boolean;
+  isValid?: boolean;
 }
 
 export interface ActionClickWidget {
   onClick(
     rowIndex: number,
     columnIndex: number,
-    newValue: string | boolean
+    newValue: string | boolean | number
   ): void;
 }
 
-export interface IPropsWidgets{
+export interface IPropsWidgets {
   row: number;
   column: number;
-  disable:boolean;
-  isValid?:boolean;
+  disable: boolean;
+  isValid?: boolean;
 }
 
 export interface IVWidget extends IWidget, ActionClickWidget {
@@ -89,13 +93,16 @@ class Widget extends Component<IVWidget> {
         return this.getColorCell();
       }
       case 'DROPDOWN': {
-        return <CenterWidget>{this.getDropdownCell()}</CenterWidget>;
+        const dropdownWidget = this.getDropdownCell();
+        return this.renderWidget(dropdownWidget);
       }
       case 'DATETIME': {
-        return <CenterWidget> {this.getDatetimeCell()}</CenterWidget>;
+        const dateTimeWidget = this.getDatetimeCell();
+        return  this.renderWidget(dateTimeWidget);
       }
       case 'CHECKBOX': {
-        return <CenterWidget>{this.getCheckboxCell()}</CenterWidget>;
+        const checkboxWidget = this.getCheckboxCell();
+        return this.renderWidget(checkboxWidget);
       }
       case 'CUSTOMERCOMPONENT': {
         if (this.props.cusmtomerCell) {
@@ -108,24 +115,32 @@ class Widget extends Component<IVWidget> {
             </CenterWidget>
           );
         }
-        }
-      case 'EDIT' :{
-        return  <CenterWidget>
-          <InputWidget
-            onClick={this.props.onClick}
-            value={this.props.value}
-            row={this.props.row}
-            column={this.props.column}
-            disable={this.getDisable()}
-            isValid={this.props.isValid}
-          />
+      }
+      case 'EDIT': {
+        return (
+          <CenterWidget>
+            <InputWidget
+              onClick={this.props.onClick}
+              value={this.props.value}
+              row={this.props.row}
+              column={this.props.column}
+              disable={this.getDisable()}
+              isValid={this.props.isValid}
+            />
           </CenterWidget>
+        );
       }
     }
     return null;
   };
 
-
+  private renderWidget(widget: any) {
+    return (
+      <CenterWidget>
+        {widget ? widget : <p> {this.props.value}</p>}
+      </CenterWidget>
+    );
+  }
 
   private getColorCell = () => {
     if (
@@ -162,7 +177,6 @@ class Widget extends Component<IVWidget> {
       this.props.dropdownCell.options &&
       this.exitsValueSelected(this.props.dropdownCell.options)
     ) {
-
       return (
         <DropdownWidget
           filterable={this.props.dropdownCell.filterable}
@@ -176,11 +190,15 @@ class Widget extends Component<IVWidget> {
         />
       );
     }
+    this.printErrorByType('DROPDOWN');
+
     return null;
   };
 
-  private exitsValueSelected(options: IOption[]): boolean {
 
+
+
+  private exitsValueSelected(options: IOption[]): boolean {
     return options.find(x => x.value === this.props.value) !== undefined;
   }
 
@@ -195,10 +213,10 @@ class Widget extends Component<IVWidget> {
           {...this.props.dateTimeCell}
           disable={this.getDisable()}
           isValid={this.props.isValid}
-
         />
       );
     }
+    this.printErrorByType('DATETIME');
     return null;
   };
 
@@ -215,11 +233,27 @@ class Widget extends Component<IVWidget> {
         />
       );
     }
+    this.printErrorByType('CHECKBOX');
     return null;
   };
 
   getDisable = (): boolean => {
     return this.props.disable !== undefined ? this.props.disable : true;
+  };
+
+  printErrorByType = (type: TypeWidget) => {
+    printErrorWidget(
+      this.props.row,
+      this.props.column,
+      this.props.dropdownCell,
+      printErrorWidgetByType(
+        this.props.row,
+        this.props.column,
+        this.props.value,
+        type,
+        this.props.dropdownCell
+      )
+    );
   };
 }
 

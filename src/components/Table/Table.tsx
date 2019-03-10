@@ -471,7 +471,7 @@ export class VTable extends Component<IProps, IVTableState> {
     return true;
   };
 
-  makeResponsiveTable = () => {
+  makeResponsiveTable = (columnsRezised?:{indexColumn:number,width:number}) => {
     const rowNumber = this.props.enableRowHeader ? 30 : 0;
     const tableWidth = this.tableRef.current.rootTableElement.clientWidth;
     const { columns, columnWidths } = this.props;
