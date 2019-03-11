@@ -217,6 +217,8 @@ class InputsDemo extends Component {
               labelOrientation: 'end',
               inputOrientation: 'start'
             }}
+            iconOnly
+            icon={'search'}
             inline
             label="Places"
             options={sex}

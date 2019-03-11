@@ -32,7 +32,6 @@ import {
   IDataEdited
 } from './type';
 
-
 export type IVTableOrder = 'ASC' | 'DESC';
 
 export interface IVActionsTableProps {
@@ -62,7 +61,6 @@ export interface ISetupEditToolbar {
   iconCancel?: IconName | MaybeElement;
   iconEdit?: IconName | MaybeElement;
 }
-
 
 export interface IVTableProps {
   edit?: EditSetup;
@@ -222,7 +220,6 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   cancelEdit = () => {
-
     this.setState({
       edit: false,
       sparseCellData: this.state.dataBeforeEdit,
@@ -272,8 +269,8 @@ export class VTable extends Component<IProps, IVTableState> {
     const enableRowHeader = enableRowResizing
       ? true
       : this.props.enableRowHeader
-        ? this.props.enableRowHeader
-        : false;
+      ? this.props.enableRowHeader
+      : false;
 
     const enableColumnResizing = this.props.enableColumnResizing
       ? this.props.enableRowResizing
@@ -325,12 +322,13 @@ export class VTable extends Component<IProps, IVTableState> {
       />
     );
 
-    if (component)
+    if (component) {
       return (
         <CellDiv isValid={isValid} as={Cell}>
           {component}
         </CellDiv>
       );
+    }
 
     if (edit && edit.editColumn.columns === 'ALL') {
       return (
@@ -432,13 +430,12 @@ export class VTable extends Component<IProps, IVTableState> {
   private isValidValue = (columnIndex: number, value: string) => {
     if (
       this.props.edit &&
-
       this.props.edit.editColumn.validation &&
       this.props.edit.editColumn.validation[this.state.columns[columnIndex]]
     ) {
       return this.props.edit.editColumn.validation[
         this.state.columns[columnIndex]
-        ](value);
+      ](value);
     }
     return true;
   };
@@ -528,7 +525,6 @@ export class VTable extends Component<IProps, IVTableState> {
     ) {
       regions = this.getEntireRowsRegions(argsRegions);
       if (onSelectionChange) {
-        console.log(regions);
         if (
           regions &&
           regions.length > 0 &&
@@ -952,7 +948,7 @@ export class VTable extends Component<IProps, IVTableState> {
         getPivotCell={this.getPivotCell}
       />
     ) : (
-      <div/>
+      <div />
     );
   };
 

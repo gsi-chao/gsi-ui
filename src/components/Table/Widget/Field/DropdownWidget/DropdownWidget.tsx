@@ -51,7 +51,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
           onItemSelect={this.handleValueChange}
           disabled={this.props.disable}
         >
-          <DropdownStyled isValid={this.props.isValid!} >
+          <DropdownStyled isValid={this.props.isValid!}>
             <Button
               style={{ width: '100%' }}
               rightIcon="caret-down"

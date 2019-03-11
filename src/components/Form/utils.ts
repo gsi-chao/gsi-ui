@@ -4,7 +4,6 @@ export const patchFormValues = (form: FormState<any>, object: any) => {
   Object.keys(object).map((key: string) => {
     if (form.$[key]) {
       form.$[key].value = object[key];
-      console.log(form.$[key]);
     }
   });
 };
