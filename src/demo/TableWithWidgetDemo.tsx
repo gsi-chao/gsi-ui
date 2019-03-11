@@ -144,9 +144,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                   message: `No se puede guardar porq las siguiente columnas tienen datos invalidos: ${invalidColumns.join(
                     ' , '
                   )}`,
-                  timeout:8000
+                  timeout: 8000
                 });
-                console.log();
               },
 
               editToolbar: {
@@ -267,11 +266,10 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     console.log(order);
   };
 
-
-  changeData =(colorFiltered?:string)=>{
+  changeData = (colorFiltered?: string) => {
     this.setState({
-      data:this.getData(colorFiltered)
-    })
+      data: this.getData(colorFiltered)
+    });
   };
 
   getData = (colorFiltered?: string): IData[] => {

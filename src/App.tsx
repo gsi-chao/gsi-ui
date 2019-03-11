@@ -68,9 +68,8 @@ class App extends Component {
       <React.Fragment>
         <VTable
           edit={{
-            editColumn:{columns:'ALL'},
-            onSave:(value: any) => {
-            }
+            editColumn: { columns: 'ALL' },
+            onSave: (value: any) => {}
           }}
           columns={['name', 'lastname']}
           columns_name={{ name: 'mi nombre' }}
