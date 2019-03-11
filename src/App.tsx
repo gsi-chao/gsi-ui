@@ -12,51 +12,17 @@ import DNDDemo from './demo/DNDDemo';
 class App extends Component {
   render() {
     const data = [
-      { name: 'Carlos', lastname: 'Chao', age: 28 },
-      { name: 'Name1', lastname: 'Lastname1', age: 27 },
-      { name: 'Name2', lastname: 'Lastname2', age: 25 },
-      { name: 'Name3', lastname: 'Lastname3', age: 23 },
-      { name: 'Name4', lastname: 'Lastname4', age: 19 },
-      { name: 'Name5', lastname: 'Lastname5', age: 45 },
-      { name: 'Name6', lastname: 'Lastname6', age: 33 },
-      { name: 'Name7', lastname: 'Lastname7', age: 21 },
-      { name: 'Name7', lastname: 'Lastname7', age: 44 },
-      { name: 'Name7', lastname: 'Lastname7', age: 89 },
-      { name: 'Name7', lastname: 'Lastname7', age: 11 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 },
-      { name: 'Name7', lastname: 'Lastname7', age: 12 }
+      { name: 'Carlos',
+        lastname: 'Chao',
+        age: 28,
+        age1: 28,
+        age2: 28,
+        age3: 28,
+        age4: 28,
+        age5: 28,
+      }
+        ,
+
     ];
 
     // validator example
@@ -66,35 +32,38 @@ class App extends Component {
 
     return (
       <React.Fragment>
-        <VTable
-          edit={{
-            editColumn:{columns:'ALL'},
-            onSave:(value: any) => {
-            }
-          }}
-          columns={['name', 'lastname']}
-          columns_name={{ name: 'mi nombre' }}
-          reordering={true}
-          sortable={{ columns: ['name'], onSort: this.onSort }}
-          contextual={{
-            columns: ['name'],
-            default_actions: ['copy', 'paste', 'export'],
-            actions: [
-              {
-                icon: 'export',
-                action: (item: any) => console.log(item),
-                text: 'Action Input'
+        <div style={{width:'100%'}}>
+          <VTable
+            edit={{
+              editColumn:{columns:'ALL'},
+              onSave:(value: any) => {
               }
-            ]
-          }}
-          data={data}
-          enableColumnResizing={true}
-          enableRowHeader={true}
-          enableRowResizing={true}
-          columnWidths={[200]}
-          numFrozenRows={2}
-          numFrozenColumns={1}
-        />
+            }}
+            columns={['name', 'lastname','age','age1','age2','age3','age4','age5']}
+            columns_name={{ name: 'mi nombre' }}
+            reordering={true}
+            sortable={{ columns: ['name'], onSort: this.onSort }}
+            contextual={{
+              columns: ['name'],
+              default_actions: ['copy', 'paste', 'export'],
+              actions: [
+                {
+                  icon: 'export',
+                  action: (item: any) => console.log(item),
+                  text: 'Action Input'
+                }
+              ]
+            }}
+            data={data}
+            enableColumnResizing={true}
+            enableRowHeader={true}
+            enableRowResizing={true}
+            columnWidths={[200,200,250,250,250]}
+            numFrozenRows={2}
+            numFrozenColumns={1}
+          />
+        </div>
+
         <InputsDemo />
         <TabsPanelDemo />
         <TableWithWidgetDemo />

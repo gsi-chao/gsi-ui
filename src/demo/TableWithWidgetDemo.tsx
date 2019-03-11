@@ -86,6 +86,7 @@ interface IProps {}
 interface IState {
   changeColor: boolean;
   data: IData[];
+  columns: string [];
 }
 
 interface IData {
@@ -104,7 +105,17 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     super(props);
     this.state = {
       changeColor: false,
-      data: this.getData()
+      data: this.getData(),
+      columns: [
+        'name',
+        'dropdown',
+        'other',
+        'fecha',
+        'checkbox',
+        'color',
+        'sinEditar',
+        'customer'
+      ]
     };
   }
 
@@ -125,13 +136,12 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       <React.Fragment>
         <div>
           <VTable
-            columnWidths={[200, 125, 150, 200, 100]}
+            columnWidths={[200, 125, 150, 200]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             edit={{
               editColumn: {
                 columns: 'ALL'
               },
-
               onSave: this.onSave,
               invalidDataMessage: (invalidColumns: string[]) => {
                 showToastNotification({
@@ -154,16 +164,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             }}
             cellSelectionType={'FREE'}
             widgetsCell={widgetsCell}
-            columns={[
-              'name',
-              'dropdown',
-              'other',
-              'fecha',
-              'checkbox',
-              'color',
-              'sinEditar',
-              'customer'
-            ]}
+            columns={this.state.columns}
             columns_name={{ name: 'Namesito' }}
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
@@ -186,7 +187,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 }
               ]
             }}
-            data={this.state.data}
+            data={this.getData()}
             configColumnsHeader={[
               {
                 column: 'name',
@@ -231,6 +232,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         <br />
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
+        <button onClick={this.changeColumn}>cambiar columnas</button>
         <button
           onClick={() => {
             this.changeData('red');
@@ -291,6 +293,18 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
   changeData = (colorFiltered?: string) => {
     this.setState({
       data: this.getData(colorFiltered)
+    });
+  };
+
+  changeColumn = () => {
+    this.setState({
+      columns: [
+        'name',
+        'dropdown',
+        'other',
+        'fecha',
+        'checkbox'
+      ]
     });
   };
 
