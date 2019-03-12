@@ -580,9 +580,42 @@ export class VTable extends Component<IProps, IVTableState> {
       }
     } else if (!cellSelectionType || cellSelectionType === 'FREE') {
       regions = this.getFreeSelectionRegions(argsRegions);
+    } else if (!cellSelectionType || cellSelectionType === 'CELL') {
+      regions = this.getCellSelectionRegions(argsRegions);
     }
     this.setSelectedRegions(regions);
   };
+
+  private getCellSelectionRegions(argsRegions: IRegion[]) {
+    let regions: IRegion[] = this.getFreeSelectionRegions(argsRegions);
+    if (regions[0] && regions[0].cols && regions[0].rows) {
+      const row = regions[0].rows[1];
+      const column = regions[0].cols[1];
+      regions = [
+        {
+          cols: [column, column],
+          rows: [row, row]
+        }
+      ];
+      if (this.props.onSelectionChange) {
+        if (
+          regions &&
+          regions.length > 0 &&
+          regions[0].rows &&
+          regions[0].rows.length > 0
+        ) {
+          const data = this.state.sparseCellData;
+          const value = data[row][this.state.columns[column]];
+          this.props.onSelectionChange({
+            value,
+            row,
+           column
+          });
+        }
+      }
+    }
+    return regions;
+  }
 
   getElementData = (rowIndex: number): any => {
     const data = this.state.sparseCellData;
