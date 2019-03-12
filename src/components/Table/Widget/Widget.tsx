@@ -98,7 +98,7 @@ class Widget extends Component<IVWidget> {
       }
       case 'DATETIME': {
         const dateTimeWidget = this.getDatetimeCell();
-        return  this.renderWidget(dateTimeWidget);
+        return this.renderWidget(dateTimeWidget);
       }
       case 'CHECKBOX': {
         const checkboxWidget = this.getCheckboxCell();
@@ -194,9 +194,6 @@ class Widget extends Component<IVWidget> {
 
     return null;
   };
-
-
-
 
   private exitsValueSelected(options: IOption[]): boolean {
     return options.find(x => x.value === this.props.value) !== undefined;

@@ -86,8 +86,7 @@ export interface IVTableProps {
   editSetup?: EditSetup;
 }
 
-interface IProps extends IVTableProps, ITableProps {
-}
+interface IProps extends IVTableProps, ITableProps {}
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -117,7 +116,6 @@ export class VTable extends Component<IProps, IVTableState> {
     return `${rowIndex}-${columnIndex}`;
   };
 
-
   public state: IVTableState = {
     sparseCellData: utils.clone(this.props.data),
     sparseCellInvalid: {},
@@ -136,7 +134,8 @@ export class VTable extends Component<IProps, IVTableState> {
 
   static getDerivedStateFromProps(props: IProps, state: IVTableState) {
     console.log('entro...');
-    const notAreSame = JSON.stringify(props.data) !== JSON.stringify(state.sparseCellData);
+    const notAreSame =
+      JSON.stringify(props.data) !== JSON.stringify(state.sparseCellData);
     if (notAreSame) {
       console.log(' props.data', props.data);
       console.log(' props.stzatw', state.sparseCellData);
@@ -185,7 +184,6 @@ export class VTable extends Component<IProps, IVTableState> {
             setupEditToolbar={this.props.edit && this.props.edit.editToolbar}
           />
         )}
-
 
         <Table
           ref={this.tableRef}
@@ -237,7 +235,7 @@ export class VTable extends Component<IProps, IVTableState> {
         dataBeforeEdit: []
       });
     } else {
-      let columnsInvalid = this.getInvalidColumns();
+      const columnsInvalid = this.getInvalidColumns();
 
       if (this.props.edit && this.props.edit.invalidDataMessage) {
         this.props.edit.invalidDataMessage(columnsInvalid);
@@ -246,10 +244,10 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   private getInvalidColumns() {
-    let columnsInvalid: string[] = [];
+    const columnsInvalid: string[] = [];
 
     this.state.invalidCells.forEach(invalidCell => {
-      let nameColumn = this.getInvalidColumnName(invalidCell);
+      const nameColumn = this.getInvalidColumnName(invalidCell);
 
       if (columnsInvalid.filter(x => x === nameColumn).length === 0) {
         columnsInvalid.push(nameColumn);
@@ -315,7 +313,7 @@ export class VTable extends Component<IProps, IVTableState> {
     if (this.props.columnWidths) {
       console.warn(
         'Gsi-vx-ui => [Violation] The last configuration to catch the width ' +
-        'of the columns does not correspond to the column amount of the table'
+          'of the columns does not correspond to the column amount of the table'
       );
     }
     return [];
@@ -370,8 +368,8 @@ export class VTable extends Component<IProps, IVTableState> {
       );
     }
     return edit &&
-    edit.editColumn.columns !== 'ALL' &&
-    edit.editColumn.columns.indexOf(columns[columnIndex]) !== -1 ? (
+      edit.editColumn.columns !== 'ALL' &&
+      edit.editColumn.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <CellDiv isValid={isValid} as={Cell}>
         {' '}
         <Widget
@@ -423,11 +421,11 @@ export class VTable extends Component<IProps, IVTableState> {
     const widgetsValid: IVWidgetTableProps[] = [];
 
     this.state.widgetsCell &&
-    this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
-      if (columns.filter(x => x === widget.column).length === 1) {
-        widgetsValid.push(widget);
-      }
-    });
+      this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+        if (columns.filter(x => x === widget.column).length === 1) {
+          widgetsValid.push(widget);
+        }
+      });
 
     return widgetsValid;
   };
@@ -477,7 +475,10 @@ export class VTable extends Component<IProps, IVTableState> {
     return true;
   };
 
-  makeResponsiveTable = (columnsRezised?: { indexColumn: number, width: number }) => {
+  makeResponsiveTable = (columnsRezised?: {
+    indexColumn: number;
+    width: number;
+  }) => {
     const rowNumber = this.props.enableRowHeader ? 30 : 0;
     const tableWidth = this.tableRef.current.rootTableElement.clientWidth;
     const { columns, columnWidths } = this.props;
@@ -488,7 +489,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const sizePerColumn =
       columns.length > 0 && columns.length > fixedCellsTotal
         ? (tableWidth - reservedWidth - rowNumber) /
-        (columns.length - fixedCellsTotal)
+          (columns.length - fixedCellsTotal)
         : 100;
     const columnsWidth: number[] = [];
     if (columns && columns.length > 0) {

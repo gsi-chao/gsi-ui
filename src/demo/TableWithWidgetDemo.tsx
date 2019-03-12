@@ -86,7 +86,7 @@ interface IProps {}
 interface IState {
   changeColor: boolean;
   data: IData[];
-  columns: string [];
+  columns: string[];
 }
 
 interface IData {
@@ -244,26 +244,27 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         <br />
         <br />
         <br />
-        <div style={{height:'50px'}}>
-
+        <div style={{ height: '50px' }}>
           <Popover
             content={
-              <div style={{padding:'0px 40px'}}>
+              <div style={{ padding: '0px 40px' }}>
                 <p>sdfsf</p>
                 <p>sdfsf</p>
                 <p>sdfsf</p>
                 <p>sdfsf</p>
                 <p>sdfsf</p>
                 <p>sdfsf</p>
-
-
               </div>
             }
             usePortal={true}
-            target={ <div  id={'mio'}> <Button text="Open" /> </div>}
+            target={
+              <div id={'mio'}>
+                {' '}
+                <Button text="Open" />{' '}
+              </div>
+            }
           />
         </div>
-
       </React.Fragment>
     );
   }
@@ -297,13 +298,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
 
   changeColumn = () => {
     this.setState({
-      columns: [
-        'name',
-        'dropdown',
-        'other',
-        'fecha',
-        'checkbox'
-      ]
+      columns: ['name', 'dropdown', 'other', 'fecha', 'checkbox']
     });
   };
 

@@ -51,7 +51,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
           filterable={this.state.filterable}
           onItemSelect={this.handleValueChange}
           disabled={this.props.disable}
-          popoverProps={{minimal:true}}
+          popoverProps={{ minimal: true }}
         >
           <DropdownStyled isValid={this.props.isValid!}>
             <Button

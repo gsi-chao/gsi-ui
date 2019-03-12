@@ -34,7 +34,6 @@ class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
       />
     );
 
-
     return (
       <CheckboxCell backgroundColor={backgroundColor}>
         {checkboxBlue}
