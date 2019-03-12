@@ -49,3 +49,5 @@ export {
   VRGBColor
 } from './ColorPicker';
 export { DragAndDropList } from './DragAndDropList';
+export { VSpinner } from './Spinner';
+export { VSuspenseLoading } from './SuspenseLoading';

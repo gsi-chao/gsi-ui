@@ -487,10 +487,11 @@ export class VTable extends Component<IProps, IVTableState> {
       reservedWidth
     } = this.getReservedWidthAndFixedCells(columnWidths || []);
     let sizePerColumn = 100;
-    if(columns.length > 0 && columns.length > fixedCellsTotal){
-      const w = (tableWidth - reservedWidth - rowNumber) /
+    if (columns.length > 0 && columns.length > fixedCellsTotal) {
+      const w =
+        (tableWidth - reservedWidth - rowNumber) /
         (columns.length - fixedCellsTotal);
-      if(w > 100){
+      if (w > 100) {
         sizePerColumn = w;
       }
     }

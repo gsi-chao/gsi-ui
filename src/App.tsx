@@ -8,6 +8,7 @@ import VLoadProgressTaskDemo from './demo/VLoadProgressTaskDemo';
 import ColorPickerDemo from './demo/ColorPickerDemo';
 import NotificationToastDemo from './demo/NotificationToastDemo';
 import DNDDemo from './demo/DNDDemo';
+import SuspenseDemo from './demo/SuspenseDemo';
 
 class App extends Component {
   render() {
@@ -80,6 +81,7 @@ class App extends Component {
         <VLoadProgressTaskDemo />
         <NotificationToastDemo />
         <DNDDemo />
+        <SuspenseDemo />
       </React.Fragment>
     );
   }
