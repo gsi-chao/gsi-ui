@@ -1,6 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import { IVWidgetTableProps } from '../components/Table/Widget/Widget';
-import { Icon } from '@blueprintjs/core';
+import { Button, Icon, Popover } from '@blueprintjs/core';
 import { VTable } from '../components/Table';
 import { showToastNotification } from '../components/ToastNotification';
 
@@ -10,10 +10,10 @@ export const dropDown: IVWidgetTableProps = {
     type: 'DROPDOWN',
     dropdownCell: {
       options: [
-        { index: 1, value: 'otro' },
-        { index: 2, value: 'Lastname7' },
-        { index: 3, value: 'lucia alvares' },
-        { index: 4, value: 'jajajojo jujuju' }
+        { index: 1, value: 4, label: 'otro' },
+        { index: 2, value: 3, label: 'Lastname7' },
+        { index: 3, value: 2, label: 'lucia alvares' },
+        { index: 4, value: 1, label: 'jajajojo jujuju' }
       ],
       filterable: true
     }
@@ -86,11 +86,12 @@ interface IProps {}
 interface IState {
   changeColor: boolean;
   data: IData[];
+  columns: string [];
 }
 
 interface IData {
   name: string;
-  dropdown: string;
+  dropdown: string | number;
   other: string;
   fecha: string;
   checkbox: boolean;
@@ -104,7 +105,17 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     super(props);
     this.state = {
       changeColor: false,
-      data: this.getData()
+      data: this.getData(),
+      columns: [
+        'name',
+        'dropdown',
+        'other',
+        'fecha',
+        'checkbox',
+        'color',
+        'sinEditar',
+        'customer'
+      ]
     };
   }
 
@@ -125,18 +136,12 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       <React.Fragment>
         <div>
           <VTable
-            columnWidths={[200, 125, 150, 200, 100]}
+            columnWidths={[200, 125, 150, 200]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             edit={{
               editColumn: {
-                columns: 'ALL',
-                validation: {
-                  name: nameValidation,
-                  dropdown: nameValidation,
-                  fecha: fechaValidation
-                }
+                columns: 'ALL'
               },
-
               onSave: this.onSave,
               invalidDataMessage: (invalidColumns: string[]) => {
                 showToastNotification({
@@ -156,18 +161,9 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 iconSave: 'share'
               }
             }}
-            cellSelectionType={'ENTIRE_ROW'}
+            cellSelectionType={'FREE'}
             widgetsCell={widgetsCell}
-            columns={[
-              'name',
-              'dropdown',
-              'other',
-              'fecha',
-              'checkbox',
-              'color',
-              'sinEditar',
-              'customer'
-            ]}
+            columns={this.state.columns}
             columns_name={{ name: 'Namesito' }}
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
@@ -190,7 +186,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 }
               ]
             }}
-            data={this.state.data}
+            data={this.getData()}
             configColumnsHeader={[
               {
                 column: 'name',
@@ -213,7 +209,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 backgroundColor: '#238C2C'
               }
             ]}
-            typeHeightRow={'HALF'}
+            typeHeightRow={'SHORT'}
+            enableColumnResizing={true}
             toolbar={
               <div
                 style={{ width: '100%', height: 50, backgroundColor: 'teal' }}
@@ -234,6 +231,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         <br />
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
+        <button onClick={this.changeColumn}>cambiar columnas</button>
         <button
           onClick={() => {
             this.changeData('red');
@@ -241,6 +239,31 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         >
           cambiar datos
         </button>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div style={{height:'50px'}}>
+
+          <Popover
+            content={
+              <div style={{padding:'0px 40px'}}>
+                <p>sdfsf</p>
+                <p>sdfsf</p>
+                <p>sdfsf</p>
+                <p>sdfsf</p>
+                <p>sdfsf</p>
+                <p>sdfsf</p>
+
+
+              </div>
+            }
+            usePortal={true}
+            target={ <div  id={'mio'}> <Button text="Open" /> </div>}
+          />
+        </div>
+
       </React.Fragment>
     );
   }
@@ -272,11 +295,23 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     });
   };
 
+  changeColumn = () => {
+    this.setState({
+      columns: [
+        'name',
+        'dropdown',
+        'other',
+        'fecha',
+        'checkbox'
+      ]
+    });
+  };
+
   getData = (colorFiltered?: string): IData[] => {
     const data = [
       {
         name: 'Arturo',
-        dropdown: 'otro',
+        dropdown: 1,
         other: 'OtherInfo',
         fecha: '10/11/2019',
         checkbox: false,
@@ -286,7 +321,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       },
       {
         name: 'Carlos',
-        dropdown: 'Lastname7',
+        dropdown: 2,
         other: 'Lastname7',
         fecha: '12/05/2018',
         checkbox: false,
@@ -296,7 +331,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       },
       {
         name: 'Manuel',
-        dropdown: 'Lastname7',
+        dropdown: 2,
         other: 'Lastname7',
         fecha: '12/05/2018',
         checkbox: true,
@@ -306,7 +341,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       },
       {
         name: 'Pepe',
-        dropdown: 'Lastname7',
+        dropdown: 2,
         other: 'Lastname7',
         fecha: '12/05/2018',
         checkbox: false,

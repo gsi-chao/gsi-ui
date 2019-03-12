@@ -42,6 +42,7 @@ export interface IActionCellMenuItemProps {
   tableColsAndRowsTotals: any;
   getDataToCopy: any;
   getPivotCell: any;
+  modeEdit:boolean;
 }
 
 export class ActionCellsMenuItem extends React.PureComponent<
@@ -67,7 +68,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
       return default_actions.map((value: string, key: number) => {
         switch (value) {
           case 'copy':
-            return (
+            return this.props.modeEdit && (
               <MenuItem
                 key={key}
                 icon="style"
@@ -76,7 +77,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
               />
             );
           case 'paste':
-            return (
+            return this.props.modeEdit && (
               <MenuItem
                 disabled={!this.props.hasCachedData()}
                 key={key}

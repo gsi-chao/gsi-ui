@@ -51,6 +51,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
         {...jsDateFormatter}
         disabled={this.props.disable}
         onChange={this.handleDateChange}
+        popoverProps={{minimal:false, position:"bottom"}}
       />
     ) : (
       <DateInput
