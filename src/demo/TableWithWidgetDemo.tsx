@@ -120,7 +120,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
   }
 
   doSomethingAwesomeWithTheValue = (value: any) => {
-    // console.log(value);
+     console.log(value);
   };
   render() {
     // validator example
@@ -161,7 +161,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 iconSave: 'share'
               }
             }}
-            cellSelectionType={'FREE'}
+            cellSelectionType={'CELL'}
             widgetsCell={widgetsCell}
             columns={this.state.columns}
             columns_name={{ name: 'Namesito' }}
