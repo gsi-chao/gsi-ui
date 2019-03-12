@@ -19,7 +19,7 @@ import {
   IVContextualTableProps
 } from './ActionCellsMenuItem';
 
-import { CellCenterText, CellDiv } from './style';
+import { CellCenterText, CellDiv, TableContainer } from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
 import EditToolBar from './EditToolBar/EditToolBar';
@@ -105,11 +105,11 @@ export interface IVTableState {
 }
 
 export class VTable extends Component<IProps, IVTableState> {
-  tableRef: any;
+  private readonly tableRef: React.RefObject<HTMLInputElement>;
 
   constructor(props: IProps) {
     super(props);
-    this.tableRef = React.createRef();
+    this.tableRef = React.createRef<HTMLInputElement>();
   }
 
   public static dataKey = (rowIndex: number, columnIndex: number) => {
@@ -133,12 +133,9 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   static getDerivedStateFromProps(props: IProps, state: IVTableState) {
-    console.log('entro...');
     const notAreSame =
       JSON.stringify(props.data) !== JSON.stringify(state.sparseCellData);
     if (notAreSame) {
-      console.log(' props.data', props.data);
-      console.log(' props.stzatw', state.sparseCellData);
       return { ...state, ...{ sparseCellData: props.data } };
     }
 
@@ -172,7 +169,7 @@ export class VTable extends Component<IProps, IVTableState> {
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
     return (
-      <React.Fragment>
+      <TableContainer ref={this.tableRef}>
         {toolbar && toolbar}
 
         {this.props.edit && (
@@ -186,7 +183,6 @@ export class VTable extends Component<IProps, IVTableState> {
         )}
 
         <Table
-          ref={this.tableRef}
           className={this.props.className}
           numRows={this.state.sparseCellData.length}
           onColumnsReordered={this._handleColumnsReordered}
@@ -206,7 +202,7 @@ export class VTable extends Component<IProps, IVTableState> {
           {columnsList}
         </Table>
         {footer && footer}
-      </React.Fragment>
+      </TableContainer>
     );
   }
 
@@ -480,24 +476,32 @@ export class VTable extends Component<IProps, IVTableState> {
     width: number;
   }) => {
     const rowNumber = this.props.enableRowHeader ? 30 : 0;
-    const tableWidth = this.tableRef.current.rootTableElement.clientWidth;
+    let tableWidth = window.innerWidth;
+    if (this.tableRef.current) {
+      tableWidth = this.tableRef.current.clientWidth;
+    }
+
     const { columns, columnWidths } = this.props;
     const {
       fixedCellsTotal,
       reservedWidth
     } = this.getReservedWidthAndFixedCells(columnWidths || []);
-    const sizePerColumn =
-      columns.length > 0 && columns.length > fixedCellsTotal
-        ? (tableWidth - reservedWidth - rowNumber) /
-          (columns.length - fixedCellsTotal)
-        : 100;
+    let sizePerColumn = 100;
+    if(columns.length > 0 && columns.length > fixedCellsTotal){
+      const w = (tableWidth - reservedWidth - rowNumber) /
+        (columns.length - fixedCellsTotal);
+      if(w > 100){
+        sizePerColumn = w;
+      }
+    }
+
     const columnsWidth: number[] = [];
     if (columns && columns.length > 0) {
       columns.map((el, index) => {
         if (columnWidths && index <= columnWidths.length - 1) {
-          columnsWidth.push(columnWidths[index] || 100);
+          columnsWidth.push(columnWidths[index] || sizePerColumn);
         } else {
-          columnsWidth.push(sizePerColumn > 0 ? sizePerColumn : 100);
+          columnsWidth.push(sizePerColumn);
         }
       });
       this.setColumnsWidth(columnsWidth);

@@ -60,3 +60,8 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
       props ? props.textColor : 'gray'} !important;
   }
 `;
+
+export const TableContainer = styled.div`
+  width: 100%;
+  min-height: 100px;
+`;
