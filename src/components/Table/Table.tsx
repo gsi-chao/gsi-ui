@@ -292,8 +292,8 @@ export class VTable extends Component<IProps, IVTableState> {
     const enableRowHeader = enableRowResizing
       ? true
       : this.props.enableRowHeader
-        ? this.props.enableRowHeader
-        : false;
+      ? this.props.enableRowHeader
+      : false;
 
     const enableColumnResizing = this.props.enableColumnResizing
       ? this.props.enableRowResizing
@@ -345,12 +345,13 @@ export class VTable extends Component<IProps, IVTableState> {
       />
     );
 
-    if (component)
+    if (component) {
       return (
         <CellDiv isValid={isValid} as={Cell}>
           {component}
         </CellDiv>
       );
+    }
 
     if (edit && edit.editColumn.columns === 'ALL') {
       return (
@@ -471,7 +472,7 @@ export class VTable extends Component<IProps, IVTableState> {
     ) {
       return this.props.edit.editColumn.validation[
         this.state.columns[columnIndex]
-        ](value);
+      ](value);
     }
     return true;
   };
@@ -561,7 +562,6 @@ export class VTable extends Component<IProps, IVTableState> {
     ) {
       regions = this.getEntireRowsRegions(argsRegions);
       if (onSelectionChange) {
-        console.log(regions);
         if (
           regions &&
           regions.length > 0 &&
@@ -987,7 +987,7 @@ export class VTable extends Component<IProps, IVTableState> {
         getPivotCell={this.getPivotCell}
       />
     ) : (
-      <div/>
+      <div />
     );
   };
 

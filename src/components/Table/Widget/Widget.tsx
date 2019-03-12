@@ -195,9 +195,6 @@ class Widget extends Component<IVWidget> {
     return null;
   };
 
-
-
-
   private exitsValueSelected(options: IOption[]): boolean {
     return options.find(x => x.value === this.props.value) !== undefined;
   }
