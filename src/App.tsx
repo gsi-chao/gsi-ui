@@ -34,36 +34,34 @@ class App extends Component {
       <React.Fragment>
         <div style={{width:'100%'}}>
           <VTable
-            edit={{
-              editColumn:{columns:'ALL'},
-              onSave:(value: any) => {
-              }
+          edit={{
+            editColumn:{columns:'ALL'},
+            onSave:(value: any) => {}
             }}
-            columns={['name', 'lastname','age','age1','age2','age3','age4','age5']}
-            columns_name={{ name: 'mi nombre' }}
-            reordering={true}
-            sortable={{ columns: ['name'], onSort: this.onSort }}
-            contextual={{
-              columns: ['name'],
-              default_actions: ['copy', 'paste', 'export'],
-              actions: [
-                {
-                  icon: 'export',
-                  action: (item: any) => console.log(item),
-                  text: 'Action Input'
-                }
-              ]
-            }}
-            data={data}
-            enableColumnResizing={true}
-            enableRowHeader={true}
-            enableRowResizing={true}
-            columnWidths={[200,200,250,250,250]}
-            numFrozenRows={2}
-            numFrozenColumns={1}
-          />
-        </div>
 
+          columns={['name', 'lastname','age','age1','age2','age3','age4','age5']}
+          columns_name={{ name: 'mi nombre' }}
+          reordering={true}
+          sortable={{ columns: ['name'], onSort: this.onSort }}
+          contextual={{
+            columns: ['name'],
+            default_actions: ['copy', 'paste', 'export'],
+            actions: [
+              {
+                icon: 'export',
+                action: (item: any) => console.log(item),
+                text: 'Action Input'
+              }
+            ]
+          }}
+          data={data}
+          enableColumnResizing={true}
+          enableRowHeader={true}
+          enableRowResizing={true}
+          columnWidths={[200,200,250,250,250]}
+          numFrozenRows={2}
+          numFrozenColumns={1}
+        /></div>
         <InputsDemo />
         <TabsPanelDemo />
         <TableWithWidgetDemo />

@@ -2,18 +2,16 @@ import styled from 'styled-components';
 import { Cell, ColumnHeaderCell } from '@blueprintjs/table';
 import { IConfignHeader } from './TableColumn';
 
-
 export interface IProps {
-
-  isValid:boolean;
+  isValid: boolean;
 }
 
 export const CellDiv = styled(Cell)`
-
   padding: 0 !important;
 
-${(props:IProps)=>{ return props.isValid? '' : 'background-color: #F5CDC9;' }}
-
+  ${(props: IProps) => {
+    return props.isValid ? '' : 'background-color: #F5CDC9;';
+  }}
 
   & .bp3-table-cell.bp3-table-truncated-cell {
     width: 100%;

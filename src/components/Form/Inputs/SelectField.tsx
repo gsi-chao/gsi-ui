@@ -29,6 +29,7 @@ export interface ISelectFieldProps extends IFieldProps {
   fill?: boolean;
   defaultText?: string;
   fixedInputWidthPx?: number;
+  iconOnly?: boolean;
 }
 
 /**
@@ -106,7 +107,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       noLabel,
       required,
       validators,
-      fixedInputWidthPx
+      fixedInputWidthPx,
+      iconOnly
     } = this.props;
 
     const defaultText = this.props.defaultText || 'No selection';
@@ -159,14 +161,25 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             onItemSelect={this.onItemSelected}
             filterable={filterable}
           >
-            <Button
-              {...{
-                icon,
-                disabled
-              }}
-              rightIcon={rightIcon || 'chevron-down'}
-              text={this.state.item ? this.state.item.label : defaultText}
-            />
+            {iconOnly ? (
+              <Button
+                style={{ justifyContent: 'center' }}
+                {...{
+                  icon,
+                  disabled
+                }}
+                text={iconOnly && undefined}
+              />
+            ) : (
+              <Button
+                {...{
+                  icon,
+                  disabled
+                }}
+                rightIcon={rightIcon || 'chevron-down'}
+                text={this.state.item ? this.state.item.label : defaultText}
+              />
+            )}
           </ItemSelect>
         </FormFieldContainer>
       </StyledPopOverWrapper>

@@ -151,7 +151,6 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                   )}`,
                   timeout: 8000
                 });
-                console.log();
               },
 
               editToolbar: {

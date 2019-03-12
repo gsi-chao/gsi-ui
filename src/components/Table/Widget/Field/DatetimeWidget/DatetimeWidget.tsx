@@ -29,7 +29,11 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
 
   render() {
     if (this.isValidValueProps()) {
-      return <DatetimeCell isValid={this.props.isValid!}>{this.getDatetime()}</DatetimeCell>;
+      return (
+        <DatetimeCell isValid={this.props.isValid!}>
+          {this.getDatetime()}
+        </DatetimeCell>
+      );
     }
     return null;
   }
