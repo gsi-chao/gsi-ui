@@ -15,3 +15,11 @@ export interface IDataEdited {
   rowIndex: number;
   data: any;
 }
+
+export interface IActionSelection {
+  onSelectionChange?: any;
+  clearSelection?: boolean;
+  onSelectionCleaned?: (isSelectionCleaned:boolean)=> any
+
+
+}
