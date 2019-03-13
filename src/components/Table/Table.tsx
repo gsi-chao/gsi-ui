@@ -29,6 +29,7 @@ import {
   DefaultheightRow,
   EditColumns,
   EditSetup,
+  IActionSelection,
   IDataEdited
 } from './type';
 
@@ -83,6 +84,7 @@ export interface IVTableProps {
   footer?: React.ReactNode;
   cellSelectionType?: CellSelectionType;
   onSelectionChange?: any;
+  actionsSelection?: IActionSelection;
   editSetup?: EditSetup;
 }
 
@@ -168,6 +170,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const columnWidths = this.state.columnsWidth;
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
+
     return (
       <TableContainer ref={this.tableRef}>
         {toolbar && toolbar}
@@ -188,7 +191,7 @@ export class VTable extends Component<IProps, IVTableState> {
           onColumnsReordered={this._handleColumnsReordered}
           enableColumnReordering={this.props.reordering}
           onSelection={this.checkAndSetSelection}
-          selectedRegions={this.state.selectedRegions}
+          selectedRegions={ this.getSelectedRegion()}
           defaultColumnWidth={this.props.defaultColumnWidth}
           enableColumnResizing={enableColumnResizing}
           enableRowResizing={resizingProperties.enableRowResizing}
@@ -263,6 +266,17 @@ export class VTable extends Component<IProps, IVTableState> {
     }
     return nameColumn;
   }
+
+  getSelectedRegion =()=>{
+    if (
+      this.props.actionsSelection &&
+      this.props.actionsSelection.clearSelection
+    ) {
+         return [];
+    }
+
+    return this.state.selectedRegions
+  };
 
   getDefaultRowHeight = (): number => {
     if (this.props.typeHeightRow) {
@@ -559,7 +573,22 @@ export class VTable extends Component<IProps, IVTableState> {
    ** regions remains
    **/
   checkAndSetSelection = (argsRegions: IRegion[]) => {
-    const { cellSelectionType, onSelectionChange } = this.props;
+
+    if (
+      this.props.actionsSelection &&
+      this.props.actionsSelection.clearSelection
+    ) {
+      console.log('this.props.actionsSelection.clearSelection',this.props.actionsSelection.clearSelection);
+      this.cleanSelection();
+     return;
+    }
+
+    if (argsRegions && argsRegions.length === 0) {
+      this.cleanSelection();
+      return;
+    }
+
+    const { cellSelectionType } = this.props;
     let regions: IRegion[] = [];
     if (
       cellSelectionType === 'ENTIRE_ROW' &&
@@ -567,7 +596,10 @@ export class VTable extends Component<IProps, IVTableState> {
       argsRegions.length > 0
     ) {
       regions = this.getEntireRowsRegions(argsRegions);
-      if (onSelectionChange) {
+      if (
+        this.props.actionsSelection &&
+        this.props.actionsSelection.onSelectionChange
+      ) {
         if (
           regions &&
           regions.length > 0 &&
@@ -575,7 +607,7 @@ export class VTable extends Component<IProps, IVTableState> {
           regions[0].rows.length > 0
         ) {
           const data = this.getElementData(regions[0].rows[0]);
-          onSelectionChange(data);
+          this.props.actionsSelection.onSelectionChange(data);
         }
       }
     } else if (!cellSelectionType || cellSelectionType === 'FREE') {
@@ -583,8 +615,20 @@ export class VTable extends Component<IProps, IVTableState> {
     } else if (!cellSelectionType || cellSelectionType === 'CELL') {
       regions = this.getCellSelectionRegions(argsRegions);
     }
+
+    console.log('region', argsRegions);
     this.setSelectedRegions(regions);
   };
+
+  private cleanSelection() {
+    this.setSelectedRegions([]);
+    if (
+      this.props.actionsSelection &&
+      this.props.actionsSelection.onSelectionCleaned
+    ) {
+      this.props.actionsSelection.onSelectionCleaned(true);
+    }
+  }
 
   private getCellSelectionRegions(argsRegions: IRegion[]) {
     let regions: IRegion[] = this.getFreeSelectionRegions(argsRegions);
@@ -597,7 +641,10 @@ export class VTable extends Component<IProps, IVTableState> {
           rows: [row, row]
         }
       ];
-      if (this.props.onSelectionChange) {
+      if (
+        this.props.actionsSelection &&
+        this.props.actionsSelection.onSelectionChange
+      ) {
         if (
           regions &&
           regions.length > 0 &&
@@ -606,10 +653,10 @@ export class VTable extends Component<IProps, IVTableState> {
         ) {
           const data = this.state.sparseCellData;
           const value = data[row][this.state.columns[column]];
-          this.props.onSelectionChange({
+          this.props.actionsSelection.onSelectionChange({
             value,
             row,
-           column
+            column
           });
         }
       }

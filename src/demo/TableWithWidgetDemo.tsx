@@ -87,6 +87,7 @@ interface IState {
   changeColor: boolean;
   data: IData[];
   columns: string[];
+  clearSelection: boolean | undefined;
 }
 
 interface IData {
@@ -115,12 +116,13 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         'color',
         'sinEditar',
         'customer'
-      ]
+      ],
+      clearSelection:undefined
     };
   }
 
   doSomethingAwesomeWithTheValue = (value: any) => {
-     console.log(value);
+    console.log(value);
   };
   render() {
     // validator example
@@ -131,13 +133,18 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     const fechaValidation = (value: string) => {
       return value.length < 5;
     };
-
+    console.log('this.state.clearSelection',this.state.clearSelection);
     return (
       <React.Fragment>
         <div>
           <VTable
             columnWidths={[200, 125, 150, 200]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
+            actionsSelection={{
+              onSelectionChange: this.doSomethingAwesomeWithTheValue,
+              onSelectionCleaned:(value:any)=>{console.log('onSelectionCleaned',value)},
+              clearSelection:this.state.clearSelection
+            }}
             edit={{
               editColumn: {
                 columns: 'ALL'
@@ -239,6 +246,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         >
           cambiar datos
         </button>
+        <button onClick={()=>{ this.handleDeleteSelection(true)} }> Borrar seleccion</button>
+        <button onClick={()=>{ this.handleDeleteSelection(false)} } > habilitar seleccion</button>
         <br />
         <br />
         <br />
@@ -300,6 +309,13 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     this.setState({
       columns: ['name', 'dropdown', 'other', 'fecha', 'checkbox']
     });
+  };
+
+
+  handleDeleteSelection =(clearSelection:boolean)=>{
+    this.setState({
+      clearSelection
+    })
   };
 
   getData = (colorFiltered?: string): IData[] => {
