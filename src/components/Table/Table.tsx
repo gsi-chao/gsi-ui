@@ -578,7 +578,6 @@ export class VTable extends Component<IProps, IVTableState> {
       this.props.actionsSelection &&
       this.props.actionsSelection.clearSelection
     ) {
-      console.log('this.props.actionsSelection.clearSelection',this.props.actionsSelection.clearSelection);
       this.cleanSelection();
      return;
     }
@@ -616,7 +615,6 @@ export class VTable extends Component<IProps, IVTableState> {
       regions = this.getCellSelectionRegions(argsRegions);
     }
 
-    console.log('region', argsRegions);
     this.setSelectedRegions(regions);
   };
 
