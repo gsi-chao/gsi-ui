@@ -170,7 +170,6 @@ export class VTable extends Component<IProps, IVTableState> {
     const columnWidths = this.state.columnsWidth;
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
-
     return (
       <TableContainer ref={this.tableRef}>
         {toolbar && toolbar}
@@ -191,7 +190,7 @@ export class VTable extends Component<IProps, IVTableState> {
           onColumnsReordered={this._handleColumnsReordered}
           enableColumnReordering={this.props.reordering}
           onSelection={this.checkAndSetSelection}
-          selectedRegions={ this.getSelectedRegion()}
+          selectedRegions={this.getSelectedRegion()}
           defaultColumnWidth={this.props.defaultColumnWidth}
           enableColumnResizing={enableColumnResizing}
           enableRowResizing={resizingProperties.enableRowResizing}
@@ -267,15 +266,15 @@ export class VTable extends Component<IProps, IVTableState> {
     return nameColumn;
   }
 
-  getSelectedRegion =()=>{
+  getSelectedRegion = () => {
     if (
       this.props.actionsSelection &&
       this.props.actionsSelection.clearSelection
     ) {
-         return [];
+      return [];
     }
 
-    return this.state.selectedRegions
+    return this.state.selectedRegions;
   };
 
   getDefaultRowHeight = (): number => {
@@ -500,12 +499,12 @@ export class VTable extends Component<IProps, IVTableState> {
       fixedCellsTotal,
       reservedWidth
     } = this.getReservedWidthAndFixedCells(columnWidths || []);
-    let sizePerColumn = 100;
+    let sizePerColumn = 80;
     if (columns.length > 0 && columns.length > fixedCellsTotal) {
       const w =
         (tableWidth - reservedWidth - rowNumber) /
         (columns.length - fixedCellsTotal);
-      if (w > 100) {
+      if (w >= 80) {
         sizePerColumn = w;
       }
     }
@@ -573,13 +572,12 @@ export class VTable extends Component<IProps, IVTableState> {
    ** regions remains
    **/
   checkAndSetSelection = (argsRegions: IRegion[]) => {
-
     if (
       this.props.actionsSelection &&
       this.props.actionsSelection.clearSelection
     ) {
       this.cleanSelection();
-     return;
+      return;
     }
 
     if (argsRegions && argsRegions.length === 0) {

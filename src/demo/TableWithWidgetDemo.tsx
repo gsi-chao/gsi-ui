@@ -1,6 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import { IVWidgetTableProps } from '../components/Table/Widget/Widget';
-import {  Icon } from '@blueprintjs/core';
+import { Icon } from '@blueprintjs/core';
 import { VTable } from '../components/Table';
 import { showToastNotification } from '../components/ToastNotification';
 import { CellSelectionType } from '../components/Table/type';
@@ -60,7 +60,7 @@ export const customerwidget: IVWidgetTableProps = {
       renderCustomer: (value: string): ReactNode => {
         return (
           <div>
-            <Icon icon={'phone'} iconSize={15} intent={'success'}/> {value}
+            <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
           </div>
         );
       }
@@ -70,7 +70,7 @@ export const customerwidget: IVWidgetTableProps = {
 export const renderCustomer = (value: string): ReactNode => {
   return (
     <div>
-      <Icon icon={'phone'} iconSize={15} intent={'success'}/> {value}
+      <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
     </div>
   );
 };
@@ -82,8 +82,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
   customerwidget
 ];
 
-interface IProps {
-}
+interface IProps {}
 
 interface IState {
   changeColor: boolean;
@@ -242,7 +241,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
           />
         </div>
 
-        <br/>
+        <br />
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
         <button onClick={this.changeColumn}>cambiar columnas</button>
@@ -252,7 +251,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
           }}
         >
           cambiar datos
-        </button >
+        </button>
         <br />
         <span> tipo de seleccion </span>
         <select onChange={this.handleChangeType}>
@@ -260,26 +259,33 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
           <option value={'FREE'}>FREE</option>
           <option value={'ENTIRE_ROW'}>ENTIRE_ROW</option>
         </select>
-        <button onClick={() => {
-          this.handleDeleteSelection(true);
-        }}> Borrar seleccion
+        <button
+          onClick={() => {
+            this.handleDeleteSelection(true);
+          }}
+        >
+          {' '}
+          Borrar seleccion
         </button>
-        <button onClick={() => {
-          this.handleDeleteSelection(false);
-        }}> habilitar seleccion
+        <button
+          onClick={() => {
+            this.handleDeleteSelection(false);
+          }}
+        >
+          {' '}
+          habilitar seleccion
         </button>
-        <br/>
-        <br/>
+        <br />
+        <br />
       </React.Fragment>
     );
   }
 
-  handleChangeType= (e:any)=> {
+  handleChangeType = (e: any) => {
     console.log(e.target.value);
     this.setState({
-      typeSelection:e.target.value
+      typeSelection: e.target.value
     });
-
   };
 
   onSave = (data: any) => {
@@ -314,7 +320,6 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       columns: ['name', 'dropdown', 'other', 'fecha', 'checkbox']
     });
   };
-
 
   handleDeleteSelection = (clearSelection: boolean) => {
     this.setState({

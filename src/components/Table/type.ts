@@ -19,7 +19,5 @@ export interface IDataEdited {
 export interface IActionSelection {
   onSelectionChange?: any;
   clearSelection?: boolean;
-  onSelectionCleaned?: (isSelectionCleaned:boolean)=> any
-
-
+  onSelectionCleaned?: (isSelectionCleaned: boolean) => any;
 }
