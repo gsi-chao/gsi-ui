@@ -182,22 +182,35 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
             contextual={{
-              columns: [
-                'name',
-                'dropdown',
-                'other',
-                'fecha',
-                'checkbox',
-                'color',
-                'customer'
-              ],
-              default_actions: ['copy', 'paste', 'export'],
-              actions: [
+              columnsContextual:[
+
                 {
-                  icon: 'export',
-                  action: (item: any) => console.log(item),
-                  text: 'Action Input'
+                  columns: [
+                    'name'
+                  ],
+                  default_actions: ['copy', 'paste'],
+                  actions: [
+                    {
+                      icon: 'export',
+                      action: (item: any) => console.log(item),
+                      text: 'Action Input'
+                    }
+                  ]
+                },
+                {
+                  columns: [
+                    'color'
+                  ],
+                  default_actions: ['copy', 'paste'],
+                  actions: [
+                    {
+                      icon: 'export',
+                      action: (item: any) => console.log(item),
+                      text: 'Pio,Pio'
+                    }
+                  ]
                 }
+
               ]
             }}
             data={this.getData()}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { IconName, Menu, MenuItem } from '@blueprintjs/core';
-import { Clipboard, IMenuContext, Regions } from '@blueprintjs/table';
+import {  IMenuContext } from '@blueprintjs/table';
 
 export type DefaultActions = 'copy' | 'paste' | 'export';
 
@@ -16,10 +16,15 @@ export interface ICell {
   row: number;
 }
 
-export interface IVContextualTableProps {
-  columns: string[];
+export interface IVColumnsContextual {
+  columns: string[] | 'ALL';
   actions?: IVContextualActionTableProps[];
   default_actions: DefaultActions[];
+}
+
+export interface IVContextualTableProps {
+   columnsContextual?:IVColumnsContextual[];
+
 }
 
 export interface IActionCellMenuItemProps {
@@ -34,9 +39,7 @@ export interface IActionCellMenuItemProps {
    * invisibly added as `textContent` into the DOM before copying.
    */
   getCellData: (row: number, col: number) => any;
-
-  context_options: IVContextualTableProps;
-
+  contextOptions:IVColumnsContextual
   onDefaultActions: (action: DefaultActions, value: any) => void;
   hasCachedData: any;
   tableColsAndRowsTotals: any;
@@ -49,6 +52,7 @@ export class ActionCellsMenuItem extends React.PureComponent<
   IActionCellMenuItemProps
 > {
   render() {
+
     const default_items = this.renderDefaultMenuItems();
     const actions = this.renderActionsMenuItems();
     return (
@@ -61,10 +65,10 @@ export class ActionCellsMenuItem extends React.PureComponent<
 
   renderDefaultMenuItems = () => {
     if (
-      this.props.context_options &&
-      this.props.context_options.default_actions
+      this.props.contextOptions &&
+      this.props.contextOptions.default_actions
     ) {
-      const default_actions = this.props.context_options.default_actions;
+      const default_actions = this.props.contextOptions!.default_actions;
       return default_actions.map((value: string, key: number) => {
         switch (value) {
           case 'copy':
@@ -98,8 +102,9 @@ export class ActionCellsMenuItem extends React.PureComponent<
   };
 
   renderActionsMenuItems = () => {
-    if (this.props.context_options && this.props.context_options.actions) {
-      const actions = this.props.context_options.actions;
+    if (this.props.contextOptions && this.props.contextOptions.actions) {
+      // const actions = this.props.context_options.actions;
+      const actions = this.props.contextOptions!.actions!;
       return actions.map((value: IVContextualActionTableProps, key: number) => {
         return (
           <MenuItem

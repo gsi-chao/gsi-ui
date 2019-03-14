@@ -33,6 +33,7 @@ interface StyledCardProps {
   className?: string;
   defaultActive?: boolean;
   headerCustomComponent?: any;
+  heigthHeaderPx?:number
 }
 
 interface PanelState {
@@ -96,6 +97,8 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
             headerBackgroundColor={headerBackgroundColor}
             headerOrientation={headerOrientation}
             headerJustifyContent={headerHorizontalAlign}
+            heigthHeaderPx = {this.props.heigthHeaderPx}
+
           >
             <VCardTextSpanContainer>
               <VCardTextSpan
