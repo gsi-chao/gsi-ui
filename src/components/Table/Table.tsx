@@ -16,6 +16,7 @@ import {
   ActionCellsMenuItem,
   DefaultActions,
   ICell,
+  IVColumnsContextual,
   IVContextualTableProps
 } from './ActionCellsMenuItem';
 
@@ -89,7 +90,8 @@ export interface IVTableProps {
   tableHeight?: string;
 }
 
-interface IProps extends IVTableProps, ITableProps {}
+interface IProps extends IVTableProps, ITableProps {
+}
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -300,8 +302,8 @@ export class VTable extends Component<IProps, IVTableState> {
     const enableRowHeader = enableRowResizing
       ? true
       : this.props.enableRowHeader
-      ? this.props.enableRowHeader
-      : false;
+        ? this.props.enableRowHeader
+        : false;
 
     const enableColumnResizing = this.props.enableColumnResizing
       ? this.props.enableRowResizing
@@ -323,7 +325,7 @@ export class VTable extends Component<IProps, IVTableState> {
     if (this.props.columnWidths) {
       console.warn(
         'Gsi-vx-ui => [Violation] The last configuration to catch the width ' +
-          'of the columns does not correspond to the column amount of the table'
+        'of the columns does not correspond to the column amount of the table'
       );
     }
     return [];
@@ -378,8 +380,8 @@ export class VTable extends Component<IProps, IVTableState> {
       );
     }
     return edit &&
-      edit.editColumn.columns !== 'ALL' &&
-      edit.editColumn.columns.indexOf(columns[columnIndex]) !== -1 ? (
+    edit.editColumn.columns !== 'ALL' &&
+    edit.editColumn.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <CellDiv isValid={isValid} as={Cell}>
         {' '}
         <Widget
@@ -431,11 +433,11 @@ export class VTable extends Component<IProps, IVTableState> {
     const widgetsValid: IVWidgetTableProps[] = [];
 
     this.state.widgetsCell &&
-      this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
-        if (columns.filter(x => x === widget.column).length === 1) {
-          widgetsValid.push(widget);
-        }
-      });
+    this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+      if (columns.filter(x => x === widget.column).length === 1) {
+        widgetsValid.push(widget);
+      }
+    });
 
     return widgetsValid;
   };
@@ -480,7 +482,7 @@ export class VTable extends Component<IProps, IVTableState> {
     ) {
       return this.props.edit.editColumn.validation[
         this.state.columns[columnIndex]
-      ](value);
+        ](value);
     }
     return true;
   };
@@ -1057,12 +1059,15 @@ export class VTable extends Component<IProps, IVTableState> {
     if (target && target.cols && target.cols.length > 0) {
       canCopy = this.canCellExecuteAction(target.cols[0]);
     }
+
+    const columnContextual = this.getContextualMenuByColumn(canCopy, target);
+
     return this.props.contextual && canCopy ? (
       <ActionCellsMenuItem
         modeEdit={this.state.edit}
         context={context}
         getCellData={this.getCellData}
-        context_options={this.props.contextual!}
+        contextOptions={columnContextual}
         onDefaultActions={this.onDefaultActions}
         hasCachedData={this.hasCachedData}
         tableColsAndRowsTotals={this.getRowAndColsTotals}
@@ -1070,9 +1075,36 @@ export class VTable extends Component<IProps, IVTableState> {
         getPivotCell={this.getPivotCell}
       />
     ) : (
-      <div />
+      <div/>
     );
   };
+
+  private getContextualMenuByColumn(canCopy: boolean, regionSelected: IRegion) {
+    let columnContextual: IVColumnsContextual | undefined = undefined;
+    if (canCopy) {
+      const { columns } = this.state;
+      const columnName = columns[regionSelected!.cols![0]];
+
+      if (this.props.contextual && this.props.contextual.columnsContextual) {
+        const haveConfigAll = this.props.contextual.columnsContextual.some(x=>x.columns ==='ALL');
+        if( haveConfigAll && this.props.contextual.columnsContextual.length ===1){
+            columnContextual = this.props.contextual.columnsContextual.find(x=>x.columns === 'ALL')
+
+        }else{
+          columnContextual = this.props.contextual.columnsContextual.find(x => x.columns!=='ALL' &&
+            x.columns.some(y => y === columnName)
+          );
+
+          if(columnContextual === undefined){
+            columnContextual = this.props.contextual.columnsContextual.find(x=>x.columns === 'ALL')
+          }
+        }
+
+
+      }
+    }
+    return columnContextual!;
+  }
 
   private getCellData = (rowIndex: number, columnIndex: number) => {
     const data = this.state.sparseCellData[rowIndex];
@@ -1205,11 +1237,31 @@ export class VTable extends Component<IProps, IVTableState> {
   canCellExecuteAction = (columnIndex: number, action?: DefaultActions) => {
     const { columns } = this.state;
     if (columnIndex < columns.length) {
-      const column = columns[columnIndex];
-      if (this.props.contextual) {
-        const { columns, default_actions } = this.props.contextual;
-        const hasColumn = columns.some(col => col === column);
-        const hasAction = default_actions.some(act => act === action);
+      const columnName = columns[columnIndex];
+      if (this.props.contextual && this.props.contextual.columnsContextual) {
+        const { columnsContextual } = this.props.contextual;
+        let hasColumn =false;
+        const haveConfigAll = columnsContextual.some(col => col.columns === 'ALL');
+        if (haveConfigAll && columnsContextual.length === 1) {
+          hasColumn = true;
+        }else{
+          hasColumn = columnsContextual.some(col => col.columns !== 'ALL' &&
+            col.columns.some(x => x === columnName)
+          );
+
+          if(hasColumn === false  && haveConfigAll){
+            hasColumn =true;
+          }
+        }
+
+
+
+
+        const hasAction = columnsContextual.some(
+          col =>
+            col.default_actions !== undefined &&
+            col.default_actions.some(defaultAction => defaultAction === action)
+        );
         return (hasAction && hasColumn) || (!action && hasColumn);
       }
     }
