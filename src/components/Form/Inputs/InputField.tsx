@@ -44,7 +44,8 @@ export class VInputField extends React.Component<IInputFieldProps> {
       fill,
       noLabel,
       required,
-      validators
+      validators,
+      margin
     } = this.props;
     let rightEl;
     if (!rightElement) {
@@ -70,6 +71,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
         layer={layer}
         fill={fill}
         noLabel={noLabel}
+        margin={margin}
       >
         <FormFieldContainer
           required={required}

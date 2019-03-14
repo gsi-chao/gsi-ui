@@ -21,6 +21,8 @@ export interface IFieldProps {
   onChange?: (value: any) => void;
   required?: boolean;
   validators?: any[];
+  minimal?: boolean;
+  margin?: string;
 
   /** The fieldState */
   fieldState: FieldState<any>;

@@ -48,7 +48,8 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       layer,
       noLabel,
       required,
-      validators
+      validators,
+      margin
     } = this.props;
     if (required) {
       if (validators && validators.length > 0) {
@@ -70,6 +71,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
         layer={layer}
         fill={fill}
         noLabel={noLabel}
+        margin={margin}
       >
         <FormFieldContainer
           required={required}

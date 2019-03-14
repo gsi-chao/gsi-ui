@@ -43,7 +43,8 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       checkBoxAtLeft,
       noLabel,
       required,
-      validators
+      validators,
+      margin
     } = this.props;
     if (required) {
       if (validators && validators.length > 0) {
@@ -65,6 +66,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
         layer={layer}
         checkBoxAtLeft={checkBoxAtLeft}
         noLabel={noLabel}
+        margin={margin}
       >
         <FormFieldContainer
           required={required}

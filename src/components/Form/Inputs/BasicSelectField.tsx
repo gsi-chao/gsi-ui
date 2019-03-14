@@ -50,7 +50,8 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
       layer,
       required,
       validators,
-      noLabel
+      noLabel,
+      margin
     } = this.props;
     if (required) {
       if (validators && validators.length > 0) {
@@ -63,6 +64,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
     }
     return (
       <StyledFormGroup
+        margin={margin}
         disabled={disabled}
         inline={inline}
         intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}

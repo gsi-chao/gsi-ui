@@ -48,7 +48,8 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
       fill,
       noLabel,
       required,
-      validators
+      validators,
+      margin
     } = this.props;
     if (required) {
       if (validators && validators.length > 0) {
@@ -70,6 +71,7 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
         fill={fill}
         layer={layer}
         noLabel={noLabel}
+        margin={margin}
       >
         <FormFieldContainer
           required={required}

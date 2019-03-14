@@ -9,6 +9,7 @@ export interface IStyledFieldProps {
   checkBoxAtLeft?: boolean;
   noLabel?: boolean;
   fixedInputWidthPx?: number;
+  margin?: string;
 }
 
 interface IIconStyle {
@@ -26,6 +27,8 @@ export const layerInPercent = (layer: ILayer): any => {
 };
 
 export const StyledFormGroup = styled(FormGroup)`
+  margin: ${(props: IStyledFieldProps) =>
+    props.margin ? props.margin : '0 0 15px'};
   ${(props: IStyledFieldProps) => {
     const { layer, noLabel, checkBoxAtLeft, inline, fill } = props;
     let layerPercent: any = {};
@@ -217,9 +220,6 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
                 : `100%`};
             display: flex;
             justify-content: space-between;
-            box-shadow: none;
-            background-image: none;
-            background-color: #dcdcdc !important;
             &:focus {
               outline: rgba(16, 22, 26, 0.4) auto 2px;
               outline-offset: 2px;

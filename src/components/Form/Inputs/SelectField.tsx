@@ -108,7 +108,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       required,
       validators,
       fixedInputWidthPx,
-      iconOnly
+      iconOnly,
+      minimal,
+      margin
     } = this.props;
 
     const defaultText = this.props.defaultText || 'No selection';
@@ -144,6 +146,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         fill={fill}
         noLabel={noLabel}
         fixedInputWidthPx={fixedInputWidthPx}
+        margin={margin}
       >
         <FormFieldContainer
           required={required}
@@ -163,6 +166,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           >
             {iconOnly ? (
               <Button
+                className={minimal ? 'bp3-minimal' : ''}
                 style={{ justifyContent: 'center' }}
                 {...{
                   icon,
@@ -172,6 +176,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
               />
             ) : (
               <Button
+                className={minimal ? 'bp3-minimal' : ''}
                 {...{
                   icon,
                   disabled
