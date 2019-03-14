@@ -71,7 +71,8 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       fill,
       dateType,
       rightElement,
-      icon
+      icon,
+      margin
     } = this.props;
     let iconJSX;
     if (icon) {
@@ -97,6 +98,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
         labelInfo={labelInfo}
         layer={layer}
         fill={fill}
+        margin={margin}
       >
         <FormFieldContainer label={label} fieldState={fieldState}>
           {dateType === 'DATETIME' || dateType === 'DATE' ? (

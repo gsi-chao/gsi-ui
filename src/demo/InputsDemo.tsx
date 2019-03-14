@@ -112,6 +112,7 @@ class InputsDemo extends Component {
           leftIcon="search"
         />
         <VSelectField
+          minimal
           defaultText={'Please enter a text'}
           fixedInputWidthPx={200}
           fill

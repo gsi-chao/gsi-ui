@@ -55,7 +55,8 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
       layer,
       noLabel,
       required,
-      validators
+      validators,
+      margin
     } = this.props;
     if (required) {
       if (validators && validators.length > 0) {
@@ -76,6 +77,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
         labelInfo={labelInfo}
         layer={layer}
         noLabel={noLabel}
+        margin={margin}
       >
         <FormFieldContainer
           required={required}
