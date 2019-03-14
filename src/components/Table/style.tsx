@@ -61,7 +61,13 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
   }
 `;
 
+interface ITableContainer {
+  height?: string;
+}
+
 export const TableContainer = styled.div`
   width: 100%;
-  min-height: 100px;
+  min-height: ${(props: ITableContainer) =>
+    props.height ? props.height : '100px'};
+  height: ${(props: ITableContainer) => props.height && props.height};
 `;

@@ -86,6 +86,7 @@ export interface IVTableProps {
   onSelectionChange?: any;
   actionsSelection?: IActionSelection;
   editSetup?: EditSetup;
+  tableHeight?: string;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -171,7 +172,7 @@ export class VTable extends Component<IProps, IVTableState> {
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
     return (
-      <TableContainer ref={this.tableRef}>
+      <TableContainer ref={this.tableRef} height={this.props.tableHeight}>
         {toolbar && toolbar}
 
         {this.props.edit && (

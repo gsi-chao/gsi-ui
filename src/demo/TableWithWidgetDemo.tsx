@@ -142,6 +142,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       <React.Fragment>
         <div>
           <VTable
+            tableHeight="120px"
             columnWidths={[200, 125, 150, 200]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             actionsSelection={{
