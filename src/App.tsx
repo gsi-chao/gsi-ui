@@ -52,9 +52,9 @@ class App extends Component {
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
             contextual={{
-              columnsContextual:
-                [{
-                  columns: [ 'name'],
+              columnsContextual: [
+                {
+                  columns: ['name'],
                   default_actions: ['copy', 'paste'],
                   actions: [
                     {
@@ -63,9 +63,8 @@ class App extends Component {
                       text: 'Action Input'
                     }
                   ]
-                }]
-
-
+                }
+              ]
             }}
             data={data}
             enableColumnResizing={true}

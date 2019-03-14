@@ -182,12 +182,9 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
             contextual={{
-              columnsContextual:[
-
+              columnsContextual: [
                 {
-                  columns: [
-                    'name'
-                  ],
+                  columns: ['name'],
                   default_actions: ['copy', 'paste'],
                   actions: [
                     {
@@ -198,9 +195,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                   ]
                 },
                 {
-                  columns: [
-                    'color'
-                  ],
+                  columns: ['color'],
                   default_actions: ['copy', 'paste'],
                   actions: [
                     {
@@ -210,7 +205,6 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                     }
                   ]
                 }
-
               ]
             }}
             data={this.getData()}

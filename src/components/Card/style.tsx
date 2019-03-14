@@ -15,7 +15,7 @@ interface ICardPanelProps {
   bodyPadding?: string;
   headerOrientation?: HeaderOrientation;
   headerTextJustify?: FlexJustify;
-  heigthHeaderPx?:number
+  heigthHeaderPx?: number;
 }
 
 export const VCard = styled(Card)`
@@ -52,7 +52,7 @@ export const VCardHeader = styled.div`
       ? 'flex-end'
       : 'flex-start'};
   height: ${(props: ICardPanelProps) =>
-  props.heigthHeaderPx?props.heigthHeaderPx +'px': '35px'};
+    props.heigthHeaderPx ? `${props.heigthHeaderPx} px` : '35px'};
   display: flex;
   align-items: center;
   padding: 0 15px;

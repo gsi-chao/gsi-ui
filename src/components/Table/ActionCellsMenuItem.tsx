@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { IconName, Menu, MenuItem } from '@blueprintjs/core';
-import {  IMenuContext } from '@blueprintjs/table';
+import { IMenuContext } from '@blueprintjs/table';
 
 export type DefaultActions = 'copy' | 'paste' | 'export';
 
@@ -23,8 +23,7 @@ export interface IVColumnsContextual {
 }
 
 export interface IVContextualTableProps {
-   columnsContextual?:IVColumnsContextual[];
-
+  columnsContextual?: IVColumnsContextual[];
 }
 
 export interface IActionCellMenuItemProps {
@@ -39,7 +38,7 @@ export interface IActionCellMenuItemProps {
    * invisibly added as `textContent` into the DOM before copying.
    */
   getCellData: (row: number, col: number) => any;
-  contextOptions:IVColumnsContextual
+  contextOptions: IVColumnsContextual;
   onDefaultActions: (action: DefaultActions, value: any) => void;
   hasCachedData: any;
   tableColsAndRowsTotals: any;
@@ -52,7 +51,6 @@ export class ActionCellsMenuItem extends React.PureComponent<
   IActionCellMenuItemProps
 > {
   render() {
-
     const default_items = this.renderDefaultMenuItems();
     const actions = this.renderActionsMenuItems();
     return (
