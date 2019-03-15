@@ -1,8 +1,15 @@
 import styled from 'styled-components';
 export interface IProps {
   isValid: boolean;
+  isDisable:boolean
 }
 export const DropdownStyled = styled.div`
+
+
+& .bp3-icon{
+   color:${(props:IProps)=> props.isDisable? '#adb7bf':'#182026'}
+}
+
   & .bp3-button:not([class*='bp3-intent-']) {
     ${(props: IProps) => {
       return props.isValid ? '' : 'color: #f73636;';
@@ -15,6 +22,8 @@ export const DropdownStyled = styled.div`
       rgba(255, 255, 255, 0),
       rgba(255, 255, 255, 0)
     );
+    cursor: ${(props:IProps)=> props.isDisable? 'cell':'pointer'} !important;
+    
   }
   & .bp3-button {
     padding: 0px 10px;

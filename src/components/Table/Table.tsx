@@ -172,7 +172,7 @@ export class VTable extends Component<IProps, IVTableState> {
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
     return (
-      <TableContainer ref={this.tableRef} height={this.props.tableHeight}>
+      <TableContainer isEdit={this.props.edit} ref={this.tableRef} height={this.props.tableHeight}>
         {toolbar && toolbar}
 
         {this.props.edit && (
