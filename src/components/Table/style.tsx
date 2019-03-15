@@ -63,6 +63,7 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
 
 interface ITableContainer {
   height?: string;
+  isEdit?: any
 }
 
 export const TableContainer = styled.div`
@@ -70,4 +71,6 @@ export const TableContainer = styled.div`
   min-height: ${(props: ITableContainer) =>
     props.height ? props.height : '100px'};
   height: ${(props: ITableContainer) => props.height && props.height};
+  border: ${(props: ITableContainer) => props.isEdit ?'1px solid #dbdcdd':'none'} ;
+  
 `;
