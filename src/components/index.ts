@@ -51,3 +51,8 @@ export {
 export { DragAndDropList } from './DragAndDropList';
 export { VSpinner } from './Spinner';
 export { VSuspenseLoading } from './SuspenseLoading';
+export {
+  ISelectItemsState,
+  ISelectItemsProps,
+  SelectUnselectItems
+} from './SelectItems';
