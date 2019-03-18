@@ -29,14 +29,15 @@ export class VSelectionList extends Component<
     return !!this.state.listSelected.find(e => e.value === elements.value);
   };
   onItemClick = (active: boolean, element: IItemsList) => {
-    const { listSelected } = this.state;
+    /*const { listSelected } = this.state;
     let new_list: IItemsList[];
 
     active
       ? (new_list = listSelected.filter(e => e.value !== element.value))
       : (new_list = listSelected.concat(element));
-    this.setState({ ...listSelected, listSelected: new_list });
-    this.props.onSelect(new_list);
+    this.setState({ listSelected: new_list });*/
+    const newElement = {...element, active: !element.active};
+    this.props.onSelect(newElement);
   };
 
   getElevation = (elevation: ElevationType): any => {
@@ -64,7 +65,7 @@ export class VSelectionList extends Component<
         padding={padding}
       >
         {elements.map(element => {
-          const active = this.isActive(element);
+          const {active,text,value,icon} = element;
           const backgroundColor =
             !!selection && !!selection.background
               ? selection!.background
@@ -75,15 +76,15 @@ export class VSelectionList extends Component<
               : '#10161A';
           return (
             <StyledMenuItem
-              key={element.value}
+              key={value}
               active={active}
               background={backgroundColor}
               color={textColor}
-              text={element.text}
+              text={text}
               onClick={() => {
-                this.onItemClick(active, element);
+                this.onItemClick(active || false, element);
               }}
-              icon={element.icon}
+              icon={icon}
             />
           );
         })}
