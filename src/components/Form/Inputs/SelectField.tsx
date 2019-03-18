@@ -73,20 +73,17 @@ const filterItem: ItemPredicate<IItem> = (query, item) => {
 export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   constructor(props: ISelectFieldProps) {
     super(props);
-    this.state = {
-      item: this.getFieldValue()
-    };
   }
 
-  public getFieldValue() {
+  public getFieldText() {
     const fValue = this.props.fieldState.value;
     if (fValue) {
       const item = this.props.options.find((value: IItem) => {
         return fValue === value.value;
       });
-      return item;
+      return item && item.label || this.props.defaultText || 'No selection';
     }
-    return undefined;
+    return this.props.defaultText || 'No selection';
   }
 
   public render() {
@@ -182,7 +179,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                   disabled
                 }}
                 rightIcon={rightIcon || 'chevron-down'}
-                text={this.state.item ? this.state.item.label : defaultText}
+                text={this.props.fieldState.value ? this.getFieldText() : defaultText}
               />
             )}
           </ItemSelect>

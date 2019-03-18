@@ -14,7 +14,7 @@ import {
 } from '../components/Form';
 import { email, lt, exact } from '../components/Form/Validators';
 import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
-import { Icon } from '@blueprintjs/core';
+import { Button, Icon } from '@blueprintjs/core';
 import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectItems';
 import { IItemsList } from '../components/SelectionList';
 
@@ -142,6 +142,12 @@ class InputsDemo extends Component {
           fieldState={this.form.$.store}
           id="store"
           icon={'search'}
+        />
+        <Button
+          text={'Change Select Store'}
+          onClick={() => {
+            this.form.$.store.value = 's3';
+          }}
         />
         <VTextAreaField
           fill
