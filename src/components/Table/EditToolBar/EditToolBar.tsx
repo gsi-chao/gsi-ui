@@ -25,7 +25,7 @@ class EditToolBar extends Component<IProps, IState> {
       display: flex;
       justify-content: flex-end;
       padding: 2px;
-   
+
       @media (max-width: 991px) {
         justify-content: center;
       }

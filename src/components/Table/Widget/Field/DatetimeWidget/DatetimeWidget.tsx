@@ -44,7 +44,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
     );
     const defaultValue = new Date(this.props.value);
 
-    return  (
+    return (
       <DateInput
         rightElement={<Icon icon={this.state.icon || 'calendar'} />}
         value={defaultValue}
@@ -52,8 +52,8 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
         disabled={this.props.disable}
         onChange={this.handleDateChange}
         popoverProps={{ minimal: true, position: 'bottom' }}
-      />)
-     ;
+      />
+    );
   };
 
   private handleDateChange = (date: Date) => {

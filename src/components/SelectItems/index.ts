@@ -1,1 +1,5 @@
-export {SelectUnselectItems, ISelectItemsProps, ISelectItemsState} from './SelectUnselectItems';
+export {
+  SelectUnselectItems,
+  ISelectItemsProps,
+  ISelectItemsState
+} from './SelectUnselectItems';

@@ -56,9 +56,8 @@ export const VCardHeader = styled.div`
   display: flex;
   align-items: center;
   padding: 0 15px;
-  width: 100.3%;
+  width: 100%;
   position: relative;
-  left: -1px;
 `;
 
 export const VCardTextSpan = styled.span`

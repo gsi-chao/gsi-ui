@@ -33,7 +33,7 @@ export class VSelectionList extends Component<
       ? (new_list = listSelected.filter(e => e.value !== element.value))
       : (new_list = listSelected.concat(element));
     this.setState({ listSelected: new_list });*/
-    const newElement = {...element, active: !element.active};
+    const newElement = { ...element, active: !element.active };
     this.props.onSelect(newElement);
   };
 
@@ -62,7 +62,7 @@ export class VSelectionList extends Component<
         padding={padding}
       >
         {elements.map(element => {
-          const {active,text,value,icon} = element;
+          const { active, text, value, icon } = element;
           const backgroundColor =
             !!selection && !!selection.background
               ? selection!.background

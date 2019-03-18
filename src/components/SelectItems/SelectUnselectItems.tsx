@@ -50,7 +50,7 @@ export class SelectUnselectItems extends Component<
   }
 
   selectItems = () => {
-    let { itemsAssigned, itemsUnassigned } = this.state;
+    const { itemsAssigned, itemsUnassigned } = this.state;
     itemsUnassigned = itemsUnassigned.filter(item => {
       if (item.active) {
         item.active = false;
@@ -63,7 +63,7 @@ export class SelectUnselectItems extends Component<
   };
 
   unselectItems = () => {
-    let { itemsAssigned, itemsUnassigned } = this.state;
+    const { itemsAssigned, itemsUnassigned } = this.state;
     itemsAssigned = itemsAssigned.filter(item => {
       if (item.active) {
         item.active = false;
@@ -163,7 +163,7 @@ export class SelectUnselectItems extends Component<
           <FlexCol flex={4}>
             <h4>{this.props.unAssignedText || 'UnAssigned'}</h4>
             <VSelectionListStyled
-              height = {this.props.listsHeights || ''}
+              height={this.props.listsHeights || ''}
               elements={itemsUnassigned}
               onSelect={this.selectItemFromUnselectedList}
             />
@@ -202,7 +202,7 @@ export class SelectUnselectItems extends Component<
           <FlexCol flex={4}>
             <h4>{this.props.assignedText || 'Assigned'}</h4>
             <VSelectionListStyled
-              height = {this.props.listsHeights || ''}
+              height={this.props.listsHeights || ''}
               elements={itemsAssigned}
               onSelect={this.selectItemFromSelectedList}
             />
