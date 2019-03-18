@@ -7,7 +7,6 @@ import {
   Table,
   Utils
 } from '@blueprintjs/table';
-import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/table/lib/css/table.css';
 import { IconName, Intent } from '@blueprintjs/core';
 import TableColumn, { IVConfigHeader } from './TableColumn';

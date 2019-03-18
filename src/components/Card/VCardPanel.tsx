@@ -1,5 +1,4 @@
 import { Elevation, Collapse, IconName, Icon } from '@blueprintjs/core';
-import '@blueprintjs/core/lib/css/blueprint.css';
 import {
   VCardHeader,
   VCardBody,
