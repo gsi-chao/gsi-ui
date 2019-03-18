@@ -8,7 +8,7 @@ export type DefaultActions = 'copy' | 'paste' | 'export';
 export interface IVContextualActionTableProps {
   action: (item: any) => void;
   text: string;
-  icon: IconName;
+  icon?: IconName;
 }
 
 export interface ICell {
