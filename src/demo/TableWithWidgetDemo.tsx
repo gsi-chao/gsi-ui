@@ -188,7 +188,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                   default_actions: ['copy', 'paste'],
                   actions: [
                     {
-                      icon: 'export',
+
                       action: (item: any) => console.log(item),
                       text: 'Action Input'
                     }
