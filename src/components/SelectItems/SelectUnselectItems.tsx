@@ -50,7 +50,8 @@ export class SelectUnselectItems extends Component<
   }
 
   selectItems = () => {
-    let { itemsAssigned, itemsUnassigned } = this.state;
+    const { itemsAssigned } = this.state;
+    let { itemsUnassigned } = this.state;
     itemsUnassigned = itemsUnassigned.filter(item => {
       if (item.active) {
         item.active = false;
@@ -63,7 +64,8 @@ export class SelectUnselectItems extends Component<
   };
 
   unselectItems = () => {
-    let { itemsAssigned, itemsUnassigned } = this.state;
+    const { itemsUnassigned } = this.state;
+    let { itemsAssigned } = this.state;
     itemsAssigned = itemsAssigned.filter(item => {
       if (item.active) {
         item.active = false;

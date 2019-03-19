@@ -81,7 +81,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       const item = this.props.options.find((value: IItem) => {
         return fValue === value.value;
       });
-      return item && item.label || this.props.defaultText || 'No selection';
+      return (item && item.label) || this.props.defaultText || 'No selection';
     }
     return this.props.defaultText || 'No selection';
   }
@@ -179,7 +179,11 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                   disabled
                 }}
                 rightIcon={rightIcon || 'chevron-down'}
-                text={this.props.fieldState.value ? this.getFieldText() : defaultText}
+                text={
+                  this.props.fieldState.value
+                    ? this.getFieldText()
+                    : defaultText
+                }
               />
             )}
           </ItemSelect>
