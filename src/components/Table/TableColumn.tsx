@@ -71,7 +71,7 @@ export default class TableColumn implements ISortableColumn {
       }
     }
 
-    let backgroundColor = '#EBF1F5';
+    let backgroundColor = '#f3f9fd';
     let textColor = 'black';
 
     const configHeader = this.header_config.find(
