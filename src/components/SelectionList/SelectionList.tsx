@@ -66,11 +66,11 @@ export class VSelectionList extends Component<
           const backgroundColor =
             !!selection && !!selection.background
               ? selection!.background
-              : '#00B3A4';
+              : '#1985A1';
           const textColor =
             !!selection && !!selection.textColor
               ? selection!.textColor
-              : '#10161A';
+              : 'white';
           return (
             <StyledMenuItem
               key={value}
