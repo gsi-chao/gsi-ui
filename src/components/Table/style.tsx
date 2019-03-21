@@ -70,8 +70,8 @@ interface ITableContainer {
 export const TableContainer = styled.div`
   width: 100%;
   min-height: ${(props: ITableContainer) =>
-  props.height ? props.height : '100px'};
-  height: ${(props: ITableContainer) => props.height && props.height};
+  props.height ? `${props.height}px` : '100px'};
+  height: ${(props: ITableContainer) => props.height && `${props.height}px`};
   border: ${(props: ITableContainer) =>
   props.isEdit ? '1px solid #dbdcdd' : 'none'};
   
