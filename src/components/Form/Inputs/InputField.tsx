@@ -49,7 +49,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
     } = this.props;
     let rightEl;
     if (!rightElement) {
-      rightEl = <div />;
+      rightEl = <div style={{paddingRight: 10}}/>;
     }
     if (required) {
       if (validators && validators.length > 0) {
@@ -95,6 +95,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
             onChange={this.onChange}
             value={fieldState.value || ''}
             intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+            style={{paddingRight: 10}}
           />
         </FormFieldContainer>
       </StyledInput>

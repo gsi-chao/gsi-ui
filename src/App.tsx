@@ -22,6 +22,26 @@ class App extends Component {
         age3: 28,
         age4: 28,
         age5: 28
+      },
+      {
+        name: 'Carlos',
+        lastname: 'Chao',
+        age: 28,
+        age1: 28,
+        age2: 28,
+        age3: 28,
+        age4: 28,
+        age5: 28
+      },
+      {
+        name: 'Carlos',
+        lastname: 'Chao',
+        age: 28,
+        age1: 28,
+        age2: 28,
+        age3: 28,
+        age4: 28,
+        age5: 28
       }
     ];
 

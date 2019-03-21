@@ -87,6 +87,7 @@ export interface IVTableProps {
   actionsSelection?: IActionSelection;
   editSetup?: EditSetup;
   tableHeight?: string;
+  outlineRow?: boolean;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -176,6 +177,7 @@ export class VTable extends Component<IProps, IVTableState> {
         isEdit={this.props.edit}
         ref={this.tableRef}
         height={this.props.tableHeight}
+        outlineRow={this.props.outlineRow}
       >
         {toolbar && toolbar}
 
@@ -286,14 +288,14 @@ export class VTable extends Component<IProps, IVTableState> {
     if (this.props.typeHeightRow) {
       switch (this.props.typeHeightRow) {
         case 'SHORT':
-          return 22;
+          return 35;
         case 'HALF':
           return 50;
         default:
           return 100;
       }
     }
-    return 22;
+    return 35;
   };
 
   getResizingProperties = () => {
@@ -493,7 +495,7 @@ export class VTable extends Component<IProps, IVTableState> {
     indexColumn: number;
     width: number;
   }) => {
-    const rowNumber = this.props.enableRowHeader ? 30 : 0;
+    const rowNumber = this.props.enableRowHeader ? 10 : 0;
     let tableWidth = window.innerWidth;
     if (this.tableRef.current) {
       tableWidth = this.tableRef.current.clientWidth;
