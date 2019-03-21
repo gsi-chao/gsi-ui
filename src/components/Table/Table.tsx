@@ -18,6 +18,7 @@ import {
   IVColumnsContextual,
   IVContextualTableProps
 } from './ActionCellsMenuItem';
+import ReactResizeDetector from 'react-resize-detector';
 
 import { CellCenterText, CellDiv, TableContainer } from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
@@ -173,45 +174,46 @@ export class VTable extends Component<IProps, IVTableState> {
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
     return (
-      <TableContainer
-        isEdit={this.props.edit}
-        ref={this.tableRef}
-        height={this.props.tableHeight}
-        outlineRow={this.props.outlineRow}
-      >
-        {toolbar && toolbar}
-
-        {this.props.edit && (
-          <EditToolBar
-            edit={this.state.edit}
-            onSave={this.saveEdit}
-            onCancel={this.cancelEdit}
-            onEdit={this.onEdit}
-            setupEditToolbar={this.props.edit && this.props.edit.editToolbar}
-          />
-        )}
-
-        <Table
-          className={this.props.className}
-          numRows={this.state.sparseCellData.length}
-          onColumnsReordered={this._handleColumnsReordered}
-          enableColumnReordering={this.props.reordering}
-          onSelection={this.checkAndSetSelection}
-          selectedRegions={this.getSelectedRegion()}
-          defaultColumnWidth={this.props.defaultColumnWidth}
-          enableColumnResizing={enableColumnResizing}
-          enableRowResizing={resizingProperties.enableRowResizing}
-          enableRowHeader={resizingProperties.enableRowHeader}
-          columnWidths={this.state.columnsWidth}
-          defaultRowHeight={this.getDefaultRowHeight()}
-          numFrozenColumns={this.props.numFrozenColumns}
-          numFrozenRows={this.props.numFrozenRows}
-          bodyContextMenuRenderer={this.renderBodyContextMenu}
+      <ReactResizeDetector handleHeight handleWidth onResize={ () => this.makeResponsiveTable()}>
+        <TableContainer
+          isEdit={this.props.edit}
+          ref={this.tableRef}
+          height={this.props.tableHeight}
         >
-          {columnsList}
-        </Table>
-        {footer && footer}
-      </TableContainer>
+          {toolbar && toolbar}
+
+          {this.props.edit && (
+            <EditToolBar
+              edit={this.state.edit}
+              onSave={this.saveEdit}
+              onCancel={this.cancelEdit}
+              onEdit={this.onEdit}
+              setupEditToolbar={this.props.edit && this.props.edit.editToolbar}
+            />
+          )}
+
+          <Table
+            className={this.props.className}
+            numRows={this.state.sparseCellData.length}
+            onColumnsReordered={this._handleColumnsReordered}
+            enableColumnReordering={this.props.reordering}
+            onSelection={this.checkAndSetSelection}
+            selectedRegions={this.getSelectedRegion()}
+            defaultColumnWidth={this.props.defaultColumnWidth}
+            enableColumnResizing={enableColumnResizing}
+            enableRowResizing={resizingProperties.enableRowResizing}
+            enableRowHeader={resizingProperties.enableRowHeader}
+            columnWidths={this.state.columnsWidth}
+            defaultRowHeight={this.getDefaultRowHeight()}
+            numFrozenColumns={this.props.numFrozenColumns}
+            numFrozenRows={this.props.numFrozenRows}
+            bodyContextMenuRenderer={this.renderBodyContextMenu}
+          >
+            {columnsList}
+          </Table>
+          {footer && footer}
+        </TableContainer>
+      </ReactResizeDetector>
     );
   }
 
@@ -561,10 +563,6 @@ export class VTable extends Component<IProps, IVTableState> {
     const observer = fromEvent(window, 'keydown');
     observer.subscribe(event => {
       this.handleCtrlCAndV(event);
-    });
-    const observerResize = fromEvent(window, 'resize');
-    observerResize.subscribe(event => {
-      this.makeResponsiveTable();
     });
   }
 
