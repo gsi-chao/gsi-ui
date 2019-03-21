@@ -37,7 +37,13 @@ exports[`renders without crashing InputField All Properties 1`] = `
           <span
             className="bp3-input-action"
           >
-            <div />
+            <div
+              style={
+                Object {
+                  "paddingRight": 10,
+                }
+              }
+            />
           </span>
         </div>
       </div>
