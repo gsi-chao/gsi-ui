@@ -82,6 +82,12 @@ export const TableContainer = styled.div`
     background-color: rgba(220,220,221,0.49)!important;
     border-bottom: 1px solid rgba(128,128,128,0.11);
   }
+  
+   & .bp3-table-cell-ledger-odd{
+   
+    border-bottom: 1px solid white !important;
+  }
+  
   & .bp3-table-column-headers .bp3-table-header{
     min-height: 35px;
     line-height: 35px;
