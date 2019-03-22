@@ -154,7 +154,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             }}
             edit={{
               editColumn: {
-                columns: 'ALL'
+                columns: ['name']
               },
               onSave: this.onSave,
               invalidDataMessage: (invalidColumns: string[]) => {
