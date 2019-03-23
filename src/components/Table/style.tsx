@@ -53,6 +53,8 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
   & div.bp3-table-column-name-text {
     color: ${(props: IConfignHeader) =>
       props ? props.textColor : 'gray'} !important;
+    text-align: ${(props: IConfignHeader) =>
+  props.textAlign ? props.textAlign : 'center'} !important;;
   }
 
   & div.bp3-table-reorder-handle {

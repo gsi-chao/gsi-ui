@@ -211,7 +211,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               {
                 column: 'name',
                 textColor: 'white',
-                backgroundColor: '#DB2C6F'
+                backgroundColor: '#DB2C6F',
+                textAlign: 'left'
               },
               {
                 column: 'fecha',
@@ -226,7 +227,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               {
                 column: 'color',
                 textColor: 'white',
-                backgroundColor: '#238C2C'
+                backgroundColor: '#238C2C',
+                textAlign: 'end'
               }
             ]}
             typeHeightRow={'SHORT'}

@@ -9,7 +9,7 @@ import {
 } from '@blueprintjs/table';
 import '@blueprintjs/table/lib/css/table.css';
 import { IconName, Intent } from '@blueprintjs/core';
-import TableColumn, { IVConfigHeader } from './TableColumn';
+import TableColumn, {  IVConfigHeader } from './TableColumn';
 import { fromEvent } from 'rxjs';
 import {
   ActionCellsMenuItem,
@@ -80,7 +80,7 @@ export interface IVTableProps {
   enableRowHeader?: boolean;
   className?: string;
   typeHeightRow?: DefaultheightRow;
-  configColumnsHeader?: IVConfigHeader[];
+  configColumnsHeader?: IVConfigHeader[] | IVConfigHeader;
   toolbar?: React.ReactNode;
   footer?: React.ReactNode;
   cellSelectionType?: CellSelectionType;
