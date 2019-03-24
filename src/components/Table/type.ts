@@ -21,3 +21,13 @@ export interface IActionSelection {
   clearSelection?: boolean;
   onSelectionCleaned?: (isSelectionCleaned: boolean) => any;
 }
+
+export interface ITextAlignColumn {
+  columns: string | 'ALL';
+  textAlign: string | 'center' | 'end' | 'left';
+
+}
+
+export interface IVConfigTextAlign {
+  textAlign?: string | 'center' | 'end' | 'left';
+}

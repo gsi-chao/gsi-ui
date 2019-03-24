@@ -120,7 +120,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         'customer'
       ],
       clearSelection: undefined,
-      typeSelection: 'CELL'
+      typeSelection: 'FREE'
     };
   }
 
@@ -146,6 +146,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             columnWidths={[200, 125, 150, 200]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             actionsSelection={{
+
               onSelectionChange: this.doSomethingAwesomeWithTheValue,
               onSelectionCleaned: (value: any) => {
                 console.log('onSelectionCleaned', value);
@@ -207,6 +208,12 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               ]
             }}
             data={this.getData()}
+            textAlignColumn={[{
+              columns : 'ALL',
+              textAlign: 'end'
+            },{
+              columns:'name',
+              textAlign:'left'            }]}
             configColumnsHeader={[
               {
                 column: 'name',

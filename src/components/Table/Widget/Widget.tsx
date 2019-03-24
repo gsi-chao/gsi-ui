@@ -28,6 +28,7 @@ export interface IWidget {
   value?: any;
   disable?: boolean;
   isValid?: boolean;
+  textAlign?:string;
 }
 
 export interface ActionClickWidget {
@@ -126,6 +127,7 @@ class Widget extends Component<IVWidget> {
               column={this.props.column}
               disable={this.getDisable()}
               isValid={this.props.isValid}
+              textAlign={this.props.textAlign}
             />
           </CenterWidget>
         );
@@ -156,6 +158,7 @@ class Widget extends Component<IVWidget> {
           backgroundColor={backgroundColor}
           color={color}
           value={this.props.value}
+          textAlign={this.props.textAlign}
         />
       ) : (
         <ColorWidget

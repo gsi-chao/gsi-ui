@@ -9,7 +9,7 @@ import {
 } from '@blueprintjs/table';
 import '@blueprintjs/table/lib/css/table.css';
 import { IconName, Intent } from '@blueprintjs/core';
-import TableColumn, {  IVConfigHeader } from './TableColumn';
+import TableColumn, { IVConfigHeader } from './TableColumn';
 import { fromEvent } from 'rxjs';
 import {
   ActionCellsMenuItem,
@@ -31,7 +31,8 @@ import {
   EditColumns,
   EditSetup,
   IActionSelection,
-  IDataEdited
+  IDataEdited,
+  ITextAlignColumn
 } from './type';
 
 export type IVTableOrder = 'ASC' | 'DESC';
@@ -89,6 +90,7 @@ export interface IVTableProps {
   editSetup?: EditSetup;
   tableHeight?: string;
   outlineRow?: boolean;
+  textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -174,7 +176,11 @@ export class VTable extends Component<IProps, IVTableState> {
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
     return (
-      <ReactResizeDetector handleHeight handleWidth onResize={ () => this.makeResponsiveTable()}>
+      <ReactResizeDetector
+        handleHeight
+        handleWidth
+        onResize={() => this.makeResponsiveTable()}
+      >
         <TableContainer
           isEdit={this.props.edit}
           ref={this.tableRef}
@@ -349,6 +355,7 @@ export class VTable extends Component<IProps, IVTableState> {
     if (widgetCell) widgetCell.widget.value = value;
     const isValid = this.isValid(columnIndex, value);
     this.updateInvalidColumns(isValid, columnIndex, rowIndex);
+    const textAlignColumn = this.getTextAlignColumn(columnIndex);
 
     const component = widgetCell && (
       <Widget
@@ -358,6 +365,7 @@ export class VTable extends Component<IProps, IVTableState> {
         {...widgetCell.widget}
         disable={!this.state.edit}
         isValid={isValid}
+        textAlign={textAlignColumn.textAlign}
       />
     );
 
@@ -381,6 +389,7 @@ export class VTable extends Component<IProps, IVTableState> {
             value={value}
             disable={!this.state.edit}
             isValid={isValid}
+            textAlign={textAlignColumn.textAlign}
           />
         </CellDiv>
       );
@@ -398,12 +407,42 @@ export class VTable extends Component<IProps, IVTableState> {
           value={value}
           disable={!this.state.edit}
           isValid={isValid}
+          textAlign={textAlignColumn.textAlign}
         />
       </CellDiv>
     ) : (
-      <CellCenterText as={Cell}>{value}</CellCenterText>
+      <CellCenterText textAling={textAlignColumn.textAlign} as={Cell}>
+        {value}
+      </CellCenterText>
     );
   };
+
+  private getTextAlignColumn(columnIndex: number): ITextAlignColumn {
+    let textAlignColumnConfig: ITextAlignColumn | undefined = {
+      columns: 'ALL',
+      textAlign: 'center'
+    };
+
+    if (Array.isArray(this.props.textAlignColumn)) {
+      const restTextAlignColumnConfig = this.props.textAlignColumn.find(
+        x => x.columns === 'ALL'
+      );
+      const textAlignColumn = this.props.textAlignColumn.find(
+        x => x.columns === this.state.columns[columnIndex]
+      );
+
+      if (textAlignColumn) {
+        textAlignColumnConfig = textAlignColumn;
+      } else if (restTextAlignColumnConfig) {
+        textAlignColumnConfig = restTextAlignColumnConfig;
+      }
+    } else {
+      if (this.props.textAlignColumn) {
+        textAlignColumnConfig = this.props.textAlignColumn;
+      }
+    }
+    return textAlignColumnConfig;
+  }
 
   private updateInvalidColumns(
     isValid: boolean,

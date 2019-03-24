@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { TextAlignProperty } from 'csstype';
 
 export interface IColorWidget {
   backgroundColor: string;
@@ -13,7 +14,9 @@ export interface IColorWidgetState {
   color?: string;
   value?: string;
 }
-interface IProps extends IColorWidgetState {}
+interface IProps extends IColorWidgetState {
+  textAlign?:string
+}
 
 class ColorWidget extends Component<IProps, IColorWidgetState> {
   constructor(props: IProps) {
@@ -66,9 +69,28 @@ class ColorWidget extends Component<IProps, IColorWidgetState> {
     return (
       <CellColor>
         {' '}
-        <div>{this.props.value}</div>
+        <div style={{textAlign:this.getTextAlign(),padding:'0px 10px'}}>{this.props.value}</div>
       </CellColor>
     );
+  }
+
+  private getTextAlign() {
+    const supported: TextAlignProperty[] = ['-moz-initial'
+      , 'inherit'
+      , 'initial'
+      , 'revert'
+      , 'unset'
+      , 'center'
+      , 'end'
+      , 'justify'
+      , 'left'
+      , 'match-parent'
+      , 'right'
+      , 'start'
+    ];
+
+    const textAlign = supported.find((x: TextAlignProperty) => x === this.props.textAlign);
+    return  textAlign ? textAlign : 'center';
   }
 }
 

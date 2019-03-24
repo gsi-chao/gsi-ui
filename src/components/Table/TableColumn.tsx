@@ -4,6 +4,7 @@ import { IVActionSortableTableProps } from './Table';
 import { Column } from '@blueprintjs/table';
 import { Menu, MenuItem } from '@blueprintjs/core';
 import { ColumnHeaderCellStyled } from './style';
+import { IVConfigTextAlign } from './type';
 
 export type ICellLookup = (rowIndex: number, columnIndex: number) => any;
 
@@ -15,10 +16,10 @@ export interface IVConfigHeader extends IConfignHeader {
   column?: string ;
 }
 
-export interface IConfignHeader {
+export interface IConfignHeader extends IVConfigTextAlign{
   backgroundColor: string;
   textColor: string;
-  textAlign?:string | 'center'| 'end' | 'left'
+
 }
 
 export default class TableColumn implements ISortableColumn {

@@ -25,9 +25,13 @@ export const CellDiv = styled(Cell)`
   }
 `;
 
+export interface ICellCenterText {
+  textAling?: string
+}
+
 export const CellCenterText = styled(Cell)`
   & .bp3-table-truncated-text.bp3-table-no-wrap-text {
-    text-align: center;
+    text-align: ${(props:ICellCenterText)=> props.textAling ? props.textAling: 'center'} ;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
@@ -97,5 +101,11 @@ export const TableContainer = styled.div`
   }
   & .bp3-table-quadrant-top-left .bp3-table-header.bp3-table-last-in-row{
     box-shadow: 0 0px 0 rgba(16, 22, 26, 0.15), inset -3px 0 0 rgba(16, 22, 26, 0.15) !important;
+  }
+  
+  & .bp3-table-selection-region {
+    border: 1px solid #1985A1;
+    border-radius: 3px;
+    background-color: hsla(192, 73%, 36%, 0.15);
   }
 `;
