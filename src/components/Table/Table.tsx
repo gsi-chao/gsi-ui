@@ -20,7 +20,7 @@ import {
 } from './ActionCellsMenuItem';
 import ReactResizeDetector from 'react-resize-detector';
 
-import { CellCenterText, CellDiv, TableContainer } from './style';
+import { CellCenterText, CellDiv, ISelectionStyle, TableContainer } from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
 import EditToolBar from './EditToolBar/EditToolBar';
@@ -91,6 +91,7 @@ export interface IVTableProps {
   tableHeight?: string;
   outlineRow?: boolean;
   textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
+  selectionStyle?: ISelectionStyle
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -185,6 +186,8 @@ export class VTable extends Component<IProps, IVTableState> {
           isEdit={this.props.edit}
           ref={this.tableRef}
           height={this.props.tableHeight}
+          selection = {this.props.selectionStyle}
+
         >
           {toolbar && toolbar}
 

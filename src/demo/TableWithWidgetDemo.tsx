@@ -142,6 +142,11 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       <React.Fragment>
         <div>
           <VTable
+            selectionStyle={{
+              backgroundColor:'rgba(34, 220, 72, 0.16);',
+              borderColor: 'green',
+              borderRadius:'15'
+            }}
             tableHeight="120px"
             columnWidths={[200, 125, 150, 200]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
@@ -258,6 +263,14 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         </div>
 
         <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
         <button onClick={this.changeColumn}>cambiar columnas</button>
