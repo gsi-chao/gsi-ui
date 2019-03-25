@@ -25,9 +25,14 @@ export const CellDiv = styled(Cell)`
   }
 `;
 
+export interface ICellCenterText {
+  textAling?: string;
+}
+
 export const CellCenterText = styled(Cell)`
   & .bp3-table-truncated-text.bp3-table-no-wrap-text {
-    text-align: center;
+    text-align: ${(props: ICellCenterText) =>
+      props.textAling ? props.textAling : 'center'};
     position: relative;
     top: 50%;
     transform: translateY(-50%);
@@ -53,6 +58,8 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
   & div.bp3-table-column-name-text {
     color: ${(props: IConfignHeader) =>
       props ? props.textColor : 'gray'} !important;
+    text-align: ${(props: IConfignHeader) =>
+      props.textAlign ? props.textAlign : 'center'} !important;
   }
 
   & div.bp3-table-reorder-handle {
@@ -61,19 +68,38 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
   }
 `;
 
-interface ITableContainer {
+export interface ISelectionStyle {
+  borderColor?: string;
+  borderRadius?: string;
+  backgroundColor?: string;
+}
+
+ interface ITableContainer {
   height?: string;
   isEdit?: any;
-  outlineRow?: boolean
+  outlineRow?: boolean;
+  selection?: ISelectionStyle;
+}
+
+function existBorders(props: ITableContainer) {
+  return props.selection && props.selection.borderColor;
+}
+
+function existBorderRadius(props: ITableContainer) {
+  return props.selection && props.selection.borderRadius;
+}
+
+function existBackgroundColor(props: ITableContainer) {
+  return props.selection && props.selection.backgroundColor;
 }
 
 export const TableContainer = styled.div`
   width: 100%;
   min-height: ${(props: ITableContainer) =>
-  props.height ? `${props.height}px` : '100px'};
+    props.height ? `${props.height}px` : '100px'};
   height: ${(props: ITableContainer) => props.height && `${props.height}px`};
   border: ${(props: ITableContainer) =>
-  props.isEdit ? '1px solid #dbdcdd' : 'none'};
+    props.isEdit ? '1px solid #dbdcdd' : 'none'};
   
   & .bp3-table-cell{
     box-shadow: none !important;
@@ -95,5 +121,21 @@ export const TableContainer = styled.div`
   }
   & .bp3-table-quadrant-top-left .bp3-table-header.bp3-table-last-in-row{
     box-shadow: 0 0px 0 rgba(16, 22, 26, 0.15), inset -3px 0 0 rgba(16, 22, 26, 0.15) !important;
+  }
+  
+  & .bp3-table-selection-region {
+ 
+    border:  ${(props: ITableContainer) =>
+      existBorders(props)
+        ? `1px solid ${props!.selection!.borderColor}`
+        : '1px solid #137cbd'} ;
+    border-radius: ${(props: ITableContainer) =>
+      existBorderRadius(props)
+        ? `${props.selection!.borderRadius}px`
+        : '3px'};
+    background-color:${(props: ITableContainer) =>
+      existBackgroundColor(props)
+        ? `${props.selection!.backgroundColor}`
+        : 'hsla(192, 73%, 36%, 0.15)'}; ;
   }
 `;

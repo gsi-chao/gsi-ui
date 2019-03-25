@@ -20,7 +20,7 @@ import {
 } from './ActionCellsMenuItem';
 import ReactResizeDetector from 'react-resize-detector';
 
-import { CellCenterText, CellDiv, TableContainer } from './style';
+import { CellCenterText, CellDiv, ISelectionStyle, TableContainer } from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
 import EditToolBar from './EditToolBar/EditToolBar';
@@ -31,7 +31,8 @@ import {
   EditColumns,
   EditSetup,
   IActionSelection,
-  IDataEdited
+  IDataEdited,
+  ITextAlignColumn
 } from './type';
 
 export type IVTableOrder = 'ASC' | 'DESC';
@@ -80,7 +81,7 @@ export interface IVTableProps {
   enableRowHeader?: boolean;
   className?: string;
   typeHeightRow?: DefaultheightRow;
-  configColumnsHeader?: IVConfigHeader[];
+  configColumnsHeader?: IVConfigHeader[] | IVConfigHeader;
   toolbar?: React.ReactNode;
   footer?: React.ReactNode;
   cellSelectionType?: CellSelectionType;
@@ -89,6 +90,8 @@ export interface IVTableProps {
   editSetup?: EditSetup;
   tableHeight?: string;
   outlineRow?: boolean;
+  textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
+  selectionStyle?: ISelectionStyle
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -174,11 +177,17 @@ export class VTable extends Component<IProps, IVTableState> {
     enableColumnResizing = columnWidths ? false : enableColumnResizing;
 
     return (
-      <ReactResizeDetector handleHeight handleWidth onResize={ () => this.makeResponsiveTable()}>
+      <ReactResizeDetector
+        handleHeight
+        handleWidth
+        onResize={() => this.makeResponsiveTable()}
+      >
         <TableContainer
           isEdit={this.props.edit}
           ref={this.tableRef}
           height={this.props.tableHeight}
+          selection = {this.props.selectionStyle}
+
         >
           {toolbar && toolbar}
 
@@ -349,6 +358,7 @@ export class VTable extends Component<IProps, IVTableState> {
     if (widgetCell) widgetCell.widget.value = value;
     const isValid = this.isValid(columnIndex, value);
     this.updateInvalidColumns(isValid, columnIndex, rowIndex);
+    const textAlignColumn = this.getTextAlignColumn(columnIndex);
 
     const component = widgetCell && (
       <Widget
@@ -358,6 +368,7 @@ export class VTable extends Component<IProps, IVTableState> {
         {...widgetCell.widget}
         disable={!this.state.edit}
         isValid={isValid}
+        textAlign={textAlignColumn.textAlign}
       />
     );
 
@@ -381,6 +392,7 @@ export class VTable extends Component<IProps, IVTableState> {
             value={value}
             disable={!this.state.edit}
             isValid={isValid}
+            textAlign={textAlignColumn.textAlign}
           />
         </CellDiv>
       );
@@ -398,12 +410,42 @@ export class VTable extends Component<IProps, IVTableState> {
           value={value}
           disable={!this.state.edit}
           isValid={isValid}
+          textAlign={textAlignColumn.textAlign}
         />
       </CellDiv>
     ) : (
-      <CellCenterText as={Cell}>{value}</CellCenterText>
+      <CellCenterText textAling={textAlignColumn.textAlign} as={Cell}>
+        {value}
+      </CellCenterText>
     );
   };
+
+  private getTextAlignColumn(columnIndex: number): ITextAlignColumn {
+    let textAlignColumnConfig: ITextAlignColumn | undefined = {
+      columns: 'ALL',
+      textAlign: 'center'
+    };
+
+    if (Array.isArray(this.props.textAlignColumn)) {
+      const restTextAlignColumnConfig = this.props.textAlignColumn.find(
+        x => x.columns === 'ALL'
+      );
+      const textAlignColumn = this.props.textAlignColumn.find(
+        x => x.columns === this.state.columns[columnIndex]
+      );
+
+      if (textAlignColumn) {
+        textAlignColumnConfig = textAlignColumn;
+      } else if (restTextAlignColumnConfig) {
+        textAlignColumnConfig = restTextAlignColumnConfig;
+      }
+    } else {
+      if (this.props.textAlignColumn) {
+        textAlignColumnConfig = this.props.textAlignColumn;
+      }
+    }
+    return textAlignColumnConfig;
+  }
 
   private updateInvalidColumns(
     isValid: boolean,
