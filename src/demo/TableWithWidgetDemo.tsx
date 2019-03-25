@@ -120,7 +120,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         'customer'
       ],
       clearSelection: undefined,
-      typeSelection: 'CELL'
+      typeSelection: 'FREE'
     };
   }
 
@@ -142,10 +142,16 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       <React.Fragment>
         <div>
           <VTable
+            selectionStyle={{
+              backgroundColor:'rgba(34, 220, 72, 0.16);',
+              borderColor: 'green',
+              borderRadius:'15'
+            }}
             tableHeight="120px"
             columnWidths={[200, 125, 150, 200]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             actionsSelection={{
+
               onSelectionChange: this.doSomethingAwesomeWithTheValue,
               onSelectionCleaned: (value: any) => {
                 console.log('onSelectionCleaned', value);
@@ -207,11 +213,18 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               ]
             }}
             data={this.getData()}
+            textAlignColumn={[{
+              columns : 'ALL',
+              textAlign: 'end'
+            },{
+              columns:'name',
+              textAlign:'left'            }]}
             configColumnsHeader={[
               {
                 column: 'name',
                 textColor: 'white',
-                backgroundColor: '#DB2C6F'
+                backgroundColor: '#DB2C6F',
+                textAlign: 'left'
               },
               {
                 column: 'fecha',
@@ -226,7 +239,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               {
                 column: 'color',
                 textColor: 'white',
-                backgroundColor: '#238C2C'
+                backgroundColor: '#238C2C',
+                textAlign: 'end'
               }
             ]}
             typeHeightRow={'SHORT'}
@@ -249,6 +263,14 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         </div>
 
         <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
         <button onClick={this.changeColumn}>cambiar columnas</button>
