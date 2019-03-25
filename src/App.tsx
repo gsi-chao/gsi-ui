@@ -54,6 +54,7 @@ class App extends Component {
       <React.Fragment>
         <div style={{ width: '100%' }}>
           <VTable
+            striped
             edit={{
               editColumn: { columns: 'ALL' },
               onSave: (value: any) => {}

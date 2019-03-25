@@ -89,7 +89,7 @@ export interface IVTableProps {
   actionsSelection?: IActionSelection;
   editSetup?: EditSetup;
   tableHeight?: string;
-  outlineRow?: boolean;
+  striped?: boolean;
   textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
   selectionStyle?: ISelectionStyle
 }
@@ -152,7 +152,7 @@ export class VTable extends Component<IProps, IVTableState> {
   }
 
   render() {
-    const { sortable, columns_name, toolbar, footer } = this.props;
+    const { sortable, columns_name, toolbar, footer,striped } = this.props;
     const { columns } = this.state;
     const columnsList = columns.map((name: string, index: number) => {
       const configColumnsHeader = this.props.configColumnsHeader
@@ -186,8 +186,8 @@ export class VTable extends Component<IProps, IVTableState> {
           isEdit={this.props.edit}
           ref={this.tableRef}
           height={this.props.tableHeight}
+          {...{striped}}
           selection = {this.props.selectionStyle}
-
         >
           {toolbar && toolbar}
 
