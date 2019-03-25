@@ -64,36 +64,39 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
 interface ITableContainer {
   height?: string;
   isEdit?: any;
-  outlineRow?: boolean
+  striped?: boolean;
 }
 
 export const TableContainer = styled.div`
   width: 100%;
   min-height: ${(props: ITableContainer) =>
-  props.height ? `${props.height}px` : '100px'};
+    props.height ? `${props.height}px` : '100px'};
   height: ${(props: ITableContainer) => props.height && `${props.height}px`};
   border: ${(props: ITableContainer) =>
-  props.isEdit ? '1px solid #dbdcdd' : 'none'};
-  
-  & .bp3-table-cell{
+    props.isEdit ? '1px solid #dbdcdd' : 'none'};
+
+  & .bp3-table-cell {
     box-shadow: none !important;
   }
+  ${(props: ITableContainer) =>
+    props.striped &&
+    `
   & .bp3-table-cell-ledger-even{
     background-color: rgba(220,220,221,0.49)!important;
     border-bottom: 1px solid rgba(128,128,128,0.11);
-  }
-  
-   & .bp3-table-cell-ledger-odd{
-   
+  }`};
+
+  & .bp3-table-cell-ledger-odd {
     border-bottom: 1px solid white !important;
   }
-  
-  & .bp3-table-column-headers .bp3-table-header{
+
+  & .bp3-table-column-headers .bp3-table-header {
     min-height: 35px;
     line-height: 35px;
     box-shadow: none;
   }
-  & .bp3-table-quadrant-top-left .bp3-table-header.bp3-table-last-in-row{
-    box-shadow: 0 0px 0 rgba(16, 22, 26, 0.15), inset -3px 0 0 rgba(16, 22, 26, 0.15) !important;
+  & .bp3-table-quadrant-top-left .bp3-table-header.bp3-table-last-in-row {
+    box-shadow: 0 0px 0 rgba(16, 22, 26, 0.15),
+      inset -3px 0 0 rgba(16, 22, 26, 0.15) !important;
   }
 `;
