@@ -137,21 +137,19 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     const fechaValidation = (value: string) => {
       return value.length < 5;
     };
-    console.log('this.state.clearSelection', this.state.clearSelection);
     return (
       <React.Fragment>
         <div>
           <VTable
             selectionStyle={{
-              backgroundColor:'rgba(34, 220, 72, 0.16);',
+              backgroundColor: 'rgba(34, 220, 72, 0.16);',
               borderColor: 'green',
-              borderRadius:'15'
+              borderRadius: '15'
             }}
-            tableHeight="120px"
+            tableHeight="350px"
             columnWidths={[200, 125, 150, 200]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             actionsSelection={{
-
               onSelectionChange: this.doSomethingAwesomeWithTheValue,
               onSelectionCleaned: (value: any) => {
                 console.log('onSelectionCleaned', value);
@@ -212,13 +210,17 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 }
               ]
             }}
-            data={this.getData()}
-            textAlignColumn={[{
-              columns : 'ALL',
-              textAlign: 'end'
-            },{
-              columns:'name',
-              textAlign:'left'            }]}
+            data={this.state.data}
+            textAlignColumn={[
+              {
+                columns: 'ALL',
+                textAlign: 'end'
+              },
+              {
+                columns: 'name',
+                textAlign: 'left'
+              }
+            ]}
             configColumnsHeader={[
               {
                 column: 'name',
@@ -271,9 +273,9 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         <br />
         <br />
 
-
         <button onClick={this.handleChangeColor}>cambiar color</button>
         <button onClick={this.changeColumn}>cambiar columnas</button>
+        <button onClick={this.addColumn}>add columnas</button>
         <button
           onClick={() => {
             this.changeData('red');
@@ -339,6 +341,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
   };
 
   changeData = (colorFiltered?: string) => {
+    console.log('change');
+    console.log(colorFiltered);
     this.setState({
       data: this.getData(colorFiltered)
     });
@@ -347,6 +351,11 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
   changeColumn = () => {
     this.setState({
       columns: ['name', 'dropdown', 'other', 'fecha', 'checkbox']
+    });
+  };
+  addColumn = () => {
+    this.setState({
+      columns: ['name', 'dropdown', 'other', 'fecha', 'checkbox', 'sinEditar']
     });
   };
 

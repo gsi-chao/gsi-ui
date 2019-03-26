@@ -19,8 +19,14 @@ import {
   IVContextualTableProps
 } from './ActionCellsMenuItem';
 import ReactResizeDetector from 'react-resize-detector';
+import { cloneDeep } from 'lodash';
 
-import { CellCenterText, CellDiv, ISelectionStyle, TableContainer } from './style';
+import {
+  CellCenterText,
+  CellDiv,
+  ISelectionStyle,
+  TableContainer
+} from './style';
 import Widget, { IVWidgetTableProps } from './Widget/Widget';
 import * as utils from './utils';
 import EditToolBar from './EditToolBar/EditToolBar';
@@ -91,7 +97,7 @@ export interface IVTableProps {
   tableHeight?: string;
   striped?: boolean;
   textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
-  selectionStyle?: ISelectionStyle
+  selectionStyle?: ISelectionStyle;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -125,7 +131,7 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   public state: IVTableState = {
-    sparseCellData: utils.clone(this.props.data),
+    sparseCellData: cloneDeep(this.props.data),
     sparseCellInvalid: {},
     sparseCellUpdateData: {},
     columns: this.props.columns,
@@ -142,9 +148,17 @@ export class VTable extends Component<IProps, IVTableState> {
 
   static getDerivedStateFromProps(props: IProps, state: IVTableState) {
     const notAreSame =
-      JSON.stringify(props.data) !== JSON.stringify(state.sparseCellData);
+      JSON.stringify(props.data) !== JSON.stringify(state.sparseCellData) ||
+      JSON.stringify(props.columns) !== JSON.stringify(state.columns);
     if (notAreSame) {
-      return { ...state, ...{ sparseCellData: props.data } };
+      const columnsWidth = utils.fillRemoveColumnsWidth(
+        state.columnsWidth,
+        props.columns
+      );
+      return {
+        ...state,
+        ...{ columnsWidth, sparseCellData: props.data, columns: props.columns }
+      };
     }
 
     // No state update necessary
@@ -152,7 +166,7 @@ export class VTable extends Component<IProps, IVTableState> {
   }
 
   render() {
-    const { sortable, columns_name, toolbar, footer,striped } = this.props;
+    const { sortable, columns_name, toolbar, footer, striped } = this.props;
     const { columns } = this.state;
     const columnsList = columns.map((name: string, index: number) => {
       const configColumnsHeader = this.props.configColumnsHeader
@@ -172,9 +186,9 @@ export class VTable extends Component<IProps, IVTableState> {
 
     const resizingProperties = this.getResizingProperties();
     let { enableColumnResizing } = resizingProperties;
-
-    const columnWidths = this.state.columnsWidth;
-    enableColumnResizing = columnWidths ? false : enableColumnResizing;
+    enableColumnResizing = this.state.columnsWidth
+      ? false
+      : enableColumnResizing;
 
     return (
       <ReactResizeDetector
@@ -185,9 +199,9 @@ export class VTable extends Component<IProps, IVTableState> {
         <TableContainer
           isEdit={this.props.edit}
           ref={this.tableRef}
-          height={this.props.tableHeight}
-          {...{striped}}
-          selection = {this.props.selectionStyle}
+          tableHeight={this.props.tableHeight}
+          {...{ striped }}
+          selection={this.props.selectionStyle}
         >
           {toolbar && toolbar}
 
@@ -229,7 +243,7 @@ export class VTable extends Component<IProps, IVTableState> {
   onEdit = () => {
     this.setState({
       edit: true,
-      dataBeforeEdit: utils.clone(this.state.sparseCellData)
+      dataBeforeEdit: cloneDeep(this.state.sparseCellData)
     });
   };
 
@@ -325,25 +339,6 @@ export class VTable extends Component<IProps, IVTableState> {
       : false;
 
     return { enableRowHeader, enableColumnResizing, enableRowResizing };
-  };
-
-  getColumnsWidths = () => {
-    if (this.state.columnsWidth && this.state.columnsWidth.length > 0) {
-      return this.state.columnsWidth;
-    }
-    if (
-      this.props.columnWidths &&
-      this.props.columnWidths.length === this.props.columns.length
-    ) {
-      return this.props.columnWidths;
-    }
-    if (this.props.columnWidths) {
-      console.warn(
-        'Gsi-vx-ui => [Violation] The last configuration to catch the width ' +
-          'of the columns does not correspond to the column amount of the table'
-      );
-    }
-    return [];
   };
 
   public renderCell = (rowIndex: number, columnIndex: number) => {
@@ -545,11 +540,12 @@ export class VTable extends Component<IProps, IVTableState> {
       tableWidth = this.tableRef.current.clientWidth;
     }
 
-    const { columns, columnWidths } = this.props;
+    const { columns } = this.props;
+    const columnWidths = this.state.columnsWidth.splice(0, columns.length - 1);
     const {
       fixedCellsTotal,
       reservedWidth
-    } = this.getReservedWidthAndFixedCells(columnWidths || []);
+    } = utils.getReservedWidthAndFixedCells(columnWidths || []);
     let sizePerColumn = 80;
     if (columns.length > 0 && columns.length > fixedCellsTotal) {
       const w =
@@ -585,20 +581,6 @@ export class VTable extends Component<IProps, IVTableState> {
     }
     return colsWidth;
   }
-
-  getReservedWidthAndFixedCells = (columnWidths: any[]) => {
-    let reservedWidth = 0;
-    let fixedCellsTotal = 0;
-    if (columnWidths && columnWidths.length > 0) {
-      columnWidths.map(col => {
-        reservedWidth += col || 0;
-        if (col !== 0) {
-          fixedCellsTotal++;
-        }
-      });
-    }
-    return { reservedWidth, fixedCellsTotal };
-  };
 
   componentDidMount() {
     this.makeResponsiveTable();
@@ -751,7 +733,7 @@ export class VTable extends Component<IProps, IVTableState> {
    ** @return the fixed regions.
    **/
   validateMissingRegion = (argsRegions: IRegion[]) => {
-    const regions = utils.clone(argsRegions);
+    const regions = cloneDeep(argsRegions);
     if (regions && regions.length > 1) {
       const lastRegion = regions[regions.length - 1];
       const { selectedRegions } = this.state;
@@ -777,7 +759,7 @@ export class VTable extends Component<IProps, IVTableState> {
    ** @return the fixed regions.
    **/
   getRegionsWithMissingRowsOrCols = (argsRegions: IRegion[]): IRegion[] => {
-    const regions = utils.clone(argsRegions);
+    const regions = cloneDeep(argsRegions);
     const { numRows, numCols } = this.getRowAndColsTotals();
 
     if (regions.length > 0 && regions[regions.length - 1].rows === undefined) {
@@ -796,7 +778,7 @@ export class VTable extends Component<IProps, IVTableState> {
    ** @return the regions with the actions applied.
    **/
   ifAlreadySelectedThenDeselect = (argsRegions: IRegion[]): IRegion[] => {
-    let regions: IRegion[] = utils.clone(argsRegions);
+    let regions: IRegion[] = cloneDeep(argsRegions);
     const lastRegion = regions[regions.length - 1];
     if (
       lastRegion &&
@@ -870,7 +852,7 @@ export class VTable extends Component<IProps, IVTableState> {
    ** @return the regions with the actions applied.
    **/
   deleteRegionRemain = (argsRegions: IRegion[]): IRegion[] => {
-    const regions = utils.clone(argsRegions);
+    const regions = cloneDeep(argsRegions);
     const lastRegion = regions[regions.length - 1];
     if (this.isSingleCell(lastRegion)) {
       const { selectedRegions } = this.state;
@@ -932,7 +914,7 @@ export class VTable extends Component<IProps, IVTableState> {
    ** @return an array of regions split by the cellToDeselect first selected by columns and then by rows.
    **/
   splitRegion = (argsRegion: IRegion, cellToDeselect: ICell): IRegion[] => {
-    const region = utils.clone(argsRegion);
+    const region = cloneDeep(argsRegion);
     const { endCell, startCell } = utils.getStartAndEndCell(region);
     const splittedRegion = [];
     for (let col = startCell.col; col <= endCell.col; col++) {
