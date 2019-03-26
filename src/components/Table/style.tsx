@@ -74,8 +74,8 @@ export interface ISelectionStyle {
   backgroundColor?: string;
 }
 
- interface ITableContainer {
-  height?: string;
+interface ITableContainer {
+  tableHeight?: string;
   isEdit?: any;
   striped?: boolean;
   selection?: ISelectionStyle;
@@ -93,11 +93,12 @@ function existBackgroundColor(props: ITableContainer) {
   return props.selection && props.selection.backgroundColor;
 }
 
+
 export const TableContainer = styled.div`
   width: 100%;
   min-height: ${(props: ITableContainer) =>
-    props.height ? `${props.height}px` : '100px'};
-  height: ${(props: ITableContainer) => props.height && `${props.height}px`};
+    props.tableHeight ? `${props.tableHeight} !important` : '100px !important'};
+  height: ${(props: ITableContainer) => props.tableHeight && `${props.tableHeight} !important`};
   border: ${(props: ITableContainer) =>
     props.isEdit ? '1px solid #dbdcdd' : 'none'};
 
@@ -125,20 +126,17 @@ export const TableContainer = styled.div`
     box-shadow: 0 0px 0 rgba(16, 22, 26, 0.15),
       inset -3px 0 0 rgba(16, 22, 26, 0.15) !important;
   }
-  
+
   & .bp3-table-selection-region {
- 
-    border:  ${(props: ITableContainer) =>
+    border: ${(props: ITableContainer) =>
       existBorders(props)
         ? `1px solid ${props!.selection!.borderColor}`
-        : '1px solid #137cbd'} ;
+        : '1px solid #137cbd'};
     border-radius: ${(props: ITableContainer) =>
-      existBorderRadius(props)
-        ? `${props.selection!.borderRadius}px`
-        : '3px'};
-    background-color:${(props: ITableContainer) =>
+      existBorderRadius(props) ? `${props.selection!.borderRadius}px` : '3px'};
+    background-color: ${(props: ITableContainer) =>
       existBackgroundColor(props)
         ? `${props.selection!.backgroundColor}`
-        : 'hsla(192, 73%, 36%, 0.15)'}; ;
+        : 'hsla(192, 73%, 36%, 0.15)'};
   }
 `;
