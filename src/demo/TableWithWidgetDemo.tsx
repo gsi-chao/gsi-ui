@@ -146,7 +146,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               borderColor: 'green',
               borderRadius: '15'
             }}
-            tableHeight={"20px"}
+            tableHeight="350px"
             columnWidths={[200, 125, 150, 200]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             actionsSelection={{
