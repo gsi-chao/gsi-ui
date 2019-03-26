@@ -76,12 +76,19 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   }
 
   public getFieldText() {
-    const fValue = this.props.fieldState.value;
-    if (fValue) {
+    let fValue = '';
+    if (this.props.fieldState) {
+      fValue = this.props.fieldState.value;
+    } else if (this.props.value) {
+      fValue = this.props.value;
+    }
+    if (!!fValue) {
       const item = this.props.options.find((value: IItem) => {
         return fValue === value.value;
       });
-      return (item && item.label) || this.props.defaultText || 'No selection';
+      if (item) {
+        return item.label;
+      }
     }
     return this.props.defaultText || 'No selection';
   }
@@ -107,10 +114,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       fixedInputWidthPx,
       iconOnly,
       minimal,
-      margin
+      margin,
+      value
     } = this.props;
-
-    const defaultText = this.props.defaultText || 'No selection';
 
     const initialContent =
       options && options.length === 0 ? (
@@ -122,21 +128,25 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       ) : (
         undefined
       );
-    if (required) {
-      if (validators && validators.length > 0) {
-        fieldState.validators(validator.required, ...validators);
-      } else {
-        fieldState.validators(validator.required);
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(validator.required, ...validators);
+        } else {
+          fieldState.validators(validator.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
       }
-    } else if (validators && validators.length > 0) {
-      fieldState.validators(...validators);
     }
 
     return (
       <StyledPopOverWrapper
         disabled={disabled}
         inline={inline}
-        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        intent={
+          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+        }
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -179,11 +189,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                   disabled
                 }}
                 rightIcon={rightIcon || 'chevron-down'}
-                text={
-                  this.props.fieldState.value
-                    ? this.getFieldText()
-                    : defaultText
-                }
+                text={this.getFieldText()}
               />
             )}
           </ItemSelect>
@@ -193,7 +199,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   }
   onItemSelected = (value: IItem) => {
     this.setState({ item: value });
-    this.props.fieldState.onChange(value.value);
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange(value.value);
+    }
     if (this.props.onChange) {
       this.props.onChange!(value.value);
     }

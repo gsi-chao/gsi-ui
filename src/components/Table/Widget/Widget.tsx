@@ -28,7 +28,7 @@ export interface IWidget {
   value?: any;
   disable?: boolean;
   isValid?: boolean;
-  textAlign?:string;
+  textAlign?: string;
 }
 
 export interface ActionClickWidget {

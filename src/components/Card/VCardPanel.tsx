@@ -33,7 +33,7 @@ interface StyledCardProps {
   defaultActive?: boolean;
   headerCustomComponent?: any;
   heigthHeaderPx?: number;
-  headerCustomButton?: any
+  headerCustomButton?: any;
 }
 
 interface PanelState {

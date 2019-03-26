@@ -23,7 +23,8 @@ export interface IFieldProps {
   validators?: any[];
   minimal?: boolean;
   margin?: string;
+  value?: any;
 
   /** The fieldState */
-  fieldState: FieldState<any>;
+  fieldState?: FieldState<any>;
 }

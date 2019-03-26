@@ -45,27 +45,33 @@ export class VInputField extends React.Component<IInputFieldProps> {
       noLabel,
       required,
       validators,
-      margin
+      margin,
+      value
     } = this.props;
     let rightEl;
     if (!rightElement) {
-      rightEl = <div style={{paddingRight: 10}}/>;
+      rightEl = <div style={{ paddingRight: 10 }} />;
     }
-    if (required) {
-      if (validators && validators.length > 0) {
-        fieldState.validators(validator.required, ...validators);
-      } else {
-        fieldState.validators(validator.required);
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(validator.required, ...validators);
+        } else {
+          fieldState.validators(validator.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
       }
-    } else if (validators && validators.length > 0) {
-      fieldState.validators(...validators);
     }
+
     return (
       <StyledInput
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        intent={
+          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+        }
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -93,9 +99,11 @@ export class VInputField extends React.Component<IInputFieldProps> {
               id
             }}
             onChange={this.onChange}
-            value={fieldState.value || ''}
-            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
-            style={{paddingRight: 10}}
+            value={!!fieldState ? fieldState.value : value || ''}
+            intent={
+              !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+            }
+            style={{ paddingRight: 10 }}
           />
         </FormFieldContainer>
       </StyledInput>
@@ -103,7 +111,9 @@ export class VInputField extends React.Component<IInputFieldProps> {
   }
 
   onChange = (e: any) => {
-    this.props.fieldState.onChange(e.target.value);
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange(e.target.value);
+    }
     if (this.props.onChange) {
       this.props.onChange(e.target.value);
     }

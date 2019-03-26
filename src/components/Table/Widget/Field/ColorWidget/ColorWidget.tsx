@@ -15,7 +15,7 @@ export interface IColorWidgetState {
   value?: string;
 }
 interface IProps extends IColorWidgetState {
-  textAlign?:string
+  textAlign?: string;
 }
 
 class ColorWidget extends Component<IProps, IColorWidgetState> {
@@ -57,7 +57,7 @@ class ColorWidget extends Component<IProps, IColorWidgetState> {
       background: ${backgroundColor};
       color: ${color};
       height: 100%;
-     
+
       & div {
         text-align: center;
         position: relative;
@@ -69,28 +69,33 @@ class ColorWidget extends Component<IProps, IColorWidgetState> {
     return (
       <CellColor>
         {' '}
-        <div style={{textAlign:this.getTextAlign(),padding:'0px 10px'}}>{this.props.value}</div>
+        <div style={{ textAlign: this.getTextAlign(), padding: '0px 10px' }}>
+          {this.props.value}
+        </div>
       </CellColor>
     );
   }
 
   private getTextAlign() {
-    const supported: TextAlignProperty[] = ['-moz-initial'
-      , 'inherit'
-      , 'initial'
-      , 'revert'
-      , 'unset'
-      , 'center'
-      , 'end'
-      , 'justify'
-      , 'left'
-      , 'match-parent'
-      , 'right'
-      , 'start'
+    const supported: TextAlignProperty[] = [
+      '-moz-initial',
+      'inherit',
+      'initial',
+      'revert',
+      'unset',
+      'center',
+      'end',
+      'justify',
+      'left',
+      'match-parent',
+      'right',
+      'start'
     ];
 
-    const textAlign = supported.find((x: TextAlignProperty) => x === this.props.textAlign);
-    return  textAlign ? textAlign : 'center';
+    const textAlign = supported.find(
+      (x: TextAlignProperty) => x === this.props.textAlign
+    );
+    return textAlign ? textAlign : 'center';
   }
 }
 

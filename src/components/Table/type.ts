@@ -25,7 +25,6 @@ export interface IActionSelection {
 export interface ITextAlignColumn {
   columns: string | 'ALL';
   textAlign: string | 'center' | 'end' | 'left';
-
 }
 
 export interface IVConfigTextAlign {

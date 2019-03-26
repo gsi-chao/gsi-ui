@@ -42,23 +42,28 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       layer,
       noLabel,
       required,
-      validators
+      validators,
+      value
     } = this.props;
-    if (required) {
-      if (validators && validators.length > 0) {
-        fieldState.validators(validator.required, ...validators);
-      } else {
-        fieldState.validators(validator.required);
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(validator.required, ...validators);
+        } else {
+          fieldState.validators(validator.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
       }
-    } else if (validators && validators.length > 0) {
-      fieldState.validators(...validators);
     }
     return (
       <StyledTextArea
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        intent={
+          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+        }
         labelFor={id}
         layer={layer}
         labelInfo={labelInfo}
@@ -75,8 +80,16 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
             large={size === 'large'}
             small={size === 'small'}
             onChange={this.onChange}
-            value={fieldState.value || ''}
-            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+            value={
+              !!fieldState && !!fieldState.value
+                ? fieldState.value
+                : !!value
+                ? value
+                : ''
+            }
+            intent={
+              !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+            }
             name={id}
             {...{
               disabled,
@@ -88,7 +101,9 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
     );
   }
   onChange = (e: any) => {
-    this.props.fieldState.onChange(e.target.value);
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange(e.target.value);
+    }
     if (this.props.onChange) {
       this.props.onChange!(e.target.value);
     }

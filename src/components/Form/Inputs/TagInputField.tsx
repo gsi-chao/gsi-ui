@@ -51,21 +51,30 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       layer,
       noLabel,
       required,
-      validators
+      validators,
+      value
     } = this.props;
-    if (required) {
-      if (validators && validators.length > 0) {
-        fieldState.validators(validator.required, ...validators);
-      } else {
-        fieldState.validators(validator.required);
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(validator.required, ...validators);
+        } else {
+          fieldState.validators(validator.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
       }
-    } else if (validators && validators.length > 0) {
-      fieldState.validators(...validators);
     }
+
     const clearButton = (
       <Button
         disabled={disabled}
-        icon={fieldState.value.length > 0 ? 'cross' : 'refresh'}
+        icon={
+          (!!fieldState && fieldState.value.length > 0) ||
+          (!!value && value.length > 0)
+            ? 'cross'
+            : 'refresh'
+        }
         minimal={true}
         onClick={this.handleClear}
       />
@@ -76,7 +85,9 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        intent={
+          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+        }
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -101,8 +112,16 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
             tagProps={tagProps}
             large={size === 'large'}
             onChange={this.handleChange}
-            values={fieldState.value || []}
-            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+            values={
+              !!fieldState && !!fieldState.value
+                ? fieldState.value
+                : !!value
+                ? value
+                : []
+            }
+            intent={
+              !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+            }
           />
         </FormFieldContainer>
       </StyledTagsInput>
@@ -110,7 +129,9 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
   }
 
   private handleChange = (values: React.ReactNode[]) => {
-    this.props.fieldState.onChange(values);
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange(values);
+    }
     if (this.props.onChange) {
       this.props.onChange!(values);
     }

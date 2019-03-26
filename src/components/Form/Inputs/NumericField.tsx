@@ -49,23 +49,28 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       noLabel,
       required,
       validators,
-      margin
+      margin,
+      value
     } = this.props;
-    if (required) {
-      if (validators && validators.length > 0) {
-        fieldState.validators(validator.required, ...validators);
-      } else {
-        fieldState.validators(validator.required);
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(validator.required, ...validators);
+        } else {
+          fieldState.validators(validator.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
       }
-    } else if (validators && validators.length > 0) {
-      fieldState.validators(...validators);
     }
     return (
       <StyledNumericInput
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        intent={
+          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+        }
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -93,8 +98,10 @@ export class VNumericField extends React.Component<INumericFieldProps> {
               buttonPosition
             }}
             onValueChange={this.onChange}
-            value={fieldState.value || 0}
-            intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+            value={!!fieldState ? fieldState.value : value || 0}
+            intent={
+              !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+            }
           />
         </FormFieldContainer>
       </StyledNumericInput>
@@ -102,7 +109,9 @@ export class VNumericField extends React.Component<INumericFieldProps> {
   }
 
   onChange = (e: any, value: string) => {
-    this.props.fieldState.onChange(e);
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange(e);
+    }
     if (this.props.onChange) {
       this.props.onChange!(e);
     }

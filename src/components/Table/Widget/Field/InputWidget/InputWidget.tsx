@@ -19,8 +19,6 @@ class InputWidget extends Component<IProps, IState> {
   render() {
     const disable = this.props.disable;
 
-
-
     return (
       <input
         style={{
@@ -34,7 +32,6 @@ class InputWidget extends Component<IProps, IState> {
   }
 
   getStyle = (isValid: boolean) => {
-
     return {
       textAlign: this.getTextAlign(),
       width: '99%',
@@ -49,22 +46,24 @@ class InputWidget extends Component<IProps, IState> {
 
   private getTextAlign() {
     const supported: TextAlignProperty[] = [
-      '-moz-initial'
-      , 'inherit'
-      , 'initial'
-      , 'revert'
-      , 'unset'
-      , 'center'
-      , 'end'
-      , 'justify'
-      , 'left'
-      , 'match-parent'
-      , 'right'
-      , 'start'
+      '-moz-initial',
+      'inherit',
+      'initial',
+      'revert',
+      'unset',
+      'center',
+      'end',
+      'justify',
+      'left',
+      'match-parent',
+      'right',
+      'start'
     ];
 
-    const textAlign = supported.find((x: TextAlignProperty) => x === this.props.textAlign);
-    return  textAlign ? textAlign : 'center';
+    const textAlign = supported.find(
+      (x: TextAlignProperty) => x === this.props.textAlign
+    );
+    return textAlign ? textAlign : 'center';
   }
 
   onChange = (e: any) => {

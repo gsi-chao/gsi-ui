@@ -17,6 +17,7 @@ import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
 import { Button, Icon } from '@blueprintjs/core';
 import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectItems';
 import { IItemsList } from '../components/SelectionList';
+import { action, observable } from 'mobx';
 
 const store = [
   {
@@ -45,6 +46,7 @@ const sex = [
 @observer
 class InputsDemo extends Component {
   form: FormState<any>;
+  @observable selectValue: any;
   constructor(props: any) {
     super(props);
     this.form = new FormState<any>({
@@ -60,6 +62,7 @@ class InputsDemo extends Component {
       places: new FieldState(sex[0].value),
       date: new FieldState('')
     });
+    this.selectValue = store[0].value;
   }
   /**
    * Example of validations functions, look in the search field
@@ -67,6 +70,10 @@ class InputsDemo extends Component {
   searchingAnime = (value: any) =>
     value.toString().indexOf('anime') !== -1 &&
     `Can't search anime in work dude!!!!`;
+
+  @action setSelectedValue = (value: any) => {
+    this.selectValue = value;
+  };
   render() {
     console.log('render..');
     console.log('value before:', this.form.$.places);
@@ -139,9 +146,10 @@ class InputsDemo extends Component {
           options={store}
           inline
           label={'Store List'}
-          fieldState={this.form.$.store}
+          value={this.selectValue}
           id="store"
           icon={'search'}
+          onChange={this.setSelectedValue}
         />
         <Button
           text={'Change Select Store'}

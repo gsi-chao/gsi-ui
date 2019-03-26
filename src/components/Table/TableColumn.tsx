@@ -13,13 +13,12 @@ export interface ISortableColumn {
 }
 
 export interface IVConfigHeader extends IConfignHeader {
-  column?: string ;
+  column?: string;
 }
 
-export interface IConfignHeader extends IVConfigTextAlign{
+export interface IConfignHeader extends IVConfigTextAlign {
   backgroundColor: string;
   textColor: string;
-
 }
 
 export default class TableColumn implements ISortableColumn {
@@ -33,10 +32,8 @@ export default class TableColumn implements ISortableColumn {
   ) {}
 
   getColumn = (getCellData: ICellLookup) => {
-
     return (
       <Column
-
         cellRenderer={getCellData}
         columnHeaderCellRenderer={this.renderColumnHeader}
         key={this.index}
@@ -58,14 +55,16 @@ export default class TableColumn implements ISortableColumn {
 
   renderColumnHeader = (columnIndex: number) => {
     const menuRenderer = this.getMenu(columnIndex);
-    const { backgroundColor, textColor, textAlign } = this.getConfigHeaderStyle(columnIndex);
+    const { backgroundColor, textColor, textAlign } = this.getConfigHeaderStyle(
+      columnIndex
+    );
     const columnName = this.getColumnName(columnIndex);
 
     return (
       <ColumnHeaderCellStyled
         backgroundColor={backgroundColor}
         textColor={textColor}
-        textAlign = {textAlign}
+        textAlign={textAlign}
         name={columnName}
         menuRenderer={menuRenderer as any}
       />
@@ -85,7 +84,7 @@ export default class TableColumn implements ISortableColumn {
       ) {
         menuRenderer = this.sortable.custom_render_menu[
           this.columns[columnIndex]
-          ];
+        ];
       } else {
         menuRenderer = this.renderMenu;
       }
@@ -98,9 +97,10 @@ export default class TableColumn implements ISortableColumn {
     let textColor = 'black';
     let textAlign;
 
-    let configHeader: IVConfigHeader[] | IConfignHeader | undefined =  this.header_config;
+    let configHeader: IVConfigHeader[] | IConfignHeader | undefined = this
+      .header_config;
 
-    if( Array.isArray(configHeader)){
+    if (Array.isArray(configHeader)) {
       configHeader = configHeader.find(
         x => x.column === this.columns[columnIndex]
       );
@@ -122,6 +122,4 @@ export default class TableColumn implements ISortableColumn {
         : this.columns[columnIndex].replace(/\b\w/g, l => l.toUpperCase());
     return columnName;
   }
-
-
 }

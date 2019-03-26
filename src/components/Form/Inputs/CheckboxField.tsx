@@ -44,23 +44,29 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       noLabel,
       required,
       validators,
-      margin
+      margin,
+      value
     } = this.props;
-    if (required) {
-      if (validators && validators.length > 0) {
-        fieldState.validators(validator.required, ...validators);
-      } else {
-        fieldState.validators(validator.required);
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(validator.required, ...validators);
+        } else {
+          fieldState.validators(validator.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
       }
-    } else if (validators && validators.length > 0) {
-      fieldState.validators(...validators);
     }
+
     return (
       <StyledCheckBoxInput
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        intent={
+          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+        }
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -85,7 +91,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
               label: ''
             }}
             onChange={this.onChange}
-            checked={fieldState.value || false}
+            checked={!!fieldState ? fieldState.value : value || false}
           />
         </FormFieldContainer>
       </StyledCheckBoxInput>
@@ -93,7 +99,9 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
   }
 
   onChange = (e: any) => {
-    this.props.fieldState.onChange(e.target.checked);
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange(e.target.checked);
+    }
     if (this.props.onChange) {
       this.props.onChange!(e.target.checked);
     }

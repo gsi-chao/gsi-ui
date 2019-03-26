@@ -56,23 +56,29 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
       noLabel,
       required,
       validators,
-      margin
+      margin,
+      value
     } = this.props;
-    if (required) {
-      if (validators && validators.length > 0) {
-        fieldState.validators(validator.required, ...validators);
-      } else {
-        fieldState.validators(validator.required);
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(validator.required, ...validators);
+        } else {
+          fieldState.validators(validator.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
       }
-    } else if (validators && validators.length > 0) {
-      fieldState.validators(...validators);
     }
+
     return (
       <StyledRadioButton
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        intent={
+          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+        }
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -94,7 +100,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
               alignIndicator
             }}
             onChange={this.onChange}
-            selectedValue={fieldState.value}
+            selectedValue={!!fieldState ? fieldState.value : value || null}
             options={options}
           />
         </FormFieldContainer>
@@ -103,7 +109,9 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
   }
 
   onChange = (e: any) => {
-    this.props.fieldState.onChange(e.target.value);
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange(e.target.value);
+    }
     if (this.props.onChange) {
       this.props.onChange!(e.target.value);
     }

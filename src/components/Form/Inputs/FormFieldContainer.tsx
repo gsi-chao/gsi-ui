@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export interface IFormFieldContainerProps {
   label: string | undefined;
   children: any;
-  fieldState: IFieldState;
+  fieldState?: IFieldState;
   required?: boolean;
   className?: string;
   noLabel?: boolean;
@@ -40,7 +40,7 @@ export class FormFieldContainer extends React.Component<
         <div className={'gsi-form-field-container'}>
           <div className={'gsi-input-and-error-container'}>
             {children}
-            {fieldState.hasError ? (
+            {!!fieldState && fieldState.hasError ? (
               <span className={'gsi-error-span'}>{fieldState.error}</span>
             ) : null}
           </div>

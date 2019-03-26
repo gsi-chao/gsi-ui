@@ -49,23 +49,28 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
       noLabel,
       required,
       validators,
-      margin
+      margin,
+      value
     } = this.props;
-    if (required) {
-      if (validators && validators.length > 0) {
-        fieldState.validators(validator.required, ...validators);
-      } else {
-        fieldState.validators(validator.required);
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(validator.required, ...validators);
+        } else {
+          fieldState.validators(validator.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
       }
-    } else if (validators && validators.length > 0) {
-      fieldState.validators(...validators);
     }
     return (
       <StyledSlider
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        intent={
+          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+        }
         labelFor={id}
         labelInfo={labelInfo}
         fill={fill}
@@ -89,7 +94,13 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
               labelStepSize
             }}
             onChange={this.onChange}
-            value={fieldState.value || 0}
+            value={
+              !!fieldState && !!fieldState.value
+                ? fieldState.value
+                : !!value
+                ? value
+                : 0
+            }
           />
         </FormFieldContainer>
       </StyledSlider>
@@ -97,7 +108,9 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
   }
 
   onChange = (e: any) => {
-    this.props.fieldState.onChange(e);
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange(e);
+    }
     if (this.props.onChange) {
       this.props.onChange!(e);
     }

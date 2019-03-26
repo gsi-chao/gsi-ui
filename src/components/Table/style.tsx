@@ -93,12 +93,12 @@ function existBackgroundColor(props: ITableContainer) {
   return props.selection && props.selection.backgroundColor;
 }
 
-
 export const TableContainer = styled.div`
   width: 100%;
   min-height: ${(props: ITableContainer) =>
     props.tableHeight ? `${props.tableHeight} !important` : '100px !important'};
-  height: ${(props: ITableContainer) => props.tableHeight && `${props.tableHeight} !important`};
+  height: ${(props: ITableContainer) =>
+    props.tableHeight && `${props.tableHeight} !important`};
   border: ${(props: ITableContainer) =>
     props.isEdit ? '1px solid #dbdcdd' : 'none'};
 

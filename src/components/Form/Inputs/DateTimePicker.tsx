@@ -51,7 +51,9 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
   }
 
   changedDate = (date: any) => {
-    this.props.fieldState.onChange(date);
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange(date);
+    }
     if (this.props.onChange) {
       this.props.onChange(date);
     }
@@ -72,7 +74,8 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       dateType,
       rightElement,
       icon,
-      margin
+      margin,
+      value
     } = this.props;
     let iconJSX;
     if (icon) {
@@ -93,7 +96,9 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={fieldState.hasError ? Intent.DANGER : Intent.NONE}
+        intent={
+          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+        }
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -106,7 +111,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               {...FORMATS[dateType]}
               disabled={disabled}
               onChange={this.changedDate}
-              value={fieldState.value || null}
+              value={!!fieldState ? fieldState.value : value || null}
               timePrecision={dateType === 'DATETIME' ? 'second' : undefined}
               rightElement={iconJSX}
             />
