@@ -145,7 +145,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         disabled={disabled}
         inline={inline}
         intent={
-          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
         }
         labelFor={id}
         labelInfo={labelInfo}

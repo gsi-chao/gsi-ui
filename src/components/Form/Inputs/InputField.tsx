@@ -70,7 +70,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
         disabled={disabled}
         inline={inline}
         intent={
-          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
         }
         labelFor={id}
         labelInfo={labelInfo}
@@ -99,9 +99,9 @@ export class VInputField extends React.Component<IInputFieldProps> {
               id
             }}
             onChange={this.onChange}
-            value={!!fieldState ? fieldState.value : value || ''}
+            value={fieldState ? fieldState.value : value ? value : ''}
             intent={
-              !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+              fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
             style={{ paddingRight: 10 }}
           />

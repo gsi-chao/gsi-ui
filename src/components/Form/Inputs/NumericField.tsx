@@ -69,7 +69,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
         disabled={disabled}
         inline={inline}
         intent={
-          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
         }
         labelFor={id}
         labelInfo={labelInfo}
@@ -98,9 +98,9 @@ export class VNumericField extends React.Component<INumericFieldProps> {
               buttonPosition
             }}
             onValueChange={this.onChange}
-            value={!!fieldState ? fieldState.value : value || 0}
+            value={fieldState ? fieldState.value : value ? value : 0}
             intent={
-              !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+              fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
           />
         </FormFieldContainer>

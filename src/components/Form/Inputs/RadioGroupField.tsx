@@ -77,7 +77,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
         disabled={disabled}
         inline={inline}
         intent={
-          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
         }
         labelFor={id}
         labelInfo={labelInfo}
@@ -100,7 +100,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
               alignIndicator
             }}
             onChange={this.onChange}
-            selectedValue={!!fieldState ? fieldState.value : value || null}
+            selectedValue={fieldState ? fieldState.value : value ? value : null}
             options={options}
           />
         </FormFieldContainer>

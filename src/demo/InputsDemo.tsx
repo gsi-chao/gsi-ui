@@ -2,22 +2,25 @@ import React, { Component } from 'react';
 
 import { FieldState, FormState } from 'formstate';
 import { observer } from 'mobx-react';
+import moment from 'moment';
+import { action, observable } from 'mobx';
+import { Button } from '@blueprintjs/core';
+
 import {
-  VInputField,
   VBasicSliderField,
-  VTextAreaField,
-  VTagInputField,
-  VNumericField,
   VCheckboxField,
+  VInputField,
+  VNumericField,
   VRadioGroupField,
-  VSelectField
+  VSelectField,
+  VTagInputField,
+  VTextAreaField
 } from '../components/Form';
-import { email, lt, exact } from '../components/Form/Validators';
+import { exact, lt } from '../components/Form/Validators';
 import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
-import { Button, Icon } from '@blueprintjs/core';
+
 import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectItems';
 import { IItemsList } from '../components/SelectionList';
-import { action, observable } from 'mobx';
 
 const store = [
   {
@@ -55,12 +58,12 @@ class InputsDemo extends Component {
       description: new FieldState(''),
       store: new FieldState(''),
       tags: new FieldState(''),
-      age: new FieldState(''),
+      age: new FieldState(2),
       have_job: new FieldState(''),
       sex: new FieldState(''),
       range: new FieldState(''),
       places: new FieldState(sex[0].value),
-      date: new FieldState('')
+      date: new FieldState(moment().toDate())
     });
     this.selectValue = store[0].value;
   }
@@ -152,9 +155,9 @@ class InputsDemo extends Component {
           onChange={this.setSelectedValue}
         />
         <Button
-          text={'Change Select Store'}
+          text={'Change Select'}
           onClick={() => {
-            this.form.$.store.value = 's3';
+            this.setSelectedValue('s2')
           }}
         />
         <VTextAreaField
@@ -272,11 +275,7 @@ class InputsDemo extends Component {
   };
 
   changeValueSelect = (value: any) => {
-    this.form.$.places.value = 'f';
-
-    console.log('value after:', this.form.$.places);
-
-    this.setState({});
+    this.form.$.places.onChange('f');
   };
 }
 

@@ -62,7 +62,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         disabled={disabled}
         inline={inline}
         intent={
-          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
         }
         labelFor={id}
         layer={layer}
@@ -81,14 +81,14 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
             small={size === 'small'}
             onChange={this.onChange}
             value={
-              !!fieldState && !!fieldState.value
+              fieldState && fieldState.value
                 ? fieldState.value
-                : !!value
+                : value
                 ? value
                 : ''
             }
             intent={
-              !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+              fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
             name={id}
             {...{

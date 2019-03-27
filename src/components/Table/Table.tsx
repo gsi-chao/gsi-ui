@@ -534,7 +534,7 @@ export class VTable extends Component<IProps, IVTableState> {
     indexColumn: number;
     width: number;
   }) => {
-    const rowNumber = this.props.enableRowHeader ? 10 : 0;
+    const rowNumber = this.props.enableRowHeader ? 30 : 0;
     let tableWidth = window.innerWidth;
     if (this.tableRef.current) {
       tableWidth = this.tableRef.current.clientWidth;

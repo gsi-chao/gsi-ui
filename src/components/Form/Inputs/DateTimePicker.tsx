@@ -110,8 +110,9 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
             <DateInput
               {...FORMATS[dateType]}
               disabled={disabled}
+              defaultValue={moment().toDate()}
               onChange={this.changedDate}
-              value={!!fieldState ? fieldState.value : value || null}
+              value={!!fieldState ? fieldState.value : value ? value : moment().toDate()}
               timePrecision={dateType === 'DATETIME' ? 'second' : undefined}
               rightElement={iconJSX}
             />

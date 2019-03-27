@@ -72,7 +72,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
         disabled={disabled}
         inline={inline}
         intent={
-          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
         }
         labelFor={id}
         labelInfo={labelInfo}
@@ -91,7 +91,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
             name={id}
             large={size === 'large'}
             onChange={this.onChange}
-            value={!!fieldState ? fieldState.value : value || ''}
+            value={fieldState ? fieldState.value : value ? value : ''}
             {...{
               disabled,
               placeholder,

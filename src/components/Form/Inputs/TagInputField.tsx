@@ -86,7 +86,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         disabled={disabled}
         inline={inline}
         intent={
-          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
         }
         labelFor={id}
         labelInfo={labelInfo}
@@ -113,14 +113,14 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
             large={size === 'large'}
             onChange={this.handleChange}
             values={
-              !!fieldState && !!fieldState.value
+              fieldState && fieldState.value
                 ? fieldState.value
-                : !!value
+                : value
                 ? value
                 : []
             }
             intent={
-              !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
+              fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
           />
         </FormFieldContainer>
