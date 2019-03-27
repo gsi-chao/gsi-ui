@@ -91,7 +91,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
             name={id}
             large={size === 'large'}
             onChange={this.onChange}
-            value={fieldState ? fieldState.value : value ? value : ''}
+            value={fieldState && fieldState.value ? fieldState.value : value ? value : ''}
             {...{
               disabled,
               placeholder,

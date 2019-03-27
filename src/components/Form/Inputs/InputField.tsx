@@ -99,7 +99,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
               id
             }}
             onChange={this.onChange}
-            value={fieldState ? fieldState.value : value ? value : ''}
+            value={fieldState && fieldState.value ? fieldState.value : value ? value : ''}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }

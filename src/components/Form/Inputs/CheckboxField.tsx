@@ -91,7 +91,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
               label: ''
             }}
             onChange={this.onChange}
-            checked={fieldState ? fieldState.value : value ? value : false}
+            checked={fieldState && fieldState.value ? fieldState.value : value ? value : false}
           />
         </FormFieldContainer>
       </StyledCheckBoxInput>

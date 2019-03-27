@@ -98,7 +98,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
               buttonPosition
             }}
             onValueChange={this.onChange}
-            value={fieldState ? fieldState.value : value ? value : 0}
+            value={fieldState && fieldState.value ? fieldState.value : value ? value : 0}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }

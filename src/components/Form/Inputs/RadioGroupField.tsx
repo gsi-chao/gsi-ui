@@ -100,7 +100,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
               alignIndicator
             }}
             onChange={this.onChange}
-            selectedValue={fieldState ? fieldState.value : value ? value : null}
+            selectedValue={fieldState && fieldState.value ? fieldState.value : value ? value : null}
             options={options}
           />
         </FormFieldContainer>
