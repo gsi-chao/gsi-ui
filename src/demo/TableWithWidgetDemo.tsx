@@ -182,6 +182,9 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             cellSelectionType={this.state.typeSelection}
             widgetsCell={widgetsCell}
             columns={this.state.columns}
+            onOrderColumns={(columns: string[]) =>
+              this.setState({ columns })
+            }
             columns_name={{ name: 'Namesito' }}
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}

@@ -98,6 +98,7 @@ export interface IVTableProps {
   striped?: boolean;
   textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
   selectionStyle?: ISelectionStyle;
+  onOrderColumns?: (columns: string[]) => void;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -106,7 +107,6 @@ export interface IVTableState {
   sparseCellData: any[];
   sparseCellInvalid?: { [key: string]: Intent };
   sparseCellUpdateData?: { [key: string]: string };
-  columns: string[];
   widgetsCell?: IVWidgetTableProps[];
   cachedData: any[];
   selectedRegions: IRegion[];
@@ -134,7 +134,6 @@ export class VTable extends Component<IProps, IVTableState> {
     sparseCellData: cloneDeep(this.props.data),
     sparseCellInvalid: {},
     sparseCellUpdateData: {},
-    columns: this.props.columns,
     widgetsCell: this.props.widgetsCell,
     cachedData: [],
     selectedRegions: [],
@@ -147,27 +146,35 @@ export class VTable extends Component<IProps, IVTableState> {
   };
 
   static getDerivedStateFromProps(props: IProps, state: IVTableState) {
-    const notAreSame =
-      JSON.stringify(props.data) !== JSON.stringify(state.sparseCellData) ||
-      JSON.stringify(props.columns) !== JSON.stringify(state.columns);
-    if (notAreSame) {
+    if (JSON.stringify(props.data) !== JSON.stringify(state.sparseCellData)) {
+      return {
+        ...state,
+        ...{ sparseCellData: props.data }
+      };
+    }
+    if (props.columnWidths && (props.columnWidths.length < props.columns.length)) {
       const columnsWidth = utils.fillRemoveColumnsWidth(
         state.columnsWidth,
         props.columns
       );
-      return {
-        ...state,
-        ...{ columnsWidth, sparseCellData: props.data, columns: props.columns }
-      };
-    }
 
+      return { ...state, ...{ columnsWidth } };
+    }
     // No state update necessary
     return null;
   }
 
+
+
   render() {
-    const { sortable, columns_name, toolbar, footer, striped } = this.props;
-    const { columns } = this.state;
+    const {
+      sortable,
+      columns_name,
+      toolbar,
+      footer,
+      striped,
+      columns
+    } = this.props;
     const columnsList = columns.map((name: string, index: number) => {
       const configColumnsHeader = this.props.configColumnsHeader
         ? this.props.configColumnsHeader
@@ -287,7 +294,7 @@ export class VTable extends Component<IProps, IVTableState> {
   }
 
   private getInvalidColumnName(invalidCell: { column: number }) {
-    let nameColumn = this.state.columns[invalidCell.column];
+    let nameColumn = this.props.columns[invalidCell.column];
     if (this.props.columns_name) {
       Object.keys(this.props.columns_name).map(key => {
         if (key === nameColumn) {
@@ -345,7 +352,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const dataKey = VTable.dataKey(rowIndex, columnIndex);
     const { edit } = this.props;
 
-    const columns = this.state.columns;
+    const columns = this.props.columns;
     const data = this.state.sparseCellData;
     const value = data[rowIndex][columns[columnIndex]];
     const widgetCell = this.getWidgetCell(rowIndex, columns[columnIndex]);
@@ -426,7 +433,7 @@ export class VTable extends Component<IProps, IVTableState> {
         x => x.columns === 'ALL'
       );
       const textAlignColumn = this.props.textAlignColumn.find(
-        x => x.columns === this.state.columns[columnIndex]
+        x => x.columns === this.props.columns[columnIndex]
       );
 
       if (textAlignColumn) {
@@ -472,7 +479,7 @@ export class VTable extends Component<IProps, IVTableState> {
   }
 
   private getWidgetCellValid = (): IVWidgetTableProps[] => {
-    const { columns } = this.state;
+    const { columns } = this.props;
     const widgetsValid: IVWidgetTableProps[] = [];
 
     this.state.widgetsCell &&
@@ -521,10 +528,10 @@ export class VTable extends Component<IProps, IVTableState> {
     if (
       this.props.edit &&
       this.props.edit.editColumn.validation &&
-      this.props.edit.editColumn.validation[this.state.columns[columnIndex]]
+      this.props.edit.editColumn.validation[this.props.columns[columnIndex]]
     ) {
       return this.props.edit.editColumn.validation[
-        this.state.columns[columnIndex]
+        this.props.columns[columnIndex]
       ](value);
     }
     return true;
@@ -677,7 +684,7 @@ export class VTable extends Component<IProps, IVTableState> {
           regions[0].rows.length > 0
         ) {
           const data = this.state.sparseCellData;
-          const value = data[row][this.state.columns[column]];
+          const value = data[row][this.props.columns[column]];
           this.props.actionsSelection.onSelectionChange({
             value,
             row,
@@ -1059,7 +1066,7 @@ export class VTable extends Component<IProps, IVTableState> {
   ) => {
     const data = this.state.sparseCellData;
     if (data.length > rowIndex && rowIndex >= 0) {
-      data[rowIndex][this.state.columns[columnIndex]] = value;
+      data[rowIndex][this.props.columns[columnIndex]] = value;
 
       this.setState({
         sparseCellData: data
@@ -1108,7 +1115,7 @@ export class VTable extends Component<IProps, IVTableState> {
   private getContextualMenuByColumn(canCopy: boolean, regionSelected: IRegion) {
     let columnContextual: IVColumnsContextual | undefined = undefined;
     if (canCopy) {
-      const { columns } = this.state;
+      const { columns } = this.props;
       const columnName = columns[regionSelected!.cols![0]];
 
       if (this.props.contextual && this.props.contextual.columnsContextual) {
@@ -1140,7 +1147,7 @@ export class VTable extends Component<IProps, IVTableState> {
 
   private getCellData = (rowIndex: number, columnIndex: number) => {
     const data = this.state.sparseCellData[rowIndex];
-    return data[this.state.columns[columnIndex]];
+    return data[this.props.columns[columnIndex]];
   };
 
   private onDefaultActions = (action: DefaultActions, value: any) => {
@@ -1267,7 +1274,7 @@ export class VTable extends Component<IProps, IVTableState> {
   }
 
   canCellExecuteAction = (columnIndex: number, action?: DefaultActions) => {
-    const { columns } = this.state;
+    const { columns } = this.props;
     if (columnIndex < columns.length) {
       const columnName = columns[columnIndex];
       if (this.props.contextual && this.props.contextual.columnsContextual) {
@@ -1339,11 +1346,14 @@ export class VTable extends Component<IProps, IVTableState> {
       return;
     }
     const nextChildren = Utils.reorderArray(
-      this.state.columns,
+      this.props.columns,
       oldIndex,
       newIndex,
       length
     );
-    this.setState({ columns: nextChildren });
+    if (this.props.onOrderColumns) {
+      this.props.onOrderColumns(nextChildren);
+      this.makeResponsiveTable();
+    }
   };
 }
