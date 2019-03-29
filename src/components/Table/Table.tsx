@@ -8,7 +8,7 @@ import {
   Utils
 } from '@blueprintjs/table';
 import '@blueprintjs/table/lib/css/table.css';
-import { IconName, Intent } from '@blueprintjs/core';
+import { Icon, IconName, Intent } from '@blueprintjs/core';
 import TableColumn, { IVConfigHeader } from './TableColumn';
 import { fromEvent } from 'rxjs';
 import {
@@ -71,6 +71,17 @@ export interface ISetupEditToolbar {
   iconEdit?: IconName | MaybeElement;
 }
 
+export interface ISettingEmptyData {
+  textSize?: number;
+  iconSize?: number;
+  color?: string;
+  backgroundColor?: string;
+  height?: string;
+  text?: string;
+  icon?: IconName | MaybeElement;
+  customerIcon?: any;
+}
+
 export interface IVTableProps {
   edit?: EditSetup;
   widgetsCell?: IVWidgetTableProps[];
@@ -99,6 +110,7 @@ export interface IVTableProps {
   textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
   selectionStyle?: ISelectionStyle;
   onOrderColumns?: (columns: string[]) => void;
+  settingEmptyData?: ISettingEmptyData;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -152,7 +164,10 @@ export class VTable extends Component<IProps, IVTableState> {
         ...{ sparseCellData: props.data }
       };
     }
-    if (props.columnWidths && (props.columnWidths.length < props.columns.length)) {
+    if (
+      props.columnWidths &&
+      props.columnWidths.length < props.columns.length
+    ) {
       const columnsWidth = utils.fillRemoveColumnsWidth(
         state.columnsWidth,
         props.columns
@@ -163,8 +178,6 @@ export class VTable extends Component<IProps, IVTableState> {
     // No state update necessary
     return null;
   }
-
-
 
   render() {
     const {
@@ -197,7 +210,9 @@ export class VTable extends Component<IProps, IVTableState> {
       ? false
       : enableColumnResizing;
 
-    return (
+    return this.props.data.length === 0 ? (
+      this.renderEmptyData()
+    ) : (
       <ReactResizeDetector
         handleHeight
         handleWidth
@@ -246,6 +261,80 @@ export class VTable extends Component<IProps, IVTableState> {
       </ReactResizeDetector>
     );
   }
+
+  renderEmptyData = () => {
+
+    const text: string =
+      this.props.settingEmptyData &&
+        this.props.settingEmptyData.text &&
+        this.props.settingEmptyData.text ||
+      'No data';
+    const color: string =
+      this.props.settingEmptyData &&
+        this.props.settingEmptyData.color &&
+        this.props.settingEmptyData.color ||
+      'rgba(49, 59, 67, 0.27)';
+    const height: string =
+      this.props.settingEmptyData &&
+        this.props.settingEmptyData.height &&
+        this.props.settingEmptyData.height ||
+      '20vh';
+    const backgroundColor: string =
+      this.props.settingEmptyData &&
+        this.props.settingEmptyData.backgroundColor &&
+        this.props.settingEmptyData.backgroundColor ||
+      'rgb(245, 245, 245)';
+
+    const iconSize: number =
+      this.props.settingEmptyData &&
+        this.props.settingEmptyData.iconSize &&
+        this.props.settingEmptyData.iconSize||
+      32;
+
+    const textSize: number =
+      this.props.settingEmptyData &&
+      this.props.settingEmptyData.textSize &&
+      this.props.settingEmptyData.textSize || 30;
+
+    const icon : IconName | MaybeElement =
+      this.props.settingEmptyData &&
+      this.props.settingEmptyData.icon &&
+      this.props.settingEmptyData.icon || 'th';
+
+
+    const  customerIcon =   this.props.settingEmptyData &&
+        this.props.settingEmptyData.customerIcon &&
+        this.props.settingEmptyData.customerIcon;
+
+    const renderIcon = customerIcon ? (
+      customerIcon
+    ) : (
+      <Icon icon={icon} iconSize={iconSize} />
+    );
+
+    return (
+      <div
+        style={{
+           height,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+           backgroundColor,
+           color
+        }}
+      >
+        <div style={{ textAlign: 'center' }}>
+          {renderIcon}
+          <p
+            style={{  color, fontSize: textSize }}
+            className="bp3-heading"
+          >
+            {text}
+          </p>
+        </div>
+      </div>
+    );
+  };
 
   onEdit = () => {
     this.setState({

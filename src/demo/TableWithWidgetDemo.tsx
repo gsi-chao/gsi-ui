@@ -213,7 +213,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 }
               ]
             }}
-            data={this.state.data}
+            data={[]}
             textAlignColumn={[
               {
                 columns: 'ALL',
@@ -264,6 +264,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 Toolbar
               </div>
             }
+
           />
         </div>
 
