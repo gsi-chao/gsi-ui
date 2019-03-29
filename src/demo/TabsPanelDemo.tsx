@@ -23,14 +23,35 @@ class TabsPanelDemo extends Component {
         content: <h3>it's me</h3>
       }
     ];
+    const FirstTabList: ITabsPanelTypes[] = [
+      {
+        label: 'Container Tab',
+        icon: { intent: 'primary', icon: 'home', iconSize: 16 },
+        content: (
+          <div style={{ padding: '5px' }}>
+            <VTabsPanel
+              size={'small'}
+              backgroundColor={'white'}
+              padding={'10px 25px'}
+              tabList={tabList}
+              activeBorderColor={'red'}
+              active={'3'}
+              handleChange={this.handelChangeTab}
+            />
+          </div>
+        ),
+        key: '1'
+      }
+    ];
     return (
-      <div style={{ padding: '25px 25px' }}>
+      <div style={{ padding: '25px' }}>
         <VTabsPanel
+          backgroundColor={'antiquewhite'}
           size={'small'}
           padding={'10px 25px'}
-          tabList={tabList}
+          tabList={FirstTabList}
           activeBorderColor={'red'}
-          active={'3'}
+          active={'1'}
           handleChange={this.handelChangeTab}
         />
       </div>

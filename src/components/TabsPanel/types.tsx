@@ -13,6 +13,7 @@ export interface ITabsPanelStyle {
   borderColor?: string;
   borderBottom?: number;
   size?: 'small' | 'normal';
+  backgroundColor?: string;
   lineColor?: string;
   activeBorderColor?: string;
 }
@@ -27,6 +28,7 @@ export interface ITabsPanelProps {
   active?: string;
   size?: 'small' | 'normal';
   padding?: string;
+  backgroundColor?: string;
   elevation?: number;
   textColor?: string;
   activeColor?: string;

@@ -14,6 +14,7 @@ interface IVTabPanelProps {
   activeColor?: string;
   activeTextColor?: string;
   textColor?: string;
+  backgroundColor?: string;
   handleOnClick: (tabKey: string) => void;
   textColorBadge?: string;
   backgroundColorBadge?: string;
@@ -36,12 +37,14 @@ export class VTabPanel extends Component<IVTabPanelProps> {
       backgroundColorBadge,
       dataBadge,
       textColorBadge,
-      activeBorderColor
+      activeBorderColor,
+      backgroundColor
     } = this.props;
     return (
       <LabelIcon
         borderColor={borderColor}
         activeColor={activeColor}
+        backgroundColor = {backgroundColor}
         activeTextColor={activeTextColor}
         textColor={textColor}
         active={active}
