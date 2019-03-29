@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ITabsPanelProps, ITabsPanelState } from './types';
 import { VTabPanel } from './TabPanel/TabPanel';
-import { ContainerContent, ContainerTabs, ContainerTabsPanel } from './style';
+import { ContainerContent, ContainerTabs, ContainerTabsPanel, TabsSpaceFiller } from './style';
 
 export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
   constructor(props: ITabsPanelProps) {
@@ -35,6 +35,7 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
         >
           {options.tabList.map(tab => (
             <VTabPanel
+              backgroundColor={options.backgroundColor}
               key={tab.key}
               id={tab.key}
               handleOnClick={this.handleChangeTab}
@@ -52,8 +53,10 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
               activeBorderColor={options.activeBorderColor}
             />
           ))}
+          <TabsSpaceFiller></TabsSpaceFiller>
         </ContainerTabs>
         <ContainerContent
+          backgroundColor={options.backgroundColor}
           padding={options.padding}
           borderColor={options.borderColor}
           elevation={options.elevation}

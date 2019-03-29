@@ -15,6 +15,10 @@ export const ContainerTabsPanel = styled.div`
 
 export const ContainerTabs = styled.div`
   display: flex;
+  ${(props: ITabsPanelStyle) => (props.borderBottom ? '' : '')}
+`;
+export const TabsSpaceFiller = styled.div`
+  flex-grow: 1;
   border-bottom: ${(props: ITabsPanelStyle) =>
       props.borderBottom ? props.borderBottom : 2}px
     solid;
@@ -25,43 +29,32 @@ export const ContainerTabs = styled.div`
 export const LabelIcon = styled.div`
   display: flex;
   align-items: center;
-  margin:${(props: ITabsPanelStyle) =>
-    props.size === 'small' ? '0 3px 0 0' : '0 10px 0 0'};
-  border-width: 1px 1px 0 1px;
   border-style: solid;
   ;
   padding:${(props: ITabsPanelStyle) =>
     props.size === 'small' ? '6px 15px' : '8px 20px'} ;
   cursor: pointer;
   border-radius: 5px 5px 0 0;
-  border-width: 1px 1px 0px 1px;
   border-style: solid;
-  border-bottom: transparent !important;
-  border-color: ${(props: ITabsPanelStyle) => {
-    if (props.active) {
-      return props.borderColor
-        ? props.borderColor
-        : 'rgba(142, 142, 142, 0.36)';
-    }
-    return 'transparent';
-  }};
-  border-top: ${(props: ITabsPanelStyle) => {
-    if (props.active) {
-      if (props.activeBorderColor) {
-        return `2px solid ${props.activeBorderColor} !important`;
-      }
-      return '2px solid #3d3e3e !important';
-    }
-  }};
-  background-color:${(props: ITabsPanelStyle) => {
-    if (props.active) {
-      if (props.activeColor) {
-        return props.activeColor;
-      }
-      return '#fff';
-    }
-    return '#dcdcdc';
-  }};
+  ${(props: ITabsPanelStyle) =>
+    props.active
+      ? `
+      ${props.backgroundColor ? `background-color: ${props.backgroundColor};` : ''}
+  border-width: 1px 1px 0 1px;
+  border-color: rgba(142, 142, 142, 0.36);
+  border-top: ${
+    props.activeBorderColor
+      ? `2px solid ${props.activeBorderColor} !important`
+      : '2px solid #3d3e3e !important'
+  };
+  backgorund-color: ${props.activeColor || '#fff'};
+  border-bottom: none!important;
+  `
+      : `
+    border-width: 0;
+    backgorund-color: transparent;
+    border-bottom: 2px solid rgba(142, 142, 142, 0.36) !important;
+    `}
   & > span{
   ${(props: ITabsPanelStyle) =>
     props.active && props.activeTextColor
@@ -77,6 +70,7 @@ export const LabelIcon = styled.div`
 export const ContainerContent = styled.div`
   border-width: 0 1px 1px 1px;
   border-style: solid;
+  ${(props: ITabsPanelStyle) => props.backgroundColor ? `background-color: ${props.backgroundColor};` : ''}
   border-color: ${(props: ITabsPanelStyle) =>
     props.borderColor ? props.borderColor : '#dbdcdd'};
   padding: ${(props: ITabsPanelStyle) => {
