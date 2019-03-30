@@ -182,12 +182,18 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             cellSelectionType={this.state.typeSelection}
             widgetsCell={widgetsCell}
             columns={this.state.columns}
-            onOrderColumns={(columns: string[]) =>
-              this.setState({ columns })
-            }
+            onOrderColumns={(columns: string[]) => this.setState({ columns })}
             columns_name={{ name: 'Namesito' }}
             reordering={true}
-            sortable={{ columns: ['name'], onSort: this.onSort }}
+            sortable={{
+              columns: ['name', 'color', 'sinEditar'],
+              onSort: this.onSort,
+              setupsOrden: [{
+                order:'ASC',
+                columnName:'color',
+                columnIndex:0
+              }]
+            }}
             contextual={{
               columnsContextual: [
                 {
@@ -338,9 +344,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     }
   };
 
-  onSort = (index: number, order: string) => {
+  onSort = (index: any) => {
     console.log(index);
-    console.log(order);
   };
 
   changeData = (colorFiltered?: string) => {

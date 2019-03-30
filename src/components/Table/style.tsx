@@ -51,8 +51,7 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
   }
 
   & div.bp3-table-th-menu-container-background {
-    background: ${(props: IConfignHeader) =>
-      props ? props.backgroundColor : 'gray'} !important;
+    background: #ffffff00 !important;
   }
 
   & div.bp3-table-column-name-text {
