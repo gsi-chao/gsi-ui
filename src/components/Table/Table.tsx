@@ -41,7 +41,7 @@ import {
   ITextAlignColumn
 } from './type';
 
-export type IVTableOrder = 'ASC' | 'DESC';
+export type IVTableOrder = 'ASC' | 'DESC' | 'NONE';
 
 export interface IVActionsTableProps {
   columns: string[] | EditColumns;
@@ -58,10 +58,20 @@ export interface IVCustomActionSortableTableProp {
   callback: (value: any) => void;
 }
 
+export interface ISortResult {
+  columnIndex: number;
+  columnName: string;
+  order: IVTableOrder;
+}
+
 export interface IVActionSortableTableProps extends IVActionsTableProps {
   custom_render_menu?: { [key: string]: IVCustomActionSortableTableProp };
-  onSort?: (columnIndex: number, order: IVTableOrder) => void;
-}
+  onSort?: (
+   sortResult:ISortResult
+  ) => void;
+  setupsOrden? : ISortResult[]
+   }
+
 
 export interface ISetupEditToolbar {
   textSave?: string;
@@ -263,48 +273,49 @@ export class VTable extends Component<IProps, IVTableState> {
   }
 
   renderEmptyData = () => {
-
     const text: string =
-      this.props.settingEmptyData &&
+      (this.props.settingEmptyData &&
         this.props.settingEmptyData.text &&
-        this.props.settingEmptyData.text ||
+        this.props.settingEmptyData.text) ||
       'No data';
     const color: string =
-      this.props.settingEmptyData &&
+      (this.props.settingEmptyData &&
         this.props.settingEmptyData.color &&
-        this.props.settingEmptyData.color ||
+        this.props.settingEmptyData.color) ||
       'rgba(49, 59, 67, 0.27)';
     const height: string =
-      this.props.settingEmptyData &&
+      (this.props.settingEmptyData &&
         this.props.settingEmptyData.height &&
-        this.props.settingEmptyData.height ||
+        this.props.settingEmptyData.height) ||
       '20vh';
     const backgroundColor: string =
-      this.props.settingEmptyData &&
+      (this.props.settingEmptyData &&
         this.props.settingEmptyData.backgroundColor &&
-        this.props.settingEmptyData.backgroundColor ||
+        this.props.settingEmptyData.backgroundColor) ||
       'rgb(245, 245, 245)';
 
     const iconSize: number =
-      this.props.settingEmptyData &&
+      (this.props.settingEmptyData &&
         this.props.settingEmptyData.iconSize &&
-        this.props.settingEmptyData.iconSize||
+        this.props.settingEmptyData.iconSize) ||
       32;
 
     const textSize: number =
+      (this.props.settingEmptyData &&
+        this.props.settingEmptyData.textSize &&
+        this.props.settingEmptyData.textSize) ||
+      30;
+
+    const icon: IconName | MaybeElement =
+      (this.props.settingEmptyData &&
+        this.props.settingEmptyData.icon &&
+        this.props.settingEmptyData.icon) ||
+      'th';
+
+    const customerIcon =
       this.props.settingEmptyData &&
-      this.props.settingEmptyData.textSize &&
-      this.props.settingEmptyData.textSize || 30;
-
-    const icon : IconName | MaybeElement =
-      this.props.settingEmptyData &&
-      this.props.settingEmptyData.icon &&
-      this.props.settingEmptyData.icon || 'th';
-
-
-    const  customerIcon =   this.props.settingEmptyData &&
-        this.props.settingEmptyData.customerIcon &&
-        this.props.settingEmptyData.customerIcon;
+      this.props.settingEmptyData.customerIcon &&
+      this.props.settingEmptyData.customerIcon;
 
     const renderIcon = customerIcon ? (
       customerIcon
@@ -315,20 +326,17 @@ export class VTable extends Component<IProps, IVTableState> {
     return (
       <div
         style={{
-           height,
+          height,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-           backgroundColor,
-           color
+          backgroundColor,
+          color
         }}
       >
         <div style={{ textAlign: 'center' }}>
           {renderIcon}
-          <p
-            style={{  color, fontSize: textSize }}
-            className="bp3-heading"
-          >
+          <p style={{ color, fontSize: textSize }} className="bp3-heading">
             {text}
           </p>
         </div>

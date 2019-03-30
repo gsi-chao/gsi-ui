@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { IVActionSortableTableProps } from './Table';
+import { ISortResult, IVActionSortableTableProps, IVTableOrder } from './Table';
 import { Column } from '@blueprintjs/table';
-import { Menu, MenuItem } from '@blueprintjs/core';
+import { Icon, Menu, MenuItem } from '@blueprintjs/core';
 import { ColumnHeaderCellStyled } from './style';
 import { IVConfigTextAlign } from './type';
 
@@ -29,7 +29,8 @@ export default class TableColumn implements ISortableColumn {
     protected header_config: IVConfigHeader[] | IVConfigHeader,
     protected columns_name?: { [key: string]: string },
     protected sortable?: IVActionSortableTableProps
-  ) {}
+  ) {
+  }
 
   getColumn = (getCellData: ICellLookup) => {
     return (
@@ -43,14 +44,70 @@ export default class TableColumn implements ISortableColumn {
   };
 
   renderMenu = (index?: number) => {
-    const sortAsc = () => this.sortable!.onSort!(index!, 'ASC');
-    const sortDesc = () => this.sortable!.onSort!(index!, 'DESC');
+    const columnName = this.columns[this.index!];
+
+    const sortAsc = () =>
+      this.sortable!.onSort!(this.sortResult(index!, columnName, 'ASC'));
+    const sortDesc = () =>
+      this.sortable!.onSort!(this.sortResult(index!, columnName, 'DESC'));
+    const sortNone = () =>
+      this.sortable!.onSort!(this.sortResult(index!, columnName, 'NONE'));
+
+    const setup = this.getSetupOrdenByIndex(index!);
+
+    if (setup && setup.order === 'ASC') {
+      return this.getMenuCheckAsc(sortAsc, sortDesc, sortNone);
+    }
+
+    if (setup && setup.order === 'DESC') {
+      return this.getMenuDesc(sortAsc, sortDesc, sortNone);
+    }
+
     return (
       <Menu>
-        <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc" />
-        <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc" />
+        <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc"/>
+        <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc"/>
+        <MenuItem icon="small-cross" onClick={sortNone} text="No sort"/>
       </Menu>
     );
+  };
+
+  private getMenuDesc(sortAsc: any, sortDesc: any, sortNone: any) {
+    return (
+      <Menu>
+        <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc"/>
+        <MenuItem
+          labelElement={<Icon icon="tick"/>}
+          icon="sort-desc"
+          onClick={sortDesc}
+          text="Sort Rank Desc"
+        />
+        <MenuItem icon="small-cross" onClick={sortNone} text="No sort"/>
+      </Menu>
+    );
+  }
+
+  private getMenuCheckAsc(sortAsc: any, sortDesc: any, sortNone: any) {
+    return (
+      <Menu>
+        <MenuItem
+          labelElement={<Icon icon="tick"/>}
+          icon="sort-asc"
+          onClick={sortAsc}
+          text="Sort Rank Asc"
+        />
+        <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc"/>
+        <MenuItem icon="small-cross" onClick={sortNone} text="No sort"/>
+      </Menu>
+    );
+  }
+
+  sortResult = (
+    columnIndex: number,
+    columnName: string,
+    type: IVTableOrder
+  ): ISortResult => {
+    return { columnIndex, columnName, order: type };
   };
 
   renderColumnHeader = (columnIndex: number) => {
@@ -67,9 +124,42 @@ export default class TableColumn implements ISortableColumn {
         textAlign={textAlign}
         name={columnName}
         menuRenderer={menuRenderer as any}
+        nameRenderer={this.renderHeader}
       />
     );
   };
+
+  renderHeader = (name: string, index?: number) => {
+    const icon = this.getIconSort(index!);
+
+    return (
+      <React.Fragment>
+        {icon && icon} <span style={{ marginBottom: '0px' }}>{name}</span>
+      </React.Fragment>
+    );
+  };
+
+  private getIconSort(index: number) {
+    const setup = this.getSetupOrdenByIndex(index!);
+    const style = { marginRight:'8px'};
+    let icon = undefined;
+    if (setup) {
+      if (setup.order === 'ASC') {
+        icon = <Icon  style={ {...style }} icon="sort-asc"/>;
+      } else if (setup.order === 'DESC') {
+        icon = <Icon icon="sort-desc"/>;
+      }
+    }
+    return icon;
+  }
+
+  private getSetupOrdenByIndex(index: number) {
+    let setup: ISortResult | undefined;
+    if (this.sortable && this.sortable.setupsOrden) {
+      setup = this.sortable.setupsOrden.find(x => x.columnIndex === index);
+    }
+    return setup;
+  }
 
   private getMenu(columnIndex: number) {
     let menuRenderer = null;
@@ -84,7 +174,7 @@ export default class TableColumn implements ISortableColumn {
       ) {
         menuRenderer = this.sortable.custom_render_menu[
           this.columns[columnIndex]
-        ];
+          ];
       } else {
         menuRenderer = this.renderMenu;
       }
