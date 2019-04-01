@@ -25,7 +25,7 @@ import { IItemsList } from '../components/SelectionList';
 const store = [
   {
     label: 'This is a store with a very big large text',
-    value: 's1'
+    value: 0
   },
   {
     label: 'Store 2',
@@ -78,8 +78,6 @@ class InputsDemo extends Component {
     this.selectValue = value;
   };
   render() {
-    console.log('render..');
-    console.log('value before:', this.form.$.places);
     const itemsUnassigned: IItemsList[] = [
       { active: false, text: 'Item1', value: 'item1' },
       { active: false, text: 'Item2', value: 'item2' },
