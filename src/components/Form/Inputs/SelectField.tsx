@@ -79,10 +79,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     let fValue = '';
     if (this.props.fieldState) {
       fValue = this.props.fieldState.value;
-    } else if (this.props.value.toString()) {
+    } else if (this.props.value !== undefined && this.props.value !== null) {
       fValue = this.props.value;
     }
-    if (fValue.toString()) {
+    if (fValue !== undefined && fValue !== null) {
       const item = this.props.options.find((value: IItem) => {
         return fValue === value.value;
       });
