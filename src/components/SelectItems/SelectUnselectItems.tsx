@@ -21,6 +21,10 @@ export interface ISelectItemsProps {
   handleSave: any;
   handleCancel: any;
   listsHeights?: string;
+  selection?: {
+    textColor: string;
+    background: string;
+  };
 }
 export interface ISelectItemsState {
   itemsUnassigned: IItemsList[];
@@ -165,6 +169,7 @@ export class SelectUnselectItems extends Component<
           <FlexCol flex={4}>
             <h4>{this.props.unAssignedText || 'UnAssigned'}</h4>
             <VSelectionListStyled
+              selection={this.props.selection}
               height={this.props.listsHeights || ''}
               elements={itemsUnassigned}
               onSelect={this.selectItemFromUnselectedList}
@@ -204,6 +209,7 @@ export class SelectUnselectItems extends Component<
           <FlexCol flex={4}>
             <h4>{this.props.assignedText || 'Assigned'}</h4>
             <VSelectionListStyled
+              selection={this.props.selection}
               height={this.props.listsHeights || ''}
               elements={itemsAssigned}
               onSelect={this.selectItemFromSelectedList}

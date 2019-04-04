@@ -21,6 +21,7 @@ import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
 
 import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectItems';
 import { IItemsList } from '../components/SelectionList';
+import { VSelectMultiple } from '../components/Form/Inputs/SelectMultipleField';
 
 const store = [
   {
@@ -63,7 +64,8 @@ class InputsDemo extends Component {
       sex: new FieldState(''),
       range: new FieldState(''),
       places: new FieldState(sex[0].value),
-      date: new FieldState(moment().toDate())
+      date: new FieldState(moment().toDate()),
+      multiple: new FieldState([])
     });
     this.selectValue = store[0].value;
   }
@@ -90,8 +92,42 @@ class InputsDemo extends Component {
       { active: false, text: 'Item7', value: 'item7' },
       { active: false, text: 'Item8', value: 'item8' }
     ];
+
+    const options = [
+      {
+        value: 1,
+        label: 'First Value'
+      },
+      {
+        value: 2,
+        label: 'Second Value'
+      },
+      {
+        value: 3,
+        label: 'Third Value'
+      },
+      {
+        value: 4,
+        label: 'Fourth Value'
+      }
+    ];
     return (
       <React.Fragment>
+
+        <div
+          style={{
+            padding: '10px',
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+        >
+          <VSelectMultiple
+            options={options}
+            id={'asdasd'}
+            fieldState={this.form.$.multiple}
+          />
+        </div>
         <VInputField
           fieldState={this.form.$.username}
           fill
@@ -155,7 +191,7 @@ class InputsDemo extends Component {
         <Button
           text={'Change Select'}
           onClick={() => {
-            this.setSelectedValue('s2')
+            this.setSelectedValue('s2');
           }}
         />
         <VTextAreaField

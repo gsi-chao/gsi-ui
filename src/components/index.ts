@@ -26,7 +26,8 @@ export {
   VSelectField,
   VDateTimePicker,
   patchFormValues,
-  getFormValue
+  getFormValue,
+  VSelectMultiple
 } from './Form';
 export { VSelectionList, IItemsList } from './SelectionList';
 export {
