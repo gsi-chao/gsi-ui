@@ -1,9 +1,11 @@
 import { FormState } from 'formstate';
+import {cloneDeep} from 'lodash';
 
 export const patchFormValues = (form: FormState<any>, object: any) => {
-  Object.keys(object).map((key: string) => {
+  const obj = cloneDeep(object);
+  Object.keys(obj).map((key: string) => {
     if (form.$[key]) {
-      form.$[key].value = object[key];
+      form.$[key].value = obj[key];
     }
   });
 };
