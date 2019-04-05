@@ -9,6 +9,7 @@ import ColorPickerDemo from './demo/ColorPickerDemo';
 import NotificationToastDemo from './demo/NotificationToastDemo';
 import DNDDemo from './demo/DNDDemo';
 import SuspenseDemo from './demo/SuspenseDemo';
+import VPaginator from './components/Table/Paginator/VPaginator';
 
 class App extends Component {
   render() {
@@ -96,6 +97,11 @@ class App extends Component {
             numFrozenColumns={1}
           />
         </div>
+
+         <br/>
+
+        <VPaginator/>
+
         <InputsDemo />
         <TabsPanelDemo />
         <TableWithWidgetDemo />
