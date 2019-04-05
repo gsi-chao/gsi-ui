@@ -31,27 +31,50 @@ export interface IState {
 
 
 class Pagination extends Component<IProps,IState> {
-  pageLimit:number;
-  totalRecords:number;
-  pageNeighbours:number;
-  totalPages:number;
+  // pageLimit:number;
+  // totalRecords:number;
+  // pageNeighbours:number;
+  // totalPages:number;
 
   constructor(props:IProps) {
     super(props);
     const { totalRecords = null, pageLimit = 30, pageNeighbours = 0 } = props;
 
-    this.pageLimit = typeof pageLimit === "number" ? pageLimit : 30;
-    this.totalRecords = typeof totalRecords === "number" ? totalRecords : 0;
-
-    this.pageNeighbours =
-      typeof pageNeighbours === "number"
-        ? Math.max(0, Math.min(pageNeighbours, 2))
-        : 0;
-
-    this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
+    // this.pageLimit = typeof pageLimit === "number" ? pageLimit : 30;
+    // this.totalRecords = typeof totalRecords === "number" ? totalRecords : 0;
+    //
+    // this.pageNeighbours =
+    //   typeof pageNeighbours === "number"
+    //     ? Math.max(0, Math.min(pageNeighbours, 2))
+    //     : 0;
+    //
+    // this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
 
     this.state = { currentPage: 1 };
   }
+
+  getPageNeighbours =()=>{
+
+    const { pageNeighbours = 0 } = this.props;
+
+    return Math.max(0, Math.min(pageNeighbours, 2))
+  };
+
+  getTotalPages = ()=>{
+    const { totalRecords = null, pageLimit = 30 } = this.props;
+   return   Math.ceil(totalRecords / pageLimit);
+  };
+
+  getTotalsRecord = ()=>{
+    const { totalRecords = 0 } = this.props;
+
+    return totalRecords;
+  };
+
+  getPageLimit = ()=>{
+    const {  pageLimit = 30 } = this.props;
+    return pageLimit
+  };
 
   componentDidMount() {
     this.gotoPage(1);
@@ -60,13 +83,13 @@ class Pagination extends Component<IProps,IState> {
   gotoPage = (page:any) => {
     const { onPageChanged = (f:any) => f } = this.props;
 
-    const currentPage = Math.max(0, Math.min(page, this.totalPages));
+    const currentPage = Math.max(0, Math.min(page, this.getTotalPages()));
 
     const paginationData = {
       currentPage,
-      totalPages: this.totalPages,
-      pageLimit: this.pageLimit,
-      totalRecords: this.totalRecords
+      totalPages: this.getTotalPages(),
+      pageLimit: this.getPageLimit,
+      totalRecords: this.getTotalsRecord()
     };
 
     this.setState({ currentPage }, () => onPageChanged(paginationData));
@@ -79,20 +102,20 @@ class Pagination extends Component<IProps,IState> {
 
   handleMoveLeft = (evt:any) => {
     evt.preventDefault();
-    this.gotoPage(this.state.currentPage - this.pageNeighbours * 2 - 1);
+    this.gotoPage(this.state.currentPage - this.getPageNeighbours() * 2 - 1);
   };
 
   handleMoveRight = (evt:any) => {
     evt.preventDefault();
-    this.gotoPage(this.state.currentPage + this.pageNeighbours * 2 + 1);
+    this.gotoPage(this.state.currentPage + this.getPageNeighbours() * 2 + 1);
   };
 
   fetchPageNumbers = () => {
-    const totalPages = this.totalPages;
+    const totalPages = this.getTotalPages();
     const currentPage = this.state.currentPage;
-    const pageNeighbours = this.pageNeighbours;
+    const pageNeighbours = this.getPageNeighbours();
 
-    const totalNumbers = this.pageNeighbours * 2 + 3;
+    const totalNumbers = this.getPageNeighbours() * 2 + 3;
     const totalBlocks = totalNumbers + 2;
 
     if (totalPages > totalBlocks) {
@@ -133,9 +156,9 @@ class Pagination extends Component<IProps,IState> {
   };
 
   render() {
-    if (!this.totalRecords) return null;
+    if (!this.getTotalsRecord()) return null;
 
-    if (this.totalPages === 1) return null;
+    if (this.getTotalPages() === 1) return null;
 
     const { currentPage } = this.state;
     const pages = this.fetchPageNumbers();
