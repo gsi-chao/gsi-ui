@@ -8,7 +8,55 @@ interface ISate {
   currentCountries: any[];
   currentPage: number;
   totalPages: number;
+  itemsByPage:number;
 }
+
+interface IInfoPage {
+  totalPages: number;
+  currentPage: number;
+  totals: number;
+}
+const InfoPage = (props: IInfoPage) => {
+  return (
+    <div style={{ margin: '0px 10px' }}>
+      {props.currentPage && (
+        <span>
+          Page <strong>{props.currentPage}</strong> of{' '}
+          <strong>{props.totalPages}</strong>
+        </span>
+      )}
+      <span>
+        {' / '}
+        Total: <strong className="text-secondary">{` ${props.totals}`}</strong>
+      </span>
+    </div>
+  );
+};
+
+interface IItemsByPages {
+  fieldState: FieldState<any>;
+  options: any[];
+  onChange: (value: any) => void;
+}
+
+const ItemsByPages = (props: IItemsByPages) => {
+  return (
+    <VSelectField
+      layer={{
+        inputOrientation: 'start'
+      }}
+      filterable={false}
+      margin={'0px 10px'}
+      inline
+      label={'item by page:'}
+      minimal
+      options={props.options}
+      id="places"
+      fieldState={props.fieldState}
+      onChange={props.onChange}
+    />
+  );
+};
 
 class VPaginator extends Component<any, ISate> {
   form: FormState<any>;
@@ -16,11 +64,13 @@ class VPaginator extends Component<any, ISate> {
   constructor(props: any) {
     super(props);
     this.state = {
-      allCountries: [],
+      allCountries: this.getCountry(),
       currentCountries: [],
       currentPage: 1,
-      totalPages: 0
+      totalPages: 0,
+      itemsByPage:2
     };
+
     this.form = new FormState<any>({
       pageLimit: new FieldState(10)
     });
@@ -217,11 +267,6 @@ class VPaginator extends Component<any, ISate> {
     ];
   };
 
-  componentDidMount() {
-    const allCountries = this.getCountry();
-    this.setState({ allCountries: allCountries });
-  }
-
   onPageChanged = (data: any) => {
     const { allCountries } = this.state;
     const { currentPage, totalPages, pageLimit } = data;
@@ -232,6 +277,12 @@ class VPaginator extends Component<any, ISate> {
     this.setState({ currentPage, currentCountries, totalPages });
   };
 
+
+  onChangeItemsByPage =(value:number)=>{
+    console.log('value',value);
+    this.setState({itemsByPage:value})
+
+  };
   render() {
     const {
       allCountries,
@@ -252,45 +303,38 @@ class VPaginator extends Component<any, ISate> {
 
     return (
       <React.Fragment>
-
-        <div style={{
-          display: 'flex', alignItems: 'center', border: 'solid 1px whitesmoke',
-          borderRadius: '8px', width: 'fit-content'
-        }}>
-          <VSelectField
-            layer={{
-              inputOrientation: 'start'
-            }}
-            filterable={false}
-            margin={'0px 10px'}
-            inline
-            label={'item by page:'}
-            minimal
-            options={[{ label: '10', value: 10 }, { label: '15', value: 15 }, { label: '10', value: 20 }]}
-            id="places"
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            border: 'solid 1px whitesmoke',
+            borderRadius: '8px',
+            width: 'fit-content'
+          }}
+        >
+          <ItemsByPages
             fieldState={this.form.$.pageLimit}
+            options={[
+              { label: '2', value: 2 },
+              { label: '5', value: 5 },
+              { label: '7', value: 7 }
+            ]}
+            onChange={this.onChangeItemsByPage}
           />
-          <div style={{ margin: '0px 10px' }}>
-            {currentPage && (
-              <span>
-                Page <strong>{currentPage}</strong> of <strong>{totalPages}</strong>
-              </span>
-            )}
-            <span>
-              {' / '}
-              Total:{' '}
-              <strong className="text-secondary">{` ${totalCountries}`}</strong>
-            </span>
-          </div>
+          <InfoPage
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totals={totalCountries}
+          />
+
           <div>
             <Pagination
               totalRecords={totalCountries}
-              pageLimit={5}
+              pageLimit={this.state.itemsByPage}
               pageNeighbours={2}
               onPageChanged={this.onPageChanged}
             />
           </div>
-
         </div>
       </React.Fragment>
     );
