@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 /** Blueprint */
 import {
   Button,
-  FormGroup,
   IconName,
   Intent,
   MenuItem
@@ -30,6 +29,7 @@ export interface ISelectFieldProps extends IFieldProps {
   defaultText?: string;
   fixedInputWidthPx?: number;
   iconOnly?: boolean;
+  color?: string;
 }
 
 /**
@@ -144,9 +144,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       <StyledPopOverWrapper
         disabled={disabled}
         inline={inline}
-        intent={
-          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -174,7 +172,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             {iconOnly ? (
               <Button
                 className={minimal ? 'bp3-minimal' : ''}
-                style={{ justifyContent: 'center' }}
+                style={{
+                  justifyContent: 'center',
+                  color: this.props.color ? this.props.color : 'black'
+                }}
                 {...{
                   icon,
                   disabled
@@ -190,6 +191,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 }}
                 rightIcon={rightIcon || 'chevron-down'}
                 text={this.getFieldText()}
+                style={{ color: this.props.color ? this.props.color : 'black' }}
               />
             )}
           </ItemSelect>

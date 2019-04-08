@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import Pagination from '../components/Table/Paginator/Paginator';
-
+import { VPagination } from '../components/Paginator';
+import { IInfoPage } from '../components/Paginator/type';
 
 interface ISate {
   allCountries: any[];
   currentCountries: any[];
   currentPage: number;
   totalPages: number;
-  itemsByPage:number;
+  itemsByPage: number;
 }
 
 class PaginatorDemo extends Component<any, ISate> {
-
-
   constructor(props: any) {
     super(props);
     this.state = {
@@ -20,9 +18,8 @@ class PaginatorDemo extends Component<any, ISate> {
       currentCountries: [],
       currentPage: 1,
       totalPages: 0,
-      itemsByPage:5
+      itemsByPage: 5
     };
-
   }
 
   getCountry = () => {
@@ -217,44 +214,80 @@ class PaginatorDemo extends Component<any, ISate> {
   };
 
   onPageChanged = (data: any) => {
-
     const { currentPage, totalPages } = data.paginationData;
 
     const offset = (currentPage - 1) * data.pageLimit;
-    console.log('data',data);
+    console.log('data', data);
 
-    const currentCountries = this.getCountry().slice(offset, offset + data.pageLimit);
-    console.log('currentCountries',currentCountries);
-    this.setState({ currentPage, currentCountries, totalPages, itemsByPage: data.pageLimit,});
+    const currentCountries = this.getCountry().slice(
+      offset,
+      offset + data.pageLimit
+    );
+    console.log('currentCountries', currentCountries);
+    this.setState({
+      currentPage,
+      currentCountries,
+      totalPages,
+      itemsByPage: data.pageLimit
+    });
   };
 
-
   render() {
-    const {
-      allCountries
-    } = this.state;
+    const { allCountries } = this.state;
     const totalCountries = allCountries.length;
 
     if (totalCountries === 0) return null;
 
-
     return (
       <React.Fragment>
         <ul>
-          {this.state.currentCountries.map((x:any,index:number)=><li key={index}>{x.country}</li>)}
+          {this.state.currentCountries.map((x: any, index: number) => (
+            <li key={index}>{x.country}</li>
+          ))}
         </ul>
 
-        <Pagination
+        <p>By default</p>
+        <VPagination
           totalRecords={totalCountries}
           pageLimit={this.state.itemsByPage}
           pageNeighbours={1}
           onPageChanged={this.onPageChanged}
-
         />
 
+        <p>Customer</p>
+
+        <VPagination
+          totalRecords={totalCountries}
+          pageLimit={this.state.itemsByPage}
+          pageNeighbours={1}
+          onPageChanged={this.onPageChanged}
+          labels={{
+            itemsByPage: 'Elementos por paginas',
+            renderInfoDetails: this.renderInfoDetails
+          }}
+          style={{ backgroundColor: '#2D2F31', color: 'white' }}
+          customerStyle={{
+            pageSelectedBackgroundColor: '#1985A1',
+            pageSelectedColor: 'white',
+            iconColor:'white',
+            pageHoverColor:"black",
+            pageHoverBackgroundColor:"#1985A1"
+          }}
+        />
       </React.Fragment>
     );
   }
+
+  renderInfoDetails = (infoPage: IInfoPage) => {
+    return (
+      <div style={{ margin: '0px 10px' }}>
+        {' '}
+        {`${infoPage.currentPage}- ${infoPage.totalPages} <=> Totals ${
+          infoPage.totals
+        }  `}
+      </div>
+    );
+  };
 }
 
 export default PaginatorDemo;

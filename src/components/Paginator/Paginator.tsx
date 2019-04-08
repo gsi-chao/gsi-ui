@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import { Page, Pages } from './style';
 import { Icon } from '@blueprintjs/core';
 import { FieldState, FormState } from 'formstate';
-import { VSelectField } from '../../Form';
-
-const LEFT_PAGE = 'LEFT';
-const RIGHT_PAGE = 'RIGHT';
+import { VSelectField } from '../Form';
+import {
+  IInfoPage,
+  IItemsByPages,
+  IState,
+  LEFT_PAGE,
+  RIGHT_PAGE,
+  VPaginatorProps
+} from './type';
 
 const range = (from: number, to: number, step = 1) => {
   let i = from;
@@ -19,11 +24,6 @@ const range = (from: number, to: number, step = 1) => {
   return range;
 };
 
-interface IInfoPage {
-  totalPages: number;
-  currentPage: number;
-  totals: number;
-}
 const InfoPage = (props: IInfoPage) => {
   return (
     <div style={{ margin: '0px 10px' }}>
@@ -41,13 +41,6 @@ const InfoPage = (props: IInfoPage) => {
   );
 };
 
-interface IItemsByPages {
-  fieldState: FieldState<any>;
-  options: any[];
-  onChange: (value: any) => void;
-
-}
-
 const ItemsByPages = (props: IItemsByPages) => {
   return (
     <VSelectField
@@ -57,34 +50,21 @@ const ItemsByPages = (props: IItemsByPages) => {
       filterable={false}
       margin={'0px 10px'}
       inline
-      label={'Items by pages:'}
+      label={props.label ? props.label : 'Items by pages:'}
       minimal
       options={props.options}
       id="places"
       fieldState={props.fieldState}
       onChange={props.onChange}
+      color={props.color?props.color:'black'}
     />
   );
 };
 
-
-
-export interface IProps {
-  totalRecords: any;
-  pageLimit: number;
-  pageNeighbours: number;
-  onPageChanged: (value: any) => void;
-  itemsByPage?:{label:string, value:number}[];
-}
-
-export interface IState {
-  currentPage: number;
-}
-
-class Pagination extends Component<IProps, IState> {
+export class VPagination extends Component<VPaginatorProps, IState> {
   form: FormState<any>;
 
-  constructor(props: IProps) {
+  constructor(props: VPaginatorProps) {
     super(props);
 
     this.form = new FormState<any>({
@@ -94,20 +74,16 @@ class Pagination extends Component<IProps, IState> {
     this.state = { currentPage: 1 };
   }
 
-  getItemsByPages=()=>{
-
-    if(this.props.itemsByPage && this.props.itemsByPage.length>0)
-    {
+  getItemsByPages = () => {
+    if (this.props.itemsByPage && this.props.itemsByPage.length > 0) {
       return this.props.itemsByPage;
     }
     return [
       { label: '5', value: 5 },
       { label: '10', value: 10 },
       { label: '20', value: 20 }
-    ]
-
+    ];
   };
-
 
   getPageNeighbours = () => {
     const { pageNeighbours = 0 } = this.props;
@@ -127,7 +103,7 @@ class Pagination extends Component<IProps, IState> {
   };
 
   getPageLimit = () => {
-    const { pageLimit = 10} = this.props;
+    const { pageLimit = 10 } = this.props;
     return pageLimit;
   };
 
@@ -222,74 +198,45 @@ class Pagination extends Component<IProps, IState> {
     const { currentPage } = this.state;
     const pages = this.fetchPageNumbers();
 
-
-
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          border: 'solid 1px whitesmoke',
-          borderRadius: '8px',
-          width: 'fit-content'
-        }}
-      >
-        <ItemsByPages
-          fieldState={this.form.$.pageLimit}
-          options={this.getItemsByPages()}
-          onChange={value => {
-            this.form.$.pageLimit.onChange(value);
-            this.gotoPage(1);
-          }}
-        />
-        <InfoPage
-          currentPage={currentPage}
-          totalPages={this.getTotalPages()}
-          totals={this.getTotalsRecord()}
-        />
+      <div style={this.getStyles()}>
+        {this.props.hideItemsByPage !== true && this.renderItemsByPages()}
+
+        {this.props.hideInfoLabels !== true && this.renderInfoPage(currentPage)}
+
         <div>
           <Pages className="pagination">
             {pages.map((page, index) => {
               if (page === LEFT_PAGE) {
-                return (
-                  <Page
-                    onClick={e => {
-                      this.handleMoveLeft(e);
-                    }}
-                    key={index}
-                    className="page-item"
-                  >
-                    <Icon icon={'chevron-left'} />
-                  </Page>
-                );
+                return this.getLeftPage(index);
               }
 
               if (page === RIGHT_PAGE) {
-                return (
-                  <Page
-                    onClick={e => {
-                      this.handleMoveRight(e);
-                    }}
-                    key={index}
-                    className="page-item"
-                  >
-                    <Icon icon={'chevron-right'} />
-                  </Page>
-                );
+                return this.getRightPage(index);
               }
+
 
               return (
                 <Page
                   key={index}
                   backgroundColor={
-                    currentPage === page ? '#e8e8e8' : 'transparent'
+                    currentPage === page
+                      ? this.getBackgroundColorCurrentPage()
+                      : 'transparent'
                   }
+                  color={this.getColorCurrentPage()}
                   backgroundHover={
-                    currentPage === page ? '#e8e8e8' : 'whitesmoke'
+                    currentPage === page
+                      ? this.getBackgroundColorCurrentPage()
+                      : this.getBackgroundHover()
                   }
+                  colorHover={this.getColorHover()}
+
                   onClick={e => {
                     this.handleClick(page, e);
                   }}
+
+                  isLast={(index+1)===pages.length}
                 >
                   {page}
                 </Page>
@@ -300,6 +247,114 @@ class Pagination extends Component<IProps, IState> {
       </div>
     );
   }
-}
 
-export default Pagination;
+  getBackgroundColorCurrentPage = (): string => {
+    return this.props.customerStyle &&
+      this.props.customerStyle.pageSelectedBackgroundColor
+      ? this.props.customerStyle.pageSelectedBackgroundColor
+      : '#e8e8e8';
+  };
+
+  getColorCurrentPage = (): string => {
+    return this.props.customerStyle &&
+      this.props.customerStyle.pageSelectedColor
+      ? this.props.customerStyle.pageSelectedColor
+      : 'black';
+  };
+
+  getBackgroundHover = (): string => {
+    return this.props.customerStyle &&
+      this.props.customerStyle.pageHoverBackgroundColor
+      ? this.props.customerStyle.pageHoverBackgroundColor
+      : '#e8e8e8';
+  };
+
+  getColorHover = ():string=>{
+    return this.props.customerStyle &&
+    this.props.customerStyle.pageHoverColor
+      ? this.props.customerStyle.pageHoverColor
+      : 'black';
+
+  };
+
+  getStyles = () => {
+    return {
+      display: 'flex',
+      alignItems: 'center',
+      border: 'solid 1px whitesmoke',
+      borderRadius: '8px',
+      width: 'fit-content',
+      ...this.props.style
+    };
+  };
+
+  private renderInfoPage(currentPage: number) {
+    if (this.props.labels && this.props.labels.renderInfoDetails) {
+      return this.props.labels.renderInfoDetails({
+        currentPage,
+        totalPages: this.getTotalPages(),
+        totals: this.getTotalsRecord()
+      });
+    }
+
+    return (
+      <InfoPage
+        currentPage={currentPage}
+        totalPages={this.getTotalPages()}
+        totals={this.getTotalsRecord()}
+      />
+    );
+  }
+
+  private renderItemsByPages() {
+    const label: string | undefined =
+      this.props.labels && this.props.labels.itemsByPage;
+
+    return (
+      <ItemsByPages
+        fieldState={this.form.$.pageLimit}
+        options={this.getItemsByPages()}
+        label={label}
+        onChange={value => {
+          this.form.$.pageLimit.onChange(value);
+          this.gotoPage(1);
+        }}
+        color={this.getColorCurrentPage()}
+      />
+    );
+  }
+
+  private getRightPage(index: number) {
+    return (
+      <Page
+        onClick={e => {
+          this.handleMoveRight(e);
+        }}
+        key={index}
+        className="page-item"
+      >
+        <Icon style={{color:this.getColorIcon()}}  icon={'chevron-right'} />
+      </Page>
+    );
+  }
+
+  private getLeftPage(index: number) {
+    return (
+      <Page
+        onClick={e => {
+          this.handleMoveLeft(e);
+        }}
+        key={index}
+        className="page-item"
+      >
+        <Icon style={{color:this.getColorIcon()}} icon={'chevron-left'} />
+      </Page>
+    );
+  }
+
+  private getColorIcon=():string=>{
+
+    return  this.props.customerStyle && this.props.customerStyle.iconColor ? this.props.customerStyle.iconColor:'black';
+
+  }
+}
