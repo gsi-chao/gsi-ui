@@ -1,12 +1,7 @@
 import { observer } from 'mobx-react';
-import React, { useState } from 'react';
+import React from 'react';
 /** Blueprint */
-import {
-  Button,
-  IconName,
-  Intent,
-  MenuItem
-} from '@blueprintjs/core';
+import { Button, Icon, IconName, Intent, MenuItem } from '@blueprintjs/core';
 /** FieldState */
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
@@ -189,7 +184,14 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                   icon,
                   disabled
                 }}
-                rightIcon={rightIcon || 'chevron-down'}
+                rightIcon={
+                  <Icon
+                    style={{
+                      color: this.props.color ? this.props.color : 'black'
+                    }}
+                    icon={rightIcon || 'chevron-down'}
+                  />
+                }
                 text={this.getFieldText()}
                 style={{ color: this.props.color ? this.props.color : 'black' }}
               />
