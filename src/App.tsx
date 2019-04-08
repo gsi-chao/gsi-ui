@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { VTable } from './components/Table/Table';
+import { VTable } from './components/Table';
 import InputsDemo from './demo/InputsDemo';
 import TableWithWidgetDemo from './demo/TableWithWidgetDemo';
 import TabsPanelDemo from './demo/TabsPanelDemo';
@@ -9,6 +9,7 @@ import ColorPickerDemo from './demo/ColorPickerDemo';
 import NotificationToastDemo from './demo/NotificationToastDemo';
 import DNDDemo from './demo/DNDDemo';
 import SuspenseDemo from './demo/SuspenseDemo';
+import PaginatorDemo from './demo/PaginatorDemo';
 
 class App extends Component {
   render() {
@@ -96,6 +97,11 @@ class App extends Component {
             numFrozenColumns={1}
           />
         </div>
+
+         <br/>
+
+        <PaginatorDemo/>
+
         <InputsDemo />
         <TabsPanelDemo />
         <TableWithWidgetDemo />
