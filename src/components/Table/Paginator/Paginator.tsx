@@ -1,11 +1,13 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from 'react';
 import { Page, Pages } from './style';
 import { Icon } from '@blueprintjs/core';
+import { FieldState, FormState } from 'formstate';
+import { VSelectField } from '../../Form';
 
-const LEFT_PAGE = "LEFT";
-const RIGHT_PAGE = "RIGHT";
+const LEFT_PAGE = 'LEFT';
+const RIGHT_PAGE = 'RIGHT';
 
-const range = (from:number, to:number, step = 1) => {
+const range = (from: number, to: number, step = 1) => {
   let i = from;
   const range = [];
 
@@ -17,95 +19,152 @@ const range = (from:number, to:number, step = 1) => {
   return range;
 };
 
-export interface IProps {
-  totalRecords:any;
-  pageLimit:number;
-  pageNeighbours:number;
-  onPageChanged:(value:any)=>void
+interface IInfoPage {
+  totalPages: number;
+  currentPage: number;
+  totals: number;
+}
+const InfoPage = (props: IInfoPage) => {
+  return (
+    <div style={{ margin: '0px 10px' }}>
+      {props.currentPage && (
+        <span>
+          Page <strong>{props.currentPage}</strong> of{' '}
+          <strong>{props.totalPages}</strong>
+        </span>
+      )}
+      <span>
+        {' / '}
+        Total: <strong className="text-secondary">{` ${props.totals}`}</strong>
+      </span>
+    </div>
+  );
+};
 
+interface IItemsByPages {
+  fieldState: FieldState<any>;
+  options: any[];
+  onChange: (value: any) => void;
+
+}
+
+const ItemsByPages = (props: IItemsByPages) => {
+  return (
+    <VSelectField
+      layer={{
+        inputOrientation: 'start'
+      }}
+      filterable={false}
+      margin={'0px 10px'}
+      inline
+      label={'Items by pages:'}
+      minimal
+      options={props.options}
+      id="places"
+      fieldState={props.fieldState}
+      onChange={props.onChange}
+    />
+  );
+};
+
+
+
+export interface IProps {
+  totalRecords: any;
+  pageLimit: number;
+  pageNeighbours: number;
+  onPageChanged: (value: any) => void;
+  itemsByPage?:{label:string, value:number}[];
 }
 
 export interface IState {
-  currentPage:number
+  currentPage: number;
 }
 
+class Pagination extends Component<IProps, IState> {
+  form: FormState<any>;
 
-class Pagination extends Component<IProps,IState> {
-  // pageLimit:number;
-  // totalRecords:number;
-  // pageNeighbours:number;
-  // totalPages:number;
-
-  constructor(props:IProps) {
+  constructor(props: IProps) {
     super(props);
-    const { totalRecords = null, pageLimit = 30, pageNeighbours = 0 } = props;
 
-    // this.pageLimit = typeof pageLimit === "number" ? pageLimit : 30;
-    // this.totalRecords = typeof totalRecords === "number" ? totalRecords : 0;
-    //
-    // this.pageNeighbours =
-    //   typeof pageNeighbours === "number"
-    //     ? Math.max(0, Math.min(pageNeighbours, 2))
-    //     : 0;
-    //
-    // this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
+    this.form = new FormState<any>({
+      pageLimit: new FieldState(this.getPageLimit())
+    });
 
     this.state = { currentPage: 1 };
   }
 
-  getPageNeighbours =()=>{
+  getItemsByPages=()=>{
 
+    if(this.props.itemsByPage && this.props.itemsByPage.length>0)
+    {
+      return this.props.itemsByPage;
+    }
+    return [
+      { label: '5', value: 5 },
+      { label: '10', value: 10 },
+      { label: '20', value: 20 }
+    ]
+
+  };
+
+
+  getPageNeighbours = () => {
     const { pageNeighbours = 0 } = this.props;
 
-    return Math.max(0, Math.min(pageNeighbours, 2))
+    return Math.max(0, Math.min(pageNeighbours, 2));
   };
 
-  getTotalPages = ()=>{
+  getTotalPages = () => {
     const { totalRecords = null, pageLimit = 30 } = this.props;
-   return   Math.ceil(totalRecords / pageLimit);
+    return Math.ceil(totalRecords / pageLimit);
   };
 
-  getTotalsRecord = ()=>{
+  getTotalsRecord = () => {
     const { totalRecords = 0 } = this.props;
 
     return totalRecords;
   };
 
-  getPageLimit = ()=>{
-    const {  pageLimit = 30 } = this.props;
-    return pageLimit
+  getPageLimit = () => {
+    const { pageLimit = 10} = this.props;
+    return pageLimit;
   };
 
   componentDidMount() {
     this.gotoPage(1);
   }
 
-  gotoPage = (page:any) => {
-    const { onPageChanged = (f:any) => f } = this.props;
+  gotoPage = (page: any) => {
+    const { onPageChanged = (f: any) => f } = this.props;
 
     const currentPage = Math.max(0, Math.min(page, this.getTotalPages()));
 
     const paginationData = {
       currentPage,
       totalPages: this.getTotalPages(),
-      pageLimit: this.getPageLimit,
+      pageLimit: this.getPageLimit(),
       totalRecords: this.getTotalsRecord()
     };
+    const result: any = {
+      paginationData,
+      pageLimit: this.form.$.pageLimit.value
+    };
 
-    this.setState({ currentPage }, () => onPageChanged(paginationData));
+    this.setState({ currentPage }, () => onPageChanged(result));
   };
 
-  handleClick = (page:any, evt:any) => {
+  handleClick = (page: any, evt: any) => {
     evt.preventDefault();
     this.gotoPage(page);
   };
 
-  handleMoveLeft = (evt:any) => {
+  handleMoveLeft = (evt: any) => {
     evt.preventDefault();
     this.gotoPage(this.state.currentPage - this.getPageNeighbours() * 2 - 1);
   };
 
-  handleMoveRight = (evt:any) => {
+  handleMoveRight = (evt: any) => {
     evt.preventDefault();
     this.gotoPage(this.state.currentPage + this.getPageNeighbours() * 2 + 1);
   };
@@ -119,7 +178,7 @@ class Pagination extends Component<IProps,IState> {
     const totalBlocks = totalNumbers + 2;
 
     if (totalPages > totalBlocks) {
-      let pages = [];
+      let pages: any[];
 
       const leftBound = currentPage - pageNeighbours;
       const rightBound = currentPage + pageNeighbours;
@@ -163,50 +222,84 @@ class Pagination extends Component<IProps,IState> {
     const { currentPage } = this.state;
     const pages = this.fetchPageNumbers();
 
+
+
     return (
-      <Fragment>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          border: 'solid 1px whitesmoke',
+          borderRadius: '8px',
+          width: 'fit-content'
+        }}
+      >
+        <ItemsByPages
+          fieldState={this.form.$.pageLimit}
+          options={this.getItemsByPages()}
+          onChange={value => {
+            this.form.$.pageLimit.onChange(value);
+            this.gotoPage(1);
+          }}
+        />
+        <InfoPage
+          currentPage={currentPage}
+          totalPages={this.getTotalPages()}
+          totals={this.getTotalsRecord()}
+        />
+        <div>
           <Pages className="pagination">
             {pages.map((page, index) => {
-              if (page === LEFT_PAGE)
+              if (page === LEFT_PAGE) {
                 return (
-                  <Page onClick={(e)=>{this.handleMoveLeft(e)}}  key={index} className="page-item" >
-                       <Icon icon={'chevron-left'} />
+                  <Page
+                    onClick={e => {
+                      this.handleMoveLeft(e);
+                    }}
+                    key={index}
+                    className="page-item"
+                  >
+                    <Icon icon={'chevron-left'} />
                   </Page>
                 );
+              }
 
-              if (page === RIGHT_PAGE)
+              if (page === RIGHT_PAGE) {
                 return (
-                  <Page onClick={(e)=>{this.handleMoveRight(e)}} key={index} className="page-item" >
-
+                  <Page
+                    onClick={e => {
+                      this.handleMoveRight(e);
+                    }}
+                    key={index}
+                    className="page-item"
+                  >
                     <Icon icon={'chevron-right'} />
                   </Page>
                 );
+              }
 
               return (
-
                 <Page
                   key={index}
                   backgroundColor={
-                    currentPage === page ? "#e8e8e8" : "transparent"
-                    }
-                  backgroundHover={ currentPage === page ? "#e8e8e8" : "whitesmoke"}
-                  onClick={(e)=>{this.handleClick(page,e)}}
+                    currentPage === page ? '#e8e8e8' : 'transparent'
+                  }
+                  backgroundHover={
+                    currentPage === page ? '#e8e8e8' : 'whitesmoke'
+                  }
+                  onClick={e => {
+                    this.handleClick(page, e);
+                  }}
                 >
-                    {page}
+                  {page}
                 </Page>
               );
             })}
           </Pages>
-      </Fragment>
+        </div>
+      </div>
     );
   }
 }
-
-// Pagination.propTypes = {
-//   totalRecords: PropTypes.number.isRequired,
-//   pageLimit: PropTypes.number,
-//   pageNeighbours: PropTypes.number,
-//   onPageChanged: PropTypes.func
-// };
 
 export default Pagination;
