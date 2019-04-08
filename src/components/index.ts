@@ -1,4 +1,4 @@
-import { VLoadProgressTask } from './LoadProgressTask/VLoadProgressTask';
+import { VLoadProgressTask } from './LoadProgressTask';
 
 export { VTable } from './Table';
 export { ProgressLabel } from './ProgresLabel';
@@ -57,3 +57,5 @@ export {
   ISelectItemsProps,
   SelectUnselectItems
 } from './SelectItems';
+
+export { VPaginatorProps } from './Paginator/type'

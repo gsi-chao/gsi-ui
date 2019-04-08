@@ -1,13 +1,7 @@
 import { observer } from 'mobx-react';
-import React, { useState } from 'react';
+import React from 'react';
 /** Blueprint */
-import {
-  Button,
-  FormGroup,
-  IconName,
-  Intent,
-  MenuItem
-} from '@blueprintjs/core';
+import { Button, Icon, IconName, Intent, MenuItem } from '@blueprintjs/core';
 /** FieldState */
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
@@ -30,6 +24,7 @@ export interface ISelectFieldProps extends IFieldProps {
   defaultText?: string;
   fixedInputWidthPx?: number;
   iconOnly?: boolean;
+  color?: string;
 }
 
 /**
@@ -144,9 +139,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       <StyledPopOverWrapper
         disabled={disabled}
         inline={inline}
-        intent={
-          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -174,7 +167,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             {iconOnly ? (
               <Button
                 className={minimal ? 'bp3-minimal' : ''}
-                style={{ justifyContent: 'center' }}
+                style={{
+                  justifyContent: 'center',
+                  color: this.props.color ? this.props.color : 'black'
+                }}
                 {...{
                   icon,
                   disabled
@@ -188,8 +184,16 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                   icon,
                   disabled
                 }}
-                rightIcon={rightIcon || 'chevron-down'}
+                rightIcon={
+                  <Icon
+                    style={{
+                      color: this.props.color ? this.props.color : 'black'
+                    }}
+                    icon={rightIcon || 'chevron-down'}
+                  />
+                }
                 text={this.getFieldText()}
+                style={{ color: this.props.color ? this.props.color : 'black' }}
               />
             )}
           </ItemSelect>
