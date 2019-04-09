@@ -95,8 +95,8 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
             }}
             onChange={this.onChange}
             value={
-              fieldState && fieldState.value
-                ? fieldState.value
+              fieldState && fieldState.$
+                ? fieldState.$
                 : value
                 ? value
                 : 0

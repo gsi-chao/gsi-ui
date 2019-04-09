@@ -277,7 +277,7 @@ export class VPagination extends Component<VPaginatorProps, IState> {
 
   };
 
-  getStyles = () => {
+  getStyles: any = () => {
     return {
       display: 'flex',
       alignItems: 'center',

@@ -70,7 +70,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       <Button
         disabled={disabled}
         icon={
-          (!!fieldState && fieldState.value.length > 0) ||
+          (!!fieldState && fieldState.$.length > 0) ||
           (!!value && value.length > 0)
             ? 'cross'
             : 'refresh'
@@ -113,8 +113,8 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
             large={size === 'large'}
             onChange={this.handleChange}
             values={
-              fieldState && fieldState.value
-                ? fieldState.value
+              fieldState && fieldState.$
+                ? fieldState.$
                 : value
                 ? value
                 : []

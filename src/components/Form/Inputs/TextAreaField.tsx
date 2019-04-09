@@ -81,8 +81,8 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
             small={size === 'small'}
             onChange={this.onChange}
             value={
-              fieldState && fieldState.value
-                ? fieldState.value
+              fieldState && fieldState.$
+                ? fieldState.$
                 : value
                 ? value
                 : ''

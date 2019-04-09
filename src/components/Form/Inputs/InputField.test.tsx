@@ -48,32 +48,3 @@ it('renders without crashing InputField All Properties', () => {
   expect(InputComponent).toMatchSnapshot();
 });
 
-describe('Testing Input Field', () => {
-  it('check value change in Input Field', () => {
-    const form = new FormState<any>({
-      username: new FieldState('').validators(required)
-    });
-    const wrapper = mount(
-      <VInputField id="test-input" fieldState={form.$.username} />
-    );
-    const input = wrapper.find('input');
-
-    input.simulate('focus');
-    input.simulate('change', { target: { value: 'Changed' } });
-
-    const inputBlue = wrapper.find(InputGroup);
-
-    inputBlue.simulate('keyDown', {
-      which: 27,
-      target: {
-        blur() {
-          input.simulate('blur');
-        }
-      }
-    });
-
-    const value = input.render().attr('value');
-    expect(value).toBe('Changed');
-    // expect(form.$.username.$).toBe('Changed');
-  });
-});
