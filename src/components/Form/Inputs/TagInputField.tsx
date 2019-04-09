@@ -14,14 +14,23 @@ import { StyledTagsInput } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
+import { showToastNotification } from '../../ToastNotification';
 
 /**
  * Field Props
  */
+export interface TagValidation {
+  regex: RegExp;
+  errorMessage: string
+}
+
 export interface ITagFieldProps extends IFieldProps {
   leftIcon?: IconName;
   tagProps?: ITagProps | ((value: React.ReactNode, index: number) => ITagProps);
   fill?: boolean;
+  limit?: number;
+  separator?: string | RegExp
+  tagValidation?: TagValidation
 }
 
 /**
@@ -52,7 +61,8 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       noLabel,
       required,
       validators,
-      value
+      value,
+      separator
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -101,6 +111,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
           fieldState={fieldState}
         >
           <TagInput
+            separator={separator}
             {...{
               leftIcon,
               disabled,
@@ -129,6 +140,21 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
   }
 
   private handleChange = (values: React.ReactNode[]) => {
+    if (this.props.limit && values.length > 0 && values.length > this.props.limit) {
+      values = values.filter((item, index) => this.props.limit && index < this.props.limit);
+    }
+    if (this.props.tagValidation && this.props.tagValidation.regex) {
+      values = values.filter((item) => {
+        const result = this.props.tagValidation && this.props.tagValidation.regex.test(item && item.toString() || '');
+        if (!result) {
+          showToastNotification({
+            message: `${item && item.toString() || ''} ${this.props.tagValidation && this.props.tagValidation.errorMessage || 'is not valid'}`,
+            type: 'danger',
+          })
+        }
+        return result;
+      })
+    }
     if (this.props.fieldState) {
       this.props.fieldState.onChange(values);
     }

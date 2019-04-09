@@ -209,6 +209,11 @@ class InputsDemo extends Component {
         />
         <VTagInputField
           fill
+          limit={5}
+          tagValidation={{
+            regex: /[a-z0-9]/,
+            errorMessage: 'Is a not valid value'
+          }}
           layer={{
             labelWidth: 6,
             inputWidth: 4,
