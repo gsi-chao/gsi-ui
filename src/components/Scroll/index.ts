@@ -1,0 +1,1 @@
+export { VScrollCarrousel } from './VScrollCarrousel';
