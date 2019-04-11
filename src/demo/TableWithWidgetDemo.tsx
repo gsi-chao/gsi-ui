@@ -188,11 +188,13 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             sortable={{
               columns: ['name', 'color', 'sinEditar'],
               onSort: this.onSort,
-              setupsOrden: [{
-                order:'ASC',
-                columnName:'color',
-                columnIndex:0
-              }]
+              setupsOrden: [
+                {
+                  order: 'ASC',
+                  columnName: 'color',
+                  columnIndex: 0
+                }
+              ]
             }}
             contextual={{
               columnsContextual: [

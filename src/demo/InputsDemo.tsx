@@ -63,7 +63,7 @@ class InputsDemo extends Component {
       age: new FieldState(2),
       have_job: new FieldState(''),
       sex: new FieldState(''),
-      range: new FieldState(''),
+      range: new FieldState(0),
       places: new FieldState(sex[0].value),
       date: new FieldState(moment().toDate()),
       multiple: new FieldState([])
@@ -115,7 +115,7 @@ class InputsDemo extends Component {
     return (
       <React.Fragment>
         <VScrollCarrousel displacement={150} buttonsJustify={'flex-end'}>
-          <div style={{display: 'flex'}}>
+          <div style={{ display: 'flex' }}>
             <div
               style={{
                 padding: '10px',

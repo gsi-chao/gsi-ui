@@ -98,9 +98,9 @@ class App extends Component {
           />
         </div>
 
-         <br/>
+        <br />
 
-        <PaginatorDemo/>
+        <PaginatorDemo />
 
         <InputsDemo />
         <TabsPanelDemo />

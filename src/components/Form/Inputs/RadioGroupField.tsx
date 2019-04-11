@@ -21,6 +21,7 @@ import {
 import styled from 'styled-components';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
+import { computed } from 'mobx';
 
 /**
  * Field Props
@@ -76,9 +77,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={
-          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -100,12 +99,23 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
               alignIndicator
             }}
             onChange={this.onChange}
-            selectedValue={fieldState && fieldState.$ ? fieldState.$ : value ? value : null}
+            selectedValue={this.valueField}
             options={options}
           />
         </FormFieldContainer>
       </StyledRadioButton>
     );
+  }
+
+  @computed
+  get valueField() {
+    if (this.props.fieldState) {
+      return this.props.fieldState.value;
+    }
+    if (this.props.value) {
+      return this.props.value;
+    }
+    return null;
   }
 
   onChange = (e: any) => {

@@ -58,4 +58,4 @@ export {
   SelectUnselectItems
 } from './SelectItems';
 
-export { VPaginatorProps } from './Paginator/type'
+export { VPaginatorProps } from './Paginator/type';

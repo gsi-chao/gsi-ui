@@ -1,5 +1,9 @@
 import { Button } from '@blueprintjs/core';
-import { VStyledCarrousel, VStyledCarrouselButtonsContainer, VStyledCarrouselContainer } from './style';
+import {
+  VStyledCarrousel,
+  VStyledCarrouselButtonsContainer,
+  VStyledCarrouselContainer
+} from './style';
 import React, { Component } from 'react';
 
 interface StyledCardProps {
@@ -54,7 +58,7 @@ export class VScrollCarrousel extends Component<StyledCardProps, PanelState> {
   };
 
   render() {
-    const { children, displacement, durationMs,buttonsJustify } = this.props;
+    const { children, displacement, durationMs, buttonsJustify } = this.props;
     const { left } = this.state;
     const ref = this.childrenRef;
     const newChildren = React.cloneElement(children, {
@@ -70,11 +74,11 @@ export class VScrollCarrousel extends Component<StyledCardProps, PanelState> {
         >
           {newChildren}
         </VStyledCarrousel>
-        <VStyledCarrouselButtonsContainer buttonsJustify = {buttonsJustify}>
+        <VStyledCarrouselButtonsContainer buttonsJustify={buttonsJustify}>
           <Button
             minimal
             icon={'chevron-left'}
-            onClick={() => this.setLeft((displacement || 100))}
+            onClick={() => this.setLeft(displacement || 100)}
           />
           <Button
             minimal

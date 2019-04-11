@@ -8,6 +8,8 @@ import { IFieldProps } from './IFieldProps';
 import { StyledSlider } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
+import { computed } from 'mobx';
+import { isNumber } from 'lodash';
 
 /**
  * Field Props
@@ -94,17 +96,22 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
               labelStepSize
             }}
             onChange={this.onChange}
-            value={
-              fieldState && fieldState.$
-                ? fieldState.$
-                : value
-                ? value
-                : 0
-            }
+            value={this.valueField}
           />
         </FormFieldContainer>
       </StyledSlider>
     );
+  }
+
+  @computed
+  get valueField() {
+    if (this.props.fieldState && isNumber(this.props.fieldState.value)) {
+      return this.props.fieldState.value;
+    }
+    if (this.props.value && isNumber(this.props.value)) {
+      return this.props.value;
+    }
+    return 0;
   }
 
   onChange = (e: any) => {

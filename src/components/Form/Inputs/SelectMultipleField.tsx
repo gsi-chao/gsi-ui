@@ -88,14 +88,6 @@ export class VSelectMultiple extends React.Component<
     this.state = {
       selectedItems: []
     };
-    reaction(
-      () => ({
-        options: this.props.options
-      }),
-      () => {
-        console.log('updating');
-      }
-    );
   }
 
   getFieldText() {

@@ -9,6 +9,7 @@ import { StyledTextArea } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
+import { computed } from 'mobx';
 
 /**
  * Field Props
@@ -61,9 +62,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={
-          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         layer={layer}
         labelInfo={labelInfo}
@@ -80,13 +79,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
             large={size === 'large'}
             small={size === 'small'}
             onChange={this.onChange}
-            value={
-              fieldState && fieldState.$
-                ? fieldState.$
-                : value
-                ? value
-                : ''
-            }
+            value={this.valueField}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
@@ -100,6 +93,18 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       </StyledTextArea>
     );
   }
+
+  @computed
+  get valueField() {
+    if (this.props.fieldState) {
+      return this.props.fieldState.value;
+    }
+    if (this.props.value) {
+      return this.props.value;
+    }
+    return '';
+  }
+
   onChange = (e: any) => {
     if (this.props.fieldState) {
       this.props.fieldState.onChange(e.target.value);

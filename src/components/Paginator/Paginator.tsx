@@ -56,7 +56,7 @@ const ItemsByPages = (props: IItemsByPages) => {
       id="places"
       fieldState={props.fieldState}
       onChange={props.onChange}
-      color={props.color?props.color:'black'}
+      color={props.color ? props.color : 'black'}
     />
   );
 };
@@ -215,7 +215,6 @@ export class VPagination extends Component<VPaginatorProps, IState> {
                 return this.getRightPage(index);
               }
 
-
               return (
                 <Page
                   key={index}
@@ -231,12 +230,10 @@ export class VPagination extends Component<VPaginatorProps, IState> {
                       : this.getBackgroundHover()
                   }
                   colorHover={this.getColorHover()}
-
                   onClick={e => {
                     this.handleClick(page, e);
                   }}
-
-                  isLast={(index+1)===pages.length}
+                  isLast={index + 1 === pages.length}
                 >
                   {page}
                 </Page>
@@ -269,12 +266,10 @@ export class VPagination extends Component<VPaginatorProps, IState> {
       : '#e8e8e8';
   };
 
-  getColorHover = ():string=>{
-    return this.props.customerStyle &&
-    this.props.customerStyle.pageHoverColor
+  getColorHover = (): string => {
+    return this.props.customerStyle && this.props.customerStyle.pageHoverColor
       ? this.props.customerStyle.pageHoverColor
       : 'black';
-
   };
 
   getStyles: any = () => {
@@ -333,7 +328,7 @@ export class VPagination extends Component<VPaginatorProps, IState> {
         key={index}
         className="page-item"
       >
-        <Icon style={{color:this.getColorIcon()}}  icon={'chevron-right'} />
+        <Icon style={{ color: this.getColorIcon() }} icon={'chevron-right'} />
       </Page>
     );
   }
@@ -347,14 +342,14 @@ export class VPagination extends Component<VPaginatorProps, IState> {
         key={index}
         className="page-item"
       >
-        <Icon style={{color:this.getColorIcon()}} icon={'chevron-left'} />
+        <Icon style={{ color: this.getColorIcon() }} icon={'chevron-left'} />
       </Page>
     );
   }
 
-  private getColorIcon=():string=>{
-
-    return  this.props.customerStyle && this.props.customerStyle.iconColor ? this.props.customerStyle.iconColor:'black';
-
-  }
+  private getColorIcon = (): string => {
+    return this.props.customerStyle && this.props.customerStyle.iconColor
+      ? this.props.customerStyle.iconColor
+      : 'black';
+  };
 }

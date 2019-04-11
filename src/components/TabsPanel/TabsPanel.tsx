@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { ITabsPanelProps, ITabsPanelState } from './types';
 import { VTabPanel } from './TabPanel/TabPanel';
-import { ContainerContent, ContainerTabs, ContainerTabsPanel, TabsSpaceFiller } from './style';
+import {
+  ContainerContent,
+  ContainerTabs,
+  ContainerTabsPanel,
+  TabsSpaceFiller
+} from './style';
 
 export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
   constructor(props: ITabsPanelProps) {
@@ -53,7 +58,7 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
               activeBorderColor={options.activeBorderColor}
             />
           ))}
-          <TabsSpaceFiller></TabsSpaceFiller>
+          <TabsSpaceFiller />
         </ContainerTabs>
         <ContainerContent
           backgroundColor={options.backgroundColor}

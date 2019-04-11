@@ -8,6 +8,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledCheckBoxInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
+import { computed } from 'mobx';
 
 /**
  * Field Props
@@ -64,9 +65,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={
-          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -91,11 +90,22 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
               label: ''
             }}
             onChange={this.onChange}
-            checked={fieldState && fieldState.$ ? fieldState.$ : value ? value : false}
+            checked={this.valueField}
           />
         </FormFieldContainer>
       </StyledCheckBoxInput>
     );
+  }
+
+  @computed
+  get valueField() {
+    if (this.props.fieldState) {
+      return this.props.fieldState.value;
+    }
+    if (this.props.value) {
+      return this.props.value;
+    }
+    return false;
   }
 
   onChange = (e: any) => {

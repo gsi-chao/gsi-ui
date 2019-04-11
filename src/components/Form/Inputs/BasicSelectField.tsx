@@ -13,6 +13,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledFormGroup } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
+import { computed } from 'mobx';
 
 /**
  * Field Props
@@ -71,9 +72,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
         margin={margin}
         disabled={disabled}
         inline={inline}
-        intent={
-          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -91,7 +90,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
             name={id}
             large={size === 'large'}
             onChange={this.onChange}
-            value={fieldState && fieldState.$ ? fieldState.$ : value ? value : ''}
+            value={this.valueField}
             {...{
               disabled,
               placeholder,
@@ -103,6 +102,18 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
       </StyledFormGroup>
     );
   }
+
+  @computed
+  get valueField() {
+    if (this.props.fieldState) {
+      return this.props.fieldState.value;
+    }
+    if (this.props.value) {
+      return this.props.value;
+    }
+    return '';
+  }
+
   onChange = (e: any) => {
     if (this.props.fieldState) {
       this.props.fieldState.onChange(e.target.value);
