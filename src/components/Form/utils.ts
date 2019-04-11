@@ -1,5 +1,5 @@
 import { FormState } from 'formstate';
-import {cloneDeep} from 'lodash';
+import { cloneDeep } from 'lodash';
 
 export const patchFormValues = (form: FormState<any>, object: any) => {
   const obj = cloneDeep(object);

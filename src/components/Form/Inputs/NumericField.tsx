@@ -7,6 +7,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledNumericInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
+import { computed } from 'mobx';
 
 /**
  * Field Props
@@ -68,9 +69,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={
-          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -98,7 +97,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
               buttonPosition
             }}
             onValueChange={this.onChange}
-            value={fieldState && fieldState.$ ? fieldState.$ : value ? value : 0}
+            value={this.valueField}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
@@ -106,6 +105,17 @@ export class VNumericField extends React.Component<INumericFieldProps> {
         </FormFieldContainer>
       </StyledNumericInput>
     );
+  }
+
+  @computed
+  get valueField() {
+    if (this.props.fieldState) {
+      return this.props.fieldState.value;
+    }
+    if (this.props.value) {
+      return this.props.value;
+    }
+    return 0;
   }
 
   onChange = (e: any, value: string) => {

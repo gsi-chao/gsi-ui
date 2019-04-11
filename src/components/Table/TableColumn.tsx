@@ -29,8 +29,7 @@ export default class TableColumn implements ISortableColumn {
     protected header_config: IVConfigHeader[] | IVConfigHeader,
     protected columns_name?: { [key: string]: string },
     protected sortable?: IVActionSortableTableProps
-  ) {
-  }
+  ) {}
 
   getColumn = (getCellData: ICellLookup) => {
     return (
@@ -65,9 +64,9 @@ export default class TableColumn implements ISortableColumn {
 
     return (
       <Menu>
-        <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc"/>
-        <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc"/>
-        <MenuItem icon="small-cross" onClick={sortNone} text="No sort"/>
+        <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc" />
+        <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc" />
+        <MenuItem icon="small-cross" onClick={sortNone} text="No sort" />
       </Menu>
     );
   };
@@ -75,14 +74,14 @@ export default class TableColumn implements ISortableColumn {
   private getMenuDesc(sortAsc: any, sortDesc: any, sortNone: any) {
     return (
       <Menu>
-        <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc"/>
+        <MenuItem icon="sort-asc" onClick={sortAsc} text="Sort Rank Asc" />
         <MenuItem
-          labelElement={<Icon icon="tick"/>}
+          labelElement={<Icon icon="tick" />}
           icon="sort-desc"
           onClick={sortDesc}
           text="Sort Rank Desc"
         />
-        <MenuItem icon="small-cross" onClick={sortNone} text="No sort"/>
+        <MenuItem icon="small-cross" onClick={sortNone} text="No sort" />
       </Menu>
     );
   }
@@ -91,13 +90,13 @@ export default class TableColumn implements ISortableColumn {
     return (
       <Menu>
         <MenuItem
-          labelElement={<Icon icon="tick"/>}
+          labelElement={<Icon icon="tick" />}
           icon="sort-asc"
           onClick={sortAsc}
           text="Sort Rank Asc"
         />
-        <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc"/>
-        <MenuItem icon="small-cross" onClick={sortNone} text="No sort"/>
+        <MenuItem icon="sort-desc" onClick={sortDesc} text="Sort Rank Desc" />
+        <MenuItem icon="small-cross" onClick={sortNone} text="No sort" />
       </Menu>
     );
   }
@@ -141,13 +140,13 @@ export default class TableColumn implements ISortableColumn {
 
   private getIconSort(index: number) {
     const setup = this.getSetupOrdenByIndex(index!);
-    const style = { marginRight:'8px'};
+    const style = { marginRight: '8px' };
     let icon = undefined;
     if (setup) {
       if (setup.order === 'ASC') {
-        icon = <Icon  style={ {...style }} icon="sort-asc"/>;
+        icon = <Icon style={{ ...style }} icon="sort-asc" />;
       } else if (setup.order === 'DESC') {
-        icon = <Icon icon="sort-desc"/>;
+        icon = <Icon icon="sort-desc" />;
       }
     }
     return icon;
@@ -174,7 +173,7 @@ export default class TableColumn implements ISortableColumn {
       ) {
         menuRenderer = this.sortable.custom_render_menu[
           this.columns[columnIndex]
-          ];
+        ];
       } else {
         menuRenderer = this.renderMenu;
       }

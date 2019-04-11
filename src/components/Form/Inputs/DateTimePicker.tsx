@@ -9,6 +9,7 @@ import { DateInput, IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
 import { IconDate, StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
+import { computed } from 'mobx';
 
 /**
  * Field component. Must be an observer.
@@ -112,7 +113,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               disabled={disabled}
               defaultValue={moment().toDate()}
               onChange={this.changedDate}
-              value={!!fieldState ? fieldState.$ : value ? value : moment().toDate()}
+              value={this.valueField}
               timePrecision={dateType === 'DATETIME' ? 'second' : undefined}
               rightElement={iconJSX}
             />
@@ -122,5 +123,15 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
         </FormFieldContainer>
       </StyledFormGroup>
     );
+  }
+  @computed
+  get valueField() {
+    if (this.props.fieldState) {
+      return this.props.fieldState.value;
+    }
+    if (this.props.value) {
+      return this.props.value;
+    }
+    return moment().toDate();
   }
 }

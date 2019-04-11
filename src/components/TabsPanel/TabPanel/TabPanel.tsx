@@ -44,7 +44,7 @@ export class VTabPanel extends Component<IVTabPanelProps> {
       <LabelIcon
         borderColor={borderColor}
         activeColor={activeColor}
-        backgroundColor = {backgroundColor}
+        backgroundColor={backgroundColor}
         activeTextColor={activeTextColor}
         textColor={textColor}
         active={active}

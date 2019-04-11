@@ -269,9 +269,9 @@ class PaginatorDemo extends Component<any, ISate> {
           customerStyle={{
             pageSelectedBackgroundColor: '#1985A1',
             pageSelectedColor: 'white',
-            iconColor:'white',
-            pageHoverColor:"black",
-            pageHoverBackgroundColor:"#1985A1"
+            iconColor: 'white',
+            pageHoverColor: 'black',
+            pageHoverBackgroundColor: '#1985A1'
           }}
         />
       </React.Fragment>
