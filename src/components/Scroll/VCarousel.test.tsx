@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { VScrollCarrousel } from './VScrollCarrousel';
+import { VCarousel } from './VCarousel';
 import renderer from 'react-test-renderer';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM.render(
-    <VScrollCarrousel>
-      <div>Test div</div>
-    </VScrollCarrousel>,
+    <VCarousel elements={[]}/>,
     div
   );
   ReactDOM.unmountComponentAtNode(div);
@@ -17,9 +15,7 @@ it('renders without crashing', () => {
 it('render correctly VScrollCarrousel component one segment', () => {
   const TextInputComponent = renderer
     .create(
-      <VScrollCarrousel>
-        <div>Test div</div>
-      </VScrollCarrousel>
+      <VCarousel elements={[]}/>
     )
     .toJSON();
   expect(TextInputComponent).toMatchSnapshot();

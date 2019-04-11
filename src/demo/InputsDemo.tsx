@@ -22,7 +22,7 @@ import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
 import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectItems';
 import { IItemsList } from '../components/SelectionList';
 import { VSelectMultiple } from '../components/Form/Inputs/SelectMultipleField';
-import { VScrollCarrousel } from '../components/Scroll';
+import { VCarousel } from '../components/Scroll';
 
 const store = [
   {
@@ -112,208 +112,56 @@ class InputsDemo extends Component {
         label: 'Fourth Value'
       }
     ];
+    const elementsCarousel: any = [
+      <VInputField
+        layer={{
+          labelWidth: 6,
+          inputWidth: 6,
+          labelOrientation: 'end',
+          inputOrientation: 'center'
+        }}
+        fieldState={this.form.$.username}
+        id="username"
+        label={'Username'}
+        inline={true}
+      />,
+      <VTextAreaField
+        fill
+        layer={{
+          labelWidth: 6,
+          inputWidth: 3,
+          labelOrientation: 'end',
+          inputOrientation: 'start'
+        }}
+        id="description"
+        label="Description"
+        inline
+        fieldState={this.form.$.description}
+      />,
+      <VSelectField
+        minimal
+        defaultText={'Please enter a text'}
+        fixedInputWidthPx={200}
+        fill
+        layer={{
+          labelWidth: 6,
+          inputWidth: 3,
+          labelOrientation: 'end',
+          inputOrientation: 'center'
+        }}
+        options={store}
+        inline
+        label={'Store List'}
+        value={this.selectValue}
+        id="store"
+        icon={'search'}
+        onChange={this.setSelectedValue}
+      />
+    ];
+
     return (
       <React.Fragment>
-        <VScrollCarrousel displacement={150} buttonsJustify={'flex-end'}>
-          <div style={{display: 'flex'}}>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-            <div
-              style={{
-                padding: '10px',
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center'
-              }}
-            >
-              <VSelectMultiple
-                options={options}
-                id={'asdasd'}
-                fieldState={this.form.$.multiple}
-              />
-            </div>
-          </div>
-        </VScrollCarrousel>
+        <VCarousel height={'200px'} width={'500px'} elements={elementsCarousel} buttonsJustify={'flex-end'} />
         <VInputField
           fieldState={this.form.$.username}
           fill

@@ -1,1 +1,1 @@
-export { VScrollCarrousel } from './VScrollCarrousel';
+export { VCarousel } from './VCarousel';

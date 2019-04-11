@@ -140,11 +140,12 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
   }
 
   private handleChange = (values: React.ReactNode[]) => {
-    if (this.props.limit && values.length > 0 && values.length > this.props.limit) {
-      values = values.filter((item, index) => this.props.limit && index < this.props.limit);
+    let newValues = values;
+    if (this.props.limit && newValues.length > 0 && newValues.length > this.props.limit) {
+      newValues = newValues.filter((item, index) => this.props.limit && index < this.props.limit);
     }
     if (this.props.tagValidation && this.props.tagValidation.regex) {
-      values = values.filter((item) => {
+      newValues = newValues.filter((item) => {
         const result = this.props.tagValidation && this.props.tagValidation.regex.test(item && item.toString() || '');
         if (!result) {
           showToastNotification({
@@ -156,10 +157,10 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       })
     }
     if (this.props.fieldState) {
-      this.props.fieldState.onChange(values);
+      this.props.fieldState.onChange(newValues);
     }
     if (this.props.onChange) {
-      this.props.onChange!(values);
+      this.props.onChange!(newValues);
     }
   };
 
