@@ -13,7 +13,7 @@ export const RowButtons = styled.div`
 class NotificationToastDemo extends Component {
   buttonsHeaderRow = () => (
     <RowButtons>
-      <VSpinner size={20} />
+      <VSpinner color={'#fff'} size={20} />
       <Button minimal icon={'plus'} text={'New'} />
       <Button minimal icon={'edit'} text={'Edit'} />
     </RowButtons>
