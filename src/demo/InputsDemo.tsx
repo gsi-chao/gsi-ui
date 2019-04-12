@@ -23,6 +23,7 @@ import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectIte
 import { IItemsList } from '../components/SelectionList';
 import { VSelectMultiple } from '../components/Form/Inputs/SelectMultipleField';
 import { VCarousel } from '../components/Scroll';
+import { VSpinner } from '../components/Spinner';
 
 const store = [
   {
@@ -313,6 +314,9 @@ class InputsDemo extends Component {
           inline
         />
         <VDateTimePicker
+          required
+          inline
+          label={'TimePicker'}
           dateType="DATE"
           id="date"
           fieldState={this.form.$.date}
