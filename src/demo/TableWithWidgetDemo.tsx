@@ -289,7 +289,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         <button onClick={this.addColumn}>add columnas</button>
         <button
           onClick={() => {
-            this.changeData('red');
+            this.changeData('blue');
           }}
         >
           cambiar datos
@@ -403,7 +403,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         other: 'Lastname7',
         fecha: '12/05/2018',
         checkbox: true,
-        color: 'color',
+        color: 'red',
         sinEditar: ' some text',
         customer: 'customer'
       },
@@ -413,7 +413,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         other: 'Lastname7',
         fecha: '12/05/2018',
         checkbox: false,
-        color: 'blue',
+        color: 'red',
         sinEditar: ' some text',
         customer: 'customer'
       }

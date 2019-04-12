@@ -10,8 +10,10 @@ export const VStyledCarrouselContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  ${(props: ICardPanelProps)=> props.height ? `height: ${props.height};` : ''}
-  ${(props:ICardPanelProps) => props.width ? `width:${props.width};` : `width: 100%;`};
+  ${(props: ICardPanelProps) =>
+    props.height ? `height: ${props.height};` : ''}
+  ${(props: ICardPanelProps) =>
+    props.width ? `width:${props.width};` : `width: 100%;`};
   padding: 0 10px;
 `;
 

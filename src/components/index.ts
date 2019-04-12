@@ -60,4 +60,4 @@ export {
 
 export { VPaginatorProps } from './Paginator/type';
 
-export {VCarousel} from './Scroll';
+export { VCarousel } from './Scroll';
