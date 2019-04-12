@@ -295,13 +295,13 @@ export class VTable extends Component<IProps, IVTableState> {
       (this.props.settingEmptyData &&
         this.props.settingEmptyData.iconSize &&
         this.props.settingEmptyData.iconSize) ||
-      32;
+      28;
 
     const textSize: number =
       (this.props.settingEmptyData &&
         this.props.settingEmptyData.textSize &&
         this.props.settingEmptyData.textSize) ||
-      30;
+      22;
 
     const icon: IconName | MaybeElement =
       (this.props.settingEmptyData &&
@@ -333,7 +333,10 @@ export class VTable extends Component<IProps, IVTableState> {
       >
         <div style={{ textAlign: 'center' }}>
           {renderIcon}
-          <p style={{ color, fontSize: textSize }} className="bp3-heading">
+          <p
+            style={{ color, fontSize: textSize, fontWeight: 400 }}
+            className="bp3-heading"
+          >
             {text}
           </p>
         </div>

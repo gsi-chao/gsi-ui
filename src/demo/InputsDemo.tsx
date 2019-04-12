@@ -161,7 +161,12 @@ class InputsDemo extends Component {
 
     return (
       <React.Fragment>
-        <VCarousel height={'200px'} width={'500px'} elements={elementsCarousel} buttonsJustify={'flex-end'} />
+        <VCarousel
+          height={'200px'}
+          width={'500px'}
+          elements={elementsCarousel}
+          buttonsJustify={'flex-end'}
+        />
         <VInputField
           fieldState={this.form.$.username}
           fill

@@ -74,9 +74,9 @@ const renderItem: ItemRenderer<IItemRenderer> = (
   );
 };
 
-
 const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
-  const label = `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+  const label =
+    `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
   return label;
 };
 

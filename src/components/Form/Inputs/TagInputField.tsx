@@ -145,20 +145,31 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
 
   private handleChange = (values: React.ReactNode[]) => {
     let newValues = values;
-    if (this.props.limit && newValues.length > 0 && newValues.length > this.props.limit) {
-      newValues = newValues.filter((item, index) => this.props.limit && index < this.props.limit);
+    if (
+      this.props.limit &&
+      newValues.length > 0 &&
+      newValues.length > this.props.limit
+    ) {
+      newValues = newValues.filter(
+        (item, index) => this.props.limit && index < this.props.limit
+      );
     }
     if (this.props.tagValidation && this.props.tagValidation.regex) {
-      newValues = newValues.filter((item) => {
-        const result = this.props.tagValidation && this.props.tagValidation.regex.test(item && item.toString() || '');
+      newValues = newValues.filter(item => {
+        const result =
+          this.props.tagValidation &&
+          this.props.tagValidation.regex.test((item && item.toString()) || '');
         if (!result) {
           showToastNotification({
-            message: `${item && item.toString() || ''} ${this.props.tagValidation && this.props.tagValidation.errorMessage || 'is not valid'}`,
-            type: 'danger',
-          })
+            message: `${(item && item.toString()) || ''} ${(this.props
+              .tagValidation &&
+              this.props.tagValidation.errorMessage) ||
+              'is not valid'}`,
+            type: 'danger'
+          });
         }
         return result;
-      })
+      });
     }
     if (this.props.fieldState) {
       this.props.fieldState.onChange(newValues);

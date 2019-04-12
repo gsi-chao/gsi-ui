@@ -4,6 +4,7 @@ import { Button } from '@blueprintjs/core';
 import { IToastNotificationProps } from '../components/ToastNotification/VToastNotification';
 import { VCardPanel } from '../components/Card';
 import styled from 'styled-components';
+import { VSpinner } from '../components/Spinner';
 
 export const RowButtons = styled.div`
   display: flex;
@@ -12,6 +13,7 @@ export const RowButtons = styled.div`
 class NotificationToastDemo extends Component {
   buttonsHeaderRow = () => (
     <RowButtons>
+      <VSpinner size={20} />
       <Button minimal icon={'plus'} text={'New'} />
       <Button minimal icon={'edit'} text={'Edit'} />
     </RowButtons>

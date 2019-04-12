@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { Intent } from '@blueprintjs/core';
 import { VSpinner } from '../Spinner';
+import { SuspenseContainer } from './style';
 
 interface VSuspenseReactProps {
   children: any;
@@ -9,8 +10,10 @@ interface VSuspenseReactProps {
 
 export const VSuspenseLoading = (props: VSuspenseReactProps) => {
   return (
-    <Suspense fallback={<VSpinner intent={props.intent} />}>
-      {props.children}
-    </Suspense>
+    <SuspenseContainer>
+      <Suspense fallback={<VSpinner intent={props.intent} />}>
+        {props.children}
+      </Suspense>
+    </SuspenseContainer>
   );
 };
