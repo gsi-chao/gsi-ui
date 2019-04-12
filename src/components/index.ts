@@ -59,3 +59,5 @@ export {
 } from './SelectItems';
 
 export { VPaginatorProps } from './Paginator/type';
+
+export {VCarousel} from './Scroll';
