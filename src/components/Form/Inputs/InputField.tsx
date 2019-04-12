@@ -7,6 +7,7 @@ import { StyledInput } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
+import { computed } from 'mobx';
 
 /**
  * Field component. Must be an observer.
@@ -23,6 +24,7 @@ export interface IInputFieldProps extends IFieldProps {
 export class VInputField extends React.Component<IInputFieldProps> {
   constructor(props: IInputFieldProps) {
     super(props);
+    this.onChange = this.onChange.bind(this);
   }
 
   public render() {
@@ -69,9 +71,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={
-          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -99,7 +99,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
               id
             }}
             onChange={this.onChange}
-            value={fieldState && fieldState.$ ? fieldState.$ : value ? value : ''}
+            value={this.valueField}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
@@ -110,12 +110,23 @@ export class VInputField extends React.Component<IInputFieldProps> {
     );
   }
 
-  onChange = (e: any) => {
+  @computed
+  get valueField() {
+    if (this.props.fieldState) {
+      return this.props.fieldState.value;
+    }
+    if (this.props.value) {
+      return this.props.value;
+    }
+    return '';
+  }
+
+  onChange(e: any) {
     if (this.props.fieldState) {
       this.props.fieldState.onChange(e.target.value);
     }
     if (this.props.onChange) {
       this.props.onChange(e.target.value);
     }
-  };
+  }
 }

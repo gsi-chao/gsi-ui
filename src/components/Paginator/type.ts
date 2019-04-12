@@ -16,27 +16,23 @@ export interface IItemsByPages {
   fieldState: FieldState<any>;
   options: any[];
   onChange: (value: any) => void;
-  label?:string;
-  color?:string;
-
+  label?: string;
+  color?: string;
 }
 
 export interface ILabels {
-
-  itemsByPage?: string
-  renderInfoDetails?: (infoPage: IInfoPage) => ReactNode
-
+  itemsByPage?: string;
+  renderInfoDetails?: (infoPage: IInfoPage) => ReactNode;
 }
 
 export interface IPaginatorStyle {
-  pageSelectedBackgroundColor?:string;
-  pageSelectedColor?:string;
-  pageHoverBackgroundColor?:string;
-  pageHoverColor?:string;
-  iconLeft?:IconName | MaybeElement;
-  iconRight?:IconName | MaybeElement;
-  iconColor?:string
-
+  pageSelectedBackgroundColor?: string;
+  pageSelectedColor?: string;
+  pageHoverBackgroundColor?: string;
+  pageHoverColor?: string;
+  iconLeft?: IconName | MaybeElement;
+  iconRight?: IconName | MaybeElement;
+  iconColor?: string;
 }
 
 export interface VPaginatorProps {
@@ -44,17 +40,14 @@ export interface VPaginatorProps {
   pageLimit: number;
   pageNeighbours: number;
   onPageChanged: (value: any) => void;
-  itemsByPage?: { label: string, value: number }[];
+  itemsByPage?: { label: string; value: number }[];
   labels?: ILabels;
-  hideInfoLabels?:boolean
-  hideItemsByPage?:boolean
+  hideInfoLabels?: boolean;
+  hideItemsByPage?: boolean;
   style?: CSSProperties;
-  customerStyle?:IPaginatorStyle;
-
+  customerStyle?: IPaginatorStyle;
 }
-
 
 export interface IState {
   currentPage: number;
 }
-

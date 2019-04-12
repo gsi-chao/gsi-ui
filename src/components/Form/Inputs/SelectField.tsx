@@ -11,6 +11,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
+import { computed } from 'mobx';
 
 /**
  * Field Props
@@ -61,31 +62,14 @@ const renderItem: ItemRenderer<IItem> = (
 };
 
 const filterItem: ItemPredicate<IItem> = (query, item) => {
-  return `${item.label}`.indexOf(query.toLowerCase()) >= 0;
+  const label = `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+  return label;
 };
 
 @observer
 export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   constructor(props: ISelectFieldProps) {
     super(props);
-  }
-
-  public getFieldText() {
-    let fValue = '';
-    if (this.props.fieldState) {
-      fValue = this.props.fieldState.$;
-    } else if (this.props.value !== undefined && this.props.value !== null) {
-      fValue = this.props.value;
-    }
-    if (fValue !== undefined && fValue !== null) {
-      const item = this.props.options.find((value: IItem) => {
-        return fValue === value.value;
-      });
-      if (item) {
-        return item.label;
-      }
-    }
-    return this.props.defaultText || 'No selection';
   }
 
   public render() {
@@ -192,7 +176,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                     icon={rightIcon || 'chevron-down'}
                   />
                 }
-                text={this.getFieldText()}
+                text={this.fieldText}
                 style={{ color: this.props.color ? this.props.color : 'black' }}
               />
             )}
@@ -201,6 +185,26 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       </StyledPopOverWrapper>
     );
   }
+
+  @computed
+  get fieldText() {
+    let fValue = '';
+    if (this.props.fieldState) {
+      fValue = this.props.fieldState.value;
+    } else if (this.props.value !== undefined && this.props.value !== null) {
+      fValue = this.props.value;
+    }
+    if (fValue !== undefined && fValue !== null) {
+      const item = this.props.options.find((value: IItem) => {
+        return fValue === value.value;
+      });
+      if (item) {
+        return item.label;
+      }
+    }
+    return this.props.defaultText || 'No selection';
+  }
+
   onItemSelected = (value: IItem) => {
     this.setState({ item: value });
     if (this.props.fieldState) {

@@ -66,12 +66,9 @@ export interface ISortResult {
 
 export interface IVActionSortableTableProps extends IVActionsTableProps {
   custom_render_menu?: { [key: string]: IVCustomActionSortableTableProp };
-  onSort?: (
-   sortResult:ISortResult
-  ) => void;
-  setupsOrden? : ISortResult[]
-   }
-
+  onSort?: (sortResult: ISortResult) => void;
+  setupsOrden?: ISortResult[];
+}
 
 export interface ISetupEditToolbar {
   textSave?: string;
@@ -327,11 +324,11 @@ export class VTable extends Component<IProps, IVTableState> {
       <div
         style={{
           height,
+          backgroundColor,
+          color,
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor,
-          color
+          alignItems: 'center'
         }}
       >
         <div style={{ textAlign: 'center' }}>

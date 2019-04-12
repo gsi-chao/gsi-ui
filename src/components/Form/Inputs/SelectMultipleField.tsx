@@ -74,8 +74,10 @@ const renderItem: ItemRenderer<IItemRenderer> = (
   );
 };
 
+
 const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
-  return `${value.item.label}`.indexOf(query.toLowerCase()) >= 0;
+  const label = `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+  return label;
 };
 
 @observer
@@ -88,14 +90,6 @@ export class VSelectMultiple extends React.Component<
     this.state = {
       selectedItems: []
     };
-    reaction(
-      () => ({
-        options: this.props.options
-      }),
-      () => {
-        console.log('updating');
-      }
-    );
   }
 
   getFieldText() {

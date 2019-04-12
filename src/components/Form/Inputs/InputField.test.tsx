@@ -47,4 +47,3 @@ it('renders without crashing InputField All Properties', () => {
     .toJSON();
   expect(InputComponent).toMatchSnapshot();
 });
-

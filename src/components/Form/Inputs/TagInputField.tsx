@@ -15,13 +15,14 @@ import { StyledTagsInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
 import { showToastNotification } from '../../ToastNotification';
-
+import { computed } from 'mobx';
+import { isArray } from 'lodash';
 /**
  * Field Props
  */
 export interface TagValidation {
   regex: RegExp;
-  errorMessage: string
+  errorMessage: string;
 }
 
 export interface ITagFieldProps extends IFieldProps {
@@ -29,8 +30,8 @@ export interface ITagFieldProps extends IFieldProps {
   tagProps?: ITagProps | ((value: React.ReactNode, index: number) => ITagProps);
   fill?: boolean;
   limit?: number;
-  separator?: string | RegExp
-  tagValidation?: TagValidation
+  separator?: string | RegExp;
+  tagValidation?: TagValidation;
 }
 
 /**
@@ -95,9 +96,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={
-          fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
@@ -123,13 +122,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
             tagProps={tagProps}
             large={size === 'large'}
             onChange={this.handleChange}
-            values={
-              fieldState && fieldState.$
-                ? fieldState.$
-                : value
-                ? value
-                : []
-            }
+            values={this.valueField}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
@@ -137,6 +130,17 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         </FormFieldContainer>
       </StyledTagsInput>
     );
+  }
+
+  @computed
+  get valueField() {
+    if (this.props.fieldState && isArray(this.props.fieldState.value)) {
+      return this.props.fieldState.value;
+    }
+    if (this.props.value && isArray(this.props.value)) {
+      return this.props.value;
+    }
+    return [];
   }
 
   private handleChange = (values: React.ReactNode[]) => {
