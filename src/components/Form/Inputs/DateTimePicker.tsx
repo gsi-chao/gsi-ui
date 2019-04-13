@@ -139,6 +139,6 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
     if (this.props.value) {
       return this.props.value;
     }
-    return moment().toDate();
+    return null;
   }
 }
