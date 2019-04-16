@@ -705,6 +705,12 @@ export class VTable extends Component<IProps, IVTableState> {
    ** regions remains
    **/
   checkAndSetSelection = (argsRegions: IRegion[]) => {
+    const { cellSelectionType } = this.props;
+
+    if(cellSelectionType==='DISABLED'){
+      return;
+    }
+
     if (
       this.props.actionsSelection &&
       this.props.actionsSelection.clearSelection
@@ -718,7 +724,6 @@ export class VTable extends Component<IProps, IVTableState> {
       return;
     }
 
-    const { cellSelectionType } = this.props;
     let regions: IRegion[] = [];
     if (
       cellSelectionType === 'ENTIRE_ROW' &&
