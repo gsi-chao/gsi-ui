@@ -1,4 +1,5 @@
-import { IconName, Intent } from '@blueprintjs/core';
+import { IconName, Intent, MaybeElement } from '@blueprintjs/core';
+import { CSSProperties } from 'react';
 
 export interface ITabsPanelStyle {
   color?: string;
@@ -21,6 +22,8 @@ export interface ITabsPanelStyle {
 export interface ITabsPanelState {
   active: string;
   content: any;
+  isOpenConfirmationDialog: boolean;
+  possibleKey: string;
 }
 
 export interface ITabsPanelProps {
@@ -37,7 +40,8 @@ export interface ITabsPanelProps {
   lineColor?: string;
   activeTextColor?: string;
   activeBorderColor?: string;
-
+  beforeChangeTabValidation?: boolean;
+  tabsAlertProps? : TabsAlertProps;
   handleChange(tab: ITabsPanelTypes): void;
 }
 
@@ -56,4 +60,17 @@ export interface ITabsPanelTypes {
   backgroundColorBadge?: string;
   dataBadge?: any;
   activeBorderColor?: any;
+}
+
+
+export interface TabsAlertProps {
+  cancelButtonText?: string;
+  canEscapeKeyCancel?: boolean;
+  canOutsideClickCancel?: boolean;
+  className?: string;
+  confirmButtonText?: string;
+  icon?: IconName | MaybeElement;
+  intent?: Intent;
+  style?: CSSProperties;
+  bodyText?:string;
 }

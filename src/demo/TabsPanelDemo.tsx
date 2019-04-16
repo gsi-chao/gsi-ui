@@ -36,7 +36,15 @@ class TabsPanelDemo extends Component {
               tabList={tabList}
               activeBorderColor={'red'}
               active={'3'}
+              beforeChangeTabValidation={true}
               handleChange={this.handelChangeTab}
+              tabsAlertProps={{
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Stay in tab',
+                canEscapeKeyCancel: true,
+                bodyText: 'Are you sure you want to change the tab, changes will be lost',
+                intent: 'success'
+              }}
             />
           </div>
         ),
