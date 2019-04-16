@@ -7,14 +7,17 @@ import {
   ContainerTabsPanel,
   TabsSpaceFiller
 } from './style';
+import { Alert } from '@blueprintjs/core';
 
 export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
   constructor(props: ITabsPanelProps) {
     super(props);
 
     this.state = {
+      isOpenConfirmationDialog: false,
       active: this.props.active ? this.props.active : this.props.tabList[0].key,
-      content: this.getContent(this.props.active)
+      content: this.getContent(this.props.active),
+      possibleKey: ''
     };
   }
 
@@ -28,9 +31,16 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
     return content;
   }
 
+  toggleIsOpenDialogOpen = () => {
+    this.setState({
+      isOpenConfirmationDialog: !this.state.isOpenConfirmationDialog,
+      possibleKey: ''
+    });
+  };
+
   public render() {
-    const { ...options } = this.props;
-    const { active, content } = this.state;
+    const { tabsAlertProps, ...options } = this.props;
+    const { active, content, isOpenConfirmationDialog } = this.state;
     return (
       <ContainerTabsPanel>
         <ContainerTabs
@@ -68,11 +78,37 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
         >
           {content}
         </ContainerContent>
+        <Alert
+          canEscapeKeyCancel={
+            (tabsAlertProps && tabsAlertProps.canEscapeKeyCancel) || false
+          }
+          canOutsideClickCancel={
+            tabsAlertProps && tabsAlertProps.canOutsideClickCancel && true
+          }
+          cancelButtonText={
+            (tabsAlertProps && tabsAlertProps.cancelButtonText) || 'Cancel'
+          }
+          confirmButtonText={
+            (tabsAlertProps && tabsAlertProps.confirmButtonText) || 'Ok'
+          }
+          intent={(tabsAlertProps && tabsAlertProps.intent) || 'none'}
+          icon={(tabsAlertProps && tabsAlertProps.icon) || 'warning-sign'}
+          style={(tabsAlertProps && tabsAlertProps.style) || {}}
+          className={(tabsAlertProps && tabsAlertProps.className) || ''}
+          isOpen={isOpenConfirmationDialog}
+          onCancel={this.toggleIsOpenDialogOpen}
+          onConfirm={this.handleOkConfirmation}
+        >
+          <p>
+            {(tabsAlertProps && tabsAlertProps.bodyText) ||
+              `Changes will be lost!`}
+          </p>
+        </Alert>
       </ContainerTabsPanel>
     );
   }
 
-  handleChangeTab = (key: string) => {
+  changeTab = (key: string) => {
     this.setState({ active: key });
     this.props.tabList.forEach(item => {
       if (item.key === key) {
@@ -80,5 +116,19 @@ export class VTabsPanel extends Component<ITabsPanelProps, ITabsPanelState> {
         this.props.handleChange(item);
       }
     });
+  };
+
+  handleOkConfirmation = () => {
+    this.changeTab(this.state.possibleKey);
+    this.toggleIsOpenDialogOpen();
+  };
+
+  handleChangeTab = (key: string) => {
+    if (this.props.beforeChangeTabValidation) {
+      this.toggleIsOpenDialogOpen();
+      this.setState({ possibleKey: key });
+    } else {
+      this.changeTab(key);
+    }
   };
 }
