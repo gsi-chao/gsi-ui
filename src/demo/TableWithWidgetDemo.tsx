@@ -300,6 +300,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
           <option value={'CELL'}>CELL</option>
           <option value={'FREE'}>FREE</option>
           <option value={'ENTIRE_ROW'}>ENTIRE_ROW</option>
+          <option value={'DISABLED'}>DISABLED</option>
         </select>
         <button
           onClick={() => {

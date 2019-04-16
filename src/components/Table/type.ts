@@ -2,7 +2,7 @@ import { ISetupEditToolbar, IVActionEditTableProps } from './Table';
 
 export type EditColumns = 'ALL';
 export type DefaultheightRow = 'SHORT' | 'HALF' | 'LONG';
-export type CellSelectionType = 'FREE' | 'ENTIRE_ROW' | 'CELL';
+export type CellSelectionType = 'FREE' | 'ENTIRE_ROW' | 'CELL' | 'DISABLED';
 
 export interface EditSetup {
   editToolbar?: ISetupEditToolbar;
