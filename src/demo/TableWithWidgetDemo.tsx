@@ -1,6 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import { IVWidgetTableProps } from '../components/Table/Widget/Widget';
-import { Icon } from '@blueprintjs/core';
+import { Button, Icon } from '@blueprintjs/core';
 import { VTable } from '../components/Table';
 import { showToastNotification } from '../components/ToastNotification';
 import { CellSelectionType } from '../components/Table/type';
@@ -28,7 +28,7 @@ export const colorWidget: IVWidgetTableProps = {
     colorCell: {
       backgroundColor: 'orange',
       color: 'white',
-      printColor: (value: string) => {
+      printColor: () => {
         return true;
       }
     }
@@ -90,6 +90,7 @@ interface IState {
   columns: string[];
   clearSelection: boolean | undefined;
   typeSelection: CellSelectionType;
+  filterColumn: boolean;
 }
 
 interface IData {
@@ -120,7 +121,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         'customer'
       ],
       clearSelection: undefined,
-      typeSelection: 'FREE'
+      typeSelection: 'FREE',
+      filterColumn: false
     };
   }
 
@@ -128,15 +130,17 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     console.log(value);
   };
 
+
+  handleFilter = (value1: any, value2: string) => {
+    console.log(value1, value2);
+  };
+
+  toggleFilterColumn = () => {
+    this.setState({filterColumn: !this.state.filterColumn});
+  };
+
   render() {
     // validator example
-    const nameValidation = (value: string) => {
-      return value.length > 5;
-    };
-
-    const fechaValidation = (value: string) => {
-      return value.length < 5;
-    };
     return (
       <React.Fragment>
         <div>
@@ -155,6 +159,11 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 console.log('onSelectionCleaned', value);
               },
               clearSelection: this.state.clearSelection
+            }}
+            filterByColumn={{
+              filterable: this.state.filterColumn,
+              handleFilter: this.handleFilter,
+              filterType: 'SELECT'
             }}
             edit={{
               editColumn: {
@@ -262,7 +271,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               <div
                 style={{ width: '100%', height: 50, backgroundColor: 'teal' }}
               >
-                Toolbar
+                <Button minimal text={'Filter by column'} icon={'filter'} onClick={this.toggleFilterColumn}/>
               </div>
             }
             footer={
