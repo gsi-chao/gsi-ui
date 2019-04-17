@@ -3,8 +3,15 @@ import React from 'react';
 import { ISortResult, IVActionSortableTableProps, IVTableOrder } from './Table';
 import { Column } from '@blueprintjs/table';
 import { Icon, Menu, MenuItem } from '@blueprintjs/core';
-import { ColumnHeaderCellStyled } from './style';
+import {
+  ColumnHeaderCellStyled,
+  StyledHeaderFilterInput,
+  StyledHeaderFilterSelectContainer
+} from './style';
 import { IVConfigTextAlign } from './type';
+import { VSelectMultiple } from '../Form';
+import { FieldState, FormState } from 'formstate';
+import { IItemMultiple } from '../Form/Inputs/SelectMultipleField';
 
 export type ICellLookup = (rowIndex: number, columnIndex: number) => any;
 
@@ -16,20 +23,33 @@ export interface IVConfigHeader extends IConfignHeader {
   column?: string;
 }
 
+export interface FilterByColumn {
+  filterable: boolean;
+  handleFilter(property: any, value: any): void;
+  filterType?: 'INPUT' | 'SELECT';
+}
+
 export interface IConfignHeader extends IVConfigTextAlign {
   backgroundColor: string;
   textColor: string;
 }
 
 export default class TableColumn implements ISortableColumn {
+  form: FormState<any>;
   constructor(
     protected name: string,
     protected index: number,
     protected columns: string[],
     protected header_config: IVConfigHeader[] | IVConfigHeader,
+    protected filterByColumn: FilterByColumn | undefined,
     protected columns_name?: { [key: string]: string },
-    protected sortable?: IVActionSortableTableProps
-  ) {}
+    protected sortable?: IVActionSortableTableProps,
+    protected options?: IItemMultiple[]
+  ) {
+    this.form = new FormState<any>({
+      filter: new FieldState('')
+    });
+  }
 
   getColumn = (getCellData: ICellLookup) => {
     return (
@@ -124,8 +144,41 @@ export default class TableColumn implements ISortableColumn {
         name={columnName}
         menuRenderer={menuRenderer as any}
         nameRenderer={this.renderHeader}
-      />
+      >
+        {this.filterByColumn && this.filterByColumn.filterable ? (
+          this.filterByColumn.filterType === 'SELECT' ? (
+            <StyledHeaderFilterSelectContainer>
+              <VSelectMultiple
+                fieldState={this.form.$.filter}
+                onChange={this.handleFilter}
+                options={this.options || []}
+                id={`headerFilter${this.index}`}
+              />
+            </StyledHeaderFilterSelectContainer>
+          ) : (
+            <StyledHeaderFilterInput
+              fieldState={this.form.$.filter}
+              onChange={this.handleFilter}
+              id={`headerFilter${this.index}`}
+            />
+          )
+        ) : null}
+      </ColumnHeaderCellStyled>
     );
+  };
+
+  handleFilter = (value: any) => {
+    if (
+      this.filterByColumn &&
+      this.filterByColumn.filterable &&
+      this.filterByColumn.handleFilter
+    ) {
+      const property = {
+        index: this.index,
+        column: this.columns[this.index]
+      };
+      this.filterByColumn.handleFilter(property, value);
+    }
   };
 
   renderHeader = (name: string, index?: number) => {
@@ -204,11 +257,9 @@ export default class TableColumn implements ISortableColumn {
   }
 
   private getColumnName(columnIndex: number) {
-    const columnName =
-      this.columns_name &&
+    return this.columns_name &&
       this.columns_name.hasOwnProperty(this.columns[columnIndex])
-        ? this.columns_name[this.columns[columnIndex]]
-        : this.columns[columnIndex].replace(/\b\w/g, l => l.toUpperCase());
-    return columnName;
+      ? this.columns_name[this.columns[columnIndex]]
+      : this.columns[columnIndex].replace(/\b\w/g, l => l.toUpperCase());
   }
 }

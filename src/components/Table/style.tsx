@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Cell, ColumnHeaderCell } from '@blueprintjs/table';
 import { IConfignHeader } from './TableColumn';
+import { VInputField, VSelectField } from '../Form';
 
 export interface IProps {
   isValid: boolean;
@@ -122,7 +123,7 @@ export const TableContainer = styled.div`
     box-shadow: none;
   }
   & .bp3-table-quadrant-top-left .bp3-table-header.bp3-table-last-in-row {
-    box-shadow: 0 0px 0 rgba(16, 22, 26, 0.15),
+    box-shadow: 0 0 0 rgba(16, 22, 26, 0.15),
       inset -3px 0 0 rgba(16, 22, 26, 0.15) !important;
   }
 
@@ -137,5 +138,23 @@ export const TableContainer = styled.div`
       existBackgroundColor(props)
         ? `${props.selection!.backgroundColor}`
         : 'hsla(192, 73%, 36%, 0.15)'};
+  }
+`;
+
+export const StyledHeaderFilterInput = styled(VInputField)`
+  width: calc(100% - 9px);
+`;
+export const StyledHeaderFilterSelect = styled(VSelectField)`
+  width: calc(100% - 9px);
+  .gsi-input-and-error-container {
+    width: 100% !important;
+  }
+`;
+export const StyledHeaderFilterSelectContainer = styled.div`
+  & > .bp3-form-group {
+    width: calc(100% - 9px);
+  }
+  .gsi-input-and-error-container {
+    width: 100% !important;
   }
 `;

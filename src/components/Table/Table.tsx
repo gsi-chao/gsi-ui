@@ -9,7 +9,7 @@ import {
 } from '@blueprintjs/table';
 import '@blueprintjs/table/lib/css/table.css';
 import { Icon, IconName, Intent } from '@blueprintjs/core';
-import TableColumn, { IVConfigHeader } from './TableColumn';
+import TableColumn, { FilterByColumn, IVConfigHeader } from './TableColumn';
 import { fromEvent } from 'rxjs';
 import {
   ActionCellsMenuItem,
@@ -40,6 +40,7 @@ import {
   IDataEdited,
   ITextAlignColumn
 } from './type';
+import { IItemMultiple } from '../Form/Inputs/SelectMultipleField';
 
 export type IVTableOrder = 'ASC' | 'DESC' | 'NONE';
 
@@ -118,6 +119,7 @@ export interface IVTableProps {
   selectionStyle?: ISelectionStyle;
   onOrderColumns?: (columns: string[]) => void;
   settingEmptyData?: ISettingEmptyData;
+  filterByColumn?: FilterByColumn;
 }
 
 interface IProps extends IVTableProps, ITableProps {}
@@ -193,20 +195,39 @@ export class VTable extends Component<IProps, IVTableState> {
       toolbar,
       footer,
       striped,
-      columns
+      columns,
+      filterByColumn
     } = this.props;
     const columnsList = columns.map((name: string, index: number) => {
       const configColumnsHeader = this.props.configColumnsHeader
         ? this.props.configColumnsHeader
         : [];
-
+      const options: IItemMultiple[] = [];
+      if (
+        filterByColumn &&
+        filterByColumn.filterable &&
+        filterByColumn.filterType === 'SELECT'
+      ) {
+        this.props.data.forEach((item: any) => {
+          if (
+            !options.some(element => element.value === item[columns[index]])
+          ) {
+            options.push({
+              value: item[columns[index]],
+              label: item[columns[index]]
+            });
+          }
+        });
+      }
       const col = new TableColumn(
         name,
         index,
         columns,
         configColumnsHeader,
+        filterByColumn,
         columns_name,
-        sortable
+        sortable,
+        options
       );
       return col.getColumn(this.renderCell);
     });
@@ -707,7 +728,7 @@ export class VTable extends Component<IProps, IVTableState> {
   checkAndSetSelection = (argsRegions: IRegion[]) => {
     const { cellSelectionType } = this.props;
 
-    if(cellSelectionType==='DISABLED'){
+    if (cellSelectionType === 'DISABLED') {
       return;
     }
 

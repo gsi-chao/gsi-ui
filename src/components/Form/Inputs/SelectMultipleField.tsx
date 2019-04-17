@@ -1,9 +1,8 @@
 import { observer } from 'mobx-react';
-import React, { useState } from 'react';
+import React  from 'react';
 /** Blueprint */
 import {
   Button,
-  FormGroup,
   IconName,
   Intent,
   MenuItem
@@ -17,7 +16,6 @@ import { IFieldProps } from './IFieldProps';
 import { StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
-import { reaction } from 'mobx';
 
 /**
  * Field Props
@@ -42,7 +40,7 @@ interface IItemRenderer {
   selectedItems: IItemMultiple[];
 }
 
-interface IItemMultiple {
+export interface IItemMultiple {
   value: any;
   label: string;
   rep?: string;
@@ -54,7 +52,7 @@ const ItemSelect = Select.ofType<IItemRenderer>();
 
 const renderItem: ItemRenderer<IItemRenderer> = (
   { item, selectedItems },
-  { handleClick, modifiers, query }
+  { handleClick, modifiers }
 ) => {
   if (!modifiers.matchesPredicate) {
     return null;
@@ -75,9 +73,7 @@ const renderItem: ItemRenderer<IItemRenderer> = (
 };
 
 const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
-  const label =
-    `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
-  return label;
+  return `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
 };
 
 @observer
@@ -123,7 +119,6 @@ export class VSelectMultiple extends React.Component<
       iconOnly,
       minimal,
       margin,
-      value,
       options
     } = this.props;
     const { selectedItems } = this.state;
