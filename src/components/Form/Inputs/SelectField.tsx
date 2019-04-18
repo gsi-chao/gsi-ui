@@ -1,7 +1,14 @@
 import { observer } from 'mobx-react';
 import React from 'react';
 /** Blueprint */
-import { Button, Icon, IconName, Intent, MenuItem } from '@blueprintjs/core';
+import {
+  Button,
+  ButtonGroup,
+  Icon,
+  IconName,
+  Intent,
+  MenuItem
+} from '@blueprintjs/core';
 /** FieldState */
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
@@ -11,7 +18,9 @@ import { IFieldProps } from './IFieldProps';
 import { StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
-import { computed } from 'mobx';
+import { computed, observable } from 'mobx';
+import { VSpinner } from '../../Spinner';
+import { RowButtons } from '../../../demo/NotificationToastDemo';
 
 /**
  * Field Props
@@ -26,6 +35,9 @@ export interface ISelectFieldProps extends IFieldProps {
   fixedInputWidthPx?: number;
   iconOnly?: boolean;
   color?: string;
+  clearButton?: boolean;
+  clearValue?: any;
+  isLoading?: boolean;
 }
 
 /**
@@ -37,9 +49,11 @@ interface IItem {
   label: string;
   rep?: string;
 }
+
 interface IState {
   item: IItem | undefined;
 }
+
 const ItemSelect = Select.ofType<IItem>();
 
 const renderItem: ItemRenderer<IItem> = (
@@ -68,8 +82,11 @@ const filterItem: ItemPredicate<IItem> = (query, item) => {
 
 @observer
 export class VSelectField extends React.Component<ISelectFieldProps, IState> {
+  @observable showClear: boolean;
+
   constructor(props: ISelectFieldProps) {
     super(props);
+    this.showClear = false;
   }
 
   public render() {
@@ -94,6 +111,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       iconOnly,
       minimal,
       margin,
+      clearButton,
+      isLoading,
       value
     } = this.props;
 
@@ -121,7 +140,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
 
     return (
       <StyledPopOverWrapper
-        disabled={disabled}
+        disabled={this.disable()}
         inline={inline}
         intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
@@ -142,49 +161,104 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             itemPredicate={filterItem}
             itemRenderer={renderItem}
             items={options}
-            disabled={disabled}
+            disabled={this.disable()}
             initialContent={initialContent}
             noResults={<MenuItem disabled={true} text="No results." />}
             onItemSelect={this.onItemSelected}
             filterable={filterable}
           >
             {iconOnly ? (
-              <Button
-                className={minimal ? 'bp3-minimal' : ''}
-                style={{
-                  justifyContent: 'center',
-                  color: this.props.color ? this.props.color : 'black'
-                }}
-                {...{
-                  icon,
-                  disabled
-                }}
-                text={iconOnly && undefined}
-              />
+              <ButtonGroup>
+                <Button
+                  className={minimal ? 'bp3-minimal' : ''}
+                  style={{
+                    justifyContent: 'center',
+                    color: this.props.color ? this.props.color : 'black'
+                  }}
+                  {...{
+                    icon,
+                    disabled
+                  }}
+                  text={iconOnly && undefined}
+                />
+              </ButtonGroup>
             ) : (
-              <Button
-                className={minimal ? 'bp3-minimal' : ''}
-                {...{
-                  icon,
-                  disabled
+              <ButtonGroup
+                onMouseEnter={() => {
+                  this.showClear = true;
                 }}
-                rightIcon={
-                  <Icon
-                    style={{
-                      color: this.props.color ? this.props.color : 'black'
-                    }}
-                    icon={rightIcon || 'chevron-down'}
-                  />
-                }
-                text={this.fieldText}
-                style={{ color: this.props.color ? this.props.color : 'black' }}
-              />
+                onMouseLeave={() => {
+                  this.showClear = false;
+                }}
+              >
+                {' '}
+                <Button
+                  className={minimal ? 'bp3-minimal' : ''}
+                  {...{
+                    icon,
+                    disabled
+                  }}
+                  rightIcon={this.renderRightIcon()}
+                  disabled={this.disable()}
+                  text={this.fieldText}
+                  style={{
+                    color: this.props.color ? this.props.color : 'black'
+                  }}
+                />{' '}
+                {this.showClear ? this.renderClearButton() : undefined}{' '}
+              </ButtonGroup>
             )}
           </ItemSelect>
         </FormFieldContainer>
       </StyledPopOverWrapper>
     );
   }
+
+  private disable = () => {
+    return this.props.isLoading ? true : this.props.disabled;
+  };
+
+  private renderRightIcon = () => {
+    return (
+      <React.Fragment>
+        <Icon
+          style={{
+            color: this.props.color ? this.props.color : 'black'
+          }}
+          icon={this.props.rightIcon || 'chevron-down'}
+        />
+        {this.props.isLoading ? <VSpinner size={20} /> : undefined}
+      </React.Fragment>
+    );
+  };
+
+  renderClearButton = () => {
+    const minimal = this.props.minimal;
+
+    return this.props.clearButton ? (
+      !this.props.isLoading ? (
+        <Button
+          style={{ width: '30px',paddingLeft:'15px' }}
+          className={minimal ? 'bp3-minimal' : ''}
+          onClick={this.onClear}
+          rightIcon={'refresh'}
+
+        />
+      ) : (
+        undefined
+      )
+    ) : (
+      undefined
+    );
+  };
+
+  private onClear = () => {
+    if (this.props.clearValue) {
+      this.onItemSelected({ label: '', value: this.props.clearValue });
+    } else {
+      this.onItemSelected({ label: '', value: '' });
+    }
+  };
 
   @computed
   get fieldText() {

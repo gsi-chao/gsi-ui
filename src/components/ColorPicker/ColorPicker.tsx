@@ -23,6 +23,7 @@ export interface IProps {
   typePickerColor: TypePickerColor;
   onChange: (color: VColorResult) => void;
   position?: VPosition;
+  disable?: boolean
 }
 
 export class VColorPicker extends Component<IProps, IState> {
@@ -40,6 +41,30 @@ export class VColorPicker extends Component<IProps, IState> {
     const colorPicker = this.getPickerColor();
 
     const color = this.props.Color;
+
+
+    if(this.props.disable){
+    return  (
+      <React.Fragment>
+        <div style={
+          {
+              width:'30px',
+            height:'30px',
+            borderRadius:'7px',
+            backgroundColor:'#c1c1c178',
+            position:'absolute',
+            cursor:'not-allowed'
+
+        }}></div>
+
+        <InputColor
+        width={this.props.width}
+        height={this.props.height}
+        defaultColor={color}
+      /></React.Fragment>
+     )
+
+    }
 
     return (
       <React.Fragment>
@@ -60,27 +85,37 @@ export class VColorPicker extends Component<IProps, IState> {
 
   getPickerColor = () => {
     switch (this.props.typePickerColor) {
-      case 'SketchPicker':
+      case 'SketchPicker': {
+
         return (
           <SketchPickerStyled
             color={this.props.Color}
             onChange={this.handleChange}
+
           />
         );
-      case 'ChromePicker':
+      }
+
+      case 'ChromePicker': {
         return (
           <ChromePickerStyled
             color={this.props.Color}
             onChange={this.handleChange}
+
           />
         );
-      default:
+      }
+
+      default: {
         return (
           <ChromePickerStyled
             color={this.state.color}
             onChange={this.handleChange}
+
           />
         );
+      }
+
     }
   };
 

@@ -227,6 +227,8 @@ class InputsDemo extends Component {
           id="store"
           icon={'search'}
           onChange={this.setSelectedValue}
+          clearButton
+
         />
         <Button
           text={'Change Select'}

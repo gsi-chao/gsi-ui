@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import {
   TypePickerColor,
   VColorPicker,
-  VColorResult
+  VColorResult,
+  VHSLColor, VRGBColor
 } from '../components/ColorPicker';
-import { VHSLColor, VRGBColor } from '../components/ColorPicker/types';
+
 
 interface IState {
   typePickerColor: TypePickerColor;
   color: string | VHSLColor | VRGBColor;
+  disable: boolean;
 }
 
 class ColorPickerDemo extends Component<any, IState> {
@@ -16,8 +18,9 @@ class ColorPickerDemo extends Component<any, IState> {
     super(props);
 
     this.state = {
-      typePickerColor: 'ChromePicker',
-      color: 'blue'
+      typePickerColor: 'SketchPicker',
+      color: 'blue',
+      disable:false
     };
   }
 
@@ -41,6 +44,7 @@ class ColorPickerDemo extends Component<any, IState> {
           position={'right'}
           width={30}
           height={30}
+          disable={this.state.disable}
         />
         <br />
         <button
@@ -61,6 +65,16 @@ class ColorPickerDemo extends Component<any, IState> {
           }}
         >
           change color to blue
+        </button>
+
+        <button
+          onClick={() => {
+            this.setState({
+              disable: !this.state.disable
+            });
+          }}
+        >
+          {this.state.disable? 'enable':'disable'}
         </button>
         <br />
       </div>
