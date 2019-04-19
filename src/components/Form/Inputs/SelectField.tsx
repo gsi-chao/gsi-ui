@@ -20,7 +20,6 @@ import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
 import { computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
-import { RowButtons } from '../../../demo/NotificationToastDemo';
 
 /**
  * Field Props
