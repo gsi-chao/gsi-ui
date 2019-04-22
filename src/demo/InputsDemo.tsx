@@ -32,7 +32,7 @@ const store = [
   },
   {
     label: 'Store 2',
-    value: 's2'
+    value: 1
   }
 ];
 
@@ -140,6 +140,7 @@ class InputsDemo extends Component {
         fieldState={this.form.$.description}
       />,
       <VSelectField
+        required
         minimal
         defaultText={'Please enter a text'}
         fixedInputWidthPx={200}
@@ -182,6 +183,7 @@ class InputsDemo extends Component {
           inline={true}
         />
         <VInputField
+          required
           layer={{
             labelWidth: 6,
             inputWidth: 6,
@@ -317,7 +319,14 @@ class InputsDemo extends Component {
         />
         <VDateTimePicker
           required
+          fill
           inline
+          layer={{
+            inputWidth: 5,
+            labelWidth: 6,
+            labelOrientation: 'end',
+            inputOrientation: 'start'
+          }}
           label={'TimePicker'}
           dateType="DATE"
           id="date"
