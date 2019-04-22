@@ -212,7 +212,6 @@ class InputsDemo extends Component {
         <VSelectField
           minimal
           defaultText={'Please enter a text'}
-          fixedInputWidthPx={200}
           fill
           layer={{
             labelWidth: 6,
@@ -227,8 +226,6 @@ class InputsDemo extends Component {
           id="store"
           icon={'search'}
           onChange={this.setSelectedValue}
-          clearButton
-
         />
         <Button
           text={'Change Select'}
