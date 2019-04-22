@@ -20,7 +20,6 @@ import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
 import { computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
-import { RowButtons } from '../../../demo/NotificationToastDemo';
 
 /**
  * Field Props
@@ -183,31 +182,27 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 />
               </ButtonGroup>
             ) : (
-              <ButtonGroup
+              <Button
                 onMouseEnter={() => {
                   this.showClear = true;
                 }}
                 onMouseLeave={() => {
                   this.showClear = false;
                 }}
-              >
-                {' '}
-                <Button
-                  className={minimal ? 'bp3-minimal' : ''}
-                  {...{
-                    icon,
-                    disabled
-                  }}
-                  rightIcon={this.renderRightIcon()}
-                  disabled={this.disable()}
-                  text={this.fieldText}
-                  style={{
-                    color: this.props.color ? this.props.color : 'black'
-                  }}
-                />{' '}
-                {this.showClear ? this.renderClearButton() : undefined}{' '}
-              </ButtonGroup>
+                className={minimal ? 'bp3-minimal' : ''}
+                {...{
+                  icon,
+                  disabled
+                }}
+                rightIcon={this.renderRightIcon()}
+                disabled={this.disable()}
+                text={this.fieldText}
+                style={{
+                  color: this.props.color ? this.props.color : 'black'
+                }}
+              />
             )}
+            {this.showClear ? this.renderClearButton() : undefined}{' '}
           </ItemSelect>
         </FormFieldContainer>
       </StyledPopOverWrapper>
@@ -238,11 +233,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     return this.props.clearButton ? (
       !this.props.isLoading ? (
         <Button
-          style={{ width: '30px',paddingLeft:'15px' }}
+          style={{ width: '30px', paddingLeft: '15px' }}
           className={minimal ? 'bp3-minimal' : ''}
           onClick={this.onClear}
           rightIcon={'refresh'}
-
         />
       ) : (
         undefined
