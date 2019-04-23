@@ -28,7 +28,7 @@ import { computed } from 'mobx';
  */
 export interface IRadioButtonFieldProps extends IFieldProps {
   alignIndicator?: Alignment;
-  rightElement?: Element;
+  rightElement?: JSX.Element;
   options: IOptionProps[];
 }
 

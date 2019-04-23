@@ -15,7 +15,7 @@ import { computed } from 'mobx';
 
 export interface IInputFieldProps extends IFieldProps {
   leftIcon?: IconName;
-  rightElement?: Element;
+  rightElement?: JSX.Element;
   round?: boolean;
   fill?: boolean;
 }
