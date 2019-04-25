@@ -24,6 +24,7 @@ import { IItemsList } from '../components/SelectionList';
 import { VSelectMultiple } from '../components/Form/Inputs/SelectMultipleField';
 import { VCarousel } from '../components/Scroll';
 import { VSpinner } from '../components/Spinner';
+import { VOrgChart } from '../components/VOrgChart/VOrgChart';
 
 const store = [
   {
@@ -113,6 +114,12 @@ class InputsDemo extends Component {
         label: 'Fourth Value'
       }
     ];
+    const onClickCompany = (data: any) => {
+      console.log(data);
+    };
+    const onReorderHierarchy = (data: any) => {
+      console.log(data);
+    };
     const elementsCarousel: any = [
       <VInputField
         layer={{
@@ -160,9 +167,30 @@ class InputsDemo extends Component {
         onChange={this.setSelectedValue}
       />
     ];
+    let dataSource = {
+      name: 'Hierarchy',
+      title: 'Vertrax',
+      id: 'root',
+      children: [
+        { name: 'LaTank', title: 'Company', className: 'Company', id: 1 },
+        { name: 'LaTank2', title: 'Company',className: 'Company', id: 2,
+          children: [
+            { name: 'Los Angeles Mx', title: 'Terminal', className: 'Terminal', id: 7 },
+            { name: 'California', title: 'Terminal', className: 'Terminal' , id: 8
+            }
+          ]
+        },
+        { name: 'La Tank 3', title: 'Company',className: 'Company', id: 3},
+        { name: 'La Tank 4', title: 'Company',className: 'Company' ,id: 4, children: [
+            { name: 'Texas', title: 'Terminal', className: 'Terminal', id: 9 },
+            { name: 'Austin', title: 'Terminal', className: 'Terminal',id: 10}
+          ] }
+      ]
+    };
 
     return (
       <React.Fragment>
+        <VOrgChart dataSource={dataSource} onReorder={onReorderHierarchy} onClick={onClickCompany} draggable={true}/>
         <VCarousel
           height={'200px'}
           width={'500px'}
