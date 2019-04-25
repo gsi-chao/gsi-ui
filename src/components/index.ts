@@ -61,3 +61,5 @@ export {
 export { VPaginatorProps } from './Paginator/type';
 
 export { VCarousel } from './Scroll';
+
+export {VOrgChart,VOrgChartProps} from  './VOrgChart'
