@@ -252,12 +252,14 @@ class PaginatorDemo extends Component<any, ISate> {
           pageLimit={this.state.itemsByPage}
           pageNeighbours={1}
           onPageChanged={this.onPageChanged}
+          currentPage={this.state.currentPage}
         />
 
         <p>Customer</p>
 
         <VPagination
           totalRecords={totalCountries}
+          currentPage={this.state.currentPage}
           pageLimit={this.state.itemsByPage}
           pageNeighbours={1}
           onPageChanged={this.onPageChanged}

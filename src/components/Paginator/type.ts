@@ -39,6 +39,7 @@ export interface VPaginatorProps {
   totalRecords: any;
   pageLimit: number;
   pageNeighbours: number;
+  currentPage: number;
   onPageChanged: (value: any) => void;
   itemsByPage?: { label: string; value: number }[];
   labels?: ILabels;
