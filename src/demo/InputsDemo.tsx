@@ -187,6 +187,7 @@ class InputsDemo extends Component {
           ] }
       ]
     };
+    const rightButton = (<Button minimal icon={'lock'}/>)
 
     return (
       <React.Fragment>
@@ -206,6 +207,7 @@ class InputsDemo extends Component {
             labelOrientation: 'end',
             inputOrientation: 'start'
           }}
+          rightElement={rightButton}
           id="username"
           label={'Username'}
           inline={true}
