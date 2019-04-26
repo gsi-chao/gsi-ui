@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render correctly Accordion All properties 1`] = `
+<div
+  className="accordion ui styled"
+  style={
+    Object {
+      "marginBottom": "25px",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    className="active title sc-bdVaJa hnjgTQ"
+    onClick={[Function]}
+  >
+    <i
+      aria-hidden="true"
+      className="minus icon"
+      onClick={[Function]}
+      style={
+        Object {
+          "float": "left",
+        }
+      }
+    />
+    <span>
+      Delivery Summary (5)
+    </span>
+  </div>
+  <div
+    className="content active"
+  >
+    <div
+      className="ui segment"
+    >
+      <p>
+        Hi world it's me from here!!!!!!!!!!
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`render correctly Accordion less properties 1`] = `
+<div
+  className="accordion ui styled"
+  style={
+    Object {
+      "marginBottom": "25px",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    className="active title sc-bdVaJa hBYAyW"
+    onClick={[Function]}
+  >
+    <i
+      aria-hidden="true"
+      className="minus icon"
+      onClick={[Function]}
+      style={
+        Object {
+          "float": "left",
+        }
+      }
+    />
+    <span>
+      Delivery Summary (5)
+    </span>
+  </div>
+  <div
+    className="content active"
+  >
+    <div
+      className="ui segment"
+    >
+      <p>
+        Hi world it's me from here!!!!!!!!!!
+      </p>
+    </div>
+  </div>
+</div>
+`;

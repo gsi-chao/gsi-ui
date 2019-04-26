@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render correctly Suspense Loading 1`] = `
+<div
+  className="sc-bwzfXH cjmiQo"
+>
+  <div />
+</div>
+`;

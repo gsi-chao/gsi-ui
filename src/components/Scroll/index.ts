@@ -1,0 +1,1 @@
+export { VCarousel } from './VCarousel';
