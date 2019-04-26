@@ -5,6 +5,7 @@ export interface ITypeInputColor {
   width?: number;
   height?: number;
   defaultColor?: any;
+  disable?:boolean
 }
 
 export const getBackground = (props: ITypeInputColor) => {
@@ -15,7 +16,7 @@ export const getBackground = (props: ITypeInputColor) => {
   ) {
     return `rgba(${props.defaultColor.r}, ${props.defaultColor.g}, ${
       props.defaultColor.b
-    }, ${props.defaultColor.a})`;
+      }, ${props.defaultColor.a})`;
   }
 
   return props.defaultColor;
@@ -30,14 +31,14 @@ export const ChromePickerStyled = styled(ChromePicker)`
 `;
 
 export const InputColor = styled.button`
-  width: ${(props: ITypeInputColor) =>
-    props.width ? `${props.width}px` : '40px'};
+  width: ${(props: ITypeInputColor) => props.width ? `${props.width}px` : '40px'};
   height: ${(props: ITypeInputColor) =>
-    props.height ? `${props.height}px` : '40px'};
+  props.height ? `${props.height}px` : '40px'};
 
   background: ${(props: ITypeInputColor) =>
-    props.defaultColor ? getBackground(props) : '#A1A3A2'};
+  props.defaultColor ? getBackground(props) : '#A1A3A2'};
 
   border: none;
   border-radius: 7px;
+ cursor: ${(props: ITypeInputColor) => props.disable ? 'not-allowed' : 'default'};  
 `;

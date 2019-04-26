@@ -108,7 +108,7 @@ export class VPagination extends Component<VPaginatorProps, IState> {
   };
 
   componentDidMount() {
-    this.gotoPage(1);
+    this.gotoPage(this.props.currentPage);
   }
 
   gotoPage = (page: any) => {
