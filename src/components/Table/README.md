@@ -13,12 +13,12 @@ It has the following characteristics:
 - Enable Row Header
 - Column Widths
 - Row height by type
-- Configuration Columns Header
+- Configurable Columns Header
+- Copy, Paste and Import Cells.
+- Customizable Columns.
+- Column filter.
 
 ## Next Features!
-  - Customizable Columns.
-  - Copy, Paste and Import Cells.
-  - Column filter.
 
 ### VTable Examples:
 - Basic Example:
