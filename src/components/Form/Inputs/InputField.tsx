@@ -88,7 +88,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
           <InputGroup
             large={size === 'large'}
             small={size === 'small'}
-            rightElement={rightEl}
+            rightElement={ rightElement || rightEl}
             name={id}
             {...{
               round,
