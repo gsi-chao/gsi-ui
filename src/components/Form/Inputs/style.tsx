@@ -218,7 +218,7 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
       & .bp3-popover-target {
         width: 100%;
         div {
-          button {
+          & > button:not(.crossButton) {
             width: ${(props: IStyledFieldProps) =>
               props.fixedInputWidthPx
                 ? `${props.fixedInputWidthPx}px`

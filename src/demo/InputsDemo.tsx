@@ -21,10 +21,14 @@ import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
 
 import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectItems';
 import { IItemsList } from '../components/SelectionList';
-import { VSelectMultiple } from '../components/Form/Inputs/SelectMultipleField';
+import {
+  IItemMultiple,
+  VSelectMultiple
+} from '../components/Form/Inputs/SelectMultipleField';
 import { VCarousel } from '../components/Scroll';
 import { VSpinner } from '../components/Spinner';
 import { VOrgChart } from '../components/VOrgChart/VOrgChart';
+import { MultiSelectExample } from '../components/Form/Inputs/SelectMultipleTags';
 
 const store = [
   {
@@ -68,7 +72,8 @@ class InputsDemo extends Component {
       range: new FieldState(0),
       places: new FieldState(sex[0].value),
       date: new FieldState(moment().toDate()),
-      multiple: new FieldState([])
+      multiple: new FieldState([]),
+      movies: new FieldState([]),
     });
     this.selectValue = store[0].value;
   }
@@ -173,25 +178,75 @@ class InputsDemo extends Component {
       id: 'root',
       children: [
         { name: 'LaTank', title: 'Company', className: 'Company', id: 1 },
-        { name: 'LaTank2', title: 'Company',className: 'Company', id: 2,
+        {
+          name: 'LaTank2',
+          title: 'Company',
+          className: 'Company',
+          id: 2,
           children: [
-            { name: 'Los Angeles Mx', title: 'Terminal', className: 'Terminal', id: 7 },
-            { name: 'California', title: 'Terminal', className: 'Terminal' , id: 8
+            {
+              name: 'Los Angeles Mx',
+              title: 'Terminal',
+              className: 'Terminal',
+              id: 7
+            },
+            {
+              name: 'California',
+              title: 'Terminal',
+              className: 'Terminal',
+              id: 8
             }
           ]
         },
-        { name: 'La Tank 3', title: 'Company',className: 'Company', id: 3},
-        { name: 'La Tank 4', title: 'Company',className: 'Company' ,id: 4, children: [
+        { name: 'La Tank 3', title: 'Company', className: 'Company', id: 3 },
+        {
+          name: 'La Tank 4',
+          title: 'Company',
+          className: 'Company',
+          id: 4,
+          children: [
             { name: 'Texas', title: 'Terminal', className: 'Terminal', id: 9 },
-            { name: 'Austin', title: 'Terminal', className: 'Terminal',id: 10}
-          ] }
+            { name: 'Austin', title: 'Terminal', className: 'Terminal', id: 10 }
+          ]
+        }
       ]
     };
-    const rightButton = (<Button minimal icon={'lock'}/>)
+    const rightButton = <Button minimal icon={'lock'} />;
 
     return (
       <React.Fragment>
-        <VOrgChart dataSource={dataSource} onReorder={onReorderHierarchy} onClick={onClickCompany} draggable={true}/>
+        <MultiSelectExample
+          inline
+          fill
+          required
+          label={'Select movies:'}
+          options={[
+            { label: 'The Shawshank Redemption', value: 1994 },
+            { label: 'The Godfather', value: 1972 },
+            { label: 'The Godfather: Part II', value: 1974 },
+            { label: 'The Dark Knight', value: 2008 }
+          ]}
+          id={'selectMultipleTags'}
+          layer={{
+            labelWidth: 6,
+            inputWidth: 5,
+            labelOrientation: 'end',
+            inputOrientation: 'center'
+          }}
+          placeholder={'evil placeholder...'}
+          fieldState={this.form.$.movies}
+          onChange={() => {
+            console.log(
+              this.form.$.movies.value
+            );
+          }}
+        />
+        <VOrgChart
+          dataSource={dataSource}
+          onReorder={onReorderHierarchy}
+          onClick={onClickCompany}
+          draggable={true}
+        />
         <VCarousel
           height={'200px'}
           width={'500px'}
@@ -247,7 +302,7 @@ class InputsDemo extends Component {
           fill
           layer={{
             labelWidth: 6,
-            inputWidth: 3,
+            inputWidth: 6,
             labelOrientation: 'end',
             inputOrientation: 'center'
           }}
