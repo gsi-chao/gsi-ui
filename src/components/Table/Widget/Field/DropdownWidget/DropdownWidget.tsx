@@ -22,7 +22,9 @@ export interface IDropdownWidget {
 export interface IProps
   extends IDropdownWidget,
     ActionClickWidget,
-    IPropsWidgets {}
+    IPropsWidgets {
+  color:string
+}
 
 class DropdownWidget extends Component<IProps, IDropdownWidget> {
   constructor(props: IProps) {
@@ -56,6 +58,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
           <DropdownStyled
             isValid={this.props.isValid!}
             isDisable={this.props.disable}
+            color={this.props.color}
           >
             <Button
               style={{ width: '100%' }}

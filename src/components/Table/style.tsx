@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled,{css} from 'styled-components';
 import { Cell, ColumnHeaderCell } from '@blueprintjs/table';
 import { IConfignHeader } from './TableColumn';
 import { VInputField, VSelectField } from '../Form';
@@ -31,12 +31,14 @@ export interface ICellCenterText {
 }
 
 export const CellCenterText = styled(Cell)`
+
   & .bp3-table-truncated-text.bp3-table-no-wrap-text {
     text-align: ${(props: ICellCenterText) =>
       props.textAling ? props.textAling : 'center'};
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+   
   }
 `;
 
@@ -107,7 +109,7 @@ export const TableContainer = styled.div`
   }
   ${(props: ITableContainer) =>
     props.striped &&
-    `
+  css`
   & .bp3-table-cell-ledger-even{
     background-color: rgba(220,220,221,0.49)!important;
     border-bottom: 1px solid rgba(128,128,128,0.11);

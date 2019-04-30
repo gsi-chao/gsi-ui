@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { TextAlignProperty } from 'csstype';
 
 export interface IColorWidget {
+  row?:number;
+  column?:string;
   backgroundColor: string;
   color?: string;
   value?: string;

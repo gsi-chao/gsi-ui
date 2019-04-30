@@ -14,7 +14,8 @@ import {
 } from './handleErrorSetupWidgets';
 
 export interface IVWidgetTableProps {
-  column: string;
+  column?: string;
+  row?: number;
   widget: IWidget;
 }
 
@@ -49,6 +50,7 @@ export interface IPropsWidgets {
 export interface IVWidget extends IWidget, ActionClickWidget {
   row: number;
   column: number;
+  columns: string[];
 }
 
 export interface IVDropdownCell {
@@ -93,24 +95,44 @@ class Widget extends Component<IVWidget> {
       case 'COLOR': {
         return this.getColorCell();
       }
+      case 'DEFAULT': {
+        return (
+          <ColorWidget
+            textAlign={this.props.textAlign}
+            backgroundColor={'transparent'}
+            value={this.props.value}
+          />
+        );
+      }
       case 'DROPDOWN': {
         const dropdownWidget = this.getDropdownCell();
-        return this.renderWidget(dropdownWidget);
+        return this.renderWidget(
+          dropdownWidget,
+          this.getColorSetting().backgroundColor
+        );
       }
       case 'DATETIME': {
         const dateTimeWidget = this.getDatetimeCell();
-        return this.renderWidget(dateTimeWidget);
+        return this.renderWidget(
+          dateTimeWidget,
+          this.getColorSetting().backgroundColor
+        );
       }
       case 'CHECKBOX': {
         const checkboxWidget = this.getCheckboxCell();
-        return this.renderWidget(checkboxWidget);
+
+        return this.renderWidget(
+          checkboxWidget,
+          this.getColorSetting().backgroundColor
+        );
       }
       case 'CUSTOMERCOMPONENT': {
         if (this.props.cusmtomerCell) {
           this.props.cusmtomerCell.renderCustomer(this.props.value);
+          const colorSetting = this.getColorSetting();
           return (
-            <CenterWidget>
-              <div style={{ padding: ' 0px 11px' }}>
+            <CenterWidget backgroundColor={colorSetting.backgroundColor}>
+              <div style={{ padding: ' 0px 11px', color: colorSetting.color }}>
                 {this.props.cusmtomerCell.renderCustomer(this.props.value)}
               </div>
             </CenterWidget>
@@ -136,13 +158,77 @@ class Widget extends Component<IVWidget> {
     return null;
   };
 
-  private renderWidget(widget: any) {
+  private renderWidget(widget: any, backgroundColor?: string, color?: string) {
+    const backgroundColors = backgroundColor ? backgroundColor : 'transparent';
+
     return (
-      <CenterWidget>
+      <CenterWidget backgroundColor={backgroundColors}>
         {widget ? widget : <p> {this.props.value}</p>}
       </CenterWidget>
     );
   }
+
+  private getColorSetting = () => {
+    if (this.isFullRowColumn() && this.isValidPaintCell()) {
+      return this.getBackgroundAndColor();
+    }
+
+    if (this.isFullColumn() && this.isValidPaintCell()) {
+      return this.getBackgroundAndColor();
+    }
+
+    if (this.isFullRow() && this.isValidPaintCell()) {
+      return this.getBackgroundAndColor();
+    }
+    return {
+      backgroundColor: 'transparent',
+      color: 'black'
+    };
+  };
+
+  private isValidPaintCell = () => {
+    const colorCell = this.props.colorCell;
+    return colorCell!.printColor(this.props.value);
+  };
+
+  private getBackgroundAndColor() {
+    const colorCell = this.props.colorCell;
+    return {
+      backgroundColor: colorCell!.backgroundColor,
+      color: colorCell!.color || 'black'
+    };
+  }
+
+  private isFullRowColumn = () => {
+    const colorCell = this.props.colorCell;
+    return (
+      colorCell &&
+      colorCell.row &&
+      colorCell.column &&
+      this.props.column === this.props.columns.indexOf(colorCell.column) &&
+      colorCell.row === this.props.row
+    );
+  };
+
+  private isFullRow = () => {
+    const colorCell = this.props.colorCell;
+    return (
+      colorCell &&
+      colorCell.row &&
+      colorCell.column === undefined &&
+      colorCell.row === this.props.row
+    );
+  };
+
+  private isFullColumn = () => {
+    const colorCell = this.props.colorCell;
+    return (
+      colorCell &&
+      colorCell.column &&
+      colorCell.row === undefined &&
+      this.props.column === this.props.columns.indexOf(colorCell.column)
+    );
+  };
 
   private getColorCell = () => {
     if (
@@ -190,6 +276,7 @@ class Widget extends Component<IVWidget> {
           column={this.props.column}
           disable={this.getDisable()}
           isValid={this.props.isValid}
+          color={this.getColorSetting().color}
         />
       );
     }
@@ -213,6 +300,7 @@ class Widget extends Component<IVWidget> {
           {...this.props.dateTimeCell}
           disable={this.getDisable()}
           isValid={this.props.isValid}
+          color={this.getColorSetting().color}
         />
       );
     }
