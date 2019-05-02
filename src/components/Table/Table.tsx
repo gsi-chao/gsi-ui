@@ -22,12 +22,11 @@ import ReactResizeDetector from 'react-resize-detector';
 import { cloneDeep } from 'lodash';
 
 import {
-  CellCenterText,
-  CellDiv,
+    CellDiv,
   ISelectionStyle,
   TableContainer
 } from './style';
-import Widget, { IVWidgetTableProps } from './Widget/Widget';
+import Widget, { IVWidgetTableProps, IWidget } from './Widget/Widget';
 import * as utils from './utils';
 import EditToolBar from './EditToolBar/EditToolBar';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
@@ -122,7 +121,8 @@ export interface IVTableProps {
   filterByColumn?: FilterByColumn;
 }
 
-interface IProps extends IVTableProps, ITableProps {}
+interface IProps extends IVTableProps, ITableProps {
+}
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -189,6 +189,7 @@ export class VTable extends Component<IProps, IVTableState> {
   }
 
   render() {
+    console.log('render');
     const {
       sortable,
       columns_name,
@@ -338,7 +339,7 @@ export class VTable extends Component<IProps, IVTableState> {
     const renderIcon = customerIcon ? (
       customerIcon
     ) : (
-      <Icon icon={icon} iconSize={iconSize} />
+      <Icon icon={icon} iconSize={iconSize}/>
     );
 
     return (
@@ -456,8 +457,8 @@ export class VTable extends Component<IProps, IVTableState> {
     const enableRowHeader = enableRowResizing
       ? true
       : this.props.enableRowHeader
-      ? this.props.enableRowHeader
-      : false;
+        ? this.props.enableRowHeader
+        : false;
 
     const enableColumnResizing = this.props.enableColumnResizing
       ? this.props.enableRowResizing
@@ -480,24 +481,43 @@ export class VTable extends Component<IProps, IVTableState> {
     this.updateInvalidColumns(isValid, columnIndex, rowIndex);
     const textAlignColumn = this.getTextAlignColumn(columnIndex);
 
-    const component = widgetCell && (
-      <Widget
-        row={rowIndex}
-        column={columnIndex}
-        onClick={this.handleOnClickWidget}
-        {...widgetCell.widget}
-        disable={!this.state.edit}
-        isValid={isValid}
-        textAlign={textAlignColumn.textAlign}
-      />
-    );
-
-    if (component) {
-      return (
-        <CellDiv isValid={isValid} as={Cell}>
-          {component}
-        </CellDiv>
+    if (widgetCell && widgetCell.column && widgetCell.row) {
+      if (widgetCell.row === rowIndex) {
+        return this.renderWidget(
+          widgetCell.widget,
+          isValid,
+          rowIndex,
+          columnIndex,
+          textAlignColumn.textAlign,
+          value
+        );
+      }
+    } else if (
+      widgetCell &&
+      widgetCell.column &&
+      widgetCell.row === undefined
+    ) {
+      return this.renderWidget(
+        widgetCell.widget,
+        isValid,
+        rowIndex,
+        columnIndex,
+        textAlignColumn.textAlign,
+        value
       );
+    } else if (widgetCell &&
+      widgetCell.column === undefined &&
+      widgetCell.row) {
+      if (widgetCell.row === rowIndex) {
+        return this.renderWidget(
+          widgetCell.widget,
+          isValid,
+          rowIndex,
+          columnIndex,
+          textAlignColumn.textAlign,
+          value
+        );
+      }
     }
 
     if (edit && edit.editColumn.columns === 'ALL') {
@@ -513,13 +533,15 @@ export class VTable extends Component<IProps, IVTableState> {
             disable={!this.state.edit}
             isValid={isValid}
             textAlign={textAlignColumn.textAlign}
+            columns={this.props.columns}
+            onDoubleClick={()=>{this.onDoubleClick(value, rowIndex,columnIndex)}}
           />
         </CellDiv>
       );
     }
     return edit &&
-      edit.editColumn.columns !== 'ALL' &&
-      edit.editColumn.columns.indexOf(columns[columnIndex]) !== -1 ? (
+    edit.editColumn.columns !== 'ALL' &&
+    edit.editColumn.columns.indexOf(columns[columnIndex]) !== -1 ? (
       <CellDiv isValid={isValid} as={Cell}>
         {' '}
         <Widget
@@ -531,13 +553,70 @@ export class VTable extends Component<IProps, IVTableState> {
           disable={!this.state.edit}
           isValid={isValid}
           textAlign={textAlignColumn.textAlign}
+          columns={this.props.columns}
+          onDoubleClick={()=>{this.onDoubleClick(value, rowIndex,columnIndex)}}
         />
       </CellDiv>
     ) : (
-      <CellCenterText textAling={textAlignColumn.textAlign} as={Cell}>
-        {value}
-      </CellCenterText>
+      <CellDiv isValid={isValid} as={Cell}>
+        <Widget
+          row={rowIndex}
+          column={columnIndex}
+          onClick={() => {
+          }}
+          type={'DEFAULT'}
+          value={value}
+          disable={!this.state.edit}
+          isValid={isValid}
+          textAlign={textAlignColumn.textAlign}
+          columns={this.props.columns}
+          onDoubleClick={()=>{this.onDoubleClick(value, rowIndex,columnIndex)}}
+
+        />
+      </CellDiv>
+
     );
+  };
+
+
+  renderWidget = (
+    widget: IWidget,
+    isValid: boolean,
+    rowIndex: number,
+    columnIndex: number,
+    textAlign: string | 'center' | 'end' | 'left',
+    value:any
+  ) => {
+
+    return (
+      <CellDiv isValid={isValid} as={Cell}>
+        <Widget
+          row={rowIndex}
+          column={columnIndex}
+          onClick={this.handleOnClickWidget}
+          {...widget}
+          disable={!this.state.edit}
+          isValid={isValid}
+          textAlign={textAlign}
+          columns={this.props.columns}
+          onDoubleClick={()=>{this.onDoubleClick(value, rowIndex,columnIndex)}}
+
+        />
+      </CellDiv>
+    );
+  };
+
+  onDoubleClick = (value: any, rowIndex: number, columnIndex: number) => {
+    if (this.props.actionsSelection && this.props.actionsSelection.onDoubleClick) {
+      const columnName=this.props.columns[columnIndex];
+      if (this.props.cellSelectionType === 'ENTIRE_ROW') {
+        this.props.actionsSelection.onDoubleClick(this.state.sparseCellData[rowIndex], rowIndex, columnIndex, columnName);
+        return;
+      }
+      this.props.actionsSelection.onDoubleClick(value, rowIndex, columnIndex, columnName);
+
+    }
+
   };
 
   private getTextAlignColumn(columnIndex: number): ITextAlignColumn {
@@ -601,11 +680,17 @@ export class VTable extends Component<IProps, IVTableState> {
     const widgetsValid: IVWidgetTableProps[] = [];
 
     this.state.widgetsCell &&
-      this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+    this.state.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+      if (widget.column) {
         if (columns.filter(x => x === widget.column).length === 1) {
           widgetsValid.push(widget);
         }
-      });
+      } else if (widget.column === undefined && widget.row && widget.row <= this.state.sparseCellData.length) {
+
+        widgetsValid.push(widget);
+      }
+
+    });
 
     return widgetsValid;
   };
@@ -616,9 +701,23 @@ export class VTable extends Component<IProps, IVTableState> {
       this.state.widgetsCell.length > 0 &&
       this.getWidgetCellValid();
 
-    return (
-      widgetCellValid && widgetCellValid.find(x => x.column === columnName)
-    );
+    if (widgetCellValid) {
+      const widgetRowCol = widgetCellValid.find(x => x.column === columnName && x.row === rowIndex);
+      const widgetRows = widgetCellValid.find(x => x.column === undefined && x.row === rowIndex);
+      const widgetCol = widgetCellValid.find(x => x.column === columnName);
+
+      if (widgetRowCol) {
+        return widgetRowCol;
+      }
+
+      if (widgetCol) {
+        return widgetCol;
+      }
+
+      return widgetRows;
+    }
+
+
   };
 
   handleOnClickWidget = (
@@ -650,7 +749,7 @@ export class VTable extends Component<IProps, IVTableState> {
     ) {
       return this.props.edit.editColumn.validation[
         this.props.columns[columnIndex]
-      ](value);
+        ](value);
     }
     return true;
   };
@@ -1231,7 +1330,7 @@ export class VTable extends Component<IProps, IVTableState> {
         getPivotCell={this.getPivotCell}
       />
     ) : (
-      <div />
+      <div/>
     );
   };
 

@@ -56,10 +56,7 @@ class App extends Component {
         <div style={{ width: '100%' }}>
           <VTable
             striped
-            edit={{
-              editColumn: { columns: 'ALL' },
-              onSave: (value: any) => {}
-            }}
+
             columns={[
               'name',
               'lastname',
@@ -95,6 +92,10 @@ class App extends Component {
             columnWidths={[200, 200, 250, 250, 250]}
             numFrozenRows={2}
             numFrozenColumns={1}
+            actionsSelection={{
+
+              onDoubleClick:(value:any,rowIndex:number,columnIndex:number,columnName:string)=>{console.log('doble click')}
+            }}
           />
         </div>
 

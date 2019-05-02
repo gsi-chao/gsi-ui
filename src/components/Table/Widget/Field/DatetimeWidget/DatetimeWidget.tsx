@@ -11,12 +11,15 @@ import { IconName } from '@blueprintjs/icons';
 export interface IDatetimeWidget {
   icon?: IconName | MaybeElement;
   value: string;
+
 }
 
 export interface IProps
   extends IDatetimeWidget,
     ActionClickWidget,
-    IPropsWidgets {}
+    IPropsWidgets {
+  color:string;
+}
 
 class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
   constructor(props: IProps) {
@@ -30,7 +33,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
   render() {
     if (this.isValidValueProps()) {
       return (
-        <DatetimeCell isValid={this.props.isValid!}>
+        <DatetimeCell color={this.props.color} isValid={this.props.isValid!}>
           {this.getDatetime()}
         </DatetimeCell>
       );
