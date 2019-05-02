@@ -9,6 +9,7 @@ export interface IColorWidget {
   color?: string;
   value?: string;
   printColor: (value: string) => boolean;
+
 }
 
 export interface IColorWidgetState {
@@ -18,6 +19,10 @@ export interface IColorWidgetState {
 }
 interface IProps extends IColorWidgetState {
   textAlign?: string;
+  onDoubleClick?:any;
+  row?:number;
+  columnIndex?:number;
+  columnName?:string;
 }
 
 class ColorWidget extends Component<IProps, IColorWidgetState> {
@@ -67,16 +72,25 @@ class ColorWidget extends Component<IProps, IColorWidgetState> {
         transform: translateY(-50%);
       }
     `;
-
+    //console.log('rendercolor widget ', this.props.row, this.props.columnName,this.props.onDoubleClick)
     return (
-      <CellColor>
-        {' '}
-        <div style={{ textAlign: this.getTextAlign(), padding: '0px 10px' }}>
+      <CellColor  >
+        <div  onClick={this.onDoubleClick} style={{ textAlign: this.getTextAlign(), padding: '0px 10px' }}>
           {this.props.value}
         </div>
       </CellColor>
     );
   }
+
+
+  onDoubleClick = ()=>{
+    console.log('doble click from color widget')
+    if(this.props.onDoubleClick){
+      this.props.onDoubleClick(this.props.value,this.props.row,this.props.columnIndex,this.props.columnName)
+        alert('doble click')
+    }
+  };
+
 
   private getTextAlign() {
     const supported: TextAlignProperty[] = [

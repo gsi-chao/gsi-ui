@@ -22,8 +22,7 @@ import ReactResizeDetector from 'react-resize-detector';
 import { cloneDeep } from 'lodash';
 
 import {
-  CellCenterText,
-  CellDiv,
+    CellDiv,
   ISelectionStyle,
   TableContainer
 } from './style';
@@ -190,6 +189,7 @@ export class VTable extends Component<IProps, IVTableState> {
   }
 
   render() {
+    console.log('render');
     const {
       sortable,
       columns_name,
@@ -488,7 +488,8 @@ export class VTable extends Component<IProps, IVTableState> {
           isValid,
           rowIndex,
           columnIndex,
-          textAlignColumn.textAlign
+          textAlignColumn.textAlign,
+          value
         );
       }
     } else if (
@@ -501,19 +502,20 @@ export class VTable extends Component<IProps, IVTableState> {
         isValid,
         rowIndex,
         columnIndex,
-        textAlignColumn.textAlign
+        textAlignColumn.textAlign,
+        value
       );
     } else if (widgetCell &&
       widgetCell.column === undefined &&
       widgetCell.row) {
       if (widgetCell.row === rowIndex) {
-        console.log('render por fila');
         return this.renderWidget(
           widgetCell.widget,
           isValid,
           rowIndex,
           columnIndex,
-          textAlignColumn.textAlign
+          textAlignColumn.textAlign,
+          value
         );
       }
     }
@@ -532,6 +534,7 @@ export class VTable extends Component<IProps, IVTableState> {
             isValid={isValid}
             textAlign={textAlignColumn.textAlign}
             columns={this.props.columns}
+            onDoubleClick={()=>{this.onDoubleClick(value, rowIndex,columnIndex)}}
           />
         </CellDiv>
       );
@@ -551,6 +554,7 @@ export class VTable extends Component<IProps, IVTableState> {
           isValid={isValid}
           textAlign={textAlignColumn.textAlign}
           columns={this.props.columns}
+          onDoubleClick={()=>{this.onDoubleClick(value, rowIndex,columnIndex)}}
         />
       </CellDiv>
     ) : (
@@ -566,19 +570,24 @@ export class VTable extends Component<IProps, IVTableState> {
           isValid={isValid}
           textAlign={textAlignColumn.textAlign}
           columns={this.props.columns}
+          onDoubleClick={()=>{this.onDoubleClick(value, rowIndex,columnIndex)}}
+
         />
       </CellDiv>
 
     );
   };
 
+
   renderWidget = (
     widget: IWidget,
     isValid: boolean,
     rowIndex: number,
     columnIndex: number,
-    textAlign: string | 'center' | 'end' | 'left'
+    textAlign: string | 'center' | 'end' | 'left',
+    value:any
   ) => {
+
     return (
       <CellDiv isValid={isValid} as={Cell}>
         <Widget
@@ -590,9 +599,24 @@ export class VTable extends Component<IProps, IVTableState> {
           isValid={isValid}
           textAlign={textAlign}
           columns={this.props.columns}
+          onDoubleClick={()=>{this.onDoubleClick(value, rowIndex,columnIndex)}}
+
         />
       </CellDiv>
     );
+  };
+
+  onDoubleClick = (value: any, rowIndex: number, columnIndex: number) => {
+    if (this.props.actionsSelection && this.props.actionsSelection.onDoubleClick) {
+      const columnName=this.props.columns[columnIndex];
+      if (this.props.cellSelectionType === 'ENTIRE_ROW') {
+        this.props.actionsSelection.onDoubleClick(this.state.sparseCellData[rowIndex], rowIndex, columnIndex, columnName);
+        return;
+      }
+      this.props.actionsSelection.onDoubleClick(value, rowIndex, columnIndex, columnName);
+
+    }
+
   };
 
   private getTextAlignColumn(columnIndex: number): ITextAlignColumn {
@@ -661,7 +685,7 @@ export class VTable extends Component<IProps, IVTableState> {
         if (columns.filter(x => x === widget.column).length === 1) {
           widgetsValid.push(widget);
         }
-      } else if (widget.column === undefined && widget.row) {
+      } else if (widget.column === undefined && widget.row && widget.row <= this.state.sparseCellData.length) {
 
         widgetsValid.push(widget);
       }
@@ -686,14 +710,14 @@ export class VTable extends Component<IProps, IVTableState> {
         return widgetRowCol;
       }
 
-      if(widgetCol){
+      if (widgetCol) {
         return widgetCol;
       }
-      
-      return widgetRows
+
+      return widgetRows;
     }
 
-    
+
   };
 
   handleOnClickWidget = (

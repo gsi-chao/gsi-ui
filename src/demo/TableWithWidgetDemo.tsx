@@ -60,6 +60,23 @@ export const checkboxWidget: IVWidgetTableProps = {
   }
 };
 
+export const editWidget: IVWidgetTableProps = {
+  column: 'name',
+  row:1,
+  widget: {
+    type: 'EDIT',
+    colorCell: {
+      column:'name',
+      row:1,
+      backgroundColor: 'orange',
+      color: 'white',
+      printColor: () => {
+        return true;
+      }
+    }
+  }
+};
+
 export const datetimeWidget: IVWidgetTableProps = {
   column: 'fecha',
   widget: {
@@ -68,7 +85,7 @@ export const datetimeWidget: IVWidgetTableProps = {
       icon: 'calendar'
     },
     colorCell: {
-      row:1,
+      column:'fecha',
       backgroundColor: 'orange',
       color: 'white',
       printColor: () => {
@@ -193,7 +210,12 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               onSelectionCleaned: (value: any) => {
                 console.log('onSelectionCleaned', value);
               },
-              clearSelection: this.state.clearSelection
+              clearSelection: this.state.clearSelection,
+              onDoubleClick:(value:any,rowIndex:number,columnIndex:number,columnName:string)=>{
+
+                console.log('doble click',value,rowIndex,columnIndex,columnName)
+
+              }
             }}
             filterByColumn={{
               filterable: this.state.filterColumn,

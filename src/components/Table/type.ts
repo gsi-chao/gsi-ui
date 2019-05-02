@@ -18,6 +18,7 @@ export interface IDataEdited {
 
 export interface IActionSelection {
   onSelectionChange?: any;
+  onDoubleClick?:(value:any,rowIndex:number,columnIndex:number,columnName:string)=>void;
   clearSelection?: boolean;
   onSelectionCleaned?: (isSelectionCleaned: boolean) => any;
 }

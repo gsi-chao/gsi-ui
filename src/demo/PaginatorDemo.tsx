@@ -217,13 +217,13 @@ class PaginatorDemo extends Component<any, ISate> {
     const { currentPage, totalPages } = data.paginationData;
 
     const offset = (currentPage - 1) * data.pageLimit;
-    console.log('data', data);
+    //console.log('data', data);
 
     const currentCountries = this.getCountry().slice(
       offset,
       offset + data.pageLimit
     );
-    console.log('currentCountries', currentCountries);
+   // console.log('currentCountries', currentCountries);
     this.setState({
       currentPage,
       currentCountries,
