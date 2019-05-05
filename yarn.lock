@@ -5278,10 +5278,10 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
-formstate@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/formstate/-/formstate-1.0.2.tgz#0dfd53192368a4da987f3180106e1fc5aa87b191"
-  integrity sha512-XQwECBZKkPkC2Y5ocMBoNuVifHdvOd/IQUenw1onOQxwHI5WNjkeROtQjYj4spoVvVa9vjtmH5POLAHkmNOsbA==
+formstate@^1.2.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/formstate/-/formstate-1.3.0.tgz#7bd0613829da4c172eded519403808a9ea94a6e3"
+  integrity sha512-7WHpxTmKRbG2mkPzZrJU0bQi2SA3FKCjTLqDQHNoKiF2PI/ObBf3EYavPdga8TqXG/npK/voQe5vWarHjQHs2A==
 
 forwarded@~0.1.2:
   version "0.1.2"

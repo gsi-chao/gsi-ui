@@ -418,8 +418,6 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
   };
 
   changeData = (colorFiltered?: string) => {
-    console.log('change');
-    console.log(colorFiltered);
     this.setState({
       data: this.getData(colorFiltered)
     });
@@ -470,7 +468,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         other: 'Lastname7',
         fecha: '12/05/2018',
         checkbox: true,
-        color: 'red',
+        color: 'blue',
         sinEditar: ' some text',
         customer: 'customer'
       },
@@ -480,7 +478,317 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         other: 'Lastname7',
         fecha: '12/05/2018',
         checkbox: false,
-        color: 'red',
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
+        sinEditar: ' some text',
+        customer: 'customer'
+      },
+      {
+        name: 'Pepe',
+        dropdown: 2,
+        other: 'Lastname7',
+        fecha: '12/05/2018',
+        checkbox: false,
+        color: 'blue',
         sinEditar: ' some text',
         customer: 'customer'
       }
