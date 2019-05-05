@@ -38,7 +38,7 @@ export const fillRemoveColumnsWidth = (
   if (columnWidths) {
     if (columns.length > columnWidths.length) {
       return columnWidths.concat(
-        fill(Array(columns.length - columnWidths.length), 80)
+        fill(Array(columns.length - columnWidths.length), 100)
       );
     }
     if (columns.length < columnWidths.length) {
@@ -48,3 +48,22 @@ export const fillRemoveColumnsWidth = (
 
   return columnWidths;
 };
+
+export const dataKey = (rowIndex: number, columnIndex: number) => {
+  return `${rowIndex}-${columnIndex}`;
+};
+
+export const getDefaultRowHeight = (typeHeightRow: any): number => {
+  if (typeHeightRow) {
+    switch (typeHeightRow) {
+      case 'SHORT':
+        return 35;
+      case 'HALF':
+        return 50;
+      default:
+        return 100;
+    }
+  }
+  return 35;
+};
+
