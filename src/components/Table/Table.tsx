@@ -1289,6 +1289,7 @@ export const VTable = React.memo((props: IProps) => {
       }
     }
 
+
     if (edit && edit.editColumn.columns === 'ALL') {
       return (
         <CellDiv isValid={valid} as={Cell}>
@@ -1310,9 +1311,10 @@ export const VTable = React.memo((props: IProps) => {
         </CellDiv>
       );
     }
+
     return edit &&
       edit.editColumn.columns !== 'ALL' &&
-      edit.editColumn.columns.indexOf(columns[columnIndex]) !== -1 ? (
+      edit.editColumn.columns.some((x:string)=>x=== columns[columnIndex])  ? (
       <CellDiv isValid={valid} as={Cell}>
         {' '}
         <Widget
@@ -1321,7 +1323,7 @@ export const VTable = React.memo((props: IProps) => {
           onClick={handleOnClickWidget}
           type={'EDIT'}
           value={value}
-          disable={stateTable.edit}
+          disable={!stateTable.edit}
           isValid={valid}
           textAlign={textAlignColumn.textAlign}
           columns={props.columns}
@@ -1331,6 +1333,7 @@ export const VTable = React.memo((props: IProps) => {
         />
       </CellDiv>
     ) : (
+
       <CellDiv isValid={valid} as={Cell}>
         <Widget
           row={rowIndex}

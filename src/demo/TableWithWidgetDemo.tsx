@@ -224,7 +224,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             }}
             edit={{
               editColumn: {
-                columns: ['name']
+                columns: ['name','other']
               },
               onSave: this.onSave,
               invalidDataMessage: (invalidColumns: string[]) => {
