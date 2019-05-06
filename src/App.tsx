@@ -10,6 +10,7 @@ import NotificationToastDemo from './demo/NotificationToastDemo';
 import DNDDemo from './demo/DNDDemo';
 import SuspenseDemo from './demo/SuspenseDemo';
 import PaginatorDemo from './demo/PaginatorDemo';
+import { showToastNotification } from './components/ToastNotification';
 
 class App extends Component {
   render() {
@@ -84,6 +85,30 @@ class App extends Component {
                   ]
                 }
               ]
+            }}
+
+            edit={{
+              editColumn: {
+                columns: 'ALL'
+              },
+              onSave: ()=>{},
+              invalidDataMessage: (invalidColumns: string[]) => {
+                showToastNotification({
+                  type: 'danger',
+                  message: `No se puede guardar porq las siguiente columnas tienen datos invalidos: ${invalidColumns.join(
+                    ' , '
+                  )}`,
+                  timeout: 8000
+                });
+              },
+
+              editToolbar: {
+                textSave: 'Salvar',
+                textCancel: 'Cancelar',
+                iconCancel: 'cross',
+                iconEdit: 'take-action',
+                iconSave: 'share'
+              }
             }}
             data={data}
             enableColumnResizing={true}
