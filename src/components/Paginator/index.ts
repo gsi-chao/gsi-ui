@@ -1,1 +1,2 @@
-export { VPagination } from './Paginator';
+export * from './types';
+export * from './Paginator';

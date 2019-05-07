@@ -1,10 +1,6 @@
-import { FieldState } from 'formstate';
 import { CSSProperties, ReactNode } from 'react';
-import { MaybeElement } from '@blueprintjs/core/src/common/props';
-import { IconName } from '@blueprintjs/core';
-
-export const LEFT_PAGE = 'LEFT';
-export const RIGHT_PAGE = 'RIGHT';
+import { FieldState } from 'formstate';
+import { MaybeElement, IconName } from '@blueprintjs/core';
 
 export interface IInfoPage {
   totalPages: number;
@@ -52,3 +48,6 @@ export interface VPaginatorProps {
 export interface IState {
   currentPage: number;
 }
+
+export const LEFT_PAGE = 'LEFT';
+export const RIGHT_PAGE = 'RIGHT';

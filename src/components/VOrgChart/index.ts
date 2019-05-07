@@ -1,1 +1,1 @@
-export {VOrgChartProps,VOrgChart} from './VOrgChart'
+export * from './VOrgChart'

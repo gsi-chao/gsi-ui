@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { VPagination } from '../components/Paginator';
-import { IInfoPage } from '../components/Paginator/type';
+import { VPagination, IInfoPage } from '../components';
 
 interface ISate {
   allCountries: any[];
@@ -223,7 +222,7 @@ class PaginatorDemo extends Component<any, ISate> {
       offset,
       offset + data.pageLimit
     );
-   // console.log('currentCountries', currentCountries);
+    // console.log('currentCountries', currentCountries);
     this.setState({
       currentPage,
       currentCountries,
