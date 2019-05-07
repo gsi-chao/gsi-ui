@@ -115,7 +115,6 @@ export interface IVTableProps {
   cellSelectionType?: CellSelectionType;
   onSelectionChange?: any;
   actionsSelection?: IActionSelection;
-  editSetup?: EditSetup;
   tableHeight?: string;
   striped?: boolean;
   textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
@@ -1198,17 +1197,65 @@ export const VTable = (props: IProps) => {
     const dataKey = utils.dataKey(rowIndex, columnIndex);
     setSparseCellUpdateData(dataKey, newValue);
     setStateData(rowIndex, columnIndex, newValue);
-    setDataEdited(rowIndex);
+    setDataEdited(rowIndex, columnIndex, newValue);
   };
 
-  const setDataEdited = (rowIndex: number) => {
+  const getInfoSelection = (rowIndex: number, columnIndex: number) => {
+    return {
+      rowIndex,
+      columnIndex: columnIndex!,
+      columnName: props.columns[columnIndex!]
+    };
+  };
+
+  const setRowDataEdited = (rowIndex: number, columnIndex: number) => {
     const dataEdited = stateTable.dateEdited;
     const rowEdited = dataEdited.find(x => x.rowIndex === rowIndex);
     if (rowEdited) {
       rowEdited.data = stateTable.sparseCellData[rowIndex];
     } else {
-      dataEdited.push({ rowIndex, data: stateTable.sparseCellData[rowIndex] });
+      dataEdited.push({
+        rowIndex,
+        infoSelection: getInfoSelection(rowIndex, columnIndex),
+        data: stateTable.sparseCellData[rowIndex]
+      });
     }
+  };
+
+  const setRowColDataEdited = (
+    rowIndex: number,
+    columnIndex: number,
+    newValue: string
+  ) => {
+    const dataEdited = stateTable.dateEdited;
+    const rowColEdited = dataEdited.find(
+      x =>
+        x.infoSelection!.rowIndex === rowIndex &&
+        x.infoSelection!.columnIndex === columnIndex
+    );
+
+    if (rowColEdited) {
+      rowColEdited.data = { value: newValue };
+    } else {
+      dataEdited.push({
+        rowIndex,
+        infoSelection: getInfoSelection(rowIndex, columnIndex),
+        data: { value: newValue }
+      });
+    }
+    return;
+  };
+
+  const setDataEdited = (
+    rowIndex: number,
+    columnIndex: number,
+    newValue: string
+  ) => {
+    if (props.edit && props.edit.resultDataEdited === 'CELL') {
+      setRowColDataEdited(rowIndex, columnIndex, newValue);
+      return;
+    }
+    setRowDataEdited(rowIndex, columnIndex);
   };
 
   const isValidValue = (columnIndex: number, value: string) => {
