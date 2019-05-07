@@ -1,2 +1,2 @@
-export { showToastNotification } from './VToastNotification';
-export { ToastPosition, ToastType } from './types';
+export * from './VToastNotification';
+export * from './types';

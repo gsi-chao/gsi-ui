@@ -10,7 +10,7 @@ import {
   LEFT_PAGE,
   RIGHT_PAGE,
   VPaginatorProps
-} from './type';
+} from './types';
 
 const range = (from: number, to: number, step = 1) => {
   let i = from;
@@ -29,12 +29,11 @@ const InfoPage = (props: IInfoPage) => {
     <div style={{ margin: '0px 10px' }}>
       {props.currentPage && (
         <span>
-          Page <strong>{props.currentPage}</strong> of{' '}
+          Page <strong>{props.currentPage}</strong> of
           <strong>{props.totalPages}</strong>
         </span>
       )}
       <span>
-        {' / '}
         Total: <strong className="text-secondary">{` ${props.totals}`}</strong>
       </span>
     </div>

@@ -23,14 +23,13 @@ class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
 
   render() {
     const { backgroundColor, label } = this.state;
-    const value = this.props.value ? this.props.value : false;
 
     const checkboxBlue = (
       <Checkbox
         disabled={this.props.disable}
         onChange={this.handleToggle}
         label={label}
-        checked={value}
+        checked={this.props.value}
       />
     );
 
@@ -42,14 +41,13 @@ class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
   }
 
   handleToggle = () => {
-    const value = this.state.value;
     this.setState({
       value: !this.state.value,
       backgroundColor: this.props.backgroundColor,
       label: this.props.label
     });
 
-    this.props.onClick(this.props.row, this.props.column, !value);
+    this.props.onClick(this.props.row, this.props.column, !this.state.value);
   };
 }
 

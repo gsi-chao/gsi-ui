@@ -1,4 +1,11 @@
-import React, { useEffect,  useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import {
   Cell,
   IMenuContext,
@@ -134,7 +141,7 @@ export interface IVTableState {
   invalidCells: { row: number; column: number }[];
 }
 
-export const VTable = React.memo((props: IProps) => {
+export const VTable = (props: IProps) => {
   const tableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -153,14 +160,14 @@ export const VTable = React.memo((props: IProps) => {
     });
   }, [props.data]);
 
-  const initColumnsWidth = () => {
+  const initColumnsWidth = useMemo(() => {
     const { columns, columnWidths } = props;
     const colsWidth = cloneDeep(columnWidths) || [];
     while (colsWidth.length < columns.length) {
       colsWidth.push(0);
     }
     return colsWidth;
-  };
+  }, [props.columnWidths, props.columns]);
 
   const [stateTable, setStateTable] = useState<IVTableState>({
     sparseCellData: cloneDeep(props.data),
@@ -170,7 +177,7 @@ export const VTable = React.memo((props: IProps) => {
     cachedData: [],
     selectedRegions: [],
     provisionalRegions: [],
-    columnsWidth: initColumnsWidth(),
+    columnsWidth: initColumnsWidth,
     edit: false,
     dataBeforeEdit: [],
     dateEdited: [],
@@ -1462,12 +1469,12 @@ export const VTable = React.memo((props: IProps) => {
   });
 
   const resizingProperties = getResizingProperties();
-  const colwidth =
+  const colWidth =
     stateTable.columnsWidth.length === props.columns.length
       ? stateTable.columnsWidth
       : makeResponsiveTable();
 
-  return props.data.length === 0 ? (
+  return props.data.length === 0 || props.columns.length === 0 ? (
     <EmptyData settings={props.settingEmptyData} />
   ) : (
     <ReactResizeDetector
@@ -1505,7 +1512,7 @@ export const VTable = React.memo((props: IProps) => {
           enableColumnResizing={resizingProperties.enableColumnResizing}
           enableRowResizing={resizingProperties.enableRowResizing}
           enableRowHeader={resizingProperties.enableRowHeader}
-          columnWidths={colwidth}
+          columnWidths={colWidth}
           defaultRowHeight={utils.getDefaultRowHeight(props.typeHeightRow)}
           numFrozenColumns={props.numFrozenColumns}
           numFrozenRows={props.numFrozenRows}
@@ -1518,4 +1525,4 @@ export const VTable = React.memo((props: IProps) => {
       </TableContainer>
     </ReactResizeDetector>
   );
-});
+};

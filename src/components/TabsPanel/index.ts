@@ -1,8 +1,2 @@
-export { VTabsPanel } from './TabsPanel';
-export {
-  IIconTabsPanelProps,
-  ITabsPanelProps,
-  ITabsPanelState,
-  ITabsPanelStyle,
-  ITabsPanelTypes
-} from './types';
+export * from './TabsPanel';
+export * from './types';
