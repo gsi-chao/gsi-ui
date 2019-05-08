@@ -227,6 +227,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               editColumn: {
                 columns: ['name', 'other']
               },
+              resultDataEdited:'CELL',
               onSave: this.onSave,
               invalidDataMessage: (invalidColumns: string[]) => {
                 showToastNotification({

@@ -885,6 +885,7 @@ export const VTable = (props: IProps) => {
           const dataKey = utils.dataKey(row, col);
           setSparseCellUpdateData(dataKey, value);
           setStateData(row, col, value);
+          setDataEdited(row, col, value);
         }
       });
     }
