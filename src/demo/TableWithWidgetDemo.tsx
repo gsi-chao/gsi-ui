@@ -19,8 +19,8 @@ export const dropDown: IVWidgetTableProps = {
       filterable: true
     },
     colorCell: {
-      column:'dropdown',
-      row:1,
+      column: 'dropdown',
+      row: 1,
       backgroundColor: 'blue',
       color: 'white',
       printColor: () => {
@@ -31,7 +31,7 @@ export const dropDown: IVWidgetTableProps = {
 };
 
 export const colorWidget: IVWidgetTableProps = {
-  row:1,
+  row: 1,
   widget: {
     type: 'COLOR',
     colorCell: {
@@ -49,8 +49,8 @@ export const checkboxWidget: IVWidgetTableProps = {
   widget: {
     type: 'CHECKBOX',
     colorCell: {
-      column:'checkbox',
-      row:1,
+      column: 'checkbox',
+      row: 1,
       backgroundColor: 'orange',
       color: 'white',
       printColor: () => {
@@ -62,12 +62,12 @@ export const checkboxWidget: IVWidgetTableProps = {
 
 export const editWidget: IVWidgetTableProps = {
   column: 'name',
-  row:1,
+  row: 1,
   widget: {
     type: 'EDIT',
     colorCell: {
-      column:'name',
-      row:1,
+      column: 'name',
+      row: 1,
       backgroundColor: 'orange',
       color: 'white',
       printColor: () => {
@@ -85,7 +85,7 @@ export const datetimeWidget: IVWidgetTableProps = {
       icon: 'calendar'
     },
     colorCell: {
-      column:'fecha',
+      column: 'fecha',
       backgroundColor: 'orange',
       color: 'white',
       printColor: () => {
@@ -103,13 +103,13 @@ export const customerwidget: IVWidgetTableProps = {
       renderCustomer: (value: string): ReactNode => {
         return (
           <div>
-            <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
+            <Icon icon={'phone'} iconSize={15} intent={'success'}/> {value}
           </div>
         );
       }
     },
     colorCell: {
-      row:1,
+      row: 1,
       backgroundColor: 'orange',
       color: 'white',
       printColor: () => {
@@ -121,19 +121,20 @@ export const customerwidget: IVWidgetTableProps = {
 export const renderCustomer = (value: string): ReactNode => {
   return (
     <div>
-      <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
+      <Icon icon={'phone'} iconSize={15} intent={'success'}/> {value}
     </div>
   );
 };
 export const widgetsCell: IVWidgetTableProps[] = [
-   dropDown,
+  dropDown,
   colorWidget,
-   datetimeWidget,
-   checkboxWidget,
-   customerwidget
+  datetimeWidget,
+  checkboxWidget,
+  customerwidget
 ];
 
-interface IProps {}
+interface IProps {
+}
 
 interface IState {
   changeColor: boolean;
@@ -187,7 +188,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
   };
 
   toggleFilterColumn = () => {
-    this.setState({filterColumn: !this.state.filterColumn});
+    this.setState({ filterColumn: !this.state.filterColumn });
   };
 
   render() {
@@ -211,9 +212,9 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 console.log('onSelectionCleaned', value);
               },
               clearSelection: this.state.clearSelection,
-              onDoubleClick:(value:any,rowIndex:number,columnIndex:number,columnName:string)=>{
+              onDoubleClick: (value: any, rowIndex: number, columnIndex: number, columnName: string) => {
 
-                console.log('doble click',value,rowIndex,columnIndex,columnName)
+                console.log('doble click', value, rowIndex, columnIndex, columnName);
 
               }
             }}
@@ -224,7 +225,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             }}
             edit={{
               editColumn: {
-                columns: ['name','other']
+                columns: ['name', 'other']
               },
               onSave: this.onSave,
               invalidDataMessage: (invalidColumns: string[]) => {
@@ -236,7 +237,6 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                   timeout: 8000
                 });
               },
-
               editToolbar: {
                 textSave: 'Salvar',
                 textCancel: 'Cancelar',
@@ -341,14 +341,14 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
           />
         </div>
 
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
         <button onClick={this.changeColumn}>cambiar columnas</button>
@@ -360,7 +360,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         >
           cambiar datos
         </button>
-        <br />
+        <br/>
         <span> tipo de seleccion </span>
         <select onChange={this.handleChangeType}>
           <option value={'CELL'}>CELL</option>
@@ -384,8 +384,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
           {' '}
           habilitar seleccion
         </button>
-        <br />
-        <br />
+        <br/>
+        <br/>
       </React.Fragment>
     );
   }

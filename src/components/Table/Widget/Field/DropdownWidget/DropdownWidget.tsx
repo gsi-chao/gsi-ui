@@ -105,7 +105,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
     );
   };
 
-  handleValueChange = (option: IOption) => {
+   handleValueChange = (option: IOption) => {
     this.setState({ valueSelected: option.value });
     this.props.onClick(this.props.row, this.props.column, option.value);
   };

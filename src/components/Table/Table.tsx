@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect,  useRef, useState } from 'react';
 import {
   Cell,
   IMenuContext,
@@ -108,7 +108,6 @@ export interface IVTableProps {
   cellSelectionType?: CellSelectionType;
   onSelectionChange?: any;
   actionsSelection?: IActionSelection;
-  editSetup?: EditSetup;
   tableHeight?: string;
   striped?: boolean;
   textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
@@ -179,7 +178,7 @@ export const VTable = React.memo((props: IProps) => {
   });
 
   const onColWidthChanged = (index: number, size: number) => {
-    setColumnsWidth(makeResponsiveTable({index, size}));
+    setColumnsWidth(makeResponsiveTable({ index, size }));
   };
 
   const makeResponsiveTable = (columnsResized?: {
@@ -1191,17 +1190,65 @@ export const VTable = React.memo((props: IProps) => {
     const dataKey = utils.dataKey(rowIndex, columnIndex);
     setSparseCellUpdateData(dataKey, newValue);
     setStateData(rowIndex, columnIndex, newValue);
-    setDataEdited(rowIndex);
+    setDataEdited(rowIndex, columnIndex, newValue);
   };
 
-  const setDataEdited = (rowIndex: number) => {
+  const getInfoSelection = (rowIndex: number, columnIndex: number) => {
+    return {
+      rowIndex,
+      columnIndex: columnIndex!,
+      columnName: props.columns[columnIndex!]
+    };
+  };
+
+  const setRowDataEdited = (rowIndex: number, columnIndex: number) => {
     const dataEdited = stateTable.dateEdited;
     const rowEdited = dataEdited.find(x => x.rowIndex === rowIndex);
     if (rowEdited) {
       rowEdited.data = stateTable.sparseCellData[rowIndex];
     } else {
-      dataEdited.push({ rowIndex, data: stateTable.sparseCellData[rowIndex] });
+      dataEdited.push({
+        rowIndex,
+        infoSelection: getInfoSelection(rowIndex, columnIndex),
+        data: stateTable.sparseCellData[rowIndex]
+      });
     }
+  };
+
+  const setRowColDataEdited = (
+    rowIndex: number,
+    columnIndex: number,
+    newValue: string
+  ) => {
+    const dataEdited = stateTable.dateEdited;
+    const rowColEdited = dataEdited.find(
+      x =>
+        x.infoSelection!.rowIndex === rowIndex &&
+        x.infoSelection!.columnIndex === columnIndex
+    );
+
+    if (rowColEdited) {
+      rowColEdited.data = { value: newValue };
+    } else {
+      dataEdited.push({
+        rowIndex,
+        infoSelection: getInfoSelection(rowIndex, columnIndex),
+        data: { value: newValue }
+      });
+    }
+    return;
+  };
+
+  const setDataEdited = (
+    rowIndex: number,
+    columnIndex: number,
+    newValue: string
+  ) => {
+    if (props.edit && props.edit.resultDataEdited === 'CELL') {
+      setRowColDataEdited(rowIndex, columnIndex, newValue);
+      return;
+    }
+    setRowDataEdited(rowIndex, columnIndex);
   };
 
   const isValidValue = (columnIndex: number, value: string) => {
@@ -1289,7 +1336,6 @@ export const VTable = React.memo((props: IProps) => {
       }
     }
 
-
     if (edit && edit.editColumn.columns === 'ALL') {
       return (
         <CellDiv isValid={valid} as={Cell}>
@@ -1314,7 +1360,9 @@ export const VTable = React.memo((props: IProps) => {
 
     return edit &&
       edit.editColumn.columns !== 'ALL' &&
-      edit.editColumn.columns.some((x:string)=>x=== columns[columnIndex])  ? (
+      edit.editColumn.columns.some(
+        (x: string) => x === columns[columnIndex]
+      ) ? (
       <CellDiv isValid={valid} as={Cell}>
         {' '}
         <Widget
@@ -1333,7 +1381,6 @@ export const VTable = React.memo((props: IProps) => {
         />
       </CellDiv>
     ) : (
-
       <CellDiv isValid={valid} as={Cell}>
         <Widget
           row={rowIndex}
