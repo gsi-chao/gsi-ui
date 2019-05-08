@@ -99,6 +99,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
               id
             }}
             onChange={this.onChange}
+            onKeyPress={(e:any)=>{  this.props.onKeyPress  && this.props.onKeyPress(e)}}
             value={this.valueField}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE

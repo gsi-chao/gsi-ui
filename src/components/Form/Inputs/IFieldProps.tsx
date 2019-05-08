@@ -19,6 +19,7 @@ export interface IFieldProps {
   noLabel?: boolean;
   layer?: ILayer;
   onChange?: (value: any) => void;
+  onKeyPress?: (e: any) => void;
   required?: boolean;
   validators?: any[];
   minimal?: boolean;

@@ -87,6 +87,8 @@ class InputsDemo extends Component {
   @action setSelectedValue = (value: any) => {
     this.selectValue = value;
   };
+
+
   render() {
     const itemsUnassigned: IItemsList[] = [
       { active: false, text: 'Item1', value: 'item1' },
@@ -137,6 +139,7 @@ class InputsDemo extends Component {
         id="username"
         label={'Username'}
         inline={true}
+
       />,
       <VTextAreaField
         fill
