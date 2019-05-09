@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { VPagination, IInfoPage } from '../components';
+import { IInfoPage, VPagination } from '../components';
 
 interface ISate {
   allCountries: any[];

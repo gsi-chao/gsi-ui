@@ -21,12 +21,7 @@ import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
 
 import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectItems';
 import { IItemsList } from '../components/SelectionList';
-import {
-  IItemMultiple,
-  VSelectMultiple
-} from '../components/Form/Inputs/SelectMultipleField';
 import { VCarousel } from '../components/Scroll';
-import { VSpinner } from '../components/Spinner';
 import { VOrgChart } from '../components/VOrgChart/VOrgChart';
 import { MultiSelectExample } from '../components/Form/Inputs/SelectMultipleTags';
 
@@ -73,7 +68,7 @@ class InputsDemo extends Component {
       places: new FieldState(sex[0].value),
       date: new FieldState(moment().toDate()),
       multiple: new FieldState([]),
-      movies: new FieldState([]),
+      movies: new FieldState([])
     });
     this.selectValue = store[0].value;
   }
@@ -87,7 +82,6 @@ class InputsDemo extends Component {
   @action setSelectedValue = (value: any) => {
     this.selectValue = value;
   };
-
 
   render() {
     const itemsUnassigned: IItemsList[] = [
@@ -139,7 +133,6 @@ class InputsDemo extends Component {
         id="username"
         label={'Username'}
         inline={true}
-
       />,
       <VTextAreaField
         fill
@@ -239,9 +232,7 @@ class InputsDemo extends Component {
           placeholder={'evil placeholder...'}
           fieldState={this.form.$.movies}
           onChange={() => {
-            console.log(
-              this.form.$.movies.value
-            );
+            console.log(this.form.$.movies.value);
           }}
         />
         <VOrgChart

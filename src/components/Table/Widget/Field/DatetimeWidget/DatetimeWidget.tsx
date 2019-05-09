@@ -11,14 +11,13 @@ import { IconName } from '@blueprintjs/icons';
 export interface IDatetimeWidget {
   icon?: IconName | MaybeElement;
   value: string;
-
 }
 
 export interface IProps
   extends IDatetimeWidget,
     ActionClickWidget,
     IPropsWidgets {
-  color:string;
+  color: string;
 }
 
 class DatetimeWidget extends Component<IProps, IDatetimeWidget> {

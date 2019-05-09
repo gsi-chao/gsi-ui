@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
 /** FieldState */
-import { IconName, NumericInput, Intent } from '@blueprintjs/core';
+import { IconName, Intent, NumericInput } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledNumericInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';

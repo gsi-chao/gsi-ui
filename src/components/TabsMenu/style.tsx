@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ITabsMenuStyle } from './types';
+
 export const TabsStyle = styled.div`
   & .bp3-tab {
     color: ${(prop: ITabsMenuStyle) => prop.color && prop.color};

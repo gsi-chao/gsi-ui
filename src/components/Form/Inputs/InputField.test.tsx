@@ -1,11 +1,9 @@
-import { mount } from 'enzyme';
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { FieldState, FormState } from 'formstate';
 
 import { required } from '../Validators';
 import { VInputField } from './InputField';
-import { InputGroup } from '@blueprintjs/core';
 import ReactDOM from 'react-dom';
 
 it('renders without crashing Progress Label', () => {

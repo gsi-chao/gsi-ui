@@ -1,15 +1,14 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
-import { FormGroup, Intent, TextArea } from '@blueprintjs/core';
-/** FieldState */
-
+import { Intent, TextArea } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledTextArea } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
 import { computed } from 'mobx';
+/** FieldState */
 
 /**
  * Field Props

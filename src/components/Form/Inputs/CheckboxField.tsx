@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
 /** FieldState */
-import { Intent, Checkbox, Alignment } from '@blueprintjs/core';
+import { Alignment, Checkbox, Intent } from '@blueprintjs/core';
 
 import { IFieldProps } from './IFieldProps';
 import { StyledCheckBoxInput } from './style';

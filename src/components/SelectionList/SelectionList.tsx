@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Classes, Menu, MenuItem } from '@blueprintjs/core';
+import { Classes } from '@blueprintjs/core';
 import {
   ElevationType,
   IItemsList,

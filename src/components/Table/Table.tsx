@@ -1,11 +1,4 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-  useMemo,
-  useRef,
-  useState
-} from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Cell,
   IMenuContext,
@@ -26,7 +19,7 @@ import {
   IVContextualTableProps
 } from './ActionCellsMenuItem';
 import ReactResizeDetector from 'react-resize-detector';
-import { cloneDeep, fill } from 'lodash';
+import { cloneDeep } from 'lodash';
 
 import { CellDiv, ISelectionStyle, TableContainer } from './style';
 import Widget, { IVWidgetTableProps, IWidget } from './Widget/Widget';

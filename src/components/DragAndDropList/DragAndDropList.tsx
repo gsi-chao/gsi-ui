@@ -3,13 +3,13 @@ import { find } from 'lodash';
 import {
   DragDropContext,
   Draggable,
+  DraggableLocation,
+  DraggableProvided,
+  DraggableStateSnapshot,
   Droppable,
   DroppableProvided,
-  DraggableLocation,
-  DropResult,
   DroppableStateSnapshot,
-  DraggableProvided,
-  DraggableStateSnapshot
+  DropResult
 } from 'react-beautiful-dnd';
 import { DNDContainer, DNDItem, DNDList } from './style';
 import { VCardPanel } from '../Card';

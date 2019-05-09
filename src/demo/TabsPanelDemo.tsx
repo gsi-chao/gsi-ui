@@ -42,7 +42,8 @@ class TabsPanelDemo extends Component {
                 confirmButtonText: 'Confirm',
                 cancelButtonText: 'Stay in tab',
                 canEscapeKeyCancel: true,
-                bodyText: 'Are you sure you want to change the tab, changes will be lost',
+                bodyText:
+                  'Are you sure you want to change the tab, changes will be lost',
                 intent: 'success'
               }}
             />

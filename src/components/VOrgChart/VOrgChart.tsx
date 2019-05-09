@@ -1,9 +1,10 @@
 import React from 'react';
 import $ from 'jquery';
-require('orgchart/dist/js/jquery.orgchart.min');
 import 'orgchart/dist/css/jquery.orgchart.min.css';
 import 'orgchart/demo/css/font-awesome.min.css';
 import { OrgChartContainer } from './styles';
+
+require('orgchart/dist/js/jquery.orgchart.min');
 
 export interface VOrgChartProps {
   dataSource: any;
@@ -106,7 +107,7 @@ export class VOrgChart extends React.Component<VOrgChartProps, VOrgChartState> {
       if (this.props.onReorder) {
         this.props.onReorder(this.state.dataSource);
       }
-    })
+    });
   };
 
   componentWillUnmount() {

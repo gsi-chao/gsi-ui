@@ -88,7 +88,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
           <InputGroup
             large={size === 'large'}
             small={size === 'small'}
-            rightElement={ rightElement || rightEl}
+            rightElement={rightElement || rightEl}
             name={id}
             {...{
               round,
@@ -99,7 +99,9 @@ export class VInputField extends React.Component<IInputFieldProps> {
               id
             }}
             onChange={this.onChange}
-            onKeyPress={(e:any)=>{  this.props.onKeyPress  && this.props.onKeyPress(e)}}
+            onKeyPress={(e: any) => {
+              this.props.onKeyPress && this.props.onKeyPress(e);
+            }}
             value={this.valueField}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE

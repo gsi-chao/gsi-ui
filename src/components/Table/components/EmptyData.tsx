@@ -5,15 +5,12 @@ import { MaybeElement } from '@blueprintjs/core/src/common/props';
 import { ISettingEmptyData } from '../Table';
 
 interface IEmptyData {
-  settings: ISettingEmptyData | undefined
+  settings: ISettingEmptyData | undefined;
 }
 
 const EmptyData = (props: IEmptyData) => {
   const text: string =
-    (props &&
-      props.settings &&
-      props.settings!.text &&
-      props.settings!.text) ||
+    (props && props.settings && props.settings!.text && props.settings!.text) ||
     'No data';
   const color: string =
     (props &&
@@ -49,10 +46,7 @@ const EmptyData = (props: IEmptyData) => {
     22;
 
   const icon: IconName | MaybeElement =
-    (props &&
-      props.settings &&
-      props.settings!.icon &&
-      props.settings!.icon) ||
+    (props && props.settings && props.settings!.icon && props.settings!.icon) ||
     'th';
 
   const customerIcon =

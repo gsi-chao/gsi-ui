@@ -1,24 +1,10 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-
 /** Blueprint */
-import {
-  FormGroup,
-  Intent,
-  Alignment,
-  Radio,
-  RadioGroup,
-  IOptionProps
-} from '@blueprintjs/core';
+import { Alignment, Intent, IOptionProps, RadioGroup } from '@blueprintjs/core';
 
 import { IFieldProps } from './IFieldProps';
-import {
-  IStyledFieldProps,
-  layerInPercent,
-  StyledFormGroup,
-  StyledRadioButton
-} from './style';
-import styled from 'styled-components';
+import { StyledRadioButton } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
 import { computed } from 'mobx';

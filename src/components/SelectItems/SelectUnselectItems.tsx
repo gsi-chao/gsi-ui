@@ -10,7 +10,6 @@ import {
   VSelectionListStyled
 } from './styles';
 import { IItemsList } from '../SelectionList';
-import { VCardPanel } from '../Card';
 import { VSelectField } from '../Form';
 
 export interface ISelectItemsProps {
