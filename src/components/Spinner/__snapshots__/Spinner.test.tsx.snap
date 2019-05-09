@@ -2,7 +2,7 @@
 
 exports[`render correctly Spinner 1`] = `
 <div
-  className="sc-bdVaJa gGWNPN"
+  className="sc-bdVaJa dPlkEX"
 >
   <div
     className="bp3-spinner bp3-intent-primary"

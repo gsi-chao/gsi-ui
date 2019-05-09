@@ -2,7 +2,6 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
 import {
-  FormGroup,
   HTMLSelect,
   IIconProps,
   Intent,

@@ -57,7 +57,6 @@ class App extends Component {
         <div style={{ width: '100%' }}>
           <VTable
             striped
-
             columns={[
               'name',
               'lastname',
@@ -86,12 +85,11 @@ class App extends Component {
                 }
               ]
             }}
-
             edit={{
               editColumn: {
                 columns: 'ALL'
               },
-              onSave: ()=>{},
+              onSave: () => {},
               invalidDataMessage: (invalidColumns: string[]) => {
                 showToastNotification({
                   type: 'danger',
@@ -118,8 +116,14 @@ class App extends Component {
             numFrozenRows={2}
             numFrozenColumns={1}
             actionsSelection={{
-
-              onDoubleClick:(value:any,rowIndex:number,columnIndex:number,columnName:string)=>{console.log('doble click')}
+              onDoubleClick: (
+                value: any,
+                rowIndex: number,
+                columnIndex: number,
+                columnName: string
+              ) => {
+                console.log('doble click');
+              }
             }}
           />
         </div>

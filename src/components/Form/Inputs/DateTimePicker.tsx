@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import moment from 'moment';
-
 /** Blueprint */
 import { Icon, IconName, Intent } from '@blueprintjs/core';
 import { DateInput, IDateFormatProps, TimePicker } from '@blueprintjs/datetime';

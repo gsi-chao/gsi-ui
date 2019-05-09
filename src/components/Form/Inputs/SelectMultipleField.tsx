@@ -1,12 +1,7 @@
 import { observer } from 'mobx-react';
-import React  from 'react';
+import React from 'react';
 /** Blueprint */
-import {
-  Button,
-  IconName,
-  Intent,
-  MenuItem
-} from '@blueprintjs/core';
+import { Button, IconName, Intent, MenuItem } from '@blueprintjs/core';
 /** FieldState */
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 

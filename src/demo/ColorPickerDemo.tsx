@@ -3,9 +3,9 @@ import {
   TypePickerColor,
   VColorPicker,
   VColorResult,
-  VHSLColor, VRGBColor
+  VHSLColor,
+  VRGBColor
 } from '../components/ColorPicker';
-
 
 interface IState {
   typePickerColor: TypePickerColor;
@@ -20,7 +20,7 @@ class ColorPickerDemo extends Component<any, IState> {
     this.state = {
       typePickerColor: 'SketchPicker',
       color: 'blue',
-      disable:false
+      disable: false
     };
   }
 
@@ -74,7 +74,7 @@ class ColorPickerDemo extends Component<any, IState> {
             });
           }}
         >
-          {this.state.disable? 'enable':'disable'}
+          {this.state.disable ? 'enable' : 'disable'}
         </button>
         <br />
       </div>

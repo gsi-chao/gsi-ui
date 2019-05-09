@@ -1,6 +1,6 @@
 import React, { Component, ReactNode } from 'react';
 import moment from 'moment';
-import  { IColorWidget } from './Field/ColorWidget/ColorWidget';
+import { IColorWidget } from './Field/ColorWidget/ColorWidget';
 import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
 import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
 import DropdownWidget, { IOption } from './Field/DropdownWidget/DropdownWidget';
@@ -128,7 +128,10 @@ class Widget extends Component<IVWidget> {
           this.props.cusmtomerCell.renderCustomer(this.props.value);
           const colorSetting = this.getColorSetting();
           return (
-            <CenterWidget onDoubleClick={this.onDoubleClick} backgroundColor={colorSetting.backgroundColor}>
+            <CenterWidget
+              onDoubleClick={this.onDoubleClick}
+              backgroundColor={colorSetting.backgroundColor}
+            >
               <div style={{ padding: ' 0px 11px', color: colorSetting.color }}>
                 {this.props.cusmtomerCell.renderCustomer(this.props.value)}
               </div>
@@ -137,18 +140,22 @@ class Widget extends Component<IVWidget> {
         }
       }
       case 'EDIT': {
+        const editWidget = (
+          <InputWidget
+            onClick={this.props.onClick}
+            value={this.props.value}
+            row={this.props.row}
+            column={this.props.column}
+            disable={this.getDisable()}
+            isValid={this.props.isValid}
+            textAlign={this.props.textAlign}
+          />
+        );
 
-        const editWidget = ( <InputWidget
-          onClick={this.props.onClick}
-          value={this.props.value}
-          row={this.props.row}
-          column={this.props.column}
-          disable={this.getDisable()}
-          isValid={this.props.isValid}
-          textAlign={this.props.textAlign}
-        />);
-
-        return this.renderWidget(editWidget,this.getColorSetting().backgroundColor);
+        return this.renderWidget(
+          editWidget,
+          this.getColorSetting().backgroundColor
+        );
       }
     }
     return null;
@@ -177,8 +184,17 @@ class Widget extends Component<IVWidget> {
   }
 
   private getDefaultCell = () => {
-
-    return (<p style={{ margin: '0px 11px', width: '100%', textAlign: this.getTextAlign() }}> {this.props.value}</p>
+    return (
+      <p
+        style={{
+          margin: '0px 11px',
+          width: '100%',
+          textAlign: this.getTextAlign()
+        }}
+      >
+        {' '}
+        {this.props.value}
+      </p>
     );
   };
 
@@ -186,7 +202,10 @@ class Widget extends Component<IVWidget> {
     const backgroundColors = backgroundColor ? backgroundColor : 'transparent';
 
     return (
-      <CenterWidget onDoubleClick={this.onDoubleClick} backgroundColor={backgroundColors}>
+      <CenterWidget
+        onDoubleClick={this.onDoubleClick}
+        backgroundColor={backgroundColors}
+      >
         {widget ? widget : <p> {this.props.value}</p>}
       </CenterWidget>
     );
@@ -264,22 +283,55 @@ class Widget extends Component<IVWidget> {
         this.props.colorCell.color && this.props.colorCell.color.toLowerCase();
 
       return backgroundColor && color ? (
-        (<CenterWidget onDoubleClick={this.onDoubleClick} backgroundColor={backgroundColor}
-                       color={color}>
-          <p style={{ margin: '0px 11px', width: '100%', textAlign: this.getTextAlign() }}> {this.props.value}</p>
-        </CenterWidget>)
+        <CenterWidget
+          onDoubleClick={this.onDoubleClick}
+          backgroundColor={backgroundColor}
+          color={color}
+        >
+          <p
+            style={{
+              margin: '0px 11px',
+              width: '100%',
+              textAlign: this.getTextAlign()
+            }}
+          >
+            {' '}
+            {this.props.value}
+          </p>
+        </CenterWidget>
       ) : (
-        (<CenterWidget onDoubleClick={this.onDoubleClick} backgroundColor={backgroundColor}                  >
-          <p style={{ margin: '0px 11px', width: '100%', textAlign: this.getTextAlign() }}> {this.props.value}</p>
-        </CenterWidget>)
+        <CenterWidget
+          onDoubleClick={this.onDoubleClick}
+          backgroundColor={backgroundColor}
+        >
+          <p
+            style={{
+              margin: '0px 11px',
+              width: '100%',
+              textAlign: this.getTextAlign()
+            }}
+          >
+            {' '}
+            {this.props.value}
+          </p>
+        </CenterWidget>
       );
     }
 
-    return  (<CenterWidget onDoubleClick={this.onDoubleClick}   >
-      <p style={{ margin: '0px 11px', width: '100%', textAlign: this.getTextAlign() }}> {this.props.value}</p>
-    </CenterWidget>)
-
-
+    return (
+      <CenterWidget onDoubleClick={this.onDoubleClick}>
+        <p
+          style={{
+            margin: '0px 11px',
+            width: '100%',
+            textAlign: this.getTextAlign()
+          }}
+        >
+          {' '}
+          {this.props.value}
+        </p>
+      </CenterWidget>
+    );
   };
 
   private getDropdownCell = () => {

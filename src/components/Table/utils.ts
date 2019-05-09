@@ -66,4 +66,3 @@ export const getDefaultRowHeight = (typeHeightRow: any): number => {
   }
   return 35;
 };
-

@@ -41,7 +41,7 @@ export interface ITabsPanelProps {
   activeTextColor?: string;
   activeBorderColor?: string;
   beforeChangeTabValidation?: boolean;
-  tabsAlertProps? : TabsAlertProps;
+  tabsAlertProps?: TabsAlertProps;
   handleChange(tab: ITabsPanelTypes): void;
 }
 
@@ -62,7 +62,6 @@ export interface ITabsPanelTypes {
   activeBorderColor?: any;
 }
 
-
 export interface TabsAlertProps {
   cancelButtonText?: string;
   canEscapeKeyCancel?: boolean;
@@ -72,5 +71,5 @@ export interface TabsAlertProps {
   icon?: IconName | MaybeElement;
   intent?: Intent;
   style?: CSSProperties;
-  bodyText?:string;
+  bodyText?: string;
 }

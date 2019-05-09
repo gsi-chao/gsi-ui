@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export interface IProps {
   isValid: boolean;
-  color:string;
+  color: string;
 }
 
 export const DatetimeCell = styled.div`
@@ -62,6 +62,6 @@ export const DatetimeCell = styled.div`
     -moz-appearance: none;
     appearance: none;
     height: 17px !important;
-    color: ${(props:IProps)=>props.color}!important;
+    color: ${(props: IProps) => props.color}!important;
   }
 `;

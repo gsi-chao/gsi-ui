@@ -1,7 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import { VLoadProgressTask } from '../components/LoadProgressTask';
 import { Button } from '@blueprintjs/core';
-import { DragAndDropList } from '../components/DragAndDropList/DragAndDropList';
 
 interface IState {
   open: boolean;

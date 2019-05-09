@@ -3,23 +3,21 @@ import { ISetupEditToolbar, IVActionEditTableProps } from './Table';
 export type EditColumns = 'ALL';
 export type DefaultheightRow = 'SHORT' | 'HALF' | 'LONG';
 export type CellSelectionType = 'FREE' | 'ENTIRE_ROW' | 'CELL' | 'DISABLED';
-export type ResultDataEdited = 'ENTIRE_ROW' | 'CELL' ;
+export type ResultDataEdited = 'ENTIRE_ROW' | 'CELL';
 
 export interface EditSetup {
   editToolbar?: ISetupEditToolbar;
   editColumn: IVActionEditTableProps;
   onSave: (data: any) => void;
-  resultDataEdited? : ResultDataEdited;
+  resultDataEdited?: ResultDataEdited;
   invalidDataMessage?: (invalidColumns: string[]) => void;
 }
 
 export interface InfoSelection {
   rowIndex: number;
-  columnIndex:number;
-  columnName:string
-
+  columnIndex: number;
+  columnName: string;
 }
-
 
 export interface IDataEdited {
   rowIndex: number;
@@ -29,7 +27,12 @@ export interface IDataEdited {
 
 export interface IActionSelection {
   onSelectionChange?: any;
-  onDoubleClick?:(value:any,rowIndex:number,columnIndex:number,columnName:string)=>void;
+  onDoubleClick?: (
+    value: any,
+    rowIndex: number,
+    columnIndex: number,
+    columnName: string
+  ) => void;
   clearSelection?: boolean;
   onSelectionCleaned?: (isSelectionCleaned: boolean) => any;
 }

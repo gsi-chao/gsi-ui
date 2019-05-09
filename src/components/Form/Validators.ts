@@ -1,7 +1,8 @@
 import validator from 'validator';
 
 export const required = (val: any) =>
-  (!val || typeof val !== 'number' && !val.toString().length) && 'This field is required';
+  (!val || (typeof val !== 'number' && !val.toString().length)) &&
+  'This field is required';
 
 export const email = (value: string) =>
   !validator.isEmail(value) && `${value} is not a valid email.`;

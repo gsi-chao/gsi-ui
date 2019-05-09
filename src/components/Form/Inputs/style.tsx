@@ -88,12 +88,15 @@ export const StyledFormGroup = styled(FormGroup)`
                 & .gsi-input-and-error-container {
                   display: flex;
                   flex-direction: column;
-                ${fill ? 
-                `width: ${100}%;
+                ${
+                  fill
+                    ? `width: ${100}%;
                 & .bp3-popover-target {
                   width: 100%;
                 }
-                ` : `max-width: 200px;`};
+                `
+                    : `max-width: 200px;`
+                };
                 & .gsi-error-span {
                     padding-top: 1px;
                     font-size: 12px;

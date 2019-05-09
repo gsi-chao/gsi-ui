@@ -1,9 +1,9 @@
-import { Elevation, Collapse, IconName, Icon } from '@blueprintjs/core';
+import { Collapse, Elevation, Icon, IconName } from '@blueprintjs/core';
 import {
-  VCardHeader,
-  VCardBody,
-  VCardTextSpan,
   VCard,
+  VCardBody,
+  VCardHeader,
+  VCardTextSpan,
   VCardTextSpanContainer
 } from './style';
 import React, { Component } from 'react';

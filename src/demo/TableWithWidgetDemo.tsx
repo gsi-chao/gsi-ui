@@ -103,7 +103,7 @@ export const customerwidget: IVWidgetTableProps = {
       renderCustomer: (value: string): ReactNode => {
         return (
           <div>
-            <Icon icon={'phone'} iconSize={15} intent={'success'}/> {value}
+            <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
           </div>
         );
       }
@@ -121,7 +121,7 @@ export const customerwidget: IVWidgetTableProps = {
 export const renderCustomer = (value: string): ReactNode => {
   return (
     <div>
-      <Icon icon={'phone'} iconSize={15} intent={'success'}/> {value}
+      <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
     </div>
   );
 };
@@ -133,8 +133,7 @@ export const widgetsCell: IVWidgetTableProps[] = [
   customerwidget
 ];
 
-interface IProps {
-}
+interface IProps {}
 
 interface IState {
   changeColor: boolean;
@@ -182,7 +181,6 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     console.log(value);
   };
 
-
   handleFilter = (value1: any, value2: string) => {
     console.log(value1, value2);
   };
@@ -212,10 +210,19 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 console.log('onSelectionCleaned', value);
               },
               clearSelection: this.state.clearSelection,
-              onDoubleClick: (value: any, rowIndex: number, columnIndex: number, columnName: string) => {
-
-                console.log('doble click', value, rowIndex, columnIndex, columnName);
-
+              onDoubleClick: (
+                value: any,
+                rowIndex: number,
+                columnIndex: number,
+                columnName: string
+              ) => {
+                console.log(
+                  'doble click',
+                  value,
+                  rowIndex,
+                  columnIndex,
+                  columnName
+                );
               }
             }}
             filterByColumn={{
@@ -227,7 +234,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               editColumn: {
                 columns: ['name', 'other']
               },
-              resultDataEdited:'CELL',
+              resultDataEdited: 'CELL',
               onSave: this.onSave,
               invalidDataMessage: (invalidColumns: string[]) => {
                 showToastNotification({
@@ -329,7 +336,12 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               <div
                 style={{ width: '100%', height: 50, backgroundColor: 'teal' }}
               >
-                <Button minimal text={'Filter by column'} icon={'filter'} onClick={this.toggleFilterColumn}/>
+                <Button
+                  minimal
+                  text={'Filter by column'}
+                  icon={'filter'}
+                  onClick={this.toggleFilterColumn}
+                />
               </div>
             }
             footer={
@@ -342,14 +354,14 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
           />
         </div>
 
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
         <button onClick={this.changeColumn}>cambiar columnas</button>
@@ -361,7 +373,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         >
           cambiar datos
         </button>
-        <br/>
+        <br />
         <span> tipo de seleccion </span>
         <select onChange={this.handleChangeType}>
           <option value={'CELL'}>CELL</option>
@@ -385,8 +397,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
           {' '}
           habilitar seleccion
         </button>
-        <br/>
-        <br/>
+        <br />
+        <br />
       </React.Fragment>
     );
   }

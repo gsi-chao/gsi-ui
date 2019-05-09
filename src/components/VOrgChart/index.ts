@@ -1,1 +1,1 @@
-export * from './VOrgChart'
+export * from './VOrgChart';

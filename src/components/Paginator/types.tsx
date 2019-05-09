@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode } from 'react';
 import { FieldState } from 'formstate';
-import { MaybeElement, IconName } from '@blueprintjs/core';
+import { IconName, MaybeElement } from '@blueprintjs/core';
 
 export interface IInfoPage {
   totalPages: number;
