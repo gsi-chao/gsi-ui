@@ -13,6 +13,7 @@ import {
   printErrorWidgetByType
 } from './handleErrorSetupWidgets';
 import { TextAlignProperty } from 'csstype';
+import { InfoSelection } from '../type';
 
 export interface IVWidgetTableProps {
   column?: string;
@@ -61,7 +62,8 @@ export interface IVDropdownCell {
 }
 
 export interface IVCustomerWidget {
-  renderCustomer: (value: string) => ReactNode;
+  renderCustomer: (value: string, infoSelection?: InfoSelection) => ReactNode;
+  width?: string;
 }
 
 export interface IVCheckboxCell {
@@ -132,12 +134,21 @@ class Widget extends Component<IVWidget> {
               onDoubleClick={this.onDoubleClick}
               backgroundColor={colorSetting.backgroundColor}
             >
-              <div style={{ padding: ' 0px 11px', color: colorSetting.color }}>
-                {this.props.cusmtomerCell.renderCustomer(this.props.value)}
+              <div style={{
+                width: this.props.cusmtomerCell.width ? this.props.cusmtomerCell.width : 'auto',
+                padding: ' 0px 11px',
+                color: colorSetting.color
+              }}>
+                {this.props.cusmtomerCell.renderCustomer(this.props.value, {
+                  columnIndex: this.props.column,
+                  rowIndex: this.props.row,
+                  columnName: this.props.columns[this.props.column]
+                })}
               </div>
             </CenterWidget>
           );
         }
+        break;
       }
       case 'EDIT': {
         const editWidget = (
@@ -198,7 +209,7 @@ class Widget extends Component<IVWidget> {
     );
   };
 
-  private renderWidget(widget: any, backgroundColor?: string, color?: string) {
+  private renderWidget(widget: any, backgroundColor?: string) {
     const backgroundColors = backgroundColor ? backgroundColor : 'transparent';
 
     return (
