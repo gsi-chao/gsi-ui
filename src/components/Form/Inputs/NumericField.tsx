@@ -110,10 +110,10 @@ export class VNumericField extends React.Component<INumericFieldProps> {
   @computed
   get valueField() {
     if (this.props.fieldState) {
-      return this.props.fieldState.value;
+      return this.props.fieldState.value || '';
     }
     if (this.props.value) {
-      return this.props.value;
+      return this.props.value || '';
     }
     return 0;
   }
