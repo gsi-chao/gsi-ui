@@ -101,12 +101,14 @@ export const customerwidget: IVWidgetTableProps = {
     type: 'CUSTOMERCOMPONENT',
     cusmtomerCell: {
       renderCustomer: (value: string): ReactNode => {
+
         return (
-          <div>
-            <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
+          <div style={{ textAlign: 'center' }}>
+            <Icon icon={'phone'} iconSize={15} intent={'success'}/> {value}
           </div>
         );
-      }
+      },
+      width: '100%'
     },
     colorCell: {
       row: 1,
@@ -121,7 +123,7 @@ export const customerwidget: IVWidgetTableProps = {
 export const renderCustomer = (value: string): ReactNode => {
   return (
     <div>
-      <Icon icon={'phone'} iconSize={15} intent={'success'} /> {value}
+      <Icon icon={'phone'} iconSize={15} intent={'success'}/> {value}
     </div>
   );
 };
@@ -133,7 +135,8 @@ export const widgetsCell: IVWidgetTableProps[] = [
   customerwidget
 ];
 
-interface IProps {}
+interface IProps {
+}
 
 interface IState {
   changeColor: boolean;
@@ -354,14 +357,14 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
           />
         </div>
 
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
 
         <button onClick={this.handleChangeColor}>cambiar color</button>
         <button onClick={this.changeColumn}>cambiar columnas</button>
@@ -373,7 +376,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         >
           cambiar datos
         </button>
-        <br />
+        <br/>
         <span> tipo de seleccion </span>
         <select onChange={this.handleChangeType}>
           <option value={'CELL'}>CELL</option>
@@ -397,8 +400,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
           {' '}
           habilitar seleccion
         </button>
-        <br />
-        <br />
+        <br/>
+        <br/>
       </React.Fragment>
     );
   }
@@ -419,7 +422,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       widgetsCell[1].widget &&
       widgetsCell[1].widget.colorCell
     ) {
-      widgetsCell[1].widget.colorCell.backgroundColor = 'green';
+      widgetsCell[1].widget!.colorCell!.backgroundColor = 'green';
       this.setState({
         changeColor: !this.state.changeColor
       });

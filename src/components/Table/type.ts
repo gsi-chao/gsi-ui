@@ -13,7 +13,9 @@ export interface EditSetup {
   invalidDataMessage?: (invalidColumns: string[]) => void;
 }
 
+
 export interface InfoSelection {
+
   rowIndex: number;
   columnIndex: number;
   columnName: string;
