@@ -28,7 +28,7 @@ import {
 import { VCarousel } from '../components/Scroll';
 import { VSpinner } from '../components/Spinner';
 import { VOrgChart } from '../components/VOrgChart/VOrgChart';
-import { MultiSelectExample } from '../components/Form/Inputs/SelectMultipleTags';
+import { VSelectMultipleTags } from '../components/Form/Inputs/SelectMultipleTags';
 
 const store = [
   {
@@ -215,7 +215,7 @@ class InputsDemo extends Component {
 
     return (
       <React.Fragment>
-        <MultiSelectExample
+        <VSelectMultipleTags
           inline
           fill
           required
