@@ -23,7 +23,7 @@ import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectIte
 import { IItemsList } from '../components/SelectionList';
 import { VCarousel } from '../components/Scroll';
 import { VOrgChart } from '../components/VOrgChart/VOrgChart';
-import { MultiSelectExample } from '../components/Form/Inputs/SelectMultipleTags';
+import { VSelectMultipleTags } from '../components/Form/Inputs/SelectMultipleTags';
 
 const store = [
   {
@@ -211,7 +211,7 @@ class InputsDemo extends Component {
 
     return (
       <React.Fragment>
-        <MultiSelectExample
+        <VSelectMultipleTags
           inline
           fill
           required

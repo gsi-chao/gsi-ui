@@ -10,3 +10,4 @@ export { VSelectField } from './Inputs/SelectField';
 export { VDateTimePicker } from './Inputs/DateTimePicker';
 export { patchFormValues, getFormValue } from './utils';
 export { VSelectMultiple } from './Inputs/SelectMultipleField';
+export { VSelectMultipleTags } from './Inputs/SelectMultipleTags';

@@ -32,7 +32,7 @@ export interface IMultiSelectExampleState {
   tagMinimal: boolean;
 }
 
-export class MultiSelectExample extends React.PureComponent<
+export class VSelectMultipleTags extends React.Component<
   ISelectMultipleTags,
   IMultiSelectExampleState
 > {
@@ -108,7 +108,7 @@ export class MultiSelectExample extends React.PureComponent<
           fieldState={fieldState}
         >
           <MultiSelectTag
-            itemPredicate={this.filterFilm}
+            itemPredicate={this.filterItem}
             placeholder={placeholder || ''}
             {...flags}
             initialContent={initialContent}
@@ -224,7 +224,7 @@ export class MultiSelectExample extends React.PureComponent<
       this.updateFieldState();
     });
 
-  filterFilm: ItemPredicate<IItemMultiple> = (
+  filterItem: ItemPredicate<IItemMultiple> = (
     query: string,
     item: IItemMultiple,
     index: number | undefined
