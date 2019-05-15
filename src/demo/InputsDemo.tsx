@@ -7,6 +7,7 @@ import { action, observable } from 'mobx';
 import { Button } from '@blueprintjs/core';
 
 import {
+  getFormValue,
   VBasicSliderField,
   VCheckboxField,
   VInputField,
@@ -208,7 +209,7 @@ class InputsDemo extends Component {
       ]
     };
     const rightButton = <Button minimal icon={'lock'} />;
-
+    console.log(getFormValue(this.form));
     return (
       <React.Fragment>
         <VSelectMultipleTags

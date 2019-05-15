@@ -228,7 +228,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
             filterByColumn={{
               filterable: this.state.filterColumn,
               handleFilter: this.handleFilter,
-              filterType: 'SELECT'
+              filterType: 'INPUT'
             }}
             edit={{
               editColumn: {

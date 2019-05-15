@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ISortResult, IVActionSortableTableProps, IVTableOrder } from './Table';
 import { Column } from '@blueprintjs/table';
@@ -146,22 +146,12 @@ export default class TableColumn implements ISortableColumn {
         nameRenderer={this.renderHeader}
       >
         {this.filterByColumn && this.filterByColumn.filterable ? (
-          this.filterByColumn.filterType === 'SELECT' ? (
-            <StyledHeaderFilterSelectContainer>
-              <VSelectMultiple
-                fieldState={this.form.$.filter}
-                onChange={this.handleFilter}
-                options={this.options || []}
-                id={`headerFilter${this.index}`}
-              />
-            </StyledHeaderFilterSelectContainer>
-          ) : (
-            <StyledHeaderFilterInput
-              fieldState={this.form.$.filter}
-              onChange={this.handleFilter}
-              id={`headerFilter${this.index}`}
-            />
-          )
+          <FilterInput
+            value={''}
+            index={this.index}
+            handleFilter={this.handleFilter}
+            type={this.filterByColumn.filterType}
+          />
         ) : null}
       </ColumnHeaderCellStyled>
     );
@@ -263,3 +253,37 @@ export default class TableColumn implements ISortableColumn {
       : this.columns[columnIndex].replace(/\b\w/g, l => l.toUpperCase());
   }
 }
+
+export interface FilterInputProps {
+  value: any;
+  handleFilter(value: any): void;
+  index: any;
+  options?: any[];
+  type?: 'SELECT' | 'INPUT';
+}
+
+export const FilterInput = (props: FilterInputProps) => {
+
+  const [value, setValue] = useState(props.value || '');
+  const handleFilter = (value: any) => {
+    props.handleFilter(value);
+    setValue(value);
+  };
+
+  return props.type === 'SELECT' ? (
+    <StyledHeaderFilterSelectContainer>
+      <VSelectMultiple
+        value={value}
+        onChange={handleFilter}
+        id={`headerFilter${props.index}`}
+        options={props.options || []}
+      />
+    </StyledHeaderFilterSelectContainer>
+  ) : (
+    <StyledHeaderFilterInput
+      value={value}
+      onChange={handleFilter}
+      id={`headerFilter${props.index}`}
+    />
+  );
+};
