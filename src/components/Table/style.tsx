@@ -144,6 +144,7 @@ export const TableContainer = styled.div`
 
 export const StyledHeaderFilterInput = styled(VInputField)`
   width: calc(100% - 9px);
+  max-width: 100%;
 `;
 export const StyledHeaderFilterSelect = styled(VSelectField)`
   width: calc(100% - 9px);
@@ -154,6 +155,7 @@ export const StyledHeaderFilterSelect = styled(VSelectField)`
 export const StyledHeaderFilterSelectContainer = styled.div`
   & > .bp3-form-group {
     width: calc(100% - 9px);
+    max-width: 100%;
   }
   .gsi-input-and-error-container {
     width: 100% !important;

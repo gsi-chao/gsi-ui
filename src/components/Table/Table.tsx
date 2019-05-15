@@ -267,6 +267,7 @@ export const VTable = (props: IProps) => {
 
   const saveEdit = () => {
     if (stateTable.invalidCells.length === 0) {
+      console.log(stateTable.dateEdited);
       props.edit!.onSave(stateTable.dateEdited);
       setStateTable({
         ...stateTable,

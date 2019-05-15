@@ -13,6 +13,11 @@ import PaginatorDemo from './demo/PaginatorDemo';
 import { showToastNotification } from './components/ToastNotification';
 
 class App extends Component {
+
+  onSave = (data: any) => {
+    console.log(data)
+  };
+
   render() {
     const data = [
       {
@@ -67,6 +72,7 @@ class App extends Component {
               'age4',
               'age5'
             ]}
+            cellSelectionType={'ENTIRE_ROW'}
             columns_name={{ name: 'mi nombre' }}
             reordering={true}
             sortable={{ columns: ['name'], onSort: this.onSort }}
@@ -86,10 +92,10 @@ class App extends Component {
               ]
             }}
             edit={{
+              onSave: this.onSave,
               editColumn: {
-                columns: 'ALL'
+                columns: ['lastname']
               },
-              onSave: () => {},
               invalidDataMessage: (invalidColumns: string[]) => {
                 showToastNotification({
                   type: 'danger',
