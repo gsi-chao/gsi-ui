@@ -29,12 +29,12 @@ const InfoPage = (props: IInfoPage) => {
     <div style={{ margin: '0px 10px' }}>
       {props.currentPage && (
         <span>
-          Page <strong>{props.currentPage}</strong> of
-          <strong>{props.totalPages}</strong>
+          {props.pageLabel ? props.pageLabel: 'Page'} <strong>{props.currentPage}</strong> {props.ofLabel ? props.ofLabel: 'of'}
+           <strong> {props.totalPages} </strong>
         </span>
       )}
       <span>
-        Total: <strong className="text-secondary">{` ${props.totals}`}</strong>
+       {props.totalLabel ? props.totalLabel: 'Total'}: <strong className="text-secondary">{` ${props.totals}`}</strong>
       </span>
     </div>
   );
@@ -233,6 +233,7 @@ export class VPagination extends Component<VPaginatorProps, IState> {
                     this.handleClick(page, e);
                   }}
                   isLast={index + 1 === pages.length}
+                  border={this.getBorderRadius()}
                 >
                   {page}
                 </Page>
@@ -271,12 +272,20 @@ export class VPagination extends Component<VPaginatorProps, IState> {
       : 'black';
   };
 
+  private getBorderRadius = () => {
+    return this.props.customerStyle
+      ? this.props.customerStyle.borderRadius
+        ? this.props.customerStyle.borderRadius
+        : '8px'
+      : '8px';
+  };
+
   getStyles: any = () => {
     return {
       display: 'flex',
       alignItems: 'center',
       border: 'solid 1px whitesmoke',
-      borderRadius: '8px',
+      borderRadius: this.getBorderRadius(),
       width: 'fit-content',
       ...this.props.style
     };
@@ -296,6 +305,9 @@ export class VPagination extends Component<VPaginatorProps, IState> {
         currentPage={currentPage}
         totalPages={this.getTotalPages()}
         totals={this.getTotalsRecord()}
+        pageLabel={this.props.labels?this.props.labels.pages: undefined}
+        ofLabel={this.props.labels?this.props.labels.of: undefined}
+        totalLabel={this.props.labels?this.props.labels.total: undefined}
       />
     );
   }

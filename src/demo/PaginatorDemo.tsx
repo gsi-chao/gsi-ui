@@ -216,7 +216,7 @@ class PaginatorDemo extends Component<any, ISate> {
     const { currentPage, totalPages } = data.paginationData;
 
     const offset = (currentPage - 1) * data.pageLimit;
-    //console.log('data', data);
+    // console.log('data', data);
 
     const currentCountries = this.getCountry().slice(
       offset,
@@ -252,6 +252,7 @@ class PaginatorDemo extends Component<any, ISate> {
           pageNeighbours={1}
           onPageChanged={this.onPageChanged}
           currentPage={this.state.currentPage}
+      labels={{pages:"paginas"}}
         />
 
         <p>Customer</p>
@@ -272,7 +273,8 @@ class PaginatorDemo extends Component<any, ISate> {
             pageSelectedColor: 'white',
             iconColor: 'white',
             pageHoverColor: 'black',
-            pageHoverBackgroundColor: '#1985A1'
+            pageHoverBackgroundColor: '#1985A1',
+            borderRadius:'0px'
           }}
         />
       </React.Fragment>

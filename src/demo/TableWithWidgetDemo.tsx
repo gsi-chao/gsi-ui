@@ -175,13 +175,13 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         'customer'
       ],
       clearSelection: undefined,
-      typeSelection: 'FREE',
+      typeSelection: 'CELL',
       filterColumn: false
     };
   }
 
   doSomethingAwesomeWithTheValue = (value: any) => {
-    console.log(value);
+    console.log('change selection',value);
   };
 
   handleFilter = (value1: any, value2: string) => {
