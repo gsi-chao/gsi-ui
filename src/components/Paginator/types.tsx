@@ -6,6 +6,9 @@ export interface IInfoPage {
   totalPages: number;
   currentPage: number;
   totals: number;
+  pageLabel?: string;
+  ofLabel?: string;
+  totalLabel?: string;
 }
 
 export interface IItemsByPages {
@@ -18,6 +21,9 @@ export interface IItemsByPages {
 
 export interface ILabels {
   itemsByPage?: string;
+  pages?: string;
+  of?: string;
+  total?: string;
   renderInfoDetails?: (infoPage: IInfoPage) => ReactNode;
 }
 
@@ -26,6 +32,7 @@ export interface IPaginatorStyle {
   pageSelectedColor?: string;
   pageHoverBackgroundColor?: string;
   pageHoverColor?: string;
+  borderRadius?:string;
   iconLeft?: IconName | MaybeElement;
   iconRight?: IconName | MaybeElement;
   iconColor?: string;
