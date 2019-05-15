@@ -39,6 +39,7 @@ export interface IActionCellMenuItemProps {
    */
   getCellData: (row: number, col: number) => any;
   contextOptions: IVColumnsContextual;
+  selectionData?:any
   onDefaultActions: (action: DefaultActions, value: any) => void;
   hasCachedData: any;
   tableColsAndRowsTotals: any;
@@ -109,12 +110,13 @@ export class ActionCellsMenuItem extends React.PureComponent<
             key={key}
             icon={value.icon}
             text={value.text}
-            onClick={value.action}
+            onClick={()=>{value.action(this.props.selectionData)}}
           />
         );
       });
     }
   };
+
 
   private handleCopy = () => {
     const { context } = this.props;

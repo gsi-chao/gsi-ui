@@ -33,6 +33,7 @@ import {
   EditSetup,
   IActionSelection,
   IDataEdited,
+  InfoSelection,
   ITextAlignColumn
 } from './type';
 import { IItemMultiple } from '../Form/Inputs/SelectMultipleField';
@@ -117,8 +118,7 @@ export interface IVTableProps {
   filterByColumn?: FilterByColumn;
 }
 
-interface IProps extends IVTableProps, ITableProps {
-}
+interface IProps extends IVTableProps, ITableProps {}
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -727,7 +727,82 @@ export const VTable = (props: IProps) => {
         }
       }
     }
+
     return columnContextual!;
+  };
+
+  const existSelection = () => {
+    return (
+      stateTable.selectedRegions &&
+      stateTable.selectedRegions.length > 0 &&
+      stateTable.selectedRegions[0].rows &&
+      stateTable.selectedRegions[0].rows!.length > 0
+    );
+  };
+
+  const getInitRowSelection = () => {
+    return stateTable.selectedRegions[0]!.rows![0];
+  };
+
+  const getEndRowSelection = () => {
+    return stateTable.selectedRegions[0]!.rows![1];
+  };
+
+  const getInitColSelection = () => {
+    return stateTable.selectedRegions[0]!.cols![0];
+  };
+
+  const getEndColSelection = () => {
+    return stateTable.selectedRegions[0]!.cols![1];
+  };
+
+  const getSelection = () => {
+    const { cellSelectionType } = props;
+
+    if (cellSelectionType === 'DISABLED') {
+      return;
+    }
+    if (existSelection()) {
+      switch (cellSelectionType) {
+        case 'ENTIRE_ROW': {
+          return getElementData(getInitRowSelection());
+        }
+
+        case 'CELL': {
+          const row = getEndRowSelection();
+          const col = getEndColSelection();
+          const data = stateTable.sparseCellData;
+          const value = data[row][props.columns[col]];
+          const infoSelection: InfoSelection = {
+            rowIndex: row,
+            columnIndex: col,
+            columnName: props.columns[col]
+          };
+          return { value, infoSelection };
+        }
+        case 'FREE': {
+          const rowInit = getInitRowSelection();
+          const rowEnd = getEndRowSelection();
+          const colInit = getInitColSelection();
+          const colEnd = getEndColSelection();
+
+          const selections: any[] = [];
+          for (let col: number = colInit; col <= colEnd; col++) {
+            for (let row: number = rowInit; row <= rowEnd; row++) {
+              const infoSelection: InfoSelection = {
+                rowIndex: row,
+                columnIndex: col,
+                columnName: props.columns[col]
+              };
+              const data = stateTable.sparseCellData;
+              const value = data[row][props.columns[col]];
+              selections.push({ value, infoSelection });
+            }
+          }
+          return selections;
+        }
+      }
+    }
   };
 
   const renderBodyContextMenu = (context: IMenuContext) => {
@@ -750,9 +825,10 @@ export const VTable = (props: IProps) => {
         tableColsAndRowsTotals={getRowAndColsTotals}
         getDataToCopy={getDataToCopy}
         getPivotCell={getPivotCell}
+        selectionData={getSelection()}
       />
     ) : (
-      <div/>
+      <div />
     );
   };
 
@@ -1003,7 +1079,11 @@ export const VTable = (props: IProps) => {
     return stateTable.selectedRegions;
   };
 
-  const throwOnSelectionChange = (regions: IRegion[], pos: 0 | 1, onSelectionChange?: any) => {
+  const throwOnSelectionChange = (
+    regions: IRegion[],
+    pos: 0 | 1,
+    onSelectionChange?: any
+  ) => {
     if (
       regions &&
       regions.length > 0 &&
@@ -1040,12 +1120,21 @@ export const VTable = (props: IProps) => {
     ) {
       regions = getEntireRowsRegions(argsRegions);
       if (props.actionsSelection && props.actionsSelection.onSelectionChange) {
-        throwOnSelectionChange(regions, 0, props.actionsSelection.onSelectionChange);
+        throwOnSelectionChange(
+          regions,
+          0,
+          props.actionsSelection.onSelectionChange
+        );
       }
     } else if (!cellSelectionType || cellSelectionType === 'FREE') {
       regions = getFreeSelectionRegions(argsRegions);
+
       if (props.actionsSelection && props.actionsSelection.onSelectionChange) {
-        throwOnSelectionChange(regions, 1, props.actionsSelection.onSelectionChange);
+        throwOnSelectionChange(
+          regions,
+          1,
+          props.actionsSelection.onSelectionChange
+        );
       }
     } else if (!cellSelectionType || cellSelectionType === 'CELL') {
       regions = getCellSelectionRegions(argsRegions);
@@ -1147,19 +1236,19 @@ export const VTable = (props: IProps) => {
     const widgetsValid: IVWidgetTableProps[] = [];
 
     stateTable.widgetsCell &&
-    stateTable.widgetsCell.forEach((widget: IVWidgetTableProps) => {
-      if (widget.column) {
-        if (columns.filter(x => x === widget.column).length === 1) {
+      stateTable.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+        if (widget.column) {
+          if (columns.filter(x => x === widget.column).length === 1) {
+            widgetsValid.push(widget);
+          }
+        } else if (
+          widget.column === undefined &&
+          widget.row &&
+          widget.row <= stateTable.sparseCellData.length
+        ) {
           widgetsValid.push(widget);
         }
-      } else if (
-        widget.column === undefined &&
-        widget.row &&
-        widget.row <= stateTable.sparseCellData.length
-      ) {
-        widgetsValid.push(widget);
-      }
-    });
+      });
 
     return widgetsValid;
   };
@@ -1281,8 +1370,8 @@ export const VTable = (props: IProps) => {
     const enableRowHeader = enableRowResizing
       ? true
       : props.enableRowHeader
-        ? props.enableRowHeader
-        : false;
+      ? props.enableRowHeader
+      : false;
 
     const enableColumnResizing = props.enableColumnResizing
       ? props.enableRowResizing
@@ -1368,10 +1457,10 @@ export const VTable = (props: IProps) => {
     }
 
     return edit &&
-    edit.editColumn.columns !== 'ALL' &&
-    edit.editColumn.columns.some(
-      (x: string) => x === columns[columnIndex]
-    ) ? (
+      edit.editColumn.columns !== 'ALL' &&
+      edit.editColumn.columns.some(
+        (x: string) => x === columns[columnIndex]
+      ) ? (
       <CellDiv isValid={valid} as={Cell}>
         {' '}
         <Widget
@@ -1394,8 +1483,7 @@ export const VTable = (props: IProps) => {
         <Widget
           row={rowIndex}
           column={columnIndex}
-          onClick={() => {
-          }}
+          onClick={() => {}}
           type={'DEFAULT'}
           value={value}
           disable={stateTable.edit}
@@ -1478,7 +1566,7 @@ export const VTable = (props: IProps) => {
       : makeResponsiveTable();
 
   return props.data.length === 0 || props.columns.length === 0 ? (
-    <EmptyData settings={props.settingEmptyData}/>
+    <EmptyData settings={props.settingEmptyData} />
   ) : (
     <ReactResizeDetector
       handleHeight
