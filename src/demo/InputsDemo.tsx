@@ -13,7 +13,7 @@ import {
   VInputField,
   VNumericField,
   VRadioGroupField,
-  VSelectField,
+  VSelectField, VSelectMultiple,
   VTagInputField,
   VTextAreaField
 } from '../components/Form';
@@ -169,7 +169,7 @@ class InputsDemo extends Component {
         onChange={this.setSelectedValue}
       />
     ];
-    let dataSource = {
+    const dataSource = {
       name: 'Hierarchy',
       title: 'Vertrax',
       id: 'root',
@@ -212,16 +212,19 @@ class InputsDemo extends Component {
     console.log(getFormValue(this.form));
     return (
       <React.Fragment>
-        <VSelectMultipleTags
+        <Button text={'Change Movies Value'} onClick={() => {
+          this.form.$.movies.onChange([1]);
+        }}/>
+        <VSelectMultiple
           inline
           fill
           required
           label={'Select movies:'}
           options={[
-            { label: 'The Shawshank Redemption', value: 1994 },
-            { label: 'The Godfather', value: 1972 },
-            { label: 'The Godfather: Part II', value: 1974 },
-            { label: 'The Dark Knight', value: 2008 }
+            { label: 'The Shawshank Redemption', value: 1 },
+            { label: 'The Godfather', value: 2 },
+            { label: 'The Godfather: Part II', value: 3 },
+            { label: 'The Dark Knight', value: 4 }
           ]}
           id={'selectMultipleTags'}
           layer={{

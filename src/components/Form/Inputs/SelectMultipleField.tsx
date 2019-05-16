@@ -11,6 +11,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import * as validator from '../Validators';
+import { reaction, toJS } from 'mobx';
 
 /**
  * Field Props
@@ -81,6 +82,19 @@ export class VSelectMultiple extends React.Component<
     this.state = {
       selectedItems: []
     };
+
+    if (this.props.fieldState) {
+      reaction(
+        () => ({ fieldState: this.props.fieldState }),
+        () => {
+          const ids = this.props.fieldState && toJS(this.props.fieldState.value) || [];
+          const selectedItems = this.props.options.filter(option => ids.some((id : any) => id === option.value));
+          this.setState({
+            selectedItems
+          });
+        }
+      );
+    }
   }
 
   getFieldText() {
