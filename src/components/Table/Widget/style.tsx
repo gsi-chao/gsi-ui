@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Tooltip } from '@blueprintjs/core';
 
 interface IProps {
   backgroundColor?: string;
@@ -13,4 +14,13 @@ export const CenterWidget = styled.div`
   background-color: ${(props: IProps) =>
     props.backgroundColor ? props.backgroundColor : 'transparent'};
   color: ${(props: IProps) => (props.color ? props.color : 'black')};
+`;
+
+export const TooltipsWidgetsColor =styled(Tooltip)`
+  width: 100%!important;
+  
+  & span.bp3-popover-target {
+  width: 100% !important;
+  }
+
 `;

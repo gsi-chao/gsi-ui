@@ -5,7 +5,7 @@ import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
 import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
 import DropdownWidget, { IOption } from './Field/DropdownWidget/DropdownWidget';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
-import { IconName } from '@blueprintjs/core';
+import { IconName, Tooltip } from '@blueprintjs/core';
 import { CenterWidget } from './style';
 import InputWidget from './Field/InputWidget/InputWidget';
 import {
@@ -54,6 +54,7 @@ export interface IVWidget extends IWidget, ActionClickWidget {
   column: number;
   columns: string[];
   onDoubleClick?: any;
+  showTooltips?: (value: any, infoSelection?: InfoSelection) => JSX.Element | string | undefined
 }
 
 export interface IVDropdownCell {
@@ -134,17 +135,23 @@ class Widget extends Component<IVWidget> {
               onDoubleClick={this.onDoubleClick}
               backgroundColor={colorSetting.backgroundColor}
             >
-              <div style={{
-                width: this.props.cusmtomerCell.width ? this.props.cusmtomerCell.width : 'auto',
-                padding: ' 0px 11px',
-                color: colorSetting.color
-              }}>
-                {this.props.cusmtomerCell.renderCustomer(this.props.value, {
-                  columnIndex: this.props.column,
-                  rowIndex: this.props.row,
-                  columnName: this.props.columns[this.props.column]
-                })}
-              </div>
+              <Tooltip
+                usePortal
+                hoverCloseDelay={0}
+                content={'samplee'}
+              >
+                <div style={{
+                  width: this.props.cusmtomerCell.width ? this.props.cusmtomerCell.width : 'auto',
+                  padding: ' 0px 11px',
+                  color: colorSetting.color
+                }}>
+                  {this.props.cusmtomerCell.renderCustomer(this.props.value, {
+                    columnIndex: this.props.column,
+                    rowIndex: this.props.row,
+                    columnName: this.props.columns[this.props.column]
+                  })}
+                </div>
+              </Tooltip>
             </CenterWidget>
           );
         }
@@ -213,12 +220,27 @@ class Widget extends Component<IVWidget> {
     const backgroundColors = backgroundColor ? backgroundColor : 'transparent';
 
     return (
+
       <CenterWidget
         onDoubleClick={this.onDoubleClick}
         backgroundColor={backgroundColors}
       >
-        {widget ? widget : <p> {this.props.value}</p>}
+        {
+          this.props.showTooltips ?
+            (<Tooltip
+              usePortal
+              hoverCloseDelay={100}
+              content={this.props.showTooltips(this.props.value, {
+                columnIndex: this.props.column,
+                rowIndex: this.props.row,
+                columnName: this.props.columns[this.props.column]
+              })!}
+
+            >
+              {widget ? widget : <p> {this.props.value}</p>}
+            </Tooltip>) : widget ? widget : <p> {this.props.value}</p>}
       </CenterWidget>
+
     );
   }
 
@@ -299,22 +321,36 @@ class Widget extends Component<IVWidget> {
           backgroundColor={backgroundColor}
           color={color}
         >
-          <p
-            style={{
-              margin: '0px 11px',
-              width: '100%',
-              textAlign: this.getTextAlign()
-            }}
-          >
-            {' '}
-            {this.props.value}
-          </p>
+          {/*<TooltipsWidgetsColor*/}
+          {/*usePortal*/}
+          {/*hoverCloseDelay={0}*/}
+          {/*content={'samplee'}*/}
+
+          {/*>*/}
+          {/*<div style={{ width: '100%' }}>*/}
+            <p
+              style={{
+                margin: '0px 11px',
+                width: '100%',
+                textAlign: this.getTextAlign()
+              }}
+            >
+              {' '}
+              {this.props.value}
+            </p>
+          {/*</div>*/}
+          {/*</TooltipsWidgetsColor>*/}
         </CenterWidget>
       ) : (
         <CenterWidget
           onDoubleClick={this.onDoubleClick}
           backgroundColor={backgroundColor}
         >
+          {/*<Tooltip*/}
+          {/*usePortal*/}
+          {/*hoverCloseDelay={0}*/}
+          {/*content={'samplee'}*/}
+          {/*>*/}
           <p
             style={{
               margin: '0px 11px',
@@ -325,12 +361,18 @@ class Widget extends Component<IVWidget> {
             {' '}
             {this.props.value}
           </p>
+          {/*</Tooltip>*/}
         </CenterWidget>
       );
     }
 
     return (
       <CenterWidget onDoubleClick={this.onDoubleClick}>
+        {/*<Tooltip*/}
+        {/*usePortal*/}
+        {/*hoverCloseDelay={0}*/}
+        {/*content={'samplee'}*/}
+        {/*>*/}
         <p
           style={{
             margin: '0px 11px',
@@ -341,6 +383,7 @@ class Widget extends Component<IVWidget> {
           {' '}
           {this.props.value}
         </p>
+        {/*</Tooltip>*/}
       </CenterWidget>
     );
   };

@@ -13,7 +13,9 @@ export interface EditSetup {
   invalidDataMessage?: (invalidColumns: string[]) => void;
 }
 
-
+export interface ITooltips {
+  show: (value: any, infoSelection?: InfoSelection) =>JSX.Element | string | undefined
+}
 export interface InfoSelection {
 
   rowIndex: number;

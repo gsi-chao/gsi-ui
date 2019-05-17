@@ -252,7 +252,8 @@ class PaginatorDemo extends Component<any, ISate> {
           pageNeighbours={1}
           onPageChanged={this.onPageChanged}
           currentPage={this.state.currentPage}
-      labels={{pages:"paginas"}}
+          labels={{pages:"paginas"}}
+          customerStyle={{borderRadius:'0px'}}
         />
 
         <p>Customer</p>

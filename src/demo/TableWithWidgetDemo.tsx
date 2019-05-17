@@ -3,7 +3,7 @@ import { IVWidgetTableProps } from '../components/Table/Widget/Widget';
 import { Button, Icon } from '@blueprintjs/core';
 import { VTable } from '../components/Table';
 import { showToastNotification } from '../components/ToastNotification';
-import { CellSelectionType } from '../components/Table/type';
+import { CellSelectionType, InfoSelection } from '../components/Table/type';
 
 export const dropDown: IVWidgetTableProps = {
   column: 'dropdown',
@@ -192,6 +192,24 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     this.setState({ filterColumn: !this.state.filterColumn });
   };
 
+  renderTooltip=(value:any,infoSelection?:InfoSelection)=>{
+    if(infoSelection && infoSelection!.columnName ==='name'){
+      return `Creemos que su nombre es  ${value}`
+    }
+    if(infoSelection && infoSelection!.columnName ==='fecha'){
+      return (<div>
+             <ul>
+               <li>Dias de vacaiones {value} </li>
+               <li>Dias de vacaiones {value}</li>
+               <li>Dias de vacaiones {value}</li>
+               <li>Dias de vacaiones {value}</li>
+             </ul>
+
+      </div>)
+    }
+    return value.toString()
+
+  };
   render() {
     // validator example
     return (
@@ -281,7 +299,53 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                   actions: [
                     {
                       action: (item: any) => console.log(item),
-                      text: 'Action Input'
+                      text: 'Action Input',
+                      actions:  [
+                        {
+                          isMenuDivider:true,
+                          text: 'Title',
+
+                        },
+                        {
+                          action: (item: any) => console.log(item),
+                          text: 'Submenu 1',
+
+                        },
+                        {
+                          action: (item: any) => console.log(item),
+                          text: 'Submenu 2',
+                          label:"⌘X"
+                        },
+                        {
+                          action: (item: any) => console.log(item),
+                          text: 'Submenu 3',
+                          labelElement:(<Icon icon="share" />),
+                          actions:  [
+                            {
+                              isMenuDivider:true,
+                              text: 'Sub Title ',
+
+                            },
+                            {
+                              action: (item: any) => console.log(item),
+                              text: 'Submenu 1',
+                              disabled:true
+
+                            },
+                            {
+                              action: (item: any) => console.log(item),
+                              text: 'Submenu 2',
+                              label:"⌘X"
+                            },
+                            {
+                              action: (item: any) => console.log(item),
+                              text: 'Submenu 3',
+                              labelElement:(<Icon icon="share" />)
+
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 },
@@ -354,6 +418,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 Toolbar
               </div>
             }
+            tooltips={ this.renderTooltip}
           />
         </div>
 

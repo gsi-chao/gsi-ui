@@ -116,6 +116,7 @@ export interface IVTableProps {
   onOrderColumns?: (columns: string[]) => void;
   settingEmptyData?: ISettingEmptyData;
   filterByColumn?: FilterByColumn;
+  tooltips?: (value: any, infoSelection?: InfoSelection) => JSX.Element | string | undefined;
 }
 
 interface IProps extends IVTableProps, ITableProps {
@@ -1490,6 +1491,7 @@ export const VTable = (props: IProps) => {
           onDoubleClick={() => {
             onDoubleClick(value, rowIndex, columnIndex);
           }}
+          showTooltips={props.tooltips ? props.tooltips : undefined}
         />
       </CellDiv>
     ) : (
@@ -1508,6 +1510,7 @@ export const VTable = (props: IProps) => {
           onDoubleClick={() => {
             onDoubleClick(value, rowIndex, columnIndex);
           }}
+          showTooltips={props.tooltips ? props.tooltips : undefined}
         />
       </CellDiv>
     );
@@ -1535,6 +1538,7 @@ export const VTable = (props: IProps) => {
           onDoubleClick={() => {
             onDoubleClick(value, rowIndex, columnIndex);
           }}
+          showTooltips={props.tooltips ? props.tooltips : undefined}
         />
       </CellDiv>
     );
