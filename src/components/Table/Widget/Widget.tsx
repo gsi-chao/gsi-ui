@@ -6,7 +6,7 @@ import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
 import DropdownWidget, { IOption } from './Field/DropdownWidget/DropdownWidget';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
 import { IconName, Tooltip } from '@blueprintjs/core';
-import { CenterWidget } from './style';
+import { CenterWidget, TooltipsWidgetsColor } from './style';
 import InputWidget from './Field/InputWidget/InputWidget';
 import {
   printErrorWidget,
@@ -135,23 +135,23 @@ class Widget extends Component<IVWidget> {
               onDoubleClick={this.onDoubleClick}
               backgroundColor={colorSetting.backgroundColor}
             >
-              <Tooltip
-                usePortal
-                hoverCloseDelay={0}
-                content={'samplee'}
-              >
-                <div style={{
-                  width: this.props.cusmtomerCell.width ? this.props.cusmtomerCell.width : 'auto',
-                  padding: ' 0px 11px',
-                  color: colorSetting.color
-                }}>
-                  {this.props.cusmtomerCell.renderCustomer(this.props.value, {
-                    columnIndex: this.props.column,
-                    rowIndex: this.props.row,
-                    columnName: this.props.columns[this.props.column]
-                  })}
-                </div>
-              </Tooltip>
+              {
+                this.props.showTooltips ?
+                  <TooltipsWidgetsColor
+                    usePortal
+                    hoverCloseDelay={0}
+                    content={this.props.showTooltips(this.props.value, {
+                      columnIndex: this.props.column,
+                      rowIndex: this.props.row,
+                      columnName: this.props.columns[this.props.column]
+                    })!}
+                  >
+                    {this.getCustomerWidget()}
+
+                  </TooltipsWidgetsColor> :
+                  this.getCustomerWidget()
+              }
+
             </CenterWidget>
           );
         }
@@ -177,6 +177,22 @@ class Widget extends Component<IVWidget> {
       }
     }
     return null;
+  };
+
+
+  private getCustomerWidget = () => {
+    return (<div style={{
+      width: this.props.cusmtomerCell!.width ? this.props.cusmtomerCell!.width : 'auto',
+      padding: ' 0px 11px',
+      color: this.getColorSetting().color
+    }}>
+      {this.props.cusmtomerCell!.renderCustomer(this.props.value, {
+        columnIndex: this.props.column,
+        rowIndex: this.props.row,
+        columnName: this.props.columns[this.props.column]
+      })}
+    </div>);
+
   };
 
   private getTextAlign() {
@@ -328,16 +344,16 @@ class Widget extends Component<IVWidget> {
 
           {/*>*/}
           {/*<div style={{ width: '100%' }}>*/}
-            <p
-              style={{
-                margin: '0px 11px',
-                width: '100%',
-                textAlign: this.getTextAlign()
-              }}
-            >
-              {' '}
-              {this.props.value}
-            </p>
+          <p
+            style={{
+              margin: '0px 11px',
+              width: '100%',
+              textAlign: this.getTextAlign()
+            }}
+          >
+            {' '}
+            {this.props.value}
+          </p>
           {/*</div>*/}
           {/*</TooltipsWidgetsColor>*/}
         </CenterWidget>
