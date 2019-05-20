@@ -11,6 +11,7 @@ import DNDDemo from './demo/DNDDemo';
 import SuspenseDemo from './demo/SuspenseDemo';
 import PaginatorDemo from './demo/PaginatorDemo';
 import { showToastNotification } from './components/ToastNotification';
+import AgGridDemo from './demo/AgGridDemo';
 
 class App extends Component {
 
@@ -59,6 +60,7 @@ class App extends Component {
 
     return (
       <React.Fragment>
+        <AgGridDemo/>
         <div style={{ width: '100%' }}>
           <VTable
             striped
