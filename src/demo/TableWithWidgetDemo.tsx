@@ -184,7 +184,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     console.log('change selection',value);
   };
 
-  handleFilter = (value1: any, value2: string) => {
+  handleFilter = (value1: any, value2: string)  => {
     console.log(value1, value2);
   };
 
@@ -207,7 +207,8 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
 
       </div>)
     }
-    return value.toString()
+
+    return undefined
 
   };
   render() {
