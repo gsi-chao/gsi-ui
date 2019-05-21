@@ -2,7 +2,7 @@
 
 exports[`render correctly SelectionList component one segment 1`] = `
 <div
-  className="sc-htpNat bVAZMt"
+  className="sc-htpNat ePqhuY"
 >
   <ul
     className="bp3-menu bp3-elevation-0 undefined sc-bwzfXH bGgvvP"
