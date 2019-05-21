@@ -28,7 +28,7 @@ export const StyledMenu = styled(Menu)`
 `;
 
 export const SelectionListContainer = styled.div`
-  min-height: 20vh;
-  height: auto;
+  min-height: 25vh;
+  height: 100%;
   position: relative;
 `;

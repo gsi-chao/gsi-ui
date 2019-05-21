@@ -14,6 +14,8 @@ export const BodyContainer = styled.div`
   height: 100%;
   padding: 15px 10px 15px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const ButtonsEndsContainers = styled.div`
@@ -30,6 +32,7 @@ export const FlexCol = styled.div`
     text-align: center;
     color: #5c7080;
   }
+  height: 100%;
 `;
 
 export const CentralFlexCol = styled(FlexCol)`
@@ -45,6 +48,7 @@ export const CentralFlexCol = styled(FlexCol)`
 `;
 
 export const VSelectionListStyled = styled(VSelectionList)`
+  margin-bottom: 10px;
   ${(props: ISelectionListProps) =>
     props.height
       ? `
@@ -52,7 +56,6 @@ export const VSelectionListStyled = styled(VSelectionList)`
       overflow: auto;
 `
       : ''}
-  margin-bottom: 10px;
 `;
 
 export const SelectAllButtons = styled(Button)`
