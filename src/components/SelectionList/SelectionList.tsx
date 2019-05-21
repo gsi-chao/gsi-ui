@@ -6,6 +6,7 @@ import {
   ISelectionListProps
 } from './ISelectionList';
 import { StyledMenu, StyledMenuItem } from './style';
+import EmptyData from '../Table/components/EmptyData';
 
 interface ISelctionListState {
   listSelected: IItemsList[];
@@ -61,30 +62,35 @@ export class VSelectionList extends Component<
         className={`${this.getElevation(elevation || 0)} ${className}`}
         padding={padding}
       >
-        {elements.map(element => {
-          const { active, text, value, icon } = element;
-          const backgroundColor =
-            !!selection && !!selection.background
-              ? selection!.background
-              : '#1985A1';
-          const textColor =
-            !!selection && !!selection.textColor
-              ? selection!.textColor
-              : 'white';
-          return (
-            <StyledMenuItem
-              key={value}
-              active={active}
-              background={backgroundColor}
-              color={textColor}
-              text={text}
-              onClick={() => {
-                this.onItemClick(active || false, element);
-              }}
-              icon={icon}
-            />
-          );
-        })}
+        {
+          (elements && elements.length) > 0 ?
+            elements.map(element => {
+              const { active, text, value, icon } = element;
+              const backgroundColor =
+                !!selection && !!selection.background
+                  ? selection!.background
+                  : '#1985A1';
+              const textColor =
+                !!selection && !!selection.textColor
+                  ? selection!.textColor
+                  : 'white';
+              return (
+                <StyledMenuItem
+                  key={value}
+                  active={active}
+                  background={backgroundColor}
+                  color={textColor}
+                  text={text}
+                  onClick={() => {
+                    this.onItemClick(active || false, element);
+                  }}
+                  icon={icon}
+                />
+              );
+            })
+            :
+            <EmptyData settings={undefined}/>
+        }
       </StyledMenu>
     );
   }

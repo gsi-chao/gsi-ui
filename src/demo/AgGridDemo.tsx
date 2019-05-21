@@ -1,5 +1,5 @@
 import React from 'react';
-import VAgGrid from '../components/Grid/AgGrid';
+import {VAgGrid, setLicenceManager} from '../components/Grid';
 import { ICellRendererParams } from 'ag-grid-community';
 import { VSelectField } from '../components/Form';
 
