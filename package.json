@@ -18,6 +18,7 @@
     "@blueprintjs/table": "^3.5.0",
     "@types/jquery": "^3.3.29",
     "ag-grid-community": "^20.2.0",
+    "ag-grid-enterprise": "^20.2.0",
     "ag-grid-react": "^20.2.0",
     "formstate": "^1.3.0",
     "jquery": "^3.4.1",

@@ -1,5 +1,52 @@
 import React from 'react';
 import VAgGrid from '../components/Grid/AgGrid';
+import { ICellRendererParams } from 'ag-grid-community';
+import { VSelectField } from '../components/Form';
+
+class MakeCellRender extends React.Component<ICellRendererParams> {
+  render() {
+    // put in render logic
+    return (
+      <span onClick={event => this.onClick()}>{`${this.props.value} LOL`}</span>
+    );
+  }
+
+  onClick = () => {
+    console.log('click');
+  };
+}
+
+const store = [
+  {
+    label: 'Toyota',
+    value: 'Toyota'
+  },
+  {
+    label: 'Ford',
+    value: 'Ford'
+  },
+  {
+    label: 'Porsche',
+    value: 'Porsche'
+  }
+];
+
+class SelectCellRender extends React.Component<ICellRendererParams> {
+  render() {
+    console.log(this.props.value);
+    return (
+      <VSelectField
+        minimal
+        fill
+        options={store}
+        inline
+        value={this.props.value}
+        id="store"
+        // onChange={this.setSelectedValue}
+      />
+    );
+  }
+}
 
 const AgGridDemo = () => {
   const state = {
@@ -8,7 +55,9 @@ const AgGridDemo = () => {
         headerName: 'Make',
         field: 'make',
         sortable: true,
-        filter: true
+        filter: true,
+        cellRendererFramework: SelectCellRender,
+        editable: true
       },
       {
         headerName: 'Model',
@@ -46,6 +95,9 @@ const AgGridDemo = () => {
       rowSelection="multiple"
       columnDefs={state.columnDefs}
       rowData={state.rowData}
+      pagination={true}
+      enableFilter={true}
+      enableSorting={true}
     />
   );
 };
