@@ -26,3 +26,9 @@ export const StyledMenu = styled(Menu)`
     return padding ? `padding: ${padding}!important;` : '';
   }}
 `;
+
+export const SelectionListContainer = styled.div`
+  min-height: 20vh;
+  height: auto;
+  position: relative;
+`;

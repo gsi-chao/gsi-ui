@@ -5,7 +5,7 @@ import {
   IItemsList,
   ISelectionListProps
 } from './ISelectionList';
-import { StyledMenu, StyledMenuItem } from './style';
+import { SelectionListContainer, StyledMenu, StyledMenuItem } from './style';
 import EmptyData from '../Table/components/EmptyData';
 
 interface ISelctionListState {
@@ -58,13 +58,13 @@ export class VSelectionList extends Component<
     const { elements, selection, elevation, className, padding } = this.props;
 
     return (
-      <StyledMenu
-        className={`${this.getElevation(elevation || 0)} ${className}`}
-        padding={padding}
-      >
-        {
-          (elements && elements.length) > 0 ?
-            elements.map(element => {
+      <SelectionListContainer>
+        {(elements && elements.length) > 0 ? (
+          <StyledMenu
+            className={`${this.getElevation(elevation || 0)} ${className}`}
+            padding={padding}
+          >
+            {elements.map(element => {
               const { active, text, value, icon } = element;
               const backgroundColor =
                 !!selection && !!selection.background
@@ -87,11 +87,12 @@ export class VSelectionList extends Component<
                   icon={icon}
                 />
               );
-            })
-            :
-            <EmptyData settings={undefined}/>
-        }
-      </StyledMenu>
+            })}
+          </StyledMenu>
+        ) : (
+          <EmptyData settings={undefined} />
+        )}
+      </SelectionListContainer>
     );
   }
 }

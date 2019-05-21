@@ -23,7 +23,7 @@ const EmptyData = (props: IEmptyData) => {
       props.settings &&
       props.settings!.height &&
       props.settings!.height) ||
-    '20vh';
+    '100%';
   const backgroundColor: string =
     (props &&
       props.settings &&
@@ -69,7 +69,9 @@ const EmptyData = (props: IEmptyData) => {
         color,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'absolute',
+        width: '100%'
       }}
     >
       <div style={{ textAlign: 'center' }}>
