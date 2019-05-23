@@ -254,7 +254,12 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               borderColor: 'green',
               borderRadius: '15'
             }}
-            tableHeight="600px"
+            allowTableTotals
+            totalsConf={{
+              count: ['name', 'dropdown'],
+              totals: ['color'],
+              average: ['other']
+            }}
             columnWidths={[200, 125, 150, 200]}
             onSelectionChange={this.doSomethingAwesomeWithTheValue}
             actionsSelection={{
@@ -496,350 +501,40 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
       {
         name: 'Arturo',
         dropdown: 1,
-        other: 'OtherInfo',
+        other: '7',
         fecha: '10/11/2019',
         checkbox: false,
-        color: 'red',
+        color: 5,
         sinEditar: 'another better text',
         customer: 'passenger'
       },
       {
         name: 'Carlos',
         dropdown: 2,
-        other: 'Lastname7',
+        other: '3',
         fecha: '12/05/2018',
         checkbox: false,
-        color: 'red',
+        color: 4,
         sinEditar: ' some text',
         customer: 'customer'
       },
       {
         name: 'Manuel',
         dropdown: 2,
-        other: 'Lastname7',
+        other: '5',
         fecha: '12/05/2018',
         checkbox: true,
-        color: 'blue',
+        color: 3,
         sinEditar: ' some text',
         customer: 'customer'
       },
       {
         name: 'Pepe',
         dropdown: 2,
-        other: 'Lastname7',
+        other: '9',
         fecha: '12/05/2018',
         checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
-        sinEditar: ' some text',
-        customer: 'customer'
-      },
-      {
-        name: 'Pepe',
-        dropdown: 2,
-        other: 'Lastname7',
-        fecha: '12/05/2018',
-        checkbox: false,
-        color: 'blue',
+        color: 8,
         sinEditar: ' some text',
         customer: 'customer'
       }

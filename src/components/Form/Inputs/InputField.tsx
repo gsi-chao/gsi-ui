@@ -18,6 +18,7 @@ export interface IInputFieldProps extends IFieldProps {
   rightElement?: JSX.Element;
   round?: boolean;
   fill?: boolean;
+  tipLabel?: string;
 }
 
 @observer
@@ -48,7 +49,8 @@ export class VInputField extends React.Component<IInputFieldProps> {
       required,
       validators,
       margin,
-      value
+      value,
+      tipLabel
     } = this.props;
     let rightEl;
     if (!rightElement) {
@@ -85,6 +87,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
           label={label}
           fieldState={fieldState}
         >
+          {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <InputGroup
             large={size === 'large'}
             small={size === 'small'}

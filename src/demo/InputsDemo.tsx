@@ -254,6 +254,7 @@ class InputsDemo extends Component {
         <VInputField
           fieldState={this.form.$.username}
           fill
+          tipLabel={'Username'}
           layer={{
             labelWidth: 6,
             inputWidth: 5,
@@ -262,7 +263,7 @@ class InputsDemo extends Component {
           }}
           rightElement={rightButton}
           id="username"
-          label={'Username'}
+          noLabel
           inline={true}
         />
         <VInputField
@@ -298,6 +299,7 @@ class InputsDemo extends Component {
           minimal
           defaultText={'Please enter a text'}
           fill
+          tipLabel={'Movies'}
           layer={{
             labelWidth: 6,
             inputWidth: 6,

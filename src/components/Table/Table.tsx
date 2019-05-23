@@ -45,6 +45,12 @@ export interface IVActionsTableProps {
   columns: string[] | EditColumns;
 }
 
+export interface totalOptionsProps {
+  totals?: string[];
+  count?: string[];
+  average?: string[];
+}
+
 export interface IVActionEditTableProps extends IVActionsTableProps {
   validation?: { [key: string]: (value: string) => boolean };
 }
@@ -118,10 +124,11 @@ export interface IVTableProps {
   filterByColumn?: FilterByColumn;
   tooltips?: (value: any, infoSelection?: InfoSelection) => JSX.Element | string | undefined;
   positionTooltips?: PopoverPosition;
+  allowTableTotals?: boolean;
+  totalsConf?: totalOptionsProps;
 }
 
-interface IProps extends IVTableProps, ITableProps {
-}
+interface IProps extends IVTableProps, ITableProps {}
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -151,11 +158,51 @@ export const VTable = (props: IProps) => {
   }, []);
 
   useEffect(() => {
+    let sparseCellData = cloneDeep(props.data);
+    if (props.allowTableTotals) {
+      const totalRow: any = {};
+      if (sparseCellData.length > 0) {
+        const cell = sparseCellData[0];
+        Object.keys(cell).forEach(key => {
+          totalRow[key] = getValueForTotalsColumn(key);
+        });
+        sparseCellData = [totalRow, ...sparseCellData];
+      }
+    }
     setStateTable({
       ...stateTable,
-      ...{ sparseCellData: cloneDeep(props.data) }
+      sparseCellData
     });
   }, [props.data]);
+
+  const getValueForTotalsColumn = (key: string) => {
+    if (props.totalsConf) {
+      const { sparseCellData } = stateTable;
+      if (
+        props.totalsConf.totals &&
+        props.totalsConf.totals.some(item => item === key)
+      ) {
+        let totals = 0;
+        sparseCellData.forEach(item => (totals += Number(item[key]) || 0));
+        return totals;
+      }
+      if (
+        props.totalsConf.average &&
+        props.totalsConf.average.some(item => item === key)
+      ) {
+        let average = 0;
+        sparseCellData.forEach(item => (average += Number(item[key]) || 0));
+        return sparseCellData.length > 0 ? average / sparseCellData.length : 0;
+      }
+      if (
+        props.totalsConf.count &&
+        props.totalsConf.count.some(item => item === key)
+      ) {
+        return stateTable.sparseCellData.length;
+      }
+    }
+    return '      ';
+  };
 
   const initColumnsWidth = useMemo(() => {
     const { columns, columnWidths } = props;
@@ -838,7 +885,7 @@ export const VTable = (props: IProps) => {
         selectionData={getSelection()}
       />
     ) : (
-      <div/>
+      <div />
     );
   };
 
@@ -1129,7 +1176,11 @@ export const VTable = (props: IProps) => {
       argsRegions.length > 0
     ) {
       regions = getEntireRowsRegions(argsRegions);
-      if (props.actionsSelection && argsRegions[0].rows !== undefined && props.actionsSelection.onSelectionChange) {
+      if (
+        props.actionsSelection &&
+        argsRegions[0].rows !== undefined &&
+        props.actionsSelection.onSelectionChange
+      ) {
         throwOnSelectionChange(
           regions,
           0,
@@ -1137,7 +1188,6 @@ export const VTable = (props: IProps) => {
         );
         setSelectedRegions(regions);
       }
-
     } else if (!cellSelectionType || cellSelectionType === 'FREE') {
       regions = getFreeSelectionRegions(argsRegions);
 
@@ -1156,7 +1206,6 @@ export const VTable = (props: IProps) => {
         setSelectedRegions(regions);
       }
     }
-
   };
 
   const cleanSelection = () => {
@@ -1252,19 +1301,19 @@ export const VTable = (props: IProps) => {
     const widgetsValid: IVWidgetTableProps[] = [];
 
     stateTable.widgetsCell &&
-    stateTable.widgetsCell.forEach((widget: IVWidgetTableProps) => {
-      if (widget.column) {
-        if (columns.filter(x => x === widget.column).length === 1) {
+      stateTable.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+        if (widget.column) {
+          if (columns.filter(x => x === widget.column).length === 1) {
+            widgetsValid.push(widget);
+          }
+        } else if (
+          widget.column === undefined &&
+          widget.row &&
+          widget.row <= stateTable.sparseCellData.length
+        ) {
           widgetsValid.push(widget);
         }
-      } else if (
-        widget.column === undefined &&
-        widget.row &&
-        widget.row <= stateTable.sparseCellData.length
-      ) {
-        widgetsValid.push(widget);
-      }
-    });
+      });
 
     return widgetsValid;
   };
@@ -1386,8 +1435,8 @@ export const VTable = (props: IProps) => {
     const enableRowHeader = enableRowResizing
       ? true
       : props.enableRowHeader
-        ? props.enableRowHeader
-        : false;
+      ? props.enableRowHeader
+      : false;
 
     const enableColumnResizing = props.enableColumnResizing
       ? props.enableRowResizing
@@ -1473,10 +1522,10 @@ export const VTable = (props: IProps) => {
     }
 
     return edit &&
-    edit.editColumn.columns !== 'ALL' &&
-    edit.editColumn.columns.some(
-      (x: string) => x === columns[columnIndex]
-    ) ? (
+      edit.editColumn.columns !== 'ALL' &&
+      edit.editColumn.columns.some(
+        (x: string) => x === columns[columnIndex]
+      ) ? (
       <CellDiv isValid={valid} as={Cell}>
         {' '}
         <Widget
@@ -1500,8 +1549,7 @@ export const VTable = (props: IProps) => {
         <Widget
           row={rowIndex}
           column={columnIndex}
-          onClick={() => {
-          }}
+          onClick={() => {}}
           type={'DEFAULT'}
           value={value}
           disable={stateTable.edit}
@@ -1587,7 +1635,7 @@ export const VTable = (props: IProps) => {
       : makeResponsiveTable();
 
   return props.data.length === 0 || props.columns.length === 0 ? (
-    <EmptyData settings={props.settingEmptyData}/>
+    <EmptyData settings={props.settingEmptyData} />
   ) : (
     <ReactResizeDetector
       handleHeight
@@ -1627,7 +1675,9 @@ export const VTable = (props: IProps) => {
           columnWidths={colWidth}
           defaultRowHeight={utils.getDefaultRowHeight(props.typeHeightRow)}
           numFrozenColumns={props.numFrozenColumns}
-          numFrozenRows={props.numFrozenRows}
+          numFrozenRows={
+            (props.numFrozenRows || 0) + (props.allowTableTotals ? 1 : 0)
+          }
           bodyContextMenuRenderer={renderBodyContextMenu}
           onColumnWidthChanged={onColWidthChanged}
         >

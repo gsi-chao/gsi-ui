@@ -25,6 +25,7 @@ export interface ISelectFieldProps extends IFieldProps {
   defaultText?: string;
   fixedInputWidthPx?: number;
   iconOnly?: boolean;
+  tipLabel?: string;
 }
 
 /**
@@ -128,7 +129,8 @@ export class VSelectMultiple extends React.Component<
       iconOnly,
       minimal,
       margin,
-      options
+      options,
+      tipLabel
     } = this.props;
     const { selectedItems } = this.state;
     const initialContent =
@@ -174,6 +176,7 @@ export class VSelectMultiple extends React.Component<
           label={label}
           fieldState={fieldState}
         >
+          {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect
             popoverProps={{ captureDismiss: true }}
             itemPredicate={filterItem}

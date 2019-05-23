@@ -37,6 +37,7 @@ export interface ISelectFieldProps extends IFieldProps {
   clearButton?: boolean;
   clearValue?: any;
   isLoading?: boolean;
+  tipLabel?: string;
 }
 
 /**
@@ -112,7 +113,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       margin,
       clearButton,
       isLoading,
-      value
+      value,
+      tipLabel
     } = this.props;
 
     const initialContent =
@@ -156,6 +158,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           label={label}
           fieldState={fieldState}
         >
+          {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect
             itemPredicate={filterItem}
             itemRenderer={renderItem}
