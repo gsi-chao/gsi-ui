@@ -5,7 +5,7 @@ import DatetimeWidget from './Field/DatetimeWidget/DatetimeWidget';
 import CheckboxWidget from './Field/CheckboxWidget/CheckboxWidget';
 import DropdownWidget, { IOption } from './Field/DropdownWidget/DropdownWidget';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
-import { IconName, Tooltip } from '@blueprintjs/core';
+import { IconName, PopoverPosition, Tooltip } from '@blueprintjs/core';
 import { CenterWidget, TooltipsWidgetsColor } from './style';
 import InputWidget from './Field/InputWidget/InputWidget';
 import {
@@ -55,6 +55,7 @@ export interface IVWidget extends IWidget, ActionClickWidget {
   columns: string[];
   onDoubleClick?: any;
   showTooltips?: (value: any, infoSelection?: InfoSelection) => JSX.Element | string | undefined
+  positionTooltips?: PopoverPosition;
 }
 
 export interface IVDropdownCell {
@@ -145,6 +146,7 @@ class Widget extends Component<IVWidget> {
                       rowIndex: this.props.row,
                       columnName: this.props.columns[this.props.column]
                     })!}
+                    position={ this.props.positionTooltips?this.props.positionTooltips:'left' }
                   >
                     {this.getCustomerWidget()}
 
@@ -251,6 +253,7 @@ class Widget extends Component<IVWidget> {
                 rowIndex: this.props.row,
                 columnName: this.props.columns[this.props.column]
               })!}
+              position={ this.props.positionTooltips?this.props.positionTooltips:'left' }
 
             >
               {widget ? widget : <p> {this.props.value}</p>}

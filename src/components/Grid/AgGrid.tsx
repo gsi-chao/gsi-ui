@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
@@ -11,8 +11,8 @@ const VAgGrid = (props: AgGridReactProps) => {
     <div
       className="ag-theme-balham"
       style={{
-        height: '200px',
-        width: '600px'
+        height: '400px',
+        width: '100%'
       }}
     >
       <AgGridReact reactNext={true} {...props} />
@@ -23,6 +23,6 @@ const VAgGrid = (props: AgGridReactProps) => {
 
 export const setLicenceManager = (licence: string) => {
   LicenseManager.setLicenseKey(licence);
-}
+};
 
 export default VAgGrid;
