@@ -110,6 +110,33 @@ export const StyledFormGroup = styled(FormGroup)`
 `;
 export const StyledInput = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
+    & span.tipLabel {
+      background: -moz-linear-gradient(
+        top,
+        rgba(255, 255, 255, 0) 25%,
+        rgba(255, 255, 255, 1) 60%,
+        rgba(255, 255, 255, 1) 100%
+      );
+      background: -webkit-linear-gradient(
+        top,
+        rgba(255, 255, 255, 0) 25%,
+        rgba(255, 255, 255, 1) 60%,
+        rgba(255, 255, 255, 1) 100%
+      );
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 25%,
+        rgba(255, 255, 255, 1) 60%,
+        rgba(255, 255, 255, 1) 100%
+      );
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff',endColorstr='#ffffff',GradientType=0 );
+      margin-bottom: -6px;
+      z-index: 1;
+      width: fit-content;
+      margin-left: 6px;
+      font-weight: 400;
+      font-size: 11px;
+    }
     & .bp3-input-group {
       width: 100%;
       & input {
@@ -216,6 +243,14 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
     ${(props: IStyledFieldProps) =>
       props.fill ? `width: 100%!important;` : `max-width: 200px!important;`};
+    & span.tipLabel {
+      margin-bottom: -6px;
+      z-index: 1;
+      width: fit-content;
+      margin-left: 6px;
+      font-weight: 400;
+      font-size: 11px;
+    }
     & .bp3-popover-wrapper {
       width: 100%;
       & .bp3-popover-target {
