@@ -104,7 +104,8 @@ export const customerwidget: IVWidgetTableProps = {
 
         return (
           <div style={{ textAlign: 'center' }}>
-            <Icon icon={'phone'} iconSize={15} intent={'success'}/> {value}
+            <Icon icon={'phone'} iconSize={15}
+                  intent={'success'}/> {value} adjgndkgfjnkdgndksjgnfksdjgnfksdjngfksjdngfkjsdngfksjd
           </div>
         );
       },
@@ -170,9 +171,10 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         'other',
         'fecha',
         'checkbox',
+        'customer',
         'color',
-        'sinEditar',
-        'customer'
+        'sinEditar'
+
       ],
       clearSelection: undefined,
       typeSelection: 'CELL',
@@ -181,10 +183,10 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
   }
 
   doSomethingAwesomeWithTheValue = (value: any) => {
-    console.log('change selection',value);
+    console.log('change selection', value);
   };
 
-  handleFilter = (value1: any, value2: string)  => {
+  handleFilter = (value1: any, value2: string) => {
     console.log(value1, value2);
   };
 
@@ -192,25 +194,54 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
     this.setState({ filterColumn: !this.state.filterColumn });
   };
 
-  renderTooltip=(value:any,infoSelection?:InfoSelection)=>{
-    if(infoSelection && infoSelection!.columnName ==='name'){
-      return `Creemos que su nombre es  ${value}`
+  renderTooltip = (value: any, infoSelection?: InfoSelection) => {
+    if (infoSelection && infoSelection!.columnName === 'name') {
+      return `Creemos que su nombre es  ${value}`;
     }
-    if(infoSelection && infoSelection!.columnName ==='fecha'){
+
+    if (infoSelection && infoSelection!.columnName === 'customer') {
+      return (<div style={{width:'auto'}}>
+        <ul>
+          <li>Dias de vacaiones {value}eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee </li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+
+        </ul>
+
+      </div>);
+    }
+
+    if (infoSelection && infoSelection!.columnName === 'fecha') {
       return (<div>
-             <ul>
-               <li>Dias de vacaiones {value} </li>
-               <li>Dias de vacaiones {value}</li>
-               <li>Dias de vacaiones {value}</li>
-               <li>Dias de vacaiones {value}</li>
-             </ul>
+        <ul>
+          <li>Dias de vacaiones {value} </li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+          <li>Dias de vacaiones {value}</li>
+        </ul>
 
-      </div>)
+      </div>);
     }
 
-    return undefined
+    return undefined;
 
   };
+
   render() {
     // validator example
     return (
@@ -223,7 +254,6 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
               borderColor: 'green',
               borderRadius: '15'
             }}
-            tableHeight="350px"
             allowTableTotals
             totalsConf={{
               count: ['name', 'dropdown'],
@@ -298,77 +328,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 }
               ]
             }}
-            contextual={{
-              columnsContextual: [
-                {
-                  columns: ['name'],
-                  default_actions: ['copy', 'paste'],
-                  actions: [
-                    {
-                      action: (item: any) => console.log(item),
-                      text: 'Action Input',
-                      actions:  [
-                        {
-                          isMenuDivider:true,
-                          text: 'Title',
 
-                        },
-                        {
-                          action: (item: any) => console.log(item),
-                          text: 'Submenu 1',
-
-                        },
-                        {
-                          action: (item: any) => console.log(item),
-                          text: 'Submenu 2',
-                          label:"⌘X"
-                        },
-                        {
-                          action: (item: any) => console.log(item),
-                          text: 'Submenu 3',
-                          labelElement:(<Icon icon="share" />),
-                          actions:  [
-                            {
-                              isMenuDivider:true,
-                              text: 'Sub Title ',
-
-                            },
-                            {
-                              action: (item: any) => console.log(item),
-                              text: 'Submenu 1',
-                              disabled:true
-
-                            },
-                            {
-                              action: (item: any) => console.log(item),
-                              text: 'Submenu 2',
-                              label:"⌘X"
-                            },
-                            {
-                              action: (item: any) => console.log(item),
-                              text: 'Submenu 3',
-                              labelElement:(<Icon icon="share" />)
-
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  columns: ['color'],
-                  default_actions: ['copy', 'paste'],
-                  actions: [
-                    {
-                      icon: 'export',
-                      action: (item: any) => console.log(item),
-                      text: 'Pio,Pio'
-                    }
-                  ]
-                }
-              ]
-            }}
             data={this.state.data}
             textAlignColumn={[
               {
@@ -425,7 +385,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
                 Toolbar
               </div>
             }
-            tooltips={ this.renderTooltip}
+            tooltips={this.renderTooltip}
           />
         </div>
 
@@ -474,6 +434,14 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
         </button>
         <br/>
         <br/>
+        <VTable columns={['name', 'customer', 'other']} data={[{
+          name: 'name',
+          customer: 'customer',
+          other: 'other'
+        }]}
+                tooltips={this.renderTooltip}
+                positionTooltips={'left'}
+        />
       </React.Fragment>
     );
   }

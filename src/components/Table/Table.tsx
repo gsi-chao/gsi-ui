@@ -8,7 +8,7 @@ import {
   Utils
 } from '@blueprintjs/table';
 import '@blueprintjs/table/lib/css/table.css';
-import { IconName, Intent } from '@blueprintjs/core';
+import { IconName, Intent, PopoverPosition } from '@blueprintjs/core';
 import TableColumn, { FilterByColumn, IVConfigHeader } from './TableColumn';
 import { fromEvent } from 'rxjs';
 import {
@@ -122,10 +122,8 @@ export interface IVTableProps {
   onOrderColumns?: (columns: string[]) => void;
   settingEmptyData?: ISettingEmptyData;
   filterByColumn?: FilterByColumn;
-  tooltips?: (
-    value: any,
-    infoSelection?: InfoSelection
-  ) => JSX.Element | string | undefined;
+  tooltips?: (value: any, infoSelection?: InfoSelection) => JSX.Element | string | undefined;
+  positionTooltips?: PopoverPosition;
   allowTableTotals?: boolean;
   totalsConf?: totalOptionsProps;
 }
@@ -1590,6 +1588,7 @@ export const VTable = (props: IProps) => {
             onDoubleClick(value, rowIndex, columnIndex);
           }}
           showTooltips={props.tooltips ? props.tooltips : undefined}
+          positionTooltips={props.positionTooltips}
         />
       </CellDiv>
     );
