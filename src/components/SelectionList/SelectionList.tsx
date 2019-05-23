@@ -5,7 +5,8 @@ import {
   IItemsList,
   ISelectionListProps
 } from './ISelectionList';
-import { StyledMenu, StyledMenuItem } from './style';
+import { SelectionListContainer, StyledMenu, StyledMenuItem } from './style';
+import EmptyData from '../Table/components/EmptyData';
 
 interface ISelctionListState {
   listSelected: IItemsList[];
@@ -57,35 +58,41 @@ export class VSelectionList extends Component<
     const { elements, selection, elevation, className, padding } = this.props;
 
     return (
-      <StyledMenu
-        className={`${this.getElevation(elevation || 0)} ${className}`}
-        padding={padding}
-      >
-        {elements.map(element => {
-          const { active, text, value, icon } = element;
-          const backgroundColor =
-            !!selection && !!selection.background
-              ? selection!.background
-              : '#1985A1';
-          const textColor =
-            !!selection && !!selection.textColor
-              ? selection!.textColor
-              : 'white';
-          return (
-            <StyledMenuItem
-              key={value}
-              active={active}
-              background={backgroundColor}
-              color={textColor}
-              text={text}
-              onClick={() => {
-                this.onItemClick(active || false, element);
-              }}
-              icon={icon}
-            />
-          );
-        })}
-      </StyledMenu>
+      <SelectionListContainer>
+        {(elements && elements.length) > 0 ? (
+          <StyledMenu
+            className={`${this.getElevation(elevation || 0)} ${className}`}
+            padding={padding}
+          >
+            {elements.map(element => {
+              const { active, text, value, icon } = element;
+              const backgroundColor =
+                !!selection && !!selection.background
+                  ? selection!.background
+                  : '#1985A1';
+              const textColor =
+                !!selection && !!selection.textColor
+                  ? selection!.textColor
+                  : 'white';
+              return (
+                <StyledMenuItem
+                  key={value}
+                  active={active}
+                  background={backgroundColor}
+                  color={textColor}
+                  text={text}
+                  onClick={() => {
+                    this.onItemClick(active || false, element);
+                  }}
+                  icon={icon}
+                />
+              );
+            })}
+          </StyledMenu>
+        ) : (
+          <EmptyData settings={undefined} />
+        )}
+      </SelectionListContainer>
     );
   }
 }

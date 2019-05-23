@@ -23,7 +23,7 @@ const EmptyData = (props: IEmptyData) => {
       props.settings &&
       props.settings!.height &&
       props.settings!.height) ||
-    '20vh';
+    '100%';
   const backgroundColor: string =
     (props &&
       props.settings &&
@@ -64,22 +64,33 @@ const EmptyData = (props: IEmptyData) => {
   return (
     <div
       style={{
-        height,
-        backgroundColor,
-        color,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        height: '100%',
+        width: '100%',
+        position: 'relative'
       }}
     >
-      <div style={{ textAlign: 'center' }}>
-        {renderIcon}
-        <p
-          style={{ color, fontSize: textSize, fontWeight: 400 }}
-          className="bp3-heading"
-        >
-          {text}
-        </p>
+      <div
+        style={{
+          height,
+          backgroundColor,
+          color,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+          width: '100%',
+          minHeight: '20vh'
+        }}
+      >
+        <div style={{ textAlign: 'center' }}>
+          {renderIcon}
+          <p
+            style={{ color, fontSize: textSize, fontWeight: 400 }}
+            className="bp3-heading"
+          >
+            {text}
+          </p>
+        </div>
       </div>
     </div>
   );
