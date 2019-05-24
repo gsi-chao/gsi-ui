@@ -100,7 +100,8 @@ export const customerwidget: IVWidgetTableProps = {
   widget: {
     type: 'CUSTOMERCOMPONENT',
     cusmtomerCell: {
-      renderCustomer: (value: string): ReactNode => {
+      renderCustomer: (value: string, infoSelection?:InfoSelection): ReactNode => {
+
 
         return (
           <div style={{ textAlign: 'center' }}>
