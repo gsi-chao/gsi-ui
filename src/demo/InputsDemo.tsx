@@ -13,7 +13,8 @@ import {
   VInputField,
   VNumericField,
   VRadioGroupField,
-  VSelectField, VSelectMultiple,
+  VSelectField,
+  VSelectMultiple,
   VTagInputField,
   VTextAreaField
 } from '../components/Form';
@@ -25,6 +26,7 @@ import { IItemsList } from '../components/SelectionList';
 import { VCarousel } from '../components/Scroll';
 import { VOrgChart } from '../components/VOrgChart/VOrgChart';
 import { VSelectMultipleTags } from '../components/Form/Inputs/SelectMultipleTags';
+import { FileUpload } from '../components/FileUpload';
 
 const store = [
   {
@@ -212,9 +214,12 @@ class InputsDemo extends Component {
     console.log(getFormValue(this.form));
     return (
       <React.Fragment>
-        <Button text={'Change Movies Value'} onClick={() => {
-          this.form.$.movies.onChange([1]);
-        }}/>
+        <Button
+          text={'Change Movies Value'}
+          onClick={() => {
+            this.form.$.movies.onChange([1]);
+          }}
+        />
         <VSelectMultiple
           inline
           fill
@@ -251,6 +256,8 @@ class InputsDemo extends Component {
           elements={elementsCarousel}
           buttonsJustify={'flex-end'}
         />
+
+        <FileUpload />
         <VInputField
           fieldState={this.form.$.username}
           fill
@@ -411,6 +418,7 @@ class InputsDemo extends Component {
           }}
           label={'TimePicker'}
           dateType="DATE"
+          format={'MM/DD/YYYY'}
           id="date"
           fieldState={this.form.$.date}
           icon={{ iconName: 'calendar' }}

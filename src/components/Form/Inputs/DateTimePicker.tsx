@@ -21,6 +21,13 @@ export interface IInputFieldProps extends IFieldProps {
   fill?: boolean;
   dateType: 'DATE' | 'DATETIME' | 'TIME';
   icon?: IIcon;
+  format?:
+    | 'MM/DD/YYYY'
+    | 'DD/MM/YYYY'
+    | 'MMM/DD/YYYY'
+    | 'DD/MMM/YYYY'
+    | 'YYYY/MM/DD'
+    | 'YYYY-MM-DD';
 }
 
 interface IIcon {
@@ -38,17 +45,21 @@ const momentFormatter = (format: string): IDateFormatProps => {
   };
 };
 
-const FORMATS = {
-  DATE: momentFormatter('YYYY-MM-DD'),
-  DATETIME: momentFormatter('YYYY-MM-DD HH:mm:ss'),
-  TIME: momentFormatter('HH:mm:ss')
-};
-
 @observer
 export class VDateTimePicker extends React.Component<IInputFieldProps> {
   constructor(props: IInputFieldProps) {
     super(props);
   }
+
+  FORMATS = () => {
+    return {
+      DATE: momentFormatter(this.props.format || 'YYYY-MM-DD'),
+      DATETIME: momentFormatter(
+        `${this.props.format || 'YYYY-MM-DD'} HH:mm:ss`
+      ),
+      TIME: momentFormatter('HH:mm:ss')
+    };
+  };
 
   changedDate = (date: any) => {
     if (this.props.fieldState) {
@@ -115,7 +126,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
         >
           {dateType === 'DATETIME' || dateType === 'DATE' ? (
             <DateInput
-              {...FORMATS[dateType]}
+              {...this.FORMATS()[dateType]}
               disabled={disabled}
               defaultValue={moment().toDate()}
               onChange={this.changedDate}
