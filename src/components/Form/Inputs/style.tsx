@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import { FormGroup } from '@blueprintjs/core';
 import { ILayer } from './ILayer';
 
@@ -111,31 +111,14 @@ export const StyledFormGroup = styled(FormGroup)`
 export const StyledInput = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
     & span.tipLabel {
-      background: -moz-linear-gradient(
-        top,
-        rgba(255, 255, 255, 0) 25%,
-        rgba(255, 255, 255, 1) 60%,
-        rgba(255, 255, 255, 1) 100%
-      );
-      background: -webkit-linear-gradient(
-        top,
-        rgba(255, 255, 255, 0) 25%,
-        rgba(255, 255, 255, 1) 60%,
-        rgba(255, 255, 255, 1) 100%
-      );
-      background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0) 25%,
-        rgba(255, 255, 255, 1) 60%,
-        rgba(255, 255, 255, 1) 100%
-      );
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff',endColorstr='#ffffff',GradientType=0 );
-      margin-bottom: -6px;
+      background: white;
+      margin-bottom: -7px;
       z-index: 1;
       width: fit-content;
-      margin-left: 6px;
+      margin-left: 10px;
       font-weight: 400;
-      font-size: 11px;
+      font-size: 12px;
+      padding: 0 2px;
     }
     & .bp3-input-group {
       width: 100%;
@@ -244,12 +227,13 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
     ${(props: IStyledFieldProps) =>
       props.fill ? `width: 100%!important;` : `max-width: 200px!important;`};
     & span.tipLabel {
-      margin-bottom: -6px;
+      margin-bottom: -7px;
       z-index: 1;
       width: fit-content;
-      margin-left: 6px;
+      margin-left: 10px;
       font-weight: 400;
-      font-size: 11px;
+      font-size: 12px;
+      padding: 0 2px;
     }
     & .bp3-popover-wrapper {
       width: 100%;

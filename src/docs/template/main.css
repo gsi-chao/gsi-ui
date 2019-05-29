@@ -47,6 +47,9 @@
     padding:0;
     height: 88%;
     border-top: 1px solid rgba(255, 255, 255, 0.10);
+    overflow-x: hidden;
+    overflow-y: auto;
+
 }
 .sidebarMenuInner li{
     list-style: none;
@@ -90,7 +93,7 @@ input[type=checkbox] {
     transition: all 0.3s;
     box-sizing: border-box;
     cursor: pointer;
-    position: absolute;
+    position: fixed;
     z-index: 99;
     top: 18px;
     left: 15px;
@@ -141,11 +144,4 @@ input[type=checkbox]:checked ~ .sidebarIconToggle > .diagonal.part-2 {
     box-sizing: border-box;
     transform: rotate(-135deg);
     margin-top: -9px;
-}
-
-.company_name {
-    text-align: center;
-    color: white;
-    letter-spacing: 2px;
-    font-size: 10px;
 }

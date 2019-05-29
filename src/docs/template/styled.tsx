@@ -17,3 +17,10 @@ export const MainContainer = styled.div`
   height: 100%;
   width: 100%;
 `;
+
+export const CompanyName = styled.div`
+  text-align: center;
+  color: white;
+  letter-spacing: 2px;
+  font-size: 10px;
+`;
