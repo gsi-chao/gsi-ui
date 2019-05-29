@@ -10,6 +10,9 @@ import NotificationToastDemo from '../demo/NotificationToastDemo';
 import DNDDemo from '../demo/DNDDemo';
 import SuspenseDemo from '../demo/SuspenseDemo';
 import VLoadProgressTaskDemo from '../demo/VLoadProgressTaskDemo';
+import { VOrgChartDemo } from '../demo/VOrgChartDemo';
+import { VCarouselDemo } from '../demo/VCarouselDemo';
+import { VSelectUnselectItemsDemo } from '../demo/SelectUnselectItemsDemo';
 
 export const routes: IRiftRoute[] = [
   {
@@ -20,11 +23,14 @@ export const routes: IRiftRoute[] = [
   { path: '/table/ag-grid', component: <AgGridDemo/> },
   { path: '/table/blueprint', component: <VBlueprintTable/> },
   { path: '/table/blueprint/suspense', component: <SuspenseDemo /> },
-  { path: '/pagination', component: () => <PaginatorDemo /> },
+  { path: '/table/pagination', component: <PaginatorDemo />},
   { path: '/forms', component: () => <InputsDemo /> },
+  { path: '/forms/color-picker', component: () => <ColorPickerDemo /> },
+  { path: '/forms/select-unselect', component: () => <VSelectUnselectItemsDemo /> },
   { path: '/tabs-panel', component: () => <TabsPanelDemo /> },
-  { path: '/color-picker', component: () => <ColorPickerDemo /> },
   { path: '/toast', component: () => <NotificationToastDemo /> },
   { path: '/dnd', component: () => <DNDDemo /> },
   { path: '/load-progress', component: () => <VLoadProgressTaskDemo /> },
+  { path: '/hierarchy', component: () => <VOrgChartDemo /> },
+  { path: '/carousel', component: () => <VCarouselDemo /> },
 ];
