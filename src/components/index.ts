@@ -17,3 +17,4 @@ export * from './Paginator';
 export * from './Scroll';
 export * from './VOrgChart';
 export * from './Grid';
+export * from './FileUpload';
