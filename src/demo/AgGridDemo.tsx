@@ -12,26 +12,69 @@ import {
   Column,
   GetContextMenuItemsParams,
   DragStartedEvent,
-  RangeSelection
+  RangeSelection,
+  ColDef
 } from 'ag-grid-community';
-import { VSelectField } from '../components/Form';
-import { AgGridReactProps } from 'ag-grid-react';
+import { VInputField, VSelectField } from '../components/Form';
 import moment, { Moment } from 'moment';
 import { showToastNotification } from '../components/ToastNotification';
-import { ColumnState } from 'ag-grid-community/src/ts/columnController/columnController';
 import { InfoSelection } from '../components/Table/type';
+import EmptyData from '../components/Table/components/EmptyData';
+import { VSpinner } from '../components/Spinner';
+import '../components/Grid/style.css';
+import {
+  getProperLetterColor,
+  VColorPicker,
+  VColorResult
+} from '../components/ColorPicker';
+import { ColumnState } from 'ag-grid-community/dist/lib/columnController/columnController';
+import { debounce } from 'formstate/lib/internal/utils';
+import { isNumeric } from 'tslint';
 
 class MakeCellRender extends React.Component<ICellRendererParams> {
   render() {
     // put in render logic
     return (
-      <span onClick={() => this.onClick()}>{`${this.props.value} LOL`}</span>
+      <>
+        <span onClick={() => this.onClick()}>{`${this.props.value} LOL`}</span>
+      </>
     );
   }
 
   onClick = () => {
     console.log('click');
   };
+}
+
+class CustomTooltip extends React.Component<any> {
+  constructor(props: any) {
+    super(props);
+    console.log('constructor', props);
+  }
+
+  componentDidMount() {
+    // this.props.reactContainer.className = 'custom-tooltip';
+  }
+
+  render() {
+    const data = this.props.api.getRowNode(this.props.rowIndex).data;
+    return (
+      <div
+        className="custom-tooltip"
+        style={{ backgroundColor: this.props.color || 'white' }}
+      >
+        <p>
+          <span>{data.athlete}</span>
+        </p>
+        <p>
+          <span>Country: </span> {data.country}
+        </p>
+        <p>
+          <span>Total: </span> {data.total}
+        </p>
+      </div>
+    );
+  }
 }
 
 const store = [
@@ -48,6 +91,235 @@ const store = [
     value: 'Porsche'
   }
 ];
+
+const datesColumnDefs = (size: number) => {
+  const datesColumnDefs: any[] = [];
+  for (let i = 0; i < size; i++) {
+    const date: Moment = moment(new Date());
+    date.add(i + 1, 'days');
+
+    datesColumnDefs.push({
+      colId: `${date.format('DD-MM-YYYY')}/date`,
+      headerName: date.format('DD-MM-YYYY'),
+      field: `${date.format('DD-MM-YYYY')}/date`,
+      sortable: false,
+      // cellRendererFramework: SelectCellRender,
+      cellEditor: 'agRichSelectCellEditor',
+
+      cellEditorParams: {
+        values: [{ label: 'On', value: '1' }, { label: 'Off', value: '2' }],
+        cellRenderer(params: any) {
+          return 'Value is <b>' + params.value.label + '</b>';
+        }
+      },
+      cellRenderer(params: any) {
+        return ' <b>' + params.value.label + '</b>';
+      },
+
+      suppressMenu: true,
+      pinned: false,
+      lockPosition: true,
+      editable: true
+    });
+  }
+  return datesColumnDefs;
+};
+
+const totalsColumnDefs = (size: number) => {
+  const datesColumnDefs: any[] = [];
+  for (let i = 0; i < size; i++) {
+    const date: Moment = moment(new Date());
+    date.add(i + 1, 'days');
+
+    datesColumnDefs.push({
+      colId: `${date.format('DD-MM-YYYY')}/date`,
+      headerName: date.format('DD-MM-YYYY'),
+      field: `${date.format('DD-MM-YYYY')}/date`,
+      sortable: false,
+      suppressMenu: true,
+      pinned: false,
+      lockPosition: true,
+      cellStyle(params: any) {
+        if (params.value >= 5) {
+          // mark police cells as red
+          return { textAlign: 'end', backgroundColor: 'red' };
+        } 
+          return null;
+        
+      }
+    });
+  }
+  return datesColumnDefs;
+};
+
+const getData = (size: number) => {
+  const data: any[] = [];
+  const dates = datesColumnDefs(60);
+  const datesData: any = {};
+  dates.forEach(x => {
+    datesData[x.colId] = { label: 'On', value: '1' };
+  });
+  for (let i = 0; i < size; i++) {
+    data.push({
+      name: `name_${i + 1}`,
+      workShift: `workShift_${i + 1}`,
+      company: `company_${i + 1}`,
+      supervisor: `supervisor_${i + 1}`,
+      phonebook: `phonebook_${i + 1}`,
+      terminal: `terminalt_${i + 1}`,
+      ...datesData
+    });
+  }
+
+  return data;
+};
+
+const getDataTotal = (size: number) => {
+  const data: any[] = [];
+  const dates = totalsColumnDefs(60);
+
+  let labels: string[] = [
+    'On',
+    'Off',
+    'DAY',
+    'NGT',
+    'ANY',
+    'RES',
+    'VAC',
+    'TRD',
+    'NEW',
+    'TER'
+  ];
+
+  for (let i = 0; i < size; i++) {
+    const datesData: any = {};
+    dates.forEach(x => {
+      datesData[x.colId] = Math.floor(Math.random() * 101);
+    });
+    const pos: number = Math.floor(Math.random() * labels.length);
+    if (i % 2 === 0 && !data.some(x => x.name === labels[pos])) {
+      data.push({
+        name: labels[pos],
+        ...datesData
+      });
+      labels = labels.filter(x => x !== labels[pos]);
+    } else {
+      data.push({
+        name: '% of total',
+        ...datesData
+      });
+    }
+  }
+
+  return data;
+};
+
+const getState = () => {
+  const pinned :boolean = true;
+  const state: any = {
+    columnDefs: [
+      {
+        colId: 'name',
+        headerName: 'name',
+        field: 'name',
+        sortable: true,
+        cellEditor: 'agSelectCellEditor',
+        cellEditorParams: {
+          values: ['English', 'Spanish', 'French', 'Portuguese', '(other)']
+        },
+        suppressMenu: true,
+        pinned,
+        editable: true
+      },
+      {
+        colId: 'company',
+        headerName: 'company',
+        field: 'company',
+        sortable: true,
+        suppressMenu: true,
+        pinned
+      },
+      {
+        colId: 'workShift',
+        headerName: 'workShift',
+        field: 'workShift',
+        sortable: true,
+        suppressMenu: true,
+        pinned
+      },
+      {
+        colId: 'supervisor',
+        headerName: 'supervisor',
+        field: 'supervisor',
+        suppressMenu: true,
+        pinned
+      },
+      {
+        colId: 'phonebook',
+        headerName: 'phone book',
+        field: 'phonebook',
+        suppressMenu: true,
+        pinned
+      },
+      {
+        colId: 'terminal',
+        headerName: 'Terminal',
+        field: 'terminal',
+        suppressMenu: true,
+        pinned
+      }
+    ],
+    defaultColDef: {
+      // set every column width
+
+      // make every column editable
+      editable: false,
+      filter: 'agTextColumnFilter',
+      tooltipComponent: 'customTooltip'
+    },
+    rowData: getData(200)
+  };
+
+  datesColumnDefs(60).forEach(x => {
+    state.columnDefs!.push(x);
+  });
+
+  return state;
+};
+
+const getStateTotals = () => {
+  const pinned = true;
+  const state: any = {
+    columnDefs: [
+      {
+        colId: 'name',
+        headerName: 'Dates',
+        field: 'name',
+        sortable: false,
+        cellEditor: 'agSelectCellEditor',
+        cellEditorParams: {
+          values: ['English', 'Spanish', 'French', 'Portuguese', '(other)']
+        },
+        suppressMenu: true,
+        pinned
+      }
+    ],
+    defaultColDef: {
+      // set every column width
+
+      // make every column editable
+      editable: false,
+      filter: 'agTextColumnFilter'
+    },
+    rowData: getDataTotal(13)
+  };
+
+  totalsColumnDefs(60).forEach(x => {
+    state.columnDefs!.push(x);
+  });
+
+  return state;
+};
 
 class SelectCellRender extends React.Component<ICellRendererParams> {
   render() {
@@ -68,147 +340,51 @@ class SelectCellRender extends React.Component<ICellRendererParams> {
 
 const AgGridDemo = () => {
   const [apiGrid, setApiGrid] = useState<GridApi | undefined>();
+  const [columnApi, setColumnDefGrid] = useState<ColumnApi | undefined>();
+
+  const [apiGridTotal, setApiGridTotal] = useState<GridApi | undefined>();
+
+  const [columnApiTotal, setColumnDefGridTotal] = useState<
+    ColumnApi | undefined
+  >();
+
   const [enableContextualMenu, setEnableContextualMenu] = useState<boolean>(
     true
   );
-  const [hideColumns, setHideColumns] = useState<boolean>(
-    true
-  );
-  const [columnApi, setColumnDefGrid] = useState<ColumnApi | undefined>();
+
+  const [stateGridTotal, setStateGridTotal] = useState<any>(getStateTotals());
+
+  const [hideColumns, setHideColumns] = useState<boolean>(true);
+
+  const [colorConditional, setColorConditional] = useState<string>('red');
+  const [valueConditional, setValueConditional] = useState<number>(60);
+
+  const [clearData, setClearData] = useState<boolean>(false);
+  const [showLoading, setShowLoading] = useState<boolean>(false);
+
+  const topOptions: any = { alignedGrids: [] };
+  const bottomOptions: any = { alignedGrids: [] };
+
+  topOptions.alignedGrids.push(bottomOptions);
+  bottomOptions.alignedGrids.push(topOptions);
+
   const [oldColumns, setOldColumns] = useState<string[]>([]);
-
-  const datesColumnDefs = (size: number) => {
-    const datesColumnDefs: any[] = [];
-    for (let i = 0; i < size; i++) {
-      const date: Moment = moment(new Date());
-      date.add(i + 1, 'days');
-
-      datesColumnDefs.push({
-        colId: date.format('DD-MM-YYYY') + '/date',
-        headerName: date.format('DD-MM-YYYY'),
-        field: date.format('DD-MM-YYYY') + '/date',
-        sortable: false,
-        // cellRendererFramework: SelectCellRender,
-        cellEditor: 'agRichSelectCellEditor',
-
-        cellEditorParams: {
-          values: [{ label: 'On', value: '1' }, { label: 'Off', value: '2' }],
-          cellRenderer: function(params: any) {
-            return 'Value is <b>' + params.value.label + '</b>';
-          }
-        },
-        cellRenderer: function(params: any) {
-          return ' <b>' + params.value.label + '</b>';
-        },
-
-        suppressMenu: true,
-        pinned: false,
-        lockPosition: true,
-        editable: true
-      });
-    }
-    return datesColumnDefs;
-  };
-
-  const getData = (size: number) => {
-    const data: any[] = [];
-    const dates = datesColumnDefs(60);
-    const datesData: any = {};
-    dates.forEach(x => {
-      datesData[x.colId] = { label: 'On', value: '1' };
-    });
-    for (let i = 0; i < size; i++) {
-      data.push({
-        name: `name_${i + 1}`,
-        workShift: `workShift_${i + 1}`,
-        company: `company_${i + 1}`,
-        supervisor: `supervisor_${i + 1}`,
-        phonebook: `phonebook_${i + 1}`,
-        terminal: `terminalt_${i + 1}`,
-        ...datesData
-      });
-    }
-
-    return data;
-  };
-
-  const getState = () => {
-    const pinned = true;
-    const state: AgGridReactProps = {
-      columnDefs: [
-        {
-          colId: 'name',
-          headerName: 'name',
-          field: 'name',
-          sortable: true,
-          cellEditor: 'agSelectCellEditor',
-          cellEditorParams: {
-            values: ['English', 'Spanish', 'French', 'Portuguese', '(other)']
-          },
-          suppressMenu: true,
-          pinned,
-          editable: true
-        },
-        {
-          colId: 'company',
-          headerName: 'company',
-          field: 'company',
-          sortable: true,
-          suppressMenu: true,
-          pinned
-        },
-        {
-          colId: 'workShift',
-          headerName: 'workShift',
-          field: 'workShift',
-          sortable: true,
-          suppressMenu: true,
-          pinned
-        },
-        {
-          colId: 'supervisor',
-          headerName: 'supervisor',
-          field: 'supervisor',
-          suppressMenu: true,
-          pinned
-        },
-        {
-          colId: 'phonebook',
-          headerName: 'phone book',
-          field: 'phonebook',
-          suppressMenu: true,
-          pinned
-        },
-        {
-          colId: 'terminal',
-          headerName: 'Terminal',
-          field: 'terminal',
-          suppressMenu: true,
-          pinned
-        }
-      ],
-      defaultColDef: {
-        // set every column width
-
-        // make every column editable
-        editable: false,
-        filter: 'agTextColumnFilter'
-      },
-      rowData: getData(200)
-    };
-
-    datesColumnDefs(60).forEach(x => {
-      state.columnDefs!.push(x);
-    });
-
-    return state;
-  };
 
   const onGridReady = (event: GridReadyEvent): void => {
     console.log('GridReadyEvent', event);
 
+    event.api.ensureColumnVisible('31-05-2019/dates');
     setApiGrid(event.api);
+
     setColumnDefGrid(event.columnApi);
+  };
+
+  const onGridReadyTotal = (event: GridReadyEvent): void => {
+    console.log('GridReadyEvent', event);
+
+    event.api.ensureColumnVisible('31-05-2019/dates');
+    setApiGridTotal(event.api);
+    setColumnDefGridTotal(event.columnApi);
   };
 
   const onRowValueChanged = (event: RowValueChangedEvent) => {
@@ -219,14 +395,14 @@ const AgGridDemo = () => {
     const row = getData(200)[event.rowIndex];
 
     event.oldValue !== event.newValue &&
-    showToastNotification({
-      type: 'warning',
-      message: `se ha cambiado el valor ${row.name} de ${
-        event.oldValue.label
+      showToastNotification({
+        type: 'warning',
+        message: `se ha cambiado el valor ${row.name} de ${
+          event.oldValue.label
         } a ${event.newValue.label} en la fecha ${
-        event.column.getColDef().headerName
+          event.column.getColDef().headerName
         }`
-    });
+      });
   };
 
   const onColumnMoved = (event: ColumnMovedEvent) => {
@@ -234,7 +410,7 @@ const AgGridDemo = () => {
       type: 'success',
       message: `se ha movido la columna ${
         event.column!.getColDef().colId
-        } a la posicion ${event!.toIndex! + 1 - 60} `
+      } a la posicion ${event!.toIndex! + 1 - 60} `
     });
   };
 
@@ -247,11 +423,11 @@ const AgGridDemo = () => {
     const oldOrder = oldColumns.join(' , ');
 
     oldOrder !== newOrder &&
-    showToastNotification({
-      type: 'primary',
-      message: `${event.type} El nuevo orden de la columnas es ${newOrder} `,
-      timeout: 3000
-    });
+      showToastNotification({
+        type: 'primary',
+        message: `${event.type} El nuevo orden de la columnas es ${newOrder} `,
+        timeout: 3000
+      });
   };
 
   const onDragStarted = (event: DragStartedEvent) => {
@@ -271,9 +447,16 @@ const AgGridDemo = () => {
     setHideColumns(!hideColumns);
   };
 
-  const clearData =()=>{
+  const clearTable = () => {
+    if (!clearData) {
+      apiGrid && apiGrid.setRowData([]);
+      apiGrid && apiGrid.setColumnDefs([]);
+    } else {
+      apiGrid && apiGrid.setRowData(getData(200));
+      apiGrid && apiGrid.setColumnDefs(getState().columnDefs!);
+    }
 
-    apiGrid && apiGrid.setRowData([]);
+    setClearData(!clearData);
   };
 
   function createFlagImg(flag: any) {
@@ -305,15 +488,12 @@ const AgGridDemo = () => {
               y.infoSelection.columnName === coldId
           );
           if (!exitRangeParsed) {
-
             rangeParsed.push({
               data: value,
               infoSelection: {
                 rowIndex: row,
                 columnName: coldId,
-                columnIndex: columns.findIndex(
-                  s => s.getColId() === coldId
-                )
+                columnIndex: columns.findIndex(s => s.getColId() === coldId)
               }
             });
           }
@@ -327,42 +507,39 @@ const AgGridDemo = () => {
     options: { label: string; value: string }[],
     params: GetContextMenuItemsParams
   ) => {
-    return options.map(
-      (x: { label: string; value: string }) => {
-        return {
-          name: x.label,
-          cssClasses: ['redFont', 'bold'],
-          action() {
-            const row = getData(200)[params.node.rowIndex];
+    return options.map((x: { label: string; value: string }) => {
+      return {
+        name: x.label,
+        cssClasses: ['redFont', 'bold'],
+        action() {
+          const row = getData(200)[params.node.rowIndex];
 
-            const rangeSelection: RangeSelection[] = params.api!.getRangeSelections();
+          const rangeSelection: RangeSelection[] = params.api!.getRangeSelections();
 
-            const value = rangeSelection ? rangeSelection : params.value;
+          const value = rangeSelection ? rangeSelection : params.value;
 
-            if (Array.isArray(value)) {
-              const result = parseRangeSelection(
-                value,
-                x.value,
-                params.columnApi!.getAllDisplayedColumns()
-              );
-              console.log('actualizar con ', x.label, 'a estas tuplas', result);
-            } else {
-              console.log('params.value', value);
-            }
-
-            showToastNotification({
-              type: 'success',
-              message: `Accion Update sobre el driver ${
-                row.name
-                } en  column ${params.column.getColId()} con value ${
-                params.value.label
-                } `
-            });
+          if (Array.isArray(value)) {
+            const result = parseRangeSelection(
+              value,
+              x.value,
+              params.columnApi!.getAllDisplayedColumns()
+            );
+            console.log('actualizar con ', x.label, 'a estas tuplas', result);
+          } else {
+            console.log('params.value', value);
           }
-        };
-      }
-    );
 
+          showToastNotification({
+            type: 'success',
+            message: `Accion Update sobre el driver ${
+              row.name
+            } en  column ${params.column.getColId()} con value ${
+              params.value.label
+            } `
+          });
+        }
+      };
+    });
   };
 
   const getContextMenuItems = (params: GetContextMenuItemsParams) => {
@@ -370,7 +547,10 @@ const AgGridDemo = () => {
     const columnFixed = columnDefs!
       .filter((x: any) => !x.colId.includes('/date'))
       .map((y: any) => y.colId);
-    if (columnFixed.some((x: string) => x === params.column.getColId())) {
+    if (
+      params.column &&
+      columnFixed.some((x: string) => x === params.column.getColId())
+    ) {
       return [
         {
           name: 'Update schedule driver ',
@@ -381,9 +561,9 @@ const AgGridDemo = () => {
               type: 'success',
               message: `Accion Update sobre el driver ${
                 row.name
-                } en  column ${params.column.getColId()} con value ${
+              } en  column ${params.column.getColId()} con value ${
                 params.value
-                } `
+              } `
             });
           },
           cssClasses: ['redFont', 'bold']
@@ -397,9 +577,9 @@ const AgGridDemo = () => {
               type: 'success',
               message: `Accion Edit sobre el driver ${
                 row.name
-                } en  column ${params.column.getColId()} con value ${
+              } en  column ${params.column.getColId()} con value ${
                 params.value
-                } `
+              } `
             });
           },
           tooltip:
@@ -429,7 +609,7 @@ const AgGridDemo = () => {
             type: 'success',
             message: `Accion Update sobre el driver ${
               row.name
-              } en  column ${params.column.getColId()} con value ${params.value} `
+            } en  column ${params.column.getColId()} con value ${params.value} `
           });
         },
         cssClasses: ['redFont', 'bold'],
@@ -452,7 +632,7 @@ const AgGridDemo = () => {
             type: 'success',
             message: `Accion Edit sobre el driver ${
               row.name
-              } en  column ${params.column.getColId()} con value ${params.value} `
+            } en  column ${params.column.getColId()} con value ${params.value} `
           });
         },
         tooltip:
@@ -590,19 +770,199 @@ const AgGridDemo = () => {
     // return result;
   };
 
+  const templateNoData = () => {
+    return (
+      '<div style="height: 100%;width: 100%; background: rgb(245, 245, 245); display: flex; justify-content: center;align-items: center" >' +
+      '<h1  style=" fontSize: 22; fontWeight: 400;  color: rgba(49, 59, 67, 0.27); padding: 10px; ">This is a custom \'no rows\' overlay</h1>' +
+      '</div>'
+    );
+  };
+
+  const suppressContextMenu = () => {
+    if (columnApi && apiGrid) {
+      return (
+        columnApi!.getColumnState().length === 0 ||
+        apiGrid!.getDisplayedRowCount() === 0
+      );
+    }
+
+    return false;
+  };
+
+  const onBtShowLoading = () => {
+    if (!showLoading) {
+      apiGrid && apiGrid.showLoadingOverlay();
+    } else {
+      apiGrid && apiGrid.hideOverlay();
+    }
+    setShowLoading(!showLoading);
+  };
+
+  const onBtScrolling = () => {
+    apiGrid && apiGrid!.ensureColumnVisible('05-06-2019/date');
+    apiGrid && apiGrid!.ensureColumnVisible('31-05-2019/date');
+
+    apiGridTotal && apiGridTotal!.ensureColumnVisible('05-06-2019/date');
+    apiGridTotal && apiGridTotal!.ensureColumnVisible('31-05-2019/date');
+
+    apiGrid && apiGrid!.ensureIndexVisible(100);
+    apiGrid && apiGrid!.ensureNodeVisible(200);
+  };
+
+
+  const changeColors = (value: any) => {
+    raiseDoSearchWhenUserStoppedTypingColor(value);
+  };
+
+  const raiseDoSearchWhenUserStoppedTypingColor = debounce((value: any) => {
+    changeConditionalColor(value)
+  }, 150);
+
+  const changeConditionalColor = (color: VColorResult) => {
+    setColorConditional(color.hex);
+
+    const columnDate: ColDef[] = columnApiTotal!
+      .getColumnState()
+      .filter(y => y.colId.includes('/date'))
+      .map((x: ColumnState) => {
+        const columnDef: ColDef = apiGridTotal!.getColumnDef(x!.colId);
+        return {
+          ...columnDef,
+          cellStyle(params: any) {
+            if (params.value >= valueConditional) {
+              // mark police cells as red
+              return {
+                textAlign: 'end',
+                color: getProperLetterColor(color.hex),
+                backgroundColor: color.hex
+              };
+            }
+            return { textAlign: 'end' };
+          }
+        };
+      });
+    const columnName: ColDef[] = columnApiTotal!
+      .getColumnState()
+      .filter(y => !y.colId.includes('/date'))
+      .map((x: ColumnState) => {
+        const columnDef: ColDef = apiGridTotal!.getColumnDef(x!.colId);
+        return {
+          ...columnDef
+        };
+      });
+
+
+    apiGridTotal && apiGridTotal!.setColumnDefs([...columnName, ...columnDate]);
+
+    apiGridTotal && apiGridTotal!.refreshCells();
+  };
+
+
+  const changeValue = (value: any) => {
+    raiseDoSearchWhenUserStoppedTypingValue(value);
+  };
+
+  const raiseDoSearchWhenUserStoppedTypingValue = debounce((value: any) => {
+ if(!isNaN(value)){
+   changeConditionalValue(parseInt(value))
+ }
+
+
+  }, 150);
+
+const  changeConditionalValue =(value:number)=>{
+  setValueConditional(value);
+  const columnDate: ColDef[] = columnApiTotal!
+    .getColumnState()
+    .filter(y => y.colId.includes('/date'))
+    .map((x: ColumnState) => {
+      const columnDef: ColDef = apiGridTotal!.getColumnDef(x!.colId);
+      return {
+        ...columnDef,
+        cellStyle(params: any) {
+          if (params.value >= value) {
+            // mark police cells as red
+            return {
+              textAlign: 'end',
+              color: getProperLetterColor(colorConditional),
+              backgroundColor: colorConditional
+            };
+          }
+          return { textAlign: 'end' };
+        }
+      };
+    });
+  const columnName: ColDef[] = columnApiTotal!
+    .getColumnState()
+    .filter(y => !y.colId.includes('/date'))
+    .map((x: ColumnState) => {
+      const columnDef: ColDef = apiGridTotal!.getColumnDef(x!.colId);
+      return {
+        ...columnDef
+      };
+    });
+
+
+  apiGridTotal && apiGridTotal!.setColumnDefs([...columnName, ...columnDate]);
+
+  apiGridTotal && apiGridTotal!.refreshCells();
+};
+
   return (
     <>
+      <div style={{ width: '100%', display: 'flex' }}>
+        <div style={{ height: '100%', width: '100%',display:'flex' }}>
+
+          <VInputField inline={true} label={'filters'} id={'value conditional'} value={valueConditional} onChange={changeValue}/>
+          <div style={{marginLeft:'10px'}}>
+            <VColorPicker
+            height={31}
+            width={31}
+            Color={colorConditional}
+            typePickerColor={'SketchPicker'}
+            onChange={changeColors}
+          /></div>
+
+        </div>
+        <div style={{ width: '99%' }}>
+          <VAgGrid
+            onGridReady={onGridReadyTotal}
+            columnDefs={stateGridTotal.columnDefs}
+            defaultColDef={stateGridTotal.defaultColDef}
+            rowData={stateGridTotal.rowData}
+            gridOptions={topOptions}
+            suppressContextMenu={true}
+            getContextMenuItems={getContextMenuItems}
+            animateRows={true}
+            // overlayNoRowsTemplate={templateNoData()}
+            noRowsOverlayComponent={'customNoRowsOverlay'}
+            loadingOverlayComponent={'customLoadingOverlay'}
+            frameworkComponents={{
+              customLoadingOverlay: VSpinner,
+              customNoRowsOverlay: EmptyData
+            }}
+          />
+        </div>
+      </div>
+
       <button onClick={toggleContextualMenu}>
         {' '}
         {enableContextualMenu ? 'deshabilitar ' : 'hablilitar '} Menu contextual
       </button>
       <button onClick={toggleVisibleColumns}>
         {' '}
-        {hideColumns ? 'Ocultar columns, company y workShift  ' : 'Mostrar columnas, company y workShift '}
+        {hideColumns
+          ? 'Ocultar columns, company y workShift  '
+          : 'Mostrar columnas, company y workShift '}
       </button>
-      <button onClick={clearData}>
-        Borrar datos
+      <button onClick={clearTable}>
+        {clearData ? 'Poblar tabla  ' : 'Borrar tabla'}
       </button>
+      <button onClick={onBtShowLoading}>
+        {showLoading ? 'Ocultar cargando ' : 'Mostrar cargando'}
+      </button>
+      <button onClick={onBtScrolling}>scroll to 31-05-2019</button>
+
       <VAgGrid
         onGridReady={onGridReady}
         columnDefs={getState().columnDefs}
@@ -612,11 +972,19 @@ const AgGridDemo = () => {
         onRowValueChanged={onRowValueChanged}
         onCellValueChanged={onCellValueChanged}
         onColumnMoved={onColumnMoved}
-        suppressContextMenu={!enableContextualMenu}
+        suppressContextMenu={!enableContextualMenu || suppressContextMenu()}
         getContextMenuItems={getContextMenuItems}
         onDragStarted={onDragStarted}
         onDragStopped={onDragStopped}
         animateRows={true}
+        // overlayNoRowsTemplate={templateNoData()}
+        noRowsOverlayComponent={'customNoRowsOverlay'}
+        loadingOverlayComponent={'customLoadingOverlay'}
+        frameworkComponents={{
+          customLoadingOverlay: VSpinner,
+          customNoRowsOverlay: EmptyData
+        }}
+        gridOptions={bottomOptions}
       />
     </>
   );
