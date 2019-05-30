@@ -10,7 +10,7 @@ import '@blueprintjs/select/lib/css/blueprint-select.css';
 import { IFieldProps } from './IFieldProps';
 import { StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import {Validators} from '../Validators';
 import { reaction, toJS } from 'mobx';
 
 /**
@@ -146,9 +146,9 @@ export class VSelectMultiple extends React.Component<
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);
