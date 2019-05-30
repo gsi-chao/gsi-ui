@@ -18,7 +18,7 @@ import {
   VTagInputField,
   VTextAreaField
 } from '../components/Form';
-import { exact, lt } from '../components/Form/Validators';
+import { Validators } from '../components/Form/Validators';
 import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
 
 import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectItems';
@@ -120,18 +120,6 @@ class InputsDemo extends Component {
             console.log(this.form.$.movies.value);
           }}
         />
-        <VOrgChart
-          dataSource={dataSource}
-          onReorder={onReorderHierarchy}
-          onClick={onClickCompany}
-          draggable={true}
-        />
-        <VCarousel
-          height={'200px'}
-          width={'500px'}
-          elements={elementsCarousel}
-          buttonsJustify={'flex-end'}
-        />
 
         <FileUpload />
         <VInputField
@@ -164,7 +152,7 @@ class InputsDemo extends Component {
         />
         <VInputField
           required
-          validators={[this.searchingAnime, lt(10), exact(9)]}
+          validators={[this.searchingAnime, Validators.lt(10), Validators.exact(9)]}
           fill
           layer={{
             labelWidth: 6,

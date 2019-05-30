@@ -1,10 +1,10 @@
 {
-  "name": "gsi-vx-ui",
+  "name": "gsi-vx",
   "version": "0.3.7-beta7",
-  "description": "UI Interface for Vertrax projects",
+  "description": "UI Interface GSI Projects",
   "author": "gsi-chao",
   "license": "MIT",
-  "repository": "gsi-chao/vertrax-ui-cmp",
+  "repository": "gsi-chao/gsi-vx",
   "main": "lib/index.js",
   "types": "lib/types/index.d.ts",
   "files": [
