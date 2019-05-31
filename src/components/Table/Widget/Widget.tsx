@@ -54,7 +54,10 @@ export interface IVWidget extends IWidget, ActionClickWidget {
   column: number;
   columns: string[];
   onDoubleClick?: any;
-  showTooltips?: (value: any, infoSelection?: InfoSelection) => JSX.Element | string | undefined
+  showTooltips?: (
+    value: any,
+    infoSelection?: InfoSelection
+  ) => JSX.Element | string | undefined;
   positionTooltips?: PopoverPosition;
 }
 
@@ -136,24 +139,28 @@ class Widget extends Component<IVWidget> {
               onDoubleClick={this.onDoubleClick}
               backgroundColor={colorSetting.backgroundColor}
             >
-              {
-                this.props.showTooltips ?
-                  <TooltipsWidgetsColor
-                    usePortal
-                    hoverCloseDelay={0}
-                    content={this.props.showTooltips(this.props.value, {
+              {this.props.showTooltips ? (
+                <TooltipsWidgetsColor
+                  usePortal
+                  hoverCloseDelay={0}
+                  content={
+                    this.props.showTooltips(this.props.value, {
                       columnIndex: this.props.column,
                       rowIndex: this.props.row,
                       columnName: this.props.columns[this.props.column]
-                    })!}
-                    position={ this.props.positionTooltips?this.props.positionTooltips:'left' }
-                  >
-                    {this.getCustomerWidget()}
-
-                  </TooltipsWidgetsColor> :
-                  this.getCustomerWidget()
-              }
-
+                    })!
+                  }
+                  position={
+                    this.props.positionTooltips
+                      ? this.props.positionTooltips
+                      : 'left'
+                  }
+                >
+                  {this.getCustomerWidget()}
+                </TooltipsWidgetsColor>
+              ) : (
+                this.getCustomerWidget()
+              )}
             </CenterWidget>
           );
         }
@@ -181,20 +188,24 @@ class Widget extends Component<IVWidget> {
     return null;
   };
 
-
   private getCustomerWidget = () => {
-    return (<div style={{
-      width: this.props.cusmtomerCell!.width ? this.props.cusmtomerCell!.width : 'auto',
-      padding: ' 0px 11px',
-      color: this.getColorSetting().color
-    }}>
-      {this.props.cusmtomerCell!.renderCustomer(this.props.value, {
-        columnIndex: this.props.column,
-        rowIndex: this.props.row,
-        columnName: this.props.columns[this.props.column]
-      })}
-    </div>);
-
+    return (
+      <div
+        style={{
+          width: this.props.cusmtomerCell!.width
+            ? this.props.cusmtomerCell!.width
+            : 'auto',
+          padding: ' 0px 11px',
+          color: this.getColorSetting().color
+        }}
+      >
+        {this.props.cusmtomerCell!.renderCustomer(this.props.value, {
+          columnIndex: this.props.column,
+          rowIndex: this.props.row,
+          columnName: this.props.columns[this.props.column]
+        })}
+      </div>
+    );
   };
 
   private getTextAlign() {
@@ -238,28 +249,33 @@ class Widget extends Component<IVWidget> {
     const backgroundColors = backgroundColor ? backgroundColor : 'transparent';
 
     return (
-
       <CenterWidget
         onDoubleClick={this.onDoubleClick}
         backgroundColor={backgroundColors}
       >
-        {
-          this.props.showTooltips ?
-            (<Tooltip
-              usePortal
-              hoverCloseDelay={100}
-              content={this.props.showTooltips(this.props.value, {
+        {this.props.showTooltips ? (
+          <Tooltip
+            usePortal
+            hoverCloseDelay={100}
+            content={
+              this.props.showTooltips(this.props.value, {
                 columnIndex: this.props.column,
                 rowIndex: this.props.row,
                 columnName: this.props.columns[this.props.column]
-              })!}
-              position={ this.props.positionTooltips?this.props.positionTooltips:'left' }
-
-            >
-              {widget ? widget : <p> {this.props.value}</p>}
-            </Tooltip>) : widget ? widget : <p> {this.props.value}</p>}
+              })!
+            }
+            position={
+              this.props.positionTooltips ? this.props.positionTooltips : 'left'
+            }
+          >
+            {widget ? widget : <p> {this.props.value}</p>}
+          </Tooltip>
+        ) : widget ? (
+          widget
+        ) : (
+          <p> {this.props.value}</p>
+        )}
       </CenterWidget>
-
     );
   }
 

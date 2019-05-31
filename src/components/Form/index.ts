@@ -11,4 +11,4 @@ export { VDateTimePicker } from './Inputs/DateTimePicker';
 export { patchFormValues, getFormValue } from './utils';
 export { VSelectMultiple } from './Inputs/SelectMultipleField';
 export { VSelectMultipleTags } from './Inputs/SelectMultipleTags';
-export {Validators} from './Validators';
+export { Validators } from './Validators';

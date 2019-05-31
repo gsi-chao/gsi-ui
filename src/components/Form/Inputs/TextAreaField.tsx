@@ -6,7 +6,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledTextArea } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
-import {Validators} from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 /** FieldState */
 

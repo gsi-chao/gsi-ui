@@ -29,12 +29,15 @@ const InfoPage = (props: IInfoPage) => {
     <div style={{ margin: '0px 10px' }}>
       {props.currentPage && (
         <span>
-          {props.pageLabel ? props.pageLabel: 'Page'} <strong>{props.currentPage}</strong> {props.ofLabel ? props.ofLabel: 'of'}
-           <strong> {props.totalPages} </strong>
+          {props.pageLabel ? props.pageLabel : 'Page'}{' '}
+          <strong>{props.currentPage}</strong>{' '}
+          {props.ofLabel ? props.ofLabel : 'of'}
+          <strong> {props.totalPages} </strong>
         </span>
       )}
       <span>
-       {props.totalLabel ? props.totalLabel: 'Total'}: <strong className="text-secondary">{` ${props.totals}`}</strong>
+        {props.totalLabel ? props.totalLabel : 'Total'}:{' '}
+        <strong className="text-secondary">{` ${props.totals}`}</strong>
       </span>
     </div>
   );
@@ -305,9 +308,9 @@ export class VPagination extends Component<VPaginatorProps, IState> {
         currentPage={currentPage}
         totalPages={this.getTotalPages()}
         totals={this.getTotalsRecord()}
-        pageLabel={this.props.labels?this.props.labels.pages: undefined}
-        ofLabel={this.props.labels?this.props.labels.of: undefined}
-        totalLabel={this.props.labels?this.props.labels.total: undefined}
+        pageLabel={this.props.labels ? this.props.labels.pages : undefined}
+        ofLabel={this.props.labels ? this.props.labels.of : undefined}
+        totalLabel={this.props.labels ? this.props.labels.total : undefined}
       />
     );
   }

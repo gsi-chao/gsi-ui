@@ -9,10 +9,10 @@ export interface IVContextualActionTableProps {
   action: (item: any) => void;
   text: string;
   icon?: IconName;
-  disabled?:boolean;
+  disabled?: boolean;
   isMenuDivider?: boolean;
-  label?:string
-  labelElement?:React.ReactNode
+  label?: string;
+  labelElement?: React.ReactNode;
   actions?: IVContextualActionTableProps[];
 }
 
@@ -44,7 +44,7 @@ export interface IActionCellMenuItemProps {
    */
   getCellData: (row: number, col: number) => any;
   contextOptions: IVColumnsContextual;
-  selectionData?: any
+  selectionData?: any;
   onDefaultActions: (action: DefaultActions, value: any) => void;
   hasCachedData: any;
   tableColsAndRowsTotals: any;
@@ -53,7 +53,9 @@ export interface IActionCellMenuItemProps {
   modeEdit: boolean;
 }
 
-export class ActionCellsMenuItem extends React.PureComponent<IActionCellMenuItemProps> {
+export class ActionCellsMenuItem extends React.PureComponent<
+  IActionCellMenuItemProps
+> {
   render() {
     const default_items = this.renderDefaultMenuItems();
     const actions = this.renderActionsMenuItems();
@@ -97,7 +99,7 @@ export class ActionCellsMenuItem extends React.PureComponent<IActionCellMenuItem
               )
             );
           case 'export':
-            return <MenuItem key={key} icon="export" text="Export"/>;
+            return <MenuItem key={key} icon="export" text="Export" />;
         }
       });
     }
@@ -108,14 +110,17 @@ export class ActionCellsMenuItem extends React.PureComponent<IActionCellMenuItem
       // const actions = this.props.context_options.actions;
       const actions = this.props.contextOptions!.actions!;
       return actions.map((value: IVContextualActionTableProps, key: number) => {
-        return this.renderContextual(value,key);
+        return this.renderContextual(value, key);
       });
     }
   };
 
-  renderContextual = (contextual: IVContextualActionTableProps, key: number) => {
+  renderContextual = (
+    contextual: IVContextualActionTableProps,
+    key: number
+  ) => {
     if (contextual.actions === undefined) {
-      return !contextual.isMenuDivider ?(
+      return !contextual.isMenuDivider ? (
         <MenuItem
           key={key}
           icon={contextual.icon}
@@ -127,30 +132,30 @@ export class ActionCellsMenuItem extends React.PureComponent<IActionCellMenuItem
             contextual.action(this.props.selectionData);
           }}
         />
-      ): (<MenuDivider  key={key}  title={contextual.text} />);
+      ) : (
+        <MenuDivider key={key} title={contextual.text} />
+      );
     }
-    return <MenuItem
-      key={key}
-      icon={contextual.icon}
-      text={contextual.text}
-      label={contextual.label}
-      labelElement={contextual.labelElement}
-      disabled={contextual.disabled}
-      onClick={() => {
-        contextual.action(this.props.selectionData);
-      }}
-    >
-      {
-        contextual.actions.map((value: IVContextualActionTableProps, key: number) => {
-          return this.renderContextual(value, key);
-        })
-      }
-
-
-    </MenuItem>;
-
+    return (
+      <MenuItem
+        key={key}
+        icon={contextual.icon}
+        text={contextual.text}
+        label={contextual.label}
+        labelElement={contextual.labelElement}
+        disabled={contextual.disabled}
+        onClick={() => {
+          contextual.action(this.props.selectionData);
+        }}
+      >
+        {contextual.actions.map(
+          (value: IVContextualActionTableProps, key: number) => {
+            return this.renderContextual(value, key);
+          }
+        )}
+      </MenuItem>
+    );
   };
-
 
   private handleCopy = () => {
     const { context } = this.props;

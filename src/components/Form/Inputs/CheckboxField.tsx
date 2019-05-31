@@ -7,7 +7,7 @@ import { Alignment, Checkbox, Intent } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledCheckBoxInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import {Validators} from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 
 /**

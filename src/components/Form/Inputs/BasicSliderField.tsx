@@ -7,7 +7,7 @@ import { Intent, Slider } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledSlider } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import {Validators} from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 import { isNumber } from 'lodash';
 

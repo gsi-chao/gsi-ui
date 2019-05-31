@@ -8,7 +8,7 @@ interface IEmptyData {
   settings: ISettingEmptyData | undefined;
 }
 
-const EmptyData = (props: IEmptyData) => {
+export const EmptyData = (props: IEmptyData) => {
   const text: string =
     (props && props.settings && props.settings!.text && props.settings!.text) ||
     'No data';
@@ -95,5 +95,3 @@ const EmptyData = (props: IEmptyData) => {
     </div>
   );
 };
-
-export default EmptyData;

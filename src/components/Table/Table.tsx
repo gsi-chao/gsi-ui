@@ -37,7 +37,7 @@ import {
   ITextAlignColumn
 } from './type';
 import { IItemMultiple } from '../Form/Inputs/SelectMultipleField';
-import EmptyData from './components/EmptyData';
+import { EmptyData } from './components/EmptyData';
 
 export type IVTableOrder = 'ASC' | 'DESC' | 'NONE';
 
@@ -45,7 +45,7 @@ export interface IVActionsTableProps {
   columns: string[] | EditColumns;
 }
 
-export interface totalOptionsProps {
+export interface TotalOptionsProps {
   totals?: string[];
   count?: string[];
   average?: string[];
@@ -122,10 +122,13 @@ export interface IVTableProps {
   onOrderColumns?: (columns: string[]) => void;
   settingEmptyData?: ISettingEmptyData;
   filterByColumn?: FilterByColumn;
-  tooltips?: (value: any, infoSelection?: InfoSelection) => JSX.Element | string | undefined;
+  tooltips?: (
+    value: any,
+    infoSelection?: InfoSelection
+  ) => JSX.Element | string | undefined;
   positionTooltips?: PopoverPosition;
   allowTableTotals?: boolean;
-  totalsConf?: totalOptionsProps;
+  totalsConf?: TotalOptionsProps;
 }
 
 interface IProps extends IVTableProps, ITableProps {}

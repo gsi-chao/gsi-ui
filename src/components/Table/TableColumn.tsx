@@ -263,7 +263,6 @@ export interface FilterInputProps {
 }
 
 export const FilterInput = (props: FilterInputProps) => {
-
   const [value, setValue] = useState(props.value || '');
   const handleFilter = (value: any) => {
     props.handleFilter(value);

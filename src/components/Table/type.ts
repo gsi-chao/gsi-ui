@@ -14,10 +14,12 @@ export interface EditSetup {
 }
 
 export interface ITooltips {
-  show: (value: any, infoSelection?: InfoSelection) =>JSX.Element | string | undefined
+  show: (
+    value: any,
+    infoSelection?: InfoSelection
+  ) => JSX.Element | string | undefined;
 }
 export interface InfoSelection {
-
   rowIndex: number;
   columnIndex: number;
   columnName: string;

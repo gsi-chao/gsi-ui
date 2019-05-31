@@ -32,7 +32,7 @@ export interface IPaginatorStyle {
   pageSelectedColor?: string;
   pageHoverBackgroundColor?: string;
   pageHoverColor?: string;
-  borderRadius?:string;
+  borderRadius?: string;
   iconLeft?: IconName | MaybeElement;
   iconRight?: IconName | MaybeElement;
   iconColor?: string;

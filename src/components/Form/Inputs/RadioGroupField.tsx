@@ -6,7 +6,7 @@ import { Alignment, Intent, IOptionProps, RadioGroup } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledRadioButton } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import {Validators} from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 
 /**
