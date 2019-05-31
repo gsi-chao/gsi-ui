@@ -10629,6 +10629,11 @@ rgbcolor@^1.0.1:
   resolved "https://registry.yarnpkg.com/rgbcolor/-/rgbcolor-1.0.1.tgz#d6505ecdb304a6595da26fa4b43307306775945d"
   integrity sha1-1lBezbMEplldom+ktDMHMGd1lF0=
 
+rift-router@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/rift-router/-/rift-router-1.2.0.tgz#27880b527c2a41fa96f126cb4ebdfe4d793922f7"
+  integrity sha512-B0l+AxuJjp9nevs8H/sGJ2RFN2NTu4P27MVRSQ217DM7wpMZxjUj7ht2DFI556oVDciZht5uBffrCPOgw4BPEQ==
+
 rimraf@2.6.3, rimraf@^2.2.8, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"

@@ -13,7 +13,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledTagsInput } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import {Validators} from '../Validators';
 import { showToastNotification } from '../../ToastNotification';
 import { computed } from 'mobx';
 import { isArray } from 'lodash';
@@ -69,9 +69,9 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);

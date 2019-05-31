@@ -18,7 +18,7 @@ import {
   VTagInputField,
   VTextAreaField
 } from '../components/Form';
-import { exact, lt } from '../components/Form/Validators';
+import { Validators } from '../components/Form/Validators';
 import { VDateTimePicker } from '../components/Form/Inputs/DateTimePicker';
 
 import { SelectUnselectItems } from '../components/SelectItems/SelectUnselectItems';
@@ -87,131 +87,7 @@ class InputsDemo extends Component {
   };
 
   render() {
-    const itemsUnassigned: IItemsList[] = [
-      { active: false, text: 'Item1', value: 'item1' },
-      { active: false, text: 'Item2', value: 'item2' },
-      { active: false, text: 'Item3', value: 'item3' },
-      { active: false, text: 'Item4', value: 'item4' }
-    ];
-    const itemsAssigned: IItemsList[] = [
-      { active: false, text: 'Item5', value: 'item5' },
-      { active: false, text: 'Item6', value: 'item6' },
-      { active: false, text: 'Item7', value: 'item7' },
-      { active: false, text: 'Item8', value: 'item8' }
-    ];
-
-    const options = [
-      {
-        value: 1,
-        label: 'First Value'
-      },
-      {
-        value: 2,
-        label: 'Second Value'
-      },
-      {
-        value: 3,
-        label: 'Third Value'
-      },
-      {
-        value: 4,
-        label: 'Fourth Value'
-      }
-    ];
-    const onClickCompany = (data: any) => {
-      console.log(data);
-    };
-    const onReorderHierarchy = (data: any) => {
-      console.log(data);
-    };
-    const elementsCarousel: any = [
-      <VInputField
-        layer={{
-          labelWidth: 6,
-          inputWidth: 6,
-          labelOrientation: 'end',
-          inputOrientation: 'center'
-        }}
-        fieldState={this.form.$.username}
-        id="username"
-        label={'Username'}
-        inline={true}
-      />,
-      <VTextAreaField
-        fill
-        layer={{
-          labelWidth: 6,
-          inputWidth: 3,
-          labelOrientation: 'end',
-          inputOrientation: 'start'
-        }}
-        id="description"
-        label="Description"
-        inline
-        fieldState={this.form.$.description}
-      />,
-      <VSelectField
-        required
-        minimal
-        defaultText={'Please enter a text'}
-        fixedInputWidthPx={200}
-        fill
-        layer={{
-          labelWidth: 6,
-          inputWidth: 3,
-          labelOrientation: 'end',
-          inputOrientation: 'center'
-        }}
-        options={store}
-        inline
-        label={'Store List'}
-        value={this.selectValue}
-        id="store"
-        icon={'search'}
-        onChange={this.setSelectedValue}
-      />
-    ];
-    const dataSource = {
-      name: 'Hierarchy',
-      title: 'Vertrax',
-      id: 'root',
-      children: [
-        { name: 'LaTank', title: 'Company', className: 'Company', id: 1 },
-        {
-          name: 'LaTank2',
-          title: 'Company',
-          className: 'Company',
-          id: 2,
-          children: [
-            {
-              name: 'Los Angeles Mx',
-              title: 'Terminal',
-              className: 'Terminal',
-              id: 7
-            },
-            {
-              name: 'California',
-              title: 'Terminal',
-              className: 'Terminal',
-              id: 8
-            }
-          ]
-        },
-        { name: 'La Tank 3', title: 'Company', className: 'Company', id: 3 },
-        {
-          name: 'La Tank 4',
-          title: 'Company',
-          className: 'Company',
-          id: 4,
-          children: [
-            { name: 'Texas', title: 'Terminal', className: 'Terminal', id: 9 },
-            { name: 'Austin', title: 'Terminal', className: 'Terminal', id: 10 }
-          ]
-        }
-      ]
-    };
     const rightButton = <Button minimal icon={'lock'} />;
-    console.log(getFormValue(this.form));
     return (
       <React.Fragment>
         <Button
@@ -243,18 +119,6 @@ class InputsDemo extends Component {
           onChange={() => {
             console.log(this.form.$.movies.value);
           }}
-        />
-        <VOrgChart
-          dataSource={dataSource}
-          onReorder={onReorderHierarchy}
-          onClick={onClickCompany}
-          draggable={true}
-        />
-        <VCarousel
-          height={'200px'}
-          width={'500px'}
-          elements={elementsCarousel}
-          buttonsJustify={'flex-end'}
         />
 
         <FileUpload />
@@ -288,7 +152,7 @@ class InputsDemo extends Component {
         />
         <VInputField
           required
-          validators={[this.searchingAnime, lt(10), exact(9)]}
+          validators={[this.searchingAnime, Validators.lt(10), Validators.exact(9)]}
           fill
           layer={{
             labelWidth: 6,
@@ -442,13 +306,6 @@ class InputsDemo extends Component {
           />
           <button onClick={this.changeValueSelect}>change value select</button>
         </div>
-        <SelectUnselectItems
-          listsHeights={'142px'}
-          handleCancel={() => console.log('cancelled')}
-          handleSave={this.handleSave}
-          itemsUnassigned={itemsUnassigned}
-          itemsAssigned={itemsAssigned}
-        />
       </React.Fragment>
     );
   }
