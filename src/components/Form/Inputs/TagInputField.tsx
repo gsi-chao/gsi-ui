@@ -13,7 +13,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledTagsInput } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
-import {Validators} from '../Validators';
+import { Validators } from '../Validators';
 import { showToastNotification } from '../../ToastNotification';
 import { computed } from 'mobx';
 import { isArray } from 'lodash';

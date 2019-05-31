@@ -1,4 +1,5 @@
-export const fromHexToDec = (hexString: string) => parseInt(hexString.replace('#', ''), 16);
+export const fromHexToDec = (hexString: string) =>
+  parseInt(hexString.replace('#', ''), 16);
 
 export const fromDecToHex = (num: number) => {
   let hexString = num.toString(16);
@@ -10,11 +11,10 @@ export const fromDecToHex = (num: number) => {
 
 export const getProperLetterColor = (hexString: string) => {
   const color = hexToRgb(hexString);
-  return color.r * 0.299 + color.g * 0.587 + color.b * 0.114 > 128 ? '#000' : '#FFF';
+  return color.r * 0.299 + color.g * 0.587 + color.b * 0.114 > 128
+    ? '#000'
+    : '#FFF';
 };
-
-
-
 
 export const hexToRgb = (hex: string) => {
   const isHex = /^#[0-9A-F]{6}$/i.test(hex);
@@ -23,23 +23,25 @@ export const hexToRgb = (hex: string) => {
     color = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   } else {
     if (typeof getNameColors()[hex.toLowerCase()] !== 'undefined') {
-      color = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(getNameColors()[hex.toLowerCase()]);
+      color = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
+        getNameColors()[hex.toLowerCase()]
+      );
     }
   }
 
   return color
     ? {
-      r: parseInt(color[1], 16),
-      g: parseInt(color[2], 16),
-      b: parseInt(color[3], 16),
-      a: 1
-    }
+        r: parseInt(color[1], 16),
+        g: parseInt(color[2], 16),
+        b: parseInt(color[3], 16),
+        a: 1
+      }
     : {
-      r: 255,
-      g: 0,
-      b: 0,
-      a: 1
-    };
+        r: 255,
+        g: 0,
+        b: 0,
+        a: 1
+      };
 };
 
 export const getNameColors = (): any => {

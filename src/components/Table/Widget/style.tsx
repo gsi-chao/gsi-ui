@@ -16,11 +16,10 @@ export const CenterWidget = styled.div`
   color: ${(props: IProps) => (props.color ? props.color : 'black')};
 `;
 
-export const TooltipsWidgetsColor =styled(Tooltip)`
-  width: 100%!important;
-  
-  & span.bp3-popover-target {
+export const TooltipsWidgetsColor = styled(Tooltip)`
   width: 100% !important;
-  }
 
+  & span.bp3-popover-target {
+    width: 100% !important;
+  }
 `;

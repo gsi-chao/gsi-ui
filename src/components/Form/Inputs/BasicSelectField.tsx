@@ -11,7 +11,7 @@ import {
 import { IFieldProps } from './IFieldProps';
 import { StyledFormGroup } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import {Validators} from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 
 /**

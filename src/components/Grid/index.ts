@@ -1,1 +1,1 @@
-export * from "./AgGrid";
+export * from './AgGrid';

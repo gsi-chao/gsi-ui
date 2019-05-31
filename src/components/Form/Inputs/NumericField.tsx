@@ -6,7 +6,7 @@ import { IconName, Intent, NumericInput } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledNumericInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import {Validators} from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 
 /**

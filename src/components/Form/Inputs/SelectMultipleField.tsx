@@ -10,7 +10,7 @@ import '@blueprintjs/select/lib/css/blueprint-select.css';
 import { IFieldProps } from './IFieldProps';
 import { StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import {Validators} from '../Validators';
+import { Validators } from '../Validators';
 import { reaction, toJS } from 'mobx';
 
 /**
@@ -88,8 +88,11 @@ export class VSelectMultiple extends React.Component<
       reaction(
         () => ({ fieldState: this.props.fieldState }),
         () => {
-          const ids = this.props.fieldState && toJS(this.props.fieldState.value) || [];
-          const selectedItems = this.props.options.filter(option => ids.some((id : any) => id === option.value));
+          const ids =
+            (this.props.fieldState && toJS(this.props.fieldState.value)) || [];
+          const selectedItems = this.props.options.filter(option =>
+            ids.some((id: any) => id === option.value)
+          );
           this.setState({
             selectedItems
           });
