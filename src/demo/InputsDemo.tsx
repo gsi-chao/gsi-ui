@@ -63,7 +63,7 @@ class InputsDemo extends Component {
       search: new FieldState(''),
       description: new FieldState(''),
       store: new FieldState(''),
-      tags: new FieldState(''),
+      tags: new FieldState(null),
       age: new FieldState(null),
       have_job: new FieldState(''),
       sex: new FieldState(''),
