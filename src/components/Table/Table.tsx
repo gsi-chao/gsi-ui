@@ -122,7 +122,10 @@ export interface IVTableProps {
   onOrderColumns?: (columns: string[]) => void;
   settingEmptyData?: ISettingEmptyData;
   filterByColumn?: FilterByColumn;
-  tooltips?: (value: any, infoSelection?: InfoSelection) => JSX.Element | string | undefined;
+  tooltips?: (
+    value: any,
+    infoSelection?: InfoSelection
+  ) => JSX.Element | string | undefined;
   positionTooltips?: PopoverPosition;
   allowTableTotals?: boolean;
   totalsConf?: totalOptionsProps;
@@ -380,6 +383,29 @@ export const VTable = (props: IProps) => {
     return undefined;
   };
 
+  const getMultipleElementsData = (regions: IRegion[]): any => {
+    const rowIndex: number[] = [];
+    regions.forEach(region => {
+      if (region!.rows![0] === region!.rows![1]) {
+        rowIndex.push(region!.rows![0]);
+      } else {
+       for (let row = region!.rows![0]; row <= region!.rows![1]; row++) {
+         rowIndex.push(row);
+       }
+      }
+    });
+    const data = stateTable.sparseCellData;
+    const resultData: any = [];
+    if (rowIndex.length > 0) {
+      rowIndex.forEach(index => {
+        if (data && data.length > index) {
+          resultData.push(data[index]);
+        }
+      });
+    }
+    return resultData;
+  };
+
   const getFreeSelectionRegions = (argsRegions: IRegion[]): IRegion[] => {
     return createSelectedRegions(
       validateMissingRegion,
@@ -402,6 +428,26 @@ export const VTable = (props: IProps) => {
       ];
     }
     return [];
+  };
+
+  const getMultipleEntireRowsRegions = (argsRegions: IRegion[]): IRegion[] => {
+    return createSelectedRegions(
+      validateMissingRegion,
+      getEntireRows,
+      ifAlreadySelectedThenDeselectMultipleEntireRows,
+      deleteRegionRemain
+    )(argsRegions);
+  };
+
+  const getEntireRows = (argsRegions: IRegion[]): IRegion[] => {
+    const regions = cloneDeep(argsRegions);
+    const { numCols } = getRowAndColsTotals();
+    if (regions.length > 0) {
+      regions.forEach(region => {
+        region.cols = [0, numCols - 1];
+      });
+    }
+    return regions;
   };
 
   /**
@@ -526,6 +572,43 @@ export const VTable = (props: IProps) => {
     return regions;
   };
 
+  const ifAlreadySelectedThenDeselectMultipleEntireRows = (
+    argsRegions: IRegion[]
+  ): IRegion[] => {
+    let regions: IRegion[] = cloneDeep(argsRegions);
+    const lastRegion = regions[regions.length - 1];
+    if (
+      props.cellSelectionType === 'MULTIPLE_ENTIRE_ROWS' &&
+      lastRegion &&
+      lastRegion.cols &&
+      lastRegion.rows
+    ) {
+      const checkRegion: IRegion = cloneDeep(lastRegion);
+      let alreadySplitted = false;
+      regions.map((region, index) => {
+        if (
+          !alreadySplitted &&
+          isContainedRegion(region, lastRegion, index, regions.length - 1)
+        ) {
+          const splittedRegion = splitRegionEntireCell(region, checkRegion);
+          regions.splice(index, 1);
+          const newRegions = regions.filter(
+            innerRegion =>
+              (innerRegion.rows &&
+                (innerRegion.rows[0] !== checkRegion!.rows![0] ||
+                  innerRegion.rows[1] !== checkRegion!.rows![1])) ||
+              (innerRegion.cols &&
+                (innerRegion.cols[0] !== checkRegion!.cols![0] ||
+                  innerRegion.cols[1] !== checkRegion!.cols![1]))
+          );
+          regions = [...newRegions, ...splittedRegion];
+          alreadySplitted = true;
+        }
+      });
+    }
+    return regions;
+  };
+
   /**
    ** @param argsRegions: the regions of the table context
    ** @description check if the last region has some remain when resizing it , a remain appear when go from a 2 cells
@@ -576,12 +659,14 @@ export const VTable = (props: IProps) => {
         containerRegion.cols &&
         checkRegion.cols
       ) {
+        console.log('mas cerca aun');
         if (
           containerRegion.rows[0] <= checkRegion.rows[0] &&
           containerRegion.rows[1] >= checkRegion.rows[1] &&
           (containerRegion.cols[0] <= checkRegion.cols[0] &&
             containerRegion.cols[1] >= checkRegion.cols[1])
         ) {
+          console.log('yea is a contained region!!!!');
           return true;
         }
       }
@@ -624,6 +709,41 @@ export const VTable = (props: IProps) => {
           splittedRegion.push(bellowRegion);
         }
       }
+    }
+    return splittedRegion;
+  };
+
+  const splitRegionEntireCell = (
+    argsRegion: IRegion,
+    regionToDeselect: IRegion
+  ): IRegion[] => {
+    const region = cloneDeep(argsRegion);
+    const { endCell, startCell } = utils.getStartAndEndCell(region);
+    const { numCols } = getRowAndColsTotals();
+    const splittedRegion = [];
+    for (let row = startCell.row; row <= endCell.row; row++) {
+      if (row !== regionToDeselect!.rows![0]) {
+        const newRegion: IRegion = {
+          rows: [row, row],
+          cols: [0, numCols - 1]
+        };
+        splittedRegion.push(newRegion);
+      } /*else {
+        if (row < regionToDeselect!.rows![0]) {
+          const aboveRegion: IRegion = {
+            rows: [row, row],
+            cols: [0, numCols - 1]
+          };
+          splittedRegion.push(aboveRegion);
+        }
+        if (row > regionToDeselect!.rows![0]) {
+          const bellowRegion: IRegion = {
+            rows: [row, row],
+            cols: [0, numCols - 1]
+          };
+          splittedRegion.push(bellowRegion);
+        }
+      }*/
     }
     return splittedRegion;
   };
@@ -823,6 +943,27 @@ export const VTable = (props: IProps) => {
       switch (cellSelectionType) {
         case 'ENTIRE_ROW': {
           return getElementData(getInitRowSelection());
+        }
+        case 'MULTIPLE_ENTIRE_ROWS': {
+          const rowInit = getInitRowSelection();
+          const rowEnd = getEndRowSelection();
+          const colInit = 0;
+          const colEnd = props.columns.length - 1;
+
+          const selections: any[] = [];
+          for (let col: number = colInit; col <= colEnd; col++) {
+            for (let row: number = rowInit; row <= rowEnd; row++) {
+              const infoSelection: InfoSelection = {
+                rowIndex: row,
+                columnIndex: col,
+                columnName: props.columns[col]
+              };
+              const data = stateTable.sparseCellData;
+              const value = data[row][props.columns[col]];
+              selections.push({ value, infoSelection });
+            }
+          }
+          return selections;
         }
 
         case 'CELL': {
@@ -1147,8 +1288,11 @@ export const VTable = (props: IProps) => {
       regions[0].rows &&
       regions[0].rows!.length > 0
     ) {
-      const data = getElementData(regions[0].rows![pos]);
-      onSelectionChange(data);
+      if (props.cellSelectionType === 'MULTIPLE_ENTIRE_ROWS') {
+         onSelectionChange(getMultipleElementsData(regions))
+      } else {
+        onSelectionChange(getElementData(regions[0].rows![pos]));
+      }
     }
   };
 
@@ -1188,6 +1332,21 @@ export const VTable = (props: IProps) => {
         );
         setSelectedRegions(regions);
       }
+    } else if (
+      cellSelectionType === 'MULTIPLE_ENTIRE_ROWS' &&
+      argsRegions &&
+      argsRegions.length > 0
+    ) {
+      regions = getMultipleEntireRowsRegions(argsRegions);
+
+      if (props.actionsSelection && props.actionsSelection.onSelectionChange) {
+        throwOnSelectionChange(
+          regions,
+          1,
+          props.actionsSelection.onSelectionChange
+        );
+      }
+      setSelectedRegions(regions);
     } else if (!cellSelectionType || cellSelectionType === 'FREE') {
       regions = getFreeSelectionRegions(argsRegions);
 
