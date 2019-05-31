@@ -178,7 +178,7 @@ class TableWithWidgetDemo extends Component<IProps, IState> {
 
       ],
       clearSelection: undefined,
-      typeSelection: 'CELL',
+      typeSelection: 'MULTIPLE_ENTIRE_ROWS',
       filterColumn: false
     };
   }
