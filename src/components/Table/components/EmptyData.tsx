@@ -66,7 +66,8 @@ export const EmptyData = (props: IEmptyData) => {
       style={{
         height: '100%',
         width: '100%',
-        position: 'relative'
+        position: 'relative',
+        minHeight: '15vh'
       }}
     >
       <div
@@ -78,8 +79,7 @@ export const EmptyData = (props: IEmptyData) => {
           justifyContent: 'center',
           alignItems: 'center',
           position: 'absolute',
-          width: '100%',
-          minHeight: '20vh'
+          width: '100%'
         }}
       >
         <div style={{ textAlign: 'center' }}>
