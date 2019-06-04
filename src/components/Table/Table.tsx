@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Cell,
   IMenuContext,
@@ -151,6 +151,70 @@ export interface IVTableState {
 export const VTable = (props: IProps) => {
   const tableRef = useRef<HTMLDivElement>(null);
 
+  const initColumnsWidth = useMemo(() => {
+    const { columns, columnWidths } = props;
+    const colsWidth = cloneDeep(columnWidths) || [];
+    while (colsWidth.length < columns.length) {
+      colsWidth.push(0);
+    }
+    return colsWidth;
+  }, [props.columnWidths, props.columns]);
+
+  const [stateTable, setStateTable] = useState<IVTableState>({
+    sparseCellData: cloneDeep(props.data),
+    sparseCellInvalid: {},
+    sparseCellUpdateData: {},
+    widgetsCell: cloneDeep(props.widgetsCell),
+    cachedData: [],
+    selectedRegions: [],
+    provisionalRegions: [],
+    columnsWidth: initColumnsWidth,
+    edit: false,
+    dataBeforeEdit: [],
+    dateEdited: [],
+    invalidCells: []
+  });
+
+  /**
+   *  @description capture the key actions of CTRL + C and CTRL + V and execute the appropriate function.
+   **/
+  const handleCtrlCAndV = useCallback(
+    (event: any) => {
+      event.preventDefault();
+      const charCode = String.fromCharCode(event.which).toLowerCase();
+      if (stateTable.edit) {
+        if (event.ctrlKey || event.metaKey) {
+          if (event.ctrlKey && charCode === 'c') {
+            if (
+              stateTable.selectedRegions &&
+              stateTable.selectedRegions.length > 0
+            ) {
+              const cellsToCopy = getRegionsData(stateTable.selectedRegions);
+              setCachedData(cellsToCopy);
+            }
+          } else if (event.ctrlKey && charCode === 'v') {
+            if (
+              stateTable.selectedRegions &&
+              stateTable.selectedRegions.length > 0
+            ) {
+              const pivotCell = getPivotCell(stateTable.selectedRegions);
+              handlePaste(pivotCell);
+            }
+          }
+        }
+      }
+    },
+    [stateTable.selectedRegions]
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleCtrlCAndV);
+
+    return () => {
+      window.removeEventListener('keydown', handleCtrlCAndV);
+    };
+  }, [handleCtrlCAndV]);
+
   useEffect(() => {
     const observerKeyDown = fromEvent(window, 'keydown').subscribe(event => {
       handleCtrlCAndV(event);
@@ -207,29 +271,7 @@ export const VTable = (props: IProps) => {
     return '';
   };
 
-  const initColumnsWidth = useMemo(() => {
-    const { columns, columnWidths } = props;
-    const colsWidth = cloneDeep(columnWidths) || [];
-    while (colsWidth.length < columns.length) {
-      colsWidth.push(0);
-    }
-    return colsWidth;
-  }, [props.columnWidths, props.columns]);
 
-  const [stateTable, setStateTable] = useState<IVTableState>({
-    sparseCellData: cloneDeep(props.data),
-    sparseCellInvalid: {},
-    sparseCellUpdateData: {},
-    widgetsCell: cloneDeep(props.widgetsCell),
-    cachedData: [],
-    selectedRegions: [],
-    provisionalRegions: [],
-    columnsWidth: initColumnsWidth,
-    edit: false,
-    dataBeforeEdit: [],
-    dateEdited: [],
-    invalidCells: []
-  });
 
   const onColWidthChanged = (index: number, size: number) => {
     setColumnsWidth(makeResponsiveTable({ index, size }));
@@ -904,7 +946,16 @@ export const VTable = (props: IProps) => {
     return columnContextual!;
   };
 
-  const existSelection = () => {
+  const existSelection = (regions?:IRegion[]) => {
+    if(regions){
+      return (
+        regions &&
+        regions.length > 0 &&
+        regions[0].rows &&
+        regions[0].rows!.length > 0
+      )
+    }
+
     return (
       stateTable.selectedRegions &&
       stateTable.selectedRegions.length > 0 &&
@@ -913,36 +964,48 @@ export const VTable = (props: IProps) => {
     );
   };
 
-  const getInitRowSelection = () => {
+  const getInitRowSelection = (regions?:IRegion[]) => {
+    if(regions){
+      return regions[0]!.rows![0]
+    }
     return stateTable.selectedRegions[0]!.rows![0];
   };
 
-  const getEndRowSelection = () => {
+  const getEndRowSelection = (regions?:IRegion[]) => {
+    if(regions){
+      return regions[0]!.rows![1]
+    }
     return stateTable.selectedRegions[0]!.rows![1];
   };
 
-  const getInitColSelection = () => {
+  const getInitColSelection = (regions?:IRegion[]) => {
+    if(regions){
+      return regions[0]!.cols![0]
+    }
     return stateTable.selectedRegions[0]!.cols![0];
   };
 
-  const getEndColSelection = () => {
+  const getEndColSelection = (regions?:IRegion[]) => {
+    if(regions){
+      return regions[0]!.cols![1]
+    }
     return stateTable.selectedRegions[0]!.cols![1];
   };
 
-  const getSelection = () => {
+  const getSelection = (regions?:IRegion[]) => {
     const { cellSelectionType } = props;
 
     if (cellSelectionType === 'DISABLED') {
       return;
     }
-    if (existSelection()) {
+    if (existSelection(regions)) {
       switch (cellSelectionType) {
         case 'ENTIRE_ROW': {
-          return getElementData(getInitRowSelection());
+          return getElementData(getInitRowSelection(regions));
         }
         case 'MULTIPLE_ENTIRE_ROWS': {
-          const rowInit = getInitRowSelection();
-          const rowEnd = getEndRowSelection();
+          const rowInit = getInitRowSelection(regions);
+          const rowEnd = getEndRowSelection(regions);
           const colInit = 0;
           const colEnd = props.columns.length - 1;
 
@@ -963,8 +1026,8 @@ export const VTable = (props: IProps) => {
         }
 
         case 'CELL': {
-          const row = getEndRowSelection();
-          const col = getEndColSelection();
+          const row = getEndRowSelection(regions);
+          const col = getEndColSelection(regions);
           const data = stateTable.sparseCellData;
           const value = data[row][props.columns[col]];
           const infoSelection: InfoSelection = {
@@ -975,10 +1038,10 @@ export const VTable = (props: IProps) => {
           return { value, infoSelection };
         }
         case 'FREE': {
-          const rowInit = getInitRowSelection();
-          const rowEnd = getEndRowSelection();
-          const colInit = getInitColSelection();
-          const colEnd = getEndColSelection();
+          const rowInit = getInitRowSelection(regions);
+          const rowEnd = getEndRowSelection(regions);
+          const colInit = getInitColSelection(regions);
+          const colEnd = getEndColSelection(regions);
 
           const selections: any[] = [];
           for (let col: number = colInit; col <= colEnd; col++) {
@@ -1019,7 +1082,7 @@ export const VTable = (props: IProps) => {
         tableColsAndRowsTotals={getRowAndColsTotals}
         getDataToCopy={getDataToCopy}
         getPivotCell={getPivotCell}
-        selectionData={getSelection()}
+        selectionData={getSelection(context.getRegions())}
       />
     ) : (
       <div />
@@ -1192,31 +1255,7 @@ export const VTable = (props: IProps) => {
     return false;
   };
 
-  /**
-   *  @description capture the key actions of CTRL + C and CTRL + V and execute the appropriate function.
-   **/
-  const handleCtrlCAndV = (event: any) => {
-    const charCode = String.fromCharCode(event.which).toLowerCase();
-    if (event.ctrlKey || event.metaKey) {
-      if (event.ctrlKey && charCode === 'c') {
-        if (
-          stateTable.selectedRegions &&
-          stateTable.selectedRegions.length > 0
-        ) {
-          const cellsToCopy = getRegionsData(stateTable.selectedRegions);
-          setCachedData(cellsToCopy);
-        }
-      } else if (event.ctrlKey && charCode === 'v') {
-        if (
-          stateTable.selectedRegions &&
-          stateTable.selectedRegions.length > 0
-        ) {
-          const pivotCell = getPivotCell(stateTable.selectedRegions);
-          handlePaste(pivotCell);
-        }
-      }
-    }
-  };
+
 
   /**
    ** End copy and paste Table Fixture
