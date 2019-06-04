@@ -9,7 +9,7 @@ export interface IVContextualActionTableProps {
   action: (item: any) => void;
   text: string;
   icon?: IconName;
-  disabled: (item: any) =>boolean;
+  disabled?: (item: any) =>boolean;
   isMenuDivider?: boolean;
   label?: string;
   labelElement?: React.ReactNode;

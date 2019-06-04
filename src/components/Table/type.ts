@@ -9,6 +9,7 @@ export interface EditSetup {
   editToolbar?: ISetupEditToolbar;
   editColumn: IVActionEditTableProps;
   onSave: (data: any) => void;
+  onChange?:(value:any,infoSelection?:InfoSelection)=>void
   resultDataEdited?: ResultDataEdited;
   invalidDataMessage?: (invalidColumns: string[]) => void;
 }

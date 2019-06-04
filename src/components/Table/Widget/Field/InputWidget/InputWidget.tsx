@@ -3,8 +3,10 @@ import { ActionClickWidget, IPropsWidgets } from '../../Widget';
 import { TextAlignProperty } from 'csstype';
 
 interface IProps extends IState, ActionClickWidget, IPropsWidgets {
-  onChange?: (value: string) => void;
   textAlign?: string;
+  onChange?(rowIndex: number,
+            columnIndex: number,
+            newValue: string | boolean | number):void
 }
 
 interface IState {
@@ -68,6 +70,9 @@ class InputWidget extends Component<IProps, IState> {
 
   onChange = (e: any) => {
     this.props.onClick(this.props.row, this.props.column, e.target.value);
+    if(this.props.onChange){
+      this.props.onChange(this.props.row, this.props.column, e.target.value)
+    }
   };
 }
 

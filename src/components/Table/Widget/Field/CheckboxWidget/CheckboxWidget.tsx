@@ -9,7 +9,11 @@ export interface ICheckboxWidget {
   value?: boolean;
 }
 
-interface IProps extends ICheckboxWidget, ActionClickWidget, IPropsWidgets {}
+interface IProps extends ICheckboxWidget, ActionClickWidget, IPropsWidgets {
+  onChange?(rowIndex: number,
+            columnIndex: number,
+            newValue: string | boolean | number):void
+}
 
 class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
   constructor(props: IProps) {
@@ -48,6 +52,9 @@ class CheckboxWidget extends Component<IProps, ICheckboxWidget> {
     });
 
     this.props.onClick(this.props.row, this.props.column, !this.state.value);
+    if(this.props.onChange){
+      this.props.onChange(this.props.row, this.props.column, !this.state.value)
+    }
   };
 }
 
