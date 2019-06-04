@@ -187,7 +187,7 @@ export const VTable = (props: IProps) => {
       ) {
         let totals = 0;
         sparseCellData.forEach(item => (totals += Number(item[key]) || 0));
-        return totals;
+        return `Total: ${totals}`;
       }
       if (
         props.totalsConf.average &&
@@ -195,16 +195,16 @@ export const VTable = (props: IProps) => {
       ) {
         let average = 0;
         sparseCellData.forEach(item => (average += Number(item[key]) || 0));
-        return sparseCellData.length > 0 ? average / sparseCellData.length : 0;
+        return `Avg: ${sparseCellData.length > 0 ? average / sparseCellData.length : 0}`;
       }
       if (
         props.totalsConf.count &&
         props.totalsConf.count.some(item => item === key)
       ) {
-        return stateTable.sparseCellData.length;
+        return `Count: ${stateTable.sparseCellData.length}`;
       }
     }
-    return '      ';
+    return '';
   };
 
   const initColumnsWidth = useMemo(() => {
@@ -319,7 +319,6 @@ export const VTable = (props: IProps) => {
 
   const saveEdit = () => {
     if (stateTable.invalidCells.length === 0) {
-      console.log(stateTable.dateEdited);
       props.edit!.onSave(stateTable.dateEdited);
       setStateTable({
         ...stateTable,
@@ -368,7 +367,6 @@ export const VTable = (props: IProps) => {
             row,
             column
           });
-          console.log('seleccion en cell', regionsInitial);
         }
       }
     }
@@ -659,14 +657,12 @@ export const VTable = (props: IProps) => {
         containerRegion.cols &&
         checkRegion.cols
       ) {
-        console.log('mas cerca aun');
         if (
           containerRegion.rows[0] <= checkRegion.rows[0] &&
           containerRegion.rows[1] >= checkRegion.rows[1] &&
           (containerRegion.cols[0] <= checkRegion.cols[0] &&
             containerRegion.cols[1] >= checkRegion.cols[1])
         ) {
-          console.log('yea is a contained region!!!!');
           return true;
         }
       }
@@ -1617,6 +1613,27 @@ export const VTable = (props: IProps) => {
     updateInvalidColumns(valid, columnIndex, rowIndex);
     const textAlignColumn = getTextAlignColumn(columnIndex);
 
+    if(props.allowTableTotals && rowIndex===0){
+      return ( <CellDiv isValid={valid} as={Cell}>
+        <Widget
+          row={rowIndex}
+          column={columnIndex}
+          onClick={() => {}}
+          type={'DEFAULT'}
+          value={value}
+          disable={stateTable.edit}
+          isValid={valid}
+          textAlign={textAlignColumn.textAlign}
+          columns={props.columns}
+          onDoubleClick={() => {
+            onDoubleClick(value, rowIndex, columnIndex);
+          }}
+          showTooltips={props.tooltips ? props.tooltips : undefined}
+        />
+      </CellDiv>)
+    }
+
+
     if (widgetCell && widgetCell.column && widgetCell.row) {
       if (widgetCell.row === rowIndex) {
         return renderWidget(
@@ -1675,6 +1692,7 @@ export const VTable = (props: IProps) => {
             onDoubleClick={() => {
               onDoubleClick(value, rowIndex, columnIndex);
             }}
+            onChange={onChangeCell}
           />
         </CellDiv>
       );
@@ -1701,6 +1719,7 @@ export const VTable = (props: IProps) => {
             onDoubleClick(value, rowIndex, columnIndex);
           }}
           showTooltips={props.tooltips ? props.tooltips : undefined}
+          onChange={onChangeCell}
         />
       </CellDiv>
     ) : (
@@ -1722,6 +1741,13 @@ export const VTable = (props: IProps) => {
         />
       </CellDiv>
     );
+  };
+
+  const onChangeCell =(value:any,infoSelection?:InfoSelection)=>{
+    if(props.edit && props.edit.onChange){
+      props.edit.onChange(value,infoSelection);
+
+    }
   };
 
   const renderWidget = (
@@ -1748,6 +1774,7 @@ export const VTable = (props: IProps) => {
           }}
           showTooltips={props.tooltips ? props.tooltips : undefined}
           positionTooltips={props.positionTooltips}
+          onChange={onChangeCell}
         />
       </CellDiv>
     );

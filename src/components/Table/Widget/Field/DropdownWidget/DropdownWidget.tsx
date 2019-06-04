@@ -24,6 +24,9 @@ export interface IProps
     ActionClickWidget,
     IPropsWidgets {
   color: string;
+  onChange?(rowIndex: number,
+            columnIndex: number,
+            newValue: string | boolean | number):void
 }
 
 class DropdownWidget extends Component<IProps, IDropdownWidget> {
@@ -108,6 +111,9 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
   handleValueChange = (option: IOption) => {
     this.setState({ valueSelected: option.value });
     this.props.onClick(this.props.row, this.props.column, option.value);
+    if(this.props.onChange){
+      this.props.onChange(this.props.row, this.props.column,option.value)
+    }
   };
 }
 
