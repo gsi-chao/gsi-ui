@@ -1,4 +1,5 @@
 import { ISetupEditToolbar, IVActionEditTableProps } from './Table';
+import { IRegion } from '@blueprintjs/table';
 
 export type EditColumns = 'ALL';
 export type DefaultheightRow = 'SHORT' | 'HALF' | 'LONG';
@@ -42,6 +43,8 @@ export interface IActionSelection {
   ) => void;
   clearSelection?: boolean;
   onSelectionCleaned?: (isSelectionCleaned: boolean) => any;
+  onRegionsChange?:(regions:IRegion[])=>void
+
 }
 
 export interface ITextAlignColumn {

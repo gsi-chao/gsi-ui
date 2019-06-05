@@ -115,6 +115,7 @@ export interface IVTableProps {
   cellSelectionType?: CellSelectionType;
   onSelectionChange?: any;
   actionsSelection?: IActionSelection;
+  regions?:IRegion[]
   tableHeight?: string;
   striped?: boolean;
   textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
@@ -223,6 +224,14 @@ export const VTable = (props: IProps) => {
       observerKeyDown.unsubscribe();
     };
   }, []);
+
+  useEffect(()=>{
+    if(props.regions){
+      setSelectedRegions(props.regions);
+    }
+
+
+  },[props.regions]);
 
   useEffect(() => {
     let sparseCellData = cloneDeep(props.data);
@@ -1399,6 +1408,9 @@ export const VTable = (props: IProps) => {
       if (argsRegions[0].rows !== undefined) {
         setSelectedRegions(regions);
       }
+    }
+    if(props.actionsSelection && props.actionsSelection.onRegionsChange){
+      props.actionsSelection.onRegionsChange(regions);
     }
   };
 
