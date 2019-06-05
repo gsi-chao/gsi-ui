@@ -147,6 +147,7 @@ export interface IVTableState {
   dataBeforeEdit: any[];
   dateEdited: IDataEdited[];
   invalidCells: { row: number; column: number }[];
+  showCustomerRegion:boolean;
 }
 
 export const VTable = (props: IProps) => {
@@ -173,7 +174,8 @@ export const VTable = (props: IProps) => {
     edit: false,
     dataBeforeEdit: [],
     dateEdited: [],
-    invalidCells: []
+    invalidCells: [],
+    showCustomerRegion:true
   });
 
   /**
@@ -220,6 +222,7 @@ export const VTable = (props: IProps) => {
     const observerKeyDown = fromEvent(window, 'keydown').subscribe(event => {
       handleCtrlCAndV(event);
     });
+
     return () => {
       observerKeyDown.unsubscribe();
     };
@@ -835,9 +838,13 @@ export const VTable = (props: IProps) => {
    ** @return set the selected regions in the state.
    **/
   const setSelectedRegions = (selectedRegions: IRegion[]) => {
-    setStateTable({ ...stateTable, selectedRegions });
+    setStateTable({ ...stateTable, selectedRegions,showCustomerRegion:false });
   };
 
+  const setShowCustomerRegions = (showCustomerRegion:boolean) => {
+    setStateTable({ ...stateTable, showCustomerRegion });
+  };
+  
   /**
    ** @return set the total of cols and rows of the table
    **/
@@ -1316,7 +1323,12 @@ export const VTable = (props: IProps) => {
 
   const getSelectedRegion = () => {
     if (props.actionsSelection && props.actionsSelection.clearSelection) {
+
       return [];
+    }
+
+    if(stateTable.showCustomerRegion){
+      return props.regions!;
     }
     return stateTable.selectedRegions;
   };
