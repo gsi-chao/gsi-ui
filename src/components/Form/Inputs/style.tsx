@@ -115,7 +115,6 @@ export const StyledInput = styled(StyledFormGroup)`
       margin-bottom: -7px;
       z-index: 1;
       width: fit-content;
-      margin-left: 10px;
       font-weight: 400;
       font-size: 12px;
       padding: 0 2px;
@@ -230,7 +229,6 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
       margin-bottom: -7px;
       z-index: 1;
       width: fit-content;
-      margin-left: 10px;
       font-weight: 400;
       font-size: 12px;
       padding: 0 2px;
