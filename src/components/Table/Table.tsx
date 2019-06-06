@@ -283,8 +283,6 @@ export const VTable = (props: IProps) => {
     return '';
   };
 
-
-
   const onColWidthChanged = (index: number, size: number) => {
     setColumnsWidth(makeResponsiveTable({ index, size }));
   };

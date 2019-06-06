@@ -135,7 +135,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               rightElement={iconJSX}
             />
           ) : (
-            <TimePicker precision={'second'} onChange={this.changedDate} />
+            <TimePicker value={this.valueField} precision={'second'} onChange={this.changedDate} />
           )}
         </FormFieldContainer>
       </StyledFormGroup>
