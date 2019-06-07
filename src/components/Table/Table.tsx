@@ -183,7 +183,7 @@ export const VTable = (props: IProps) => {
    **/
   const handleCtrlCAndV = useCallback(
     (event: any) => {
-      event.preventDefault();
+      event.stopPropagation();
       const charCode = String.fromCharCode(event.which).toLowerCase();
       if (stateTable.edit) {
         if (event.ctrlKey || event.metaKey) {
@@ -218,15 +218,6 @@ export const VTable = (props: IProps) => {
     };
   }, [handleCtrlCAndV]);
 
-  useEffect(() => {
-    const observerKeyDown = fromEvent(window, 'keydown').subscribe(event => {
-      handleCtrlCAndV(event);
-    });
-
-    return () => {
-      observerKeyDown.unsubscribe();
-    };
-  }, []);
 
   useEffect(()=>{
     if(props.regions){
