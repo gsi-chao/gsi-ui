@@ -6,7 +6,7 @@ import {
   ButtonGroup,
   Icon,
   IconName,
-  Intent,
+  Intent, IPopoverProps,
   MenuItem
 } from '@blueprintjs/core';
 /** FieldState */
@@ -38,6 +38,7 @@ export interface ISelectFieldProps extends IFieldProps {
   clearValue?: any;
   isLoading?: boolean;
   tipLabel?: string;
+  popoverProps?:IPopoverProps;
 }
 
 /**
@@ -114,7 +115,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       clearButton,
       isLoading,
       value,
-      tipLabel
+      tipLabel,
+      popoverProps
     } = this.props;
 
     const initialContent =
@@ -168,6 +170,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             noResults={<MenuItem disabled={true} text="No results." />}
             onItemSelect={this.onItemSelected}
             filterable={filterable}
+            popoverProps={popoverProps}
           >
             {iconOnly ? (
               <ButtonGroup>
