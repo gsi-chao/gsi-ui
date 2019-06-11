@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import moment from 'moment';
 /** Blueprint */
-import { Icon, IconName, Intent } from '@blueprintjs/core';
+import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
 import { DateInput, IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
 /** FieldState */
 import { IconDate, StyledFormGroup } from './style';
@@ -28,6 +28,7 @@ export interface IInputFieldProps extends IFieldProps {
     | 'DD/MMM/YYYY'
     | 'YYYY/MM/DD'
     | 'YYYY-MM-DD';
+  popoverProps?:IPopoverProps;
 }
 
 interface IIcon {
@@ -88,7 +89,8 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       margin,
       value,
       noLabel,
-      required
+      required,
+      popoverProps
     } = this.props;
     let iconJSX;
     if (icon) {
@@ -133,6 +135,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               value={this.valueField}
               timePrecision={dateType === 'DATETIME' ? 'second' : undefined}
               rightElement={iconJSX}
+              popoverProps={popoverProps}
             />
           ) : (
             <TimePicker value={this.valueField} precision={'second'} onChange={this.changedDate} />
