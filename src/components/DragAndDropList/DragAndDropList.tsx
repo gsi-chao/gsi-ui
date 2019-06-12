@@ -1,3 +1,5 @@
+// todo remove deprecate component.
+
 import * as React from 'react';
 import { find } from 'lodash';
 import {
