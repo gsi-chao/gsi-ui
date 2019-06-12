@@ -1,2 +1,1 @@
-export { DragAndDropList } from './DragAndDropList';
-export { IDNDList, IDNDItem } from './types';
+export { DnDList } from './DnDList';

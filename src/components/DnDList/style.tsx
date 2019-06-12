@@ -1,40 +1,49 @@
 import styled from 'styled-components';
 
-interface IDNDContainer {
-  orientation?: 'horizontal' | 'vertical';
+interface IDnDList {
+  direction: 'horizontal' | 'vertical';
+  background?: string;
+  dragColor?: string;
+  isDragging: boolean;
+  padding?: string;
+  margin?: string;
+  width?: string;
+  height?: string;
 }
-export const DNDContainer = styled.div`
-  display: flex;
-  align-items: normal;
-  justify-content: flex-start;
-  flex-direction: ${(props: IDNDContainer) =>
-    props.orientation === 'horizontal' ? 'row' : 'column '};
 
-  & > div {
-    margin: 10px;
-  }
+export const DnDListContainer = styled.div`
+  background: ${(props: IDnDList) =>
+    props.isDragging
+      ? props.dragColor
+        ? props.dragColor
+        : 'lightblue'
+      : props.background
+      ? props.background
+      : '#eae8e8'};
+  padding: ${(props: IDnDList) => (props.padding ? props.padding : '5px')};
+  margin: ${(props: IDnDList) => (props.margin ? props.margin : 0)};
+  display: ${(props: IDnDList) =>
+    props.direction === 'horizontal' ? 'flex' : 'inherit'};
+  overflow: ${(props: IDnDList) =>
+    props.direction === 'horizontal' ? 'auto' : 'inherit'};
+  width: ${(props: IDnDList) =>
+  props.width ? props.width : 'auto'};
+  min-width: ${(props: IDnDList) =>
+  props.direction === 'horizontal' ? '100%' : '250px'};
+   height: ${(props: IDnDList) =>
+  props.height ? props.height : 'auto'};
+  min-height: ${(props: IDnDList) =>
+  props.direction === 'horizontal' ? '100%' : '100px'};
 `;
+
+interface IDNDItem {
+  draggableStyle: any;
+  padding?: string;
+  margin?: string;
+}
 
 export const DNDItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  border-radius: 2px;
-  padding: 5px 7px;
-  text-decoration: none;
-  line-height: 20px;
-  color: inherit;
-  user-select: none;
-  & > div {
-    width: 100%;
-  }
-  &:hover {
-    background-color: rgba(167, 182, 194, 0.3);
-    cursor: pointer;
-    text-decoration: none;
-  }
-`;
-
-export const DNDList = styled.div`
-  height: 100%;
+  padding: ${(props: IDNDItem) => (props.padding ? props.padding : '5px')};
+  margin: ${(props: IDNDItem) => (props.margin ? props.margin : 0)};
+  ...draggableStyle;
 `;

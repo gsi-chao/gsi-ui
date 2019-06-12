@@ -1,166 +1,100 @@
-import * as React from 'react';
-import { find } from 'lodash';
-import {
-  DragDropContext,
-  Draggable,
-  DraggableLocation,
-  DraggableProvided,
-  DraggableStateSnapshot,
-  Droppable,
-  DroppableProvided,
-  DroppableStateSnapshot,
-  DropResult
-} from 'react-beautiful-dnd';
-import { DNDContainer, DNDItem, DNDList } from './style';
-import { VCardPanel } from '../Card';
-import { IDNDItem, IDNDList } from './types';
+import React, { useEffect, useState } from 'react';
+import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
+import { DNDItem, DnDListContainer } from './style';
 
 interface Item {
   id: string;
-  content: string;
-}
-interface IAppState {
-  items: IDNDList[];
+  content: React.ReactNode;
 }
 
 interface IProps {
-  containerOrientation?: 'horizontal' | 'vertical';
-  list: IDNDList[];
-  onDragAndDrop?: (list: IDNDList[]) => void;
+  innerPadding?: number,
+  width?: string,
+  height?: string,
+  paddingList?: string,
+  marginList?: string,
+  paddingItem?: string,
+  marginItem?: string,
+  backgroundColor?: string,
+  dragColor?: string,
+  direction: 'horizontal' | 'vertical';
+  list: Item[];
+  onDragAndDrop?: (list: Item[]) => void;
 }
 
 const reorder = (
-  list: IDNDList,
+  list: Item[],
   startIndex: number,
   endIndex: number
-): IDNDList => {
-  const result = list;
-  const [removed] = result.list.splice(startIndex, 1);
-  result.list.splice(endIndex, 0, removed);
+): Item[] => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
   return result;
 };
+
+
 
 /**
  * Moves an item from one list to another list.
  */
-const move = (
-  source: IDNDList,
-  destination: IDNDList,
-  droppableSource: DraggableLocation,
-  droppableDestination: DraggableLocation
-): any => {
-  const sourceClone = source;
-  const destClone = destination;
-  const [removed] = sourceClone.list.splice(droppableSource.index, 1);
 
-  destClone.list.splice(droppableDestination.index, 0, removed);
-  const result = [sourceClone, destClone];
-  return result;
-};
+export const DnDList = (props: IProps) => {
+  const [items, setItems] = useState<Item[]>([]);
+  useEffect(() => {
+    setItems(props.list);
+  }, []);
 
-export class DragAndDropList extends React.Component<IProps, IAppState> {
-  constructor(props: IProps) {
-    super(props);
-
-    this.state = {
-      items: this.props.list
-    };
-
-    this.onDragEnd = this.onDragEnd.bind(this);
-    this.getList = this.getList.bind(this);
-  }
-
-  public getList(id: string): IDNDList {
-    return (
-      find(this.state.items, (value: IDNDList) => {
-        return value.id === id;
-      }) || { id: '', list: [] }
-    );
-  }
-
-  public onDragEnd(result: DropResult): void {
-    const { source, destination } = result;
-
-    if (!destination) {
+  const onDragEnd = (result: DropResult): void => {
+    // dropped outside the list
+    if (!result.destination) {
       return;
     }
 
-    if (source.droppableId === destination.droppableId) {
-      const items = reorder(
-        this.getList(source.droppableId),
-        source.index,
-        destination.index
-      );
+    const itm = reorder(items, result.source.index, result.destination.index);
 
-      this.setState({ ...this.state, ...items });
-    } else {
-      const items: any = move(
-        this.getList(source.droppableId),
-        this.getList(destination.droppableId),
-        source,
-        destination
-      );
-
-      this.setState({ ...this.state, ...items });
+    setItems(itm);
+    if (props.onDragAndDrop) {
+      props.onDragAndDrop(itm);
     }
-    if (this.props.onDragAndDrop) {
-      this.props.onDragAndDrop(this.state.items);
-    }
-  }
+  };
 
-  public render() {
-    return (
-      <DNDContainer orientation={this.props.containerOrientation}>
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          {this.props.list.map((value: IDNDList, index: number) => {
-            return (
-              <Droppable droppableId={value.id} key={index}>
-                {(
-                  provided: DroppableProvided,
-                  snapshot: DroppableStateSnapshot
-                ) => (
-                  <VCardPanel
-                    bodyPadding={'5px'}
-                    width={'200px'}
-                    headerText={value.label}
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="droppable" direction={props.direction}>
+        {(provided, snapshot) => (
+          <DnDListContainer
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            direction={props.direction}
+            isDragging={snapshot.isDraggingOver}
+            dragColor={props.dragColor}
+            margin={props.marginList}
+            padding={props.paddingList}
+            width={props.width}
+            height={props.height}
+          >
+            {items.map((item, index) => (
+              <Draggable key={item.id} draggableId={item.id} index={index}>
+                {(provided, snapshot) => (
+                  <DNDItem
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    margin={props.marginItem}
+                    padding={props.paddingItem}
+                    draggableStyle={provided.draggableProps.style}
                   >
-                    <DNDList
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                    >
-                      {value.list.map((item: IDNDItem, index: number) => (
-                        <Draggable
-                          key={`${value.id}-${index}`}
-                          draggableId={item.value}
-                          index={index}
-                        >
-                          {(
-                            providedDraggable: DraggableProvided,
-                            snapshotDraggable: DraggableStateSnapshot
-                          ) => (
-                            <DNDItem>
-                              <div
-                                ref={providedDraggable.innerRef}
-                                {...providedDraggable.draggableProps}
-                                {...providedDraggable.dragHandleProps}
-                              >
-                                {item.label}
-                              </div>
-                              {providedDraggable.placeholder}
-                            </DNDItem>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </DNDList>
-                  </VCardPanel>
+                    {item.content}
+                  </DNDItem>
                 )}
-              </Droppable>
-            );
-          })}
-        </DragDropContext>
-      </DNDContainer>
-    );
-  }
-}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </DnDListContainer>
+        )}
+      </Droppable>
+    </DragDropContext>
+  );
+};
