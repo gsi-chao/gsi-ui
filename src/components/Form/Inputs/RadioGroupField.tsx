@@ -16,6 +16,7 @@ export interface IRadioButtonFieldProps extends IFieldProps {
   alignIndicator?: Alignment;
   rightElement?: JSX.Element;
   options: IOptionProps[];
+  fill: boolean;
 }
 
 /**
@@ -44,7 +45,8 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
       required,
       validators,
       margin,
-      value
+      value,
+      fill
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -69,6 +71,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
         layer={layer}
         noLabel={noLabel}
         margin={margin}
+        fill={fill}
       >
         <FormFieldContainer
           required={required}
