@@ -44,7 +44,7 @@ export const DnDList = (props: IProps) => {
   const [items, setItems] = useState<Item[]>([]);
   useEffect(() => {
     setItems(props.list);
-  }, []);
+  }, [props.list]);
 
   const onDragEnd = (result: DropResult): void => {
     // dropped outside the list

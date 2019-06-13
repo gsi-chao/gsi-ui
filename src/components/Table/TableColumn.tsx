@@ -30,8 +30,9 @@ export interface FilterByColumn {
 }
 
 export interface IConfignHeader extends IVConfigTextAlign {
-  backgroundColor: string;
-  textColor: string;
+  backgroundColor?: string;
+  textColor?: string;
+  headerBold?: boolean;
 }
 
 export default class TableColumn implements ISortableColumn {
@@ -44,7 +45,7 @@ export default class TableColumn implements ISortableColumn {
     protected filterByColumn: FilterByColumn | undefined,
     protected columns_name?: { [key: string]: string },
     protected sortable?: IVActionSortableTableProps,
-    protected options?: IItemMultiple[]
+    protected options?: IItemMultiple[],
   ) {
     this.form = new FormState<any>({
       filter: new FieldState('')
@@ -131,7 +132,7 @@ export default class TableColumn implements ISortableColumn {
 
   renderColumnHeader = (columnIndex: number) => {
     const menuRenderer = this.getMenu(columnIndex);
-    const { backgroundColor, textColor, textAlign } = this.getConfigHeaderStyle(
+    const { backgroundColor, textColor, textAlign, headerBold } = this.getConfigHeaderStyle(
       columnIndex
     );
     const columnName = this.getColumnName(columnIndex);
@@ -141,6 +142,7 @@ export default class TableColumn implements ISortableColumn {
         backgroundColor={backgroundColor}
         textColor={textColor}
         textAlign={textAlign}
+        headerBold={headerBold}
         name={columnName}
         menuRenderer={menuRenderer as any}
         nameRenderer={this.renderHeader}
@@ -225,9 +227,10 @@ export default class TableColumn implements ISortableColumn {
   }
 
   private getConfigHeaderStyle(columnIndex: number) {
-    let backgroundColor = '#f3f9fd';
+    let backgroundColor: any = '#d6dce2';
     let textColor = 'black';
     let textAlign;
+    let headerBold;
 
     let configHeader: IVConfigHeader[] | IConfignHeader | undefined = this
       .header_config;
@@ -239,11 +242,17 @@ export default class TableColumn implements ISortableColumn {
     }
 
     if (configHeader) {
-      backgroundColor = configHeader.backgroundColor;
-      textColor = configHeader.textColor;
-      textAlign = configHeader.textAlign;
+      if(configHeader.backgroundColor){
+        backgroundColor = configHeader.backgroundColor;
+      }if(configHeader.textColor){
+        textColor = configHeader.textColor;
+      }if(configHeader.textAlign){
+        textAlign = configHeader.textAlign;
+      }if(configHeader.headerBold){
+        headerBold = configHeader.headerBold;
+      }
     }
-    return { backgroundColor, textColor, textAlign };
+    return { backgroundColor, textColor, textAlign, headerBold };
   }
 
   private getColumnName(columnIndex: number) {
