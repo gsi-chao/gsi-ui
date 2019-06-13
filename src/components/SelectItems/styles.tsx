@@ -33,6 +33,7 @@ export const FlexCol = styled.div`
     color: #5c7080;
   }
   height: 100%;
+  max-width: 44%;
 `;
 
 export const CentralFlexCol = styled(FlexCol)`
