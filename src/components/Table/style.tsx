@@ -60,6 +60,8 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
       props ? props.textColor : 'gray'} !important;
     text-align: ${(props: IConfignHeader) =>
       props.textAlign ? props.textAlign : 'center'} !important;
+    font-weight: ${(props: IConfignHeader) =>
+      props.headerBold ? '500' : '400'};
   }
 
   & div.bp3-table-reorder-handle {
@@ -104,6 +106,8 @@ export const TableContainer = styled.div`
 
   & .bp3-table-cell {
     box-shadow: none !important;
+    border-right: 1px solid rgba(128, 128, 128, 0.11);
+    font-size: 14px;
   }
   ${(props: ITableContainer) =>
     props.striped &&

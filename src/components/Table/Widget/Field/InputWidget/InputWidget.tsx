@@ -38,8 +38,7 @@ class InputWidget extends Component<IProps, IState> {
       textAlign: this.getTextAlign(),
       width: '99%',
       border: 'none',
-      fontSize: '12px',
-      fontFamily: 'Segoe UI',
+      fontSize: '14px',
       color: isValid ? 'Black' : '#f73636 ',
       backgroundColor: 'transparent',
       padding: '0px 10px'
