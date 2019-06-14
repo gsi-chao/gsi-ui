@@ -9,6 +9,7 @@ import { IconDate, StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
 import { computed } from 'mobx';
+import { TimePrecision } from '@blueprintjs/datetime/lib/esm/timePicker';
 
 /**
  * Field component. Must be an observer.
@@ -28,7 +29,11 @@ export interface IInputFieldProps extends IFieldProps {
     | 'DD/MMM/YYYY'
     | 'YYYY/MM/DD'
     | 'YYYY-MM-DD';
-  popoverProps?:IPopoverProps;
+  popoverProps?: IPopoverProps;
+  precision?: TimePrecision;
+  useAmPm?: boolean;
+  maxTime?: Date;
+  minTime?: Date;
 }
 
 interface IIcon {
@@ -90,7 +95,11 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       value,
       noLabel,
       required,
-      popoverProps
+      popoverProps,
+      maxTime,
+      minTime,
+      useAmPm,
+      precision
     } = this.props;
     let iconJSX;
     if (icon) {
@@ -138,7 +147,12 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               popoverProps={popoverProps}
             />
           ) : (
-            <TimePicker value={this.valueField} precision={'second'} onChange={this.changedDate} />
+            <TimePicker
+              value={this.valueField}
+              useAmPm={useAmPm || false}
+              precision={precision || 'second'}
+              onChange={this.changedDate}
+            />
           )}
         </FormFieldContainer>
       </StyledFormGroup>
