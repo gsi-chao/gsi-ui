@@ -289,9 +289,15 @@ export const StyledRadioButton = styled(StyledFormGroup)`
             margin-top: 0px;
           }
         }
+      },
+        & .bp3-control.bp3-inline{
+          margin-right: 10px !important;
+      }
       }
     }
   }
+  
+
 `;
 
 export const IconDate = styled('div')`
