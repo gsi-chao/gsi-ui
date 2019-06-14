@@ -16,7 +16,7 @@ export interface IRadioButtonFieldProps extends IFieldProps {
   alignIndicator?: Alignment;
   rightElement?: JSX.Element;
   options: IOptionProps[];
-  fill: boolean;
+  fill?: boolean;
 }
 
 /**

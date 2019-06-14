@@ -52,7 +52,7 @@ export const DatetimeCell = styled.div`
     ${(props: IProps) => {
   return props.isValid ? 'color: Black' : 'color: #f73636;';
 }};
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     transition: box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9);
     -webkit-appearance: none;

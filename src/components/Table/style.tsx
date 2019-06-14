@@ -107,7 +107,7 @@ export const TableContainer = styled.div`
   & .bp3-table-cell {
     box-shadow: none !important;
     border-right: 1px solid rgba(128, 128, 128, 0.11);
-    font-size: 14px;
+    font-size: 12px;
   }
   ${(props: ITableContainer) =>
     props.striped &&
