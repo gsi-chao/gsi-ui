@@ -31,7 +31,7 @@ export const DropdownStyled = styled.div`
   }
 
   & span.bp3-button-text {
-    font-size: 14px;
+    font-size: 12px;
     color: ${(props: IProps) => props.color}!important;
   }
   & :focus {
