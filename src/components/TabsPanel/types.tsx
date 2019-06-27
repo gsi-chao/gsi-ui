@@ -1,5 +1,6 @@
 import { IconName, Intent, MaybeElement } from '@blueprintjs/core';
 import { CSSProperties } from 'react';
+import React from 'react';
 
 export interface ITabsPanelStyle {
   color?: string;
@@ -53,7 +54,7 @@ export interface IIconTabsPanelProps {
 
 export interface ITabsPanelTypes {
   key: string;
-  icon?: IIconTabsPanelProps;
+  icon?: IIconTabsPanelProps | React.ReactNode;
   label?: string;
   content: any;
   textColorBadge?: string;

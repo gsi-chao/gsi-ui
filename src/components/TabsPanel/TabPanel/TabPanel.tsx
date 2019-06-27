@@ -8,7 +8,7 @@ import { VBadge } from '../../Badge';
 interface IVTabPanelProps {
   label?: string;
   id: string;
-  icon?: IIconTabsPanelProps;
+  icon?: IIconTabsPanelProps | React.ReactNode;
   active: boolean;
   borderColor?: string;
   activeColor?: string;
@@ -52,14 +52,11 @@ export class VTabPanel extends Component<IVTabPanelProps> {
         activeBorderColor={activeBorderColor}
         size={size}
       >
-        {icon && (
-          <Icon
-            style={labelIcon}
-            icon={icon.icon}
-            iconSize={icon.iconSize && icon.iconSize}
-            intent={icon.intent && icon.intent}
-          />
+        {icon && typeof icon === 'object' && (
+          <Icon style={labelIcon} {...icon as IIconTabsPanelProps} />
         )}
+        {icon && React.isValidElement(icon) && <>{icon}</>}
+
         <span>{label}</span>
         {dataBadge && (
           <VBadge
