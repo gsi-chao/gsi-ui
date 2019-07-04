@@ -34,6 +34,7 @@ export interface IInputFieldProps extends IFieldProps {
   useAmPm?: boolean;
   maxTime?: Date;
   minTime?: Date;
+  canClearSelection?:boolean
 }
 
 interface IIcon {
@@ -145,6 +146,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               timePrecision={dateType === 'DATETIME' ? 'second' : undefined}
               rightElement={iconJSX}
               popoverProps={popoverProps}
+              canClearSelection={this.props.canClearSelection}
             />
           ) : (
             <TimePicker
@@ -158,6 +160,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       </StyledFormGroup>
     );
   }
+
   @computed
   get valueField() {
     if (this.props.fieldState) {
