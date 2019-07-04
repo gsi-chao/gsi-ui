@@ -64,9 +64,10 @@ const renderItem: ItemRenderer<IItem> = (
   if (!modifiers.matchesPredicate) {
     return null;
   }
+
   return (
     <MenuItem
-      active={modifiers.active}
+      //active={modifiers.active}
       disabled={modifiers.disabled}
       label={item.rep}
       key={item.value}
@@ -89,6 +90,28 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     super(props);
     this.showClear = false;
   }
+
+   renderItem: ItemRenderer<IItem> = (
+    item,
+    { handleClick, modifiers, query }
+  ) => {
+    if (!modifiers.matchesPredicate) {
+      return null;
+    }
+
+    const active = (this.props.fieldState && item.value === this.props.fieldState.value) || (item.value === this.props.value);
+
+    return (
+      <MenuItem
+        active={active}
+        disabled={modifiers.disabled}
+        label={item.rep}
+        key={item.value}
+        onClick={handleClick}
+        text={item.label}
+      />
+    );
+  };
 
   public render() {
     const {
@@ -163,7 +186,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect
             itemPredicate={filterItem}
-            itemRenderer={renderItem}
+            itemRenderer={this.renderItem}
             items={options}
             disabled={this.disable()}
             initialContent={initialContent}
