@@ -129,6 +129,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
         layer={layer}
         fill={fill}
         margin={margin}
+        noLabel={noLabel}
       >
         <FormFieldContainer
           required={required}
