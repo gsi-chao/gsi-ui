@@ -1,6 +1,5 @@
 import { IconName, Intent, MaybeElement } from '@blueprintjs/core';
-import { CSSProperties } from 'react';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 export interface ITabsPanelStyle {
   color?: string;

@@ -67,7 +67,7 @@ const renderItem: ItemRenderer<IItem> = (
 
   return (
     <MenuItem
-      //active={modifiers.active}
+      // active={modifiers.active}
       disabled={modifiers.disabled}
       label={item.rep}
       key={item.value}

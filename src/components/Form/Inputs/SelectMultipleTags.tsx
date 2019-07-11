@@ -6,6 +6,7 @@ import { IFieldProps } from './IFieldProps';
 import { IItemMultiple } from './SelectMultipleField';
 import { FormFieldContainer } from './FormFieldContainer';
 import { StyledPopOverWrapper } from './style';
+import { validateAndGetArray } from '../utils';
 
 const MultiSelectTag = MultiSelect.ofType<IItemMultiple>();
 
@@ -30,6 +31,7 @@ export interface IMultiSelectExampleState {
   popoverMinimal: boolean;
   resetOnSelect: boolean;
   tagMinimal: boolean;
+  updating: boolean;
 }
 
 export class VSelectMultipleTags extends React.Component<
@@ -45,8 +47,34 @@ export class VSelectMultipleTags extends React.Component<
     openOnKeyDown: false,
     popoverMinimal: true,
     resetOnSelect: true,
-    tagMinimal: false
+    tagMinimal: false,
+    updating: false
   };
+
+  componentDidMount() {
+    if (validateAndGetArray(this.props, 'fieldState.value')) {
+      const itemsToSelect =
+        this.props.options.filter(item =>
+          this.props.fieldState!.value.some(
+            (fieldValue: any) => fieldValue === item.value
+          )
+        ) || [];
+      itemsToSelect.forEach(item => {
+        this.selectItem(item);
+      });
+      this.props.fieldState!.onDidChange(config => {
+        const itemsToSelect =
+          this.props.options.filter(item =>
+            config.newValue.some((fieldValue: any) => fieldValue === item.value)
+          ) || [];
+        this.setState({ itemsSelected: itemsToSelect });
+        if (this.props.onChange) {
+          const ids = itemsToSelect.map(item => item.value);
+          this.props.onChange!(ids);
+        }
+      });
+    }
+  }
 
   public render() {
     const { itemsSelected, popoverMinimal, ...flags } = this.state;
