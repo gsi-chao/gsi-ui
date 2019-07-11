@@ -8,7 +8,13 @@ export { VTagInputField } from './Inputs/TagInputField';
 export { VTextAreaField } from './Inputs/TextAreaField';
 export { VSelectField } from './Inputs/SelectField';
 export { VDateTimePicker } from './Inputs/DateTimePicker';
-export { patchFormValues, getFormValue } from './utils';
+export {
+  patchFormValues,
+  getFormValue,
+  replaceAll,
+  validateAndGetArray,
+  validateAndGetObject
+} from './utils';
 export { VSelectMultiple } from './Inputs/SelectMultipleField';
 export { VSelectMultipleTags } from './Inputs/SelectMultipleTags';
 export { Validators } from './Validators';

@@ -17,3 +17,36 @@ export const getFormValue = (form: FormState<any>) => {
   });
   return returnedValue;
 };
+export const validateAndGetObject = (entity: object, keyMap: string): any => {
+  let value: any = Object.assign({}, entity);
+  keyMap.split('.').map(key => {
+    value = value && value[key];
+  });
+  return value;
+};
+
+export const validateAndGetArray = (entity: object, keyMap: string): any => {
+  let value: any = Object.assign({}, entity);
+  keyMap.split('.').map(key => {
+    value = value && value[key];
+  });
+
+  if (value) {
+    if (value.length > 0) {
+      return value;
+    }
+  }
+  return [];
+};
+
+export const replaceAll = (
+  value: string,
+  replaceValue: string,
+  replaceWith: string
+) => {
+  let newValue = value;
+  while (newValue.includes(replaceValue)) {
+    newValue = newValue.replace(replaceValue, replaceWith);
+  }
+  return newValue;
+};
