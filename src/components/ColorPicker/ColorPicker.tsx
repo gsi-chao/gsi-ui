@@ -92,6 +92,7 @@ export class VColorPicker extends Component<IProps, IState> {
           <SketchPickerStyled
             color={this.props.Color}
             onChange={this.handleChange}
+
           />
         );
       }
