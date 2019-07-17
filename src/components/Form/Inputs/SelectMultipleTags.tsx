@@ -54,18 +54,25 @@ export class VSelectMultipleTags extends React.Component<
   componentDidMount() {
     if (validateAndGetArray(this.props, 'fieldState.value')) {
       const itemsToSelect =
-        this.props.options.filter(item =>
-          this.props.fieldState!.value.some(
-            (fieldValue: any) => fieldValue === item.value
-          )
+        this.props.options.filter(
+          item =>
+            this.props.fieldState &&
+            this.props.fieldState!.value.some(
+              (fieldValue: any) => fieldValue === item.value
+            )
         ) || [];
       itemsToSelect.forEach(item => {
         this.selectItem(item);
       });
       this.props.fieldState!.onDidChange(config => {
         const itemsToSelect =
-          this.props.options.filter(item =>
-            config.newValue.some((fieldValue: any) => fieldValue === item.value)
+          this.props.options.filter(
+            item =>
+              config &&
+              config.newValue &&
+              config.newValue.some(
+                (fieldValue: any) => fieldValue === item.value
+              )
           ) || [];
         this.setState({ itemsSelected: itemsToSelect });
         if (this.props.onChange) {
