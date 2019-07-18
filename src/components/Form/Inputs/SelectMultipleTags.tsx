@@ -57,29 +57,33 @@ export class VSelectMultipleTags extends React.Component<
         this.props.options.filter(
           item =>
             this.props.fieldState &&
-            this.props.fieldState!.value.some(
+            this.props.fieldState.value &&
+            this.props.fieldState.value.length > 0 &&
+            this.props.fieldState.value.some(
               (fieldValue: any) => fieldValue === item.value
             )
         ) || [];
       itemsToSelect.forEach(item => {
         this.selectItem(item);
       });
-      this.props.fieldState!.onDidChange(config => {
-        const itemsToSelect =
-          this.props.options.filter(
-            item =>
-              config &&
-              config.newValue &&
-              config.newValue.some(
-                (fieldValue: any) => fieldValue === item.value
-              )
-          ) || [];
-        this.setState({ itemsSelected: itemsToSelect });
-        if (this.props.onChange) {
-          const ids = itemsToSelect.map(item => item.value);
-          this.props.onChange!(ids);
-        }
-      });
+      this.props.fieldState &&
+        this.props.fieldState.onDidChange(config => {
+          const itemsToSelect =
+            this.props.options.filter(
+              item =>
+                config &&
+                config.newValue &&
+                config.newValue.length > 0 &&
+                config.newValue.some(
+                  (fieldValue: any) => fieldValue === item.value
+                )
+            ) || [];
+          this.setState({ itemsSelected: itemsToSelect });
+          if (this.props.onChange) {
+            const ids = itemsToSelect.map(item => item.value);
+            this.props.onChange!(ids);
+          }
+        });
     }
   }
 
@@ -155,8 +159,10 @@ export class VSelectMultipleTags extends React.Component<
             popoverProps={{ minimal: popoverMinimal }}
             tagRenderer={this.renderTag}
             tagInputProps={{
-              onRemove: this.handleTagRemove,
-              rightElement: clearButton
+              tagProps: {},
+              onRemove:
+                (!this.props.disabled && this.handleTagRemove) || (() => {}),
+              rightElement: (!this.props.disabled && clearButton) || <></>
             }}
             selectedItems={this.state.itemsSelected}
           />
@@ -180,6 +186,7 @@ export class VSelectMultipleTags extends React.Component<
     }
     return (
       <MenuItem
+        disabled={this.props.disabled}
         active={modifiers.active}
         icon={this.isItemSelected(item) ? 'tick' : 'blank'}
         key={item.value}
