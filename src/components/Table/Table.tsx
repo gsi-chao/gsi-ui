@@ -10,7 +10,6 @@ import {
 import '@blueprintjs/table/lib/css/table.css';
 import { IconName, Intent, PopoverPosition } from '@blueprintjs/core';
 import TableColumn, { FilterByColumn, IVConfigHeader } from './TableColumn';
-import { fromEvent } from 'rxjs';
 import {
   ActionCellsMenuItem,
   DefaultActions,
@@ -115,7 +114,7 @@ export interface IVTableProps {
   cellSelectionType?: CellSelectionType;
   onSelectionChange?: any;
   actionsSelection?: IActionSelection;
-  regions?:IRegion[]
+  regions?: IRegion[]
   tableHeight?: string;
   striped?: boolean;
   textAlignColumn?: ITextAlignColumn[] | ITextAlignColumn;
@@ -132,7 +131,8 @@ export interface IVTableProps {
   totalsConf?: TotalOptionsProps;
 }
 
-interface IProps extends IVTableProps, ITableProps {}
+interface IProps extends IVTableProps, ITableProps {
+}
 
 export interface IVTableState {
   sparseCellData: any[];
@@ -147,7 +147,7 @@ export interface IVTableState {
   dataBeforeEdit: any[];
   dateEdited: IDataEdited[];
   invalidCells: { row: number; column: number }[];
-  showCustomerRegion:boolean;
+  showCustomerRegion: boolean;
 }
 
 export const VTable = (props: IProps) => {
@@ -175,7 +175,7 @@ export const VTable = (props: IProps) => {
     dataBeforeEdit: [],
     dateEdited: [],
     invalidCells: [],
-    showCustomerRegion:true
+    showCustomerRegion: true
   });
 
   /**
@@ -219,13 +219,13 @@ export const VTable = (props: IProps) => {
   }, [handleCtrlCAndV]);
 
 
-  useEffect(()=>{
-    if(props.regions){
+  useEffect(() => {
+    if (props.regions) {
       setSelectedRegions(props.regions);
     }
 
 
-  },[props.regions]);
+  }, [props.regions]);
 
   useEffect(() => {
     let sparseCellData = cloneDeep(props.data);
@@ -358,6 +358,8 @@ export const VTable = (props: IProps) => {
         invalidCells: []
       }
     });
+
+    props.edit &&  props.edit.onCancel && props.edit.onCancel();
   };
 
   const saveEdit = () => {
@@ -430,9 +432,9 @@ export const VTable = (props: IProps) => {
       if (region!.rows![0] === region!.rows![1]) {
         rowIndex.push(region!.rows![0]);
       } else {
-       for (let row = region!.rows![0]; row <= region!.rows![1]; row++) {
-         rowIndex.push(row);
-       }
+        for (let row = region!.rows![0]; row <= region!.rows![1]; row++) {
+          rowIndex.push(row);
+        }
       }
     });
     const data = stateTable.sparseCellData;
@@ -767,22 +769,23 @@ export const VTable = (props: IProps) => {
           cols: [0, numCols - 1]
         };
         splittedRegion.push(newRegion);
-      } /*else {
-        if (row < regionToDeselect!.rows![0]) {
-          const aboveRegion: IRegion = {
-            rows: [row, row],
-            cols: [0, numCols - 1]
-          };
-          splittedRegion.push(aboveRegion);
-        }
-        if (row > regionToDeselect!.rows![0]) {
-          const bellowRegion: IRegion = {
-            rows: [row, row],
-            cols: [0, numCols - 1]
-          };
-          splittedRegion.push(bellowRegion);
-        }
-      }*/
+      }
+      /*else {
+             if (row < regionToDeselect!.rows![0]) {
+               const aboveRegion: IRegion = {
+                 rows: [row, row],
+                 cols: [0, numCols - 1]
+               };
+               splittedRegion.push(aboveRegion);
+             }
+             if (row > regionToDeselect!.rows![0]) {
+               const bellowRegion: IRegion = {
+                 rows: [row, row],
+                 cols: [0, numCols - 1]
+               };
+               splittedRegion.push(bellowRegion);
+             }
+           }*/
     }
     return splittedRegion;
   };
@@ -827,13 +830,13 @@ export const VTable = (props: IProps) => {
    ** @return set the selected regions in the state.
    **/
   const setSelectedRegions = (selectedRegions: IRegion[]) => {
-    setStateTable({ ...stateTable, selectedRegions,showCustomerRegion:false });
+    setStateTable({ ...stateTable, selectedRegions, showCustomerRegion: false });
   };
 
-  const setShowCustomerRegions = (showCustomerRegion:boolean) => {
+  const setShowCustomerRegions = (showCustomerRegion: boolean) => {
     setStateTable({ ...stateTable, showCustomerRegion });
   };
-  
+
   /**
    ** @return set the total of cols and rows of the table
    **/
@@ -951,14 +954,14 @@ export const VTable = (props: IProps) => {
     return columnContextual!;
   };
 
-  const existSelection = (regions?:IRegion[]) => {
-    if(regions){
+  const existSelection = (regions?: IRegion[]) => {
+    if (regions) {
       return (
         regions &&
         regions.length > 0 &&
         regions[0].rows &&
         regions[0].rows!.length > 0
-      )
+      );
     }
 
     return (
@@ -969,35 +972,35 @@ export const VTable = (props: IProps) => {
     );
   };
 
-  const getInitRowSelection = (regions?:IRegion[]) => {
-    if(regions){
-      return regions[0]!.rows![0]
+  const getInitRowSelection = (regions?: IRegion[]) => {
+    if (regions) {
+      return regions[0]!.rows![0];
     }
     return stateTable.selectedRegions[0]!.rows![0];
   };
 
-  const getEndRowSelection = (regions?:IRegion[]) => {
-    if(regions){
-      return regions[0]!.rows![1]
+  const getEndRowSelection = (regions?: IRegion[]) => {
+    if (regions) {
+      return regions[0]!.rows![1];
     }
     return stateTable.selectedRegions[0]!.rows![1];
   };
 
-  const getInitColSelection = (regions?:IRegion[]) => {
-    if(regions){
-      return regions[0]!.cols![0]
+  const getInitColSelection = (regions?: IRegion[]) => {
+    if (regions) {
+      return regions[0]!.cols![0];
     }
     return stateTable.selectedRegions[0]!.cols![0];
   };
 
-  const getEndColSelection = (regions?:IRegion[]) => {
-    if(regions){
-      return regions[0]!.cols![1]
+  const getEndColSelection = (regions?: IRegion[]) => {
+    if (regions) {
+      return regions[0]!.cols![1];
     }
     return stateTable.selectedRegions[0]!.cols![1];
   };
 
-  const getSelection = (regions?:IRegion[]) => {
+  const getSelection = (regions?: IRegion[]) => {
     const { cellSelectionType } = props;
 
     if (cellSelectionType === 'DISABLED') {
@@ -1090,7 +1093,7 @@ export const VTable = (props: IProps) => {
         selectionData={getSelection(context.getRegions())}
       />
     ) : (
-      <div />
+      <div/>
     );
   };
 
@@ -1261,7 +1264,6 @@ export const VTable = (props: IProps) => {
   };
 
 
-
   /**
    ** End copy and paste Table Fixture
    **/
@@ -1316,7 +1318,7 @@ export const VTable = (props: IProps) => {
       return [];
     }
 
-    if(stateTable.showCustomerRegion){
+    if (stateTable.showCustomerRegion) {
       return props.regions!;
     }
     return stateTable.selectedRegions;
@@ -1334,7 +1336,7 @@ export const VTable = (props: IProps) => {
       regions[0].rows!.length > 0
     ) {
       if (props.cellSelectionType === 'MULTIPLE_ENTIRE_ROWS') {
-         onSelectionChange(getMultipleElementsData(regions))
+        onSelectionChange(getMultipleElementsData(regions));
       } else {
         onSelectionChange(getElementData(regions[0].rows![pos]));
       }
@@ -1410,7 +1412,7 @@ export const VTable = (props: IProps) => {
         setSelectedRegions(regions);
       }
     }
-    if(props.actionsSelection && props.actionsSelection.onRegionsChange){
+    if (props.actionsSelection && props.actionsSelection.onRegionsChange) {
       props.actionsSelection.onRegionsChange(regions);
     }
   };
@@ -1508,19 +1510,19 @@ export const VTable = (props: IProps) => {
     const widgetsValid: IVWidgetTableProps[] = [];
 
     stateTable.widgetsCell &&
-      stateTable.widgetsCell.forEach((widget: IVWidgetTableProps) => {
-        if (widget.column) {
-          if (columns.filter(x => x === widget.column).length === 1) {
-            widgetsValid.push(widget);
-          }
-        } else if (
-          widget.column === undefined &&
-          widget.row &&
-          widget.row <= stateTable.sparseCellData.length
-        ) {
+    stateTable.widgetsCell.forEach((widget: IVWidgetTableProps) => {
+      if (widget.column) {
+        if (columns.filter(x => x === widget.column).length === 1) {
           widgetsValid.push(widget);
         }
-      });
+      } else if (
+        widget.column === undefined &&
+        widget.row &&
+        widget.row <= stateTable.sparseCellData.length
+      ) {
+        widgetsValid.push(widget);
+      }
+    });
 
     return widgetsValid;
   };
@@ -1642,8 +1644,8 @@ export const VTable = (props: IProps) => {
     const enableRowHeader = enableRowResizing
       ? true
       : props.enableRowHeader
-      ? props.enableRowHeader
-      : false;
+        ? props.enableRowHeader
+        : false;
 
     const enableColumnResizing = props.enableColumnResizing
       ? props.enableRowResizing
@@ -1665,12 +1667,13 @@ export const VTable = (props: IProps) => {
     updateInvalidColumns(valid, columnIndex, rowIndex);
     const textAlignColumn = getTextAlignColumn(columnIndex);
 
-    if(props.allowTableTotals && rowIndex===0){
-      return ( <CellDiv isValid={valid} as={Cell}>
+    if (props.allowTableTotals && rowIndex === 0) {
+      return (<CellDiv isValid={valid} as={Cell}>
         <Widget
           row={rowIndex}
           column={columnIndex}
-          onClick={() => {}}
+          onClick={() => {
+          }}
           type={'DEFAULT'}
           value={value}
           disable={stateTable.edit}
@@ -1682,7 +1685,7 @@ export const VTable = (props: IProps) => {
           }}
           showTooltips={props.tooltips ? props.tooltips : undefined}
         />
-      </CellDiv>)
+      </CellDiv>);
     }
 
 
@@ -1751,10 +1754,10 @@ export const VTable = (props: IProps) => {
     }
 
     return edit &&
-      edit.editColumn.columns !== 'ALL' &&
-      edit.editColumn.columns.some(
-        (x: string) => x === columns[columnIndex]
-      ) ? (
+    edit.editColumn.columns !== 'ALL' &&
+    edit.editColumn.columns.some(
+      (x: string) => x === columns[columnIndex]
+    ) ? (
       <CellDiv isValid={valid} as={Cell}>
         {' '}
         <Widget
@@ -1779,7 +1782,8 @@ export const VTable = (props: IProps) => {
         <Widget
           row={rowIndex}
           column={columnIndex}
-          onClick={() => {}}
+          onClick={() => {
+          }}
           type={'DEFAULT'}
           value={value}
           disable={stateTable.edit}
@@ -1795,9 +1799,9 @@ export const VTable = (props: IProps) => {
     );
   };
 
-  const onChangeCell =(value:any,infoSelection?:InfoSelection)=>{
-    if(props.edit && props.edit.onChange){
-      props.edit.onChange(value,infoSelection);
+  const onChangeCell = (value: any, infoSelection?: InfoSelection) => {
+    if (props.edit && props.edit.onChange) {
+      props.edit.onChange(value, infoSelection);
 
     }
   };
@@ -1873,7 +1877,7 @@ export const VTable = (props: IProps) => {
       : makeResponsiveTable();
 
   return props.data.length === 0 || props.columns.length === 0 ? (
-    <EmptyData settings={props.settingEmptyData} />
+    <EmptyData settings={props.settingEmptyData}/>
   ) : (
     <ReactResizeDetector
       handleHeight
