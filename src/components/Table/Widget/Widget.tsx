@@ -32,7 +32,7 @@ export interface IWidget {
   disable?: boolean;
   isValid?: boolean;
   textAlign?: string;
-  onChange?(value:any,infoSelection?:InfoSelection):void;
+  onChange?(value: any, infoSelection?: InfoSelection): void;
 }
 
 export interface ActionClickWidget {
@@ -41,7 +41,6 @@ export interface ActionClickWidget {
     columnIndex: number,
     newValue: string | boolean | number
   ): void;
-
 }
 
 export interface IPropsWidgets {
@@ -191,19 +190,19 @@ class Widget extends Component<IVWidget> {
     return null;
   };
 
-  throwOnChangeCell =(rowIndex: number,
-         columnIndex: number,
-         newValue: any):void=>{
-    if(this.props.onChange)
-    {
-      const infoSelection:InfoSelection ={
-        rowIndex:this.props.row,
-        columnIndex:this.props.column,
-        columnName:this.props.columns[this.props.column]
+  throwOnChangeCell = (
+    rowIndex: number,
+    columnIndex: number,
+    newValue: any
+  ): void => {
+    if (this.props.onChange) {
+      const infoSelection: InfoSelection = {
+        rowIndex: this.props.row,
+        columnIndex: this.props.column,
+        columnName: this.props.columns[this.props.column]
       };
-      this.props.onChange(newValue,infoSelection)
+      this.props.onChange(newValue, infoSelection);
     }
-
   };
 
   private getCustomerWidget = () => {

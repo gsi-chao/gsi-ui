@@ -3,15 +3,20 @@ import { IRegion } from '@blueprintjs/table';
 
 export type EditColumns = 'ALL';
 export type DefaultheightRow = 'SHORT' | 'HALF' | 'LONG';
-export type CellSelectionType = 'FREE' | 'ENTIRE_ROW' | 'CELL' | 'DISABLED' | 'MULTIPLE_ENTIRE_ROWS';
+export type CellSelectionType =
+  | 'FREE'
+  | 'ENTIRE_ROW'
+  | 'CELL'
+  | 'DISABLED'
+  | 'MULTIPLE_ENTIRE_ROWS';
 export type ResultDataEdited = 'ENTIRE_ROW' | 'CELL';
 
 export interface EditSetup {
   editToolbar?: ISetupEditToolbar;
   editColumn: IVActionEditTableProps;
   onSave: (data: any) => void;
-  onCancel?:()=>void;
-  onChange?:(value:any,infoSelection?:InfoSelection)=>void
+  onCancel?: () => void;
+  onChange?: (value: any, infoSelection?: InfoSelection) => void;
   resultDataEdited?: ResultDataEdited;
   invalidDataMessage?: (invalidColumns: string[]) => void;
 }
@@ -44,8 +49,7 @@ export interface IActionSelection {
   ) => void;
   clearSelection?: boolean;
   onSelectionCleaned?: (isSelectionCleaned: boolean) => any;
-  onRegionsChange?:(regions:IRegion[])=>void
-
+  onRegionsChange?: (regions: IRegion[]) => void;
 }
 
 export interface ITextAlignColumn {

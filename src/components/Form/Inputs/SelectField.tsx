@@ -6,7 +6,8 @@ import {
   ButtonGroup,
   Icon,
   IconName,
-  Intent, IPopoverProps,
+  Intent,
+  IPopoverProps,
   MenuItem
 } from '@blueprintjs/core';
 /** FieldState */
@@ -38,7 +39,7 @@ export interface ISelectFieldProps extends IFieldProps {
   clearValue?: any;
   isLoading?: boolean;
   tipLabel?: string;
-  popoverProps?:IPopoverProps;
+  popoverProps?: IPopoverProps;
 }
 
 /**
@@ -91,7 +92,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     this.showClear = false;
   }
 
-   renderItem: ItemRenderer<IItem> = (
+  renderItem: ItemRenderer<IItem> = (
     item,
     { handleClick, modifiers, query }
   ) => {
@@ -99,7 +100,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       return null;
     }
 
-    const active = (this.props.fieldState && item.value === this.props.fieldState.value) || (item.value === this.props.value);
+    const active =
+      (this.props.fieldState && item.value === this.props.fieldState.value) ||
+      item.value === this.props.value;
 
     return (
       <MenuItem

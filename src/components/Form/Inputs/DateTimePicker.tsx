@@ -34,7 +34,7 @@ export interface IInputFieldProps extends IFieldProps {
   useAmPm?: boolean;
   maxTime?: Date;
   minTime?: Date;
-  canClearSelection?:boolean
+  canClearSelection?: boolean;
 }
 
 interface IIcon {

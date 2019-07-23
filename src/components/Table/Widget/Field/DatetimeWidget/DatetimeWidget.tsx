@@ -18,9 +18,11 @@ export interface IProps
     ActionClickWidget,
     IPropsWidgets {
   color: string;
-  onChange?(rowIndex: number,
-            columnIndex: number,
-            newValue: string | boolean | number):void
+  onChange?(
+    rowIndex: number,
+    columnIndex: number,
+    newValue: string | boolean | number
+  ): void;
 }
 
 class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
@@ -67,8 +69,12 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
       this.props.column,
       moment(date).format('MM/DD/YYYY')
     );
-    if(this.props.onChange){
-      this.props.onChange(this.props.row, this.props.column,  moment(date).format('MM/DD/YYYY'))
+    if (this.props.onChange) {
+      this.props.onChange(
+        this.props.row,
+        this.props.column,
+        moment(date).format('MM/DD/YYYY')
+      );
     }
   };
 

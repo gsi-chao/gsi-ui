@@ -107,7 +107,7 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
               >
                 {headerCustomButton}
                 {headerIcon ? <Icon icon={headerIcon} /> : null}
-                <h5>{headerText}</h5>
+                <span>{headerText}</span>
               </VCardTextSpan>
             </VCardTextSpanContainer>
             {collapse ? (

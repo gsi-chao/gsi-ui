@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ITabsPanelProps, ITabsPanelState } from './types';
 import { VTabPanel } from './TabPanel/TabPanel';
 import {
@@ -10,7 +10,6 @@ import {
 import { Alert } from '@blueprintjs/core';
 
 export const VTabsPanel = (props: ITabsPanelProps) => {
-
   const getContent = (key: any = props.tabList[0].key) => {
     let content: any = props.tabList[0].content;
     props.tabList.forEach(tab => {
@@ -43,7 +42,6 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
       possibleKey: ''
     });
   }, [props.active]);
-
 
   const toggleIsOpenDialogOpen = () => {
     setState({
@@ -103,7 +101,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
             activeBorderColor={options.activeBorderColor}
           />
         ))}
-        <TabsSpaceFiller/>
+        <TabsSpaceFiller />
       </ContainerTabs>
       <ContainerContent
         backgroundColor={options.backgroundColor}
@@ -136,7 +134,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
       >
         <p>
           {(tabsAlertProps && tabsAlertProps.bodyText) ||
-          `Changes will be lost!`}
+            `Changes will be lost!`}
         </p>
       </Alert>
     </ContainerTabsPanel>

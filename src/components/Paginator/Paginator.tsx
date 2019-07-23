@@ -195,7 +195,7 @@ export class VPagination extends Component<VPaginatorProps, IState> {
   render() {
     if (!this.getTotalsRecord()) return null;
 
-   // if (this.getTotalPages() === 1) return null;
+    // if (this.getTotalPages() === 1) return null;
 
     const { currentPage } = this.state;
     const pages = this.fetchPageNumbers();

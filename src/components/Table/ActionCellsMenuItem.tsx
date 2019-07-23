@@ -9,7 +9,7 @@ export interface IVContextualActionTableProps {
   action: (item: any) => void;
   text: string;
   icon?: IconName;
-  disabled?: (item: any) =>boolean;
+  disabled?: (item: any) => boolean;
   isMenuDivider?: boolean;
   label?: string;
   labelElement?: React.ReactNode;
@@ -115,12 +115,12 @@ export class ActionCellsMenuItem extends React.PureComponent<
     }
   };
 
-  getDisabled=(contextual: IVContextualActionTableProps) : boolean=>{
-    if( contextual.disabled){
+  getDisabled = (contextual: IVContextualActionTableProps): boolean => {
+    if (contextual.disabled) {
       return contextual.disabled!(this.props.selectionData)!;
     }
 
-    return false
+    return false;
   };
 
   renderContextual = (
