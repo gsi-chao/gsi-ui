@@ -3,12 +3,10 @@ import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 
-
 interface IProps extends AgGridReactProps {
-  height?: string,
-  width?: string,
+  height?: string;
+  width?: string;
 }
-
 
 export const VAgGrid = (props: IProps) => {
   return (

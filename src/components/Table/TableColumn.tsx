@@ -45,7 +45,7 @@ export default class TableColumn implements ISortableColumn {
     protected filterByColumn: FilterByColumn | undefined,
     protected columns_name?: { [key: string]: string },
     protected sortable?: IVActionSortableTableProps,
-    protected options?: IItemMultiple[],
+    protected options?: IItemMultiple[]
   ) {
     this.form = new FormState<any>({
       filter: new FieldState('')
@@ -132,9 +132,12 @@ export default class TableColumn implements ISortableColumn {
 
   renderColumnHeader = (columnIndex: number) => {
     const menuRenderer = this.getMenu(columnIndex);
-    const { backgroundColor, textColor, textAlign, headerBold } = this.getConfigHeaderStyle(
-      columnIndex
-    );
+    const {
+      backgroundColor,
+      textColor,
+      textAlign,
+      headerBold
+    } = this.getConfigHeaderStyle(columnIndex);
     const columnName = this.getColumnName(columnIndex);
 
     return (
@@ -242,13 +245,16 @@ export default class TableColumn implements ISortableColumn {
     }
 
     if (configHeader) {
-      if(configHeader.backgroundColor){
+      if (configHeader.backgroundColor) {
         backgroundColor = configHeader.backgroundColor;
-      }if(configHeader.textColor){
+      }
+      if (configHeader.textColor) {
         textColor = configHeader.textColor;
-      }if(configHeader.textAlign){
+      }
+      if (configHeader.textAlign) {
         textAlign = configHeader.textAlign;
-      }if(configHeader.headerBold){
+      }
+      if (configHeader.headerBold) {
         headerBold = configHeader.headerBold;
       }
     }

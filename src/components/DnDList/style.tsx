@@ -26,14 +26,12 @@ export const DnDListContainer = styled.div`
     props.direction === 'horizontal' ? 'flex' : 'inherit'};
   overflow: ${(props: IDnDList) =>
     props.direction === 'horizontal' ? 'auto' : 'inherit'};
-  width: ${(props: IDnDList) =>
-  props.width ? props.width : 'auto'};
+  width: ${(props: IDnDList) => (props.width ? props.width : 'auto')};
   min-width: ${(props: IDnDList) =>
-  props.direction === 'horizontal' ? '100%' : '250px'};
-   height: ${(props: IDnDList) =>
-  props.height ? props.height : 'auto'};
+    props.direction === 'horizontal' ? '100%' : '250px'};
+  height: ${(props: IDnDList) => (props.height ? props.height : 'auto')};
   min-height: ${(props: IDnDList) =>
-  props.direction === 'horizontal' ? '100%' : '100px'};
+    props.direction === 'horizontal' ? '100%' : '100px'};
 `;
 
 interface IDNDItem {

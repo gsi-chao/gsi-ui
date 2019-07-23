@@ -263,41 +263,40 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
 
 export const StyledRadioButton = styled(StyledFormGroup)`
   & .bp3-form-content {
-  & label.field-label {
-    & .gsi-form-field-container {
-      & div {
-        display: flex;
-        position: relative;
-        top: -5px;
-        display: flex;
-        ${(props: IStyledFieldProps) => {
-          const inputOrientation =
-            props.layer && props.layer.inputOrientation === 'center'
-              ? 'center'
-              : props.layer.inputOrientation === 'end'
-              ? 'flex-end'
-              : 'flex-start';
-          return `justify-content: ${inputOrientation};`;
-        }};
-        & .bp3-control.bp3-radio.bp3-inline {
-          padding: 0 26px !important;
-          width: auto !important;
-          margin-right: 10px !important;
-          line-height: 27px;
-          .bp3-control-indicator {
-            margin-left: -26px;
-            margin-top: 0px;
+    & label.field-label {
+      & .gsi-form-field-container {
+        & div {
+          display: flex;
+          position: relative;
+          top: -5px;
+          display: flex;
+          ${(props: IStyledFieldProps) => {
+            const inputOrientation =
+              props.layer && props.layer.inputOrientation === 'center'
+                ? 'center'
+                : props.layer.inputOrientation === 'end'
+                ? 'flex-end'
+                : 'flex-start';
+            return `justify-content: ${inputOrientation};`;
+          }};
+          & .bp3-control.bp3-radio.bp3-inline {
+            padding: 0 26px !important;
+            width: auto !important;
+            margin-right: 10px !important;
+            line-height: 27px;
+            .bp3-control-indicator {
+              margin-left: -26px;
+              margin-top: 0px;
+            }
           }
         }
-      },
-        & .bp3-control.bp3-inline{
+        ,
+        & .bp3-control.bp3-inline {
           margin-right: 10px !important;
-      }
+        }
       }
     }
   }
-  
-
 `;
 
 export const IconDate = styled('div')`

@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult
+} from 'react-beautiful-dnd';
 import { DNDItem, DnDListContainer } from './style';
 
 interface Item {
@@ -8,15 +13,15 @@ interface Item {
 }
 
 interface IProps {
-  innerPadding?: number,
-  width?: string,
-  height?: string,
-  paddingList?: string,
-  marginList?: string,
-  paddingItem?: string,
-  marginItem?: string,
-  backgroundColor?: string,
-  dragColor?: string,
+  innerPadding?: number;
+  width?: string;
+  height?: string;
+  paddingList?: string;
+  marginList?: string;
+  paddingItem?: string;
+  marginItem?: string;
+  backgroundColor?: string;
+  dragColor?: string;
   direction: 'horizontal' | 'vertical';
   list: Item[];
   onDragAndDrop?: (list: Item[]) => void;
@@ -33,8 +38,6 @@ const reorder = (
 
   return result;
 };
-
-
 
 /**
  * Moves an item from one list to another list.
