@@ -74,7 +74,7 @@ export const StyledFormGroup = styled(FormGroup)`
                     }    
             }
             & .gsi-form-field-container {
-                ${!noLabel ? `padding-left: 10px!important;` : ''}
+                ${!noLabel ? `padding-left: 5px!important;` : ''}
                 width: ${
                   inputWidth
                     ? `${inputWidth}%`
