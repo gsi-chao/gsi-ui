@@ -85,7 +85,7 @@ export const EmptyData = (props: IEmptyData) => {
         <div style={{ textAlign: 'center' }}>
           {renderIcon}
           <p
-            style={{ color, fontSize: textSize, fontWeight: 400 }}
+            style={{ color, fontSize: textSize, fontWeight: 400, width: 100 }}
             className="bp3-heading"
           >
             {text}
