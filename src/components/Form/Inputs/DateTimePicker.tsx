@@ -10,6 +10,7 @@ import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
 import { computed } from 'mobx';
 import { TimePrecision } from '@blueprintjs/datetime/lib/esm/timePicker';
+import { Validators } from '../Validators';
 
 /**
  * Field component. Must be an observer.
@@ -100,8 +101,21 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       maxTime,
       minTime,
       useAmPm,
-      precision
+      precision,
+      validators
     } = this.props;
+
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(Validators.required, ...validators);
+        } else {
+          fieldState.validators(Validators.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
+      }
+    }
     let iconJSX;
     if (icon) {
       iconJSX = (
@@ -121,9 +135,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={
-          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}

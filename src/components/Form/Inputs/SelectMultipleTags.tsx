@@ -198,7 +198,7 @@ export class VSelectMultipleTags extends React.Component<
   };
 
   private handleTagRemove = (_tag: string, index: number) => {
-    this.deselectItem(index);
+    this.deselectItem(index, this.updateFieldState);
   };
 
   private getSelectedItemIndex(item: IItemMultiple) {
