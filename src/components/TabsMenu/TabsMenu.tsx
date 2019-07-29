@@ -32,7 +32,7 @@ export class VTabsMenu extends Component<ITabsMenuProps, ITabsMenuState> {
         >
           {options.tabList.map(tab => {
             const label = tab.icon && (
-              <TabIcon>
+              <TabIcon key={tab.key}>
                 <Icon
                   style={labelIcon}
                   icon={tab.icon!.icon}
