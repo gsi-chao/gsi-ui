@@ -315,8 +315,13 @@ class Widget extends Component<IVWidget> {
   };
 
   private isValidPaintCell = () => {
+    const infoSelection: InfoSelection = {
+      rowIndex: this.props.row,
+      columnIndex: this.props.column,
+      columnName: this.props.columns[this.props.column]
+    };
     const colorCell = this.props.colorCell;
-    return colorCell!.printColor(this.props.value);
+    return colorCell!.printColor(this.props.value,infoSelection);
   };
 
   private getBackgroundAndColor() {
@@ -359,9 +364,14 @@ class Widget extends Component<IVWidget> {
   };
 
   private getColorCell = () => {
+    const infoSelection: InfoSelection = {
+      rowIndex: this.props.row,
+      columnIndex: this.props.column,
+      columnName: this.props.columns[this.props.column]
+    };
     if (
       this.props.colorCell &&
-      this.props.colorCell.printColor(this.props.value)
+      this.props.colorCell.printColor(this.props.value,infoSelection)
     ) {
       const backgroundColor = this.props.colorCell.backgroundColor.toLowerCase();
       const color =

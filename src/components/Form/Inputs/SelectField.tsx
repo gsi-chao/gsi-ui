@@ -40,6 +40,7 @@ export interface ISelectFieldProps extends IFieldProps {
   isLoading?: boolean;
   tipLabel?: string;
   popoverProps?: IPopoverProps;
+  resetOnClose?:boolean;
 }
 
 /**
@@ -197,6 +198,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             onItemSelect={this.onItemSelected}
             filterable={filterable}
             popoverProps={popoverProps}
+            resetOnClose={this.props.resetOnClose && this.props.resetOnClose}
           >
             {iconOnly ? (
               <ButtonGroup>

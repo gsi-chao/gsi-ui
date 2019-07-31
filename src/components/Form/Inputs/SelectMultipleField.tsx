@@ -26,6 +26,7 @@ export interface ISelectFieldProps extends IFieldProps {
   fixedInputWidthPx?: number;
   iconOnly?: boolean;
   tipLabel?: string;
+  resetOnClose?:boolean;
 }
 
 /**
@@ -61,10 +62,11 @@ const renderItem: ItemRenderer<IItemRenderer> = (
       icon={founded ? 'tick' : 'blank'}
       active={modifiers.active}
       disabled={modifiers.disabled}
-      label={item.rep}
+      label={item.rep + 'sdfgdfg'}
       key={item.value}
       onClick={handleClick}
-      text={item.label}
+      text={item.label+ 'sdfgdfg'}
+      shouldDismissPopover={false}
     />
   );
 };
@@ -172,6 +174,7 @@ export class VSelectMultiple extends React.Component<
         noLabel={noLabel}
         fixedInputWidthPx={fixedInputWidthPx}
         margin={margin}
+
       >
         <FormFieldContainer
           required={required}
@@ -181,7 +184,7 @@ export class VSelectMultiple extends React.Component<
         >
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect
-            popoverProps={{ captureDismiss: true }}
+            popoverProps={{ captureDismiss: true, }}
             itemPredicate={filterItem}
             itemRenderer={renderItem}
             items={renderOptions}
@@ -190,6 +193,7 @@ export class VSelectMultiple extends React.Component<
             noResults={<MenuItem disabled={true} text="No results." />}
             onItemSelect={this.onItemSelected}
             filterable={filterable}
+            resetOnClose={this.props.resetOnClose && this.props.resetOnClose}
           >
             {iconOnly ? (
               <Button
