@@ -18,6 +18,7 @@ export interface INumericFieldProps extends IFieldProps {
   max?: number;
   buttonPosition?: 'left' | 'right' | 'none';
   fill?: boolean;
+  allowNumericCharactersOnly?: boolean;
 }
 
 /**
@@ -51,6 +52,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       required,
       validators,
       margin,
+      allowNumericCharactersOnly,
       value
     } = this.props;
     if (fieldState) {
@@ -94,8 +96,10 @@ export class VNumericField extends React.Component<INumericFieldProps> {
               max,
               leftIcon,
               fill,
-              buttonPosition
+              buttonPosition,
+              allowNumericCharactersOnly
             }}
+            clampValueOnBlur
             onValueChange={this.onChange}
             value={this.valueField}
             intent={

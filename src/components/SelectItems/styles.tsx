@@ -11,7 +11,6 @@ export interface ISelectionListProps {
 }
 
 export const BodyContainer = styled.div`
-  height: 100%;
   padding: 15px 10px 15px;
   display: flex;
   align-items: center;
