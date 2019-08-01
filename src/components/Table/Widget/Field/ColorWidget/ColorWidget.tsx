@@ -6,5 +6,5 @@ export interface IColorWidget {
   backgroundColor: string;
   color?: string;
   value?: string;
-  printColor: (value: string,infoSelection?: InfoSelection) => boolean;
+  printColor: (value: string, infoSelection?: InfoSelection) => boolean;
 }

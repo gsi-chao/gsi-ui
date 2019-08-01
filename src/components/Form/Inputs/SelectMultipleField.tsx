@@ -26,7 +26,7 @@ export interface ISelectFieldProps extends IFieldProps {
   fixedInputWidthPx?: number;
   iconOnly?: boolean;
   tipLabel?: string;
-  resetOnClose?:boolean;
+  resetOnClose?: boolean;
 }
 
 /**
@@ -65,7 +65,7 @@ const renderItem: ItemRenderer<IItemRenderer> = (
       label={item.rep + 'sdfgdfg'}
       key={item.value}
       onClick={handleClick}
-      text={item.label+ 'sdfgdfg'}
+      text={item.label + 'sdfgdfg'}
       shouldDismissPopover={false}
     />
   );
@@ -174,7 +174,6 @@ export class VSelectMultiple extends React.Component<
         noLabel={noLabel}
         fixedInputWidthPx={fixedInputWidthPx}
         margin={margin}
-
       >
         <FormFieldContainer
           required={required}
@@ -184,7 +183,7 @@ export class VSelectMultiple extends React.Component<
         >
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect
-            popoverProps={{ captureDismiss: true, }}
+            popoverProps={{ captureDismiss: true }}
             itemPredicate={filterItem}
             itemRenderer={renderItem}
             items={renderOptions}

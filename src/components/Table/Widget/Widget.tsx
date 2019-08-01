@@ -321,7 +321,7 @@ class Widget extends Component<IVWidget> {
       columnName: this.props.columns[this.props.column]
     };
     const colorCell = this.props.colorCell;
-    return colorCell!.printColor(this.props.value,infoSelection);
+    return colorCell!.printColor(this.props.value, infoSelection);
   };
 
   private getBackgroundAndColor() {
@@ -371,7 +371,7 @@ class Widget extends Component<IVWidget> {
     };
     if (
       this.props.colorCell &&
-      this.props.colorCell.printColor(this.props.value,infoSelection)
+      this.props.colorCell.printColor(this.props.value, infoSelection)
     ) {
       const backgroundColor = this.props.colorCell.backgroundColor.toLowerCase();
       const color =

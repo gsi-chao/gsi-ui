@@ -105,11 +105,29 @@ export class VNumericField extends React.Component<INumericFieldProps> {
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
+            onKeyPress={this.onKeyPress}
           />
         </FormFieldContainer>
       </StyledNumericInput>
     );
   }
+
+  onKeyPress = (event: any) => {
+    const keycode = event.keyCode ? event.keyCode : event.which;
+    console.log(keycode);
+    if (
+      !(
+        event.shiftKey == false &&
+        (keycode == 46 ||
+          keycode == 8 ||
+          keycode == 37 ||
+          keycode == 39 ||
+          (keycode >= 48 && keycode <= 57))
+      )
+    ) {
+      event.preventDefault();
+    }
+  };
 
   @computed
   get valueField() {
