@@ -21,6 +21,7 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
+import {Classes} from '@blueprintjs/core'
 
 /**
  * Field Props
@@ -40,6 +41,7 @@ export interface ISelectFieldProps extends IFieldProps {
   isLoading?: boolean;
   tipLabel?: string;
   popoverProps?: IPopoverProps;
+  resetOnClose?:boolean;
 }
 
 /**
@@ -197,6 +199,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             onItemSelect={this.onItemSelected}
             filterable={filterable}
             popoverProps={popoverProps}
+            resetOnClose={this.props.resetOnClose && this.props.resetOnClose}
+            className={this.props.isLoading ?Classes.SKELETON:''}
           >
             {iconOnly ? (
               <ButtonGroup>
@@ -215,6 +219,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
               </ButtonGroup>
             ) : (
               <Button
+
                 onMouseEnter={() => {
                   this.showClear = true;
                 }}
