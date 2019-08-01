@@ -153,6 +153,8 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
             <DateInput
               {...this.FORMATS()[dateType]}
               disabled={disabled}
+              minDate={minTime}
+              maxDate={maxTime}
               defaultValue={moment().toDate()}
               onChange={this.changedDate}
               value={this.valueField}
