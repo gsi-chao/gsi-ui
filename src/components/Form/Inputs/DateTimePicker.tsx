@@ -160,7 +160,6 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               rightElement={iconJSX}
               popoverProps={popoverProps}
               canClearSelection={this.props.canClearSelection}
-
             />
           ) : (
             <TimePicker
@@ -178,8 +177,16 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
   onKeyPress = (event: any) => {
     const keycode = event.keyCode ? event.keyCode : event.which;
     console.log(keycode);
-    if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 ||
-      keycode == 37 ||keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+    if (
+      !(
+        event.shiftKey == false &&
+        (keycode == 46 ||
+          keycode == 8 ||
+          keycode == 37 ||
+          keycode == 39 ||
+          (keycode >= 48 && keycode <= 57))
+      )
+    ) {
       event.preventDefault();
     }
   };
