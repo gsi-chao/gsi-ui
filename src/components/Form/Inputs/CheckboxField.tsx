@@ -17,6 +17,7 @@ export interface ICheckBoxFieldProps extends IFieldProps {
   rightElement?: Element;
   alignIndicator?: Alignment;
   checkBoxAtLeft?: boolean;
+  requiredJustVisual?: boolean;
 }
 
 /**
@@ -46,10 +47,11 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       required,
       validators,
       margin,
-      value
+      value,
+      requiredJustVisual
     } = this.props;
     if (fieldState) {
-      if (required) {
+      if (required && !requiredJustVisual) {
         if (validators && validators.length > 0) {
           fieldState.validators(Validators.required, ...validators);
         } else {
