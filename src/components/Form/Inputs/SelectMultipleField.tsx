@@ -62,10 +62,10 @@ const renderItem: ItemRenderer<IItemRenderer> = (
       icon={founded ? 'tick' : 'blank'}
       active={modifiers.active}
       disabled={modifiers.disabled}
-      label={item.rep + 'sdfgdfg'}
+      label={item.rep}
       key={item.value}
       onClick={handleClick}
-      text={item.label + 'sdfgdfg'}
+      text={item.label}
       shouldDismissPopover={false}
     />
   );
