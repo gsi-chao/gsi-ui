@@ -55,7 +55,7 @@ const ItemsByPages = (props: IItemsByPages) => {
       label={props.label ? props.label : 'Items by pages:'}
       minimal
       options={props.options}
-      id="places"
+      id="items-by-page"
       fieldState={props.fieldState}
       onChange={props.onChange}
       color={props.color ? props.color : 'black'}
@@ -324,14 +324,19 @@ export class VPagination extends Component<VPaginatorProps, IState> {
         fieldState={this.form.$.pageLimit}
         options={this.getItemsByPages()}
         label={label}
-        onChange={value => {
-          this.form.$.pageLimit.onChange(value);
-          this.gotoPage(1);
-        }}
+        onChange={this.onItemsByPageChange}
         color={this.getColorCurrentPage()}
       />
     );
   }
+
+  private onItemsByPageChange = (value: number) => {
+    this.form.$.pageLimit.onChange(value);
+    this.gotoPage(1);
+    if (this.props.onPageSizeChanged) {
+      this.props.onPageSizeChanged(value);
+    }
+  };
 
   private getRightPage(index: number) {
     return (
