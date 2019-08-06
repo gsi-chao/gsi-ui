@@ -114,7 +114,6 @@ export class VNumericField extends React.Component<INumericFieldProps> {
 
   onKeyPress = (event: any) => {
     const keycode = event.keyCode ? event.keyCode : event.which;
-    console.log(keycode);
     if (
       !(
         event.shiftKey == false &&

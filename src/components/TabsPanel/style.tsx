@@ -51,12 +51,12 @@ export const LabelIcon = styled.div`
       ? `2px solid ${props.activeBorderColor} !important`
       : '2px solid #3d3e3e !important'
   };
-  backgorund-color: ${props.activeColor || '#fff'};
+  background-color: ${props.activeColor || '#fff'};
   border-bottom: none!important;
   `
       : `
     border-width: 0;
-    backgorund-color: transparent;
+    background-color: transparent;
     border-bottom: 2px solid rgba(142, 142, 142, 0.36) !important;
     `}
   & > span{
