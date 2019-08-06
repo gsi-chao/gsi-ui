@@ -34,7 +34,6 @@ export const FileUpload = (props: FileUploadProps) => {
   const { isOpenMenu, isOpenEditFileDialog, fileName, file } = state;
   useEffect(() => {
     if (file) {
-      console.log(file);
       setState({ ...state, fileName: file.name });
     }
   }, [file]);

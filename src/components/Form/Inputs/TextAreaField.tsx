@@ -96,7 +96,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
   @computed
   get valueField() {
     if (this.props.fieldState) {
-      return this.props.fieldState.value;
+      return this.props.fieldState.value || '';
     }
     if (this.props.value) {
       return this.props.value;
