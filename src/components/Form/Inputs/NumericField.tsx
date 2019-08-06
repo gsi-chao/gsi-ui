@@ -114,14 +114,13 @@ export class VNumericField extends React.Component<INumericFieldProps> {
 
   onKeyPress = (event: any) => {
     const keycode = event.keyCode ? event.keyCode : event.which;
-    console.log(keycode);
     if (
       !(
-        event.shiftKey == false &&
-        (keycode == 46 ||
-          keycode == 8 ||
-          keycode == 37 ||
-          keycode == 39 ||
+        event.shiftKey === false &&
+        (keycode === 46 ||
+          keycode === 8 ||
+          keycode === 37 ||
+          keycode === 39 ||
           (keycode >= 48 && keycode <= 57))
       )
     ) {
@@ -137,7 +136,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
     if (this.props.value) {
       return this.props.value || '';
     }
-    return 0;
+    return '';
   }
 
   onChange = (e: any, value: string) => {

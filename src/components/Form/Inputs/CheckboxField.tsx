@@ -102,7 +102,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
   @computed
   get valueField() {
     if (this.props.fieldState) {
-      return this.props.fieldState.value;
+      return this.props.fieldState.value || false;
     }
     if (this.props.value) {
       return this.props.value;

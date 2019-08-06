@@ -178,14 +178,13 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
 
   onKeyPress = (event: any) => {
     const keycode = event.keyCode ? event.keyCode : event.which;
-    console.log(keycode);
     if (
       !(
-        event.shiftKey == false &&
-        (keycode == 46 ||
-          keycode == 8 ||
-          keycode == 37 ||
-          keycode == 39 ||
+        event.shiftKey === false &&
+        (keycode === 46 ||
+          keycode === 8 ||
+          keycode === 37 ||
+          keycode === 39 ||
           (keycode >= 48 && keycode <= 57))
       )
     ) {
@@ -196,7 +195,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
   @computed
   get valueField() {
     if (this.props.fieldState) {
-      return this.props.fieldState.value;
+      return this.props.fieldState.value || '';
     }
     if (this.props.value) {
       return this.props.value;
