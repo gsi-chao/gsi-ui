@@ -43,9 +43,12 @@ export interface IItemMultiple {
   label: string;
   rep?: string;
 }
+
 interface IState {
   selectedItems: IItemMultiple[];
+  isOpenPopover: boolean
 }
+
 const ItemSelect = Select.ofType<IItemRenderer>();
 
 const renderItem: ItemRenderer<IItemRenderer> = (
@@ -76,14 +79,13 @@ const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
 };
 
 @observer
-export class VSelectMultiple extends React.Component<
-  ISelectFieldProps,
-  IState
-> {
+export class VSelectMultiple extends React.Component<ISelectFieldProps,
+  IState> {
   constructor(props: ISelectFieldProps) {
     super(props);
     this.state = {
-      selectedItems: []
+      selectedItems: [],
+      isOpenPopover: false
     };
 
     if (this.props.fieldState) {
@@ -162,6 +164,10 @@ export class VSelectMultiple extends React.Component<
 
     const renderOptions = options.map(item => ({ item, selectedItems }));
 
+    const handleInteraction = (nextOpenState: boolean) => {
+      this.setState({ isOpenPopover: nextOpenState });
+    };
+
     return (
       <StyledPopOverWrapper
         disabled={disabled}
@@ -183,13 +189,16 @@ export class VSelectMultiple extends React.Component<
         >
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect
-            popoverProps={{ captureDismiss: true }}
+            popoverProps={{ captureDismiss: true,
+              isOpen: this.state.isOpenPopover,
+              onInteraction: handleInteraction
+            }}
             itemPredicate={filterItem}
             itemRenderer={renderItem}
             items={renderOptions}
             disabled={disabled}
             initialContent={initialContent}
-            noResults={<MenuItem disabled={true} text="No results." />}
+            noResults={<MenuItem disabled={true} text="No results."/>}
             onItemSelect={this.onItemSelected}
             filterable={filterable}
             resetOnClose={this.props.resetOnClose && this.props.resetOnClose}
