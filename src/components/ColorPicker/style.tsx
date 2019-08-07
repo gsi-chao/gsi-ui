@@ -58,8 +58,9 @@ export const InputColor = styled.button`
   background: ${(props: ITypeInputColor) =>
     props.defaultColor ? getBackground(props) : '#A1A3A2'};
 
-  border: none;
+  border:  solid 1px gray;
   border-radius: 7px;
   cursor: ${(props: ITypeInputColor) =>
     props.disable ? 'not-allowed' : 'default'};
+  
 `;
