@@ -148,6 +148,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          value={value}
         >
           {dateType === 'DATETIME' || dateType === 'DATE' ? (
             <DateInput
