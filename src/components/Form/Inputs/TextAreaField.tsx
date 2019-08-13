@@ -20,6 +20,7 @@ import { computed } from 'mobx';
 
 export interface ITextAreaFieldProps extends IFieldProps {
   fill?: boolean;
+  upperCaseFormat?: boolean;
 }
 
 @observer
@@ -43,7 +44,8 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       noLabel,
       required,
       validators,
-      value
+      value,
+      upperCaseFormat
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -56,6 +58,12 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         fieldState.validators(...validators);
       }
     }
+    const renderedValue =
+      (upperCaseFormat &&
+        this.valueField &&
+        this.valueField.toString() &&
+        this.valueField.toString().toUpperCase()) ||
+      this.valueField;
     return (
       <StyledTextArea
         className={className}
@@ -78,7 +86,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
             large={size === 'large'}
             small={size === 'small'}
             onChange={this.onChange}
-            value={this.valueField}
+            value={renderedValue}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
@@ -105,11 +113,14 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
   }
 
   onChange = (e: any) => {
+    const parsedValue =
+      (this.props.upperCaseFormat && e.target.value.toString().toUpperCase()) ||
+      e.target.value;
     if (this.props.fieldState) {
-      this.props.fieldState.onChange(e.target.value);
+      this.props.fieldState.onChange(parsedValue);
     }
     if (this.props.onChange) {
-      this.props.onChange!(e.target.value);
+      this.props.onChange!(parsedValue);
     }
   };
 }
