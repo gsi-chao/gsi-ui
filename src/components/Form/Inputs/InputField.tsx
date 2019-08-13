@@ -19,6 +19,7 @@ export interface IInputFieldProps extends IFieldProps {
   round?: boolean;
   fill?: boolean;
   tipLabel?: string;
+  upperCaseFormat?: boolean;
 }
 
 @observer
@@ -50,7 +51,8 @@ export class VInputField extends React.Component<IInputFieldProps> {
       validators,
       margin,
       value,
-      tipLabel
+      tipLabel,
+      upperCaseFormat
     } = this.props;
     let rightEl;
     if (!rightElement) {
@@ -68,6 +70,12 @@ export class VInputField extends React.Component<IInputFieldProps> {
       }
     }
 
+    const renderedValue =
+      (upperCaseFormat &&
+        this.valueField &&
+        this.valueField.toString() &&
+        this.valueField.toString().toUpperCase()) ||
+      this.valueField;
     return (
       <StyledInput
         className={className}
@@ -105,7 +113,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
             onKeyPress={(e: any) => {
               this.props.onKeyPress && this.props.onKeyPress(e);
             }}
-            value={this.valueField}
+            value={renderedValue}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
@@ -128,11 +136,14 @@ export class VInputField extends React.Component<IInputFieldProps> {
   }
 
   onChange(e: any) {
+    const parsedValue =
+      (this.props.upperCaseFormat && e.target.value.toString().toUpperCase()) ||
+      e.target.value;
     if (this.props.fieldState) {
-      this.props.fieldState.onChange(e.target.value);
+      this.props.fieldState.onChange(parsedValue);
     }
     if (this.props.onChange) {
-      this.props.onChange(e.target.value);
+      this.props.onChange(parsedValue);
     }
   }
 }
