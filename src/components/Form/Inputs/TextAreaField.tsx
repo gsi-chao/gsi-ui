@@ -21,6 +21,7 @@ import { computed } from 'mobx';
 export interface ITextAreaFieldProps extends IFieldProps {
   fill?: boolean;
   upperCaseFormat?: boolean;
+  rows?: number;
 }
 
 @observer
@@ -95,6 +96,8 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
               disabled,
               id
             }}
+            rows={this.props.rows ? this.props.rows : undefined}
+
           />
         </FormFieldContainer>
       </StyledTextArea>
