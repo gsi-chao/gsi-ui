@@ -81,8 +81,7 @@ const renderItem: ItemRenderer<IItem> = (
 };
 
 const filterItem: ItemPredicate<IItem> = (query, item) => {
-  const label = `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
-  return label;
+  return`${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
 };
 
 @observer
@@ -96,7 +95,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
 
   renderItem: ItemRenderer<IItem> = (
     item,
-    { handleClick, modifiers, query }
+    { handleClick, modifiers }
   ) => {
     if (!modifiers.matchesPredicate) {
       return null;
@@ -140,9 +139,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       iconOnly,
       minimal,
       margin,
-      clearButton,
-      isLoading,
-      value,
       tipLabel,
       popoverProps
     } = this.props;
@@ -201,6 +197,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             popoverProps={popoverProps}
             resetOnClose={this.props.resetOnClose && this.props.resetOnClose}
             className={this.props.isLoading ? Classes.SKELETON : ''}
+            inputProps={{
+              rightElement: this.renderClearButton()
+            }}
+
           >
             {iconOnly ? (
               <ButtonGroup>
@@ -215,6 +215,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                     disabled
                   }}
                   text={iconOnly && undefined}
+
                 />
               </ButtonGroup>
             ) : (
@@ -236,9 +237,11 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 style={{
                   color: this.props.color ? this.props.color : 'black'
                 }}
+
               />
+
+
             )}
-            {this.showClear ? this.renderClearButton() : undefined}{' '}
           </ItemSelect>
         </FormFieldContainer>
       </StyledPopOverWrapper>
@@ -263,30 +266,26 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     );
   };
 
-  renderClearButton = () => {
+    renderClearButton = () => {
     const minimal = this.props.minimal;
 
     return this.props.clearButton ? (
-      !this.props.isLoading ? (
-        <Button
-          style={{ width: '30px', paddingLeft: '15px' }}
-          className={minimal ? 'bp3-minimal' : ''}
-          onClick={this.onClear}
-          rightIcon={'refresh'}
-        />
-      ) : (
-        undefined
-      )
-    ) : (
-      undefined
-    );
+      <Button
+        style={{ width: '30px' }}
+        className={minimal ? 'bp3-minimal' : ''}
+        onClick={this.onClear}
+        rightIcon={'filter-remove'}
+      />
+    ): undefined
+
   };
 
   private onClear = () => {
-    if (this.props.clearValue) {
-      this.onItemSelected({ label: '', value: this.props.clearValue });
-    } else {
-      this.onItemSelected({ label: '', value: '' });
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange(null);
+    }
+    if (this.props.onChange) {
+      this.props.onChange!(null);
     }
   };
 
