@@ -43,9 +43,7 @@ export class FormFieldContainer extends React.Component<IFormFieldContainerProps
             {!!fieldState && fieldState.hasError ? (
               <span className={'gsi-error-span'}>{fieldState.error}</span>
             ) : null}
-            {(fieldState == undefined && (value == undefined || value == null)) ? (
-              <span className={'gsi-error-span'}>required field</span>
-            ) : null}
+
           </div>
         </div>
       </React.Fragment>
