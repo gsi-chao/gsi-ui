@@ -11,6 +11,7 @@ import { StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
 
 /**
  * Field Props
@@ -46,7 +47,7 @@ export interface IItemMultiple {
 
 interface IState {
   selectedItems: IItemMultiple[];
-  isOpenPopover: boolean
+  isOpenPopover: boolean;
 }
 
 const ItemSelect = Select.ofType<IItemRenderer>();
@@ -63,7 +64,6 @@ const renderItem: ItemRenderer<IItemRenderer> = (
   return (
     <MenuItem
       icon={founded ? 'tick' : 'blank'}
-
       disabled={modifiers.disabled}
       label={item.rep}
       key={item.value}
@@ -78,37 +78,32 @@ const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
   return `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
 };
 
-export const VSelectMultiple = (props: ISelectFieldProps) => {
-
+export const VSelectMultiple = observer((props: ISelectFieldProps) => {
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [isOpenPopover, setIsOpenPopover] = useState<boolean>(false);
 
   useEffect(() => {
     if (props.fieldState) {
-      const ids =
-        (props.fieldState && toJS(props.fieldState.value)) || [];
+      const ids = (props.fieldState && toJS(props.fieldState.value)) || [];
 
       updateSelectItems(ids);
     }
-
-
-  }, [props.fieldState]);
-
+  }, [props.fieldState && props.fieldState.value]);
 
   useEffect(() => {
     if (props.value) {
-      const ids =
-        (props.value && toJS(props.value)) || [];
+      const ids = (props.value && props.value) || [];
       updateSelectItems(ids);
     }
-
   }, [props.value]);
 
-
   const updateSelectItems = (ids: any[]) => {
-    const selectedItemss = props.options.filter(option =>
-      ids.some((id: any) => id === option.value)
-    );
+    const selectedItemss = props.options.filter(option => {
+      if (ids && ids.length > 0) {
+        return ids.some((id: any) => id === option.value);
+      }
+      return false;
+    });
     setSelectedItems(selectedItemss);
   };
 
@@ -123,15 +118,17 @@ export const VSelectMultiple = (props: ISelectFieldProps) => {
   };
 
   const selectOrDeselectItem = (value: IItemMultiple, callBack?: any) => {
-
     let outerIndex = -1;
-    selectedItems.some((item, index) => {
-      const result = item.value === value.value;
-      if (result) {
-        outerIndex = index;
-      }
-      return result;
-    });
+    if (selectedItems && selectedItems.length > 0) {
+      selectedItems.some((item, index) => {
+        const result = item.value === value.value;
+        if (result) {
+          outerIndex = index;
+        }
+        return result;
+      });
+    }
+
     if (outerIndex === -1) {
       selectedItems.push(value);
     } else {
@@ -216,7 +213,6 @@ export const VSelectMultiple = (props: ISelectFieldProps) => {
   };
 
   const onClear = () => {
-
     if (props.fieldState) {
       fieldState!.onChange([]);
     }
@@ -224,7 +220,6 @@ export const VSelectMultiple = (props: ISelectFieldProps) => {
       props.onChange!([]);
     }
     setIsOpenPopover(false);
-
   };
 
   const renderClearButton = () => {
@@ -237,8 +232,9 @@ export const VSelectMultiple = (props: ISelectFieldProps) => {
         onClick={onClear}
         rightIcon={'filter-remove'}
       />
-    ) : undefined;
-
+    ) : (
+      undefined
+    );
   };
 
   return (
@@ -272,7 +268,7 @@ export const VSelectMultiple = (props: ISelectFieldProps) => {
           items={renderOptions}
           disabled={disabled}
           initialContent={initialContent}
-          noResults={<MenuItem disabled={true} text="No results."/>}
+          noResults={<MenuItem disabled={true} text="No results." />}
           onItemSelect={onItemSelected}
           filterable={filterable}
           resetOnClose={props.resetOnClose && props.resetOnClose}
@@ -305,7 +301,4 @@ export const VSelectMultiple = (props: ISelectFieldProps) => {
       </FormFieldContainer>
     </StyledPopOverWrapper>
   );
-};
-
-
-
+});
