@@ -344,3 +344,15 @@ export const DateInputPickerContainer = styled.div`
   }
   
 `;
+
+export const DateInputPickerContainerPortal = styled.div`
+  & ,
+  & > div,
+  & > div div.react-datepicker__input-container ,
+  & > div div.react-datepicker__input-container input{
+    width: 100%;
+    display: flex;
+    position: relative;
+  }
+  
+`;
