@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 /** Blueprint */
-import { Button, IconName, Intent, MenuItem } from '@blueprintjs/core';
+import { Button, IconName, Intent, MenuItem ,Classes} from '@blueprintjs/core';
 /** FieldState */
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
@@ -28,6 +28,7 @@ export interface ISelectFieldProps extends IFieldProps {
   tipLabel?: string;
   resetOnClose?: boolean;
   clearButton?: boolean;
+  isLoading?:boolean;
 }
 
 /**
@@ -275,6 +276,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
           inputProps={{
             rightElement: renderClearButton()
           }}
+          className={props.isLoading?Classes.SKELETON:''}
         >
           {iconOnly ? (
             <Button
