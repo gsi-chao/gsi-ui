@@ -1,16 +1,11 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
+import moment from 'moment';
 /** Blueprint */
 import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
-import { IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
+import { DateInput, IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
 /** FieldState */
-import {
-  DateInputPicker,
-  DateInputPickerContainer,
-  DateInputPickerContainerPortal,
-  IconDate,
-  StyledFormGroup
-} from './style';
+import { IconDate, StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
 import { computed } from 'mobx';
@@ -20,20 +15,6 @@ import { Validators } from '../Validators';
 /**
  * Field component. Must be an observer.
  */
-import { registerLocale } from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import es from 'date-fns/locale/es';
-import fr from 'date-fns/locale/fr';
-import it from 'date-fns/locale/it';
-import pt from 'date-fns/locale/pt';
-import enUS from 'date-fns/locale/en-US';
-
-registerLocale('es-ES', es);
-registerLocale('fr-FR', fr);
-registerLocale('it-IT', it);
-registerLocale('pt-PT', pt);
-registerLocale('en-US', enUS);
-
 
 export interface IInputFieldProps extends IFieldProps {
   leftIcon?: IconName;
@@ -55,13 +36,6 @@ export interface IInputFieldProps extends IFieldProps {
   maxTime?: Date;
   minTime?: Date;
   canClearSelection?: boolean;
-  locale?:
-    | 'es-ES'
-    | 'fr-FR'
-    | 'it-IT'
-    | 'pt-PT'
-    | 'en-US';
-  withPortal?: boolean;
 }
 
 interface IIcon {
@@ -71,7 +45,6 @@ interface IIcon {
   iconName: IconName;
 }
 
-/*
 const momentFormatter = (format: string): IDateFormatProps => {
   return {
     formatDate: date => moment(date).format(format),
@@ -79,7 +52,6 @@ const momentFormatter = (format: string): IDateFormatProps => {
     placeholder: `${format}`
   };
 };
-*/
 
 @observer
 export class VDateTimePicker extends React.Component<IInputFieldProps> {
@@ -87,20 +59,14 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
     super(props);
   }
 
-  /*  FORMATS = () => {
-      return {
-        DATE: momentFormatter(this.props.format || 'YYYY-MM-DD'),
-        DATETIME: momentFormatter(
-          `${this.props.format || 'YYYY-MM-DD'} HH:mm:ss`
-        ),
-        TIME: momentFormatter('HH:mm:ss')
-      };
-    };*/
-
-  dateFormat = (format: any) => {
-    return format.toString()
-      .replace(/Y/g, 'y')
-      .replace(/D/g, 'd');
+  FORMATS = () => {
+    return {
+      DATE: momentFormatter(this.props.format || 'YYYY-MM-DD'),
+      DATETIME: momentFormatter(
+        `${this.props.format || 'YYYY-MM-DD'} HH:mm:ss`
+      ),
+      TIME: momentFormatter('HH:mm:ss')
+    };
   };
 
   changedDate = (date: any) => {
@@ -136,10 +102,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       minTime,
       useAmPm,
       precision,
-      validators,
-      format,
-      locale,
-      withPortal
+      validators
     } = this.props;
 
     if (fieldState) {
@@ -153,15 +116,10 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
         fieldState.validators(...validators);
       }
     }
-    let iconJSX: any;
-    let calendar: any;
-    const openDatepicker = () => calendar.setOpen(true);
-
+    let iconJSX;
     if (icon) {
       iconJSX = (
-        <IconDate
-          onClick={openDatepicker}
-          backgroundColor={icon.backgroundColor}>
+        <IconDate backgroundColor={icon.backgroundColor}>
           <Icon
             color={icon.color}
             icon={icon.iconName}
@@ -172,29 +130,6 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
     } else {
       iconJSX = rightElement;
     }
-
-
-    const renderDatePicker = () => {
-      return (
-        <>
-          <DateInputPicker
-            ref={(c) => calendar = c}
-            selected={this.valueField}
-            placeholderText={format ? format : 'MM/DD/YYYY'}
-            minDate={minTime}
-            maxDate={maxTime}
-            showMonthDropdown
-            showYearDropdown
-            locale={locale}
-            dateFormat={this.dateFormat(format)}
-            onChange={this.changedDate}
-            withPortal={withPortal ? withPortal : false}
-          />
-          {iconJSX}
-        </>
-      );
-    };
-
     return (
       <StyledFormGroup
         className={className}
@@ -216,13 +151,19 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
           value={value}
         >
           {dateType === 'DATETIME' || dateType === 'DATE' ? (
-            (!withPortal) ?
-              <DateInputPickerContainer>
-                {renderDatePicker()}
-              </DateInputPickerContainer> :
-              <DateInputPickerContainerPortal>
-                {renderDatePicker()}
-              </DateInputPickerContainerPortal>
+            <DateInput
+              {...this.FORMATS()[dateType]}
+              disabled={disabled}
+              minDate={minTime}
+              maxDate={maxTime}
+              defaultValue={moment().toDate()}
+              onChange={this.changedDate}
+              value={this.valueField}
+              timePrecision={dateType === 'DATETIME' ? 'second' : undefined}
+              rightElement={iconJSX}
+              popoverProps={popoverProps}
+              canClearSelection={this.props.canClearSelection}
+            />
           ) : (
             <TimePicker
               value={this.valueField}
