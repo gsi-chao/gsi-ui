@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
 import { DateInput, IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
 /** FieldState */
-import { IconDate, StyledFormGroup } from './style';
+import { DateInputContainer, IconDate, StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
 import { computed } from 'mobx';
@@ -151,7 +151,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
           value={value}
         >
           {dateType === 'DATETIME' || dateType === 'DATE' ? (
-            <DateInput
+            <DateInputContainer
               {...this.FORMATS()[dateType]}
               disabled={disabled}
               minDate={minTime}
