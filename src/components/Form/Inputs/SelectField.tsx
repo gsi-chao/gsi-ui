@@ -81,7 +81,7 @@ const renderItem: ItemRenderer<IItem> = (
 };
 
 const filterItem: ItemPredicate<IItem> = (query, item) => {
-  return`${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+  return `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
 };
 
 @observer
@@ -93,10 +93,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     this.showClear = false;
   }
 
-  renderItem: ItemRenderer<IItem> = (
-    item,
-    { handleClick, modifiers }
-  ) => {
+  renderItem: ItemRenderer<IItem> = (item, { handleClick, modifiers }) => {
     if (!modifiers.matchesPredicate) {
       return null;
     }
@@ -200,7 +197,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             inputProps={{
               rightElement: this.renderClearButton()
             }}
-
           >
             {iconOnly ? (
               <ButtonGroup>
@@ -215,7 +211,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                     disabled
                   }}
                   text={iconOnly && undefined}
-
                 />
               </ButtonGroup>
             ) : (
@@ -237,10 +232,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 style={{
                   color: this.props.color ? this.props.color : 'black'
                 }}
-
               />
-
-
             )}
           </ItemSelect>
         </FormFieldContainer>
@@ -266,7 +258,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     );
   };
 
-    renderClearButton = () => {
+  renderClearButton = () => {
     const minimal = this.props.minimal;
 
     return this.props.clearButton ? (
@@ -276,8 +268,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         onClick={this.onClear}
         rightIcon={'filter-remove'}
       />
-    ): undefined
-
+    ) : (
+      undefined
+    );
   };
 
   private onClear = () => {

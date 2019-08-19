@@ -22,13 +22,22 @@ export const RequiredSpan = styled.span`
   color: red;
 `;
 
-export class FormFieldContainer extends React.Component<IFormFieldContainerProps> {
+export class FormFieldContainer extends React.Component<
+  IFormFieldContainerProps
+> {
   constructor(props: IFormFieldContainerProps) {
     super(props);
   }
 
   render() {
-    const { label, children, fieldState, required, noLabel, value } = this.props;
+    const {
+      label,
+      children,
+      fieldState,
+      required,
+      noLabel,
+      value
+    } = this.props;
     return (
       <React.Fragment>
         {!noLabel ? (
@@ -43,7 +52,6 @@ export class FormFieldContainer extends React.Component<IFormFieldContainerProps
             {!!fieldState && fieldState.hasError ? (
               <span className={'gsi-error-span'}>{fieldState.error}</span>
             ) : null}
-
           </div>
         </div>
       </React.Fragment>

@@ -97,7 +97,6 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
               id
             }}
             rows={this.props.rows ? this.props.rows : undefined}
-
           />
         </FormFieldContainer>
       </StyledTextArea>
