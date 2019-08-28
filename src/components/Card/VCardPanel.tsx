@@ -103,6 +103,7 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
             headerOrientation={headerOrientation}
             headerJustifyContent={headerHorizontalAlign}
             heigthHeaderPx={this.props.heigthHeaderPx}
+            className={'move-dialog-header'}
           >
             <VCardTextSpanContainer>
               <VCardTextSpan
