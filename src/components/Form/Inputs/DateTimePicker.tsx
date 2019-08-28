@@ -170,6 +170,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               useAmPm={useAmPm || false}
               precision={precision || 'second'}
               onChange={this.changedDate}
+              disabled={disabled}
             />
           )}
         </FormFieldContainer>

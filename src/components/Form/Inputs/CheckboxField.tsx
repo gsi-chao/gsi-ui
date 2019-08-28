@@ -18,6 +18,7 @@ export interface ICheckBoxFieldProps extends IFieldProps {
   alignIndicator?: Alignment;
   checkBoxAtLeft?: boolean;
   requiredJustVisual?: boolean;
+  fixedPadding?: number;
 }
 
 /**
@@ -48,7 +49,8 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       validators,
       margin,
       value,
-      requiredJustVisual
+      requiredJustVisual,
+      fixedPadding
     } = this.props;
     if (fieldState) {
       if (required && !requiredJustVisual) {
@@ -74,6 +76,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
         checkBoxAtLeft={checkBoxAtLeft}
         noLabel={noLabel}
         margin={margin}
+        fixedPadding={fixedPadding}
       >
         <FormFieldContainer
           required={required}
