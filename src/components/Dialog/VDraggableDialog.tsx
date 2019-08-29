@@ -66,7 +66,9 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         height: '100%',
         textAlign: 'center',
         display: `${!props.isOpen?'none':''}`,
-        backgroundColor:'rgba(0,0,0,0.3)'
+        backgroundColor:'rgba(0,0,0,0.3)',
+        paddingBottom: '50px',
+        overflowY: 'auto'
       }}
       className={'gsi-div-move-dialog'}>
       <Rnd
