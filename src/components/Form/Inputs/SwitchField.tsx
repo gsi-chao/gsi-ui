@@ -17,6 +17,8 @@ export interface ISwitchFieldProps extends IFieldProps {
   rightElement?: Element;
   alignIndicator?: Alignment;
   checkBoxAtLeft?: boolean;
+  innerLabel?: string;
+  innerLabelChecked?: string;
   labelElement?: Element;
 }
 
@@ -48,7 +50,9 @@ export class VSwitchField extends React.Component<ISwitchFieldProps> {
       validators,
       margin,
       value,
-      labelElement
+      labelElement,
+      innerLabel,
+      innerLabelChecked
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -89,11 +93,12 @@ export class VSwitchField extends React.Component<ISwitchFieldProps> {
               id,
               inline,
               alignIndicator,
-              label: '',
-              labelElement
+              labelElement,
+              innerLabel,
+              innerLabelChecked,
+              label: ''
             }}
             onChange={this.onChange}
-
             checked={this.valueField}
           />
         </FormFieldContainer>
