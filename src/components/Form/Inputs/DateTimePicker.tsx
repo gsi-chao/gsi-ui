@@ -23,13 +23,7 @@ export interface IInputFieldProps extends IFieldProps {
   fill?: boolean;
   dateType: 'DATE' | 'DATETIME' | 'TIME';
   icon?: IIcon;
-  format?:
-    | 'MM/DD/YYYY'
-    | 'DD/MM/YYYY'
-    | 'MMM/DD/YYYY'
-    | 'DD/MMM/YYYY'
-    | 'YYYY/MM/DD'
-    | 'YYYY-MM-DD';
+  format?: string;
   popoverProps?: IPopoverProps;
   precision?: TimePrecision;
   useAmPm?: boolean;
@@ -61,20 +55,35 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
 
   FORMATS = () => {
     return {
-      DATE: momentFormatter(this.props.format || 'YYYY-MM-DD'),
+      DATE: momentFormatter(this.props.format || this.dFormat()['DATE']),
       DATETIME: momentFormatter(
-        `${this.props.format || 'YYYY-MM-DD'} HH:mm:ss`
+        `${this.props.format || this.dFormat()['DATETIME']}`
       ),
-      TIME: momentFormatter('HH:mm:ss')
+      TIME: momentFormatter(this.dFormat()['TIME'])
+    };
+  };
+
+  dFormat = () => {
+    return {
+      DATE: 'MM/DD/YYYY',
+      DATETIME: 'MM/DD/YYYY HH:mm:ss',
+      TIME: 'HH:mm:ss'
     };
   };
 
   changedDate = (date: any) => {
-    if (this.props.fieldState) {
-      this.props.fieldState.onChange(date);
-    }
-    if (this.props.onChange) {
-      this.props.onChange(date);
+    if (
+      moment(
+        date,
+        this.props.format || this.dFormat()[this.props.dateType]
+      ).isValid()
+    ) {
+      if (this.props.fieldState) {
+        this.props.fieldState.onChange(date);
+      }
+      if (this.props.onChange) {
+        this.props.onChange(date);
+      }
     }
   };
 
