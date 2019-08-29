@@ -1,10 +1,9 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
-import { Dialog } from '@blueprintjs/core';
 import { Rnd } from 'react-rnd';
 import { forEach } from 'lodash';
 import ReactDOM from 'react-dom';
+import { DialogStyled } from './styled';
 
-import './style.css';
 
 interface IDraggableDialog {
   width?: string;
@@ -94,7 +93,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         }}
         dragHandleClassName={'move-dialog-header'}
       >
-        <Dialog
+        <DialogStyled
           hasBackdrop
           usePortal={false}
           autoFocus
