@@ -18,3 +18,4 @@ export * from './Scroll';
 export * from './VOrgChart';
 export * from './FileUpload';
 export * from './DnDList';
+export * from './Dialog';
