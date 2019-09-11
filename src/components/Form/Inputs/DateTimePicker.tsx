@@ -11,6 +11,7 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { computed } from 'mobx';
 import { TimePrecision } from '@blueprintjs/datetime/lib/esm/timePicker';
 import { Validators } from '../Validators';
+import { FieldState } from 'formstate';
 
 /**
  * Field component. Must be an observer.
@@ -42,7 +43,12 @@ interface IIcon {
 const momentFormatter = (format: string): IDateFormatProps => {
   return {
     formatDate: date => moment(date).format(format),
-    parseDate: str => moment(str, format).toDate(),
+    parseDate: str => {
+      if (!moment(str, format, true).isValid()) {
+        return false;
+      }
+      return moment(str, format).toDate();
+    },
     placeholder: `${format}`
   };
 };
