@@ -12,6 +12,7 @@ export interface IStyledFieldProps {
   noLabel?: boolean;
   fixedInputWidthPx?: number;
   margin?: string;
+  fixedPadding?: number;
 }
 
 interface IIconStyle {
@@ -194,8 +195,8 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
             props.checkBoxAtLeft &&
             props.layer &&
             props.layer.inputOrientation === 'end'
-              ? 9
-              : 0}px !important;
+            ? props.fixedPadding || 5
+            : 0}px !important;
           float: left;
         }
       }

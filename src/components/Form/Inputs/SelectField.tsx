@@ -204,7 +204,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                   className={minimal ? 'bp3-minimal' : ''}
                   style={{
                     justifyContent: 'center',
-                    color: this.props.color ? this.props.color : 'black'
+                    color: this.props.color && this.props.color
                   }}
                   {...{
                     icon,
@@ -230,7 +230,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 disabled={this.disable()}
                 text={this.fieldText}
                 style={{
-                  color: this.props.color ? this.props.color : 'black'
+                  color: this.props.color && this.props.color
                 }}
               />
             )}
@@ -249,7 +249,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       <React.Fragment>
         <Icon
           style={{
-            color: this.props.color ? this.props.color : 'black'
+            color: this.props.color && this.props.color
           }}
           icon={this.props.rightIcon || 'chevron-down'}
         />

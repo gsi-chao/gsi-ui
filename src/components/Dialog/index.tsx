@@ -1,0 +1,1 @@
+export {VDraggableDialog} from './VDraggableDialog'

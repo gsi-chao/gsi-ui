@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
 /** FieldState */
-import { Alignment, Checkbox, Intent } from '@blueprintjs/core';
+import { Alignment, Switch, Intent } from '@blueprintjs/core';
 
 import { IFieldProps } from './IFieldProps';
 import { StyledCheckBoxInput } from './style';
@@ -13,12 +13,13 @@ import { computed } from 'mobx';
 /**
  * Field Props
  */
-export interface ICheckBoxFieldProps extends IFieldProps {
+export interface ISwitchFieldProps extends IFieldProps {
   rightElement?: Element;
   alignIndicator?: Alignment;
   checkBoxAtLeft?: boolean;
-  requiredJustVisual?: boolean;
-  fixedPadding?: number;
+  innerLabel?: string;
+  innerLabelChecked?: string;
+  labelElement?: Element;
 }
 
 /**
@@ -26,8 +27,8 @@ export interface ICheckBoxFieldProps extends IFieldProps {
  */
 
 @observer
-export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
-  constructor(props: ICheckBoxFieldProps) {
+export class VSwitchField extends React.Component<ISwitchFieldProps> {
+  constructor(props: ISwitchFieldProps) {
     super(props);
   }
 
@@ -49,11 +50,12 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       validators,
       margin,
       value,
-      requiredJustVisual,
-      fixedPadding
+      labelElement,
+      innerLabel,
+      innerLabelChecked
     } = this.props;
     if (fieldState) {
-      if (required && !requiredJustVisual) {
+      if (required) {
         if (validators && validators.length > 0) {
           fieldState.validators(Validators.required, ...validators);
         } else {
@@ -76,7 +78,6 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
         checkBoxAtLeft={checkBoxAtLeft}
         noLabel={noLabel}
         margin={margin}
-        fixedPadding={fixedPadding}
       >
         <FormFieldContainer
           required={required}
@@ -84,7 +85,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
           label={label}
           fieldState={fieldState}
         >
-          <Checkbox
+          <Switch
             name={id}
             large={size === 'large'}
             {...{
@@ -92,6 +93,9 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
               id,
               inline,
               alignIndicator,
+              labelElement,
+              innerLabel,
+              innerLabelChecked,
               label: ''
             }}
             onChange={this.onChange}
