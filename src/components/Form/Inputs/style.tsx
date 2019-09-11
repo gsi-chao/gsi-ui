@@ -144,6 +144,15 @@ export const StyledSelect = styled(StyledFormGroup)`
 
 export const StyledNumericInput = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
+    & span.tipLabel {
+      background: white;
+      margin-bottom: -7px;
+      z-index: 1;
+      width: fit-content;
+      font-weight: 400;
+      font-size: 12px;
+      padding: 0 2px;
+    }
     & .bp3-control-group.bp3-numeric-input {
       width: 100%;
       & .bp3-input-group {
@@ -186,8 +195,8 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
             props.checkBoxAtLeft &&
             props.layer &&
             props.layer.inputOrientation === 'end'
-              ? props.fixedPadding || 5
-              : 0}px !important;
+            ? props.fixedPadding || 5
+            : 0}px !important;
           float: left;
         }
       }

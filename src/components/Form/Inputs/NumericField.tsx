@@ -18,6 +18,7 @@ export interface INumericFieldProps extends IFieldProps {
   max?: number;
   buttonPosition?: 'left' | 'right' | 'none';
   fill?: boolean;
+  tipLabel?: string;
   allowNumericCharactersOnly?: boolean;
 }
 
@@ -53,6 +54,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       validators,
       margin,
       allowNumericCharactersOnly,
+      tipLabel,
       value
     } = this.props;
     if (fieldState) {
@@ -85,6 +87,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
           label={label}
           fieldState={fieldState}
         >
+          {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <NumericInput
             name={id}
             large={size === 'large'}
