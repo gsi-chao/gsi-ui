@@ -35,6 +35,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
     const element: any = document.getElementsByClassName('move-dialog-header')[0];
     if (props.isOpen) {
       element.style.cursor = 'move';
+      rnd.updateSize({ width: element.parentNode.clientWidth, height: element.parentNode.clientHeight})
     } else if (element) {
       element.style.cursor = 'pointer';
     }
@@ -47,7 +48,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         x: Math.max((windowsWidth - element.clientWidth) / 2, 0),
         y: Math.max((windowsHeight - element.clientHeight) / 2, 0)
       });
-      rnd.updateSize({ width: element.clientWidth, height: element.clientHeight})
+
     }
   }, [props.children]);
 
@@ -103,11 +104,12 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         dragHandleClassName={'move-dialog-header'}
       >
         <DialogStyled
+          hasBackdrop={false}
           usePortal={false}
           autoFocus
           canOutsideClickClose={false}
           canEscapeKeyClose={false}
-          style={{ width: props.width || '100%', height: '100%', paddingBottom: '0' }}
+          style={{ width: props.width || '100%', paddingBottom: '0' }}
           isOpen={props.isOpen}
           children={props.children}
           onClose={props.onClose}
