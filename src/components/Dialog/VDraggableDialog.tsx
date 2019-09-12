@@ -17,7 +17,6 @@ interface IDraggableDialog {
 
 export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
   const [reference, setReference] = useState<number>(9);
-  const refChildren = useRef(null);
   const windowsWidth = window.innerWidth
     || document.documentElement.clientWidth
     || document.getElementsByTagName('body')[0].clientWidth;
@@ -33,14 +32,23 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
   }, []);
 
   useEffect(() => {
+    const element: any = document.getElementsByClassName('move-dialog-header')[0];
+    if (props.isOpen) {
+      element.style.cursor = 'move';
+    } else if (element) {
+      element.style.cursor = 'pointer';
+    }
+  });
+
+  useEffect(() => {
     if (props.isOpen && position.x === -1 && position.y === -1) {
-      const element = ReactDOM.findDOMNode(refChildren.current) as Element;
+      const element = document.getElementsByClassName('move-dialog-header')[0].parentNode as Element;
       setPositions({
         x: Math.max((windowsWidth - element.clientWidth) / 2, 0),
         y: Math.max((windowsHeight - element.clientHeight) / 2, 0)
       });
     }
-  },[props.children]);
+  }, [props.children]);
 
   const onChangeIndex = () => {
     const modals = document.getElementsByClassName('gsi-div-move-dialog');
@@ -52,7 +60,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
     setReference(newIndex + 1);
   };
 
-  const resetPosition = ()=> setPositions({ x: -1, y: -1 });
+  const resetPosition = () => setPositions({ x: -1, y: -1 });
 
   return (
     <div
@@ -64,8 +72,8 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         width: '100%',
         height: '100%',
         textAlign: 'center',
-        display: `${!props.isOpen?'none':''}`,
-        backgroundColor:'rgba(0,0,0,0.3)',
+        display: `${!props.isOpen ? 'none' : ''}`,
+        backgroundColor: 'rgba(0,0,0,0.3)',
         paddingBottom: '50px',
         overflowY: 'auto'
       }}
@@ -101,8 +109,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
           canEscapeKeyClose={false}
           style={{ width: props.width || '85%', paddingBottom: '0' }}
           isOpen={props.isOpen}
-          children={React.cloneElement(React.Children.only(props.children) as React.ReactElement<any>,
-            { ref: refChildren })}
+          children={props.children}
           onClose={props.onClose}
           onClosed={resetPosition}
         />
