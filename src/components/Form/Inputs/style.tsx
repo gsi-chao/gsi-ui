@@ -77,7 +77,7 @@ export const StyledFormGroup = styled(FormGroup)`
                     }    
             }
             & .gsi-form-field-container {
-                ${!noLabel ? `padding-left: 5px!important;` : ''}
+                ${!noLabel && inline ? `padding-left: 5px!important;` : ''}
                 width: ${
                   inputWidth
                     ? `${inputWidth}%`
@@ -272,7 +272,6 @@ export const StyledRadioButton = styled(StyledFormGroup)`
           display: flex;
           position: relative;
           top: -5px;
-          display: flex;
           ${(props: IStyledFieldProps) => {
             const inputOrientation =
               props.layer && props.layer.inputOrientation === 'center'
@@ -324,7 +323,6 @@ export const DateInputPicker = styled(DatePicker)`
     color: #182026;
     font-size: 14px;
     font-weight: 400;
-    border: none;
     border: solid 1px #b6b8ba;
     border-radius: 3px;
   }
