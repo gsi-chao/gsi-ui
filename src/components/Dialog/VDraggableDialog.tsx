@@ -71,7 +71,6 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         zIndex: reference,
         width: '100%',
         height: '100%',
-        textAlign: 'center',
         display: `${!props.isOpen ? 'none' : ''}`,
         backgroundColor: 'rgba(0,0,0,0.3)',
         paddingBottom: '50px',
