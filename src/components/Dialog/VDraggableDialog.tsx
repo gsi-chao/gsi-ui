@@ -1,7 +1,6 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import { forEach } from 'lodash';
-import ReactDOM from 'react-dom';
 import { DialogStyled } from './styled';
 
 
@@ -17,6 +16,7 @@ interface IDraggableDialog {
 
 export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
   const [reference, setReference] = useState<number>(9);
+  let rnd: any = null;
   const windowsWidth = window.innerWidth
     || document.documentElement.clientWidth
     || document.getElementsByTagName('body')[0].clientWidth;
@@ -47,6 +47,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         x: Math.max((windowsWidth - element.clientWidth) / 2, 0),
         y: Math.max((windowsHeight - element.clientHeight) / 2, 0)
       });
+      rnd.updateSize({ width: element.clientWidth, height: element.clientHeight})
     }
   }, [props.children]);
 
@@ -78,6 +79,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
       }}
       className={'gsi-div-move-dialog'}>
       <Rnd
+        ref={c => { rnd = c }}
         enableResizing={{
           bottomLeft: false,
           bottomRight: false,
@@ -101,16 +103,16 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         dragHandleClassName={'move-dialog-header'}
       >
         <DialogStyled
-          hasBackdrop
           usePortal={false}
           autoFocus
           canOutsideClickClose={false}
           canEscapeKeyClose={false}
-          style={{ width: props.width || '85%', paddingBottom: '0' }}
+          style={{ width: props.width || '100%', height: '100%', paddingBottom: '0' }}
           isOpen={props.isOpen}
           children={props.children}
           onClose={props.onClose}
           onClosed={resetPosition}
+          transitionDuration={50}
         />
       </Rnd>
     </div>
