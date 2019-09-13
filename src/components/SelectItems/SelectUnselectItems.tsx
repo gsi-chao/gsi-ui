@@ -20,6 +20,8 @@ export interface ISelectItemsProps {
   handleSave: any;
   handleCancel: any;
   listsHeights?: string;
+  intentSave?: any;
+  intentCancel?: any;
   selection?: {
     textColor: string;
     background: string;
@@ -153,6 +155,7 @@ export class SelectUnselectItems extends Component<
   };
 
   render() {
+    const { intentSave, intentCancel } = this.props;
     const { itemsUnassigned, itemsAssigned } = this.state;
     const itemsUnassignedSearch = itemsUnassigned.map(item => ({
       label: item.text,
@@ -236,14 +239,14 @@ export class SelectUnselectItems extends Component<
         <ButtonsEndsContainers>
           <Button
             minimal
-            intent={'none'}
+            intent={intentSave ? intentSave : 'none'}
             icon={'tick'}
             text={'Save'}
             onClick={this.handleSave}
           />
           <Button
             minimal
-            intent={'none'}
+            intent={intentCancel ? intentCancel : 'none'}
             icon={'disable'}
             onClick={this.handleCancel}
             text={'Cancel'}
