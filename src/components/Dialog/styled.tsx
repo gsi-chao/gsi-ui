@@ -19,10 +19,3 @@ export const DialogStyled = styled(Dialog)`
   }
 
 `;
-
-export const RndStyled = styled(Rnd)`
- &> .bp3-overlay.bp3-overlay-open.bp3-overlay-inline.bp3-overlay-scroll-container{
-      width: ${(props: IDialogProps) => `${props.width}px!important`};
-      height: ${(props: IDialogProps) => `${props.height}px!important`};
-    }
-`;
