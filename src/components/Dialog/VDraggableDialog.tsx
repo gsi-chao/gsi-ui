@@ -31,7 +31,6 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
 
   useEffect(() => {
     onChangeIndex();
-    console.log(idDialog)
   }, []);
 
   useEffect(() => {
@@ -86,7 +85,6 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         display: `${!props.isOpen ? 'none' : ''}`,
         backgroundColor: 'rgba(0,0,0,0.3)',
         paddingBottom: '50px',
-        overflowY: 'auto'
       }}
       className={'gsi-div-move-dialog'}>
       <Rnd
