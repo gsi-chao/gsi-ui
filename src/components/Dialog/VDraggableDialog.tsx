@@ -1,11 +1,10 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import { forEach } from 'lodash';
-import { DialogStyled } from './styled';
+import { DialogStyled, RndStyled } from './styled';
 
 
 interface IDraggableDialog {
-  width?: string;
   isOpen: boolean;
   children?: ReactNode;
 
@@ -26,6 +25,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
 
 
   const [position, setPositions] = useState<{ x: number; y: number }>({ x: -1, y: -1 });
+  const [dimension, setDimension] = useState<{ width: number; height: number }>();
 
   useEffect(() => {
     onChangeIndex();
@@ -34,10 +34,14 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
   useEffect(() => {
     const element: any = document.getElementsByClassName('move-dialog-header')[0];
     if (props.isOpen) {
-      element.style.cursor = 'move';
-      rnd.updateSize({ width: element.parentNode.clientWidth, height: element.parentNode.clientHeight})
-    } else if (element) {
-      element.style.cursor = 'pointer';
+      if(dimension){
+        rnd.updateSize({ width: dimension.width, height: dimension.height });
+      }else{
+        setDimension({
+          width: element.parentNode.clientWidth,
+          height: element.parentNode.clientHeight
+        });
+      }
     }
   });
 
@@ -79,8 +83,10 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         overflowY: 'auto'
       }}
       className={'gsi-div-move-dialog'}>
-      <Rnd
-        ref={c => { rnd = c }}
+      <RndStyled
+        ref={(c:any) => {
+          rnd = c;
+        }}
         enableResizing={{
           bottomLeft: false,
           bottomRight: false,
@@ -101,6 +107,8 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
           width: 'auto',
           height: 'auto'
         }}
+        width={dimension && dimension.width}
+        height={dimension && dimension.height}
         dragHandleClassName={'move-dialog-header'}
       >
         <DialogStyled
@@ -109,14 +117,16 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
           autoFocus
           canOutsideClickClose={false}
           canEscapeKeyClose={false}
-          style={{ width: props.width || '100%', paddingBottom: '0' }}
+          style={{ paddingBottom: '0' }}
           isOpen={props.isOpen}
           children={props.children}
           onClose={props.onClose}
           onClosed={resetPosition}
           transitionDuration={50}
+          width={dimension && dimension.width}
+          height={dimension && dimension.height}
         />
-      </Rnd>
+      </RndStyled>
     </div>
   );
 };
