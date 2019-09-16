@@ -18,4 +18,7 @@ export const DialogStyled = styled(Dialog)`
       -moz-outline-radius: 6px;
   }
 
+  & .move-dialog-header{
+    cursor: move;
+  }
 `;
