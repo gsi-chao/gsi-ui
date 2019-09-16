@@ -30,9 +30,6 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
   const [dimension, setDimension] = useState<{ width: number; height: number }>();
   const idDialog: string = useMemo(() => generate(), [dimension]);
 
-  useEffect(() => {
-    onChangeIndex();
-  }, [props.isOpen]);
 
   useEffect(() => {
     const content: any = document.getElementById(idDialog);
@@ -47,23 +44,21 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
         });
       }
     }
+
+    if (props.isOpen && position.x === -1 && position.y === -1) {
+      if(dimension){
+        setPositions({
+          x: Math.max((windowsWidth - dimension.width) / 2, 0),
+          y: Math.max((windowsHeight - dimension.height) / 2, 0)
+        });
+      }
+      onChangeIndex();
+    }
   });
 
-  useEffect(() => {
-    if (props.isOpen && position.x === -1 && position.y === -1) {
-      const content: any = document.getElementById(idDialog);
-      const element = content.getElementsByClassName('move-dialog-header')[0].parentNode as Element;
-      setPositions({
-        x: Math.max((windowsWidth - element.clientWidth) / 2, 0),
-        y: Math.max((windowsHeight - element.clientHeight) / 2, 0)
-      });
-
-    }
-  }, [props.children]);
 
   const onChangeIndex = () => {
-    const content: any = document.getElementById(idDialog);
-    const modals = content.getElementsByClassName('gsi-div-move-dialog');
+    const modals = document.getElementsByClassName('gsi-div-move-dialog');
     let newIndex = reference;
     forEach(modals, m => {
       const st = window.getComputedStyle(m);
