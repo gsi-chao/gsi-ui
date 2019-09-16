@@ -82,7 +82,8 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       moment(
         date,
         this.props.format || this.dFormat()[this.props.dateType]
-      ).isValid()
+      ).isValid() ||
+      date === null
     ) {
       if (this.props.fieldState) {
         this.props.fieldState.onChange(date);
