@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Rnd } from 'react-rnd';
 import { forEach } from 'lodash';
 import { DialogStyled } from './styled';
-import { generate } from 'shortid';
+import {generate} from 'shortid';
 
 
 interface IDraggableDialog {
@@ -29,6 +29,9 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
   const [position, setPositions] = useState<{ x: number; y: number }>({ x: -1, y: -1 });
   const [dimension, setDimension] = useState<{ width: number; height: number }>();
   const idDialog: string = useMemo(() => generate(), [dimension]);
+  const classNameDialog: string = useMemo(() =>
+    Math.random().toString(36).substring(7), [dimension]);
+
 
 
   useEffect(() => {
@@ -56,7 +59,6 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
     }
   });
 
-
   const onChangeIndex = () => {
     const modals = document.getElementsByClassName('gsi-div-move-dialog');
     let newIndex = reference;
@@ -67,7 +69,13 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
     setReference(newIndex + 1);
   };
 
+  const rectifyPosition = (e: any, d: any)=>{
+    const pos = { x: d.x, y: d.y };
+    setPositions(pos);
+  };
+
   const resetPosition = () => setPositions({ x: -1, y: -1 });
+
 
   return (
     <div
@@ -83,7 +91,7 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
         backgroundColor: 'rgba(0,0,0,0.3)',
         paddingBottom: '50px'
       }}
-      className={'gsi-div-move-dialog'}>
+      className={`gsi-div-move-dialog ${classNameDialog}`}>
       <Rnd
         ref={(c: any) => {
           rnd = c;
@@ -96,19 +104,22 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
         }}
         position={{ ...position }}
         onDragStop={(e: any, d: any) => {
-          const pos = { x: d.x, y: d.y };
-          setPositions(pos);
+          rectifyPosition(e,d);
         }}
         bounds={'window'}
         onDragStart={() => {
           onChangeIndex();
+        }}
+        onDrag={(e: any, d: any)=>{
+          rectifyPosition(e,d)
         }}
         default={{
           ...position,
           width: 'auto',
           height: 'auto'
         }}
-        dragHandleClassName={'move-dialog-header'}
+        enableUserSelectHack
+        dragHandleClassName ={`gsi-div-move-dialog.${classNameDialog} .move-dialog-header`}
       >
         <DialogStyled
           hasBackdrop={false}
