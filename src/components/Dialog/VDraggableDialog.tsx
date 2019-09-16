@@ -1,8 +1,8 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import { forEach } from 'lodash';
 import { DialogStyled } from './styled';
-import {generate} from 'shortid';
+import { generate } from 'shortid';
 
 
 interface IDraggableDialog {
@@ -27,7 +27,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
 
   const [position, setPositions] = useState<{ x: number; y: number }>({ x: -1, y: -1 });
   const [dimension, setDimension] = useState<{ width: number; height: number }>();
-  const idDialog = generate();
+  const idDialog: string = useMemo(() => generate(), [dimension]);
 
   useEffect(() => {
     onChangeIndex();
@@ -37,9 +37,9 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
     const content: any = document.getElementById(idDialog);
     const element: any = content.getElementsByClassName('move-dialog-header')[0];
     if (props.isOpen) {
-      if(dimension){
+      if (dimension) {
         rnd.updateSize({ width: dimension.width, height: dimension.height });
-      }else{
+      } else {
         setDimension({
           width: element.parentNode.clientWidth,
           height: element.parentNode.clientHeight
@@ -61,7 +61,8 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
   }, [props.children]);
 
   const onChangeIndex = () => {
-    const modals = document.getElementsByClassName('gsi-div-move-dialog');
+    const content: any = document.getElementById(idDialog);
+    const modals = content.getElementsByClassName('gsi-div-move-dialog');
     let newIndex = reference;
     forEach(modals, m => {
       const st = window.getComputedStyle(m);
@@ -84,11 +85,11 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
         height: '100%',
         display: `${!props.isOpen ? 'none' : ''}`,
         backgroundColor: 'rgba(0,0,0,0.3)',
-        paddingBottom: '50px',
+        paddingBottom: '50px'
       }}
       className={'gsi-div-move-dialog'}>
       <Rnd
-        ref={(c:any) => {
+        ref={(c: any) => {
           rnd = c;
         }}
         enableResizing={{
@@ -124,7 +125,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
           children={props.children}
           onClose={props.onClose}
           onClosed={resetPosition}
-          transitionDuration={50}
+          transitionDuration={10}
           width={dimension && dimension.width}
           height={dimension && dimension.height}
         />
