@@ -31,7 +31,7 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
 
   useEffect(() => {
     onChangeIndex();
-  }, []);
+  }, [props.isOpen]);
 
   useEffect(() => {
     const content: any = document.getElementById(idDialog);
