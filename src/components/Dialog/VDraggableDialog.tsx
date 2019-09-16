@@ -46,10 +46,12 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
     }
 
     if (props.isOpen && position.x === -1 && position.y === -1) {
-      setPositions({
-        x: Math.max((windowsWidth - element.parentNode.clientWidth) / 2, 0),
-        y: Math.max((windowsHeight - element.parentNode.clientHeight) / 2, 0)
-      });
+      if(dimension){
+        setPositions({
+          x: Math.max((windowsWidth - dimension.width) / 2, 0),
+          y: Math.max((windowsHeight - dimension.height) / 2, 0)
+        });
+      }
       onChangeIndex();
     }
   });
