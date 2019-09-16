@@ -1,4 +1,5 @@
-import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { Rnd } from 'react-rnd';
 import { forEach } from 'lodash';
 import { DialogStyled } from './styled';
@@ -14,7 +15,7 @@ interface IDraggableDialog {
   onClose?(): void;
 }
 
-export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
+const VDraggable = (props: IDraggableDialog): JSX.Element => {
   const [reference, setReference] = useState<number>(9);
   let rnd: any = null;
   const windowsWidth = window.innerWidth
@@ -133,4 +134,8 @@ export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
     </div>
   );
 };
+
+export const VDraggableDialog = (props: IDraggableDialog): JSX.Element =>{
+  return ReactDOM.createPortal(<VDraggable {...props}/>, document.body);
+}
 
