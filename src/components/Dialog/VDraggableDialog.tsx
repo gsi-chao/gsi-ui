@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Rnd } from 'react-rnd';
 import { forEach } from 'lodash';
 import { DialogStyled } from './styled';
-import {generate} from 'shortid';
+import { generate } from 'shortid';
 
 
 interface IDraggableDialog {
@@ -32,8 +32,6 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
   const classNameDialog: string = useMemo(() =>
     Math.random().toString(36).substring(7), [dimension]);
 
-
-
   useEffect(() => {
     const content: any = document.getElementById(idDialog);
     const element: any = content.getElementsByClassName('move-dialog-header')[0];
@@ -49,7 +47,7 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
     }
 
     if (props.isOpen && position.x === -1 && position.y === -1) {
-      if(dimension){
+      if (dimension) {
         setPositions({
           x: Math.max((windowsWidth - dimension.width) / 2, 0),
           y: Math.max((windowsHeight - dimension.height) / 2, 0)
@@ -69,7 +67,7 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
     setReference(newIndex + 1);
   };
 
-  const rectifyPosition = (e: any, d: any)=>{
+  const rectifyPosition = (e: any, d: any) => {
     const pos = { x: d.x, y: d.y };
     setPositions(pos);
   };
@@ -91,7 +89,7 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
         backgroundColor: 'rgba(0,0,0,0.3)',
         paddingBottom: '50px'
       }}
-      className={`gsi-div-move-dialog ${classNameDialog}`}>
+      className={`gsi-div-move-dialog gsi-${classNameDialog}`}>
       <Rnd
         ref={(c: any) => {
           rnd = c;
@@ -104,14 +102,14 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
         }}
         position={{ ...position }}
         onDragStop={(e: any, d: any) => {
-          rectifyPosition(e,d);
+          rectifyPosition(e, d);
         }}
         bounds={'window'}
         onDragStart={() => {
           onChangeIndex();
         }}
-        onDrag={(e: any, d: any)=>{
-          rectifyPosition(e,d)
+        onDrag={(e: any, d: any) => {
+          rectifyPosition(e, d);
         }}
         default={{
           ...position,
@@ -119,7 +117,7 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
           height: 'auto'
         }}
         enableUserSelectHack
-        dragHandleClassName ={`gsi-div-move-dialog.${classNameDialog} .move-dialog-header`}
+        dragHandleClassName={`gsi-div-move-dialog.gsi-${classNameDialog} .move-dialog-header`}
       >
         <DialogStyled
           hasBackdrop={false}
@@ -141,7 +139,7 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
   );
 };
 
-export const VDraggableDialog = (props: IDraggableDialog): JSX.Element =>{
+export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
   return ReactDOM.createPortal(<VDraggable {...props}/>, document.body);
-}
+};
 
