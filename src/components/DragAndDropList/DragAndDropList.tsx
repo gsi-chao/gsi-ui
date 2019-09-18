@@ -8,14 +8,20 @@ import {
   DraggableLocation,
   DraggableProvided,
   DraggableStateSnapshot,
+  DragStart,
   Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
-  DropResult
+  DropResult,
+  ResponderProvided
 } from 'react-beautiful-dnd';
 import { DNDContainer, DNDItem, DNDList } from './style';
 import { VCardPanel } from '../Card';
 import { IDNDItem, IDNDList } from './types';
+import { VInputField } from '../Form';
+import { Button } from '@blueprintjs/core';
+import { Scrollbar } from 'react-scrollbars-custom';
+import styled from 'styled-components';
 
 interface Item {
   id: string;
@@ -23,6 +29,8 @@ interface Item {
 }
 interface IAppState {
   items: IDNDList[];
+  filterValues: any;
+  draggableId: string;
 }
 
 interface IProps {
@@ -50,15 +58,26 @@ const move = (
   source: IDNDList,
   destination: IDNDList,
   droppableSource: DraggableLocation,
-  droppableDestination: DraggableLocation
+  droppableDestination: DraggableLocation,
+  draggableId: string
 ): any => {
+  console.log(
+    source,
+    destination,
+    droppableSource,
+    droppableDestination,
+    draggableId
+  );
+  const itemToMove = source.list.find(item => item.value === draggableId);
   const sourceClone = source;
   const destClone = destination;
-  const [removed] = sourceClone.list.splice(droppableSource.index, 1);
-
-  destClone.list.splice(droppableDestination.index, 0, removed);
-  const result = [sourceClone, destClone];
-  return result;
+  if (itemToMove) {
+    sourceClone.list = sourceClone.list.filter(
+      item => item.value !== itemToMove.value
+    );
+    destClone.list.splice(droppableDestination.index, 0, itemToMove);
+  }
+  return [sourceClone, destClone];
 };
 
 export class DragAndDropList extends React.Component<IProps, IAppState> {
@@ -66,12 +85,30 @@ export class DragAndDropList extends React.Component<IProps, IAppState> {
     super(props);
 
     this.state = {
-      items: this.props.list
+      items: this.props.list,
+      filterValues: {},
+      draggableId: ''
     };
 
     this.onDragEnd = this.onDragEnd.bind(this);
     this.getList = this.getList.bind(this);
   }
+
+  componentDidMount() {
+    const newFilters: any = {};
+    this.props.list.forEach((item: IDNDList) => {
+      if (item.allowFilter) {
+        newFilters[`filter_${item.id}`] = '';
+      }
+    });
+    this.setState({ filterValues: newFilters });
+  }
+
+  updateFilter = (value: any, key: string) => {
+    const filterValues = this.state.filterValues;
+    filterValues[key] = value;
+    this.setState({ filterValues });
+  };
 
   public getList(id: string): IDNDList {
     return (
@@ -80,6 +117,24 @@ export class DragAndDropList extends React.Component<IProps, IAppState> {
       }) || { id: '', list: [] }
     );
   }
+
+  public displayItem = (
+    item: IDNDItem,
+    criteria: any,
+    allowFilter: boolean
+  ) => {
+    if (!allowFilter || !criteria || !item.label) {
+      return true;
+    }
+    return item.label
+      .toString()
+      .toLowerCase()
+      .includes(criteria.toString());
+  };
+
+  public onDragStart = (initial: DragStart, provided: ResponderProvided) => {
+    this.setState({ draggableId: initial.draggableId });
+  };
 
   public onDragEnd(result: DropResult): void {
     const { source, destination } = result;
@@ -101,10 +156,11 @@ export class DragAndDropList extends React.Component<IProps, IAppState> {
         this.getList(source.droppableId),
         this.getList(destination.droppableId),
         source,
-        destination
+        destination,
+        this.state.draggableId
       );
 
-      this.setState({ ...this.state, ...items });
+      this.setState({ ...this.state, ...items, draggableId: '' });
     }
     if (this.props.onDragAndDrop) {
       this.props.onDragAndDrop(this.state.items);
@@ -114,7 +170,10 @@ export class DragAndDropList extends React.Component<IProps, IAppState> {
   public render() {
     return (
       <DNDContainer orientation={this.props.containerOrientation}>
-        <DragDropContext onDragEnd={this.onDragEnd}>
+        <DragDropContext
+          onDragEnd={this.onDragEnd}
+          onDragStart={this.onDragStart}
+        >
           {this.props.list.map((value: IDNDList, index: number) => {
             return (
               <Droppable droppableId={value.id} key={index}>
@@ -124,38 +183,81 @@ export class DragAndDropList extends React.Component<IProps, IAppState> {
                 ) => (
                   <VCardPanel
                     bodyPadding={'5px'}
-                    width={'200px'}
+                    width={value.width || '200px'}
                     headerText={value.label}
+                    height={value.height || '250px'}
+                    id={value.id}
+                    headerColor={value.headerColor}
+                    headerBackgroundColor={value.headerBackgroundColor}
                   >
-                    <DNDList
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
+                    {(value.allowFilter && (
+                      <FilterInput
+                        fill
+                        id={`filter_${value.id}`}
+                        round
+                        noLabel
+                        leftIcon={'search'}
+                        value={this.state.filterValues[`filter_${value.id}`]}
+                        onChange={filterValue => {
+                          this.updateFilter(filterValue, `filter_${value.id}`);
+                        }}
+                        rightElement={
+                          <Button
+                            icon={'refresh'}
+                            onClick={() => {
+                              this.updateFilter('', `filter_${value.id}`);
+                            }}
+                            minimal
+                            small
+                          />
+                        }
+                      />
+                    )) ||
+                      null}
+                    <StyledScrollBar
+                      style={{
+                        height: `calc(100%${(value.allowFilter && ' - 35px') ||
+                          ''})`
+                      }}
                     >
-                      {value.list.map((item: IDNDItem, index: number) => (
-                        <Draggable
-                          key={`${value.id}-${index}`}
-                          draggableId={item.value}
-                          index={index}
-                        >
-                          {(
-                            providedDraggable: DraggableProvided,
-                            snapshotDraggable: DraggableStateSnapshot
-                          ) => (
-                            <DNDItem>
-                              <div
-                                ref={providedDraggable.innerRef}
-                                {...providedDraggable.draggableProps}
-                                {...providedDraggable.dragHandleProps}
-                              >
-                                {item.label}
-                              </div>
-                              {providedDraggable.placeholder}
-                            </DNDItem>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </DNDList>
+                      <DNDList
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        {value.list
+                          .filter((item: IDNDItem) =>
+                            this.displayItem(
+                              item,
+                              this.state.filterValues[`filter_${value.id}`],
+                              !!value.allowFilter
+                            )
+                          )
+                          .map((item: IDNDItem, index: number) => (
+                            <Draggable
+                              key={`${value.id}-${index}`}
+                              draggableId={item.value}
+                              index={index}
+                            >
+                              {(
+                                providedDraggable: DraggableProvided,
+                                snapshotDraggable: DraggableStateSnapshot
+                              ) => (
+                                <DNDItem>
+                                  <div
+                                    ref={providedDraggable.innerRef}
+                                    {...providedDraggable.draggableProps}
+                                    {...providedDraggable.dragHandleProps}
+                                  >
+                                    {item.label}
+                                  </div>
+                                  {providedDraggable.placeholder}
+                                </DNDItem>
+                              )}
+                            </Draggable>
+                          ))}
+                        {provided.placeholder}
+                      </DNDList>
+                    </StyledScrollBar>
                   </VCardPanel>
                 )}
               </Droppable>
@@ -166,3 +268,16 @@ export class DragAndDropList extends React.Component<IProps, IAppState> {
     );
   }
 }
+
+const StyledScrollBar = styled(Scrollbar)`
+  & .ScrollbarsCustom-Content {
+    height: 100%;
+    & > div {
+      height: 100%;
+    }
+  }
+`;
+
+const FilterInput = styled(VInputField)`
+  margin: 0 0 2px;
+`;
