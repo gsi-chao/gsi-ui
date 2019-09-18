@@ -17,4 +17,5 @@ export {
 } from './utils';
 export { VSelectMultiple } from './Inputs/SelectMultipleField';
 export { VSelectMultipleTags } from './Inputs/SelectMultipleTags';
+export { VSwitchField } from './Inputs/SwitchField';
 export { Validators } from './Validators';

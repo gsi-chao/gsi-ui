@@ -101,7 +101,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
   const updateSelectItems = (ids: any[]) => {
     const selectedItemss = props.options.filter(option => {
       if (ids && Array.isArray(ids) && ids.length > 0) {
-        return ids.some((id: any) => id === option.value);
+        return ids.some((id: any) => id.toString() === option.value.toString());
       }
       return false;
     });
@@ -126,7 +126,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
       selectedItems.length > 0
     ) {
       selectedItems.some((item, index) => {
-        const result = item.value === value.value;
+        const result = item.value.toString() === value.value.toString();
         if (result) {
           outerIndex = index;
         }
