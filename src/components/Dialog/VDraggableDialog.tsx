@@ -53,18 +53,25 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
           y: Math.max((windowsHeight - dimension.height) / 2, 0)
         });
       }
-      onChangeIndex();
     }
+    onChangeIndex();
   });
 
   const onChangeIndex = () => {
-    const modals = document.getElementsByClassName('gsi-div-move-dialog');
-    let newIndex = reference;
-    forEach(modals, m => {
-      const st = window.getComputedStyle(m);
-      newIndex = Number(st.zIndex) > newIndex ? Number(st.zIndex) : newIndex;
-    });
-    setReference(newIndex + 1);
+    if (props.isOpen) {
+      const body = document.querySelectorAll('body *');
+      const modal = document.getElementById(idDialog);
+      let newIndex = reference;
+      forEach(body, m => {
+        if (modal !== m) {
+          const st = window.getComputedStyle(m);
+          newIndex = Number(st.zIndex) > newIndex ? Number(st.zIndex) : newIndex;
+        }
+      });
+      if (newIndex !== reference) {
+        setReference(newIndex + 1);
+      }
+    }
   };
 
   const rectifyPosition = (e: any, d: any) => {
