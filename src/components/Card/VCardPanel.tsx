@@ -36,6 +36,7 @@ interface StyledCardProps {
   headerCustomComponent?: any;
   heigthHeaderPx?: number;
   headerCustomButton?: any;
+  id?: string;
 }
 
 interface PanelState {
@@ -84,7 +85,8 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
       headerCustomComponent,
       headerCustomButton,
       headerTextUppercase,
-      headerTextBold
+      headerTextBold,
+      id
     } = this.props;
     const { isOpen } = this.state;
     return (
@@ -96,6 +98,7 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
         transitionduration={transitionDuration}
         isopen={isOpen ? 'true' : 'false'}
         width={width}
+        id={id}
       >
         {!noHeader ? (
           <VCardHeader
