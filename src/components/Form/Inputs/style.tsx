@@ -13,6 +13,8 @@ export interface IStyledFieldProps {
   fixedInputWidthPx?: number;
   margin?: string;
   fixedPadding?: number;
+  heightArea?: number | undefined;
+
 }
 
 interface IIconStyle {
@@ -217,7 +219,7 @@ export const StyledTextArea = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
     & textarea {
       width: 100%;
-      ${({heightArea}) => heightArea && `height: ${heightArea}px`}
+      ${(props: IStyledFieldProps) => props.heightArea && `height: ${props.heightArea}px`}
     }
   }
 `;
