@@ -31,12 +31,15 @@ interface IAppState {
   items: IDNDList[];
   filterValues: any;
   draggableId: string;
+  selectedItemId: any;
 }
 
 interface IProps {
   containerOrientation?: 'horizontal' | 'vertical';
   list: IDNDList[];
   onDragAndDrop?: (list: IDNDList[]) => void;
+  allowItemSelection?: boolean;
+  onItemSelected?: (item: any) => void;
 }
 
 const reorder = (
@@ -61,13 +64,6 @@ const move = (
   droppableDestination: DraggableLocation,
   draggableId: string
 ): any => {
-  console.log(
-    source,
-    destination,
-    droppableSource,
-    droppableDestination,
-    draggableId
-  );
   const itemToMove = source.list.find(item => item.value === draggableId);
   const sourceClone = source;
   const destClone = destination;
@@ -87,7 +83,8 @@ export class DragAndDropList extends React.Component<IProps, IAppState> {
     this.state = {
       items: this.props.list,
       filterValues: {},
-      draggableId: ''
+      draggableId: '',
+      selectedItemId: ''
     };
 
     this.onDragEnd = this.onDragEnd.bind(this);
@@ -167,6 +164,15 @@ export class DragAndDropList extends React.Component<IProps, IAppState> {
     }
   }
 
+  public handleItemSelection = (selectedItemId: any) => {
+    if (this.props.allowItemSelection) {
+      this.setState({ selectedItemId });
+      if (this.props.onItemSelected) {
+        this.props.onItemSelected(selectedItemId);
+      }
+    }
+  };
+
   public render() {
     return (
       <DNDContainer orientation={this.props.containerOrientation}>
@@ -242,7 +248,14 @@ export class DragAndDropList extends React.Component<IProps, IAppState> {
                                 providedDraggable: DraggableProvided,
                                 snapshotDraggable: DraggableStateSnapshot
                               ) => (
-                                <DNDItem>
+                                <DNDItem
+                                  onClick={() => {
+                                    this.handleItemSelection(item.value);
+                                  }}
+                                  className={`${!this.state.draggableId &&
+                                    this.state.selectedItemId === item.value &&
+                                    'dndItemSelected'}`}
+                                >
                                   <div
                                     ref={providedDraggable.innerRef}
                                     {...providedDraggable.draggableProps}
@@ -274,6 +287,9 @@ const StyledScrollBar = styled(Scrollbar)`
     height: 100%;
     & > div {
       height: 100%;
+      & > div.dndItemSelected {
+        background-color: rgba(104, 167, 218, 0.6);
+      }
     }
   }
 `;
