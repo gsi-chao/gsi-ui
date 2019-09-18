@@ -22,6 +22,7 @@ export interface ITextAreaFieldProps extends IFieldProps {
   fill?: boolean;
   upperCaseFormat?: boolean;
   rows?: number;
+  heightArea?: number;
 }
 
 @observer
@@ -46,7 +47,8 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       required,
       validators,
       value,
-      upperCaseFormat
+      upperCaseFormat,
+      heightArea
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -76,6 +78,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         labelInfo={labelInfo}
         fill={fill}
         noLabel={noLabel}
+        heightArea={heightArea}
       >
         <FormFieldContainer
           required={required}

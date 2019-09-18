@@ -70,6 +70,7 @@ export const StyledFormGroup = styled(FormGroup)`
                 : 'width: 100%!important;'
             }
             & label.field-label {
+                padding-right: 5px;
                 line-height: 30px;
                     ${labelWidth ? `width: ${labelWidth}%!important;` : ''}
                     ${
@@ -216,6 +217,7 @@ export const StyledTextArea = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
     & textarea {
       width: 100%;
+      ${({heightArea}) => heightArea && `height: ${heightArea}px`}
     }
   }
 `;
