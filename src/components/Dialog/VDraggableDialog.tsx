@@ -16,7 +16,7 @@ interface IDraggableDialog {
 }
 
 const VDraggable = (props: IDraggableDialog): JSX.Element => {
-  const [reference, setReference] = useState<number>(9);
+  const [reference, setReference] = useState<number>(11);
   let rnd: any = null;
   const windowsWidth = window.innerWidth
     || document.documentElement.clientWidth
@@ -59,7 +59,7 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
 
   const onChangeIndex = () => {
     if (props.isOpen) {
-      const body = document.querySelectorAll('body *');
+      const body = document.querySelectorAll('.gsi-div-move-dialog');
       const modal = document.getElementById(idDialog);
       let newIndex = reference;
       forEach(body, m => {
