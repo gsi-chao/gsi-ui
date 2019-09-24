@@ -19,3 +19,4 @@ export * from './VOrgChart';
 export * from './FileUpload';
 export * from './DnDList';
 export * from './Dialog';
+export * from './Pagination';
