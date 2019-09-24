@@ -15,18 +15,17 @@ import {
   DropResult,
   ResponderProvided
 } from 'react-beautiful-dnd';
-import { DNDContainer, DNDItem, DNDList } from './style';
+import { DNDContainer, DNDItem, DNDList, FilterInput } from './style';
 import {
   IDNDItem,
   IDNDList,
   IDragAndDropListProps,
   IDragAndDropListState
 } from './types';
-import { VCardPanel, VInputField } from '../index';
+import { VCardPanel } from '../Card';
 import { Button } from '@blueprintjs/core';
-import { Scrollbar } from 'react-scrollbars-custom';
-import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
+import { CustomDraggableItem } from './CustomDraggableItem';
 
 const reorder = (
   list: IDNDList,
@@ -139,9 +138,9 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
     }
     if (props.onDragAndDrop) {
       props.onDragAndDrop({
-        list: state.items,
         source,
         destination,
+        list: state.items,
         draggableId: state.draggableId
       });
     }
@@ -200,57 +199,58 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
                     />
                   )) ||
                     null}
-                  <StyledScrollBar
+                  <DNDList
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
                     style={{
                       height: `calc(100%${(value.allowFilter && ' - 35px') ||
                         ''})`
                     }}
                   >
-                    <DNDList
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                    >
-                      {value.list
-                        .filter((item: IDNDItem) =>
-                          displayItem(
-                            item,
-                            state.filterValues[`filter_${value.id}`],
-                            !!value.allowFilter
-                          )
+                    {value.list
+                      .filter((item: IDNDItem) =>
+                        displayItem(
+                          item,
+                          state.filterValues[`filter_${value.id}`],
+                          !!value.allowFilter
                         )
-                        .map((item: IDNDItem, index: number) => (
-                          <Draggable
-                            key={`${value.id}-${index}`}
-                            draggableId={item.value}
-                            index={index}
-                          >
-                            {(
-                              providedDraggable: DraggableProvided,
-                              snapshotDraggable: DraggableStateSnapshot
-                            ) => (
-                              <DNDItem
-                                onClick={() => {
-                                  handleItemSelection(item.value);
-                                }}
-                                className={`${!state.draggableId &&
-                                  state.selectedItemId === item.value &&
-                                  'dndItemSelected'}`}
+                      )
+                      .map((item: IDNDItem, index: number) => (
+                        <Draggable
+                          key={`${value.id}-${item.value}`}
+                          draggableId={item.value}
+                          index={index}
+                        >
+                          {(
+                            providedDraggable: DraggableProvided,
+                            snapshotDraggable: DraggableStateSnapshot
+                          ) => (
+                            <DNDItem
+                              onClick={() => {
+                                handleItemSelection(item.value);
+                              }}
+                              className={`${state.draggableId !==
+                                state.selectedItemId &&
+                                state.selectedItemId === item.value &&
+                                'dndItemSelected'}`}
+                            >
+                              <div
+                                ref={providedDraggable.innerRef}
+                                {...providedDraggable.draggableProps}
+                                {...providedDraggable.dragHandleProps}
                               >
-                                <div
-                                  ref={providedDraggable.innerRef}
-                                  {...providedDraggable.draggableProps}
-                                  {...providedDraggable.dragHandleProps}
-                                >
-                                  {item.label}
-                                </div>
-                                {providedDraggable.placeholder}
-                              </DNDItem>
-                            )}
-                          </Draggable>
-                        ))}
-                      {provided.placeholder}
-                    </DNDList>
-                  </StyledScrollBar>
+                                <CustomDraggableItem
+                                  label={item.label}
+                                  type={item.type || ''}
+                                />
+                              </div>
+                              {providedDraggable.placeholder}
+                            </DNDItem>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </DNDList>
                 </VCardPanel>
               )}
             </Droppable>
@@ -260,19 +260,3 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
     </DNDContainer>
   );
 });
-
-const StyledScrollBar = styled(Scrollbar)`
-  & .ScrollbarsCustom-Content {
-    height: 100%;
-    & > div {
-      height: 100%;
-      & > div.dndItemSelected {
-        background-color: rgba(104, 167, 218, 0.6);
-      }
-    }
-  }
-`;
-
-const FilterInput = styled(VInputField)`
-  margin: 0 0 2px;
-`;

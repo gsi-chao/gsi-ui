@@ -1,6 +1,7 @@
 export interface IDNDItem {
   value: string;
   label: string;
+  type?: string;
 }
 
 export interface IDNDList {
