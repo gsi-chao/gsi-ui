@@ -5,5 +5,6 @@ export {
   IOnDragAndDropResponse,
   IDragAndDropListProps,
   IDragAndDropListState,
-  ISourceDestination
+  ISourceDestination,
+  Item
 } from './types';
