@@ -15,12 +15,19 @@ import {
   DropResult,
   ResponderProvided
 } from 'react-beautiful-dnd';
-import { DNDContainer, DNDItem, DNDList, FilterInput } from './style';
+import {
+  DNDContainer,
+  DNDItem,
+  DNDList,
+  FilterInput,
+  StyledDivContainer
+} from './style';
 import {
   IDNDItem,
   IDNDList,
   IDragAndDropListProps,
-  IDragAndDropListState
+  IDragAndDropListState,
+  SelectedItemHelpButtonList
 } from './types';
 import { VCardPanel } from '../Card';
 import { Button } from '@blueprintjs/core';
@@ -66,7 +73,8 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
     items: props.list,
     filterValues: {},
     draggableId: '',
-    selectedItemId: ''
+    selectedItemId: '',
+    draggableItemSourceId: ''
   });
 
   useEffect(() => {
@@ -108,13 +116,23 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
   };
 
   const onDragStart = (initial: DragStart, provided: ResponderProvided) => {
-    setState({ ...state, draggableId: initial.draggableId });
+    setState({
+      ...state,
+      draggableId: initial.draggableId,
+      draggableItemSourceId:
+        initial && initial.source && initial.source.droppableId
+    });
   };
 
   const onDragEnd = (result: DropResult): void => {
     const { source, destination } = result;
 
     if (!destination) {
+      setState({
+        ...state,
+        draggableId: '',
+        draggableItemSourceId: ''
+      });
       return;
     }
 
@@ -144,14 +162,60 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
         draggableId: state.draggableId
       });
     }
-    setState({ ...state, ...items, draggableId: '' });
+    setState({
+      ...state,
+      ...items,
+      draggableId: '',
+      draggableItemSourceId: ''
+    });
   };
-  const handleItemSelection = (itemId: any) => {
+  const handleItemSelection = (itemId: any, listId: any) => {
     if (props.allowItemSelection) {
       const selectedItemId = itemId !== state.selectedItemId ? itemId : '';
       setState({ ...state, selectedItemId });
       if (props.onItemSelected) {
-        props.onItemSelected(selectedItemId);
+        props.onItemSelected(selectedItemId, listId);
+      }
+    }
+  };
+
+  const handleHelpButtonCLicked = (
+    itemId: any,
+    source: any,
+    destination: any
+  ) => {
+    console.log(itemId, source, destination);
+    const lists = state.items;
+    const sourceList = lists.find(e => e.id === source);
+    if (sourceList) {
+      const item = sourceList.list.find(i => i.value === itemId);
+      if (item) {
+        sourceList.list = sourceList.list.filter(i => i.value !== itemId);
+        const destList = lists.find(e => e.id === destination);
+        if (destList) {
+          destList.list = [...destList.list, item];
+        }
+        if (destList) {
+          lists.some((item: IDNDList, index: number) => {
+            const result = item.id === sourceList.id;
+            if (result) {
+              lists[index] = sourceList;
+            }
+            return result;
+          });
+          lists.some((item: IDNDList, index: number) => {
+            const result = item.id === destList.id;
+            if (result) {
+              lists[index] = destList;
+            }
+            return result;
+          });
+          setState({
+            ...state,
+            items: lists,
+            selectedItemId: itemId
+          });
+        }
       }
     }
   };
@@ -175,82 +239,103 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
                   headerColor={value.headerColor}
                   headerBackgroundColor={value.headerBackgroundColor}
                 >
-                  {(value.allowFilter && (
-                    <FilterInput
-                      fill
-                      id={`filter_${value.id}`}
-                      round
-                      noLabel
-                      leftIcon={'search'}
-                      value={state.filterValues[`filter_${value.id}`]}
-                      onChange={filterValue => {
-                        updateFilter(filterValue, `filter_${value.id}`);
-                      }}
-                      rightElement={
-                        <Button
-                          icon={'refresh'}
-                          onClick={() => {
-                            updateFilter('', `filter_${value.id}`);
-                          }}
-                          minimal
-                          small
-                        />
-                      }
-                    />
-                  )) ||
-                    null}
-                  <DNDList
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    style={{
-                      height: `calc(100%${(value.allowFilter && ' - 35px') ||
-                        ''})`
-                    }}
+                  <StyledDivContainer
+                    sourceListBackGroundColor={props.sourceListBackGroundColor}
+                    className={
+                      (state.draggableId &&
+                        state.draggableItemSourceId === value.id &&
+                        'sourceList') ||
+                      ''
+                    }
                   >
-                    {value.list
-                      .filter((item: IDNDItem) =>
-                        displayItem(
-                          item,
-                          state.filterValues[`filter_${value.id}`],
-                          !!value.allowFilter
+                    {(value.allowFilter && (
+                      <FilterInput
+                        fill
+                        id={`filter_${value.id}`}
+                        round
+                        noLabel
+                        leftIcon={'search'}
+                        value={state.filterValues[`filter_${value.id}`]}
+                        onChange={filterValue => {
+                          updateFilter(filterValue, `filter_${value.id}`);
+                        }}
+                        rightElement={
+                          <Button
+                            icon={'refresh'}
+                            onClick={() => {
+                              updateFilter('', `filter_${value.id}`);
+                            }}
+                            minimal
+                            small
+                          />
+                        }
+                      />
+                    )) ||
+                      null}
+                    <DNDList
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      style={{
+                        height: `calc(100%${(value.allowFilter && ' - 35px') ||
+                          ''})`
+                      }}
+                    >
+                      {value.list
+                        .filter((item: IDNDItem) =>
+                          displayItem(
+                            item,
+                            state.filterValues[`filter_${value.id}`],
+                            !!value.allowFilter
+                          )
                         )
-                      )
-                      .map((item: IDNDItem, index: number) => (
-                        <Draggable
-                          key={`${value.id}-${item.value}`}
-                          draggableId={item.value}
-                          index={index}
-                        >
-                          {(
-                            providedDraggable: DraggableProvided,
-                            snapshotDraggable: DraggableStateSnapshot
-                          ) => (
-                            <DNDItem
-                              onClick={() => {
-                                handleItemSelection(item.value);
-                              }}
-                              className={`${state.draggableId !==
-                                state.selectedItemId &&
-                                state.selectedItemId === item.value &&
-                                'dndItemSelected'}`}
-                            >
-                              <div
-                                ref={providedDraggable.innerRef}
-                                {...providedDraggable.draggableProps}
-                                {...providedDraggable.dragHandleProps}
+                        .map((item: IDNDItem, index: number) => (
+                          <Draggable
+                            key={`${value.id}-${item.value}`}
+                            draggableId={item.value}
+                            index={index}
+                          >
+                            {(
+                              providedDraggable: DraggableProvided,
+                              snapshotDraggable: DraggableStateSnapshot
+                            ) => (
+                              <DNDItem
+                                onClick={() => {
+                                  handleItemSelection(item.value, value.id);
+                                }}
+                                className={`${state.selectedItemId &&
+                                  state.selectedItemId === item.value &&
+                                  'dndItemSelected'}`}
                               >
-                                <CustomDraggableItem
-                                  label={item.label}
-                                  type={item.type || ''}
-                                />
-                              </div>
-                              {providedDraggable.placeholder}
-                            </DNDItem>
-                          )}
-                        </Draggable>
-                      ))}
-                    {provided.placeholder}
-                  </DNDList>
+                                <div
+                                  ref={providedDraggable.innerRef}
+                                  {...providedDraggable.draggableProps}
+                                  {...providedDraggable.dragHandleProps}
+                                >
+                                  <CustomDraggableItem
+                                    label={item.label}
+                                    type={item.type || ''}
+                                    source={value.id}
+                                    displayButtons={
+                                      props.showHelpButtons &&
+                                      item.value === state.selectedItemId
+                                    }
+                                    selectedItemHelpButtons={
+                                      props.selectedItemHelpButtons
+                                    }
+                                    draggableId={item.value}
+                                    handleHelpButtonClicked={
+                                      handleHelpButtonCLicked
+                                    }
+                                  />
+                                </div>
+                                {providedDraggable.placeholder}
+                              </DNDItem>
+                            )}
+                          </Draggable>
+                        ))}
+                      {provided.placeholder}
+                    </DNDList>
+                  </StyledDivContainer>
                 </VCardPanel>
               )}
             </Droppable>
