@@ -57,6 +57,7 @@ export const StyledCustomDraggableItem = styled.div`
       text-overflow: ellipsis;
       overflow: hidden;
       cursor: grab;
+      text-align: start;
       &.labelName {
         font-size: 0.9em;
       }
