@@ -18,7 +18,8 @@ import {
 import {
   DNDContainer,
   DNDItem,
-  DNDList, DragListSpinnerContainer,
+  DNDList,
+  DragListSpinnerContainer,
   FilterInput,
   StyledDivContainer
 } from './style';
@@ -215,6 +216,9 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
             items: lists,
             selectedItemId: itemId
           });
+          if (props.onHelpButtonClicked) {
+            props.onHelpButtonClicked(itemId, source, destination);
+          }
         }
       }
     }
