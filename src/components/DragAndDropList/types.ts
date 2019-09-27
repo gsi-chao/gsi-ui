@@ -15,6 +15,7 @@ export interface IDNDList {
   height?: string;
   headerColor?: string;
   headerBackgroundColor?: string;
+  loading?: boolean;
 }
 
 export interface Item {
