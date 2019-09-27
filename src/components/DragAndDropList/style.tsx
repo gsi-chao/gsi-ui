@@ -101,3 +101,11 @@ export const StyledDivContainer = styled.div`
       props.sourceListBackGroundColor || `#4bacef66`};
   }
 `;
+
+export const DragListSpinnerContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
