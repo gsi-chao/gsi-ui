@@ -19,6 +19,7 @@ export interface ISwitchFieldProps extends IFieldProps {
   checkBoxAtLeft?: boolean;
   innerLabel?: string;
   innerLabelChecked?: string;
+  requiredJustVisual?: boolean;
   labelElement?: Element;
 }
 
@@ -52,10 +53,11 @@ export class VSwitchField extends React.Component<ISwitchFieldProps> {
       value,
       labelElement,
       innerLabel,
+      requiredJustVisual,
       innerLabelChecked
     } = this.props;
     if (fieldState) {
-      if (required) {
+      if (required && !requiredJustVisual) {
         if (validators && validators.length > 0) {
           fieldState.validators(Validators.required, ...validators);
         } else {
