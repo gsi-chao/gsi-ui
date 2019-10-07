@@ -18,7 +18,6 @@ export const SliderWrapper = styled.div`
           display: flex;
           padding: 0;
           transition: transform 300ms ease 100ms;
-          z-index: 3;
           width: 100%;
         }
         
@@ -48,7 +47,7 @@ export const SliderButtonSC = styled.button`
   outline: 0;
   padding: 0;
   margin: 40px 0 0;
-  z-index: 4;
+  z-index: 1;
 
   span {
     width: 25px;

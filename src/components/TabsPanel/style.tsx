@@ -30,7 +30,7 @@ export const LabelIcon = styled.div`
   display: flex;
   align-items: center;
   border-style: solid;
-  ;
+  height: 100%;
   padding:${(props: ITabsPanelStyle) =>
     props.size === 'small' ? '6px 15px' : '8px 20px'} ;
   cursor: pointer;
