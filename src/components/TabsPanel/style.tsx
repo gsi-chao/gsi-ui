@@ -75,7 +75,7 @@ export const ContainerContent = styled.div`
   border-width: 0 1px 1px 1px;
   border-style: solid;
   ${(props: ITabsPanelStyle) =>
-    props.backgroundColor ? `background-color: ${props.backgroundColor};` : ''}
+    props.backgroundColor ? `background-color: ${props.backgroundColor};` : ''};
   border-color: ${(props: ITabsPanelStyle) =>
     props.borderColor ? props.borderColor : '#dbdcdd'};
   padding: ${(props: ITabsPanelStyle) => {
