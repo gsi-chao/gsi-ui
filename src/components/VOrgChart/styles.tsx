@@ -1,45 +1,46 @@
 import styled from 'styled-components';
+import { IOrgChartContainer } from './types';
+
+function getLineStyle(
+  lineColor = 'gray',
+  lineWidth = 1,
+  isTop = false
+): string {
+  return `${lineWidth * (isTop ? 2 : 1)}px solid ${lineColor}`;
+}
 
 export const OrgChartContainer = styled.div`
-  & .orgchart {
+  --lineStyle: ${({ lineColor, lineWidth }: IOrgChartContainer) =>
+    getLineStyle(lineColor, lineWidth)};
+  --lineTopStyle: ${({ lineColor, lineWidth }: IOrgChartContainer) =>
+    getLineStyle(lineColor, lineWidth, true)};
+  .orgchart {
     background: none;
-    & .lines {
-      border-color: gray !important;
-      & td {
-        border-color: gray !important;
-        & div {
-          background-color: gray !important;
-        }
-      }
-    }
-    & .node {
+    .node {
       padding: 0;
-      border: 1px solid gray;
+      position: relative;
       margin: 0 5px;
-      border-radius: 5px;
-      &.Terminal .title {
-        background-color: #106ba3;
+    }
+
+    .bottomEdge {
+      bottom: -2px;
+    }
+
+    .lines {
+      & .downLine {
+        background-color: ${({ lineColor }: IOrgChartContainer) =>
+          lineColor || 'gray'};
+        width: ${({ lineWidth }: IOrgChartContainer) =>
+          `${(lineWidth || 1) * 2}px`};
       }
-      & .edge {
-        color: #394b59cf;
-        &:hover {
-          color: black;
-        }
+      & .rightLine {
+        border-right: var(--lineStyle);
       }
-      &.Company .title {
-        background-color: #0f9960;
+      & .leftLine {
+        border-left: var(--lineStyle);
       }
-      & .content {
-        border: none;
-      }
-      &:hover {
-        transition: 0s;
-        background-color: transparent !important;
-        box-shadow: 0 1px 3px 0 #000000a1;
-      }
-      &.focused.Company {
-        background-color: transparent !important;
-        box-shadow: 0 1px 3px 0 #61dafb;
+      & .topLine {
+        border-top: var(--lineTopStyle);
       }
     }
   }
