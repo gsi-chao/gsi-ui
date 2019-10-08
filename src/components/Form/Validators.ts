@@ -2,17 +2,70 @@ import validator from 'validator';
 
 const required = (val: any) =>
   (!val || (typeof val !== 'number' && !val.toString().length)) &&
-  'This field is required';
+  'This field is required.';
 
 const email = (value: string) =>
   !validator.isEmail(value) && `${value} is not a valid email.`;
 
-const lt = (maxLength: any) => (value: any) =>
+const lt = (maxLength: number) => (value: string) =>
   value.toString().trim().length > maxLength &&
-  `The value exceeded ${maxLength} symbols.`;
+  `The value must me have less than ${maxLength} symbols.`;
 
-const exact = (length: any) => (value: any) =>
+const gt = (minLength: number) => (value: string) =>
+  value.toString().trim().length < minLength &&
+  `The value must me have great than ${minLength} symbols.`;
+
+const exact = (length: number) => (value: string) =>
   value.toString().trim().length !== length &&
   `The value must be ${length} symbols.`;
 
-export const Validators = { exact, lt, email, required };
+const ltNumber = (min: number) => (value: string) =>
+  (!validator.isNumeric(min.toString()) ||
+    !validator.isNumeric(value) ||
+    Number(value) > min) &&
+  `The value must be less than ${min}.`;
+
+const gtNumber = (max: number) => (value: string) =>
+  (!validator.isNumeric(max.toString()) ||
+    !validator.isNumeric(value) ||
+    Number(value) < max) &&
+  `The value must be great than ${max}.`;
+
+const isLatLong = () => (value: string) =>
+  !validator.isLatLong(value.toString()) &&
+  `The value ${value} is not a valid Longitude / Latitude.`;
+
+const isCreditCard = () => (value: string) =>
+  !validator.isCreditCard(value) &&
+  `The value ${value} is not a valid Credit Card.`;
+
+const isMACAddress = () => (value: string) =>
+  !validator.isMACAddress(value) &&
+  `The value ${value} is not a valid MAC Address.`;
+
+const isURL = () => (value: string) =>
+  !validator.isURL(value) && `The value ${value} is not a valid URL`;
+
+const isPhone = () => (value: string) =>
+  !validator.isMobilePhone(value, 'en-US') &&
+  `The value ${value} is not a valid Phone`;
+
+const isPostalCode = () => (value: string) =>
+  !validator.isPostalCode(value, 'US') &&
+  `The value ${value} is not a valid Postal Code`;
+
+export const Validators = {
+  exact,
+  lt,
+  email,
+  required,
+  gt,
+  ltNumber,
+  gtNumber,
+  isLatLong,
+  isCreditCard,
+  isMACAddress,
+  isURL,
+  isPhone,
+  isPostalCode
+};

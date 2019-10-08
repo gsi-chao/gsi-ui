@@ -10,6 +10,7 @@ export interface IFormFieldContainerProps {
   required?: boolean;
   className?: string;
   noLabel?: boolean;
+  tooltip?: string;
 }
 
 export interface IFieldState {
@@ -21,6 +22,7 @@ export const RequiredSpan = styled.span`
   margin-right: 2px;
   color: red;
 `;
+
 
 export class FormFieldContainer extends React.Component<
   IFormFieldContainerProps
@@ -36,12 +38,13 @@ export class FormFieldContainer extends React.Component<
       fieldState,
       required,
       noLabel,
-      value
+      value,
+      tooltip
     } = this.props;
     return (
       <React.Fragment>
         {!noLabel ? (
-          <label className={'field-label'}>
+          <label className={'field-label'} title={tooltip ? tooltip : label}>
             {required ? <RequiredSpan>*</RequiredSpan> : null}
             {label}
           </label>
