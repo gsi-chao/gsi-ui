@@ -8,7 +8,7 @@ import { IOrgChartOptions, IVOrgChart } from './types';
 
 require('orgchart/dist/js/jquery.orgchart.min');
 
-const VOrgChart = ({
+export const VOrgChart = ({
   idContainer,
   customTemplate: Custom,
   nodeTemplate,
@@ -43,4 +43,3 @@ const VOrgChart = ({
   );
 };
 
-export default VOrgChart;
