@@ -137,7 +137,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       minimal,
       margin,
       tipLabel,
-      popoverProps
+      popoverProps,
+      tooltip
     } = this.props;
 
     const initialContent =
@@ -180,6 +181,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect

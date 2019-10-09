@@ -55,6 +55,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       margin,
       allowNumericCharactersOnly,
       tipLabel,
+      tooltip,
       value
     } = this.props;
     if (fieldState) {
@@ -86,6 +87,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <NumericInput

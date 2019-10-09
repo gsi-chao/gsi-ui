@@ -64,7 +64,8 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       required,
       validators,
       value,
-      separator
+      separator,
+      tooltip
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -109,6 +110,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <TagInput
             separator={separator}

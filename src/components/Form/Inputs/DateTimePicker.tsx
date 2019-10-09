@@ -118,7 +118,8 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       minTime,
       useAmPm,
       precision,
-      validators
+      validators,
+      tooltip
     } = this.props;
 
     if (fieldState) {
@@ -165,6 +166,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
           label={label}
           fieldState={fieldState}
           value={value}
+          tooltip={tooltip}
         >
           {dateType === 'DATETIME' || dateType === 'DATE' ? (
             <DateInputContainer

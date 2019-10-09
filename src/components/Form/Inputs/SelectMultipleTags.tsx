@@ -125,6 +125,7 @@ export class VSelectMultipleTags extends React.Component<
       options,
       label,
       className,
+      tooltip,
       placeholder
     } = this.props;
     return (
@@ -145,6 +146,7 @@ export class VSelectMultipleTags extends React.Component<
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <MultiSelectTag
             itemPredicate={this.filterItem}

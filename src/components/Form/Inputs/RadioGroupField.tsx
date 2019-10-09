@@ -46,7 +46,8 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
       validators,
       margin,
       value,
-      fill
+      fill,
+      tooltip
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -78,6 +79,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <RadioGroup
             name={id}

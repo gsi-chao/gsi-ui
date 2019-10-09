@@ -23,6 +23,7 @@ export interface ITextAreaFieldProps extends IFieldProps {
   upperCaseFormat?: boolean;
   rows?: number;
   heightArea?: number;
+  growVertically?: boolean;
 }
 
 @observer
@@ -48,7 +49,9 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       validators,
       value,
       upperCaseFormat,
-      heightArea
+      heightArea,
+      tooltip,
+      growVertically
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -85,6 +88,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <TextArea
             large={size === 'large'}
@@ -100,6 +104,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
               id
             }}
             rows={this.props.rows ? this.props.rows : undefined}
+            growVertically={growVertically}
           />
         </FormFieldContainer>
       </StyledTextArea>
