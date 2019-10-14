@@ -14,20 +14,26 @@ export const VOrgChart = ({
   nodeTemplate,
   lineWidth,
   lineColor,
+  onRender,
+  initCompleted,
   ...options
 }: IVOrgChart) => {
   const containerRef = useRef<any>(null);
 
   useEffect(() => {
-    ($(containerRef.current) as any).orgchart({
-      ...options,
+    const chart = ($(containerRef.current) as any).orgchart({
       nodeTemplate: Custom
         ? (data: any) => {
             const div = document.createElement('div');
             ReactDOM.render(<Custom {...{ data }} />, div);
             return div;
           }
-        : nodeTemplate
+        : nodeTemplate,
+      initCompleted: ($chart: any) => {
+        initCompleted && initCompleted($chart);
+        onRender && onRender(chart);
+      },
+      ...options
     } as IOrgChartOptions);
     return () => {
       $(containerRef.current).empty();
@@ -42,4 +48,3 @@ export const VOrgChart = ({
     />
   );
 };
-
