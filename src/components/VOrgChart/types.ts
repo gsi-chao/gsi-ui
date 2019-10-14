@@ -133,4 +133,5 @@ export interface IOrgChartOptions {
 export interface IVOrgChart extends IOrgChartOptions, IOrgChartContainer {
   idContainer?: string;
   customTemplate?: (templateProps: ITemplateProps) => JSX.Element;
+  onRender?: (api: IOrgChart) => void;
 }
