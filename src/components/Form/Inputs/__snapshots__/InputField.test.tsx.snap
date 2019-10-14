@@ -9,6 +9,7 @@ exports[`renders without crashing InputField All Properties 1`] = `
   >
     <label
       className="field-label"
+      title="Username"
     >
       Username
     </label>

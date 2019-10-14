@@ -52,6 +52,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
       validators,
       noLabel,
       margin,
+      tooltip,
       value
     } = this.props;
     if (fieldState) {
@@ -82,6 +83,7 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
           label={label}
           noLabel={noLabel}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <HTMLSelect
             options={options}

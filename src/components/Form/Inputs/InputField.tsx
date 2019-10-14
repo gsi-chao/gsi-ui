@@ -52,7 +52,8 @@ export class VInputField extends React.Component<IInputFieldProps> {
       margin,
       value,
       tipLabel,
-      upperCaseFormat
+      upperCaseFormat,
+      tooltip
     } = this.props;
     let rightEl;
     if (!rightElement) {
@@ -94,6 +95,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <InputGroup

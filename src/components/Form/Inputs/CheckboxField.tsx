@@ -48,6 +48,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       required,
       validators,
       margin,
+      tooltip,
       value,
       requiredJustVisual,
       fixedPadding
@@ -83,6 +84,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <Checkbox
             name={id}
