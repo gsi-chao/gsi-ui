@@ -185,7 +185,8 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     minimal,
     margin,
     options,
-    tipLabel
+    tipLabel,
+    tooltip
   } = props;
 
   const initialContent =
@@ -260,6 +261,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
         noLabel={noLabel}
         label={label}
         fieldState={fieldState}
+        tooltip={tooltip}
       >
         {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
         <ItemSelect

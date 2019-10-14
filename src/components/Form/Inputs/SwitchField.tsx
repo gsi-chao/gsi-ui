@@ -54,7 +54,8 @@ export class VSwitchField extends React.Component<ISwitchFieldProps> {
       labelElement,
       innerLabel,
       requiredJustVisual,
-      innerLabelChecked
+      innerLabelChecked,
+      tooltip
     } = this.props;
     if (fieldState) {
       if (required && !requiredJustVisual) {
@@ -86,6 +87,7 @@ export class VSwitchField extends React.Component<ISwitchFieldProps> {
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <Switch
             name={id}
