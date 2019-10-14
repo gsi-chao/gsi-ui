@@ -88,23 +88,24 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
           {options.tabList.map(tab => (
             <ItemSC className='item' key={tab.key}>
               <VTabPanel
-              backgroundColor={options.backgroundColor}
-              key={tab.key}
-              id={tab.key}
-              handleOnClick={handleChangeTab}
-              label={tab.label!}
-              active={active === tab.key}
-              icon={tab.icon}
-              textColor={options.textColor}
-              borderColor={options.borderColor}
-              activeColor={options.activeColor}
-              activeTextColor={options.activeTextColor}
-              textColorBadge={tab.textColorBadge}
-              backgroundColorBadge={tab.backgroundColorBadge}
-              dataBadge={tab.dataBadge}
-              size={options.size}
-              activeBorderColor={options.activeBorderColor}
-            /></ItemSC>
+                backgroundColor={options.backgroundColor}
+                key={tab.key}
+                id={tab.key}
+                handleOnClick={handleChangeTab}
+                label={tab.label!}
+                active={active === tab.key}
+                icon={tab.icon}
+                textColor={options.textColor}
+                borderColor={options.borderColor}
+                activeColor={options.activeColor}
+                activeTextColor={options.activeTextColor}
+                textColorBadge={tab.textColorBadge}
+                backgroundColorBadge={tab.backgroundColorBadge}
+                dataBadge={tab.dataBadge}
+                size={options.size}
+                activeBorderColor={options.activeBorderColor}
+              />
+            </ItemSC>
           ))}
         </CarouselMultiple>
 
@@ -141,7 +142,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
       >
         <p>
           {(tabsAlertProps && tabsAlertProps.bodyText) ||
-            `Changes will be lost!`}
+          `Changes will be lost!`}
         </p>
       </Alert>
     </ContainerTabsPanel>

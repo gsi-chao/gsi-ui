@@ -34,8 +34,8 @@ export const LabelIcon = styled.div`
   padding:${(props: ITabsPanelStyle) =>
     props.size === 'small' ? '6px 15px' : '8px 20px'} ;
   cursor: pointer;
-  border-radius: 5px 5px 0 0;
   border-style: solid;
+  border: none;
   ${(props: ITabsPanelStyle) =>
     props.active
       ? `
@@ -44,20 +44,18 @@ export const LabelIcon = styled.div`
           ? `background-color: ${props.backgroundColor};`
           : ''
       }
-  border-width: 1px 1px 0 1px;
-  border-color: rgba(142, 142, 142, 0.36);
-  border-top: ${
-    props.activeBorderColor
-      ? `2px solid ${props.activeBorderColor} !important`
+  border-bottom: ${
+        props.activeBorderColor
+          ? `2px solid ${props.activeBorderColor} !important`
       : '2px solid #3d3e3e !important'
-  };
-  background-color: ${props.activeColor || '#fff'};
-  border-bottom: none!important;
+          };
+      top: 2px;
+      position: relative;
+      padding-bottom: 10px;
   `
       : `
     border-width: 0;
     background-color: transparent;
-    border-bottom: 2px solid rgba(142, 142, 142, 0.36) !important;
     `}
   & > span{
   ${(props: ITabsPanelStyle) =>

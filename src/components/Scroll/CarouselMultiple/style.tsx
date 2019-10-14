@@ -19,6 +19,7 @@ export const SliderWrapper = styled.div`
           padding: 0;
           transition: transform 300ms ease 100ms;
           width: 100%;
+          border-bottom: 2px solid rgba(142,142,142,0.36);
         }
         
         &:not(&--open):hover .item {
@@ -32,8 +33,11 @@ export const SliderWrapper = styled.div`
       .item {
         //flex: 0 0 19.7%;
         transition: transform 300ms ease 100ms;
-        margin: 0 2px;
+        margin: 0;
         position: relative;
+        & > div {
+          border-bottom: none;
+        }
       }
 `;
 

@@ -30,10 +30,6 @@ const useSliding = (elementWidth:any, countElements:any) => {
   };
 
   const hasPrev = distance < 0;
-  console.log('containerWidth - ', containerWidth)
-  console.log('elementWidth - ', elementWidth)
-  console.log('AAAA', viewed + totalInViewport)
-  console.log('BBBBSss-countElementss',  countElements)
   const hasNext = (viewed + totalInViewport) < countElements;
   return { handlePrev, handleNext, slideProps, containerRef, hasPrev, hasNext };
 }
