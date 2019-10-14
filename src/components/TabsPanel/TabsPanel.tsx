@@ -8,6 +8,9 @@ import {
   TabsSpaceFiller
 } from './style';
 import { Alert } from '@blueprintjs/core';
+import CarouselMultiple from '../Scroll/CarouselMultiple/VCarouselMultiple';
+import ItemSC from '../Scroll/CarouselMultiple/components/Item';
+
 
 export const VTabsPanel = (props: ITabsPanelProps) => {
   const getContent = (key: any = props.tabList[0].key) => {
@@ -81,26 +84,31 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
         activeColor={options.activeColor}
         lineColor={options.lineColor}
       >
-        {options.tabList.map(tab => (
-          <VTabPanel
-            backgroundColor={options.backgroundColor}
-            key={tab.key}
-            id={tab.key}
-            handleOnClick={handleChangeTab}
-            label={tab.label!}
-            active={active === tab.key}
-            icon={tab.icon}
-            textColor={options.textColor}
-            borderColor={options.borderColor}
-            activeColor={options.activeColor}
-            activeTextColor={options.activeTextColor}
-            textColorBadge={tab.textColorBadge}
-            backgroundColorBadge={tab.backgroundColorBadge}
-            dataBadge={tab.dataBadge}
-            size={options.size}
-            activeBorderColor={options.activeBorderColor}
-          />
-        ))}
+        <CarouselMultiple>
+          {options.tabList.map(tab => (
+            <ItemSC className='item' key={tab.key}>
+              <VTabPanel
+                backgroundColor={options.backgroundColor}
+                key={tab.key}
+                id={tab.key}
+                handleOnClick={handleChangeTab}
+                label={tab.label!}
+                active={active === tab.key}
+                icon={tab.icon}
+                textColor={options.textColor}
+                borderColor={options.borderColor}
+                activeColor={options.activeColor}
+                activeTextColor={options.activeTextColor}
+                textColorBadge={tab.textColorBadge}
+                backgroundColorBadge={tab.backgroundColorBadge}
+                dataBadge={tab.dataBadge}
+                size={options.size}
+                activeBorderColor={options.activeBorderColor}
+              />
+            </ItemSC>
+          ))}
+        </CarouselMultiple>
+
         <TabsSpaceFiller />
       </ContainerTabs>
       <ContainerContent
@@ -134,7 +142,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
       >
         <p>
           {(tabsAlertProps && tabsAlertProps.bodyText) ||
-            `Changes will be lost!`}
+          `Changes will be lost!`}
         </p>
       </Alert>
     </ContainerTabsPanel>
