@@ -24,6 +24,7 @@ export interface ITextAreaFieldProps extends IFieldProps {
   rows?: number;
   heightArea?: number;
   growVertically?: boolean;
+  cols?: number;
 }
 
 @observer
@@ -51,7 +52,8 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       upperCaseFormat,
       heightArea,
       tooltip,
-      growVertically
+      growVertically,
+      cols
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -105,6 +107,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
             }}
             rows={this.props.rows ? this.props.rows : undefined}
             growVertically={growVertically}
+            cols={this.props.rows ? this.props.rows : undefined}
           />
         </FormFieldContainer>
       </StyledTextArea>

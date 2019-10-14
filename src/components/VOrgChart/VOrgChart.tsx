@@ -1,12 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import $ from 'jquery';
-import 'orgchart/dist/css/jquery.orgchart.min.css';
-import 'orgchart/demo/css/font-awesome.min.css';
+import 'orgchart/src/css/jquery.orgchart.css';
 import { OrgChartContainer } from './styles';
 import ReactDOM from 'react-dom';
 import { IOrgChartOptions, IVOrgChart } from './types';
 
-require('orgchart/dist/js/jquery.orgchart.min');
+require('orgchart/src/js/jquery.orgchart.js');
 
 export const VOrgChart = ({
   idContainer,

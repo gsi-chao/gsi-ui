@@ -14,7 +14,6 @@ export interface IStyledFieldProps {
   margin?: string;
   fixedPadding?: number;
   heightArea?: number | undefined;
-
 }
 
 interface IIconStyle {
@@ -198,8 +197,8 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
             props.checkBoxAtLeft &&
             props.layer &&
             props.layer.inputOrientation === 'end'
-            ? props.fixedPadding || 5
-            : 0}px !important;
+              ? props.fixedPadding || 5
+              : 0}px !important;
           float: left;
         }
       }
@@ -218,8 +217,10 @@ export const StyledTagsInput = styled(StyledFormGroup)`
 export const StyledTextArea = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
     & textarea {
+      resize: vertical;
       width: 100%;
-      ${(props: IStyledFieldProps) => props.heightArea && `height: ${props.heightArea}px`}
+      ${(props: IStyledFieldProps) =>
+        props.heightArea && `height: ${props.heightArea}px`}
     }
   }
 `;
@@ -301,7 +302,7 @@ export const StyledRadioButton = styled(StyledFormGroup)`
             line-height: 27px;
             .bp3-control-indicator {
               margin-left: -26px;
-              margin-top: 0px;
+              margin-top: 0;
             }
           }
         }
