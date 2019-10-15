@@ -7,7 +7,7 @@ interface ICarouselContainer {
 
 export const SliderWrapper = styled.div`    
       width: 100%;
-      padding: 40px 0 0;
+      padding: 10px 0 0;
       overflow: hidden;
       position: relative;
       .slider {
