@@ -1,4 +1,4 @@
-import { Icon, IconName, Intent, MaybeElement } from '@blueprintjs/core';
+import { IconName, Intent, MaybeElement } from '@blueprintjs/core';
 
 export interface IDNDItem {
   value: string;
@@ -48,6 +48,7 @@ export interface IDragAndDropListProps {
   onDragAndDrop?: (response: IOnDragAndDropResponse) => void;
   allowItemSelection?: boolean;
   onItemSelected?: (item: any, listId: any) => void;
+  onDoubleClickItem?: (item: any, listId: any) => void;
   selectedItemHelpButtons?: SelectedItemHelpButtonList;
   onHelpButtonClicked?: (itemId: any, source: any, destination: any) => void;
   showHelpButtons?: boolean;

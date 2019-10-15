@@ -1,8 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { StyledCustomDraggableItem } from './style';
-import { SelectedItemHelpButton, SelectedItemHelpButtonList } from './types';
-import { Button } from '@blueprintjs/core';
+import { SelectedItemHelpButtonList } from './types';
 import { CustomDraggableItemHelpButtons } from './CustomDraggableItemHelpButtons';
 
 export interface ICDIProps {

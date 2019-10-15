@@ -15,26 +15,13 @@ import {
   DropResult,
   ResponderProvided
 } from 'react-beautiful-dnd';
-import {
-  DNDContainer,
-  DNDItem,
-  DNDList,
-  DragListSpinnerContainer,
-  FilterInput,
-  StyledDivContainer
-} from './style';
-import {
-  IDNDItem,
-  IDNDList,
-  IDragAndDropListProps,
-  IDragAndDropListState,
-  SelectedItemHelpButtonList
-} from './types';
+import { DNDContainer, DNDList, DragListSpinnerContainer, FilterInput, StyledDivContainer } from './style';
+import { IDNDItem, IDNDList, IDragAndDropListProps, IDragAndDropListState } from './types';
 import { VCardPanel } from '../Card';
 import { Button } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
-import { CustomDraggableItem } from './CustomDraggableItem';
 import { VSpinner } from '../Spinner';
+import { DNDItemWrapper } from './DNDItemWrapper';
 
 const reorder = (
   list: IDNDList,
@@ -171,12 +158,22 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
       draggableItemSourceId: ''
     });
   };
+
   const handleItemSelection = (itemId: any, listId: any) => {
     if (props.allowItemSelection) {
       const selectedItemId = itemId !== state.selectedItemId ? itemId : '';
       setState({ ...state, selectedItemId });
       if (props.onItemSelected) {
         props.onItemSelected(selectedItemId, listId);
+      }
+    }
+  };
+
+  const handleDoubleClick = (selectedItemId: any, listId: any) => {
+    if (props.allowItemSelection) {
+      setState({ ...state, selectedItemId });
+      if (props.onDoubleClickItem) {
+        props.onDoubleClickItem(selectedItemId, listId);
       }
     }
   };
@@ -310,38 +307,27 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
                                 providedDraggable: DraggableProvided,
                                 snapshotDraggable: DraggableStateSnapshot
                               ) => (
-                                <DNDItem
+                                <DNDItemWrapper
                                   onClick={() => {
                                     handleItemSelection(item.value, value.id);
+                                  }}
+                                  onDoubleClick={() => {
+                                    handleDoubleClick(item.value, value.id);
                                   }}
                                   className={`${state.selectedItemId &&
                                     state.selectedItemId === item.value &&
                                     'dndItemSelected'}`}
-                                >
-                                  <div
-                                    ref={providedDraggable.innerRef}
-                                    {...providedDraggable.draggableProps}
-                                    {...providedDraggable.dragHandleProps}
-                                  >
-                                    <CustomDraggableItem
-                                      label={item.label}
-                                      type={item.type || ''}
-                                      source={value.id}
-                                      displayButtons={
-                                        props.showHelpButtons &&
-                                        item.value === state.selectedItemId
-                                      }
-                                      selectedItemHelpButtons={
-                                        props.selectedItemHelpButtons
-                                      }
-                                      draggableId={item.value}
-                                      handleHelpButtonClicked={
-                                        handleHelpButtonCLicked
-                                      }
-                                    />
-                                  </div>
-                                  {providedDraggable.placeholder}
-                                </DNDItem>
+                                  providedDraggable={providedDraggable}
+                                  item={item}
+                                  displayButtons={
+                                    props.showHelpButtons &&
+                                    item.value === state.selectedItemId
+                                  }
+                                  selectedItemHelpButtons={
+                                    props.selectedItemHelpButtons
+                                  }
+                                  value={value}
+                                />
                               )}
                             </Draggable>
                           ))}
