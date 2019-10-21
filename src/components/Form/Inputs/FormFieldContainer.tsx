@@ -23,7 +23,6 @@ export const RequiredSpan = styled.span`
   color: red;
 `;
 
-
 export class FormFieldContainer extends React.Component<
   IFormFieldContainerProps
 > {

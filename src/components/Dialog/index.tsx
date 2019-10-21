@@ -1,1 +1,1 @@
-export {VDraggableDialog} from './VDraggableDialog'
+export { VDraggableDialog } from './VDraggableDialog';

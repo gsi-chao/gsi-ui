@@ -5,7 +5,6 @@ import { forEach } from 'lodash';
 import { DialogStyled } from './styled';
 import { generate } from 'shortid';
 
-
 interface IDraggableDialog {
   isOpen: boolean;
   children?: ReactNode;
@@ -18,23 +17,37 @@ interface IDraggableDialog {
 const VDraggable = (props: IDraggableDialog): JSX.Element => {
   const [reference, setReference] = useState<number>(11);
   let rnd: any = null;
-  const windowsWidth = window.innerWidth
-    || document.documentElement.clientWidth
-    || document.getElementsByTagName('body')[0].clientWidth;
-  const windowsHeight = window.innerHeight
-    || document.documentElement.clientHeight
-    || document.getElementsByTagName('body')[0].clientHeight;
+  const windowsWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.getElementsByTagName('body')[0].clientWidth;
+  const windowsHeight =
+    window.innerHeight ||
+    document.documentElement.clientHeight ||
+    document.getElementsByTagName('body')[0].clientHeight;
 
-
-  const [position, setPositions] = useState<{ x: number; y: number }>({ x: -1, y: -1 });
-  const [dimension, setDimension] = useState<{ width: number; height: number }>();
+  const [position, setPositions] = useState<{ x: number; y: number }>({
+    x: -1,
+    y: -1
+  });
+  const [dimension, setDimension] = useState<{
+    width: number;
+    height: number;
+  }>();
   const idDialog: string = useMemo(() => generate(), [dimension]);
-  const classNameDialog: string = useMemo(() =>
-    Math.random().toString(36).substring(7), [dimension]);
+  const classNameDialog: string = useMemo(
+    () =>
+      Math.random()
+        .toString(36)
+        .substring(7),
+    [dimension]
+  );
 
   useEffect(() => {
     const content: any = document.getElementById(idDialog);
-    const element: any = content.getElementsByClassName('move-dialog-header')[0];
+    const element: any = content.getElementsByClassName(
+      'move-dialog-header'
+    )[0];
     if (props.isOpen) {
       if (dimension) {
         rnd.updateSize({ width: dimension.width, height: dimension.height });
@@ -65,7 +78,8 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
       forEach(body, m => {
         if (modal !== m) {
           const st = window.getComputedStyle(m);
-          newIndex = Number(st.zIndex) > newIndex ? Number(st.zIndex) : newIndex;
+          newIndex =
+            Number(st.zIndex) > newIndex ? Number(st.zIndex) : newIndex;
         }
       });
       if (newIndex !== reference) {
@@ -81,7 +95,6 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
 
   const resetPosition = () => setPositions({ x: -1, y: -1 });
 
-
   return (
     <div
       id={idDialog}
@@ -96,7 +109,8 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
         backgroundColor: 'rgba(0,0,0,0.3)',
         paddingBottom: '50px'
       }}
-      className={`gsi-div-move-dialog gsi-${classNameDialog}`}>
+      className={`gsi-div-move-dialog gsi-${classNameDialog}`}
+    >
       <Rnd
         ref={(c: any) => {
           rnd = c;
@@ -147,6 +161,5 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
 };
 
 export const VDraggableDialog = (props: IDraggableDialog): JSX.Element => {
-  return ReactDOM.createPortal(<VDraggable {...props}/>, document.body);
+  return ReactDOM.createPortal(<VDraggable {...props} />, document.body);
 };
-

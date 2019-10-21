@@ -11,7 +11,6 @@ import { Alert } from '@blueprintjs/core';
 import CarouselMultiple from '../Scroll/CarouselMultiple/VCarouselMultiple';
 import ItemSC from '../Scroll/CarouselMultiple/components/Item';
 
-
 export const VTabsPanel = (props: ITabsPanelProps) => {
   const getContent = (key: any = props.tabList[0].key) => {
     let content: any = props.tabList[0].content;
@@ -86,7 +85,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
       >
         <CarouselMultiple>
           {options.tabList.map(tab => (
-            <ItemSC className='item' key={tab.key}>
+            <ItemSC className="item" key={tab.key}>
               <VTabPanel
                 backgroundColor={options.backgroundColor}
                 key={tab.key}
@@ -142,7 +141,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
       >
         <p>
           {(tabsAlertProps && tabsAlertProps.bodyText) ||
-          `Changes will be lost!`}
+            `Changes will be lost!`}
         </p>
       </Alert>
     </ContainerTabsPanel>

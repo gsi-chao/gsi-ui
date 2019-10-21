@@ -45,10 +45,10 @@ export const LabelIcon = styled.div`
           : ''
       }
   border-bottom: ${
-        props.activeBorderColor
-          ? `2px solid ${props.activeBorderColor} !important`
+    props.activeBorderColor
+      ? `2px solid ${props.activeBorderColor} !important`
       : '2px solid #3d3e3e !important'
-          };
+  };
       top: 2px;
       position: relative;
       padding-bottom: 10px;
