@@ -16,7 +16,7 @@ const GSIPagination = (props: IPagination) => {
 
   return (
     <PaginationStyled
-      selectComponentClass={(Select as any)}
+      selectComponentClass={Select as any}
       locale={local}
       {...props}
       nextIcon={

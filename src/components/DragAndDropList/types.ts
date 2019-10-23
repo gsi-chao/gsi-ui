@@ -63,6 +63,6 @@ export interface SelectedItemHelpButton {
   text?: string;
   intent?: Intent;
   destinationId: string;
-  icon?: IconName | MaybeElement
+  icon?: IconName | MaybeElement;
   tooltip?: string;
 }

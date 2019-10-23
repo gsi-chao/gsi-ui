@@ -15,8 +15,19 @@ import {
   DropResult,
   ResponderProvided
 } from 'react-beautiful-dnd';
-import { DNDContainer, DNDList, DragListSpinnerContainer, FilterInput, StyledDivContainer } from './style';
-import { IDNDItem, IDNDList, IDragAndDropListProps, IDragAndDropListState } from './types';
+import {
+  DNDContainer,
+  DNDList,
+  DragListSpinnerContainer,
+  FilterInput,
+  StyledDivContainer
+} from './style';
+import {
+  IDNDItem,
+  IDNDList,
+  IDragAndDropListProps,
+  IDragAndDropListState
+} from './types';
 import { VCardPanel } from '../Card';
 import { Button } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';

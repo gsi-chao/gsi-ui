@@ -1,5 +1,5 @@
 import React from 'react';
 
-const SliderContext = React.createContext(<div></div>);
+const SliderContext = React.createContext(<div />);
 
 export default SliderContext;

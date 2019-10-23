@@ -1,13 +1,16 @@
-import React from 'react';
-import { Icon } from "@blueprintjs/core";
+import React, { useState } from 'react';
+import { Icon } from '@blueprintjs/core';
+import ReactResizeDetector from 'react-resize-detector';
 
 import { SliderWrapper } from './style';
 import SlideButton from './components/SlideButton';
 import UseSliding from './components/UseSliding';
 import UseSizeElement from './components/UseSizeElement';
-import SliderContext from './context'
+import SliderContext from './context';
 
 const Slider = ({ children }: any) => {
+  const [resolution, setState] = useState();
+
   const { width, elementRef } = UseSizeElement();
   const {
     handlePrev,
@@ -23,15 +26,35 @@ const Slider = ({ children }: any) => {
   };
 
   return (
-    <SliderContext.Provider value={contextValue}>
-      <SliderWrapper>
-        <div className="slider">
-          <div ref={containerRef} className="slider__container" {...slideProps}>{children}</div>
-        </div>
-        {hasPrev && <SlideButton onClick={handlePrev} icon={<Icon icon="chevron-left" />}  typeS="prev" />}
-        {hasNext && <SlideButton onClick={handleNext} icon={<Icon icon="chevron-right" />}  typeS="next" />}
-      </SliderWrapper>
-    </SliderContext.Provider>
+    <ReactResizeDetector handleWidth onResize={setState}>
+      <SliderContext.Provider value={contextValue}>
+        <SliderWrapper>
+          <div className="slider">
+            <div
+              ref={containerRef}
+              className="slider__container"
+              {...slideProps}
+            >
+              {children}
+            </div>
+          </div>
+          {hasPrev && (
+            <SlideButton
+              onClick={handlePrev}
+              icon={<Icon icon='chevron-left' />}
+              typeS="prev"
+            />
+          )}
+          {hasNext && (
+            <SlideButton
+              onClick={handleNext}
+              icon={<Icon icon='chevron-right' />}
+              typeS="next"
+            />
+          )}
+        </SliderWrapper>
+      </SliderContext.Provider>
+    </ReactResizeDetector>
   );
 };
 

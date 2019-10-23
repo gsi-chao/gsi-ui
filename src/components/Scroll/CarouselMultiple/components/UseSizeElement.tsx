@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react';
 
 const useSizeElement = () => {
   const elementRef = useRef<any>(null);
@@ -8,7 +8,8 @@ const useSizeElement = () => {
     setWidth(elementRef.current && elementRef.current.clientWidth);
   }, [elementRef.current]);
 
+  console.log('ASDSA - ', elementRef.current);
   return { width, elementRef };
-}
+};
 
 export default useSizeElement;

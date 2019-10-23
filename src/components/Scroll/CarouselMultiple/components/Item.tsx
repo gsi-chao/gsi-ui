@@ -1,14 +1,11 @@
 import React from 'react';
-import SliderContext from '../context'
+import SliderContext from '../context';
 
 const ItemSC = ({ children }: any) => (
   <SliderContext.Consumer>
     {({ elementRef }: any) => {
       return (
-        <div
-          ref={elementRef}
-          className='item'
-        >
+        <div ref={elementRef} className="item">
           {children}
         </div>
       );

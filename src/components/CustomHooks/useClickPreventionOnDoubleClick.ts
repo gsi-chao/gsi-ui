@@ -4,7 +4,10 @@ import {
   delay
 } from '../CancellablePromise/cancellablePromise';
 
-export const useClickPreventionOnDoubleClick = (onClick: any, onDoubleClick: any) => {
+export const useClickPreventionOnDoubleClick = (
+  onClick: any,
+  onDoubleClick: any
+) => {
   const {
     appendPendingPromise,
     clearPendingPromises,
