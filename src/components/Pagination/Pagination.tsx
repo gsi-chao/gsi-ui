@@ -4,7 +4,7 @@ import { IPagination } from './types';
 import { PaginationStyled } from './styles';
 import Select from 'rc-select';
 
-const GSIPagination = (props: IPagination) => {
+export const RCPagination = (props: IPagination) => {
   const [local, setLocal] = useState({});
 
   useEffect(() => {
@@ -54,5 +54,3 @@ const GSIPagination = (props: IPagination) => {
     />
   );
 };
-
-export default GSIPagination;

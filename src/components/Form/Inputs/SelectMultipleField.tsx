@@ -266,6 +266,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
         {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
         <ItemSelect
           popoverProps={{
+            minimal,
             captureDismiss: true,
             isOpen: isOpenPopover,
             onInteraction: handleInteraction
