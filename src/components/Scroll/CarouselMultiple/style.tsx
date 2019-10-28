@@ -46,11 +46,11 @@ export const SliderButtonSC = styled.button`
   top: 0;
   bottom: 0;
   width: 25px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   border: 0;
   outline: 0;
   padding: 0;
-  margin: 25px 0 5px;
+  margin: 5px 0;
   z-index: 1;
 
   span {
