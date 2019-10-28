@@ -50,7 +50,7 @@ export const SliderButtonSC = styled.button`
   border: 0;
   outline: 0;
   padding: 0;
-  margin: 31px 0 2px;
+  margin: 25px 0 5px;
   z-index: 1;
 
   span {
