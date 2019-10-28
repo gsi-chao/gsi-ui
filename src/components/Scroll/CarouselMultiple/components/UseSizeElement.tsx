@@ -8,7 +8,6 @@ const useSizeElement = () => {
     setWidth(elementRef.current && elementRef.current.clientWidth);
   }, [elementRef.current]);
 
-  console.log('ASDSA - ', elementRef.current);
   return { width, elementRef };
 };
 
