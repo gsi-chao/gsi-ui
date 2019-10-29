@@ -54,6 +54,30 @@ const isPostalCode = () => (value: string) =>
   !validator.isPostalCode(value, 'US') &&
   `The value ${value} is not a valid Postal Code`;
 
+const isLatitude = (value: any) => {
+  return (
+    value &&
+    !(
+      Number.isFinite(Number(value)) &&
+      Number(value) >= -90 &&
+      Number(value) <= 90
+    ) &&
+    `The value isn't a valid Latitude.`
+  );
+};
+
+const isLongitude = (value: any) => {
+  return (
+    value &&
+    !(
+      Number.isFinite(Number(value)) &&
+      Number(value) >= -180 &&
+      Number(value) <= 180
+    ) &&
+    `The value isn't a valid Longitude.`
+  );
+};
+
 export const Validators = {
   exact,
   lt,
@@ -67,5 +91,7 @@ export const Validators = {
   isMACAddress,
   isURL,
   isPhone,
-  isPostalCode
+  isPostalCode,
+  isLatitude,
+  isLongitude
 };

@@ -138,7 +138,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       margin,
       tipLabel,
       popoverProps,
-      tooltip
+      tooltip,
+      displayRequired
     } = this.props;
 
     const initialContent =
@@ -177,7 +178,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         margin={margin}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

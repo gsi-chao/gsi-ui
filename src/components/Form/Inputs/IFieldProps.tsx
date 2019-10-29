@@ -26,6 +26,7 @@ export interface IFieldProps {
   margin?: string;
   value?: any;
   tooltip?: string;
+  displayRequired?: boolean;
 
   /** The fieldState */
   fieldState?: FieldState<any>;
