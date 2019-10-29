@@ -12,6 +12,8 @@ export const PaginationStyled = styled(Pagination)`
   display: flex;
   justify-content: ${(props: IPagination) =>
     getPosition(props.position || 'center')};
+  align-items: center;
+  margin: 0;
 
   .rc-pagination-prev,
   .rc-pagination-next {

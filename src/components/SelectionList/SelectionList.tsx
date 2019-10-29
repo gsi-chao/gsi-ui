@@ -27,13 +27,6 @@ export class VSelectionList extends Component<
     return !!this.state.listSelected.find(e => e.value === elements.value);
   };
   onItemClick = (active: boolean, element: IItemsList) => {
-    /*const { listSelected } = this.state;
-    let new_list: IItemsList[];
-
-    active
-      ? (new_list = listSelected.filter(e => e.value !== element.value))
-      : (new_list = listSelected.concat(element));
-    this.setState({ listSelected: new_list });*/
     const newElement = { ...element, active: !element.active };
     this.props.onSelect(newElement);
   };

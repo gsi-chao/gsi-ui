@@ -15,12 +15,16 @@ export const BodyContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 500px;
+
+  @media (max-width: 400px) {
+    min-width: 100%;
+  }
 `;
 
 export const ButtonsEndsContainers = styled.div`
   display: flex;
   padding: 0 5px 5px;
-  display: flex;
   align-items: end;
   justify-content: flex-end;
 `;
@@ -49,13 +53,9 @@ export const CentralFlexCol = styled(FlexCol)`
 
 export const VSelectionListStyled = styled(VSelectionList)`
   margin-bottom: 10px;
-  ${(props: ISelectionListProps) =>
-    props.height
-      ? `
-      height : ${props.height};
-      overflow: auto;
-`
-      : ''}
+  ${(props: ISelectionListProps) => (props.height ? props.height : '200px')};
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 export const SelectAllButtons = styled(Button)`
