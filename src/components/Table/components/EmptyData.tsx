@@ -69,6 +69,7 @@ export const EmptyData = (props: IEmptyData) => {
         position: 'relative',
         minHeight: '15vh'
       }}
+      className={'empty-container'}
     >
       <div
         style={{

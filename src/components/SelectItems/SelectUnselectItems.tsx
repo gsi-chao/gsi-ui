@@ -172,7 +172,7 @@ export class SelectUnselectItems extends Component<
             <h4>{this.props.unAssignedText || 'UnAssigned'}</h4>
             <VSelectionListStyled
               selection={this.props.selection}
-              height={this.props.listsHeights || ''}
+              height={this.props.listsHeights}
               elements={itemsUnassigned}
               onSelect={this.selectItemFromUnselectedList}
             />
@@ -181,7 +181,7 @@ export class SelectUnselectItems extends Component<
               noLabel
               minimal
               defaultText={'Search'}
-              margin={'0 0 10px'}
+              margin={'10px 0 10px'}
               options={itemsUnassignedSearch}
               id={'unselected'}
               fieldState={this.form.$.unselected}
@@ -212,7 +212,7 @@ export class SelectUnselectItems extends Component<
             <h4>{this.props.assignedText || 'Assigned'}</h4>
             <VSelectionListStyled
               selection={this.props.selection}
-              height={this.props.listsHeights || ''}
+              height={this.props.listsHeights}
               elements={itemsAssigned}
               onSelect={this.selectItemFromSelectedList}
             />
@@ -220,7 +220,7 @@ export class SelectUnselectItems extends Component<
               fill
               minimal
               noLabel
-              margin={'0 0 10px'}
+              margin={'10px 0 10px'}
               defaultText={'Search'}
               options={itemsAssignedSearch}
               id={'selected'}

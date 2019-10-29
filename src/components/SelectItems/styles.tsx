@@ -7,7 +7,7 @@ export interface IColStyled {
 }
 
 export interface ISelectionListProps {
-  height: string;
+  height?: string;
 }
 
 export const BodyContainer = styled.div`
@@ -53,7 +53,7 @@ export const CentralFlexCol = styled(FlexCol)`
 
 export const VSelectionListStyled = styled(VSelectionList)`
   margin-bottom: 10px;
-  ${(props: ISelectionListProps) => (props.height ? props.height : '200px')};
+  height: ${(props: ISelectionListProps) => (props.height ? props.height : '200px')};
   overflow-x: hidden;
   overflow-y: auto;
 `;

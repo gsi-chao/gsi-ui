@@ -31,7 +31,7 @@ export const SelectionListContainer = styled.div`
   min-height: 25vh;
   height: 100%;
   position: relative;
-  & div:first-child {
-    height: 25vh;
+  & > .empty-container {
+    min-height: 25vh !important;
   }
 `;
