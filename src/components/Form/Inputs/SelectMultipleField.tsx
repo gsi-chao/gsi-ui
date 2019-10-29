@@ -186,7 +186,8 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     margin,
     options,
     tipLabel,
-    tooltip
+    tooltip,
+    displayRequired
   } = props;
 
   const initialContent =
@@ -257,7 +258,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
       margin={margin}
     >
       <FormFieldContainer
-        required={required}
+        required={required || displayRequired}
         noLabel={noLabel}
         label={label}
         fieldState={fieldState}

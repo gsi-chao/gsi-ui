@@ -55,6 +55,7 @@ export class VSwitchField extends React.Component<ISwitchFieldProps> {
       innerLabel,
       requiredJustVisual,
       innerLabelChecked,
+      displayRequired,
       tooltip
     } = this.props;
     if (fieldState) {
@@ -83,7 +84,7 @@ export class VSwitchField extends React.Component<ISwitchFieldProps> {
         margin={margin}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

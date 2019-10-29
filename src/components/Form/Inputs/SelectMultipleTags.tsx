@@ -126,7 +126,8 @@ export class VSelectMultipleTags extends React.Component<
       label,
       className,
       tooltip,
-      placeholder
+      placeholder,
+      displayRequired
     } = this.props;
     return (
       <StyledPopOverWrapper
@@ -142,7 +143,7 @@ export class VSelectMultipleTags extends React.Component<
         margin={margin}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

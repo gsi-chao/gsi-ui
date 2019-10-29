@@ -47,6 +47,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
       margin,
       value,
       fill,
+      displayRequired,
       tooltip
     } = this.props;
     if (fieldState) {
@@ -75,7 +76,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
         fill={fill}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

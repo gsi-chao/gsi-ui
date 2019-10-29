@@ -53,6 +53,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
       value,
       tipLabel,
       upperCaseFormat,
+      displayRequired,
       tooltip
     } = this.props;
     let rightEl;
@@ -91,7 +92,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
         margin={margin}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

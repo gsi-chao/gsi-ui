@@ -53,6 +53,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       heightArea,
       tooltip,
       growVertically,
+      displayRequired,
       cols
     } = this.props;
     if (fieldState) {
@@ -86,7 +87,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         heightArea={heightArea}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}

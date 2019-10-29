@@ -119,6 +119,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       useAmPm,
       precision,
       validators,
+      displayRequired,
       tooltip
     } = this.props;
 
@@ -161,7 +162,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
         noLabel={noLabel}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
