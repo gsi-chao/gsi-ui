@@ -66,6 +66,10 @@ const isLatitude = (value: any) => {
   );
 };
 
+export const requiredIf = (parameter: boolean) => (value: any) => {
+  return parameter && required(value);
+};
+
 const isLongitude = (value: any) => {
   return (
     value &&
@@ -93,5 +97,6 @@ export const Validators = {
   isPhone,
   isPostalCode,
   isLatitude,
-  isLongitude
+  isLongitude,
+  requiredIf
 };
