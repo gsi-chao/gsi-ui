@@ -66,8 +66,8 @@ const isLatitude = (value: any) => {
   );
 };
 
-export const requiredIf = (parameter: boolean) => (value: any) => {
-  return parameter && required(value);
+export const requiredIf = (func: () => boolean) => (value: any) => {
+  return func() && Validators.required(value);
 };
 
 const isLongitude = (value: any) => {
