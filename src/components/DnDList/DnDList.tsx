@@ -73,6 +73,7 @@ export const DnDList = (props: IProps) => {
             direction={props.direction}
             isDragging={snapshot.isDraggingOver}
             dragColor={props.dragColor}
+            background={props.backgroundColor}
             margin={props.marginList}
             padding={props.paddingList}
             width={props.width}

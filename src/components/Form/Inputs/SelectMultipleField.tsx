@@ -29,6 +29,7 @@ export interface ISelectFieldProps extends IFieldProps {
   resetOnClose?: boolean;
   clearButton?: boolean;
   isLoading?: boolean;
+  popoverMinimal?: boolean;
 }
 
 /**
@@ -187,7 +188,8 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     options,
     tipLabel,
     tooltip,
-    displayRequired
+    displayRequired,
+    popoverMinimal
   } = props;
 
   const initialContent =
@@ -267,7 +269,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
         {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
         <ItemSelect
           popoverProps={{
-            minimal,
+            minimal: popoverMinimal,
             captureDismiss: true,
             isOpen: isOpenPopover,
             onInteraction: handleInteraction
