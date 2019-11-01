@@ -56,7 +56,7 @@ export const InputColor = styled.button`
     props.height ? `${props.height}px` : '40px'};
   background: ${(props: ITypeInputColor) =>
     props.defaultColor ? getBackground(props) : '#A1A3A2'};
-
+  display: flex;
   border: solid 1px gray;
   border-radius: 7px;
   cursor: ${(props: ITypeInputColor) =>
