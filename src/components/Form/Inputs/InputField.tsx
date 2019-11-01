@@ -8,6 +8,7 @@ import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed } from 'mobx';
+import { debounce } from 'lodash';
 
 /**
  * Field component. Must be an observer.
@@ -22,11 +23,22 @@ export interface IInputFieldProps extends IFieldProps {
   upperCaseFormat?: boolean;
 }
 
+export interface IState {
+  start: number;
+  end: number;
+}
+
 @observer
-export class VInputField extends React.Component<IInputFieldProps> {
+export class VInputField extends React.Component<IInputFieldProps, IState> {
+  inputRef: any;
   constructor(props: IInputFieldProps) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.state = {
+      start: 1,
+      end: 1
+    };
+    this.inputRef = React.createRef();
   }
 
   public render() {
@@ -72,12 +84,6 @@ export class VInputField extends React.Component<IInputFieldProps> {
       }
     }
 
-    const renderedValue =
-      (upperCaseFormat &&
-        this.valueField &&
-        this.valueField.toString() &&
-        this.valueField.toString().toUpperCase()) ||
-      this.valueField;
     return (
       <StyledInput
         className={className}
@@ -104,6 +110,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
             small={size === 'small'}
             rightElement={rightElement || rightEl}
             name={id}
+            inputRef={this.inputRef}
             {...{
               round,
               leftIcon,
@@ -113,14 +120,11 @@ export class VInputField extends React.Component<IInputFieldProps> {
               id
             }}
             onChange={this.onChange}
-            onKeyPress={(e: any) => {
-              this.props.onKeyPress && this.props.onKeyPress(e);
-            }}
-            value={renderedValue}
+            value={this.valueField}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
-            style={{ paddingRight: 10 }}
+            style={{ paddingRight: 10, textTransform: 'uppercase' }}
           />
         </FormFieldContainer>
       </StyledInput>
@@ -138,7 +142,14 @@ export class VInputField extends React.Component<IInputFieldProps> {
     return '';
   }
 
-  onChange(e: any) {
+  onChange = (e: any) => {
+    if (this.props.upperCaseFormat) {
+      this.setState({
+        start: e.target.selectionStart,
+        end: e.target.selectionEnd
+      });
+    }
+
     const parsedValue =
       (this.props.upperCaseFormat && e.target.value.toString().toUpperCase()) ||
       e.target.value;
@@ -148,5 +159,13 @@ export class VInputField extends React.Component<IInputFieldProps> {
     if (this.props.onChange) {
       this.props.onChange(parsedValue);
     }
-  }
+    if (this.props.upperCaseFormat) {
+      setTimeout(() => {
+        this.inputRef.current.setSelectionRange(
+          this.state.start,
+          this.state.end
+        );
+      }, 30);
+    }
+  };
 }

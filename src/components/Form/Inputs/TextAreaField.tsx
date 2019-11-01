@@ -26,11 +26,24 @@ export interface ITextAreaFieldProps extends IFieldProps {
   growVertically?: boolean;
   cols?: number;
 }
+export interface IState {
+  start: number;
+  end: number;
+}
 
 @observer
-export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
+export class VTextAreaField extends React.Component<
+  ITextAreaFieldProps,
+  IState
+> {
+  inputRef: any;
   constructor(props: ITextAreaFieldProps) {
     super(props);
+    this.state = {
+      start: 1,
+      end: 1
+    };
+    this.inputRef = React.createRef();
   }
 
   public render() {
@@ -67,12 +80,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         fieldState.validators(...validators);
       }
     }
-    const renderedValue =
-      (upperCaseFormat &&
-        this.valueField &&
-        this.valueField.toString() &&
-        this.valueField.toString().toUpperCase()) ||
-      this.valueField;
+
     return (
       <StyledTextArea
         className={className}
@@ -97,7 +105,10 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
             large={size === 'large'}
             small={size === 'small'}
             onChange={this.onChange}
-            value={renderedValue}
+            value={this.valueField}
+            inputRef={input => {
+              this.inputRef = input;
+            }}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
@@ -109,6 +120,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
             rows={this.props.rows ? this.props.rows : undefined}
             growVertically={growVertically}
             cols={this.props.rows ? this.props.rows : undefined}
+            style={{ textTransform: 'uppercase' }}
           />
         </FormFieldContainer>
       </StyledTextArea>
@@ -127,6 +139,12 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
   }
 
   onChange = (e: any) => {
+    if (this.props.upperCaseFormat) {
+      this.setState({
+        start: e.target.selectionStart,
+        end: e.target.selectionEnd
+      });
+    }
     const parsedValue =
       (this.props.upperCaseFormat && e.target.value.toString().toUpperCase()) ||
       e.target.value;
@@ -135,6 +153,11 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
     }
     if (this.props.onChange) {
       this.props.onChange!(parsedValue);
+    }
+    if (this.props.upperCaseFormat) {
+      setTimeout(() => {
+        this.inputRef.setSelectionRange(this.state.start, this.state.end);
+      }, 30);
     }
   };
 }

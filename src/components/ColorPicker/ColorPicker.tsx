@@ -69,7 +69,7 @@ export class VColorPicker extends Component<IProps, IState> {
     }
 
     return (
-      <React.Fragment>
+      <div className={'gsi-color-picker'}>
         <Popover
           content={colorPicker}
           target={
@@ -81,7 +81,7 @@ export class VColorPicker extends Component<IProps, IState> {
           }
           position={this.props.position ? this.props.position : 'right'}
         />
-      </React.Fragment>
+      </div>
     );
   }
 
@@ -117,11 +117,6 @@ export class VColorPicker extends Component<IProps, IState> {
   };
 
   handleChange = (color: ColorResult) => {
-    // this.setState({
-    //   color: color.rgb,
-    //   Color: undefined
-    // });
-
     this.props.onChange(color);
   };
 }
