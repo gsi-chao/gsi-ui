@@ -31,7 +31,7 @@ exports[`renders without crashing InputField All Properties 1`] = `
             style={
               Object {
                 "paddingRight": 10,
-                "textTransform": "uppercase",
+                "textTransform": "none",
               }
             }
             value=""

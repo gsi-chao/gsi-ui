@@ -124,7 +124,10 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
-            style={{ paddingRight: 10, textTransform: 'uppercase' }}
+            style={{
+              paddingRight: 10,
+              textTransform: this.props.upperCaseFormat ? 'uppercase' : 'none'
+            }}
           />
         </FormFieldContainer>
       </StyledInput>

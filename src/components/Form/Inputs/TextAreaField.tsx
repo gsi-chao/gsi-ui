@@ -120,7 +120,9 @@ export class VTextAreaField extends React.Component<
             rows={this.props.rows ? this.props.rows : undefined}
             growVertically={growVertically}
             cols={this.props.rows ? this.props.rows : undefined}
-            style={{ textTransform: 'uppercase' }}
+            style={{
+              textTransform: this.props.upperCaseFormat ? 'uppercase' : 'none'
+            }}
           />
         </FormFieldContainer>
       </StyledTextArea>
