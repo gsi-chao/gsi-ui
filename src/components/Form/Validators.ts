@@ -8,15 +8,15 @@ const email = (value: string) =>
   !validator.isEmail(value) && `${value} is not a valid email.`;
 
 const lt = (maxLength: number) => (value: string) =>
-  value.toString().trim().length > maxLength &&
+  value && value.toString().trim().length > maxLength &&
   `The value must me have less than ${maxLength} symbols.`;
 
 const gt = (minLength: number) => (value: string) =>
-  value.toString().trim().length < minLength &&
+  value && value.toString().trim().length < minLength &&
   `The value must me have great than ${minLength} symbols.`;
 
 const exact = (length: number) => (value: string) =>
-  value.toString().trim().length !== length &&
+  value && value.toString().trim().length !== length &&
   `The value must be ${length} symbols.`;
 
 const ltNumber = (min: number) => (value: string) =>
