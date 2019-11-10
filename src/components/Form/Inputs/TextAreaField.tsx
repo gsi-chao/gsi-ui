@@ -67,6 +67,7 @@ export class VTextAreaField extends React.Component<
       tooltip,
       growVertically,
       displayRequired,
+      autoComplete,
       cols
     } = this.props;
     if (fieldState) {
@@ -105,6 +106,7 @@ export class VTextAreaField extends React.Component<
             large={size === 'large'}
             small={size === 'small'}
             onChange={this.onChange}
+            autoComplete={autoComplete}
             value={this.valueField}
             inputRef={input => {
               this.inputRef = input;

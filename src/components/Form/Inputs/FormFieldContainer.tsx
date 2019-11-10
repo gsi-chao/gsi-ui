@@ -43,7 +43,7 @@ export class FormFieldContainer extends React.Component<
     return (
       <React.Fragment>
         {!noLabel ? (
-          <label className={'field-label'} title={tooltip ? tooltip : label}>
+          <label className={'field-label'} title={tooltip}>
             {required ? <RequiredSpan>*</RequiredSpan> : null}
             {label}
           </label>

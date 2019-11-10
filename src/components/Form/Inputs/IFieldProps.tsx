@@ -27,7 +27,7 @@ export interface IFieldProps {
   value?: any;
   tooltip?: string;
   displayRequired?: boolean;
-
+  autoComplete?: string;
   /** The fieldState */
   fieldState?: FieldState<any>;
 }

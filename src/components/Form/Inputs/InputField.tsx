@@ -66,7 +66,8 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
       tipLabel,
       upperCaseFormat,
       displayRequired,
-      tooltip
+      tooltip,
+      autoComplete
     } = this.props;
     let rightEl;
     if (!rightElement) {
@@ -110,6 +111,7 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
             small={size === 'small'}
             rightElement={rightElement || rightEl}
             name={id}
+            autoComplete={autoComplete}
             inputRef={this.inputRef}
             {...{
               round,
