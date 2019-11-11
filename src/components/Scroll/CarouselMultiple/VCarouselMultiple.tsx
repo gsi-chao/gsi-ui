@@ -41,14 +41,14 @@ const Slider = ({ children }: any) => {
           {hasPrev && (
             <SlideButton
               onClick={handlePrev}
-              icon={<Icon icon='chevron-left' />}
+              icon={<Icon icon="chevron-left" />}
               typeS="prev"
             />
           )}
           {hasNext && (
             <SlideButton
               onClick={handleNext}
-              icon={<Icon icon='chevron-right' />}
+              icon={<Icon icon="chevron-right" />}
               typeS="next"
             />
           )}

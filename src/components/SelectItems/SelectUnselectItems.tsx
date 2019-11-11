@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Divider } from '@blueprintjs/core';
+import { Button, Divider, Tooltip } from '@blueprintjs/core';
 import { FieldState, FormState } from 'formstate';
 import {
   BodyContainer,
@@ -197,26 +197,40 @@ export class SelectUnselectItems extends Component<
                 minimal: true
               }}
             />
-            <SelectAllButtons
-              minimal
-              text={'Select All'}
-              rightIcon={'double-chevron-right'}
-              onClick={this.selectAll}
-            />
           </FlexCol>
           <CentralFlexCol flex={1}>
-            <Button
-              large
-              minimal
-              icon={'chevron-right'}
-              onClick={this.selectItems}
-            />
-            <Button
-              large
-              minimal
-              icon={'chevron-left'}
-              onClick={this.unselectItems}
-            />
+            <Tooltip usePortal hoverCloseDelay={0} content={'Select'}>
+              <Button
+                large
+                minimal
+                icon={'chevron-right'}
+                onClick={this.selectItems}
+              />
+            </Tooltip>
+            <Tooltip usePortal hoverCloseDelay={0} content={'Unselect'}>
+              <Button
+                large
+                minimal
+                icon={'chevron-left'}
+                onClick={this.unselectItems}
+              />
+            </Tooltip>
+            <Tooltip usePortal hoverCloseDelay={0} content={'Select All'}>
+              <Button
+                large
+                minimal
+                icon={'double-chevron-right'}
+                onClick={this.selectAll}
+              />
+            </Tooltip>
+            <Tooltip usePortal hoverCloseDelay={0} content={'Unselect All'}>
+              <Button
+                large
+                minimal
+                icon={'double-chevron-left'}
+                onClick={this.unselectAll}
+              />
+            </Tooltip>
           </CentralFlexCol>
           <FlexCol flex={4}>
             <h4>{this.props.assignedText || 'Assigned'}</h4>
@@ -244,12 +258,6 @@ export class SelectUnselectItems extends Component<
               popoverProps={{
                 minimal: true
               }}
-            />
-            <SelectAllButtons
-              minimal
-              text={'UnSelect All'}
-              icon={'double-chevron-left'}
-              onClick={this.unselectAll}
             />
           </FlexCol>
         </BodyContainer>

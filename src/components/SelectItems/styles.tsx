@@ -57,10 +57,11 @@ export const CentralFlexCol = styled(FlexCol)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  & > button {
-    margin-bottom: 5px;
+  & button.bp3-button.bp3-large {
+    margin-bottom: 0px;
     position: relative;
-    top: -15px;
+    padding: 0 15px;
+    min-height: 30px;
   }
 `;
 
