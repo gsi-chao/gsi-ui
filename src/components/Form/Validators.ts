@@ -83,16 +83,14 @@ const isLongitude = (value: any) => {
 };
 
 const isAlpha = (value: string) =>
-  !validator.isAlpha(value) &&
-  `The value must contain only letters`;
+  !validator.isAlpha(value) && `The value must contain only letters`;
 
 const isAlphanumeric = (value: string) =>
   !validator.isAlphanumeric(value) &&
   `The value must contain only letters and numbers`;
 
 const isNumeric = (value: string) =>
-  !validator.isNumeric(value) &&
-  `The value must contain only numbers`;
+  !validator.isNumeric(value) && `The value must contain only numbers`;
 
 export const Validators = {
   exact,
