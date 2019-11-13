@@ -51,6 +51,7 @@ export const StyledCustomDraggableItem = styled.div`
   & > div.labelsContainer {
     display: flex;
     flex-direction: column;
+    max-width: 100%;
     & > label {
       white-space: nowrap;
       max-width: 100%;
