@@ -84,7 +84,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
         lineColor={options.lineColor}
       >
         <CarouselMultiple>
-          {options.tabList.map(tab => (
+          {options.tabList.filter(tab => !tab.hidden).map(tab => (
             <ItemSC className="item" key={tab.key}>
               <VTabPanel
                 backgroundColor={options.backgroundColor}

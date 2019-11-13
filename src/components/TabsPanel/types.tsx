@@ -60,6 +60,7 @@ export interface ITabsPanelTypes {
   backgroundColorBadge?: string;
   dataBadge?: any;
   activeBorderColor?: any;
+  hidden?: boolean;
 }
 
 export interface TabsAlertProps {
