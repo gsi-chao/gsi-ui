@@ -9,11 +9,11 @@ const email = (value: string) =>
 
 const lt = (maxLength: number) => (value: string) =>
   value && value.toString().trim().length > maxLength &&
-  `The value must me have less than ${maxLength} symbols.`;
+  `The value must have less than ${maxLength} symbols.`;
 
 const gt = (minLength: number) => (value: string) =>
   value && value.toString().trim().length < minLength &&
-  `The value must me have great than ${minLength} symbols.`;
+ `The value must have great than ${minLength} symbols.`;
 
 const exact = (length: number) => (value: string) =>
   value && value.toString().trim().length !== length &&
@@ -82,6 +82,16 @@ const isLongitude = (value: any) => {
   );
 };
 
+const isAlpha = (value: string) =>
+  !validator.isAlpha(value) && `The value must contain only letters`;
+
+const isAlphanumeric = (value: string) =>
+  !validator.isAlphanumeric(value) &&
+  `The value must contain only letters and numbers`;
+
+const isNumeric = (value: string) =>
+  !validator.isNumeric(value) && `The value must contain only numbers`;
+
 export const Validators = {
   exact,
   lt,
@@ -98,5 +108,8 @@ export const Validators = {
   isPostalCode,
   isLatitude,
   isLongitude,
-  requiredIf
+  requiredIf,
+  isNumeric,
+  isAlpha,
+  isAlphanumeric
 };

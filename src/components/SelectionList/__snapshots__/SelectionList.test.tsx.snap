@@ -11,7 +11,7 @@ exports[`render correctly SelectionList component one segment 1`] = `
       className=""
     >
       <a
-        background="#1985A1"
+        background="#0072ce"
         className="bp3-menu-item bp3-popover-dismiss sc-bdVaJa iniwxh"
         color="white"
         onClick={[Function]}

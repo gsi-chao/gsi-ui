@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Divider } from '@blueprintjs/core';
+import { Button, Divider, Tooltip } from '@blueprintjs/core';
 import { FieldState, FormState } from 'formstate';
 import {
   BodyContainer,
@@ -7,10 +7,12 @@ import {
   CentralFlexCol,
   FlexCol,
   SelectAllButtons,
+  StyledScroll,
   VSelectionListStyled
 } from './styles';
 import { IItemsList } from '../SelectionList';
 import { VSelectField } from '../Form';
+import { Scrollbar } from 'react-scrollbars-custom';
 
 export interface ISelectItemsProps {
   itemsUnassigned: IItemsList[];
@@ -170,12 +172,17 @@ export class SelectUnselectItems extends Component<
         <BodyContainer>
           <FlexCol flex={4}>
             <h4>{this.props.unAssignedText || 'UnAssigned'}</h4>
-            <VSelectionListStyled
-              selection={this.props.selection}
-              height={this.props.listsHeights}
-              elements={itemsUnassigned}
-              onSelect={this.selectItemFromUnselectedList}
-            />
+            <StyledScroll
+              height={this.props.listsHeights || '242.px'}
+              style={{ height: this.props.listsHeights || '242.px' }}
+            >
+              <VSelectionListStyled
+                selection={this.props.selection}
+                height={this.props.listsHeights}
+                elements={itemsUnassigned}
+                onSelect={this.selectItemFromUnselectedList}
+              />
+            </StyledScroll>
             <VSelectField
               fill
               noLabel
@@ -186,36 +193,58 @@ export class SelectUnselectItems extends Component<
               id={'unselected'}
               fieldState={this.form.$.unselected}
               onChange={this.markFromUnassigned}
-            />
-            <SelectAllButtons
-              minimal
-              text={'Select All'}
-              rightIcon={'double-chevron-right'}
-              onClick={this.selectAll}
+              popoverProps={{
+                minimal: true
+              }}
             />
           </FlexCol>
           <CentralFlexCol flex={1}>
-            <Button
-              large
-              minimal
-              icon={'chevron-right'}
-              onClick={this.selectItems}
-            />
-            <Button
-              large
-              minimal
-              icon={'chevron-left'}
-              onClick={this.unselectItems}
-            />
+            <Tooltip usePortal hoverCloseDelay={0} content={'Select'}>
+              <Button
+                large
+                minimal
+                icon={'chevron-right'}
+                onClick={this.selectItems}
+              />
+            </Tooltip>
+            <Tooltip usePortal hoverCloseDelay={0} content={'Unselect'}>
+              <Button
+                large
+                minimal
+                icon={'chevron-left'}
+                onClick={this.unselectItems}
+              />
+            </Tooltip>
+            <Tooltip usePortal hoverCloseDelay={0} content={'Select All'}>
+              <Button
+                large
+                minimal
+                icon={'double-chevron-right'}
+                onClick={this.selectAll}
+              />
+            </Tooltip>
+            <Tooltip usePortal hoverCloseDelay={0} content={'Unselect All'}>
+              <Button
+                large
+                minimal
+                icon={'double-chevron-left'}
+                onClick={this.unselectAll}
+              />
+            </Tooltip>
           </CentralFlexCol>
           <FlexCol flex={4}>
             <h4>{this.props.assignedText || 'Assigned'}</h4>
-            <VSelectionListStyled
-              selection={this.props.selection}
-              height={this.props.listsHeights}
-              elements={itemsAssigned}
-              onSelect={this.selectItemFromSelectedList}
-            />
+            <StyledScroll
+              height={this.props.listsHeights || '242.px'}
+              style={{ height: this.props.listsHeights || '242.px' }}
+            >
+              <VSelectionListStyled
+                selection={this.props.selection}
+                height={this.props.listsHeights}
+                elements={itemsAssigned}
+                onSelect={this.selectItemFromSelectedList}
+              />
+            </StyledScroll>
             <VSelectField
               fill
               minimal
@@ -226,27 +255,23 @@ export class SelectUnselectItems extends Component<
               id={'selected'}
               fieldState={this.form.$.selected}
               onChange={this.markFromAssigned}
-            />
-            <SelectAllButtons
-              minimal
-              text={'UnSelect All'}
-              icon={'double-chevron-left'}
-              onClick={this.unselectAll}
+              popoverProps={{
+                minimal: true
+              }}
             />
           </FlexCol>
         </BodyContainer>
-        <Divider />
         <ButtonsEndsContainers>
           <Button
             minimal
-            intent={intentSave ? intentSave : 'none'}
+            intent={intentSave ? intentSave : 'success'}
             icon={'tick'}
             text={'Save'}
             onClick={this.handleSave}
           />
           <Button
             minimal
-            intent={intentCancel ? intentCancel : 'none'}
+            intent={intentCancel ? intentCancel : 'danger'}
             icon={'disable'}
             onClick={this.handleCancel}
             text={'Cancel'}

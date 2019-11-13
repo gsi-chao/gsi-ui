@@ -9,7 +9,6 @@ exports[`renders without crashing InputField All Properties 1`] = `
   >
     <label
       className="field-label"
-      title="Username"
     >
       Username
     </label>
@@ -27,11 +26,11 @@ exports[`renders without crashing InputField All Properties 1`] = `
             id="test-input"
             name="test-input"
             onChange={[Function]}
-            onKeyPress={[Function]}
             placeholder="Username"
             style={
               Object {
                 "paddingRight": 10,
+                "textTransform": "none",
               }
             }
             value=""
