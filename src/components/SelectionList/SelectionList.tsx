@@ -48,10 +48,10 @@ export class VSelectionList extends Component<
     }
   };
   render() {
-    const { elements, selection, elevation, className, padding } = this.props;
+    const { elements, selection, elevation, className, padding, height } = this.props;
 
     return (
-      <SelectionListContainer>
+      <SelectionListContainer height={height}>
         {(elements && elements.length) > 0 ? (
           <StyledMenu
             className={`${this.getElevation(elevation || 0)} ${className}`}

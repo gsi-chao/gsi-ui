@@ -14,6 +14,7 @@ export interface ISelectionListProps {
   elevation?: ElevationType;
   className?: string;
   elements: IItemsList[];
+  height?: string;
   onSelect(list: IItemsList): void;
   selection?: {
     textColor: string;
