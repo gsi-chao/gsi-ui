@@ -247,7 +247,15 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             initialContent={initialContent}
             onItemSelect={this.onItemSelected}
             filterable={filterable}
-            popoverProps={popoverProps}
+            popoverProps={{
+              modifiers: {
+                arrow: { enabled: true },
+                flip: { enabled: true },
+                keepTogether: { enabled: true },
+                preventOverflow: { enabled: true }
+              },
+              ...popoverProps
+            }}
             resetOnClose={this.props.resetOnClose}
             className={this.props.isLoading ? Classes.SKELETON : ''}
             onQueryChange={(value: string) => this.setState({ query: value })}

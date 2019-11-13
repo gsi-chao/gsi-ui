@@ -345,7 +345,13 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
             minimal: popoverMinimal,
             captureDismiss: true,
             isOpen: isOpenPopover,
-            onInteraction: handleInteraction
+            onInteraction: handleInteraction,
+            modifiers: {
+              arrow: { enabled: true },
+              flip: { enabled: true },
+              keepTogether: { enabled: true },
+              preventOverflow: { enabled: true }
+            }
           }}
           itemPredicate={filterItem}
           itemRenderer={renderItem}

@@ -1,122 +1,139 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Color, ColorResult } from 'react-color';
-import { Popover } from '@blueprintjs/core';
+import { Button, Intent, Popover } from '@blueprintjs/core';
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
-import {
-  TypePickerColor,
-  VColorResult,
-  VHSLColor,
-  VPosition,
-  VRGBColor
-} from './types';
-import { hexToRgb } from './util';
+import { TypePickerColor, VColorResult, VPosition } from './types';
+import color from 'color';
 
 export interface IState {
-  displayColorPicker: boolean;
-  color: Color | undefined;
-  defaultColor: Color | undefined;
+  color: ColorResult | undefined;
+  currentColor: any;
 }
 
 export interface IProps {
   width?: number;
   height?: number;
-  Color: string | VHSLColor | VRGBColor;
+  Color: Color;
   typePickerColor: TypePickerColor;
   onChange: (color: VColorResult) => void;
   position?: VPosition;
   disable?: boolean;
+  addButton?: {
+    text: string;
+    intent: Intent;
+  };
 }
 
-export class VColorPicker extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
+export const VColorPicker = (props: IProps) => {
+  const [state, setState] = useState<IState>({
+    color: undefined,
+    currentColor: color(props.Color)
+  });
 
-    this.state = {
-      color: undefined,
-      displayColorPicker: false,
-      defaultColor: props.Color ? props.Color : undefined
-    };
-  }
+  useEffect(() => {
+    setState({
+      currentColor: color(props.Color).toString(),
+      color: state.color
+    });
+  }, [props.Color]);
 
-  render() {
-    const colorPicker = this.getPickerColor();
-
-    let color = this.props.Color;
-
-    if (typeof color === 'string') {
-      color = hexToRgb(color);
-    }
-
-    if (this.props.disable) {
-      if (!(typeof color === 'string')) {
-        color.a = 0.42;
-      }
-
-      return (
-        <React.Fragment>
-          <InputColor
-            width={this.props.width}
-            height={this.props.height}
-            defaultColor={color}
-            disable
-          />
-        </React.Fragment>
-      );
-    }
-
-    if (!(typeof color === 'string')) {
-      color.a = 1;
-    }
-
-    return (
-      <div className={'gsi-color-picker'}>
-        <Popover
-          content={colorPicker}
-          target={
-            <InputColor
-              width={this.props.width}
-              height={this.props.height}
-              defaultColor={color}
-            />
-          }
-          position={this.props.position ? this.props.position : 'right'}
-        />
-      </div>
-    );
-  }
-
-  getPickerColor = () => {
-    switch (this.props.typePickerColor) {
+  const getPickerColor = () => {
+    switch (props.typePickerColor) {
       case 'SketchPicker': {
         return (
-          <SketchPickerStyled
-            color={this.props.Color}
-            onChange={this.handleChange}
-          />
+          <>
+            <SketchPickerStyled
+              color={state.currentColor}
+              onChangeComplete={handleChange}
+              disableAlpha={false}
+            />
+            {props.addButton && (
+              <Button
+                onClick={handleClick}
+                text={props.addButton.text}
+                style={{ fontSize: 14 }}
+                minimal
+                large
+                fill
+                intent={props.addButton.intent}
+              />
+            )}
+          </>
         );
       }
 
       case 'ChromePicker': {
         return (
-          <ChromePickerStyled
-            color={this.props.Color}
-            onChange={this.handleChange}
-          />
-        );
-      }
+          <>
+            <ChromePickerStyled
+              color={state.currentColor}
+              onChangeComplete={handleChange}
+              disableAlpha={false}
+            />
 
-      default: {
-        return (
-          <ChromePickerStyled
-            color={this.state.color}
-            onChange={this.handleChange}
-          />
+            {props.addButton && (
+              <Button
+                onClick={handleClick}
+                text={props.addButton.text}
+                style={{ fontSize: 14 }}
+                minimal
+                large
+                fill
+                intent={props.addButton.intent}
+              />
+            )}
+          </>
         );
       }
     }
   };
 
-  handleChange = (color: ColorResult) => {
-    this.props.onChange(color);
+  const handleClick = () => {
+    if (state.color) {
+      props.onChange(state.color);
+    }
   };
-}
+
+  const handleChange = (col: ColorResult) => {
+    const { a, ...rgb } = col.rgb;
+    setState({
+      color: col,
+      currentColor: color(rgb)
+        .alpha(a || 1)
+        .toString()
+    });
+    if (!props.addButton) {
+      props.onChange(col);
+    }
+  };
+
+  return (
+    <div className={'gsi-color-picker'}>
+      {props.disable ? (
+        <InputColor
+          width={props.width}
+          height={props.height}
+          defaultColor={state.currentColor}
+          disable
+        />
+      ) : (
+        <Popover
+          content={getPickerColor()}
+          canEscapeKeyClose={false}
+          interactionKind={'click-target'}
+          captureDismiss={false}
+          enforceFocus
+          usePortal={true}
+          target={
+            <InputColor
+              width={props.width}
+              height={props.height}
+              defaultColor={state.currentColor}
+            />
+          }
+          position={props.position ? props.position : 'right'}
+        />
+      )}
+    </div>
+  );
+};

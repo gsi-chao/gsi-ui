@@ -8,20 +8,6 @@ export interface ITypeInputColor {
   disable?: boolean;
 }
 
-export const getBackground = (props: ITypeInputColor) => {
-  if (
-    props.defaultColor.r >= 0 &&
-    props.defaultColor.g >= 0 &&
-    props.defaultColor.b >= 0
-  ) {
-    return `rgba(${props.defaultColor.r}, ${props.defaultColor.g}, ${
-      props.defaultColor.b
-    }, ${props.defaultColor.a})`;
-  }
-
-  return props.defaultColor;
-};
-
 export const SketchPickerStyled = styled(SketchPicker)`
   box-shadow: none !important;
   & > div:nth-child(2) {
@@ -55,7 +41,7 @@ export const InputColor = styled.button`
   height: ${(props: ITypeInputColor) =>
     props.height ? `${props.height}px` : '40px'};
   background: ${(props: ITypeInputColor) =>
-    props.defaultColor ? getBackground(props) : '#A1A3A2'};
+    props.defaultColor && props.defaultColor};
   display: flex;
   border: solid 1px gray;
   border-radius: 7px;
