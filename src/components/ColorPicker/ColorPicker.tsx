@@ -4,6 +4,8 @@ import { Button, Intent, Popover } from '@blueprintjs/core';
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
 import { TypePickerColor, VColorResult, VPosition } from './types';
 import color from 'color';
+import OutsideClickHandler from 'react-outside-click-handler';
+import { cloneDeep } from 'lodash';
 
 export interface IState {
   color: ColorResult | undefined;
@@ -42,11 +44,18 @@ export const VColorPicker = (props: IProps) => {
     });
   }, [props.Color]);
 
+  const onOutsideClick = (e: any) => {
+    const cl = e.target.className;
+    if (!props.addButton && !cl.includes('gsi-input-color')) {
+      setIsOpen(false);
+    }
+  };
+
   const getPickerColor = () => {
     switch (props.typePickerColor) {
       case 'SketchPicker': {
         return (
-          <>
+          <OutsideClickHandler onOutsideClick={onOutsideClick}>
             <SketchPickerStyled
               color={state.currentColor}
               onChangeComplete={handleChange}
@@ -63,13 +72,13 @@ export const VColorPicker = (props: IProps) => {
                 intent={props.addButton.intent}
               />
             )}
-          </>
+          </OutsideClickHandler>
         );
       }
 
       case 'ChromePicker': {
         return (
-          <>
+          <OutsideClickHandler onOutsideClick={onOutsideClick}>
             <ChromePickerStyled
               color={state.currentColor}
               onChangeComplete={handleChange}
@@ -87,7 +96,7 @@ export const VColorPicker = (props: IProps) => {
                 intent={props.addButton.intent}
               />
             )}
-          </>
+          </OutsideClickHandler>
         );
       }
     }
@@ -96,8 +105,8 @@ export const VColorPicker = (props: IProps) => {
   const handleClick = () => {
     if (state.color) {
       props.onChange(state.color);
-      setIsOpen(false);
     }
+    setIsOpen(false);
   };
 
   const handleChange = (col: ColorResult) => {
@@ -111,6 +120,14 @@ export const VColorPicker = (props: IProps) => {
     if (!props.addButton) {
       props.onChange(col);
     }
+  };
+
+  const waitForHandleClick = () => {
+    if (props.addButton && isOpen) {
+      return;
+    }
+
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -134,10 +151,11 @@ export const VColorPicker = (props: IProps) => {
           ref={pickerRef}
           target={
             <InputColor
+              className="gsi-input-color"
               width={props.width}
               height={props.height}
               defaultColor={state.currentColor}
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={waitForHandleClick}
             />
           }
           position={props.position ? props.position : 'right'}
