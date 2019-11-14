@@ -129,7 +129,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
               return (
                 <React.Fragment key={index}>
                   {item}
-                  <MenuDivider key={`divider_$index`}/>
+                  <MenuDivider key={`divider_$index`} />
                 </React.Fragment>
               );
             }
@@ -158,9 +158,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       allowEmptyItem &&
       options &&
       options.length > 0 &&
-      this.state &&
-      this.state.item &&
-      this.state.item.value
+      ((this.state && this.state.item && this.state.item.value) ||
+        this.props.value ||
+        (this.props.fieldState && this.props.fieldState.value))
     ) {
       return [{ value: '', label: 'No Selection' }, ...options];
     }
