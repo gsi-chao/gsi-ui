@@ -9,10 +9,17 @@ import {
   IconName,
   Intent,
   IPopoverProps,
+  Menu,
+  MenuDivider,
   MenuItem
 } from '@blueprintjs/core';
 /** FieldState */
-import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
+import {
+  ItemListRenderer,
+  ItemPredicate,
+  ItemRenderer,
+  Select
+} from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
@@ -42,6 +49,7 @@ export interface ISelectFieldProps extends IFieldProps {
   tipLabel?: string;
   popoverProps?: IPopoverProps;
   resetOnClose?: boolean;
+  allowEmptyItem?: boolean;
 }
 
 /**
@@ -56,29 +64,10 @@ interface IItem {
 
 interface IState {
   item: IItem | undefined;
+  query: string | null;
 }
 
 const ItemSelect = Select.ofType<IItem>();
-
-const renderItem: ItemRenderer<IItem> = (
-  item,
-  { handleClick, modifiers, query }
-) => {
-  if (!modifiers.matchesPredicate) {
-    return null;
-  }
-
-  return (
-    <MenuItem
-      // active={modifiers.active}
-      disabled={modifiers.disabled}
-      label={item.rep}
-      key={item.value}
-      onClick={handleClick}
-      text={item.label}
-    />
-  );
-};
 
 const filterItem: ItemPredicate<IItem> = (query, item) => {
   return `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
@@ -110,8 +99,72 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         key={item.value}
         onClick={handleClick}
         text={item.label}
+        labelElement={
+          this.props.allowEmptyItem &&
+          item.value === '' &&
+          item.label === 'No Selection' ? (
+            <Icon color={'#7486949c'} icon={'reset'} />
+          ) : null
+        }
       />
     );
+  };
+
+  public renderMenu: ItemListRenderer<IItem> = ({
+    items,
+    itemsParentRef,
+    query,
+    renderItem
+  }) => {
+    const renderedItems = items.map(renderItem).filter(item => item != null);
+    const itemsToRender =
+      this.props.allowEmptyItem &&
+      renderedItems.length > 0 &&
+      this.state &&
+      this.state.item &&
+      this.state.item.value ? (
+        <>
+          {renderedItems.map((item, index: number) => {
+            if (index === 0) {
+              return (
+                <React.Fragment key={index}>
+                  {item}
+                  <MenuDivider key={`divider_$index`}/>
+                </React.Fragment>
+              );
+            }
+            return item;
+          })}
+        </>
+      ) : (
+        renderedItems
+      );
+    return (
+      <>
+        <Menu ulRef={itemsParentRef}>
+          {renderedItems.length > 0 ? (
+            itemsToRender
+          ) : (
+            <MenuItem disabled={true} text="No results." />
+          )}
+        </Menu>
+      </>
+    );
+  };
+
+  public getOptions = (): IItem[] => {
+    const { options, allowEmptyItem } = this.props;
+    if (
+      allowEmptyItem &&
+      options &&
+      options.length > 0 &&
+      this.state &&
+      this.state.item &&
+      this.state.item.value
+    ) {
+      return [{ value: '', label: 'No Selection' }, ...options];
+    }
+    return options;
   };
 
   public render() {
@@ -188,15 +241,17 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           <ItemSelect
             itemPredicate={filterItem}
             itemRenderer={this.renderItem}
-            items={options}
+            items={this.getOptions()}
             disabled={this.disable()}
+            itemListRenderer={this.renderMenu}
             initialContent={initialContent}
-            noResults={<MenuItem disabled={true} text="No results." />}
             onItemSelect={this.onItemSelected}
             filterable={filterable}
             popoverProps={popoverProps}
-            resetOnClose={this.props.resetOnClose && this.props.resetOnClose}
+            resetOnClose={this.props.resetOnClose}
             className={this.props.isLoading ? Classes.SKELETON : ''}
+            onQueryChange={(value: string) => this.setState({ query: value })}
+            query={(this.state && this.state.query) || ''}
             inputProps={{
               rightElement: this.renderClearButton()
             }}
@@ -261,28 +316,16 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     );
   };
 
-  renderClearButton = () => {
-    const minimal = this.props.minimal;
-
-    return this.props.clearButton ? (
-      <Button
-        style={{ width: '30px' }}
-        className={minimal ? 'bp3-minimal' : ''}
-        onClick={this.onClear}
-        rightIcon={'filter-remove'}
-      />
-    ) : (
-      undefined
-    );
-  };
-
+  renderClearButton = () => (
+    <Button
+      style={{ width: '30px' }}
+      minimal
+      onClick={this.onClear}
+      rightIcon={'filter-remove'}
+    />
+  );
   private onClear = () => {
-    if (this.props.fieldState) {
-      this.props.fieldState.onChange(null);
-    }
-    if (this.props.onChange) {
-      this.props.onChange!(null);
-    }
+    this.setState({ query: '' });
   };
 
   @computed

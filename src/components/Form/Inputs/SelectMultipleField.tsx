@@ -1,8 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { uniqueId } from 'lodash';
 /** Blueprint */
-import { Button, IconName, Intent, MenuItem, Classes } from '@blueprintjs/core';
+import {
+  Button,
+  IconName,
+  Intent,
+  MenuItem,
+  Classes,
+  Icon,
+  MenuDivider,
+  Menu
+} from '@blueprintjs/core';
 /** FieldState */
-import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
+import {
+  ItemListRenderer,
+  ItemPredicate,
+  ItemRenderer,
+  Select
+} from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
@@ -30,6 +45,7 @@ export interface ISelectFieldProps extends IFieldProps {
   clearButton?: boolean;
   isLoading?: boolean;
   popoverMinimal?: boolean;
+  allowEmptyItem?: boolean;
 }
 
 /**
@@ -46,6 +62,8 @@ export interface IItemMultiple {
   label: string;
   rep?: string;
 }
+
+const clearToken = `$empty#Option#first#item_unique_`;
 
 interface IState {
   selectedItems: IItemMultiple[];
@@ -71,7 +89,12 @@ const renderItem: ItemRenderer<IItemRenderer> = (
       key={item.value}
       onClick={handleClick}
       text={item.label}
-      shouldDismissPopover={false}
+      shouldDismissPopover={item.value === clearToken}
+      labelElement={
+        item.value === clearToken && item.label === 'No Selection' ? (
+          <Icon color={'#7486949c'} icon={'reset'} />
+        ) : null
+      }
     />
   );
 };
@@ -83,6 +106,7 @@ const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
 export const VSelectMultiple = observer((props: ISelectFieldProps) => {
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [isOpenPopover, setIsOpenPopover] = useState<boolean>(false);
+  const [query, setQuery] = useState<string | null>('');
 
   useEffect(() => {
     if (props.fieldState) {
@@ -120,27 +144,31 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
   };
 
   const selectOrDeselectItem = (value: IItemMultiple, callBack?: any) => {
-    let outerIndex = -1;
-    if (
-      selectedItems &&
-      Array.isArray(selectedItems) &&
-      selectedItems.length > 0
-    ) {
-      selectedItems.some((item, index) => {
-        const result = item.value.toString() === value.value.toString();
-        if (result) {
-          outerIndex = index;
-        }
-        return result;
-      });
-    }
+    if (value && value.value !== clearToken) {
+      let outerIndex = -1;
+      if (
+        selectedItems &&
+        Array.isArray(selectedItems) &&
+        selectedItems.length > 0
+      ) {
+        selectedItems.some((item, index) => {
+          const result = item.value.toString() === value.value.toString();
+          if (result) {
+            outerIndex = index;
+          }
+          return result;
+        });
+      }
 
-    if (outerIndex === -1) {
-      selectedItems.push(value);
-    } else {
-      selectedItems.splice(outerIndex, 1);
+      if (outerIndex === -1) {
+        selectedItems.push(value);
+      } else {
+        selectedItems.splice(outerIndex, 1);
+      }
+      setSelectedItems(selectedItems);
+    } else if (props.allowEmptyItem && value && value.value === clearToken) {
+      setSelectedItems([]);
     }
-    setSelectedItems(selectedItems);
     if (callBack) {
       callBack();
     }
@@ -151,15 +179,72 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     // });
   };
 
+  const renderMenu: ItemListRenderer<IItemRenderer> = ({
+    items,
+    itemsParentRef,
+    query,
+    renderItem
+  }) => {
+    const renderedItems = items.map(renderItem).filter(item => item != null);
+    const itemsToRender =
+      props.allowEmptyItem &&
+      renderedItems.length > 0 &&
+      selectedItems &&
+      selectedItems.length > 0 ? (
+        <>
+          {renderedItems.map((item, index: number) => {
+            if (index === 0) {
+              return (
+                <React.Fragment key={index}>
+                  {item}
+                  <MenuDivider key={`divider_$index`} />
+                </React.Fragment>
+              );
+            }
+            return item;
+          })}
+        </>
+      ) : (
+        renderedItems
+      );
+    return (
+      <>
+        <Menu ulRef={itemsParentRef}>
+          {renderedItems.length > 0 ? (
+            itemsToRender
+          ) : (
+            <MenuItem disabled={true} text="No results." />
+          )}
+        </Menu>
+      </>
+    );
+  };
+
+  const getOptions = (): IItemMultiple[] => {
+    const { options, allowEmptyItem } = props;
+    if (
+      allowEmptyItem &&
+      options &&
+      options.length > 0 &&
+      selectedItems &&
+      selectedItems.length > 0
+    ) {
+      return [{ value: clearToken, label: 'No Selection' }, ...options];
+    }
+    return options;
+  };
+
   const onItemSelected = (value: IItemRenderer) => {
+    const itemValue =
+      props.allowEmptyItem && value && value.item && value.item.value;
     const updateFieldState = () => {
       if (props.fieldState) {
         const ids = selectedItems.map(item => item.value);
-        fieldState!.onChange(ids);
+        fieldState!.onChange(itemValue === clearToken ? [] : ids);
       }
       if (props.onChange) {
         const ids = selectedItems.map(item => item.value);
-        props.onChange!(ids);
+        props.onChange!(itemValue === clearToken ? [] : ids);
       }
     };
     selectOrDeselectItem(value.item, updateFieldState);
@@ -214,7 +299,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     }
   }
 
-  const renderOptions = options.map(item => ({ item, selectedItems }));
+  const renderOptions = getOptions().map(item => ({ item, selectedItems }));
 
   const handleInteraction = (nextOpenState: boolean) => {
     setIsOpenPopover(nextOpenState);
@@ -222,29 +307,17 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
   };
 
   const onClear = () => {
-    if (props.fieldState) {
-      fieldState!.onChange([]);
-    }
-    if (props.onChange) {
-      props.onChange!([]);
-    }
-    setIsOpenPopover(false);
+    setQuery('');
   };
 
-  const renderClearButton = () => {
-    const minimal = props.minimal;
-
-    return props.clearButton ? (
-      <Button
-        style={{ width: '30px' }}
-        className={minimal ? 'bp3-minimal' : ''}
-        onClick={onClear}
-        rightIcon={'filter-remove'}
-      />
-    ) : (
-      undefined
-    );
-  };
+  const renderClearButton = () => (
+    <Button
+      style={{ width: '30px' }}
+      minimal
+      onClick={onClear}
+      rightIcon={'filter-remove'}
+    />
+  );
 
   return (
     <StyledPopOverWrapper
@@ -278,11 +351,13 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
           itemRenderer={renderItem}
           items={renderOptions}
           disabled={disabled}
-          initialContent={initialContent}
+          itemListRenderer={renderMenu}
           noResults={<MenuItem disabled={true} text="No results." />}
           onItemSelect={onItemSelected}
           filterable={filterable}
           resetOnClose={props.resetOnClose && props.resetOnClose}
+          onQueryChange={(value: string) => setQuery(value)}
+          query={query || ''}
           inputProps={{
             rightElement: renderClearButton()
           }}
