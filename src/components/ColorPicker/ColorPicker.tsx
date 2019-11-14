@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Color, ColorResult } from 'react-color';
 import { Button, Intent, Popover } from '@blueprintjs/core';
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
@@ -22,6 +22,7 @@ export interface IProps {
     text: string;
     intent: Intent;
   };
+  disableAlpha?: boolean;
 }
 
 export const VColorPicker = (props: IProps) => {
@@ -29,6 +30,10 @@ export const VColorPicker = (props: IProps) => {
     color: undefined,
     currentColor: color(props.Color)
   });
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const pickerRef = useRef(null);
 
   useEffect(() => {
     setState({
@@ -45,7 +50,7 @@ export const VColorPicker = (props: IProps) => {
             <SketchPickerStyled
               color={state.currentColor}
               onChangeComplete={handleChange}
-              disableAlpha={false}
+              disableAlpha={props.disableAlpha}
             />
             {props.addButton && (
               <Button
@@ -68,7 +73,7 @@ export const VColorPicker = (props: IProps) => {
             <ChromePickerStyled
               color={state.currentColor}
               onChangeComplete={handleChange}
-              disableAlpha={false}
+              disableAlpha={props.disableAlpha}
             />
 
             {props.addButton && (
@@ -91,6 +96,7 @@ export const VColorPicker = (props: IProps) => {
   const handleClick = () => {
     if (state.color) {
       props.onChange(state.color);
+      setIsOpen(false);
     }
   };
 
@@ -120,15 +126,18 @@ export const VColorPicker = (props: IProps) => {
         <Popover
           content={getPickerColor()}
           canEscapeKeyClose={false}
+          isOpen={isOpen}
           interactionKind={'click-target'}
           captureDismiss={false}
           enforceFocus
           usePortal={true}
+          ref={pickerRef}
           target={
             <InputColor
               width={props.width}
               height={props.height}
               defaultColor={state.currentColor}
+              onClick={() => setIsOpen(!isOpen)}
             />
           }
           position={props.position ? props.position : 'right'}
