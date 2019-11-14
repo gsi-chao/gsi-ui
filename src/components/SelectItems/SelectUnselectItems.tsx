@@ -24,6 +24,7 @@ export interface ISelectItemsProps {
   listsHeights?: string;
   intentSave?: any;
   intentCancel?: any;
+  displayCount?: boolean;
   selection?: {
     textColor: string;
     background: string;
@@ -157,7 +158,7 @@ export class SelectUnselectItems extends Component<
   };
 
   render() {
-    const { intentSave, intentCancel } = this.props;
+    const { intentSave, intentCancel, displayCount } = this.props;
     const { itemsUnassigned, itemsAssigned } = this.state;
     const itemsUnassignedSearch = itemsUnassigned.map(item => ({
       label: item.text,
@@ -171,16 +172,17 @@ export class SelectUnselectItems extends Component<
       <React.Fragment>
         <BodyContainer>
           <FlexCol flex={4}>
-            <h4>{this.props.unAssignedText || 'UnAssigned'}</h4>
+            <h4>{`${this.props.unAssignedText || 'UnAssigned'} ${displayCount &&
+              `(${(itemsUnassigned && itemsUnassigned.length) || 0})` || ''}`}</h4>
             <StyledScroll
-              height={this.props.listsHeights || '242.px'}
-              style={{ height: this.props.listsHeights || '242.px' }}
+              height={this.props.listsHeights || '242.5px'}
+              style={{ height: this.props.listsHeights || '242.5px' }}
             >
               <VSelectionListStyled
                 selection={this.props.selection}
-                height={this.props.listsHeights}
                 elements={itemsUnassigned}
                 onSelect={this.selectItemFromUnselectedList}
+                height={this.props.listsHeights || '242.5px'}
               />
             </StyledScroll>
             <VSelectField
@@ -233,16 +235,17 @@ export class SelectUnselectItems extends Component<
             </Tooltip>
           </CentralFlexCol>
           <FlexCol flex={4}>
-            <h4>{this.props.assignedText || 'Assigned'}</h4>
+            <h4>{`${this.props.assignedText || 'Assigned'} ${displayCount &&
+            `(${(itemsAssigned && itemsAssigned.length) || 0})` || ''}`}</h4>
             <StyledScroll
-              height={this.props.listsHeights || '242.px'}
-              style={{ height: this.props.listsHeights || '242.px' }}
+              height={this.props.listsHeights || '242.5px'}
+              style={{ height: this.props.listsHeights || '242.5px' }}
             >
               <VSelectionListStyled
                 selection={this.props.selection}
-                height={this.props.listsHeights}
                 elements={itemsAssigned}
                 onSelect={this.selectItemFromSelectedList}
+                height={this.props.listsHeights || '242.5px'}
               />
             </StyledScroll>
             <VSelectField

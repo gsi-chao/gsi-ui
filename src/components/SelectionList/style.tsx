@@ -9,6 +9,10 @@ export interface StyledMenuProps {
   className?: string;
 }
 
+export interface StyledContainerProps {
+  height?: string;
+}
+
 export const StyledMenuItem = styled(MenuItem)`
   ${(props: StyledMenuProps) => {
     const { active, background, color } = props;
@@ -29,7 +33,7 @@ export const StyledMenu = styled(Menu)`
 
 export const SelectionListContainer = styled.div`
   min-height: 25vh;
-  height: 100%;
+  height: ${(props: StyledContainerProps) => props.height || `100%`};
   position: relative;
   & > .empty-container {
     min-height: 25vh !important;
