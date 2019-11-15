@@ -29,6 +29,7 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
+import styled from 'styled-components';
 
 /**
  * Field Props
@@ -70,7 +71,10 @@ interface IState {
 const ItemSelect = Select.ofType<IItem>();
 
 const filterItem: ItemPredicate<IItem> = (query, item) => {
-  return `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+  return (
+    `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+    (item && (item.label === 'No Selection' && item.value === ''))
+  );
 };
 
 @observer
@@ -129,7 +133,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
               return (
                 <React.Fragment key={index}>
                   {item}
-                  <MenuDivider key={`divider_$index`} />
+                  <MenuDivider key={`divider_$index`} className={'dividerNoMargin'} />
                 </React.Fragment>
               );
             }
@@ -141,13 +145,13 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       );
     return (
       <>
-        <Menu ulRef={itemsParentRef}>
+        <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
           {renderedItems.length > 0 ? (
             itemsToRender
           ) : (
             <MenuItem disabled={true} text="No results." />
           )}
-        </Menu>
+        </StyledMenuNoMarginDivider>
       </>
     );
   };
@@ -365,3 +369,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     }
   };
 }
+
+
+export const StyledMenuNoMarginDivider = styled(Menu)`
+  & .dividerNoMargin {
+    margin: 0;
+  }
+`;
