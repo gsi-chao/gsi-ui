@@ -70,7 +70,10 @@ interface IState {
 const ItemSelect = Select.ofType<IItem>();
 
 const filterItem: ItemPredicate<IItem> = (query, item) => {
-  return `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+  return (
+    `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+    (item && (item.label === 'No Selection' && item.value === ''))
+  );
 };
 
 @observer

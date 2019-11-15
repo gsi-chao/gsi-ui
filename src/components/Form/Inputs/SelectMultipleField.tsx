@@ -100,7 +100,10 @@ const renderItem: ItemRenderer<IItemRenderer> = (
 };
 
 const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
-  return `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
+  return (
+    `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+    (value && value.item && value.item.value === clearToken)
+  );
 };
 
 export const VSelectMultiple = observer((props: ISelectFieldProps) => {
