@@ -52,7 +52,6 @@ export const StyledFormGroup = styled(FormGroup)`
           ? 'flex-end'
           : 'flex-start';
       labelOrientation = layer.labelOrientation;
-      console.log(layerPercent);
       if (layerPercent) {
         containerWidth = layerPercent.containerWidth;
         labelWidth = layerPercent.labelWidth;

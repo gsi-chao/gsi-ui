@@ -5,7 +5,6 @@ import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
 import { TypePickerColor, VColorResult, VPosition } from './types';
 import color from 'color';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { cloneDeep } from 'lodash';
 
 export interface IState {
   color: ColorResult | undefined;
