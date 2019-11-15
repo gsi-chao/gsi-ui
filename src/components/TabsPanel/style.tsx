@@ -32,7 +32,11 @@ export const LabelIcon = styled.div`
   border-style: solid;
   height: 100%;
   padding:${(props: ITabsPanelStyle) =>
-    props.size === 'small' ? '6px 15px' : '8px 20px'} ;
+    props.padding
+      ? props.padding
+      : props.size === 'small'
+      ? '6px 15px'
+      : '8px 20px'} ;
   cursor: pointer;
   border-style: solid;
   border: none;
