@@ -27,6 +27,7 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
+import styled from 'styled-components';
 
 /**
  * Field Props
@@ -200,7 +201,10 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
               return (
                 <React.Fragment key={index}>
                   {item}
-                  <MenuDivider key={`divider_$index`} />
+                  <MenuDivider
+                    key={`divider_$index`}
+                    className={'dividerNoMargin'}
+                  />
                 </React.Fragment>
               );
             }
@@ -212,13 +216,13 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
       );
     return (
       <>
-        <Menu ulRef={itemsParentRef}>
+        <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
           {renderedItems.length > 0 ? (
             itemsToRender
           ) : (
             <MenuItem disabled={true} text="No results." />
           )}
-        </Menu>
+        </StyledMenuNoMarginDivider>
       </>
     );
   };
@@ -398,3 +402,9 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     </StyledPopOverWrapper>
   );
 });
+
+export const StyledMenuNoMarginDivider = styled(Menu)`
+  & .dividerNoMargin {
+    margin: 0;
+  }
+`;
