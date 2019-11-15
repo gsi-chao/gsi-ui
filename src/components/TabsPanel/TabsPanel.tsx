@@ -83,7 +83,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
         activeColor={options.activeColor}
         lineColor={options.lineColor}
       >
-        <CarouselMultiple>
+        <CarouselMultiple padding={props.tabsTagsContainerPadding}>
           {options.tabList.filter(tab => !tab.hidden).map(tab => (
             <ItemSC className="item" key={tab.key}>
               <VTabPanel
@@ -103,6 +103,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
                 dataBadge={tab.dataBadge}
                 size={options.size}
                 activeBorderColor={options.activeBorderColor}
+                padding={options.tabsTagItemPadding}
               />
             </ItemSC>
           ))}

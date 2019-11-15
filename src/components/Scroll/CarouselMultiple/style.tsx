@@ -5,9 +5,13 @@ interface ICarouselContainer {
   direction: string;
 }
 
+interface IPaddingProps {
+  padding: string
+}
+
 export const SliderWrapper = styled.div`
   width: 100%;
-  padding: 10px 0 0;
+  padding: ${(props: IPaddingProps) => props.padding || `10px 0 0`};
   overflow: hidden;
   position: relative;
   .slider {

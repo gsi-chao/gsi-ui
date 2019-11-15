@@ -43,6 +43,8 @@ export interface ITabsPanelProps {
   beforeChangeTabValidation?: boolean;
   tabsAlertProps?: TabsAlertProps;
   handleChange(tab: ITabsPanelTypes): void;
+  tabsTagsContainerPadding?: string;
+  tabsTagItemPadding?: string;
 }
 
 export interface IIconTabsPanelProps {

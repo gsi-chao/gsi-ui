@@ -8,7 +8,7 @@ import UseSliding from './components/UseSliding';
 import UseSizeElement from './components/UseSizeElement';
 import SliderContext from './context';
 
-const Slider = ({ children }: any) => {
+const Slider = ({ padding, children }: any) => {
   const [resolution, setState] = useState();
 
   const { width, elementRef } = UseSizeElement();
@@ -28,7 +28,7 @@ const Slider = ({ children }: any) => {
   return (
     <ReactResizeDetector handleWidth onResize={setState}>
       <SliderContext.Provider value={contextValue}>
-        <SliderWrapper>
+        <SliderWrapper padding={padding}>
           <div className="slider">
             <div
               ref={containerRef}
