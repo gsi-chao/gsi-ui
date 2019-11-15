@@ -18,4 +18,5 @@ export {
 export { VSelectMultiple } from './Inputs/SelectMultipleField';
 export { VSelectMultipleTags } from './Inputs/SelectMultipleTags';
 export { VSwitchField } from './Inputs/SwitchField';
+export {VMaskField, VPublicMask} from './Inputs/MaskField';
 export { Validators } from './Validators';

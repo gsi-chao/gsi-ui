@@ -2,7 +2,7 @@
 
 exports[`renders without crashing InputField All Properties 1`] = `
 <div
-  className="bp3-form-group bp3-inline sc-bdVaJa sc-bwzfXH iEiOly"
+  className="bp3-form-group bp3-inline sc-bdVaJa sc-bwzfXH bEbZmY"
 >
   <div
     className="bp3-form-content"

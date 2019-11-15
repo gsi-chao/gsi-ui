@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { FormGroup } from '@blueprintjs/core';
+import { FormGroup, Intent, Colors } from '@blueprintjs/core';
 import { ILayer } from './ILayer';
 import DatePicker from 'react-datepicker';
 import { DateInput } from '@blueprintjs/datetime';
+import MaskedInput from 'react-text-mask';
+import Color from 'color';
 
 export interface IStyledFieldProps {
   inline?: boolean;
@@ -38,7 +40,7 @@ export const StyledFormGroup = styled(FormGroup)`
     let layerPercent: any = {};
     let inputOrientation = 'flex-start';
     let containerWidth = undefined;
-    let labelWidth = undefined;
+    let labelWidth = 0;
     let labelOrientation = undefined;
     let inputWidth = undefined;
     if (layer) {
@@ -50,6 +52,7 @@ export const StyledFormGroup = styled(FormGroup)`
           ? 'flex-end'
           : 'flex-start';
       labelOrientation = layer.labelOrientation;
+      console.log(layerPercent);
       if (layerPercent) {
         containerWidth = layerPercent.containerWidth;
         labelWidth = layerPercent.labelWidth;
@@ -352,5 +355,37 @@ export const DateInputContainer = styled(DateInput)`
     & .bp3-html-select.bp3-minimal select {
       font-size: 12px;
     }
+  }
+`;
+
+interface IMaskedInput {
+  intent: Intent;
+  large: string;
+}
+
+export const StyledMaskInput = styled(MaskedInput)`
+  width: ${(props: IMaskedInput) =>
+    props.large === 'large'  ? '100%' : 'auto'};
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  ${(props: IMaskedInput) =>
+    props.intent && props.intent !== Intent.DANGER
+      ? 'box-shadow: 0 0 0 0 rgba(19, 124, 189, 0), 0 0 0 0 rgba(19, 124, 189, 0),\n    inset 0 0 0 1px rgba(16, 22, 26, 0.15),\n    inset 0 1px 1px rgba(16, 22, 26, 0.2);'
+      : 'box-shadow: 0 0 0 0 rgba(219, 55, 55, 0), 0 0 0 0 rgba(219, 55, 55, 0), inset 0 0 0 1px #db3737, inset 0 0 0 1px rgba(16, 22, 26, 0.15), inset 0 1px 1px rgba(16, 22, 26, 0.2);'};
+
+  background: #ffffff;
+  height: 30px;
+  padding: 0 10px;
+  vertical-align: middle;
+  line-height: 30px;
+  color: #182026;
+  font-size: 14px;
+  font-weight: 400;
+  transition: box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9);
+
+  &:focus {
+    box-shadow: 0 0 0 1px #137cbd, 0 0 0 3px rgba(19, 124, 189, 0.3),
+      inset 0 1px 1px rgba(16, 22, 26, 0.2);
   }
 `;

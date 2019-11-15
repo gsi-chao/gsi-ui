@@ -8,15 +8,18 @@ const email = (value: string) =>
   !validator.isEmail(value) && `${value} is not a valid email.`;
 
 const lt = (maxLength: number) => (value: string) =>
-  value && value.toString().trim().length > maxLength &&
+  value &&
+  value.toString().trim().length > maxLength &&
   `The value must have less than ${maxLength} symbols.`;
 
 const gt = (minLength: number) => (value: string) =>
-  value && value.toString().trim().length < minLength &&
- `The value must have great than ${minLength} symbols.`;
+  value &&
+  value.toString().trim().length < minLength &&
+  `The value must have great than ${minLength} symbols.`;
 
 const exact = (length: number) => (value: string) =>
-  value && value.toString().trim().length !== length &&
+  value &&
+  value.toString().trim().length !== length &&
   `The value must be ${length} symbols.`;
 
 const ltNumber = (min: number) => (value: string) =>
@@ -46,8 +49,8 @@ const isMACAddress = () => (value: string) =>
 const isURL = () => (value: string) =>
   !validator.isURL(value) && `The value ${value} is not a valid URL`;
 
-const isPhone = () => (value: string) =>
-  !validator.isMobilePhone(value, 'en-US') &&
+const isPhone = (locale: any = 'en-US') => (value: string) =>
+  !validator.isMobilePhone(value, locale) &&
   `The value ${value} is not a valid Phone`;
 
 const isPostalCode = () => (value: string) =>
