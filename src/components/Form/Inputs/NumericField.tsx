@@ -123,7 +123,8 @@ export class VNumericField extends React.Component<INumericFieldProps> {
     if (
       !(
         event.shiftKey === false &&
-        (keycode === 46 ||
+        ((keycode === 45 && this.isInTheStart(event)) ||
+          keycode === 46 ||
           keycode === 8 ||
           keycode === 37 ||
           keycode === 39 ||
@@ -132,6 +133,13 @@ export class VNumericField extends React.Component<INumericFieldProps> {
     ) {
       event.preventDefault();
     }
+  };
+
+  public isInTheStart = (event: any) => {
+    if (event.currentTarget && event.currentTarget) {
+      return !event.currentTarget.selectionStart;
+    }
+    return false;
   };
 
   @computed
