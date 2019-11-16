@@ -15,7 +15,7 @@ const lt = (maxLength: number) => (value: string) =>
 const gt = (minLength: number) => (value: string) =>
   value &&
   value.toString().trim().length < minLength &&
-  `The value must have great than ${minLength} symbols.`;
+  `The value must be greater than ${minLength} symbols.`;
 
 const exact = (length: number) => (value: string) =>
   value &&
