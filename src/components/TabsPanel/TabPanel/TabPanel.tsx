@@ -81,5 +81,4 @@ const StyledSpan = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: 90%;
 `;
