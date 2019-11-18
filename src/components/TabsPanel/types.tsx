@@ -22,7 +22,6 @@ export interface ITabsPanelStyle {
 export interface ITabsPanelState {
   active: string;
   content: any;
-  isOpenConfirmationDialog: boolean;
   possibleKey: string;
 }
 

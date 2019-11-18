@@ -22,14 +22,16 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
     return content;
   };
   const [state, setState] = useState<ITabsPanelState>({
-    isOpenConfirmationDialog: false,
     active: props.active ? props.active : props.tabList[0].key,
     content: getContent(props.active),
     possibleKey: ''
   });
+
+  const [isOpenConfirmationDialog, setIsOpenConfirmationDialog] = useState(
+    false
+  );
   useEffect(() => {
     setState({
-      isOpenConfirmationDialog: false,
       active: state.active,
       content: getContent(state.active),
       possibleKey: ''
@@ -38,7 +40,6 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
   useEffect(() => {
     const act = `${props.active}`;
     setState({
-      isOpenConfirmationDialog: false,
       active: act,
       content: getContent(act),
       possibleKey: ''
@@ -46,12 +47,9 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
   }, [props.active]);
 
   const toggleIsOpenDialogOpen = () => {
-    setState({
-      ...state,
-      isOpenConfirmationDialog: !state.isOpenConfirmationDialog,
-      possibleKey: ''
-    });
+    setIsOpenConfirmationDialog(!isOpenConfirmationDialog);
   };
+
   const handleChangeTab = (key: string) => {
     if (props.beforeChangeTabValidation) {
       toggleIsOpenDialogOpen();
@@ -74,7 +72,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
     toggleIsOpenDialogOpen();
   };
   const { tabsAlertProps, ...options } = props;
-  const { active, content, isOpenConfirmationDialog } = state;
+  const { active, content } = state;
 
   return (
     <ContainerTabsPanel>
@@ -84,29 +82,31 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
         lineColor={options.lineColor}
       >
         <CarouselMultiple padding={props.tabsTagsContainerPadding}>
-          {options.tabList.filter(tab => !tab.hidden).map(tab => (
-            <ItemSC className="item" key={tab.key}>
-              <VTabPanel
-                backgroundColor={options.backgroundColor}
-                key={tab.key}
-                id={tab.key}
-                handleOnClick={handleChangeTab}
-                label={tab.label!}
-                active={active === tab.key}
-                icon={tab.icon}
-                textColor={options.textColor}
-                borderColor={options.borderColor}
-                activeColor={options.activeColor}
-                activeTextColor={options.activeTextColor}
-                textColorBadge={tab.textColorBadge}
-                backgroundColorBadge={tab.backgroundColorBadge}
-                dataBadge={tab.dataBadge}
-                size={options.size}
-                activeBorderColor={options.activeBorderColor}
-                padding={options.tabsTagItemPadding}
-              />
-            </ItemSC>
-          ))}
+          {options.tabList
+            .filter(tab => !tab.hidden)
+            .map(tab => (
+              <ItemSC className="item" key={tab.key}>
+                <VTabPanel
+                  backgroundColor={options.backgroundColor}
+                  key={tab.key}
+                  id={tab.key}
+                  handleOnClick={handleChangeTab}
+                  label={tab.label!}
+                  active={active === tab.key}
+                  icon={tab.icon}
+                  textColor={options.textColor}
+                  borderColor={options.borderColor}
+                  activeColor={options.activeColor}
+                  activeTextColor={options.activeTextColor}
+                  textColorBadge={tab.textColorBadge}
+                  backgroundColorBadge={tab.backgroundColorBadge}
+                  dataBadge={tab.dataBadge}
+                  size={options.size}
+                  activeBorderColor={options.activeBorderColor}
+                  padding={options.tabsTagItemPadding}
+                />
+              </ItemSC>
+            ))}
         </CarouselMultiple>
 
         <TabsSpaceFiller />
@@ -132,7 +132,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
         confirmButtonText={
           (tabsAlertProps && tabsAlertProps.confirmButtonText) || 'Ok'
         }
-        intent={(tabsAlertProps && tabsAlertProps.intent) || 'none'}
+        intent={(tabsAlertProps && tabsAlertProps.intent) || 'warning'}
         icon={(tabsAlertProps && tabsAlertProps.icon) || 'warning-sign'}
         style={(tabsAlertProps && tabsAlertProps.style) || {}}
         className={(tabsAlertProps && tabsAlertProps.className) || ''}
