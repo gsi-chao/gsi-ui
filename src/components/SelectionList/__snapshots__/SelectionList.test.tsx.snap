@@ -5,7 +5,7 @@ exports[`render correctly SelectionList component one segment 1`] = `
   className="sc-htpNat cZlelS"
 >
   <ul
-    className="bp3-menu sc-bwzfXH bGgvvP bp3-elevation-0 undefined"
+    className="bp3-menu bp3-elevation-0 undefined sc-bwzfXH bGgvvP"
   >
     <li
       className=""

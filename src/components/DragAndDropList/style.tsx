@@ -80,7 +80,7 @@ export const StyledCustomDraggableItem = styled.div`
   }
 `;
 
-export const DNDList = styled.div`
+export const StyledDNDList = styled.div`
   overflow-y: auto;
   & div.dndItemSelected .customDraggable {
     background-color: rgba(104, 167, 218, 0.6);

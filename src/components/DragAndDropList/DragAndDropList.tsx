@@ -17,7 +17,6 @@ import {
 } from 'react-beautiful-dnd';
 import {
   DNDContainer,
-  DNDList,
   DragListSpinnerContainer,
   FilterInput,
   StyledDivContainer
@@ -33,12 +32,9 @@ import { Button } from '@blueprintjs/core';
 import { observer } from 'mobx-react-lite';
 import { VSpinner } from '../Spinner';
 import { DNDItemWrapper } from './DNDItemWrapper';
+import { DNDList } from './DNDList';
 
-const reorder = (
-  list: IDNDList,
-  startIndex: number,
-  endIndex: number
-): IDNDList => {
+const reorder = (list: IDNDList, startIndex: number, endIndex: number): IDNDList => {
   const result = list;
   const [removed] = result.list.splice(startIndex, 1);
   result.list.splice(endIndex, 0, removed);
@@ -60,9 +56,7 @@ const move = (
   const sourceClone = source;
   const destClone = destination;
   if (itemToMove) {
-    sourceClone.list = sourceClone.list.filter(
-      item => item.value !== itemToMove.value
-    );
+    sourceClone.list = sourceClone.list.filter(item => item.value !== itemToMove.value);
     destClone.list.splice(droppableDestination.index, 0, itemToMove);
   }
   return [sourceClone, destClone];
@@ -119,8 +113,7 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
     setState({
       ...state,
       draggableId: initial.draggableId,
-      draggableItemSourceId:
-        initial && initial.source && initial.source.droppableId
+      draggableItemSourceId: initial && initial.source && initial.source.droppableId
     });
   };
 
@@ -138,11 +131,7 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
 
     let items: any = {};
     if (source.droppableId === destination.droppableId) {
-      items = reorder(
-        getList(source.droppableId),
-        source.index,
-        destination.index
-      );
+      items = reorder(getList(source.droppableId), source.index, destination.index);
 
       setState({ ...state, ...items });
     } else {
@@ -189,11 +178,7 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
     }
   };
 
-  const handleHelpButtonCLicked = (
-    itemId: any,
-    source: any,
-    destination: any
-  ) => {
+  const handleHelpButtonCLicked = (itemId: any, source: any, destination: any) => {
     const lists = state.items;
     const sourceList = lists.find(e => e.id === source);
     if (sourceList) {
@@ -238,10 +223,7 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
         {props.list.map((value: IDNDList, index: number) => {
           return (
             <Droppable droppableId={value.id} key={index}>
-              {(
-                provided: DroppableProvided,
-                snapshot: DroppableStateSnapshot
-              ) => (
+              {(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => (
                 <VCardPanel
                   bodyPadding={'5px'}
                   width={value.width || '200px'}
@@ -257,15 +239,8 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
                     </DragListSpinnerContainer>
                   )) || (
                     <StyledDivContainer
-                      sourceListBackGroundColor={
-                        props.sourceListBackGroundColor
-                      }
-                      className={
-                        (state.draggableId &&
-                          state.draggableItemSourceId === value.id &&
-                          'sourceList') ||
-                        ''
-                      }
+                      sourceListBackGroundColor={props.sourceListBackGroundColor}
+                      className={(state.draggableId && state.draggableItemSourceId === value.id && 'sourceList') || ''}
                     >
                       {(value.allowFilter && (
                         <FilterInput
@@ -275,7 +250,7 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
                           noLabel
                           leftIcon={'search'}
                           value={state.filterValues[`filter_${value.id}`]}
-                          onChange={filterValue => {
+                          onChange={(filterValue: any) => {
                             updateFilter(filterValue, `filter_${value.id}`);
                           }}
                           rightElement={
@@ -290,60 +265,39 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
                           }
                         />
                       )) ||
-                        null}
-                      <DNDList
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        style={{
-                          height: `calc(100%${(value.allowFilter &&
-                            ' - 35px') ||
-                            ''})`
-                        }}
-                      >
-                        {value.list
-                          .filter((item: IDNDItem) =>
-                            displayItem(
-                              item,
-                              state.filterValues[`filter_${value.id}`],
-                              !!value.allowFilter
+                      null}
+                      <div style={{ height: '100%' }}>
+                        <DNDList innerRef={provided.innerRef} provided={provided} value={value}>
+                          {value.list
+                            .filter((item: IDNDItem) =>
+                              displayItem(item, state.filterValues[`filter_${value.id}`], !!value.allowFilter)
                             )
-                          )
-                          .map((item: IDNDItem, index: number) => (
-                            <Draggable
-                              key={`${value.id}-${item.value}`}
-                              draggableId={item.value}
-                              index={index}
-                            >
-                              {(
-                                providedDraggable: DraggableProvided,
-                                snapshotDraggable: DraggableStateSnapshot
-                              ) => (
-                                <DNDItemWrapper
-                                  onClick={() => {
-                                    handleItemSelection(item.value, value.id);
-                                  }}
-                                  onDoubleClick={() => {
-                                    handleDoubleClick(item.value, value.id);
-                                  }}
-                                  className={`${state.selectedItemId &&
+                            .map((item: IDNDItem, index: number) => (
+                              <Draggable key={`${value.id}-${item.value}`} draggableId={item.value} index={index}>
+                                {(providedDraggable: DraggableProvided, snapshotDraggable: DraggableStateSnapshot) => (
+                                  <DNDItemWrapper
+                                    innerRef={providedDraggable.innerRef}
+                                    onClick={() => {
+                                      handleItemSelection(item.value, value.id);
+                                    }}
+                                    onDoubleClick={() => {
+                                      handleDoubleClick(item.value, value.id);
+                                    }}
+                                    className={`${state.selectedItemId &&
                                     state.selectedItemId === item.value &&
                                     'dndItemSelected'}`}
-                                  providedDraggable={providedDraggable}
-                                  item={item}
-                                  displayButtons={
-                                    props.showHelpButtons &&
-                                    item.value === state.selectedItemId
-                                  }
-                                  selectedItemHelpButtons={
-                                    props.selectedItemHelpButtons
-                                  }
-                                  value={value}
-                                />
-                              )}
-                            </Draggable>
-                          ))}
-                        {provided.placeholder}
-                      </DNDList>
+                                    providedDraggable={providedDraggable}
+                                    item={item}
+                                    displayButtons={props.showHelpButtons && item.value === state.selectedItemId}
+                                    selectedItemHelpButtons={props.selectedItemHelpButtons}
+                                    value={value}
+                                  />
+                                )}
+                              </Draggable>
+                            ))}
+                          {provided.placeholder}
+                        </DNDList>
+                      </div>
                     </StyledDivContainer>
                   )}
                 </VCardPanel>
