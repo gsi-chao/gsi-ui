@@ -3,7 +3,7 @@ import React from 'react';
 import { DNDItem } from './style';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import { IDNDItem, IDNDList, SelectedItemHelpButtonList } from './types';
-import { useClickPreventionOnDoubleClick } from '../CustomHooks/useClickPreventionOnDoubleClick';
+import { useClickPreventionOnDoubleClick } from '../CustomHooks';
 
 export interface DNDItemWrapperProps {
   onClick: any;
@@ -19,6 +19,7 @@ export interface DNDItemWrapperProps {
   displayButtons?: boolean;
   selectedItemHelpButtons?: SelectedItemHelpButtonList;
   value: IDNDList;
+  innerRef: any;
 }
 
 export const DNDItemWrapper = (props: DNDItemWrapperProps) => {
@@ -42,22 +43,19 @@ export const DNDItemWrapper = (props: DNDItemWrapperProps) => {
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
       className={className}
+      ref={props.innerRef}
+      {...providedDraggable.draggableProps}
+      {...providedDraggable.dragHandleProps}
     >
-      <div
-        ref={providedDraggable.innerRef}
-        {...providedDraggable.draggableProps}
-        {...providedDraggable.dragHandleProps}
-      >
-        <CustomDraggableItem
-          label={item.label}
-          type={item.type || ''}
-          source={value.id}
-          displayButtons={displayButtons}
-          selectedItemHelpButtons={selectedItemHelpButtons}
-          draggableId={item.value}
-          handleHelpButtonClicked={handleHelpButtonClicked}
-        />
-      </div>
+      <CustomDraggableItem
+        label={item.label}
+        type={item.type || ''}
+        source={value.id}
+        displayButtons={displayButtons}
+        selectedItemHelpButtons={selectedItemHelpButtons}
+        draggableId={item.value}
+        handleHelpButtonClicked={handleHelpButtonClicked}
+      />
       {providedDraggable.placeholder}
     </DNDItem>
   );
