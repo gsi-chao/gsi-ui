@@ -108,6 +108,7 @@ export class VMaskField extends React.Component<IMaskInputProps> {
             keepCharPositions={this.props.keepCharPositions}
             placeholderChar={this.props.placeholderChar}
             pipe={this.props.pipe}
+            disabled={disabled}
             showMask={this.props.showMask}
             onChange={this.onChange}
             value={this.valueField}
