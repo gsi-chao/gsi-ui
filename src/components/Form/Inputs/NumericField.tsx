@@ -20,6 +20,7 @@ export interface INumericFieldProps extends IFieldProps {
   fill?: boolean;
   tipLabel?: string;
   allowNumericCharactersOnly?: boolean;
+  clampValueOnBlur?: boolean;
 }
 
 /**
@@ -57,6 +58,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       tipLabel,
       tooltip,
       displayRequired,
+      clampValueOnBlur,
       value
     } = this.props;
     if (fieldState) {
@@ -105,7 +107,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
               buttonPosition,
               allowNumericCharactersOnly
             }}
-            clampValueOnBlur
+            clampValueOnBlur={clampValueOnBlur}
             onValueChange={this.onChange}
             value={this.valueField}
             intent={
