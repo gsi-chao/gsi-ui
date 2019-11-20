@@ -114,6 +114,15 @@ export class VNumericField extends React.Component<INumericFieldProps> {
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
             onKeyPress={this.onKeyPress}
+            onPaste={e => {
+              const oldValue =
+                e && e.currentTarget && e.currentTarget.value;
+              const newValue =
+                e && e.clipboardData && e.clipboardData.getData('Text');
+              if (this.props.onPaste) {
+                this.props.onPaste(oldValue, newValue);
+              }
+            }}
           />
         </FormFieldContainer>
       </StyledNumericInput>

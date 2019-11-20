@@ -26,6 +26,7 @@ exports[`renders without crashing InputField All Properties 1`] = `
             id="test-input"
             name="test-input"
             onChange={[Function]}
+            onPaste={[Function]}
             placeholder="Username"
             style={
               Object {
