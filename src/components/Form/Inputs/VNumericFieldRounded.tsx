@@ -52,6 +52,17 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
   const [state, setState] = useState<any>('');
 
   useEffect(() => {
+    const propsValue =
+      (props.fieldState && props.fieldState.value) || value || '';
+    const newValue =
+      (propsValue &&
+        props.roundTo &&
+        fillWithZero(propsValue, props.roundTo)) ||
+      propsValue;
+    setState(newValue);
+  }, []);
+
+  useEffect(() => {
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
@@ -63,15 +74,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
         fieldState.validators(...validators);
       }
     }
-    const propsValue =
-      (props.fieldState && props.fieldState.value) || value || '';
-    const newValue =
-      (propsValue &&
-        props.roundTo &&
-        fillWithZero(propsValue, props.roundTo)) ||
-      propsValue;
-    setState(newValue);
-  }, []);
+  }, [validators,required]);
 
   useEffect(() => {
     const propsValue =
