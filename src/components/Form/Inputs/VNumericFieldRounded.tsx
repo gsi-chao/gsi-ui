@@ -74,6 +74,19 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     setState(newValue);
   }, []);
 
+  useEffect(() => {
+    const propsValue =
+      (props.fieldState && props.fieldState.value) || value || '';
+    if (Number(propsValue) !== Number(state)) {
+      const newValue =
+        (propsValue &&
+          props.roundTo &&
+          fillWithZero(propsValue, props.roundTo)) ||
+        propsValue;
+      setState(newValue);
+    }
+  }, [props.fieldState && props.fieldState.value, props.value]);
+
   const onChange = (e: any) => {
     const funct = () => {
       let val =
