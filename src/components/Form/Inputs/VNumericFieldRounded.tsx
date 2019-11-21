@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { isFinite, isNumber, round } from 'lodash';
 /** Blueprint */
 /** FieldState */
 import { IconName, InputGroup, Intent } from '@blueprintjs/core';
@@ -8,8 +9,6 @@ import { IFieldProps } from './IFieldProps';
 import { StyledNumericInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
-import { round } from 'lodash';
-import { debounce } from 'formstate/lib/internal/utils';
 
 /**
  * Field Props
@@ -77,53 +76,75 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
   useEffect(() => {
     const propsValue =
       (props.fieldState && props.fieldState.value) || value || '';
-    if (Number(propsValue) !== Number(state)) {
-      const newValue =
-        (propsValue &&
-          props.roundTo &&
-          fillWithZero(propsValue, props.roundTo)) ||
-        propsValue;
-      setState(newValue);
+    if (Number(propsValue) !== Number(state) && state !== '-') {
+      MaskValue();
     }
   }, [props.fieldState && props.fieldState.value, props.value]);
 
+  const getValue = () => {
+    return isNumber(props.fieldState && props.fieldState.value) &&
+      isFinite(props.fieldState && props.fieldState.value)
+      ? props.fieldState && props.fieldState.value
+      : isNumber(props.value) && isFinite(props.value)
+      ? props.value
+      : '';
+  };
+
+  const MaskValue = () => {
+    const propValue = getValue();
+    let val = isNumber(propValue) && isFinite(propValue) ? propValue : '';
+    if (isNumber(val) && isFinite(val) && props.roundTo) {
+      val = round(Number(val.toString()), props.roundTo);
+    }
+    val = fillWithZero(val, props.roundTo || 0);
+    setState(val);
+  };
+
   const onChange = (e: any) => {
-    const funct = () => {
-      let val =
-        (props.fieldState && props.fieldState.value) || props.value || 0;
-      val = (val && round(Number(val.toString()), props.roundTo)) || 0;
-      val = fillWithZero(val, props.roundTo || 0);
-      setState(val);
-    };
-    executeFunctionWithDebounce(funct);
-    const regExp = /^(-)?[0-9]*([.][0-9]*)?$/;
     const value = e.target.value;
     if (regExp.test(value) || !value) {
       if (!props.maxDecimals || canAddDecimalPlace(value, props.maxDecimals)) {
         let newValue = value;
         if (props.roundTo && props.roundTo > 0) {
-          newValue =
-            (newValue && round(Number(newValue.toString()), props.roundTo)) ||
-            0;
+          console.log(value);
+          if (
+            `${value}` &&
+            isNumber(Number(value)) &&
+            isFinite(Number(value))
+          ) {
+            console.log('here');
+            newValue =
+              `${newValue &&
+                round(Number(newValue.toString()), props.roundTo)}` || '';
+          }
+          console.log(value, newValue);
           setState(value);
-          if (props.fieldState) {
-            props.fieldState.onChange(newValue);
-          }
-          if (props.onChange) {
-            props.onChange!(newValue);
-          }
+          setPropsValues(newValue);
         } else {
           setState(value);
-          if (props.fieldState) {
-            props.fieldState.onChange(newValue);
-          }
-          if (props.onChange) {
-            props.onChange!(newValue);
-          }
+          setPropsValues(newValue);
         }
       }
     }
   };
+
+  const setPropsValues = (val: any) => {
+    if (props.fieldState) {
+      props.fieldState.onChange(
+        `${val}` && isNumber(Number(val)) && isFinite(Number(val))
+          ? Number(val)
+          : ''
+      );
+    }
+    if (props.onChange) {
+      props.onChange!(
+        `${val}` && isNumber(Number(val)) && isFinite(Number(val))
+          ? Number(val)
+          : ''
+      );
+    }
+  };
+
   return (
     <StyledNumericInput
       className={className}
@@ -168,6 +189,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
               props.onPaste(oldValue, newValue);
             }
           }}
+          onBlur={MaskValue}
         />
       </FormFieldContainer>
     </StyledNumericInput>
@@ -175,6 +197,9 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 });
 
 const fillWithZero = (value: any, round: number): any => {
+  if (!`${value}`) {
+    return '';
+  }
   const values = `${value || ''}`.split('.');
   if (values && values.length === 2) {
     let secValues = `${values[1]}`;
@@ -183,11 +208,11 @@ const fillWithZero = (value: any, round: number): any => {
     }
     return `${values[0]}.${secValues}`;
   }
-  let secValues = `0`;
-  while (secValues.length < round) {
+  let secValues = ``;
+  while (secValues.length <= round) {
     secValues += `0`;
   }
-  return (value || `${value}`.toString()) ? `${value}.${secValues}` : '';
+  return value || `${value}`.toString() ? `${value}.${secValues}` : '';
 };
 
 const canAddDecimalPlace = (value: any, round: number): boolean => {
@@ -199,6 +224,4 @@ const canAddDecimalPlace = (value: any, round: number): boolean => {
   return true;
 };
 
-export const executeFunctionWithDebounce = debounce((callBack: any) => {
-  callBack();
-}, 1000);
+const regExp = /^(-)?[0-9]*([.][0-9]*)?$/;
