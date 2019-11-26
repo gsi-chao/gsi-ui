@@ -50,6 +50,7 @@ const isURL = () => (value: string) =>
   !validator.isURL(value) && `The value ${value} is not a valid URL`;
 
 const isPhone = (locale: any = 'en-US') => (value: string) =>
+  !!value &&
   !validator.isMobilePhone(value, locale) &&
   `The value ${value} is not a valid Phone`;
 
