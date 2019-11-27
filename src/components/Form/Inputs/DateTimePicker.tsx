@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import moment from 'moment';
 /** Blueprint */
-import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
+import { Icon, IconName, Intent, IPopoverProps,  } from '@blueprintjs/core';
 import { DateInput, IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
 /** FieldState */
 import { DateInputContainer, IconDate, StyledFormGroup } from './style';
@@ -31,6 +31,7 @@ export interface IInputFieldProps extends IFieldProps {
   maxTime?: Date;
   minTime?: Date;
   canClearSelection?: boolean;
+  shortcuts?: boolean | any[];
 }
 
 interface IIcon {
@@ -182,6 +183,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               rightElement={iconJSX}
               popoverProps={popoverProps}
               canClearSelection={this.props.canClearSelection}
+              shortcuts={this.props.shortcuts}
             />
           ) : (
             <TimePicker
