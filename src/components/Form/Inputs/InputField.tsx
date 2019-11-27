@@ -8,7 +8,6 @@ import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed } from 'mobx';
-import { debounce } from 'lodash';
 
 /**
  * Field component. Must be an observer.
@@ -21,6 +20,7 @@ export interface IInputFieldProps extends IFieldProps {
   fill?: boolean;
   tipLabel?: string;
   upperCaseFormat?: boolean;
+  inputRef?: any;
 }
 
 export interface IState {
@@ -38,7 +38,7 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
       start: 1,
       end: 1
     };
-    this.inputRef = React.createRef();
+    this.inputRef = props.inputRef ? props.inputRef : React.createRef();
   }
 
   public render() {
