@@ -8,6 +8,7 @@ import { StyledNumericInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed } from 'mobx';
+import { isNumber } from 'lodash';
 
 /**
  * Field Props
@@ -61,6 +62,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       clampValueOnBlur,
       value
     } = this.props;
+
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
@@ -107,7 +109,6 @@ export class VNumericField extends React.Component<INumericFieldProps> {
               buttonPosition,
               allowNumericCharactersOnly
             }}
-            clampValueOnBlur={clampValueOnBlur}
             onValueChange={this.onChange}
             value={this.valueField}
             intent={
@@ -117,10 +118,15 @@ export class VNumericField extends React.Component<INumericFieldProps> {
             onPaste={e => {
               const oldValue =
                 e && e.currentTarget && e.currentTarget.value;
-              const newValue =
+              let newValue =
                 e && e.clipboardData && e.clipboardData.getData('Text');
-              if (this.props.onPaste) {
-                this.props.onPaste(oldValue, newValue);
+              newValue = newValue.replace(',', '.');
+              if (Number(newValue) && isNumber(Number(newValue))) {
+                if (this.props.onPaste) {
+                  this.props.onPaste(oldValue, newValue);
+                }
+              } else {
+                e.preventDefault();
               }
             }}
           />
