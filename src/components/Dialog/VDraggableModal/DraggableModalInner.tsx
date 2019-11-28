@@ -14,6 +14,7 @@ import {
   DialogDS
 } from './dialog';
 import { VSpinner } from '../../Spinner';
+import './dialog.css';
 
 const modalStyle: React.CSSProperties = {
   margin: 0,
@@ -96,7 +97,6 @@ export const DraggableModalInner = memo(
       <DialogDS
         portalClassName={'gsi-draggable-modal'}
         style={style}
-        hasBackdrop={false}
         canEscapeKeyClose={false}
         canOutsideClickClose={false}
         isOpen={isOpen}

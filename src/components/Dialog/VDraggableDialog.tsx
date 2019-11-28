@@ -1,9 +1,8 @@
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Rnd } from 'react-rnd';
-import { forEach } from 'lodash';
+import { forEach, uniqueId } from 'lodash';
 import { DialogStyled } from './styled';
-import { generate } from 'shortid';
 
 interface IDraggableDialog {
   isOpen: boolean;
@@ -34,7 +33,7 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
     width: number;
     height: number;
   }>();
-  const idDialog: string = useMemo(() => generate(), [dimension]);
+  const idDialog: string = useMemo(() => uniqueId(), [dimension]);
   const classNameDialog: string = useMemo(
     () =>
       Math.random()

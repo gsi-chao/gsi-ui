@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './ResizeHandle.css';
+import { RisizeContainer } from './dialog';
 
 export const ResizeHandle = (
   props: React.DetailedHTMLProps<
@@ -7,7 +7,9 @@ export const ResizeHandle = (
     HTMLDivElement
   >
 ): React.ReactElement => (
-  <div className="ant-design-draggable-modal-resize-handle" {...props}>
-    <div className="ant-design-draggable-modal-resize-handle-inner" />
-  </div>
+  <RisizeContainer>
+    <div className="ant-design-draggable-modal-resize-handle" {...props}>
+      <div className="ant-design-draggable-modal-resize-handle-inner" />
+    </div>
+  </RisizeContainer>
 );

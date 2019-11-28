@@ -4,7 +4,6 @@ import { uniqueId } from 'lodash';
 import { DraggableModalContext } from './DraggableModalContext';
 import { DraggableModalInner } from './DraggableModalInner';
 import { getModalState } from './draggableModalReducer';
-import './DraggableModal.css';
 import { StyledCardProps } from '../../Card/VCardPanel';
 
 // todo add props
@@ -18,7 +17,7 @@ export interface DraggableModalProps extends StyledCardProps {
   enableDrag?: boolean;
 }
 
-export const DraggableModal = (
+export const VDraggableModal = (
   props: DraggableModalProps
 ): React.ReactElement => {
   // Get the unique ID of this modal.

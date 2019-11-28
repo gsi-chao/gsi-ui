@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { FormGroup, Intent, Colors } from '@blueprintjs/core';
 import { ILayer } from './ILayer';
-import DatePicker from 'react-datepicker';
 import { DateInput } from '@blueprintjs/datetime';
 import MaskedInput from 'react-text-mask';
 import Color from 'color';
@@ -331,23 +330,6 @@ export const IconDate = styled('div')`
   right: 0;
 `;
 
-export const DateInputPicker = styled(DatePicker)`
-  & {
-    height: 30px;
-    padding: 0 10px;
-    vertical-align: middle;
-    color: #182026;
-    font-size: 14px;
-    font-weight: 400;
-    border: solid 1px #b6b8ba;
-    border-radius: 3px;
-  }
-  &:focus {
-    box-shadow: 0 0 0 1px #137cbd, 0 0 0 3px rgba(19, 124, 189, 0.2),
-      inset 0 1px 1px rgba(16, 22, 26, 0.2);
-    border: none;
-  }
-`;
 
 export const DateInputContainer = styled(DateInput)`
   @-moz-document url-prefix() {

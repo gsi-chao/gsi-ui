@@ -6,10 +6,10 @@ import {
   VCardTextSpan,
   VCardTextSpanContainer
 } from './style';
-import React, { Component } from 'react';
+import React, { Component, useMemo } from 'react';
 import { FlexJustify, HeaderOrientation } from './types';
 
-interface StyledCardProps {
+export interface StyledCardProps {
   noHeader?: boolean;
   headerText?: string;
   children?: any;
@@ -36,6 +36,8 @@ interface StyledCardProps {
   headerCustomComponent?: any;
   heigthHeaderPx?: number;
   headerCustomButton?: any;
+  onHeaderMouseDrag?: any;
+  onHeaderFocus?: any;
   id?: string;
 }
 
@@ -62,12 +64,7 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
 
   render() {
     const {
-      headerIcon,
-      headerText,
       children,
-      headerBackgroundColor,
-      headerHorizontalAlign,
-      headerColor,
       backgroundColor,
       cardElevation,
       height,
@@ -76,16 +73,8 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
       transitionDuration,
       bodyPadding,
       keepChildrenMounted,
-      closeIcon,
-      openIcon,
-      headerOrientation,
-      headerTextJustify,
       noHeader,
       className,
-      headerCustomComponent,
-      headerCustomButton,
-      headerTextUppercase,
-      headerTextBold,
       id
     } = this.props;
     const { isOpen } = this.state;
@@ -102,36 +91,42 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
       >
         {!noHeader ? (
           <VCardHeader
-            headerBackgroundColor={headerBackgroundColor}
-            headerOrientation={headerOrientation}
-            headerJustifyContent={headerHorizontalAlign}
+            headerBackgroundColor={this.props.headerBackgroundColor}
+            headerOrientation={this.props.headerOrientation}
+            headerJustifyContent={this.props.headerHorizontalAlign}
             heigthHeaderPx={this.props.heigthHeaderPx}
-            className={'move-dialog-header'}
+            onMouseDown={this.props.onHeaderMouseDrag}
+            onClick={this.props.onHeaderFocus}
+            className={'gsi-draggable-modal-title'}
           >
             <VCardTextSpanContainer>
               <VCardTextSpan
-                headerColor={headerColor}
-                headerTextJustify={headerTextJustify}
-                headerTextUppercase={headerTextUppercase}
-                headerTextBold={headerTextBold}
+                headerColor={this.props.headerColor}
+                headerTextJustify={this.props.headerTextJustify}
+                headerTextUppercase={this.props.headerTextUppercase}
+                headerTextBold={this.props.headerTextBold}
               >
-                {headerCustomButton}
-                {headerIcon ? <Icon icon={headerIcon} /> : null}
-                <span>{headerText}</span>
+                {this.props.headerCustomButton}
+                {this.props.headerIcon ? (
+                  <Icon icon={this.props.headerIcon} />
+                ) : null}
+                <span>{this.props.headerText}</span>
               </VCardTextSpan>
             </VCardTextSpanContainer>
-            {collapse ? (
+            {this.props.collapse ? (
               <span onClick={this.toggleCollapsed}>
                 <Icon
                   icon={
-                    isOpen
-                      ? closeIcon || 'chevron-up'
-                      : openIcon || 'chevron-down'
+                    this.state.isOpen
+                      ? this.props.closeIcon || 'chevron-up'
+                      : this.props.openIcon || 'chevron-down'
                   }
                 />
               </span>
             ) : null}
-            {headerCustomComponent ? <div>{headerCustomComponent}</div> : null}
+            {this.props.headerCustomComponent ? (
+              <div>{this.props.headerCustomComponent}</div>
+            ) : null}
           </VCardHeader>
         ) : null}
         <VCardBody bodyPadding={bodyPadding} backgroundColor={backgroundColor}>

@@ -7,7 +7,7 @@ import {
   initialModalsState
 } from './draggableModalReducer';
 
-export const DraggableModalProvider = ({
+export const VDraggableModalProvider = ({
   children
 }: {
   children: React.ReactNode;

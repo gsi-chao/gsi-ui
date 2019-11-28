@@ -41,3 +41,25 @@ export const DialogButtonsEndsContainers = styled.div`
   height: 45px;
   border-top: 1px solid rgba(235, 236, 237, 0.71);
 `;
+
+export const RisizeContainer = styled.div`
+  & > .ant-design-draggable-modal-resize-handle-inner {
+    width: 12px;
+    right: 14px;
+    border: 2px solid grey;
+    height: 12px;
+    bottom: 14px;
+    position: absolute;
+    border-top: 0;
+    border-left: 0;
+  }
+
+  & > .ant-design-draggable-modal-resize-handle {
+    right: -10px;
+    width: 44px;
+    bottom: -10px;
+    cursor: se-resize;
+    height: 44px;
+    position: absolute;
+  }
+`;
