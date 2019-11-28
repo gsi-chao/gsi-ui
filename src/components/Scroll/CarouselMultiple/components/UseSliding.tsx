@@ -8,13 +8,16 @@ const useSliding = (elementWidth: any, countElements: any) => {
   const [distance, setDistance] = useState(0);
   const [totalInViewport, setTotalInViewport] = useState(0);
   const [viewed, setViewed] = useState(0);
+
   useEffect(() => {
-    const containerWidth = containerRef.current.clientWidth - PADDINGS;
-    setContainerWidth(containerWidth);
-    const totalInViewport = Math.floor(containerWidth / elementWidth);
-    setTotalInViewport(totalInViewport);
-    if (countElements <= totalInViewport) {
-      setDistance(0);
+    if(elementWidth > 0){
+      const containerWidth = containerRef.current.clientWidth - PADDINGS;
+      setContainerWidth(containerWidth);
+      const totalInViewport = Math.ceil(containerWidth / elementWidth);
+      setTotalInViewport(totalInViewport);
+      if (countElements <= totalInViewport) {
+        setDistance(0);
+      }
     }
   }, [
     containerRef.current,

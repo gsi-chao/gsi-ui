@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@blueprintjs/core';
 import ReactResizeDetector from 'react-resize-detector';
 
@@ -11,7 +11,8 @@ import SliderContext from './context';
 const Slider = ({ padding, children }: any) => {
   const [resolution, setState] = useState();
 
-  const { width, elementRef } = UseSizeElement();
+  const { width, elementRef } = UseSizeElement(resolution);
+
   const {
     handlePrev,
     handleNext,
@@ -41,14 +42,14 @@ const Slider = ({ padding, children }: any) => {
           {hasPrev && (
             <SlideButton
               onClick={handlePrev}
-              icon={<Icon icon="chevron-left" />}
+              icon={<Icon icon="chevron-left"/>}
               typeS="prev"
             />
           )}
           {hasNext && (
             <SlideButton
               onClick={handleNext}
-              icon={<Icon icon="chevron-right" />}
+              icon={<Icon icon="chevron-right"/>}
               typeS="next"
             />
           )}
