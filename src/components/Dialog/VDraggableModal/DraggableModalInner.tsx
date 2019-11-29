@@ -54,7 +54,7 @@ export const DraggableModalInner = memo(
     // Call on mount and unmount.
     useEffect(() => {
       const size = {
-        height: getNumberMatch(modalProps.height,'height'),
+        height: getNumberMatch(modalProps.height, 'height'),
         width: getNumberMatch(modalProps.width, 'width')
       };
       dispatch({
@@ -64,6 +64,18 @@ export const DraggableModalInner = memo(
       });
       return () => dispatch({ type: 'unmount', id });
     }, [dispatch, id]);
+
+    useEffect(() => {
+      const size = {
+        height: getNumberMatch(modalProps.height, 'height'),
+        width: getNumberMatch(modalProps.width, 'width')
+      };
+      dispatch({
+        id,
+        size,
+        type: 'mount'
+      });
+    }, [modalProps.height, modalProps.width]);
 
     // Bring this to the front if it's been opened with props.
     const visiblePrevious = usePrevious(isOpen);

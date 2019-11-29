@@ -9,6 +9,7 @@ import { GridExample } from './table';
 
 const TestComponent = () => {
   const [visible, setVisible] = useState(false);
+  const [width, setWidth] = useState('300px');
   const onOk = useCallback(() => setVisible(true), []);
   const onCancel = useCallback(() => setVisible(false), []);
   const getEndButtons = () => {
@@ -40,17 +41,18 @@ const TestComponent = () => {
   };
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <Button onClick={onOk}>Open</Button>
+
       <VDraggableModalProvider>
         <VDraggableModal
           buttonsEndComponent={getEndButtons()}
-          height={'300px'}
+          width={width}
           isOpen={visible}
           onSave={onOk}
           onCancel={onCancel}
         >
-          <TestComponent />
+          <Button onClick={() => setWidth('600px')}>Change</Button>
           <GridExample />
         </VDraggableModal>
       </VDraggableModalProvider>
