@@ -1,19 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
+import {} from 'lodash';
 
-const PADDINGS = 0;
 
-const useSliding = (elementWidth: any, countElements: any) => {
+const useSliding = (width: any, countElements: any) => {
   const containerRef = useRef<any>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
   const [distance, setDistance] = useState(0);
   const [totalInViewport, setTotalInViewport] = useState(0);
   const [viewed, setViewed] = useState(0);
+  const [elementWidth, setElementWidth] = useState(0);
 
   useEffect(() => {
-    if(elementWidth > 0){
-      const containerWidth = containerRef.current.clientWidth - PADDINGS;
-      setContainerWidth(containerWidth);
-      const totalInViewport = Math.ceil(containerWidth / elementWidth);
+    if (width > 0) {
+      const containerWidth = containerRef.current.clientWidth;
+      setElementWidth(Math.floor(width / countElements));
+      const totalInViewport = Math.floor(containerWidth / Math.floor(width / countElements));
       setTotalInViewport(totalInViewport);
       if (countElements <= totalInViewport) {
         setDistance(0);

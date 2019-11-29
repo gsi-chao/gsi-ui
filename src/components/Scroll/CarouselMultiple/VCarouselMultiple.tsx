@@ -11,7 +11,7 @@ import SliderContext from './context';
 const Slider = ({ padding, children }: any) => {
   const [resolution, setState] = useState();
 
-  const { width, elementRef } = UseSizeElement(resolution);
+  const {width, elementRef } = UseSizeElement(resolution);
 
   const {
     handlePrev,
