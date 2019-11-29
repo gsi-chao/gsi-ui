@@ -1,11 +1,5 @@
 .gsi-draggable-modal {
-  pointer-events: none;
   overflow: hidden !important;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
 }
 
 .gsi-draggable-modal .bp3-dialog {

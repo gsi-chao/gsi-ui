@@ -15,6 +15,7 @@ import {
 } from './dialog';
 import { VSpinner } from '../../Spinner';
 import './dialog.css';
+import { getNumberMatch } from './utils';
 
 const modalStyle: React.CSSProperties = {
   margin: 0,
@@ -52,7 +53,15 @@ export const DraggableModalInner = memo(
   }: DraggableModalInnerProps) => {
     // Call on mount and unmount.
     useEffect(() => {
-      dispatch({ type: 'mount', id });
+      const size = {
+        height: getNumberMatch(modalProps.height,'height'),
+        width: getNumberMatch(modalProps.width, 'width')
+      };
+      dispatch({
+        id,
+        size,
+        type: 'mount'
+      });
       return () => dispatch({ type: 'unmount', id });
     }, [dispatch, id]);
 
@@ -71,7 +80,18 @@ export const DraggableModalInner = memo(
     const { zIndex, x, y, width, height } = modalState;
 
     const style: React.CSSProperties = useMemo(
-      () => ({ ...modalStyle, top: y, left: x, height, width, zIndex }),
+      () => ({
+        ...modalStyle,
+        zIndex,
+        top: y,
+        left: x,
+        height: modalProps.hasOwnProperty('height')
+          ? modalProps.height
+          : modalState.height,
+        width: modalProps.hasOwnProperty('width')
+          ? modalProps.width
+          : modalState.width
+      }),
       [y, x, height, width, zIndex]
     );
 
@@ -98,12 +118,22 @@ export const DraggableModalInner = memo(
         portalClassName={'gsi-draggable-modal'}
         style={style}
         canEscapeKeyClose={false}
+        hasBackdrop={true}
         canOutsideClickClose={false}
         isOpen={isOpen}
       >
         <VCardPanel
-          height={`${height}px`}
           {...modalProps}
+          height={
+            modalProps.hasOwnProperty('height')
+              ? modalProps.height
+              : `${modalState.height}px`
+          }
+          width={
+            modalProps.hasOwnProperty('width')
+              ? modalProps.width
+              : `${modalState.width}px`
+          }
           onHeaderFocus={onFocus}
           onHeaderMouseDrag={onMouseDrag}
           bodyPadding={'0px'}

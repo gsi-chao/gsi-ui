@@ -32,6 +32,7 @@ export interface IInputFieldProps extends IFieldProps {
   minTime?: Date;
   canClearSelection?: boolean;
   shortcuts?: boolean | any[];
+  showActionsBar?: boolean;
 }
 
 interface IIcon {
@@ -200,6 +201,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               popoverProps={popoverProps}
               canClearSelection={this.props.canClearSelection}
               shortcuts={this.props.shortcuts}
+              showActionsBar={this.props.showActionsBar}
               timePickerProps={
                 dateType === 'DATETIME' ? { useAmPm } : undefined
               }

@@ -1,5 +1,4 @@
-import { getWindowSize } from './getWindowSize';
-import { clamp } from './clamp';
+import { clamp, getWindowSize } from './utils';
 
 const mapObject = <T>(
   o: { [key: string]: T },
@@ -38,13 +37,18 @@ export const initialModalsState: ModalsState = {
   modals: {}
 };
 
-export const initialModalState: ModalState = {
-  x: 0,
-  y: 0,
-  width: 800,
-  height: 500,
-  zIndex: 0,
-  visible: false
+export const initialModalState = (
+  height?: number,
+  width?: number
+): ModalState => {
+  return {
+    x: 0,
+    y: 0,
+    width: width ? width : 600,
+    height: height ? height : 600,
+    zIndex: 11,
+    visible: false
+  };
 };
 
 export type Action =
@@ -52,7 +56,7 @@ export type Action =
   | { type: 'hide'; id: ModalID }
   | { type: 'focus'; id: ModalID }
   | { type: 'unmount'; id: ModalID }
-  | { type: 'mount'; id: ModalID }
+  | { type: 'mount'; id: ModalID; size: { width: number; height: number } }
   | { type: 'windowResize'; size: { width: number; height: number } }
   | { type: 'drag'; id: ModalID; x: number; y: number }
   | {
@@ -64,8 +68,14 @@ export type Action =
       height: number;
     };
 
-export const getModalState = (state: ModalsState, id: ModalID): ModalState =>
-  state.modals[id] || initialModalState;
+export const getModalState = (
+  state: ModalsState,
+  id: ModalID,
+  height?: number,
+  width?: number
+): ModalState => {
+  return state.modals[id] || initialModalState(height, width);
+};
 
 const getNextZIndex = (state: ModalsState, id: string): number =>
   getModalState(state, id).zIndex === state.maxZIndex
@@ -97,8 +107,8 @@ const clampResize = (
 ): { width: number; height: number } => {
   const maxWidth = windowWidth - x;
   const maxHeight = windowHeight - y;
-  const clampedWidth = clamp(200, maxWidth, width);
-  const clampedHeight = clamp(200, maxHeight, height);
+  const clampedWidth = clamp(0, maxWidth, width);
+  const clampedHeight = clamp(0, maxHeight, height);
   return { width: clampedWidth, height: clampedHeight };
 };
 
@@ -216,9 +226,15 @@ export const draggableModalReducer = (
         modals: {
           ...state.modals,
           [action.id]: {
-            ...initialModalState,
-            x: state.windowSize.width / 2 - initialModalState.width / 2,
-            y: state.windowSize.height / 2 - initialModalState.height / 2,
+            visible: false,
+            width: action.size.width ? action.size.width : 600,
+            height: action.size.height ? action.size.height : 600,
+            x:
+              state.windowSize.width / 2 -
+              (action.size.width ? action.size.width : 600) / 2,
+            y:
+              state.windowSize.height / 2 -
+              (action.size.height ? action.size.height : 600) / 2,
             zIndex: state.maxZIndex + 1
           }
         }
