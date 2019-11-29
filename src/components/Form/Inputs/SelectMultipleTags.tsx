@@ -162,9 +162,11 @@ export class VSelectMultipleTags extends React.Component<
             popoverProps={{ minimal: popoverMinimal }}
             tagRenderer={this.renderTag}
             tagInputProps={{
+              disabled,
               tagProps: {},
               onRemove:
-                (!this.props.disabled && this.handleTagRemove) || (() => {}),
+                (!this.props.disabled && this.handleTagRemove) || (() => {
+                }),
               rightElement: (!this.props.disabled && clearButton) || <></>
             }}
             selectedItems={this.state.itemsSelected}
