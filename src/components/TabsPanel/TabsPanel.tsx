@@ -51,7 +51,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
   };
 
   const handleChangeTab = (key: string) => {
-    if (props.beforeChangeTabValidation) {
+    if (props.beforeChangeTabValidation && state.active !== key) {
       toggleIsOpenDialogOpen();
       setState({ ...state, possibleKey: key });
     } else {
