@@ -1,12 +1,11 @@
-import * as React from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { Button, IconName, Intent, MenuItem } from '@blueprintjs/core';
 import { ItemPredicate, ItemRenderer, MultiSelect } from '@blueprintjs/select';
 import { IFieldProps } from './IFieldProps';
 import { IItemMultiple } from './SelectMultipleField';
 import { FormFieldContainer } from './FormFieldContainer';
 import { StyledPopOverWrapper } from './style';
-import { validateAndGetArray } from '../utils';
+import { observer } from 'mobx-react-lite';
 
 const MultiSelectTag = MultiSelect.ofType<IItemMultiple>();
 
@@ -21,168 +20,66 @@ export interface ISelectMultipleTags extends IFieldProps {
   iconOnly?: boolean;
 }
 
-export interface IMultiSelectExampleState {
-  allowCreate: boolean;
-  createdItems: IItemMultiple[];
-  itemsSelected: IItemMultiple[];
-  hasInitialContent: boolean;
-  intent: boolean;
-  openOnKeyDown: boolean;
-  popoverMinimal: boolean;
-  resetOnSelect: boolean;
-  tagMinimal: boolean;
-  updating: boolean;
-}
+export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
+  const [itemsSelected, setItemsSelected] = useState<IItemMultiple[]>([]);
+  const {
+    disabled,
+    inline,
+    fieldState,
+    id,
+    labelInfo,
+    layer,
+    fill,
+    noLabel,
+    fixedInputWidthPx,
+    margin,
+    required,
+    options,
+    label,
+    className,
+    tooltip,
+    placeholder,
+    displayRequired,
+    value
+  } = props;
 
-export class VSelectMultipleTags extends React.Component<
-  ISelectMultipleTags,
-  IMultiSelectExampleState
-> {
-  public state: IMultiSelectExampleState = {
-    allowCreate: false,
-    createdItems: [],
-    itemsSelected: [],
-    hasInitialContent: false,
-    intent: false,
-    openOnKeyDown: false,
-    popoverMinimal: true,
-    resetOnSelect: true,
-    tagMinimal: false,
-    updating: false
-  };
+  useEffect(() => {
+    updateFieldState();
+  }, [itemsSelected]);
 
-  componentDidMount() {
-    if (validateAndGetArray(this.props, 'fieldState.value')) {
-      const itemsToSelect =
-        this.props.options.filter(
-          item =>
-            this.props.fieldState &&
-            this.props.fieldState.value &&
-            this.props.fieldState.value.length > 0 &&
-            this.props.fieldState.value.some(
-              (fieldValue: any) => fieldValue === item.value
-            )
-        ) || [];
-      itemsToSelect.forEach(item => {
-        this.selectItem(item);
-      });
-      this.props.fieldState &&
-        this.props.fieldState.onDidChange(config => {
-          const itemsToSelect =
-            this.props.options.filter(
-              item =>
-                config &&
-                config.newValue &&
-                config.newValue.length > 0 &&
-                config.newValue.some(
-                  (fieldValue: any) => fieldValue === item.value
-                )
-            ) || [];
-          this.setState({ itemsSelected: itemsToSelect });
-          if (this.props.onChange) {
-            const ids = itemsToSelect.map(item => item.value);
-            this.props.onChange!(ids);
-          }
-        });
-    }
-  }
-
-  public render() {
-    const { itemsSelected, popoverMinimal, ...flags } = this.state;
-
-    const initialContent = this.state.hasInitialContent ? (
-      <MenuItem
-        disabled={true}
-        text={`${this.props.options.length} items loaded.`}
-      />
-    ) : (
-      undefined
-    );
-
-    const clearButton =
-      itemsSelected.length > 0 ? (
-        <Button
-          icon="cross"
-          className={'crossButton'}
-          minimal={true}
-          onClick={this.handleClear}
-        />
-      ) : (
-        undefined
+  useEffect(() => {
+    const newValue = (fieldState && fieldState.$) || value || [];
+    if (newValue.length !== itemsSelected.length) {
+      setItemsSelected(
+        options.filter(item => newValue.some((el: any) => el === item.value))
       );
-    const {
-      disabled,
-      inline,
-      fieldState,
-      id,
-      labelInfo,
-      layer,
-      fill,
-      noLabel,
-      fixedInputWidthPx,
-      margin,
-      required,
-      options,
-      label,
-      className,
-      tooltip,
-      placeholder,
-      displayRequired
-    } = this.props;
-    return (
-      <StyledPopOverWrapper
-        disabled={disabled}
-        inline={inline}
-        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        labelFor={id}
-        labelInfo={labelInfo}
-        layer={layer}
-        fill={fill}
-        noLabel={noLabel}
-        fixedInputWidthPx={fixedInputWidthPx}
-        margin={margin}
-      >
-        <FormFieldContainer
-          required={required || displayRequired}
-          noLabel={noLabel}
-          label={label}
-          fieldState={fieldState}
-          tooltip={tooltip}
-        >
-          <MultiSelectTag
-            itemPredicate={this.filterItem}
-            placeholder={placeholder || ''}
-            {...flags}
-            initialContent={initialContent}
-            itemRenderer={this.renderItem}
-            itemsEqual={this.areItemsEqual}
-            items={options}
-            noResults={<MenuItem disabled={true} text="No results." />}
-            onItemSelect={this.handleItemSelect}
-            popoverProps={{ minimal: popoverMinimal }}
-            tagRenderer={this.renderTag}
-            tagInputProps={{
-              disabled,
-              tagProps: {},
-              onRemove:
-                (!this.props.disabled && this.handleTagRemove) || (() => {
-                }),
-              rightElement: (!this.props.disabled && clearButton) || <></>
-            }}
-            selectedItems={this.state.itemsSelected}
-          />
-        </FormFieldContainer>
-      </StyledPopOverWrapper>
-    );
-  }
+    } else {
+      if (newValue.length > 0) {
+        const founded = newValue.some(
+          (item: any, index: number) =>
+            itemsSelected.length > index && item !== itemsSelected[index].value
+        );
+        if (founded) {
+          setItemsSelected(
+            options.filter(item =>
+              newValue.some((el: any) => el === item.value)
+            )
+          );
+        }
+      }
+    }
+  }, [fieldState && fieldState.$, value]);
 
-  areItemsEqual = (itemA: IItemMultiple, itemB: IItemMultiple): boolean => {
+  const areItemsEqual = (
+    itemA: IItemMultiple,
+    itemB: IItemMultiple
+  ): boolean => {
     return itemA.value === itemB.value;
   };
 
-  private renderTag = (item: IItemMultiple) => item.label;
+  const renderTag = (item: IItemMultiple) => item.label;
 
-  private renderItem: ItemRenderer<IItemMultiple> = (
+  const renderItem: ItemRenderer<IItemMultiple> = (
     item,
     { modifiers, handleClick }
   ) => {
@@ -191,9 +88,9 @@ export class VSelectMultipleTags extends React.Component<
     }
     return (
       <MenuItem
-        disabled={this.props.disabled}
-        active={modifiers.active}
-        icon={this.isItemSelected(item) ? 'tick' : 'blank'}
+        disabled={props.disabled}
+        active={false}
+        icon={isItemSelected(item) ? 'tick' : 'blank'}
         key={item.value}
         onClick={handleClick}
         text={`${item.label}`}
@@ -202,76 +99,54 @@ export class VSelectMultipleTags extends React.Component<
     );
   };
 
-  private handleTagRemove = (_tag: string, index: number) => {
-    this.deselectItem(index, this.updateFieldState);
+  const handleTagRemove = (_tag: string, index: number) => {
+    deselectItem(index);
   };
 
-  private getSelectedItemIndex(item: IItemMultiple) {
-    return this.state.itemsSelected.indexOf(item);
-  }
+  const getSelectedItemIndex = (item: IItemMultiple) => {
+    return itemsSelected.indexOf(item);
+  };
 
-  private isItemSelected(item: IItemMultiple) {
-    return this.getSelectedItemIndex(item) !== -1;
-  }
+  const isItemSelected = (item: IItemMultiple) => {
+    return getSelectedItemIndex(item) !== -1;
+  };
 
-  private selectItem(item: IItemMultiple) {
-    this.selectItems(item, this.updateFieldState);
-  }
+  const selectItem = (item: IItemMultiple) => {
+    selectItems(item);
+  };
 
-  private selectItems(itemsToSelect: IItemMultiple, callback?: any) {
-    const { itemsSelected } = this.state;
-    itemsSelected.push(itemsToSelect);
-    this.setState(
-      {
-        itemsSelected
-      },
-      () => {
-        if (callback) {
-          callback();
-        }
-      }
-    );
-  }
+  const selectItems = (itemsToSelect: IItemMultiple) => {
+    setItemsSelected([...itemsSelected, itemsToSelect]);
+  };
 
-  private deselectItem(index: number, callback?: any) {
-    const { itemsSelected } = this.state;
-    this.setState(
-      {
-        itemsSelected: itemsSelected.filter((_item, i) => i !== index)
-      },
-      () => {
-        if (callback) {
-          callback();
-        }
-      }
-    );
-  }
+  const deselectItem = (index: number) => {
+    setItemsSelected(itemsSelected.filter((_item, i) => i !== index));
+  };
 
-  private handleItemSelect = (item: IItemMultiple) => {
-    if (!this.isItemSelected(item)) {
-      this.selectItem(item);
+  const handleItemSelect = (item: IItemMultiple) => {
+    if (!isItemSelected(item)) {
+      selectItem(item);
     } else {
-      this.deselectItem(this.getSelectedItemIndex(item), this.updateFieldState);
+      deselectItem(getSelectedItemIndex(item));
     }
   };
 
-  updateFieldState = () => {
-    if (this.props.fieldState) {
-      const ids = this.state.itemsSelected.map(item => item.value);
-      this.props.fieldState.onChange(ids);
+  const updateFieldState = () => {
+    if (props.fieldState) {
+      const ids = itemsSelected.map(item => item.value);
+      props.fieldState.onChange(ids);
     }
-    if (this.props.onChange) {
-      const ids = this.state.itemsSelected.map(item => item.value);
-      this.props.onChange!(ids);
+    if (props.onChange) {
+      const ids = itemsSelected.map(item => item.value);
+      props.onChange!(ids);
     }
   };
 
-  private handleClear = () =>
-    this.setState({ itemsSelected: [] }, () => {
-      this.updateFieldState();
-    });
+  const handleClear = () => {
+    setItemsSelected([]);
+  };
 
-  filterItem: ItemPredicate<IItemMultiple> = (
+  const filterItem: ItemPredicate<IItemMultiple> = (
     query: string,
     item: IItemMultiple,
     index: number | undefined
@@ -280,4 +155,63 @@ export class VSelectMultipleTags extends React.Component<
     const normalizedQuery = query.toLowerCase();
     return normalizedTitle.indexOf(normalizedQuery) >= 0;
   };
-}
+
+  const initialContent = undefined;
+
+  const clearButton =
+    itemsSelected.length > 0 ? (
+      <Button
+        icon="cross"
+        className={'crossButton'}
+        minimal={true}
+        onClick={handleClear}
+      />
+    ) : (
+      undefined
+    );
+
+  return (
+    <StyledPopOverWrapper
+      disabled={disabled}
+      inline={inline}
+      intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
+      labelFor={id}
+      labelInfo={labelInfo}
+      layer={layer}
+      fill={fill}
+      noLabel={noLabel}
+      fixedInputWidthPx={fixedInputWidthPx}
+      margin={margin}
+    >
+      <FormFieldContainer
+        required={required || displayRequired}
+        noLabel={noLabel}
+        label={label}
+        fieldState={fieldState}
+        tooltip={tooltip}
+      >
+        <MultiSelectTag
+          itemPredicate={filterItem}
+          placeholder={placeholder || ''}
+          openOnKeyDown={false}
+          resetOnSelect={true}
+          initialContent={initialContent}
+          itemRenderer={renderItem}
+          itemsEqual={areItemsEqual}
+          items={options}
+          noResults={<MenuItem disabled={true} text="No results." />}
+          onItemSelect={handleItemSelect}
+          popoverProps={{ minimal: true }}
+          tagRenderer={renderTag}
+          tagInputProps={{
+            disabled,
+            tagProps: {},
+            onRemove: (!props.disabled && handleTagRemove) || (() => {}),
+            rightElement: (!props.disabled && clearButton) || <></>
+          }}
+          selectedItems={itemsSelected}
+        />
+      </FormFieldContainer>
+    </StyledPopOverWrapper>
+  );
+});

@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
+import { createRef } from 'react';
 import moment from 'moment';
 /** Blueprint */
 import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
-import { DateInput, IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
+import { IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
 /** FieldState */
 import { DateInputContainer, IconDate, StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
@@ -11,7 +12,6 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { computed } from 'mobx';
 import { TimePrecision } from '@blueprintjs/datetime/lib/esm/timePicker';
 import { Validators } from '../Validators';
-import { FieldState } from 'formstate';
 
 /**
  * Field component. Must be an observer.
@@ -56,8 +56,16 @@ const momentFormatter = (format: string): IDateFormatProps => {
 
 @observer
 export class VDateTimePicker extends React.Component<IInputFieldProps> {
+  public setDateRef: any;
+  public dateRef: any;
+  public isFocused: any;
   constructor(props: IInputFieldProps) {
     super(props);
+    this.dateRef = null;
+    this.setDateRef = (element: any) => {
+      this.dateRef = element;
+    };
+    this.isFocused = createRef();
   }
 
   FORMATS = () => {
@@ -138,7 +146,15 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
     let iconJSX;
     if (icon) {
       iconJSX = (
-        <IconDate backgroundColor={icon.backgroundColor}>
+        <IconDate
+          backgroundColor={icon.backgroundColor}
+          onClick={e => {
+            e.stopPropagation();
+            if (this.isFocused && !this.isFocused.current) {
+              this.dateRef && this.dateRef.focus();
+            }
+          }}
+        >
           <Icon
             color={icon.color}
             icon={icon.iconName}
@@ -184,8 +200,18 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
               popoverProps={popoverProps}
               canClearSelection={this.props.canClearSelection}
               shortcuts={this.props.shortcuts}
-              timePickerProps={dateType === 'DATETIME' ? { useAmPm } : undefined}
-
+              timePickerProps={
+                dateType === 'DATETIME' ? { useAmPm } : undefined
+              }
+              inputProps={{
+                inputRef: this.setDateRef,
+                onFocus: () => {
+                  this.isFocused.current = true;
+                },
+                onBlur: () => {
+                  this.isFocused.current = false;
+                }
+              }}
             />
           ) : (
             <TimePicker
