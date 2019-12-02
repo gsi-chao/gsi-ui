@@ -16,13 +16,22 @@ export const DialogDS = styled(Dialog)`
   }
 `;
 
+interface IDialogBodyContainer {
+  buttonHeight: string;
+}
+
 export const DialogBodyContainer = styled.div`
   width: 100%;
-  padding: 5px;
+  padding:  ${(props: IDialogBodyContainer) =>
+  !!props.buttonHeight ? '0px' : '5px'};
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;
-  height: calc(100% - 45px);
+  height: calc(
+    100% -
+      ${(props: IDialogBodyContainer) =>
+        props.buttonHeight ? props.buttonHeight : '45px'}
+  );
 `;
 
 interface IButtonsEndsContainers {

@@ -49,6 +49,7 @@ export const DraggableModalInner = memo(
     saveText,
     cancelText,
     enableDrag,
+    hideEndContainer,
     ...modalProps
   }: DraggableModalInnerProps) => {
     // Call on mount and unmount.
@@ -150,32 +151,36 @@ export const DraggableModalInner = memo(
           onHeaderMouseDrag={onMouseDrag}
           bodyPadding={'0px'}
         >
-          <DialogBodyContainer>{children}</DialogBodyContainer>
-          <DialogButtonsEndsContainers>
-            {buttonsEndComponent ? (
-              buttonsEndComponent
-            ) : isSaving ? (
-              <VSpinner size={24} />
-            ) : (
-              <>
-                <AnchorButton
-                  minimal
-                  icon={'tick'}
-                  disabled={disabled}
-                  text={saveText ? saveText : 'Save'}
-                  onClick={onSave}
-                  intent={'success'}
-                />
-                <AnchorButton
-                  minimal
-                  icon={'disable'}
-                  text={cancelText ? cancelText : 'Cancel'}
-                  onClick={onCancel}
-                  intent={'danger'}
-                />
-              </>
-            )}
-          </DialogButtonsEndsContainers>
+          <DialogBodyContainer buttonHeight={hideEndContainer ? '0px' : '45px'}>
+            {children}
+          </DialogBodyContainer>
+          {!hideEndContainer && (
+            <DialogButtonsEndsContainers>
+              {buttonsEndComponent ? (
+                buttonsEndComponent
+              ) : isSaving ? (
+                <VSpinner size={24} />
+              ) : (
+                <>
+                  <AnchorButton
+                    minimal
+                    icon={'tick'}
+                    disabled={disabled}
+                    text={saveText ? saveText : 'Save'}
+                    onClick={onSave}
+                    intent={'success'}
+                  />
+                  <AnchorButton
+                    minimal
+                    icon={'disable'}
+                    text={cancelText ? cancelText : 'Cancel'}
+                    onClick={onCancel}
+                    intent={'danger'}
+                  />
+                </>
+              )}
+            </DialogButtonsEndsContainers>
+          )}
         </VCardPanel>
         {enableDrag && <ResizeHandle onMouseDown={onMouseResize} />}
       </DialogDS>

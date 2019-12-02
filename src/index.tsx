@@ -51,6 +51,7 @@ const TestComponent = () => {
           isOpen={visible}
           onSave={onOk}
           onCancel={onCancel}
+          hideEndContainer
         >
           <Button onClick={() => setWidth('600px')}>Change</Button>
           <GridExample />
