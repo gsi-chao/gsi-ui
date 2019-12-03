@@ -17,8 +17,8 @@ export interface INumericFieldProps extends IFieldProps {
   leftIcon?: IconName;
   fill?: boolean;
   tipLabel?: string;
-  roundTo?: number;
-  maxDecimals?: number;
+  roundTo: number;
+  maxDecimals: number;
 }
 
 /**
@@ -47,7 +47,6 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     tooltip,
     displayRequired,
     value,
-    roundTo
   } = props;
   const [state, setState] = useState<any>('');
 
@@ -60,7 +59,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
         fillWithZero(propsValue, props.roundTo)) ||
       propsValue;
     setState(newValue);
-  }, []);
+  }, [props.roundTo]);
 
   useEffect(() => {
     if (fieldState) {
@@ -109,18 +108,15 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
       if (!props.maxDecimals || canAddDecimalPlace(value, props.maxDecimals)) {
         let newValue = value;
         if (props.roundTo && props.roundTo > 0) {
-          console.log(value);
           if (
             `${value}` &&
             isNumber(Number(value)) &&
             isFinite(Number(value))
           ) {
-            console.log('here');
             newValue =
               `${newValue &&
                 round(Number(newValue.toString()), props.roundTo)}` || '';
           }
-          console.log(value, newValue);
           setState(value);
           setPropsValues(newValue);
         } else {
@@ -212,7 +208,7 @@ const fillWithZero = (value: any, round: number): any => {
     return `${values[0]}.${secValues}`;
   }
   let secValues = ``;
-  while (secValues.length <= round) {
+  while (secValues.length < round) {
     secValues += `0`;
   }
   return value || `${value}`.toString() ? `${value}.${secValues}` : '';
