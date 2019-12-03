@@ -61,6 +61,7 @@ export class VTextAreaField extends React.Component<
       noLabel,
       required,
       validators,
+      margin,
       value,
       upperCaseFormat,
       heightArea,
@@ -94,6 +95,7 @@ export class VTextAreaField extends React.Component<
         fill={fill}
         noLabel={noLabel}
         heightArea={heightArea}
+        margin={margin}
       >
         <FormFieldContainer
           required={required || displayRequired}

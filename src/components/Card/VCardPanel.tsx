@@ -1,12 +1,6 @@
 import { Collapse, Elevation, Icon, IconName } from '@blueprintjs/core';
-import {
-  VCard,
-  VCardBody,
-  VCardHeader,
-  VCardTextSpan,
-  VCardTextSpanContainer
-} from './style';
-import React, { Component, useMemo } from 'react';
+import { VCard, VCardBody, VCardHeader, VCardTextSpan, VCardTextSpanContainer } from './style';
+import React, { Component } from 'react';
 import { FlexJustify, HeaderOrientation } from './types';
 
 export interface StyledCardProps {
@@ -39,6 +33,7 @@ export interface StyledCardProps {
   onHeaderMouseDrag?: any;
   onHeaderFocus?: any;
   id?: string;
+  headerTextComponent?: any;
 }
 
 interface PanelState {
@@ -100,18 +95,22 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
             className={'gsi-draggable-modal-title'}
           >
             <VCardTextSpanContainer>
-              <VCardTextSpan
-                headerColor={this.props.headerColor}
-                headerTextJustify={this.props.headerTextJustify}
-                headerTextUppercase={this.props.headerTextUppercase}
-                headerTextBold={this.props.headerTextBold}
-              >
-                {this.props.headerCustomButton}
-                {this.props.headerIcon ? (
-                  <Icon icon={this.props.headerIcon} />
-                ) : null}
-                <span>{this.props.headerText}</span>
-              </VCardTextSpan>
+              {this.props.headerTextComponent ? (
+                <VCardTextSpan>{this.props.headerTextComponent}</VCardTextSpan>
+              ) : (
+                <VCardTextSpan
+                  headerColor={this.props.headerColor}
+                  headerTextJustify={this.props.headerTextJustify}
+                  headerTextUppercase={this.props.headerTextUppercase}
+                  headerTextBold={this.props.headerTextBold}
+                >
+                  {this.props.headerCustomButton}
+                  {this.props.headerIcon ? (
+                    <Icon icon={this.props.headerIcon} />
+                  ) : null}
+                  <span>{this.props.headerText}</span>
+                </VCardTextSpan>
+              )}
             </VCardTextSpanContainer>
             {this.props.collapse ? (
               <span onClick={this.toggleCollapsed}>
