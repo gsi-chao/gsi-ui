@@ -44,6 +44,7 @@ export interface ITabsPanelProps {
   handleChange(tab: ITabsPanelTypes): void;
   tabsTagsContainerPadding?: string;
   tabsTagItemPadding?: string;
+  isResponsive? : boolean;
 }
 
 export interface IIconTabsPanelProps {

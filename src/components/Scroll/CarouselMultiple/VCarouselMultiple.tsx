@@ -8,10 +8,10 @@ import UseSliding from './components/UseSliding';
 import UseSizeElement from './components/UseSizeElement';
 import SliderContext from './context';
 
-const Slider = ({ padding, children }: any) => {
+const Slider = ({ padding, children, isResponsive }: any) => {
   const [resolution, setState] = useState();
 
-  const {width, elementRef } = UseSizeElement(resolution);
+  const { width, elementRef } = UseSizeElement(resolution);
 
   const {
     handlePrev,
@@ -39,14 +39,14 @@ const Slider = ({ padding, children }: any) => {
               {children}
             </div>
           </div>
-          {hasPrev && (
+          {hasPrev && isResponsive && (
             <SlideButton
               onClick={handlePrev}
               icon={<Icon icon="chevron-left"/>}
               typeS="prev"
             />
           )}
-          {hasNext && (
+          {hasNext && isResponsive && (
             <SlideButton
               onClick={handleNext}
               icon={<Icon icon="chevron-right"/>}

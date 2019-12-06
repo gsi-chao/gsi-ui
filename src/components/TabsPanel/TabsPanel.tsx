@@ -71,7 +71,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
     changeTab(state.possibleKey);
     toggleIsOpenDialogOpen();
   };
-  const { tabsAlertProps, ...options } = props;
+  const { tabsAlertProps, isResponsive, ...options } = props;
   const { active, content } = state;
 
   return (
@@ -81,7 +81,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
         activeColor={options.activeColor}
         lineColor={options.lineColor}
       >
-        <CarouselMultiple padding={props.tabsTagsContainerPadding}>
+        <CarouselMultiple padding={props.tabsTagsContainerPadding} isResponsive={isResponsive}>
           {options.tabList
             .filter(tab => !tab.hidden)
             .map(tab => (
