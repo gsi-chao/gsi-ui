@@ -108,7 +108,7 @@ export class VTextAreaField extends React.Component<
             large={size === 'large'}
             small={size === 'small'}
             onChange={this.onChange}
-            autoComplete={autoComplete}
+            autoComplete={autoComplete ? autoComplete : 'no_auto'}
             value={this.valueField}
             inputRef={input => {
               this.inputRef = input;

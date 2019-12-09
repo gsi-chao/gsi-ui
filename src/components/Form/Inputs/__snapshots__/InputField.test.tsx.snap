@@ -22,6 +22,7 @@ exports[`renders without crashing InputField All Properties 1`] = `
           className="bp3-input-group bp3-large"
         >
           <input
+            autoComplete="no_auto"
             className="bp3-input"
             id="test-input"
             name="test-input"

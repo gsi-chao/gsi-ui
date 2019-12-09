@@ -111,7 +111,7 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
             small={size === 'small'}
             rightElement={rightElement || rightEl}
             name={id}
-            autoComplete={autoComplete}
+            autoComplete={autoComplete ? autoComplete : 'no_auto'}
             inputRef={this.inputRef}
             {...{
               round,
