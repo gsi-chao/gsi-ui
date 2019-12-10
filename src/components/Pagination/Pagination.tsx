@@ -16,6 +16,7 @@ export const RCPagination = (props: IPagination) => {
 
   return (
     <PaginationStyled
+      disabled={props.disabled}
       showSizeChanger={props.total === 0 ? false : props.showSizeChanger}
       selectComponentClass={Select as any}
       locale={local}
