@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { isFinite, isNumber, round } from 'lodash';
 /** Blueprint */
 /** FieldState */
@@ -46,7 +46,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     tipLabel,
     tooltip,
     displayRequired,
-    value,
+    value
   } = props;
   const [state, setState] = useState<any>('');
 
@@ -73,7 +73,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
         fieldState.validators(...validators);
       }
     }
-  }, [validators,required]);
+  }, [validators, required]);
 
   useEffect(() => {
     const propsValue =
