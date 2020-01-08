@@ -62,12 +62,11 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
       required,
       validators,
       margin,
-      value,
       tipLabel,
-      upperCaseFormat,
       displayRequired,
       tooltip,
-      autoComplete
+      autoComplete,
+      onKeyPress
     } = this.props;
     let rightEl;
     if (!rightElement) {
@@ -123,6 +122,7 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
             }}
             onChange={this.onChange}
             value={this.valueField}
+            onKeyPress={onKeyPress}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
