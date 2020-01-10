@@ -15,6 +15,7 @@ export interface ISelectionListProps {
   className?: string;
   elements: IItemsList[];
   height?: string;
+  enableEnumeration?: boolean;
   onSelect(list: IItemsList): void;
   selection?: {
     textColor: string;
