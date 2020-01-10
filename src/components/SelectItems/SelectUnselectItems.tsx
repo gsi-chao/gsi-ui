@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { Button, Divider, Tooltip } from '@blueprintjs/core';
+import { Button, IconName, Tooltip } from '@blueprintjs/core';
 import { FieldState, FormState } from 'formstate';
 import {
   BodyContainer,
   ButtonsEndsContainers,
   CentralFlexCol,
   FlexCol,
-  SelectAllButtons,
   StyledScroll,
   VSelectionListStyled
 } from './styles';
 import { IItemsList } from '../SelectionList';
 import { VSelectField } from '../Form';
-import { Scrollbar } from 'react-scrollbars-custom';
+import { getElementsEnumerated } from '../SelectionList/SelectionList';
+import { cloneDeep } from 'lodash';
 
 export interface ISelectItemsProps {
   itemsUnassigned: IItemsList[];
@@ -25,6 +25,7 @@ export interface ISelectItemsProps {
   intentSave?: any;
   intentCancel?: any;
   displayCount?: boolean;
+  enableSelectedOrdering?: boolean;
   selection?: {
     textColor: string;
     background: string;
@@ -117,14 +118,20 @@ export class SelectUnselectItems extends Component<
 
   selectAll = () => {
     let { itemsAssigned, itemsUnassigned } = this.state;
-    itemsAssigned = [...itemsAssigned, ...itemsUnassigned];
+    itemsAssigned = [...itemsAssigned, ...itemsUnassigned].map(item => ({
+      ...item,
+      active: false
+    }));
     itemsUnassigned = [];
     this.setState({ itemsAssigned, itemsUnassigned });
   };
 
   unselectAll = () => {
     let { itemsAssigned, itemsUnassigned } = this.state;
-    itemsUnassigned = [...itemsUnassigned, ...itemsAssigned];
+    itemsUnassigned = [...itemsUnassigned, ...itemsAssigned].map(item => ({
+      ...item,
+      active: false
+    }));
     itemsAssigned = [];
     this.setState({ itemsAssigned, itemsUnassigned });
   };
@@ -153,8 +160,61 @@ export class SelectUnselectItems extends Component<
     const { itemsUnassigned, itemsAssigned } = this.state;
     this.props.handleSave({ itemsUnassigned, itemsAssigned });
   };
+
   handleCancel = () => {
     this.props.handleCancel();
+  };
+
+  getAssignedItems = (elements: IItemsList[]): IItemsList[] => {
+    return this.props.enableSelectedOrdering
+      ? getElementsEnumerated(elements)
+      : elements;
+  };
+
+  reorderSelectedItems = (direction: 'UP' | 'DOWN') => {
+    if (this.state.itemsAssigned.filter(item => item.active).length === 1) {
+      const itemsAssigned = cloneDeep(this.state.itemsAssigned);
+      let itemIndex = -1;
+      const item = this.state.itemsAssigned.find((item, index) => {
+        if (item.active) {
+          itemIndex = index;
+        }
+        return item.active;
+      });
+      if (item && itemIndex !== -1) {
+        if (direction === 'UP' && itemIndex > 0) {
+          const otherItem = itemsAssigned[itemIndex - 1];
+          itemsAssigned[itemIndex - 1] = item;
+          itemsAssigned[itemIndex] = otherItem;
+        } else if (
+          direction === 'DOWN' &&
+          itemIndex < itemsAssigned.length - 1
+        ) {
+          const otherItem = itemsAssigned[itemIndex + 1];
+          itemsAssigned[itemIndex + 1] = item;
+          itemsAssigned[itemIndex] = otherItem;
+        }
+        this.setState({ itemsAssigned });
+      }
+    }
+  };
+
+  disableReorderButtons = (direction: 'UP' | 'DOWN') => {
+    if (this.state.itemsAssigned.filter(item => item.active).length !== 1) {
+      return true;
+    }
+    let itemIndex = -1;
+    this.state.itemsAssigned.some((item, index) => {
+      if (item.active) {
+        itemIndex = index;
+      }
+      return item.active;
+    });
+    return (
+      (direction === 'UP' && itemIndex === 0) ||
+      (direction === 'DOWN' &&
+        itemIndex === this.state.itemsAssigned.length - 1)
+    );
   };
 
   render() {
@@ -172,8 +232,10 @@ export class SelectUnselectItems extends Component<
       <React.Fragment>
         <BodyContainer>
           <FlexCol flex={4}>
-            <h4>{`${this.props.unAssignedText || 'UnAssigned'} ${displayCount &&
-              `(${(itemsUnassigned && itemsUnassigned.length) || 0})` || ''}`}</h4>
+            <h4>{`${this.props.unAssignedText ||
+              'UnAssigned'} ${(displayCount &&
+              `(${(itemsUnassigned && itemsUnassigned.length) || 0})`) ||
+              ''}`}</h4>
             <StyledScroll
               height={this.props.listsHeights || '242.5px'}
               style={{ height: this.props.listsHeights || '242.5px' }}
@@ -233,17 +295,38 @@ export class SelectUnselectItems extends Component<
                 onClick={this.unselectAll}
               />
             </Tooltip>
+            {this.props.enableSelectedOrdering && (
+              <>
+                <ButtonWithTooltipAllowingDisable
+                  disabled={this.disableReorderButtons('UP')}
+                  onClick={() => {
+                    this.reorderSelectedItems('UP');
+                  }}
+                  icon={'chevron-up'}
+                  text={'Move Item up'}
+                />
+                <ButtonWithTooltipAllowingDisable
+                  disabled={this.disableReorderButtons('DOWN')}
+                  onClick={() => {
+                    this.reorderSelectedItems('DOWN');
+                  }}
+                  icon={'chevron-down'}
+                  text={'Move Item Down'}
+                />
+              </>
+            )}
           </CentralFlexCol>
           <FlexCol flex={4}>
-            <h4>{`${this.props.assignedText || 'Assigned'} ${displayCount &&
-            `(${(itemsAssigned && itemsAssigned.length) || 0})` || ''}`}</h4>
+            <h4>{`${this.props.assignedText || 'Assigned'} ${(displayCount &&
+              `(${(itemsAssigned && itemsAssigned.length) || 0})`) ||
+              ''}`}</h4>
             <StyledScroll
               height={this.props.listsHeights || '242.5px'}
               style={{ height: this.props.listsHeights || '242.5px' }}
             >
               <VSelectionListStyled
                 selection={this.props.selection}
-                elements={itemsAssigned}
+                elements={this.getAssignedItems(itemsAssigned)}
                 onSelect={this.selectItemFromSelectedList}
                 height={this.props.listsHeights || '242.5px'}
               />
@@ -283,4 +366,26 @@ export class SelectUnselectItems extends Component<
       </React.Fragment>
     );
   }
+}
+
+const ButtonWithTooltipAllowingDisable = ({
+  disabled,
+  onClick,
+  icon,
+  text
+}: IButtonWithTooltipAllowingDisable) => {
+  return disabled ? (
+    <Button large minimal icon={icon} onClick={onClick} disabled={disabled} />
+  ) : (
+    <Tooltip usePortal hoverCloseDelay={0} content={text}>
+      <Button large minimal icon={icon} onClick={onClick} disabled={disabled} />
+    </Tooltip>
+  );
+};
+
+export interface IButtonWithTooltipAllowingDisable {
+  disabled: boolean;
+  onClick: any;
+  icon: IconName | JSX.Element;
+  text: string;
 }

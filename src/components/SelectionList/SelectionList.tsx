@@ -47,8 +47,22 @@ export class VSelectionList extends Component<
         return Classes.ELEVATION_0;
     }
   };
+
+  getElements = (elements: IItemsList[]): IItemsList[] => {
+    return this.props.enableEnumeration
+      ? getElementsEnumerated(elements)
+      : elements;
+  };
+
   render() {
-    const { elements, selection, elevation, className, padding, height } = this.props;
+    const {
+      elements,
+      selection,
+      elevation,
+      className,
+      padding,
+      height
+    } = this.props;
 
     return (
       <SelectionListContainer height={height}>
@@ -57,7 +71,7 @@ export class VSelectionList extends Component<
             className={`${this.getElevation(elevation || 0)} ${className}`}
             padding={padding}
           >
-            {elements.map(element => {
+            {this.getElements(elements).map(element => {
               const { active, text, value, icon } = element;
               const backgroundColor =
                 !!selection && !!selection.background
@@ -89,3 +103,10 @@ export class VSelectionList extends Component<
     );
   }
 }
+
+export const getElementsEnumerated = (elements: IItemsList[]): IItemsList[] => {
+  return elements.map((item: IItemsList, index: number) => ({
+    ...item,
+    text: `${index + 1}) ${item.text}`
+  }));
+};
