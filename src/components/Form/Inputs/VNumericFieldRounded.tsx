@@ -46,7 +46,8 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     tipLabel,
     tooltip,
     displayRequired,
-    value
+    value,
+    autoComplete
   } = props;
   const [state, setState] = useState<any>('');
 
@@ -175,6 +176,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
             leftIcon,
             fill
           }}
+          autoComplete={autoComplete ? autoComplete : 'no_auto'}
           onChange={onChange}
           value={state || ''}
           intent={

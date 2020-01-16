@@ -66,7 +66,8 @@ export class VMaskField extends React.Component<IMaskInputProps> {
       validators,
       margin,
       tipLabel,
-      displayRequired
+      displayRequired,
+      autoComplete
     } = this.props;
 
     if (fieldState) {
@@ -104,6 +105,7 @@ export class VMaskField extends React.Component<IMaskInputProps> {
             large={fill ? 'large' : ''}
             name={id}
             mask={this.props.mask}
+            autoComplete={autoComplete ? autoComplete : 'no_auto'}
             guide={this.props.guide}
             keepCharPositions={this.props.keepCharPositions}
             placeholderChar={this.props.placeholderChar}

@@ -60,7 +60,8 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       tooltip,
       displayRequired,
       clampValueOnBlur,
-      value
+      value,
+      autoComplete
     } = this.props;
 
     if (fieldState) {
@@ -111,6 +112,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
             }}
             onValueChange={this.onChange}
             value={this.valueField}
+            autoComplete={autoComplete ? autoComplete : 'no_auto'}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
