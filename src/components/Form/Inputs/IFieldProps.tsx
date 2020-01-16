@@ -31,4 +31,5 @@ export interface IFieldProps {
   onPaste?:(newValue: any, oldValue: any) => void
   /** The fieldState */
   fieldState?: FieldState<any>;
+  onBlur?: any;
 }

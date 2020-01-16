@@ -66,7 +66,8 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
       displayRequired,
       tooltip,
       autoComplete,
-      onKeyPress
+      onKeyPress,
+      onBlur
     } = this.props;
     let rightEl;
     if (!rightElement) {
@@ -139,6 +140,7 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
                 this.props.onPaste(oldValue, newValue);
               }
             }}
+            onBlur={onBlur}
           />
         </FormFieldContainer>
       </StyledInput>
