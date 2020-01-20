@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ITabsPanelProps, ITabsPanelState } from './types';
+import { ITabsPanelProps, ITabsPanelState, ITabsPanelTypes } from './types';
 import { VTabPanel } from './TabPanel/TabPanel';
 import {
   ContainerContent,
@@ -10,9 +10,13 @@ import {
 import { Alert } from '@blueprintjs/core';
 import CarouselMultiple from '../Scroll/CarouselMultiple/VCarouselMultiple';
 import ItemSC from '../Scroll/CarouselMultiple/components/Item';
+import { find } from 'lodash';
 
 export const VTabsPanel = (props: ITabsPanelProps) => {
   const getContent = (key: any = props.tabList[0].key) => {
+    if (!key) {
+      return null;
+    }
     let content: any = props.tabList[0].content;
     props.tabList.forEach(tab => {
       if (tab.key === key) {
@@ -21,9 +25,29 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
     });
     return content;
   };
+
+  const getTab = (key: string): ITabsPanelTypes | undefined => {
+    return find(props.tabList, { key });
+  };
+
+  const getFindNextVisible = (): ITabsPanelTypes | undefined => {
+    return find(props.tabList, { hidden: false });
+  };
+
+  const getActiveTab = (active: string) => {
+    if (active) {
+      const tab = getTab(active);
+      if (tab && !tab.hidden) {
+        return tab.key;
+      }
+    }
+    const next = getFindNextVisible();
+    return next ? next.key : '';
+  };
+
   const [state, setState] = useState<ITabsPanelState>({
-    active: props.active ? props.active : props.tabList[0].key,
-    content: getContent(props.active),
+    active: getActiveTab(`${props.active}`),
+    content: getContent(getActiveTab(`${props.active}`)),
     possibleKey: ''
   });
 
@@ -31,14 +55,16 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
     false
   );
   useEffect(() => {
+    const act = getActiveTab(`${state.active}`);
     setState({
-      active: state.active,
-      content: getContent(state.active),
+      active: act,
+      content: getContent(act),
       possibleKey: ''
     });
   }, [props.tabList]);
+
   useEffect(() => {
-    const act = `${props.active}`;
+    const act = getActiveTab(`${props.active}`);
     setState({
       active: act,
       content: getContent(act),
@@ -81,7 +107,10 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
         activeColor={options.activeColor}
         lineColor={options.lineColor}
       >
-        <CarouselMultiple padding={props.tabsTagsContainerPadding} isResponsive={isResponsive}>
+        <CarouselMultiple
+          padding={props.tabsTagsContainerPadding}
+          isResponsive={isResponsive}
+        >
           {options.tabList
             .filter(tab => !tab.hidden)
             .map(tab => (
