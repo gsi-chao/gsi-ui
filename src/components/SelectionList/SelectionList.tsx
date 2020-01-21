@@ -26,9 +26,9 @@ export class VSelectionList extends Component<
   isActive = (elements: IItemsList) => {
     return !!this.state.listSelected.find(e => e.value === elements.value);
   };
-  onItemClick = (active: boolean, element: IItemsList) => {
+  onItemClick = (active: boolean, element: IItemsList, event: any) => {
     const newElement = { ...element, active: !element.active };
-    this.props.onSelect(newElement);
+    this.props.onSelect(newElement, event);
   };
 
   getElevation = (elevation: ElevationType): any => {
@@ -88,8 +88,8 @@ export class VSelectionList extends Component<
                   background={backgroundColor}
                   color={textColor}
                   text={text}
-                  onClick={() => {
-                    this.onItemClick(active || false, element);
+                  onClick={(event: any) => {
+                    this.onItemClick(active || false, element, event);
                   }}
                   icon={icon}
                 />

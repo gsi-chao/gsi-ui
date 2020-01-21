@@ -21,3 +21,5 @@ export { VSwitchField } from './Inputs/SwitchField';
 export { VMaskField, VPublicMask } from './Inputs/MaskField';
 export { Validators } from './Validators';
 export { VNumericFieldRounded } from './Inputs/VNumericFieldRounded';
+export { VAutoComplete } from './Inputs/VAutoComplete';
+export { VInputFieldWithSuggestions } from './Inputs/VInputWIthSuggestions';
