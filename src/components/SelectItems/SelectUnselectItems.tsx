@@ -265,6 +265,7 @@ export class SelectUnselectItems extends Component<
               options={itemsUnassignedSearch}
               id={'unselected'}
               fieldState={this.form.$.unselected}
+              upperCaseFormat
               onChange={value => {
                 onAutoComplete(
                   value,
@@ -360,6 +361,7 @@ export class SelectUnselectItems extends Component<
               placeholder={'Search'}
               options={itemsAssignedSearch}
               id={'selected'}
+              upperCaseFormat
               fieldState={this.form.$.selected}
               onChange={value => {
                 onAutoComplete(
@@ -407,7 +409,7 @@ const onAutoComplete = (
   if (value !== state[stateKey]) {
     const newList = cloneDeep(state[stateList] || []);
     newList.forEach(item => {
-      if (value && !item.text.includes(value)) {
+      if (value && !item.text.toUpperCase().includes(value)) {
         item.active = false;
       }
     });

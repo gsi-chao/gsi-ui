@@ -111,12 +111,11 @@ export class VInputFieldWithSuggestions extends React.Component<
 
     return (
       <StyledPopoverContainer style={{ width: '100%' }}>
-        <StyledPopover
+        <Popover
           boundary="viewport"
           canEscapeKeyClose={true}
           hasBackdrop={false}
           modifiers={{
-            flip: { enabled: true },
             keepTogether: { enabled: true },
             preventOverflow: { enabled: true }
           }}
@@ -126,7 +125,7 @@ export class VInputFieldWithSuggestions extends React.Component<
           enforceFocus={false}
           minimal
           content={
-            <Menu>
+            <Menu style={{ maxHeight: '220px', overflow: 'auto' }}>
               {(this.props.options &&
                 this.props.options.filter(
                   item =>
@@ -179,7 +178,7 @@ export class VInputFieldWithSuggestions extends React.Component<
             layer={layer}
             fill={fill}
             noLabel={noLabel}
-            margin={margin}
+            margin={'0 0 2px 0'}
           >
             <FormFieldContainer
               required={required || displayRequired}
@@ -237,7 +236,7 @@ export class VInputFieldWithSuggestions extends React.Component<
               />
             </FormFieldContainer>
           </StyledInput>
-        </StyledPopover>
+        </Popover>
       </StyledPopoverContainer>
     );
   }
@@ -293,14 +292,6 @@ export class VInputFieldWithSuggestions extends React.Component<
     }
   };
 }
-
-const StyledPopover = styled(Popover)`
-  & .bp3-popover {
-    position: relative;
-    top: -13px;
-    left: -4px;
-  }
-`;
 
 const StyledPopoverContainer = styled.div`
   & .bp3-popover-wrapper {
