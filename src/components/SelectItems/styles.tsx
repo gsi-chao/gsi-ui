@@ -50,6 +50,10 @@ export const FlexCol = styled.div`
   }
   height: 100%;
   max-width: 44%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const CentralFlexCol = styled(FlexCol)`
