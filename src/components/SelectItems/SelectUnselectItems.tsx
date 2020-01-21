@@ -243,7 +243,10 @@ export class SelectUnselectItems extends Component<
               ''}`}</h4>
             <StyledScroll
               height={this.props.listsHeights || '242.5px'}
-              style={{ height: this.props.listsHeights || '242.5px' }}
+              style={{
+                height: this.props.listsHeights || '242.5px',
+                marginBottom: '6px'
+              }}
             >
               <VSelectionListStyled
                 selection={this.props.selection}
@@ -256,29 +259,31 @@ export class SelectUnselectItems extends Component<
                 height={this.props.listsHeights || '242.5px'}
               />
             </StyledScroll>
-            <VInputFieldWithSuggestions
-              fill
-              noLabel
-              minimal
-              placeholder={'Search'}
-              margin={'10px 0 10px'}
-              options={itemsUnassignedSearch}
-              id={'unselected'}
-              fieldState={this.form.$.unselected}
-              upperCaseFormat
-              onChange={value => {
-                onAutoComplete(
-                  value,
-                  this.state,
-                  this.setState,
-                  'queryUnnassigned',
-                  'itemsUnassigned'
-                );
-              }}
-              layer={{
-                inputWidth: 12
-              }}
-            />
+            <div style={{ width: 'calc(100% + 3px)', marginBottom: '5px' }}>
+              <VInputFieldWithSuggestions
+                fill
+                noLabel
+                minimal
+                placeholder={'Search...'}
+                margin={'10px 0 10px'}
+                options={itemsUnassignedSearch}
+                id={'unselected'}
+                fieldState={this.form.$.unselected}
+                upperCaseFormat
+                onChange={value => {
+                  onAutoComplete(
+                    value,
+                    this.state,
+                    this.setState,
+                    'queryUnnassigned',
+                    'itemsUnassigned'
+                  );
+                }}
+                layer={{
+                  inputWidth: 12
+                }}
+              />
+            </div>
           </FlexCol>
           <CentralFlexCol flex={1}>
             <Tooltip usePortal hoverCloseDelay={0} content={'Select'}>
@@ -340,7 +345,10 @@ export class SelectUnselectItems extends Component<
               ''}`}</h4>
             <StyledScroll
               height={this.props.listsHeights || '242.5px'}
-              style={{ height: this.props.listsHeights || '242.5px' }}
+              style={{
+                height: this.props.listsHeights || '242.5px',
+                marginBottom: '6px'
+              }}
             >
               <VSelectionListStyled
                 selection={this.props.selection}
@@ -353,29 +361,31 @@ export class SelectUnselectItems extends Component<
                 height={this.props.listsHeights || '242.5px'}
               />
             </StyledScroll>
-            <VInputFieldWithSuggestions
-              fill
-              minimal
-              noLabel
-              margin={'10px 0 10px'}
-              placeholder={'Search'}
-              options={itemsAssignedSearch}
-              id={'selected'}
-              upperCaseFormat
-              fieldState={this.form.$.selected}
-              onChange={value => {
-                onAutoComplete(
-                  value,
-                  this.state,
-                  this.setState,
-                  'queryAssigned',
-                  'itemsAssigned'
-                );
-              }}
-              layer={{
-                inputWidth: 12
-              }}
-            />
+            <div style={{ width: 'calc(100% + 3px)', marginBottom: '5px' }}>
+              <VInputFieldWithSuggestions
+                fill
+                minimal
+                noLabel
+                margin={'10px 0 10px'}
+                placeholder={'Search...'}
+                options={itemsAssignedSearch}
+                id={'selected'}
+                upperCaseFormat
+                fieldState={this.form.$.selected}
+                onChange={value => {
+                  onAutoComplete(
+                    value,
+                    this.state,
+                    this.setState,
+                    'queryAssigned',
+                    'itemsAssigned'
+                  );
+                }}
+                layer={{
+                  inputWidth: 12
+                }}
+              />
+            </div>
           </FlexCol>
         </BodyContainer>
         <ButtonsEndsContainers>
