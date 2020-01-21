@@ -10,7 +10,7 @@ import {
   VSelectionListStyled
 } from './styles';
 import { IItemsList } from '../SelectionList';
-import { VSelectField } from '../Form';
+import { VInputFieldWithSuggestions } from '../Form';
 import { getElementsEnumerated } from '../SelectionList/SelectionList';
 import { cloneDeep } from 'lodash';
 
@@ -34,6 +34,10 @@ export interface ISelectItemsProps {
 export interface ISelectItemsState {
   itemsUnassigned: IItemsList[];
   itemsAssigned: IItemsList[];
+  lastSelectedUnnasigned: IItemsList | null;
+  lastSelectedAssigned: IItemsList | null;
+  queryUnnassigned?: string;
+  queryAssigned?: string;
 }
 
 export class SelectUnselectItems extends Component<
@@ -49,8 +53,11 @@ export class SelectUnselectItems extends Component<
     });
     this.state = {
       itemsUnassigned: [],
-      itemsAssigned: []
+      itemsAssigned: [],
+      lastSelectedAssigned: null,
+      lastSelectedUnnasigned: null
     };
+    this.setState = this.setState.bind(this);
   }
 
   componentDidMount() {
@@ -86,34 +93,32 @@ export class SelectUnselectItems extends Component<
     this.setState({ itemsAssigned, itemsUnassigned });
   };
 
-  selectItemFromUnselectedList = (element: IItemsList) => {
-    const { itemsUnassigned } = this.state;
-    let itemIndex = -1;
-    itemsUnassigned.some((stateItem, index) => {
-      if (element.value === stateItem.value) {
-        itemIndex = index;
-      }
-      return element.value === stateItem.value;
+  selectItemFromUnselectedList = (element: IItemsList, evt?: any) => {
+    const { itemsUnassigned, lastSelectedUnnasigned } = this.state;
+    const newList = handleListSelection(
+      element,
+      itemsUnassigned,
+      lastSelectedUnnasigned,
+      evt
+    );
+    this.setState({
+      itemsUnassigned: newList,
+      lastSelectedUnnasigned: evt.shiftKey ? lastSelectedUnnasigned : element
     });
-    if (itemIndex !== -1) {
-      itemsUnassigned[itemIndex].active = element.active;
-    }
-    this.setState({ itemsUnassigned });
   };
 
-  selectItemFromSelectedList = (element: IItemsList) => {
-    const { itemsAssigned } = this.state;
-    let itemIndex = -1;
-    itemsAssigned.some((stateItem, index) => {
-      if (element.value === stateItem.value) {
-        itemIndex = index;
-      }
-      return element.value === stateItem.value;
+  selectItemFromSelectedList = (element: IItemsList, evt?: any) => {
+    const { itemsAssigned, lastSelectedAssigned } = this.state;
+    const newList = handleListSelection(
+      element,
+      itemsAssigned,
+      lastSelectedAssigned,
+      evt
+    );
+    this.setState({
+      itemsAssigned: newList,
+      lastSelectedAssigned: evt.shiftKey ? lastSelectedAssigned : element
     });
-    if (itemIndex !== -1) {
-      itemsAssigned[itemIndex].active = element.active;
-    }
-    this.setState({ itemsAssigned });
   };
 
   selectAll = () => {
@@ -242,23 +247,35 @@ export class SelectUnselectItems extends Component<
             >
               <VSelectionListStyled
                 selection={this.props.selection}
-                elements={itemsUnassigned}
+                elements={itemsUnassigned.filter(
+                  item =>
+                    !this.state.queryUnnassigned ||
+                    item.text.includes(this.state.queryUnnassigned)
+                )}
                 onSelect={this.selectItemFromUnselectedList}
                 height={this.props.listsHeights || '242.5px'}
               />
             </StyledScroll>
-            <VSelectField
+            <VInputFieldWithSuggestions
               fill
               noLabel
               minimal
-              defaultText={'Search'}
+              placeholder={'Search'}
               margin={'10px 0 10px'}
               options={itemsUnassignedSearch}
               id={'unselected'}
               fieldState={this.form.$.unselected}
-              onChange={this.markFromUnassigned}
-              popoverProps={{
-                minimal: true
+              onChange={value => {
+                onAutoComplete(
+                  value,
+                  this.state,
+                  this.setState,
+                  'queryUnnassigned',
+                  'itemsUnassigned'
+                );
+              }}
+              layer={{
+                inputWidth: 12
               }}
             />
           </FlexCol>
@@ -326,23 +343,35 @@ export class SelectUnselectItems extends Component<
             >
               <VSelectionListStyled
                 selection={this.props.selection}
-                elements={this.getAssignedItems(itemsAssigned)}
+                elements={this.getAssignedItems(itemsAssigned).filter(
+                  item =>
+                    !this.state.queryAssigned ||
+                    item.text.includes(this.state.queryAssigned)
+                )}
                 onSelect={this.selectItemFromSelectedList}
                 height={this.props.listsHeights || '242.5px'}
               />
             </StyledScroll>
-            <VSelectField
+            <VInputFieldWithSuggestions
               fill
               minimal
               noLabel
               margin={'10px 0 10px'}
-              defaultText={'Search'}
+              placeholder={'Search'}
               options={itemsAssignedSearch}
               id={'selected'}
               fieldState={this.form.$.selected}
-              onChange={this.markFromAssigned}
-              popoverProps={{
-                minimal: true
+              onChange={value => {
+                onAutoComplete(
+                  value,
+                  this.state,
+                  this.setState,
+                  'queryAssigned',
+                  'itemsAssigned'
+                );
+              }}
+              layer={{
+                inputWidth: 12
               }}
             />
           </FlexCol>
@@ -368,6 +397,24 @@ export class SelectUnselectItems extends Component<
   }
 }
 
+const onAutoComplete = (
+  value: any,
+  state: ISelectItemsState,
+  setState: any,
+  stateKey: 'queryAssigned' | 'queryUnnassigned',
+  stateList: 'itemsUnassigned' | 'itemsAssigned'
+) => {
+  if (value !== state[stateKey]) {
+    const newList = cloneDeep(state[stateList] || []);
+    newList.forEach(item => {
+      if (value && !item.text.includes(value)) {
+        item.active = false;
+      }
+    });
+    setState({ ...state, [stateKey]: value, [stateList]: newList });
+  }
+};
+
 const ButtonWithTooltipAllowingDisable = ({
   disabled,
   onClick,
@@ -389,3 +436,62 @@ export interface IButtonWithTooltipAllowingDisable {
   icon: IconName | JSX.Element;
   text: string;
 }
+
+const handleListSelection = (
+  element: IItemsList,
+  argLIst: IItemsList[],
+  lastSelected: IItemsList | null,
+  evt: any
+) => {
+  let newList = cloneDeep(argLIst);
+  if (!(evt.ctrlKey || evt.shiftKey)) {
+    newList = newList.map(item => ({
+      ...item,
+      active: false
+    }));
+    newList.some((stateItem, index) => {
+      const result = element.value === stateItem.value;
+      if (result) {
+        newList[index].active = true;
+      }
+      return result;
+    });
+  } else if (evt.ctrlKey) {
+    newList.some((stateItem, index) => {
+      const result = element.value === stateItem.value;
+      if (result) {
+        newList[index].active = !!element.active;
+      }
+      return result;
+    });
+  } else if (evt.shiftKey) {
+    newList = newList.map(item => ({
+      ...item,
+      active: false
+    }));
+    let lastSelectedIndex = 0;
+    let clickedElementIndex = -1;
+    newList.forEach((stateItem, index) => {
+      if (lastSelected && stateItem.value === lastSelected.value) {
+        lastSelectedIndex = index;
+      }
+      if (element && stateItem.value === element.value) {
+        clickedElementIndex = index;
+      }
+    });
+    const start =
+      lastSelectedIndex > clickedElementIndex
+        ? lastSelectedIndex
+        : clickedElementIndex;
+    const end =
+      lastSelectedIndex > clickedElementIndex
+        ? clickedElementIndex
+        : lastSelectedIndex;
+    newList.forEach((stateItem, index) => {
+      if (start >= index && index >= end) {
+        newList[index].active = true;
+      }
+    });
+  }
+  return newList;
+};
