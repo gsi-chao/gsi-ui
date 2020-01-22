@@ -85,11 +85,9 @@ export class VInputFieldWithSuggestions extends React.Component<
       noLabel,
       required,
       validators,
-      margin,
       tipLabel,
       displayRequired,
       tooltip,
-      autoComplete,
       onKeyPress,
       onBlur
     } = this.props;
@@ -193,7 +191,7 @@ export class VInputFieldWithSuggestions extends React.Component<
                 small={size === 'small'}
                 rightElement={rightElement || rightEl}
                 name={id}
-                autoComplete={autoComplete ? autoComplete : 'no_auto'}
+                autoComplete={'off'}
                 inputRef={this.inputRef}
                 {...{
                   round,

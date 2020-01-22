@@ -76,7 +76,8 @@ export class SelectUnselectItems extends Component<
       }
       return true;
     });
-    this.setState({ itemsAssigned, itemsUnassigned });
+    this.setState({ itemsAssigned, itemsUnassigned, queryUnnassigned: '' });
+    this.form.$.unselected.onChange('');
   };
 
   unselectItems = () => {
@@ -90,16 +91,22 @@ export class SelectUnselectItems extends Component<
       }
       return true;
     });
-    this.setState({ itemsAssigned, itemsUnassigned });
+    this.setState({ itemsAssigned, itemsUnassigned , queryAssigned: '' });
+    this.form.$.selected.onChange('');
   };
 
   selectItemFromUnselectedList = (element: IItemsList, evt?: any) => {
-    const { itemsUnassigned, lastSelectedUnnasigned } = this.state;
+    const {
+      itemsUnassigned,
+      lastSelectedUnnasigned,
+      queryUnnassigned
+    } = this.state;
     const newList = handleListSelection(
       element,
       itemsUnassigned,
       lastSelectedUnnasigned,
-      evt
+      evt,
+      queryUnnassigned
     );
     this.setState({
       itemsUnassigned: newList,
@@ -108,12 +115,13 @@ export class SelectUnselectItems extends Component<
   };
 
   selectItemFromSelectedList = (element: IItemsList, evt?: any) => {
-    const { itemsAssigned, lastSelectedAssigned } = this.state;
+    const { itemsAssigned, lastSelectedAssigned, queryAssigned } = this.state;
     const newList = handleListSelection(
       element,
       itemsAssigned,
       lastSelectedAssigned,
-      evt
+      evt,
+      queryAssigned
     );
     this.setState({
       itemsAssigned: newList,
@@ -123,42 +131,62 @@ export class SelectUnselectItems extends Component<
 
   selectAll = () => {
     let { itemsAssigned, itemsUnassigned } = this.state;
-    itemsAssigned = [...itemsAssigned, ...itemsUnassigned].map(item => ({
+    const newItemsUnnasigned: IItemsList[] = [];
+    const newItemsAssigned: IItemsList[] = itemsAssigned.map(item => ({
       ...item,
       active: false
     }));
-    itemsUnassigned = [];
-    this.setState({ itemsAssigned, itemsUnassigned });
+    itemsUnassigned = itemsUnassigned.map(item => ({
+      ...item,
+      active: false
+    }));
+    itemsUnassigned.forEach(item => {
+      if (
+        !this.state.queryUnnassigned ||
+        item.text
+          .toUpperCase()
+          .includes(this.state.queryUnnassigned.toUpperCase())
+      ) {
+        newItemsAssigned.push({ ...item, active: false });
+      } else {
+        newItemsUnnasigned.push(item);
+      }
+    });
+    this.setState({
+      itemsAssigned: newItemsAssigned,
+      itemsUnassigned: newItemsUnnasigned,
+      queryUnnassigned: ''
+    });
+    this.form.$.unselected.onChange('');
   };
 
   unselectAll = () => {
     let { itemsAssigned, itemsUnassigned } = this.state;
-    itemsUnassigned = [...itemsUnassigned, ...itemsAssigned].map(item => ({
+    const newItemsAssigned: IItemsList[] = [];
+    const newItemsUnnasigned: IItemsList[] = itemsUnassigned.map(item => ({
       ...item,
       active: false
     }));
-    itemsAssigned = [];
-    this.setState({ itemsAssigned, itemsUnassigned });
-  };
-
-  markFromUnassigned = (elementValue: string) => {
-    const { itemsUnassigned } = this.state;
-    const newElement = itemsUnassigned.find(
-      item => item.value === elementValue
-    );
-    if (newElement) {
-      newElement.active = true;
-      this.selectItemFromUnselectedList(newElement);
-    }
-  };
-
-  markFromAssigned = (elementValue: string) => {
-    const { itemsAssigned } = this.state;
-    const newElement = itemsAssigned.find(item => item.value === elementValue);
-    if (newElement) {
-      newElement.active = true;
-      this.selectItemFromSelectedList(newElement);
-    }
+    itemsAssigned.map(item => ({
+      ...item,
+      active: false
+    }));
+    itemsAssigned.forEach(item => {
+      if (
+        !this.state.queryAssigned ||
+        item.text.toUpperCase().includes(this.state.queryAssigned.toUpperCase())
+      ) {
+        newItemsUnnasigned.push({ ...item, active: false });
+      } else {
+        newItemsAssigned.push(item);
+      }
+    });
+    this.setState({
+      itemsAssigned: newItemsAssigned,
+      itemsUnassigned: newItemsUnnasigned,
+      queryAssigned: ''
+    });
+    this.form.$.selected.onChange('');
   };
 
   handleSave = () => {
@@ -270,6 +298,7 @@ export class SelectUnselectItems extends Component<
                 id={'unselected'}
                 fieldState={this.form.$.unselected}
                 upperCaseFormat
+                autoComplete={'no'}
                 onChange={value => {
                   onAutoComplete(
                     value,
@@ -372,6 +401,7 @@ export class SelectUnselectItems extends Component<
                 id={'selected'}
                 upperCaseFormat
                 fieldState={this.form.$.selected}
+                autoComplete={'no'}
                 onChange={value => {
                   onAutoComplete(
                     value,
@@ -451,11 +481,12 @@ export interface IButtonWithTooltipAllowingDisable {
 
 const handleListSelection = (
   element: IItemsList,
-  argLIst: IItemsList[],
+  argList: IItemsList[],
   lastSelected: IItemsList | null,
-  evt: any
+  evt: any,
+  query: string = ''
 ) => {
-  let newList = cloneDeep(argLIst);
+  let newList = cloneDeep(argList);
   if (!(evt.ctrlKey || evt.shiftKey)) {
     newList = newList.map(item => ({
       ...item,
@@ -500,7 +531,12 @@ const handleListSelection = (
         ? clickedElementIndex
         : lastSelectedIndex;
     newList.forEach((stateItem, index) => {
-      if (start >= index && index >= end) {
+      if (
+        start >= index &&
+        index >= end &&
+        (!query ||
+          newList[index].text.toUpperCase().includes(query.toUpperCase()))
+      ) {
         newList[index].active = true;
       }
     });
