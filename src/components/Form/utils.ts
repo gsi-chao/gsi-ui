@@ -13,10 +13,15 @@ export const patchFormValues = (form: FormState<any>, object: any) => {
 export const getFormValue = (form: FormState<any>) => {
   const returnedValue: any = {};
   Object.keys(form.$).map(key => {
-    returnedValue[key] = form.$[key].value;
+    if (form.$[key] instanceof FormState) {
+      returnedValue[key] = getFormValue(form.$[key]);
+    } else {
+      returnedValue[key] = form.$[key].value;
+    }
   });
   return returnedValue;
 };
+
 export const validateAndGetObject = (entity: object, keyMap: string): any => {
   let value: any = Object.assign({}, entity);
   keyMap.split('.').map(key => {
