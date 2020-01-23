@@ -10,7 +10,10 @@ import { Validators } from '../Validators';
 import { computed } from 'mobx';
 import { ILayer } from './ILayer';
 import { FieldState } from 'formstate';
-import { createNumberMask, emailMask } from 'text-mask-addons/dist/textMaskAddons';
+import {
+  createNumberMask,
+  emailMask
+} from 'text-mask-addons/dist/textMaskAddons';
 
 /**
  * Field component. Must be an observer.
@@ -113,6 +116,10 @@ export class VMaskField extends React.Component<IMaskInputProps> {
             disabled={disabled}
             showMask={this.props.showMask}
             onChange={this.onChange}
+            onKeyDown={this.props.onKeyDown}
+            onKeyPress={this.props.onKeyPress}
+            onBlur={this.props.onBlur}
+            onFocus={this.props.onFocus}
             value={this.valueField}
             style={{
               paddingRight: 10
