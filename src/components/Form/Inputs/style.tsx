@@ -345,13 +345,10 @@ export const DateInputContainer = styled(DateInput)`
 
 interface IMaskedInput {
   intent: Intent;
-  large: string;
   disabled?: boolean;
 }
 
 export const StyledMaskInput = styled(MaskedInput)`
-  width: ${(props: IMaskedInput) =>
-    props.large === 'large' ? '100%' : 'auto'};
   outline: none;
   border: none;
   border-radius: 3px;

@@ -70,7 +70,8 @@ export class VMaskField extends React.Component<IMaskInputProps> {
       margin,
       tipLabel,
       displayRequired,
-      autoComplete
+      autoComplete,
+      width
     } = this.props;
 
     if (fieldState) {
@@ -105,7 +106,6 @@ export class VMaskField extends React.Component<IMaskInputProps> {
         >
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <StyledMaskInput
-            large={fill ? 'large' : ''}
             name={id}
             mask={this.props.mask}
             autoComplete={autoComplete ? autoComplete : 'no_auto'}
@@ -122,7 +122,8 @@ export class VMaskField extends React.Component<IMaskInputProps> {
             onFocus={this.props.onFocus}
             value={this.valueField}
             style={{
-              paddingRight: 10
+              paddingRight: 10,
+              width: width ? width : '100%'
             }}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
