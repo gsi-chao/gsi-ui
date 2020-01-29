@@ -143,7 +143,7 @@ export const VColorPicker = (props: IProps) => {
           content={getPickerColor()}
           canEscapeKeyClose={false}
           isOpen={isOpen}
-          interactionKind={'click-target'}
+          interactionKind={'click'}
           captureDismiss={false}
           enforceFocus
           usePortal={true}
@@ -158,6 +158,10 @@ export const VColorPicker = (props: IProps) => {
             />
           }
           position={props.position ? props.position : 'right'}
+          onInteraction={(nextOpenState:boolean)=>{
+            if(!nextOpenState)
+             setIsOpen(false)
+          }}
         />
       )}
     </div>
