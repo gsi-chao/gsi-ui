@@ -9,17 +9,27 @@ const email = (value: string) =>
 
 const lt = (maxLength: number) => (value: string) =>
   value &&
-  value.toString().trim().length > maxLength &&
+  value.toString().length >= maxLength &&
   `The value must have less than ${maxLength} symbols.`;
+
+const lte = (maxLength: number) => (value: string) =>
+  value &&
+  value.toString().length > maxLength &&
+  `The value must have less than equal ${maxLength} symbols.`;
 
 const gt = (minLength: number) => (value: string) =>
   value &&
-  value.toString().trim().length < minLength &&
+  value.toString().length <= minLength &&
   `The value must be greater than ${minLength} symbols.`;
+
+const gte = (minLength: number) => (value: string) =>
+  value &&
+  value.toString().length < minLength &&
+  `The value must be greater than equal ${minLength} symbols.`;
 
 const exact = (length: number) => (value: string) =>
   value &&
-  value.toString().trim().length !== length &&
+  value.toString().length !== length &&
   `The value must be ${length} symbols.`;
 
 const ltNumber = (min: number) => (value: string) =>
@@ -99,9 +109,11 @@ const isNumeric = (value: string) =>
 export const Validators = {
   exact,
   lt,
+  lte,
   email,
   required,
   gt,
+  gte,
   ltNumber,
   gtNumber,
   isLatLong,

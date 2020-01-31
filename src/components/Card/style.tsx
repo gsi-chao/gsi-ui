@@ -84,6 +84,7 @@ export const VCardTextSpan = styled.span`
 `;
 
 export const VCardTextSpanContainer = styled.div`
+  flex: 1;
   width: 100%;
 `;
 
