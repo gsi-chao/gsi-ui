@@ -24,6 +24,7 @@ export interface IProps {
     intent: Intent;
   };
   disableAlpha?: boolean;
+  boundary?: 'scrollParent' | 'viewport' | 'window';
 }
 
 export const VColorPicker = (props: IProps) => {
@@ -158,9 +159,14 @@ export const VColorPicker = (props: IProps) => {
             />
           }
           position={props.position ? props.position : 'right'}
-          onInteraction={(nextOpenState:boolean)=>{
-            if(!nextOpenState)
-             setIsOpen(false)
+          boundary={props.boundary ? props.boundary :'scrollParent'}
+          modifiers={{
+            preventOverflow: {
+              enabled: true,
+            }
+          }}
+          onInteraction={(nextOpenState: boolean) => {
+            if (!nextOpenState) setIsOpen(false);
           }}
         />
       )}
