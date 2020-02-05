@@ -86,11 +86,11 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 
   const getValue = () => {
     return isNumber(props.fieldState && props.fieldState.value) &&
-      isFinite(props.fieldState && props.fieldState.value)
+    isFinite(props.fieldState && props.fieldState.value)
       ? props.fieldState && props.fieldState.value
       : isNumber(props.value) && isFinite(props.value)
-      ? props.value
-      : '';
+        ? props.value
+        : '';
   };
 
   const MaskValue = () => {
@@ -116,7 +116,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
           ) {
             newValue =
               `${newValue &&
-                round(Number(newValue.toString()), props.roundTo)}` || '';
+              round(Number(newValue.toString()), props.roundTo)}` || '';
           }
           setState(value);
           setPropsValues(newValue);
@@ -200,6 +200,10 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 const fillWithZero = (value: any, round: number): any => {
   if (!`${value}`) {
     return '';
+  }
+
+  if (round === 0) {
+    return value;
   }
   const values = `${value || ''}`.split('.');
   if (values && values.length === 2) {
