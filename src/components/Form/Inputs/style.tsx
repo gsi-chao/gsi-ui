@@ -215,6 +215,17 @@ export const StyledTagsInput = styled(StyledFormGroup)`
 `;
 
 export const StyledDateRange = styled(StyledFormGroup)`
+  .gsi-input-and-error-container {
+    & span.tipLabel {
+      background: white;
+      margin-bottom: -7px;
+      z-index: 1;
+      width: fit-content;
+      font-weight: 400;
+      font-size: 12px;
+      padding: 0 2px;
+    }
+  }
   .bp3-input-group {
     width: 50%;
   }

@@ -1,16 +1,21 @@
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import * as React from 'react';
-import { createRef } from 'react';
 import moment from 'moment';
 /** Blueprint */
 import { IconName, Intent, IPopoverProps } from '@blueprintjs/core';
-import { DateRangeInput, IDateFormatProps, TimePrecision } from '@blueprintjs/datetime';
+import {
+  DateRange,
+  DateRangeInput,
+  IDateFormatProps,
+  TimePrecision
+} from '@blueprintjs/datetime';
 /** FieldState */
 import { StyledDateRange } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
-import { computed } from 'mobx';
 import { Validators } from '../Validators';
+
+import { isDate } from 'lodash';
 
 /**
  * Field component. Must be an observer.
@@ -33,6 +38,7 @@ export interface IInputFieldProps extends IFieldProps {
   showActionsBar?: boolean;
   allowSingleDayRange?: boolean;
   contiguousCalendarMonths?: boolean;
+  tipLabel?: string;
 }
 
 interface IIcon {
@@ -55,144 +61,137 @@ const momentFormatter = (format: string): IDateFormatProps => {
   };
 };
 
-@observer
-export class VDateRangePicker extends React.Component<IInputFieldProps> {
-  public setDateRef: any;
-  public dateRef: any;
-  public isFocused: any;
-  constructor(props: IInputFieldProps) {
-    super(props);
-    this.dateRef = null;
-    this.setDateRef = (element: any) => {
-      this.dateRef = element;
-    };
-    this.isFocused = createRef();
-  }
+export const VDateRangePicker = observer((props: IInputFieldProps) => {
+  const [date, setDate] = useState<DateRange | undefined>([
+    undefined,
+    undefined
+  ]);
 
-  FORMATS = () => {
-    return momentFormatter(this.props.format || 'MM/DD/YYYY');
+  useEffect(() => {
+    if (props.fieldState?.value) {
+      setDate(props.fieldState.value);
+    }
+    if (props.value) {
+      setDate(props.value);
+    }
+  }, [props.fieldState?.value, props.value]);
+
+  const FORMATS = () => {
+    return momentFormatter(props.format || 'MM/DD/YYYY');
   };
 
-  changedDate = (dates: any[]) => {
+  const changedDate = (dates: any[]) => {
     if (dates && dates.length === 2) {
-      const newDates = [
-        (moment(dates[0], this.props.format || 'MM/DD/YYYY').isValid() &&
+      const newDates: DateRange | undefined = [
+        (moment(dates[0], props.format || 'MM/DD/YYYY').isValid() &&
           dates[0]) ||
           null,
-        (moment(dates[1], this.props.format || 'MM/DD/YYYY').isValid() &&
+        (moment(dates[1], props.format || 'MM/DD/YYYY').isValid() &&
           dates[1]) ||
           null
       ];
-      if (this.props.fieldState) {
-        this.props.fieldState.onChange(newDates);
-      }
-      if (this.props.onChange) {
-        this.props.onChange(newDates);
-      }
-    }
-  };
-
-  public render() {
-    const {
-      label,
-      labelInfo,
-      fieldState,
-      disabled,
-      inline,
-      id,
-      className,
-      layer,
-      fill,
-      margin,
-      value,
-      noLabel,
-      required,
-      popoverProps,
-      maxTime,
-      minTime,
-      validators,
-      displayRequired,
-      tooltip,
-      allowSingleDayRange,
-      contiguousCalendarMonths
-    } = this.props;
-
-    if (fieldState) {
-      if (required) {
-        if (validators && validators.length > 0) {
-          fieldState.validators(Validators.required, ...validators);
-        } else {
-          fieldState.validators(Validators.required);
+      setDate(newDates);
+      if (newDates[0] && newDates[1]) {
+        if (props.fieldState) {
+          props.fieldState.onChange(newDates);
+          return;
         }
-      } else if (validators && validators.length > 0) {
-        fieldState.validators(...validators);
+        if (props.onChange) {
+          props.onChange(newDates);
+          return;
+        }
       }
-    }
-    return (
-      <StyledDateRange
-        className={className}
-        disabled={disabled}
-        inline={inline}
-        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        labelFor={id}
-        labelInfo={labelInfo}
-        layer={layer}
-        fill={fill}
-        margin={margin}
-        noLabel={noLabel}
-      >
-        <FormFieldContainer
-          required={required || displayRequired}
-          noLabel={noLabel}
-          label={label}
-          fieldState={fieldState}
-          value={value}
-          tooltip={tooltip}
-        >
-          <DateRangeInput
-            {...this.FORMATS()}
-            disabled={disabled}
-            minDate={minTime}
-            maxDate={maxTime}
-            onChange={this.changedDate}
-            value={this.valueField}
-            popoverProps={{
-              minimal: true,
-              ...popoverProps
-            }}
-            shortcuts={this.props.shortcuts}
-            allowSingleDayRange={allowSingleDayRange}
-            contiguousCalendarMonths={contiguousCalendarMonths}
-          />
-        </FormFieldContainer>
-      </StyledDateRange>
-    );
-  }
-
-  onKeyPress = (event: any) => {
-    const keycode = event.keyCode ? event.keyCode : event.which;
-    if (
-      !(
-        event.shiftKey === false &&
-        (keycode === 46 ||
-          keycode === 8 ||
-          keycode === 37 ||
-          keycode === 39 ||
-          (keycode >= 48 && keycode <= 57))
-      )
-    ) {
-      event.preventDefault();
     }
   };
 
-  @computed
-  get valueField() {
-    if (this.props.fieldState) {
-      return this.props.fieldState.value;
+  const {
+    label,
+    labelInfo,
+    fieldState,
+    disabled,
+    inline,
+    id,
+    className,
+    layer,
+    fill,
+    margin,
+    value,
+    noLabel,
+    required,
+    popoverProps,
+    maxTime,
+    minTime,
+    validators,
+    displayRequired,
+    tooltip,
+    allowSingleDayRange,
+    contiguousCalendarMonths,
+    tipLabel
+  } = props;
+
+  if (fieldState) {
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(Validators.required, ...validators);
+      } else {
+        fieldState.validators(Validators.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
     }
-    if (this.props.value) {
-      return this.props.value;
-    }
-    return null;
   }
-}
+
+  const getValueField = (): DateRange | undefined => {
+    if (date && date.length === 2) {
+      try {
+        date[0] = isDate(date[0]) ? new Date(date[0]) : undefined;
+        date[1] = isDate(date[1]) ? new Date(date[1]) : undefined;
+        return date;
+      } catch (e) {
+        return [undefined, undefined];
+      }
+    }
+    return [undefined, undefined];
+  };
+
+  return (
+    <StyledDateRange
+      className={className}
+      disabled={disabled}
+      inline={inline}
+      intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
+      labelFor={id}
+      labelInfo={labelInfo}
+      layer={layer}
+      fill={fill}
+      margin={margin}
+      noLabel={noLabel}
+    >
+      <FormFieldContainer
+        required={required || displayRequired}
+        noLabel={noLabel}
+        label={label}
+        fieldState={fieldState}
+        value={value}
+        tooltip={tooltip}
+      >
+        {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
+        <DateRangeInput
+          {...FORMATS()}
+          disabled={disabled}
+          minDate={minTime}
+          maxDate={maxTime}
+          onChange={changedDate}
+          value={getValueField()}
+          popoverProps={{
+            minimal: true,
+            ...popoverProps
+          }}
+          shortcuts={props.shortcuts}
+          allowSingleDayRange={allowSingleDayRange}
+          contiguousCalendarMonths={contiguousCalendarMonths}
+        />
+      </FormFieldContainer>
+    </StyledDateRange>
+  );
+});
