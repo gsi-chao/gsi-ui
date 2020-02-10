@@ -34,6 +34,7 @@ export interface StyledCardProps {
   onHeaderFocus?: any;
   id?: string;
   headerTextComponent?: any;
+  headerClass?:string;
 }
 
 interface PanelState {
@@ -92,7 +93,7 @@ export class VCardPanel extends Component<StyledCardProps, PanelState> {
             heigthHeaderPx={this.props.heigthHeaderPx}
             onMouseDown={this.props.onHeaderMouseDrag}
             onClick={this.props.onHeaderFocus}
-            className={'gsi-draggable-modal-title'}
+            className={this.props.headerClass}
           >
             <VCardTextSpanContainer>
               {this.props.headerTextComponent ? (

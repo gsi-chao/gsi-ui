@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useCallback, memo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo } from 'react';
 
-import { AnchorButton, Dialog } from '@blueprintjs/core';
+import { AnchorButton } from '@blueprintjs/core';
 import { ResizeHandle } from './ResizeHandle';
 import { useDrag } from './useDrag';
 import { DraggableModalContextMethods } from './DraggableModalContext';
@@ -63,7 +63,7 @@ export const DraggableModalInner = memo(
         size,
         type: 'mount'
       });
-      return () => dispatch({ type: 'unmount', id });
+      return () => dispatch({ id, type: 'unmount' });
     }, [dispatch, id]);
 
     useEffect(() => {
@@ -83,9 +83,9 @@ export const DraggableModalInner = memo(
     useEffect(() => {
       if (isOpen !== visiblePrevious) {
         if (isOpen) {
-          dispatch({ type: 'show', id });
+          dispatch({ id, type: 'show' });
         } else {
-          dispatch({ type: 'hide', id });
+          dispatch({ id, type: 'hide' });
         }
       }
     }, [isOpen, visiblePrevious, id, dispatch]);
@@ -108,18 +108,18 @@ export const DraggableModalInner = memo(
       [y, x, height, width, zIndex]
     );
 
-    const onFocus = useCallback(() => dispatch({ type: 'focus', id }), [
+    const onFocus = useCallback(() => dispatch({ id, type: 'focus' }), [
       id,
       dispatch
     ]);
 
     const onDragWithID = useCallback(
-      args => dispatch({ type: 'drag', id, ...args }),
+      args => dispatch({ id, type: 'drag', ...args }),
       [dispatch, id]
     );
 
     const onResizeWithID = useCallback(
-      args => dispatch({ type: 'resize', id, ...args }),
+      args => dispatch({ id, type: 'resize', ...args }),
       [dispatch, id]
     );
 
@@ -139,6 +139,7 @@ export const DraggableModalInner = memo(
       >
         <VCardPanel
           {...modalProps}
+          headerClass={'gsi-draggable-modal-title'}
           height={
             modalProps.hasOwnProperty('height')
               ? modalProps.height
