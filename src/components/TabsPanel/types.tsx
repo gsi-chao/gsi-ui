@@ -8,6 +8,7 @@ export interface ITabsPanelStyle {
   active?: boolean;
   activeColor?: string;
   activeTextColor?: string;
+  activeBackgroundColor?: string;
   textColor?: string;
   elevation?: number;
   padding?: string;
@@ -39,6 +40,7 @@ export interface ITabsPanelProps {
   lineColor?: string;
   activeTextColor?: string;
   activeBorderColor?: string;
+  activeBackgroundColor?: string;
   beforeChangeTabValidation?: boolean;
   tabsAlertProps?: TabsAlertProps;
   handleChange(tab: ITabsPanelTypes): void;

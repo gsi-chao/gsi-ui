@@ -117,6 +117,7 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
               <ItemSC className="item" key={tab.key}>
                 <VTabPanel
                   backgroundColor={options.backgroundColor}
+                  activeBackgroundColor={options.activeBackgroundColor}
                   key={tab.key}
                   id={tab.key}
                   handleOnClick={handleChangeTab}

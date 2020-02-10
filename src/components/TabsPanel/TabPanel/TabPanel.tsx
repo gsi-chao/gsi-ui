@@ -14,6 +14,7 @@ interface IVTabPanelProps {
   borderColor?: string;
   activeColor?: string;
   activeTextColor?: string;
+  activeBackgroundColor?: string;
   textColor?: string;
   backgroundColor?: string;
   handleOnClick: (tabKey: string) => void;
@@ -35,6 +36,7 @@ export class VTabPanel extends Component<IVTabPanelProps> {
       borderColor,
       activeColor,
       activeTextColor,
+      activeBackgroundColor,
       textColor,
       backgroundColorBadge,
       dataBadge,
@@ -44,10 +46,12 @@ export class VTabPanel extends Component<IVTabPanelProps> {
     } = this.props;
     return (
       <LabelIcon
+        className={`${active && 'active'} gsi-tab-panel-item`}
         borderColor={borderColor}
         activeColor={activeColor}
         backgroundColor={backgroundColor}
         activeTextColor={activeTextColor}
+        activeBackgroundColor={activeBackgroundColor}
         textColor={textColor}
         active={active}
         onClick={this.handleOnClick}
@@ -56,7 +60,7 @@ export class VTabPanel extends Component<IVTabPanelProps> {
         padding={this.props.padding}
       >
         {icon && typeof icon === 'object' && (
-          <Icon style={labelIcon} {...icon as IIconTabsPanelProps} />
+          <Icon style={labelIcon} {...(icon as IIconTabsPanelProps)} />
         )}
         {icon && React.isValidElement(icon) && <>{icon}</>}
 

@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import { ITabsPanelStyle } from './types';
 
-export const constStyle = {
-  borderColor: '',
-  activeColor: '',
-  activeTextColor: ''
-};
 
 export const ContainerTabsPanel = styled.div`
   display: flex;
@@ -41,6 +36,10 @@ export const LabelIcon = styled.div`
   border-style: solid;
   border: none;
   ${(props: ITabsPanelStyle) =>
+    props.active && props.activeBackgroundColor
+      ? `background-color:${props.activeBackgroundColor}!important;`
+      : ''};
+  ${(props: ITabsPanelStyle) =>
     props.active
       ? `
       ${
@@ -61,7 +60,7 @@ export const LabelIcon = styled.div`
     border-width: 0;
     background-color: transparent;
     `}
-  & > span{
+  & > div, span{
   ${(props: ITabsPanelStyle) =>
     props.active && props.activeTextColor
       ? `color:${props.activeTextColor}!important;`
