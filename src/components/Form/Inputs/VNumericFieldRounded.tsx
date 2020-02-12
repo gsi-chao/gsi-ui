@@ -86,11 +86,11 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 
   const getValue = () => {
     return isNumber(props.fieldState && props.fieldState.value) &&
-    isFinite(props.fieldState && props.fieldState.value)
+      isFinite(props.fieldState && props.fieldState.value)
       ? props.fieldState && props.fieldState.value
       : isNumber(props.value) && isFinite(props.value)
-        ? props.value
-        : '';
+      ? props.value
+      : '';
   };
 
   const MaskValue = () => {
@@ -105,7 +105,10 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 
   const onChange = (e: any) => {
     const value = e.target.value;
-    if (regExp.test(value) || !value) {
+    if (
+      (props.maxDecimals && props.maxDecimals > 0 && regExp.test(value)) ||
+      !value
+    ) {
       if (!props.maxDecimals || canAddDecimalPlace(value, props.maxDecimals)) {
         let newValue = value;
         if (props.roundTo && props.roundTo > 0) {
@@ -116,7 +119,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
           ) {
             newValue =
               `${newValue &&
-              round(Number(newValue.toString()), props.roundTo)}` || '';
+                round(Number(newValue.toString()), props.roundTo)}` || '';
           }
           setState(value);
           setPropsValues(newValue);
@@ -125,6 +128,12 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
           setPropsValues(newValue);
         }
       }
+    } else if (
+      (props.maxDecimals === 0 && regExpNoDecimalPlace.test(value)) ||
+      !value
+    ) {
+      setState(value);
+      setPropsValues(value);
     }
   };
 
@@ -230,3 +239,4 @@ const canAddDecimalPlace = (value: any, round: number): boolean => {
 };
 
 const regExp = /^(-)?[0-9]*([.][0-9]*)?$/;
+const regExpNoDecimalPlace = /^(-)?[1-9][0-9]*?$/;
