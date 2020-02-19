@@ -15,7 +15,7 @@ const lt = (maxLength: number) => (value: string) =>
 const lte = (maxLength: number) => (value: string) =>
   value &&
   value.toString().length > maxLength &&
-  `The value must have less than equal ${maxLength} symbols.`;
+  `The value can only have a maximum of ${maxLength} symbols.`;
 
 const gt = (minLength: number) => (value: string) =>
   value &&
