@@ -21,7 +21,6 @@
     "@typescript-eslint/parser": "^2.3.3",
     "classnames": "latest",
     "formstate": "^1.3.0",
-    "gsi-ui": "^0.3.21-beta2",
     "jquery": "^3.4.1",
     "lodash": "^4.17.11",
     "mobx": "^5.9.4",
