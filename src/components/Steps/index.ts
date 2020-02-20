@@ -1,3 +1,3 @@
-export * from './VSteps';
-export * from './VStep';
-export * from './types';
+export { VSteps } from './VSteps';
+export { VStep } from './VStep';
+export { IVSteps, IVStep } from './types';

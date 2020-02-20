@@ -38,6 +38,7 @@ export const VSteps = (props: React.PropsWithChildren<IVSteps>) => {
   const children = React.Children.map(props.children, (child: any, index) => {
     upperBarNodes.push(
       <StepsUpperBarNode
+        key={`StepNode${index}`}
         index={index + 1}
         title={child.props.title}
         icon={child.props.icon}

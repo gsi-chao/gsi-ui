@@ -44,6 +44,7 @@ const StepsUpperBar = (props: React.PropsWithChildren<{}>) => {
     if (index < count - 1) {
       children.push(
         <SLine
+          key={`StepBarLine${index}`}
           isDone={child.props.currentStep > index}
           mainColor={mainCtx.mainColor}
           secondaryColor={mainCtx.secondaryColor}

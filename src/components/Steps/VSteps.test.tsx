@@ -1,7 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { VSteps } from '.';
-import VStep from './VStep';
+import { VSteps, VStep } from '.';
 
 it('renders correctly when there are no items', () => {
   const steps = renderer

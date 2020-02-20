@@ -27,7 +27,7 @@ interface IVStepContext {
 
 export const StepContext = React.createContext<IVStepContext>({});
 
-const VStep = (props: React.PropsWithChildren<IVStep>) => {
+export const VStep = (props: React.PropsWithChildren<IVStep>) => {
   const pp: any = props;
 
   return (
@@ -47,5 +47,3 @@ const VStep = (props: React.PropsWithChildren<IVStep>) => {
     </>
   );
 };
-
-export default VStep;
