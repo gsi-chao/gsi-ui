@@ -35,6 +35,10 @@ export interface IInputFieldProps extends IFieldProps {
   showActionsBar?: boolean;
 }
 
+interface IStateField {
+  defaultValue: any;
+}
+
 interface IIcon {
   backgroundColor?: string;
   color?: string;
@@ -56,7 +60,7 @@ const momentFormatter = (format: string): IDateFormatProps => {
 };
 
 @observer
-export class VDateTimePicker extends React.Component<IInputFieldProps> {
+export class VDateTimePicker extends React.Component<IInputFieldProps, IStateField> {
   public setDateRef: any;
   public dateRef: any;
   public isFocused: any;
@@ -67,6 +71,9 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
       this.dateRef = element;
     };
     this.isFocused = createRef();
+    this.state = {
+      defaultValue: this.props.minTime ? this.props.minTime : (this.props.maxTime ? this.props.maxTime : moment().toDate())
+    };
   }
 
   FORMATS = () => {
@@ -166,6 +173,7 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
     } else {
       iconJSX = rightElement;
     }
+
     return (
       <StyledFormGroup
         className={className}
@@ -191,9 +199,9 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
             <DateInputContainer
               {...this.FORMATS()[dateType]}
               disabled={disabled}
-              minDate={minTime}
-              maxDate={maxTime}
-              defaultValue={moment().toDate()}
+              minDate={minTime || moment('1/1/1900').toDate()}
+              maxDate={maxTime || moment('1/1/2100').toDate()}
+              defaultValue={this.state.defaultValue}
               onChange={this.changedDate}
               value={this.valueField}
               timePrecision={dateType === 'DATETIME' ? precision : undefined}
