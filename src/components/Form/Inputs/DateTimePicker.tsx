@@ -1,15 +1,18 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { createRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import moment from 'moment';
 /** Blueprint */
 import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
-import { IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
+import {
+  IDateFormatProps,
+  IDatePickerModifiers,
+  TimePicker
+} from '@blueprintjs/datetime';
 /** FieldState */
 import { DateInputContainer, IconDate, StyledFormGroup } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
-import { computed } from 'mobx';
 import { TimePrecision } from '@blueprintjs/datetime/lib/esm/timePicker';
 import { Validators } from '../Validators';
 
@@ -59,87 +62,77 @@ const momentFormatter = (format: string): IDateFormatProps => {
   };
 };
 
-@observer
-export class VDateTimePicker extends React.Component<IInputFieldProps, IStateField> {
-  public setDateRef: any;
-  public dateRef: any;
-  public isFocused: any;
-  constructor(props: IInputFieldProps) {
-    super(props);
-    this.dateRef = null;
-    this.setDateRef = (element: any) => {
-      this.dateRef = element;
-    };
-    this.isFocused = createRef();
-    this.state = {
-      defaultValue: this.props.minTime ? this.props.minTime : (this.props.maxTime ? this.props.maxTime : moment().toDate())
-    };
+const toDate = () => {
+  return moment().toDate();
+};
+
+const toDateNotSelect = (date: Date) => {
+  return moment(moment().toDate()).isSame(moment(date), 'd');
+};
+
+const outOfRangeError = (date: any, value: any, type: 'MIN' | 'MAX') => {
+  if (type === 'MIN') {
+    return moment(value).isBefore(moment(date), 'd');
   }
+  return moment(value).isAfter(moment(date), 'd');
+};
 
-  FORMATS = () => {
-    return {
-      DATE: momentFormatter(this.props.format || this.dFormat()['DATE']),
-      DATETIME: momentFormatter(
-        `${this.props.format || this.dFormat()['DATETIME']}`
-      ),
-      TIME: momentFormatter(this.dFormat()['TIME'])
-    };
-  };
+export const VDateTimePicker = observer((props: IInputFieldProps) => {
+  const {
+    label,
+    labelInfo,
+    fieldState,
+    disabled,
+    inline,
+    placeholder,
+    id,
+    className,
+    layer,
+    fill,
+    dateType,
+    rightElement,
+    icon,
+    margin,
+    value,
+    noLabel,
+    required,
+    popoverProps,
+    maxTime,
+    minTime,
+    useAmPm,
+    precision,
+    validators,
+    displayRequired,
+    tooltip,
+    format,
+    onChange,
+    canClearSelection,
+    shortcuts,
+    showActionsBar
+  } = props;
 
-  dFormat = () => {
-    return {
-      DATE: 'MM/DD/YYYY',
-      DATETIME: 'MM/DD/YYYY HH:mm:ss',
-      TIME: 'HH:mm:ss'
-    };
-  };
+  const dateRef: any = useRef<HTMLElement>(null);
+  const isFocused: any = useRef();
+  const [minTimeCalculate, setMinTimeCalculate] = useState();
+  const [maxTimeCalculate, setMaxTimeCalculate] = useState();
+  const [defaultValue, setDefaultValue] = useState(toDate());
 
-  changedDate = (date: any) => {
-    if (
-      moment(
-        date,
-        this.props.format || this.dFormat()[this.props.dateType]
-      ).isValid() ||
-      date === null
-    ) {
-      if (this.props.fieldState) {
-        this.props.fieldState.onChange(date);
-      }
-      if (this.props.onChange) {
-        this.props.onChange(date);
-      }
+
+  const valueField: any = useMemo(() => {
+    if (fieldState) {
+      return fieldState.value;
     }
-  };
+    if (value) {
+      return value;
+    }
+  }, [fieldState?.value, value]);
 
-  public render() {
-    const {
-      label,
-      labelInfo,
-      fieldState,
-      disabled,
-      inline,
-      placeholder,
-      id,
-      className,
-      layer,
-      fill,
-      dateType,
-      rightElement,
-      icon,
-      margin,
-      value,
-      noLabel,
-      required,
-      popoverProps,
-      maxTime,
-      minTime,
-      useAmPm,
-      precision,
-      validators,
-      displayRequired,
-      tooltip
-    } = this.props;
 
+  useEffect(() => {
+    setDefaultValue(minTime ? minTime : maxTime ? maxTime : toDate());
+  }, [minTime, maxTime]);
+
+  useEffect(() => {
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
@@ -151,15 +144,67 @@ export class VDateTimePicker extends React.Component<IInputFieldProps, IStateFie
         fieldState.validators(...validators);
       }
     }
-    let iconJSX;
+  }, [fieldState]);
+
+  useEffect(() => {
+    setMinTimeCalculate(
+      minTime
+        ? outOfRangeError(minTime, valueField, 'MIN')
+        ? moment('1/1/1900').toDate()
+        : minTime
+        : moment('1/1/1900').toDate()
+    );
+  }, [minTime, valueField]);
+
+  useEffect(() => {
+    setMaxTimeCalculate(
+      maxTime
+        ? outOfRangeError(maxTime, valueField, 'MAX')
+        ? moment('1/1/2100').toDate()
+        : maxTime
+        : moment('1/1/2100').toDate()
+    );
+  }, [maxTime, valueField]);
+
+  const FORMATS = () => {
+    return {
+      DATE: momentFormatter(format || dFormat()['DATE']),
+      DATETIME: momentFormatter(`${format || dFormat()['DATETIME']}`),
+      TIME: momentFormatter(dFormat()['TIME'])
+    };
+  };
+
+  const dFormat = (): any => {
+    return {
+      DATE: 'MM/DD/YYYY',
+      DATETIME: 'MM/DD/YYYY HH:mm:ss',
+      TIME: 'HH:mm:ss'
+    };
+  };
+
+  const changedDate = (date: any) => {
+    if (
+      moment(date, format || dFormat()[dateType]).isValid() ||
+      date === null
+    ) {
+      if (fieldState) {
+        fieldState.onChange(date);
+      }
+      if (onChange) {
+        onChange(date);
+      }
+    }
+  };
+
+  const iconJSX = () => {
     if (icon) {
-      iconJSX = (
+      return (
         <IconDate
           backgroundColor={icon.backgroundColor}
           onClick={e => {
             e.stopPropagation();
-            if (this.isFocused && !this.isFocused.current) {
-              this.dateRef && this.dateRef.focus();
+            if (isFocused && !isFocused.current) {
+              dateRef?.current?.focus();
             }
           }}
         >
@@ -171,10 +216,14 @@ export class VDateTimePicker extends React.Component<IInputFieldProps, IStateFie
         </IconDate>
       );
     } else {
-      iconJSX = rightElement;
+      return rightElement;
     }
+  };
 
-    return (
+  const modifiers: IDatePickerModifiers = { toDateNotSelect };
+
+  return (
+    <>
       <StyledFormGroup
         className={className}
         disabled={disabled}
@@ -197,70 +246,46 @@ export class VDateTimePicker extends React.Component<IInputFieldProps, IStateFie
         >
           {dateType === 'DATETIME' || dateType === 'DATE' ? (
             <DateInputContainer
-              {...this.FORMATS()[dateType]}
+              {...FORMATS()[dateType]}
               disabled={disabled}
-              minDate={minTime || moment('1/1/1900').toDate()}
-              maxDate={maxTime || moment('1/1/2100').toDate()}
-              defaultValue={this.state.defaultValue}
-              onChange={this.changedDate}
-              value={this.valueField}
+              minDate={minTimeCalculate}
+              maxDate={maxTimeCalculate}
+              defaultValue={defaultValue}
+              onChange={changedDate}
+              value={valueField}
               timePrecision={dateType === 'DATETIME' ? precision : undefined}
-              rightElement={iconJSX}
+              rightElement={iconJSX()}
               popoverProps={popoverProps}
-              canClearSelection={this.props.canClearSelection}
-              shortcuts={this.props.shortcuts}
-              showActionsBar={this.props.showActionsBar}
+              canClearSelection={canClearSelection}
+              shortcuts={shortcuts}
+              showActionsBar={showActionsBar}
               timePickerProps={
                 dateType === 'DATETIME' ? { useAmPm } : undefined
               }
               inputProps={{
-                inputRef: this.setDateRef,
+                inputRef: (element: any) => {
+                  dateRef.current = element;
+                },
                 onFocus: () => {
-                  this.isFocused.current = true;
+                  isFocused.current = true;
                 },
                 onBlur: () => {
-                  this.isFocused.current = false;
+                  isFocused.current = false;
                 }
               }}
+              modifiers={modifiers}
             />
           ) : (
             <TimePicker
-              value={this.valueField}
+              value={valueField}
               useAmPm={useAmPm || false}
               precision={precision || 'second'}
-              onChange={this.changedDate}
+              onChange={changedDate}
               disabled={disabled}
             />
           )}
         </FormFieldContainer>
       </StyledFormGroup>
-    );
-  }
-
-  onKeyPress = (event: any) => {
-    const keycode = event.keyCode ? event.keyCode : event.which;
-    if (
-      !(
-        event.shiftKey === false &&
-        (keycode === 46 ||
-          keycode === 8 ||
-          keycode === 37 ||
-          keycode === 39 ||
-          (keycode >= 48 && keycode <= 57))
-      )
-    ) {
-      event.preventDefault();
-    }
-  };
-
-  @computed
-  get valueField() {
-    if (this.props.fieldState) {
-      return this.props.fieldState.value;
-    }
-    if (this.props.value) {
-      return this.props.value;
-    }
-    return null;
-  }
-}
+    </>
+  );
+});
