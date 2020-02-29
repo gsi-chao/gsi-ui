@@ -347,6 +347,25 @@ export const IconDate = styled('div')`
 `;
 
 export const DateInputContainer = styled(DateInput)`
+.DayPicker-Day--today {
+    background: rgba(187,222,251,0.6);
+}
+
+.DayPicker-Day:hover {
+    background: rgba(225, 245, 254, 0.8) !important;
+    color: #182026!important;
+}
+
+.DayPicker-Day.DayPicker-Day--disabled, .DayPicker-Day.DayPicker-Day--disabled.DayPicker-Day:hover {
+    background: transparent !important;
+    cursor: no-drop !important;
+    color: #d2d5d8 !important;
+}
+
+.DayPicker-Day {
+    margin: 1px !important;
+}
+
   @-moz-document url-prefix() {
     & .bp3-html-select.bp3-minimal select {
       font-size: 12px;
