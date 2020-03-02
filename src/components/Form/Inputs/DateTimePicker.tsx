@@ -36,6 +36,7 @@ export interface IInputFieldProps extends IFieldProps {
   canClearSelection?: boolean;
   shortcuts?: boolean | any[];
   showActionsBar?: boolean;
+  closeOnSelection?: boolean;
 }
 
 interface IStateField {
@@ -108,7 +109,8 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     onChange,
     canClearSelection,
     shortcuts,
-    showActionsBar
+    showActionsBar,
+    closeOnSelection
   } = props;
 
   const dateRef: any = useRef<HTMLElement>(null);
@@ -257,6 +259,7 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
               rightElement={iconJSX()}
               popoverProps={popoverProps}
               canClearSelection={canClearSelection}
+              closeOnSelection={closeOnSelection}
               shortcuts={shortcuts}
               showActionsBar={showActionsBar}
               timePickerProps={
