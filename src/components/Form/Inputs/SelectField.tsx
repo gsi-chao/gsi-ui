@@ -51,6 +51,7 @@ export interface ISelectFieldProps extends IFieldProps {
   popoverProps?: IPopoverProps;
   resetOnClose?: boolean;
   allowEmptyItem?: boolean;
+  maxCharacter?: number;
 }
 
 /**
@@ -73,7 +74,7 @@ const ItemSelect = Select.ofType<IItem>();
 const filterItem: ItemPredicate<IItem> = (query, item) => {
   return (
     `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-    (item && (item.label === 'No Selection' && item.value === ''))
+    (item && item.label === 'No Selection' && item.value === '')
   );
 };
 
@@ -95,6 +96,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       (this.props.fieldState && item.value === this.props.fieldState.value) ||
       item.value === this.props.value;
 
+    const max = this.props.maxCharacter ? this.props.maxCharacter : 28;
+
     return (
       <MenuItem
         active={active}
@@ -102,7 +105,12 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         label={item.rep}
         key={item.value}
         onClick={handleClick}
-        text={item.label}
+        title={item.label}
+        text={
+          item.label.length > max
+            ? item.label.substr(0, max).concat('...')
+            : item.label
+        }
         labelElement={
           this.props.allowEmptyItem &&
           item.value === '' &&
@@ -133,7 +141,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
               return (
                 <React.Fragment key={index}>
                   {item}
-                  <MenuDivider key={`divider_$index`} className={'dividerNoMargin'} />
+                  <MenuDivider
+                    key={`divider_$index`}
+                    className={'dividerNoMargin'}
+                  />
                 </React.Fragment>
               );
             }
@@ -369,7 +380,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     }
   };
 }
-
 
 export const StyledMenuNoMarginDivider = styled(Menu)`
   & .dividerNoMargin {
