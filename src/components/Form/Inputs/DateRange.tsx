@@ -82,23 +82,17 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
 
   const changedDate = (dates: any[]) => {
     if (dates && dates.length === 2) {
-      const newDates: DateRange | undefined = [
-        (moment(dates[0], props.format || 'MM/DD/YYYY').isValid() &&
-          dates[0]) ||
-          null,
-        (moment(dates[1], props.format || 'MM/DD/YYYY').isValid() &&
-          dates[1]) ||
-          null
+      const newDates: any = [
+        isDate(dates[0]) && dates[0] || null,
+        isDate(dates[1]) && dates[1] || null
       ];
       setDate(newDates);
-      if (newDates[0] && newDates[1]) {
+      if ((newDates[0] && newDates[1]) || (!newDates[0] && !newDates[1])) {
         if (props.fieldState) {
           props.fieldState.onChange(newDates);
-          return;
         }
         if (props.onChange) {
           props.onChange(newDates);
-          return;
         }
       }
     }
