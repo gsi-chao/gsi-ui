@@ -118,17 +118,11 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
   const [minTimeCalculate, setMinTimeCalculate] = useState();
   const [maxTimeCalculate, setMaxTimeCalculate] = useState();
   const [defaultValue, setDefaultValue] = useState(toDate());
+  const [valueField, setValueField] = useState();
 
-
-  const valueField: any = useMemo(() => {
-    if (fieldState) {
-      return fieldState.value;
-    }
-    if (value) {
-      return value;
-    }
+  useEffect(() => {
+    calculateValue();
   }, [fieldState?.value, value]);
-
 
   useEffect(() => {
     setDefaultValue(minTime ? minTime : maxTime ? maxTime : toDate());
@@ -152,8 +146,8 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     setMinTimeCalculate(
       minTime
         ? outOfRangeError(minTime, valueField, 'MIN')
-        ? moment('1/1/1900').toDate()
-        : minTime
+          ? moment('1/1/1900').toDate()
+          : minTime
         : moment('1/1/1900').toDate()
     );
   }, [minTime, valueField]);
@@ -162,11 +156,32 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     setMaxTimeCalculate(
       maxTime
         ? outOfRangeError(maxTime, valueField, 'MAX')
-        ? moment('1/1/2100').toDate()
-        : maxTime
+          ? moment('1/1/2100').toDate()
+          : maxTime
         : moment('1/1/2100').toDate()
     );
   }, [maxTime, valueField]);
+
+  const calculateValue = () => {
+    if (dateType === 'TIME' && ((!value && fieldState && !fieldState.value) || (!value && !fieldState))) {
+      setValueField(new Date(0,0,0,0,0,0));
+      return;
+    }
+
+    if ((dateType === 'DATE' || dateType === 'DATETIME') && (!value && !fieldState)) {
+      setValueField(null);
+      return;
+    }
+
+    if (fieldState) {
+      setValueField(fieldState.value);
+      return;
+    }
+    if (value) {
+      setValueField(value);
+      return;
+    }
+  };
 
   const FORMATS = () => {
     return {
