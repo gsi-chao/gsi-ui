@@ -281,7 +281,7 @@ export class SelectUnselectItems extends Component<
                 elements={itemsUnassigned.filter(
                   item =>
                     !this.state.queryUnnassigned ||
-                    item.text.includes(this.state.queryUnnassigned)
+                    item.text.toUpperCase().includes(this.state.queryUnnassigned.toUpperCase())
                 )}
                 onSelect={this.selectItemFromUnselectedList}
                 height={this.props.listsHeights || '242.5px'}
@@ -384,7 +384,7 @@ export class SelectUnselectItems extends Component<
                 elements={this.getAssignedItems(itemsAssigned).filter(
                   item =>
                     !this.state.queryAssigned ||
-                    item.text.includes(this.state.queryAssigned)
+                    item.text.toUpperCase().includes(this.state.queryAssigned.toUpperCase())
                 )}
                 onSelect={this.selectItemFromSelectedList}
                 height={this.props.listsHeights || '242.5px'}
@@ -449,7 +449,7 @@ const onAutoComplete = (
   if (value !== state[stateKey]) {
     const newList = cloneDeep(state[stateList] || []);
     newList.forEach(item => {
-      if (value && !item.text.toUpperCase().includes(value)) {
+      if (value && !item.text.toUpperCase().includes(value.toUpperCase())) {
         item.active = false;
       }
     });
