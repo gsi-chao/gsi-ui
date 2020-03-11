@@ -9,7 +9,6 @@ import {
   IconName,
   Intent,
   IPopoverProps,
-  Menu,
   MenuDivider,
   MenuItem
 } from '@blueprintjs/core';
@@ -24,12 +23,11 @@ import {
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
 import { IFieldProps } from './IFieldProps';
-import { StyledPopOverWrapper } from './style';
+import { StyledMenuNoMarginDivider, StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
-import styled from 'styled-components';
 
 /**
  * Field Props
@@ -51,7 +49,6 @@ export interface ISelectFieldProps extends IFieldProps {
   popoverProps?: IPopoverProps;
   resetOnClose?: boolean;
   allowEmptyItem?: boolean;
-  maxCharacter?: number;
 }
 
 /**
@@ -81,10 +78,16 @@ const filterItem: ItemPredicate<IItem> = (query, item) => {
 @observer
 export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   @observable showClear: boolean;
+  refInputSelect: any;
 
   constructor(props: ISelectFieldProps) {
     super(props);
     this.showClear = false;
+    this.refInputSelect = React.createRef();
+  }
+
+  public componentDidUpdate(prevProps: Readonly<ISelectFieldProps>, prevState: Readonly<IState>, snapshot?: any): void {
+    console.log(this.refInputSelect)
   }
 
   renderItem: ItemRenderer<IItem> = (item, { handleClick, modifiers }) => {
@@ -96,8 +99,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       (this.props.fieldState && item.value === this.props.fieldState.value) ||
       item.value === this.props.value;
 
-    const max = this.props.maxCharacter ? this.props.maxCharacter : 28;
-
     return (
       <MenuItem
         active={active}
@@ -106,11 +107,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         key={item.value}
         onClick={handleClick}
         title={item.label}
-        text={
-          item.label.length > max
-            ? item.label.substr(0, max).concat('...')
-            : item.label
-        }
+        text={item.label}
         labelElement={
           this.props.allowEmptyItem &&
           item.value === '' &&
@@ -156,7 +153,14 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       );
     return (
       <>
-        <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
+        <StyledMenuNoMarginDivider
+          ulRef={itemsParentRef}
+          width={
+            this.refInputSelect && this.refInputSelect?.current
+              ? this.refInputSelect?.current?.clientWidth
+              : 200
+          }
+        >
           {renderedItems.length > 0 ? (
             itemsToRender
           ) : (
@@ -217,9 +221,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           disabled={true}
           text={`${options.length} items loaded.`}
         />
-      ) : (
-        undefined
-      );
+      ) : undefined;
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
@@ -233,6 +235,11 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     }
 
     return (
+      <div
+        ref={(element: any) => {
+          this.refInputSelect.current = element;
+        }}
+      >
       <StyledPopOverWrapper
         disabled={this.disable()}
         inline={inline}
@@ -318,6 +325,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           </ItemSelect>
         </FormFieldContainer>
       </StyledPopOverWrapper>
+      </div>
     );
   }
 
@@ -380,9 +388,3 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     }
   };
 }
-
-export const StyledMenuNoMarginDivider = styled(Menu)`
-  & .dividerNoMargin {
-    margin: 0;
-  }
-`;
