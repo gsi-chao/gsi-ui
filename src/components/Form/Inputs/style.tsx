@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FormGroup, Intent } from '@blueprintjs/core';
+import { FormGroup, Intent, Menu } from '@blueprintjs/core';
 import { ILayer } from './ILayer';
 import { DateInput } from '@blueprintjs/datetime';
 import MaskedInput from 'react-text-mask';
@@ -405,3 +405,15 @@ export const StyledMaskInput = styled(MaskedInput)`
       inset 0 1px 1px rgba(16, 22, 26, 0.2);
   }
 `;
+
+interface IStyledMenuNoMarginDivider {
+  width: number;
+}
+
+export const StyledMenuNoMarginDivider = styled(Menu)`
+  max-width: ${(props: IStyledMenuNoMarginDivider)=> `${props.width - 10}px!important`};
+  & .dividerNoMargin {
+    margin: 0;
+  } 
+`;
+
