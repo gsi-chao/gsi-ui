@@ -32,7 +32,7 @@ export const layerInPercent = (layer: ILayer): any => {
 
 export const StyledFormGroup = styled(FormGroup)`
   margin: ${(props: IStyledFieldProps) =>
-    props.margin ? props.margin : '0 0 15px'};
+    props.margin ? `${props.margin} !important` : '0 0 15px'};
   ${(props: IStyledFieldProps) => {
     const { layer, noLabel, checkBoxAtLeft, inline, fill } = props;
     let layerPercent: any = {};
