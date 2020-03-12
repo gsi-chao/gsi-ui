@@ -406,12 +406,10 @@ export const StyledMaskInput = styled(MaskedInput)`
   }
 `;
 
-interface IStyledMenuNoMarginDivider {
-  width: number;
-}
+
 
 export const StyledMenuNoMarginDivider = styled(Menu)`
-  max-width: ${(props: IStyledMenuNoMarginDivider)=> `${props.width - 10}px!important`};
+  max-width: 350px!important;
   & .dividerNoMargin {
     margin: 0;
   } 
