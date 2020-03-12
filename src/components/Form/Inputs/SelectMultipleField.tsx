@@ -62,6 +62,7 @@ export interface IItemMultiple {
   value: any;
   label: string;
   rep?: string;
+  readonly?: boolean;
 }
 
 const clearToken = `$empty#Option#first#item_unique_`;
