@@ -78,16 +78,10 @@ const filterItem: ItemPredicate<IItem> = (query, item) => {
 @observer
 export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   @observable showClear: boolean;
-  refInputSelect: any;
 
   constructor(props: ISelectFieldProps) {
     super(props);
     this.showClear = false;
-    this.refInputSelect = React.createRef();
-  }
-
-  public componentDidUpdate(prevProps: Readonly<ISelectFieldProps>, prevState: Readonly<IState>, snapshot?: any): void {
-    console.log(this.refInputSelect)
   }
 
   renderItem: ItemRenderer<IItem> = (item, { handleClick, modifiers }) => {
@@ -155,11 +149,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       <>
         <StyledMenuNoMarginDivider
           ulRef={itemsParentRef}
-          width={
-            this.refInputSelect && this.refInputSelect?.current
-              ? this.refInputSelect?.current?.clientWidth
-              : 200
-          }
         >
           {renderedItems.length > 0 ? (
             itemsToRender
@@ -235,11 +224,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     }
 
     return (
-      <div
-        ref={(element: any) => {
-          this.refInputSelect.current = element;
-        }}
-      >
       <StyledPopOverWrapper
         disabled={this.disable()}
         inline={inline}
@@ -325,7 +309,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           </ItemSelect>
         </FormFieldContainer>
       </StyledPopOverWrapper>
-      </div>
     );
   }
 
