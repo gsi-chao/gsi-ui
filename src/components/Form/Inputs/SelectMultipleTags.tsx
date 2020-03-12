@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Button, IconName, Intent, MenuItem } from '@blueprintjs/core';
-import { ItemPredicate, ItemRenderer, MultiSelect } from '@blueprintjs/select';
+import {
+  Button,
+  IconName,
+  Intent,
+  MenuItem,
+  ITagProps,
+  HTMLInputProps
+} from '@blueprintjs/core';
+import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
 import { IFieldProps } from './IFieldProps';
 import { IItemMultiple } from './SelectMultipleField';
 import { FormFieldContainer } from './FormFieldContainer';
 import { StyledPopOverWrapper } from './style';
 import { observer } from 'mobx-react-lite';
+import { VMultiSelect } from './VMultiSelect';
 
-const MultiSelectTag = MultiSelect.ofType<IItemMultiple>();
+const MultiSelectTag = VMultiSelect.ofType<IItemMultiple>();
 
 export interface ISelectMultipleTags extends IFieldProps {
   filterable?: boolean;
@@ -18,6 +26,10 @@ export interface ISelectMultipleTags extends IFieldProps {
   defaultText?: string;
   fixedInputWidthPx?: number;
   iconOnly?: boolean;
+  tagProps?: ITagProps | ((value: React.ReactNode, index: number) => ITagProps);
+  inputRef?: (input: HTMLInputElement | null) => void;
+  inputProps?: HTMLInputProps;
+  resetOnClose?: boolean;
 }
 
 export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
@@ -37,6 +49,10 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
     options,
     label,
     className,
+    tagProps,
+    inputRef,
+    resetOnClose,
+    inputProps,
     tooltip,
     placeholder,
     displayRequired,
@@ -195,7 +211,6 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
           placeholder={placeholder || ''}
           openOnKeyDown={false}
           resetOnSelect={true}
-          initialContent={initialContent}
           itemRenderer={renderItem}
           itemsEqual={areItemsEqual}
           items={options}
@@ -205,11 +220,14 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
           tagRenderer={renderTag}
           tagInputProps={{
             disabled,
-            tagProps: {},
+            tagProps,
+            inputRef,
+            inputProps,
             onRemove: (!props.disabled && handleTagRemove) || (() => {}),
             rightElement: (!props.disabled && clearButton) || <></>
           }}
           selectedItems={itemsSelected}
+          {...{ initialContent, resetOnClose }}
         />
       </FormFieldContainer>
     </StyledPopOverWrapper>
