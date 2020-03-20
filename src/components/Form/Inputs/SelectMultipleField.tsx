@@ -1,23 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { uniqueId } from 'lodash';
+import { orderBy } from 'lodash';
 /** Blueprint */
-import {
-  Button,
-  IconName,
-  Intent,
-  MenuItem,
-  Classes,
-  Icon,
-  MenuDivider,
-  Menu
-} from '@blueprintjs/core';
+import { Button, Classes, Icon, IconName, Intent, Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
 /** FieldState */
-import {
-  ItemListRenderer,
-  ItemPredicate,
-  ItemRenderer,
-  Select
-} from '@blueprintjs/select';
+import { ItemListRenderer, ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
@@ -47,6 +33,8 @@ export interface ISelectFieldProps extends IFieldProps {
   isLoading?: boolean;
   popoverMinimal?: boolean;
   allowEmptyItem?: boolean;
+  allowOrder?: boolean;
+  orderDirection?: 'asc' | 'desc';
 }
 
 /**
@@ -66,11 +54,6 @@ export interface IItemMultiple {
 }
 
 const clearToken = `$empty#Option#first#item_unique_`;
-
-interface IState {
-  selectedItems: IItemMultiple[];
-  isOpenPopover: boolean;
-}
 
 const ItemSelect = Select.ofType<IItemRenderer>();
 
@@ -307,7 +290,10 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     }
   }
 
-  const renderOptions = getOptions().map(item => ({ item, selectedItems }));
+  const renderOptions = (props.allowOrder
+    ? orderBy(getOptions(), ['label'], [props.orderDirection || false])
+    : getOptions()
+  ).map(item => ({ item, selectedItems }));
 
   const handleInteraction = (nextOpenState: boolean) => {
     setIsOpenPopover(nextOpenState);
