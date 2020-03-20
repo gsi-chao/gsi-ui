@@ -33,6 +33,7 @@ import { observer } from 'mobx-react-lite';
 import { VSpinner } from '../Spinner';
 import { DNDItemWrapper } from './DNDItemWrapper';
 import { DNDList } from './DNDList';
+import { EmptyData } from '../Table/components/EmptyData';
 
 const reorder = (list: IDNDList, startIndex: number, endIndex: number): IDNDList => {
   const result = list;
@@ -268,7 +269,7 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
                       null}
                       <div style={{ height: '100%' }}>
                         <DNDList innerRef={provided.innerRef} provided={provided} value={value}>
-                          {value.list
+                          {value?.list.length > 0 ? value.list
                             .filter((item: IDNDItem) =>
                               displayItem(item, state.filterValues[`filter_${value.id}`], !!value.allowFilter)
                             )
@@ -294,7 +295,8 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
                                   />
                                 )}
                               </Draggable>
-                            ))}
+                            )) : 
+                            <EmptyData settings={{}} />}
                           {provided.placeholder}
                         </DNDList>
                       </div>
