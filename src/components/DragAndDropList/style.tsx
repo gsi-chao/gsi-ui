@@ -88,7 +88,7 @@ export const StyledDNDList = styled.div`
 `;
 
 export const FilterInput = styled(VInputField)`
-  margin: 0 2px 2px;
+  margin: 0 2px 2px !important;
 `;
 
 export interface StyledDragAndDropListContainerProps {
