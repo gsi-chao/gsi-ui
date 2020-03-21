@@ -33,8 +33,8 @@ export interface ISelectFieldProps extends IFieldProps {
   isLoading?: boolean;
   popoverMinimal?: boolean;
   allowEmptyItem?: boolean;
-  orderOptions?: boolean;
-  orderOptionsDirection?: 'asc' | 'desc';
+  allowOrder?: boolean;
+  orderDirection?: 'asc' | 'desc';
 }
 
 /**
@@ -290,8 +290,8 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     }
   }
 
-  const renderOptions = (props.orderOptions
-    ? orderBy(getOptions(), ['label'], [props.orderOptionsDirection || 'asc'])
+  const renderOptions = (props.allowOrder
+    ? orderBy(getOptions(), ['label'], [props.orderDirection || false])
     : getOptions()
   ).map(item => ({ item, selectedItems }));
 

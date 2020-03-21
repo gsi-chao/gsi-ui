@@ -45,8 +45,8 @@ export interface ISelectFieldProps extends IFieldProps {
   popoverProps?: IPopoverProps;
   resetOnClose?: boolean;
   allowEmptyItem?: boolean;
-  orderOptions?: boolean;
-  orderOptionsDirection?: 'asc' | 'desc';
+  allowOrder?: boolean;
+  orderDirection?: 'asc' | 'desc';
 }
 
 /**
@@ -196,8 +196,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       popoverProps,
       tooltip,
       displayRequired,
-      orderOptions,
-      orderOptionsDirection
+      allowOrder,
+      orderDirection
     } = this.props;
 
     const initialContent =
@@ -247,11 +247,11 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             itemPredicate={filterItem}
             itemRenderer={this.renderItem}
             items={
-              orderOptions
+              allowOrder
                 ? orderBy(
                     this.getOptions(),
                     ['label'],
-                    [orderOptionsDirection || 'asc']
+                    [orderDirection || false]
                   )
                 : this.getOptions()
             }

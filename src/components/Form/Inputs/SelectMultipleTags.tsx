@@ -24,8 +24,8 @@ export interface ISelectMultipleTags extends IFieldProps {
   inputRef?: (input: HTMLInputElement | null) => void;
   inputProps?: HTMLInputProps;
   resetOnClose?: boolean;
-  orderOptions?: boolean;
-  orderOptionsDirection?: 'asc' | 'desc';
+  allowOrder?: boolean;
+  orderDirection?: 'asc' | 'desc';
 }
 
 export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
@@ -209,11 +209,11 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
           itemRenderer={renderItem}
           itemsEqual={areItemsEqual}
           items={
-            props.orderOptions
+            props.allowOrder
               ? orderBy(
                   options,
                   ['label'],
-                  [props.orderOptionsDirection || 'asc']
+                  [props.orderDirection || false]
                 )
               : options
           }
