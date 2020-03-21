@@ -13,12 +13,7 @@ import {
   MenuItem
 } from '@blueprintjs/core';
 /** FieldState */
-import {
-  ItemListRenderer,
-  ItemPredicate,
-  ItemRenderer,
-  Select
-} from '@blueprintjs/select';
+import { ItemListRenderer, ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
@@ -28,6 +23,7 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
+import { orderBy } from 'lodash';
 
 /**
  * Field Props
@@ -49,6 +45,8 @@ export interface ISelectFieldProps extends IFieldProps {
   popoverProps?: IPopoverProps;
   resetOnClose?: boolean;
   allowEmptyItem?: boolean;
+  orderOptions?: boolean;
+  orderOptionsDirection?: 'asc' | 'desc';
 }
 
 /**
@@ -147,9 +145,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       );
     return (
       <>
-        <StyledMenuNoMarginDivider
-          ulRef={itemsParentRef}
-        >
+        <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
           {renderedItems.length > 0 ? (
             itemsToRender
           ) : (
@@ -182,7 +178,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       fieldState,
       disabled,
       inline,
-      rightIcon,
       id,
       options,
       icon,
@@ -200,7 +195,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       tipLabel,
       popoverProps,
       tooltip,
-      displayRequired
+      displayRequired,
+      orderOptions,
+      orderOptionsDirection
     } = this.props;
 
     const initialContent =
@@ -210,7 +207,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           disabled={true}
           text={`${options.length} items loaded.`}
         />
-      ) : undefined;
+      ) : (
+        undefined
+      );
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
@@ -247,7 +246,15 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           <ItemSelect
             itemPredicate={filterItem}
             itemRenderer={this.renderItem}
-            items={this.getOptions()}
+            items={
+              orderOptions
+                ? orderBy(
+                    this.getOptions(),
+                    ['label'],
+                    [orderOptionsDirection || 'asc']
+                  )
+                : this.getOptions()
+            }
             disabled={this.disable()}
             itemListRenderer={this.renderMenu}
             initialContent={initialContent}

@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  IconName,
-  Intent,
-  MenuItem,
-  ITagProps,
-  HTMLInputProps
-} from '@blueprintjs/core';
+import { Button, HTMLInputProps, IconName, Intent, ITagProps, MenuItem } from '@blueprintjs/core';
 import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
 import { IFieldProps } from './IFieldProps';
 import { IItemMultiple } from './SelectMultipleField';
@@ -14,6 +7,7 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { StyledPopOverWrapper } from './style';
 import { observer } from 'mobx-react-lite';
 import { VMultiSelect } from './VMultiSelect';
+import { orderBy } from 'lodash';
 
 const MultiSelectTag = VMultiSelect.ofType<IItemMultiple>();
 
@@ -30,6 +24,8 @@ export interface ISelectMultipleTags extends IFieldProps {
   inputRef?: (input: HTMLInputElement | null) => void;
   inputProps?: HTMLInputProps;
   resetOnClose?: boolean;
+  orderOptions?: boolean;
+  orderOptionsDirection?: 'asc' | 'desc';
 }
 
 export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
@@ -48,7 +44,6 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
     required,
     options,
     label,
-    className,
     tagProps,
     inputRef,
     resetOnClose,
@@ -213,7 +208,15 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
           resetOnSelect={true}
           itemRenderer={renderItem}
           itemsEqual={areItemsEqual}
-          items={options}
+          items={
+            props.orderOptions
+              ? orderBy(
+                  options,
+                  ['label'],
+                  [props.orderOptionsDirection || 'asc']
+                )
+              : options
+          }
           noResults={<MenuItem disabled={true} text="No results." />}
           onItemSelect={handleItemSelect}
           popoverProps={{ minimal: true }}
