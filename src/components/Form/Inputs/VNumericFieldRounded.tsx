@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 
 import React, { useEffect, useState } from 'react';
-import { isFinite, isNumber, round } from 'lodash';
+import { isFinite, isNumber, round, isString } from 'lodash';
 /** Blueprint */
 /** FieldState */
 import { IconName, InputGroup, Intent } from '@blueprintjs/core';
@@ -46,16 +46,14 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     tipLabel,
     tooltip,
     displayRequired,
-    value,
     autoComplete
   } = props;
   const [state, setState] = useState<any>('');
 
   useEffect(() => {
-    const propsValue =
-      (props.fieldState && props.fieldState.value) || value || '';
+    const propsValue = getValue();
     const newValue =
-      (propsValue &&
+      (isNumber(propsValue) &&
         props.roundTo &&
         fillWithZero(propsValue, props.roundTo)) ||
       propsValue;
@@ -77,25 +75,27 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
   }, [validators, required]);
 
   useEffect(() => {
-    const propsValue =
-      (props.fieldState && props.fieldState.value) || value || '';
+    const propsValue = getValue();
+
     if (Number(propsValue) !== Number(state) && state !== '-') {
       MaskValue();
     }
   }, [props.fieldState && props.fieldState.value, props.value]);
 
   const getValue = () => {
-    return isNumber(props.fieldState && props.fieldState.value) &&
-      isFinite(props.fieldState && props.fieldState.value)
-      ? props.fieldState && props.fieldState.value
-      : isNumber(props.value) && isFinite(props.value)
-      ? props.value
-      : '';
+    if (props.fieldState) {
+      return parseToNumber(props.fieldState.value);
+    }
+    return parseToNumber(props.value);
+  };
+
+  const parseToNumber = (value: any) => {
+    const parsedValue = parseFloat(value);
+    return isNumber(parsedValue) && isFinite(parsedValue) ? parsedValue : '';
   };
 
   const MaskValue = () => {
-    const propValue = getValue();
-    let val = isNumber(propValue) && isFinite(propValue) ? propValue : '';
+    let val = getValue();
     if (isNumber(val) && isFinite(val) && props.roundTo) {
       val = round(Number(val.toString()), props.roundTo);
     }
@@ -139,18 +139,10 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 
   const setPropsValues = (val: any) => {
     if (props.fieldState) {
-      props.fieldState.onChange(
-        `${val}` && isNumber(Number(val)) && isFinite(Number(val))
-          ? Number(val)
-          : ''
-      );
+      props.fieldState.onChange(parseToNumber(val));
     }
     if (props.onChange) {
-      props.onChange!(
-        `${val}` && isNumber(Number(val)) && isFinite(Number(val))
-          ? Number(val)
-          : ''
-      );
+      props.onChange!(parseToNumber(val));
     }
   };
 
@@ -207,7 +199,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 });
 
 const fillWithZero = (value: any, round: number): any => {
-  if (!`${value}`) {
+  if (!isNumber(value)) {
     return '';
   }
 
