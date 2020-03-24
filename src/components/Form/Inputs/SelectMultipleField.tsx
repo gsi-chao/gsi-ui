@@ -1,9 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { orderBy } from 'lodash';
 /** Blueprint */
-import { Button, Classes, Icon, IconName, Intent, Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
+import {
+  Button,
+  Classes,
+  Icon,
+  IconName,
+  Intent,
+  Menu,
+  MenuDivider,
+  MenuItem
+} from '@blueprintjs/core';
 /** FieldState */
-import { ItemListRenderer, ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
+import {
+  ItemListRenderer,
+  ItemPredicate,
+  ItemRenderer,
+  Select
+} from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
@@ -213,6 +227,13 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
 
   const getOptions = (): IItemMultiple[] => {
     const { options, allowEmptyItem } = props;
+    const newOptions =
+      (options &&
+        options.length > 0 &&
+        (props.allowOrder
+          ? orderBy(options, ['label'], [props.orderDirection || false])
+          : options)) ||
+      [];
     if (
       allowEmptyItem &&
       options &&
@@ -220,9 +241,9 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
       selectedItems &&
       selectedItems.length > 0
     ) {
-      return [{ value: clearToken, label: 'No Selection' }, ...options];
+      return [{ value: clearToken, label: 'No Selection' }, ...newOptions];
     }
-    return options;
+    return newOptions;
   };
 
   const onItemSelected = (value: IItemRenderer) => {
@@ -251,7 +272,6 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     id,
     icon,
     filterable,
-    className,
     layer,
     fill,
     noLabel,
@@ -261,23 +281,12 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     iconOnly,
     minimal,
     margin,
-    options,
     tipLabel,
     tooltip,
     displayRequired,
     popoverMinimal
   } = props;
 
-  const initialContent =
-    options && options.length === 0 ? (
-      <MenuItem
-        className={className}
-        disabled={true}
-        text={`${options.length} items loaded.`}
-      />
-    ) : (
-      undefined
-    );
   if (fieldState) {
     if (required) {
       if (validators && validators.length > 0) {
@@ -290,10 +299,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     }
   }
 
-  const renderOptions = (props.allowOrder
-    ? orderBy(getOptions(), ['label'], [props.orderDirection || false])
-    : getOptions()
-  ).map(item => ({ item, selectedItems }));
+  const renderOptions = getOptions().map(item => ({ item, selectedItems }));
 
   const handleInteraction = (nextOpenState: boolean) => {
     setIsOpenPopover(nextOpenState);

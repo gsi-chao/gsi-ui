@@ -13,7 +13,12 @@ import {
   MenuItem
 } from '@blueprintjs/core';
 /** FieldState */
-import { ItemListRenderer, ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
+import {
+  ItemListRenderer,
+  ItemPredicate,
+  ItemRenderer,
+  Select
+} from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
@@ -158,6 +163,13 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
 
   public getOptions = (): IItem[] => {
     const { options, allowEmptyItem } = this.props;
+    const newOptions =
+      (options &&
+        options.length > 0 &&
+        (this.props.allowOrder
+          ? orderBy(options, ['label'], [this.props.orderDirection || false])
+          : options)) ||
+      [];
     if (
       allowEmptyItem &&
       options &&
@@ -166,9 +178,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         this.props.value ||
         (this.props.fieldState && this.props.fieldState.value))
     ) {
-      return [{ value: '', label: 'No Selection' }, ...options];
+      return [{ value: '', label: 'No Selection' }, ...newOptions];
     }
-    return options;
+    return newOptions;
   };
 
   public render() {
@@ -195,9 +207,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       tipLabel,
       popoverProps,
       tooltip,
-      displayRequired,
-      allowOrder,
-      orderDirection
+      displayRequired
     } = this.props;
 
     const initialContent =
@@ -246,15 +256,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           <ItemSelect
             itemPredicate={filterItem}
             itemRenderer={this.renderItem}
-            items={
-              allowOrder
-                ? orderBy(
-                    this.getOptions(),
-                    ['label'],
-                    [orderDirection || false]
-                  )
-                : this.getOptions()
-            }
+            items={this.getOptions()}
             disabled={this.disable()}
             itemListRenderer={this.renderMenu}
             initialContent={initialContent}
