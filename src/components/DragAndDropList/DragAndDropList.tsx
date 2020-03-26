@@ -29,7 +29,7 @@ import {
 } from './types';
 import { VCardPanel } from '../Card';
 import { Button } from '@blueprintjs/core';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import { VSpinner } from '../Spinner';
 import { DNDItemWrapper } from './DNDItemWrapper';
 import { DNDList } from './DNDList';
