@@ -28,7 +28,7 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
-import { orderBy } from 'lodash';
+import { orderBy, uniqueId } from 'lodash';
 
 /**
  * Field Props
@@ -52,6 +52,7 @@ export interface ISelectFieldProps extends IFieldProps {
   allowEmptyItem?: boolean;
   allowOrder?: boolean;
   orderDirection?: 'asc' | 'desc';
+  createNewItemFormQuery?: (item: IItem) => void;
 }
 
 /**
@@ -101,7 +102,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         active={active}
         disabled={modifiers.disabled}
         label={item.rep}
-        key={item.value}
+        key={uniqueId()}
         onClick={handleClick}
         title={item.label}
         text={item.label}
@@ -148,14 +149,32 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       ) : (
         renderedItems
       );
+
+    const createItemView = this.props.createNewItemFormQuery ? (
+      <MenuItem
+        icon="add"
+        text={`Create "${query}"`}
+        active={true}
+        onClick={() => {
+          this.onItemSelected({ value: query, label: query });
+        }}
+        shouldDismissPopover={false}
+      />
+    ) : (
+      <MenuItem disabled={true} text="No results." />
+    );
+
     return (
       <>
         <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
-          {renderedItems.length > 0 ? (
-            itemsToRender
-          ) : (
-            <MenuItem disabled={true} text="No results." />
-          )}
+          {renderedItems.length > 0
+            ? this.props.allowEmptyItem &&
+              renderedItems.length === 1 &&
+              this.state &&
+              !this.state.item
+              ? createItemView
+              : itemsToRender
+            : createItemView}
         </StyledMenuNoMarginDivider>
       </>
     );
@@ -372,11 +391,21 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
 
   onItemSelected = (value: IItem) => {
     this.setState({ item: value });
-    if (this.props.fieldState) {
-      this.props.fieldState.onChange(value.value);
+    if (
+      this.props.createNewItemFormQuery &&
+      value.value !== '' &&
+      this.state &&
+      !this.state.item
+    ) {
+      this.props.createNewItemFormQuery(value);
     }
-    if (this.props.onChange) {
-      this.props.onChange!(value.value);
-    }
+    setTimeout(() => {
+      if (this.props.fieldState) {
+        this.props.fieldState.onChange(value.value);
+      }
+      if (this.props.onChange) {
+        this.props.onChange!(value.value);
+      }
+    });
   };
 }
