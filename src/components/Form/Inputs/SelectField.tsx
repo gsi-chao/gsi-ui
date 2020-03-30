@@ -171,7 +171,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             ? this.props.allowEmptyItem &&
               renderedItems.length === 1 &&
               this.state &&
-              !this.state.item
+              this.state.query !== ''
               ? createItemView
               : itemsToRender
             : createItemView}
@@ -393,9 +393,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     this.setState({ item: value });
     if (
       this.props.createNewItemFormQuery &&
-      value.value !== '' &&
-      this.state &&
-      !this.state.item
+      value.value !== ''
     ) {
       this.props.createNewItemFormQuery(value);
     }
