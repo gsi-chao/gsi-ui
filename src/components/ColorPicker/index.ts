@@ -4,6 +4,7 @@ export {
   fromHexToDec,
   fromDecToHex,
   getNameColors,
-  getProperLetterColor
+  getProperLetterColor,
+  hexToRGBA
 } from './util';
 export * from './types';
