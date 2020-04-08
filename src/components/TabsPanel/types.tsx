@@ -47,6 +47,7 @@ export interface ITabsPanelProps {
   tabsTagsContainerPadding?: string;
   tabsTagItemPadding?: string;
   isResponsive? : boolean;
+  mountAllTabs?: boolean;
 }
 
 export interface IIconTabsPanelProps {
