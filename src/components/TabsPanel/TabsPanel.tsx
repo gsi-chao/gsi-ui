@@ -141,14 +141,33 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
 
         <TabsSpaceFiller />
       </ContainerTabs>
-      <ContainerContent
-        backgroundColor={options.backgroundColor}
-        padding={options.padding}
-        borderColor={options.borderColor}
-        elevation={options.elevation}
-      >
-        {content}
-      </ContainerContent>
+      {!props.mountAllTabs && (
+        <ContainerContent
+          backgroundColor={options.backgroundColor}
+          padding={options.padding}
+          borderColor={options.borderColor}
+          elevation={options.elevation}
+        >
+          {content}
+        </ContainerContent>
+      )}
+      {props.mountAllTabs && (
+        <ContainerContent
+          backgroundColor={options.backgroundColor}
+          padding={options.padding}
+          borderColor={options.borderColor}
+          elevation={options.elevation}
+        >
+          {props.tabList.map(tab => (
+            <div
+              // @ts-ignore
+              style={getStyle(tab.key === state.active)}
+            >
+              {tab.content}
+            </div>
+          ))}
+        </ContainerContent>
+      )}
       <Alert
         canEscapeKeyCancel={
           (tabsAlertProps && tabsAlertProps.canEscapeKeyCancel) || false
@@ -177,4 +196,21 @@ export const VTabsPanel = (props: ITabsPanelProps) => {
       </Alert>
     </ContainerTabsPanel>
   );
+};
+
+const getStyle = (active: boolean) => {
+  return active
+    ? {
+        width: `100%`,
+        height: `100%`,
+        visibility: `visible`
+      }
+    : {
+        width: `0%`,
+        height: `0%`,
+        visibility: `hidden`,
+        position: 'absolute',
+        left: '-1000000',
+        top: '-1000000'
+      };
 };

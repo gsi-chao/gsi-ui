@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 /** Blueprint */
 import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
@@ -10,7 +10,7 @@ import {
   TimePicker
 } from '@blueprintjs/datetime';
 /** FieldState */
-import { DateInputContainer, IconDate, StyledFormGroup } from './style';
+import { DateInputContainer, IconDate, StyledDatePicker } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
 import { TimePrecision } from '@blueprintjs/datetime/lib/esm/timePicker';
@@ -37,10 +37,7 @@ export interface IInputFieldProps extends IFieldProps {
   shortcuts?: boolean | any[];
   showActionsBar?: boolean;
   closeOnSelection?: boolean;
-}
-
-interface IStateField {
-  defaultValue: any;
+  tipLabel?: string
 }
 
 interface IIcon {
@@ -85,7 +82,6 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     fieldState,
     disabled,
     inline,
-    placeholder,
     id,
     className,
     layer,
@@ -241,7 +237,7 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
 
   return (
     <>
-      <StyledFormGroup
+      <StyledDatePicker
         className={className}
         disabled={disabled}
         inline={inline}
@@ -261,6 +257,7 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
           value={value}
           tooltip={tooltip}
         >
+          {props.tipLabel && <span className={'tipLabel'}>{props.tipLabel}</span>}
           {dateType === 'DATETIME' || dateType === 'DATE' ? (
             <DateInputContainer
               {...FORMATS()[dateType]}
@@ -303,7 +300,7 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
             />
           )}
         </FormFieldContainer>
-      </StyledFormGroup>
+      </StyledDatePicker>
     </>
   );
 });

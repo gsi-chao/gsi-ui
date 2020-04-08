@@ -164,6 +164,20 @@ export const StyledNumericInput = styled(StyledFormGroup)`
   }
 `;
 
+export const StyledDatePicker = styled(StyledFormGroup)`
+  .gsi-input-and-error-container {
+    & span.tipLabel {
+      background: white;
+      margin-bottom: -7px;
+      z-index: 1;
+      width: fit-content;
+      font-weight: 400;
+      font-size: 12px;
+      padding: 0 2px;
+    }
+  }
+`;
+
 export const StyledCheckBoxInput = styled(StyledFormGroup)`
   label.field-label {
     padding-left: ${(props: IStyledFieldProps) =>
