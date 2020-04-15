@@ -368,6 +368,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   );
   private onClear = () => {
     this.setState({ query: '' });
+    if (this.props.fieldState) {
+      this.props.fieldState.onChange('');
+    }
   };
 
   @computed
