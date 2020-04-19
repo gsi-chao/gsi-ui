@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import React from 'react';
+import React, { useRef } from 'react';
 /** Blueprint */
 import {
   Button,
@@ -29,6 +29,7 @@ import { Validators } from '../Validators';
 import { computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
 import { orderBy, uniqueId } from 'lodash';
+import { IItemMultiple } from './SelectMultipleField';
 
 /**
  * Field Props
@@ -68,6 +69,7 @@ interface IItem {
 interface IState {
   item: IItem | undefined;
   query: string | null;
+  activeItem: IItem | null;
 }
 
 const ItemSelect = Select.ofType<IItem>();
@@ -82,10 +84,17 @@ const filterItem: ItemPredicate<IItem> = (query, item) => {
 @observer
 export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   @observable showClear: boolean;
+  selectedItem = React.createRef<IItemMultiple | null>(null);
+  changed = React.createRef<boolean>()
 
   constructor(props: ISelectFieldProps) {
     super(props);
     this.showClear = false;
+    this.state = {
+      item: undefined,
+      query: '',
+      activeItem: null
+    }
   }
 
   renderItem: ItemRenderer<IItem> = (item, { handleClick, modifiers }) => {
@@ -96,10 +105,12 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     const active =
       (this.props.fieldState && item.value === this.props.fieldState.value) ||
       item.value === this.props.value;
+    const itemIsTheActiveByKeyBoard = (this.state?.activeItem && item.value === this.state?.activeItem.value)
+
 
     return (
       <MenuItem
-        active={active}
+        active={!this.state?.activeItem && active || !!itemIsTheActiveByKeyBoard}
         disabled={modifiers.disabled}
         label={item.rep}
         key={uniqueId()}
@@ -273,6 +284,37 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         >
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect
+            activeItem={this.state?.activeItem}
+            onActiveItemChange={
+              (item) => {
+                if (!this.changed.current) {
+                  if (this.selectedItem.current) {
+                    if (this.state) {
+                      if (this.state.activeItem?.value !== item?.value) {
+                        this.setState({...this.state, activeItem: this.selectedItem?.current})
+                      }
+                    }
+                    this.selectedItem.current = null;
+                  } else {
+                    if (this.state.activeItem?.value !== item?.value) {
+                      this.setState({...this.state, activeItem: item})
+                    }
+                  }
+                  this.changed = true
+                } else {
+                  this.changed = false
+                }
+              }
+              /*(activeItem: IItem | null) => {
+              console.log(activeItem);
+              if (this.state) {
+                if (this.state.activeItem?.value !== activeItem?.value) {
+                  this.setState({...this.state, activeItem})
+                }
+              }
+            }*/}
+            scrollToActiveItem
+            resetOnSelect={false}
             itemPredicate={filterItem}
             itemRenderer={this.renderItem}
             items={this.getOptions()}
