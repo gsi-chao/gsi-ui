@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import React, { useRef } from 'react';
+import React from 'react';
 /** Blueprint */
 import {
   Button,
@@ -13,12 +13,7 @@ import {
   MenuItem
 } from '@blueprintjs/core';
 /** FieldState */
-import {
-  ItemListRenderer,
-  ItemPredicate,
-  ItemRenderer,
-  Select
-} from '@blueprintjs/select';
+import { ItemListRenderer, ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
@@ -30,6 +25,7 @@ import { computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
 import { orderBy, uniqueId } from 'lodash';
 import { IItemMultiple } from './SelectMultipleField';
+import { FieldState } from 'formstate';
 
 /**
  * Field Props
@@ -69,7 +65,6 @@ interface IItem {
 interface IState {
   item: IItem | undefined;
   query: string | null;
-  activeItem: IItem | null;
 }
 
 const ItemSelect = Select.ofType<IItem>();
@@ -84,16 +79,19 @@ const filterItem: ItemPredicate<IItem> = (query, item) => {
 @observer
 export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   @observable showClear: boolean;
-  selectedItem = React.createRef<IItemMultiple | null>(null);
-  changed = React.createRef<boolean>()
+  @observable selectedItem : FieldState<IItemMultiple | null>;
+  @observable changed : FieldState<boolean>;
+  @observable activeItem: FieldState<IItemMultiple | null>;
 
   constructor(props: ISelectFieldProps) {
     super(props);
     this.showClear = false;
+    this.selectedItem = new FieldState<IItemMultiple | null>(null);
+    this.activeItem = new FieldState<IItemMultiple | null>(null);
+    this.changed = new FieldState<boolean>(false);
     this.state = {
       item: undefined,
-      query: '',
-      activeItem: null
+      query: ''
     }
   }
 
@@ -102,15 +100,16 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       return null;
     }
 
-    const active =
+    const prevActive =
       (this.props.fieldState && item.value === this.props.fieldState.value) ||
       item.value === this.props.value;
-    const itemIsTheActiveByKeyBoard = (this.state?.activeItem && item.value === this.state?.activeItem.value)
+    const itemIsTheActiveByKeyBoard = (this.activeItem?.value && item.value === this.activeItem?.value?.value)
 
+    const active = !this.activeItem?.value && prevActive || !!itemIsTheActiveByKeyBoard;
 
     return (
       <MenuItem
-        active={!this.state?.activeItem && active || !!itemIsTheActiveByKeyBoard}
+        active={active}
         disabled={modifiers.disabled}
         label={item.rep}
         key={uniqueId()}
@@ -121,7 +120,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           this.props.allowEmptyItem &&
           item.value === '' &&
           item.label === 'No Selection' ? (
-            <Icon color={'#7486949c'} icon={'reset'} />
+            <Icon color={active && 'white' || '#7486949c'} icon={'reset'} />
           ) : null
         }
       />
@@ -180,9 +179,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
           {renderedItems.length > 0
             ? this.props.allowEmptyItem &&
-              renderedItems.length === 1 &&
-              this.state &&
-              this.state.query !== ''
+            renderedItems.length === 1 &&
+            this.state &&
+            this.state.query !== ''
               ? createItemView
               : itemsToRender
             : createItemView}
@@ -262,6 +261,53 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       }
     }
 
+    const areItemsEqual = (
+      itemA: IItemMultiple,
+      itemB: IItemMultiple
+    ): boolean => {
+      return itemA.value === itemB.value;
+    };
+
+    const onActiveItemChange = (item: IItemMultiple | null) => {
+      const value = this.props.fieldState?.value || this.props.value;
+      console.log(item);
+      if (this.props.allowEmptyItem && value) {
+        if (!this.changed?.value) {
+          if (this.selectedItem?.value) {
+            if (this.state) {
+              if (this.activeItem?.value?.value !== item?.value) {
+                this.activeItem.onChange(this.selectedItem?.value || null)
+              }
+            }
+            this.selectedItem.onChange(null);
+          } else {
+            if (this.activeItem?.value?.value !== item?.value) {
+              this.activeItem.onChange(item)
+            }
+          }
+          this.changed.onChange(true)
+        } else {
+          this.changed.onChange(false)
+        }
+      } else {
+        this.activeItem && this.activeItem.value?.value !== item?.value && this.activeItem.onChange(item)
+      }
+    }
+
+    const onOpening = () => {
+      const value = this.props.fieldState?.value || this.props.value;
+      if (this.state?.item?.value) {
+        this.activeItem.onChange(this.state.item);
+        this.changed.onChange(true);
+      } else if (value) {
+        const newActiveItem = this.getOptions() && this.getOptions().length > 0 && this.getOptions().find(el => el.value === value);
+        if (newActiveItem) {
+          this.activeItem.onChange(newActiveItem);
+          this.changed.onChange(true);
+        }
+      }
+    }
+
     return (
       <StyledPopOverWrapper
         disabled={this.disable()}
@@ -284,37 +330,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         >
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect
-            activeItem={this.state?.activeItem}
-            onActiveItemChange={
-              (item) => {
-                if (!this.changed.current) {
-                  if (this.selectedItem.current) {
-                    if (this.state) {
-                      if (this.state.activeItem?.value !== item?.value) {
-                        this.setState({...this.state, activeItem: this.selectedItem?.current})
-                      }
-                    }
-                    this.selectedItem.current = null;
-                  } else {
-                    if (this.state.activeItem?.value !== item?.value) {
-                      this.setState({...this.state, activeItem: item})
-                    }
-                  }
-                  this.changed = true
-                } else {
-                  this.changed = false
-                }
-              }
-              /*(activeItem: IItem | null) => {
-              console.log(activeItem);
-              if (this.state) {
-                if (this.state.activeItem?.value !== activeItem?.value) {
-                  this.setState({...this.state, activeItem})
-                }
-              }
-            }*/}
-            scrollToActiveItem
-            resetOnSelect={false}
+            activeItem={this.activeItem?.value}
+            onActiveItemChange={onActiveItemChange}
+            resetOnSelect={true}
             itemPredicate={filterItem}
             itemRenderer={this.renderItem}
             items={this.getOptions()}
@@ -322,14 +340,16 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             itemListRenderer={this.renderMenu}
             initialContent={initialContent}
             onItemSelect={this.onItemSelected}
+            itemsEqual={areItemsEqual}
             filterable={filterable}
             popoverProps={{
               modifiers: {
-                arrow: { enabled: true },
                 flip: { enabled: true },
                 keepTogether: { enabled: true },
-                preventOverflow: { enabled: true }
+                preventOverflow: { enabled: true },
               },
+              // looks like is not in use but is in use do not remove onOpening
+              onOpening,
               ...popoverProps
             }}
             resetOnClose={this.props.resetOnClose}
