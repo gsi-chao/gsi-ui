@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { values } from 'mobx';
 
 export interface IFormFieldContainerProps {
   label: string | undefined;

@@ -1,23 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { orderBy } from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
+import { orderBy, get } from 'lodash';
 /** Blueprint */
-import {
-  Button,
-  Classes,
-  Icon,
-  IconName,
-  Intent,
-  Menu,
-  MenuDivider,
-  MenuItem
-} from '@blueprintjs/core';
+import { Button, Classes, Icon, IconName, Intent, Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
 /** FieldState */
-import {
-  ItemListRenderer,
-  ItemPredicate,
-  ItemRenderer,
-  Select
-} from '@blueprintjs/select';
+import { ItemListRenderer, ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
@@ -71,33 +57,6 @@ const clearToken = `$empty#Option#first#item_unique_`;
 
 const ItemSelect = Select.ofType<IItemRenderer>();
 
-const renderItem: ItemRenderer<IItemRenderer> = (
-  { item, selectedItems },
-  { handleClick, modifiers }
-) => {
-  if (!modifiers.matchesPredicate) {
-    return null;
-  }
-
-  const founded = selectedItems.some(selected => selected.value === item.value);
-  return (
-    <MenuItem
-      icon={founded ? 'tick' : 'blank'}
-      disabled={modifiers.disabled}
-      label={item.rep}
-      key={item.value}
-      onClick={handleClick}
-      text={item.label}
-      shouldDismissPopover={item.value === clearToken}
-      labelElement={
-        item.value === clearToken && item.label === 'No Selection' ? (
-          <Icon color={'#7486949c'} icon={'reset'} />
-        ) : null
-      }
-    />
-  );
-};
-
 const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
   return (
     `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
@@ -106,9 +65,42 @@ const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
 };
 
 export const VSelectMultiple = observer((props: ISelectFieldProps) => {
+  const selectedItem = useRef<IItemMultiple | null>()
+  const changed = useRef<boolean>()
+  const [activeItem, setActiveItem] = useState<IItemRenderer | null>(null)
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [isOpenPopover, setIsOpenPopover] = useState<boolean>(false);
   const [query, setQuery] = useState<string | null>('');
+
+  const renderItem: ItemRenderer<IItemRenderer> = (
+    { item, selectedItems },
+    { handleClick, modifiers }
+  ) => {
+    if (!modifiers.matchesPredicate) {
+      return null;
+    }
+
+    const active = activeItem?.item?.value && (item.value === activeItem?.item?.value);
+
+    const founded = selectedItems.some(selected => selected.value === item.value);
+    return (
+      <MenuItem
+        icon={founded ? 'tick' : 'blank'}
+        disabled={modifiers.disabled}
+        label={item.rep}
+        active={active}
+        key={item.value}
+        onClick={handleClick}
+        text={item.label}
+        shouldDismissPopover={item.value === clearToken}
+        labelElement={
+          item.value === clearToken && item.label === 'No Selection' ? (
+            <Icon color={active && 'white' || '#7486949c'} icon={'reset'} />
+          ) : null
+        }
+      />
+    );
+  };
 
   useEffect(() => {
     if (props.fieldState) {
@@ -169,16 +161,15 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
       }
       setSelectedItems(selectedItems);
     } else if (props.allowEmptyItem && value && value.value === clearToken) {
+      setActiveItem({
+        item: get(getOptions(), '[0]', null),
+        selectedItems: []
+      });
       setSelectedItems([]);
     }
     if (callBack) {
       callBack();
     }
-    // this.setState({ selectedItems }, () => {
-    //   if (callBack) {
-    //     callBack();
-    //   }
-    // });
   };
 
   const renderMenu: ItemListRenderer<IItemRenderer> = ({
@@ -247,6 +238,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
   };
 
   const onItemSelected = (value: IItemRenderer) => {
+    selectedItem.current = value?.item;
     const itemValue =
       props.allowEmptyItem && value && value.item && value.item.value;
     const updateFieldState = () => {
@@ -319,6 +311,13 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     />
   );
 
+  const areItemsEqual = (
+    itemA: IItemRenderer,
+    itemB: IItemRenderer
+  ): boolean => {
+    return itemA.item?.value === itemB.item?.value;
+  };
+
   return (
     <StyledPopOverWrapper
       disabled={disabled}
@@ -341,13 +340,29 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
       >
         {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
         <ItemSelect
+          activeItem={activeItem}
+          onActiveItemChange={(value) => {
+            if (!changed.current) {
+              if (selectedItem.current) {
+                setActiveItem({
+                  item: selectedItem.current,
+                  selectedItems: []
+                });
+                selectedItem.current = null;
+              } else {
+                setActiveItem(value || null)
+              }
+              changed.current = true
+            } else {
+              changed.current = false
+            }
+          }}
           popoverProps={{
             minimal: popoverMinimal,
             captureDismiss: true,
             isOpen: isOpenPopover,
             onInteraction: handleInteraction,
             modifiers: {
-              arrow: { enabled: true },
               flip: { enabled: true },
               keepTogether: { enabled: true },
               preventOverflow: { enabled: true }
@@ -357,6 +372,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
           itemRenderer={renderItem}
           items={renderOptions}
           disabled={disabled}
+          itemsEqual={areItemsEqual}
           itemListRenderer={renderMenu}
           noResults={<MenuItem disabled={true} text="No results." />}
           onItemSelect={onItemSelected}

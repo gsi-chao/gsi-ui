@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, HTMLInputProps, IconName, Intent, ITagProps, MenuItem } from '@blueprintjs/core';
 import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
 import { IFieldProps } from './IFieldProps';
 import { IItemMultiple } from './SelectMultipleField';
 import { FormFieldContainer } from './FormFieldContainer';
 import { StyledPopOverWrapper } from './style';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import { VMultiSelect } from './VMultiSelect';
 import { orderBy } from 'lodash';
 
@@ -29,6 +29,9 @@ export interface ISelectMultipleTags extends IFieldProps {
 }
 
 export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
+  const selectedItem = useRef<IItemMultiple | null>()
+  const changed = useRef<boolean>()
+  const [activeItem, setActiveItem] = useState<IItemMultiple | null>(null)
   const [itemsSelected, setItemsSelected] = useState<IItemMultiple[]>([]);
   const {
     disabled,
@@ -97,10 +100,11 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
     if (!modifiers.matchesPredicate) {
       return null;
     }
+    const active = activeItem?.value && (item.value === activeItem?.value);
     return (
       <MenuItem
         disabled={props.disabled}
-        active={false}
+        active={active}
         icon={isItemSelected(item) ? 'tick' : 'blank'}
         key={item.value}
         onClick={handleClick}
@@ -135,6 +139,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
   };
 
   const handleItemSelect = (item: IItemMultiple) => {
+    selectedItem.current = item;
     if (!isItemSelected(item)) {
       selectItem(item);
     } else {
@@ -181,6 +186,14 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
       undefined
     );
 
+  const getItems = () => props.allowOrder
+    ? orderBy(
+      options,
+      ['label'],
+      [props.orderDirection || false]
+    )
+    : options;
+
   return (
     <StyledPopOverWrapper
       disabled={disabled}
@@ -202,24 +215,36 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
         tooltip={tooltip}
       >
         <MultiSelectTag
+          activeItem={activeItem}
+          onActiveItemChange={(item) => {
+            if (!changed.current) {
+              if (selectedItem.current) {
+                setActiveItem(selectedItem.current)
+                selectedItem.current = null;
+              } else {
+                setActiveItem(item)
+              }
+              changed.current = true
+            } else {
+              changed.current = false
+            }
+          }}
           itemPredicate={filterItem}
+
           placeholder={placeholder || ''}
           openOnKeyDown={false}
           resetOnSelect={true}
+          resetOnClose={true}
           itemRenderer={renderItem}
           itemsEqual={areItemsEqual}
-          items={
-            props.allowOrder
-              ? orderBy(
-                  options,
-                  ['label'],
-                  [props.orderDirection || false]
-                )
-              : options
-          }
+          items={getItems()}
           noResults={<MenuItem disabled={true} text="No results." />}
           onItemSelect={handleItemSelect}
-          popoverProps={{ minimal: true }}
+          popoverProps={{ minimal: true, onClose: () => {
+            selectedItem.current = null;
+            changed.current = false;
+            setActiveItem(null)
+            } }}
           tagRenderer={renderTag}
           tagInputProps={{
             disabled,
