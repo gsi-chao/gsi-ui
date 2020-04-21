@@ -108,7 +108,7 @@ const isAlphanumeric = (value: string) =>
 const isNumeric = (value: string) =>
   !validator.isNumeric(value) && `The value must contain only numbers`;
 
-export const Validators = {
+export const Validators:any = {
   exact,
   lt,
   lte,
