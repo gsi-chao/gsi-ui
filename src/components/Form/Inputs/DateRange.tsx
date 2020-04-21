@@ -62,10 +62,7 @@ const momentFormatter = (format: string): IDateFormatProps => {
 };
 
 export const VDateRangePicker = observer((props: IInputFieldProps) => {
-  const [date, setDate] = useState<DateRange | undefined>([
-    undefined,
-    undefined
-  ]);
+  const [date, setDate] = useState<DateRange>([null, null]);
 
   useEffect(() => {
     if (props.fieldState?.value) {
@@ -83,8 +80,8 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
   const changedDate = (dates: any[]) => {
     if (dates && dates.length === 2) {
       const newDates: any = [
-        isDate(dates[0]) && dates[0] || null,
-        isDate(dates[1]) && dates[1] || null
+        (isDate(dates[0]) && dates[0]) || null,
+        (isDate(dates[1]) && dates[1]) || null
       ];
       setDate(newDates);
       if ((newDates[0] && newDates[1]) || (!newDates[0] && !newDates[1])) {
@@ -135,17 +132,17 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     }
   }
 
-  const getValueField = (): DateRange | undefined => {
+  const getValueField = (): DateRange => {
     if (date && date.length === 2) {
       try {
-        date[0] = isDate(date[0]) ? new Date(date[0]) : undefined;
-        date[1] = isDate(date[1]) ? new Date(date[1]) : undefined;
+        date[0] = isDate(date[0]) ? new Date(date[0]) : null;
+        date[1] = isDate(date[1]) ? new Date(date[1]) : null;
         return date;
       } catch (e) {
-        return [undefined, undefined];
+        return [null, null];
       }
     }
-    return [undefined, undefined];
+    return [null, null];
   };
 
   return (
@@ -189,3 +186,4 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     </StyledDateRange>
   );
 });
+;
