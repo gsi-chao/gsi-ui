@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 
 import React, { useEffect, useState } from 'react';
-import { isFinite, isNumber, round, isString } from 'lodash';
+import { isFinite, isNumber, round } from 'lodash';
 /** Blueprint */
 /** FieldState */
 import { IconName, InputGroup, Intent } from '@blueprintjs/core';
@@ -72,7 +72,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
         fieldState.validators(...validators);
       }
     }
-  }, [validators, required]);
+  }, []);
 
   useEffect(() => {
     const propsValue = getValue();

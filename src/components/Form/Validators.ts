@@ -1,8 +1,10 @@
 import validator from 'validator';
 
-const required = (val: any) =>
-  (!val || (typeof val !== 'number' && !val.toString().length)) &&
-  'This field is required.';
+const required = (val: any) => {
+  const noNumberValidation =
+    typeof val !== 'number' && (!val || !val.toString().length);
+  return noNumberValidation && 'This field is required.';
+};
 
 const email = (value: string) =>
   !validator.isEmail(value) && `${value} is not a valid email.`;
@@ -32,15 +34,15 @@ const exact = (length: number) => (value: string) =>
   value.toString().length !== length &&
   `The value must be ${length} symbols.`;
 
-const ltNumber = (min: number) => (value: string) =>
-  (!validator.isNumeric(min.toString()) ||
-    !validator.isNumeric(value) ||
+const ltNumber = (min: number) => (value: number | string) =>
+  (!validator.isNumeric(`${min}`.toString()) ||
+    !validator.isNumeric(`${value}`) ||
     Number(value) > min) &&
   `The value must be less than ${min}.`;
 
-const gtNumber = (max: number) => (value: string) =>
-  (!validator.isNumeric(max.toString()) ||
-    !validator.isNumeric(value) ||
+const gtNumber = (max: number) => (value: number | string) =>
+  (!validator.isNumeric(`${max}`.toString()) ||
+    !validator.isNumeric(`${value}`) ||
     Number(value) < max) &&
   `The value must be great than ${max}.`;
 
