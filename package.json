@@ -1,6 +1,6 @@
 {
   "name": "gsi-ui",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "UI Interface GSI Projects",
   "author": "gsi-chao",
   "license": "MIT",
@@ -52,7 +52,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "rm -rf ./lib && tsc && npm run copy-files",
+    "build": "rm -rf ./lib && tsc && yarn copy-files",
     "copy-files": "copyfiles -u 2 src/components/**/*.css lib",
     "test": "cross-env CI=true node scripts/test.js --env=jsdom",
     "precommit": "pretty-quick --staged",
