@@ -8,7 +8,7 @@ import { StyledNumericInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed } from 'mobx';
-import { isNumber } from 'lodash';
+import { isFinite, isNumber } from 'lodash';
 
 /**
  * Field Props
@@ -118,8 +118,7 @@ export class VNumericField extends React.Component<INumericFieldProps> {
             }
             onKeyPress={this.onKeyPress}
             onPaste={e => {
-              const oldValue =
-                e && e.currentTarget && e.currentTarget.value;
+              const oldValue = e && e.currentTarget && e.currentTarget.value;
               let newValue =
                 e && e.clipboardData && e.clipboardData.getData('Text');
               newValue = newValue.replace(',', '.');
@@ -164,20 +163,27 @@ export class VNumericField extends React.Component<INumericFieldProps> {
   @computed
   get valueField() {
     if (this.props.fieldState) {
-      return this.props.fieldState.value || '';
+      return isNumber(Number(this.props.fieldState.value)) &&
+        isFinite(this.props.fieldState.value)
+        ? this.props.fieldState.value
+        : '';
     }
-    if (this.props.value) {
-      return this.props.value || '';
+    if (
+      this.props.value ||
+      (isNumber(Number(this.props.value)) && isFinite(this.props.value))
+    ) {
+      return this.props.value;
     }
     return '';
   }
 
   onChange = (e: any, value: string) => {
+    const newValue = value === '' ? '' : e;
     if (this.props.fieldState) {
-      this.props.fieldState.onChange(e);
+      this.props.fieldState.onChange(newValue);
     }
     if (this.props.onChange) {
-      this.props.onChange!(e);
+      this.props.onChange!(newValue);
     }
   };
 }

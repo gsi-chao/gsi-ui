@@ -270,7 +270,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
 
     const onActiveItemChange = (item: IItemMultiple | null) => {
       const value = this.props.fieldState?.value || this.props.value;
-      console.log(item);
       if (this.props.allowEmptyItem && value) {
         if (!this.changed?.value) {
           if (this.selectedItem?.value) {
