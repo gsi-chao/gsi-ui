@@ -72,7 +72,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
         fieldState.validators(...validators);
       }
     }
-  }, []);
+  }, [required, validators]);
 
   useEffect(() => {
     const propsValue = getValue();
