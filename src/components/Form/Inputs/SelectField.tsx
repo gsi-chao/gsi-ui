@@ -63,7 +63,6 @@ interface IItem {
 }
 
 interface IState {
-  item: IItem | undefined;
   query: string | null;
 }
 
@@ -90,7 +89,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     this.activeItem = new FieldState<IItemMultiple | null>(null);
     this.changed = new FieldState<boolean>(false);
     this.state = {
-      item: undefined,
       query: ''
     }
   }
@@ -134,26 +132,22 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     renderItem
   }) => {
     const renderedItems = items.map(renderItem).filter(item => item != null);
+    const hasValue = !!(this.props.value || this.props?.fieldState?.value);
     const itemsToRender =
-      this.props.allowEmptyItem &&
-      renderedItems.length > 0 &&
-      this.state &&
-      this.state.item &&
-      this.state.item.value ? (
+      this.props.allowEmptyItem && renderedItems.length > 0 && hasValue ? (
         <>
           {renderedItems.map((item, index: number) => {
             if (index === 0) {
               return (
-                <React.Fragment key={index}>
+                <React.Fragment key={`item_${index}`}>
                   {item}
                   <MenuDivider
-                    key={`divider_$index`}
                     className={'dividerNoMargin'}
                   />
                 </React.Fragment>
               );
             }
-            return item;
+            return <React.Fragment key={index}>{item}</React.Fragment>;
           })}
         </>
       ) : (
@@ -203,10 +197,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       allowEmptyItem &&
       options &&
       options.length > 0 &&
-      ((this.state && this.state.item && this.state.item.value) ||
         this.props.value ||
         (this.props.fieldState && this.props.fieldState.value))
-    ) {
+    {
       return [{ value: '', label: 'No Selection' }, ...newOptions];
     }
     return newOptions;
@@ -269,8 +262,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     };
 
     const onActiveItemChange = (item: IItemMultiple | null) => {
-      const value = this.props.fieldState?.value || this.props.value;
-      if (this.props.allowEmptyItem && value) {
+      const isOutEmptyOption = this.getOptions().some(item => !!(item.value === '' && item.label === 'No Selection'));
+      if (this.props.allowEmptyItem && isOutEmptyOption) {
         if (!this.changed?.value) {
           if (this.selectedItem?.value) {
             if (this.state) {
@@ -291,21 +284,22 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       } else {
         this.activeItem && this.activeItem.value?.value !== item?.value && this.activeItem.onChange(item)
       }
-    }
+    };
 
     const onOpening = () => {
       const value = this.props.fieldState?.value || this.props.value;
-      if (this.state?.item?.value) {
-        this.activeItem.onChange(this.state.item);
-        this.changed.onChange(true);
-      } else if (value) {
+       if (value) {
         const newActiveItem = this.getOptions() && this.getOptions().length > 0 && this.getOptions().find(el => el.value === value);
         if (newActiveItem) {
           this.activeItem.onChange(newActiveItem);
           this.changed.onChange(true);
+          return;
         }
       }
-    }
+      this.activeItem.onChange(null);
+      this.changed.onChange(true);
+
+    };
 
     return (
       <StyledPopOverWrapper
@@ -451,7 +445,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   }
 
   onItemSelected = (value: IItem) => {
-    this.setState({ item: value });
     if (
       this.props.createNewItemFormQuery &&
       value.value !== ''
