@@ -101,7 +101,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     const prevActive =
       (this.props.fieldState && item.value === this.props.fieldState.value) ||
       item.value === this.props.value;
-    const itemIsTheActiveByKeyBoard = (this.activeItem?.value && item.value === this.activeItem?.value?.value)
+    const itemIsTheActiveByKeyBoard = (this.activeItem?.value && item.value === this.activeItem?.value?.value);
 
     const active = !this.activeItem?.value && prevActive || !!itemIsTheActiveByKeyBoard;
 
@@ -197,8 +197,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       allowEmptyItem &&
       options &&
       options.length > 0 &&
-        this.props.value ||
-        (this.props.fieldState && this.props.fieldState.value))
+      (this.props.value ||
+        this.props.fieldState && this.props.fieldState.value))
     {
       return [{ value: '', label: 'No Selection' }, ...newOptions];
     }
