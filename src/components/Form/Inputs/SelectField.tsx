@@ -263,7 +263,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
 
     const onActiveItemChange = (item: IItemMultiple | null) => {
       const isOutEmptyOption = this.getOptions().some(item => !!(item.value === '' && item.label === 'No Selection'));
-      if (this.props.allowEmptyItem && isOutEmptyOption) {
+      if ((this.props.allowEmptyItem && isOutEmptyOption) || this.props.allowOrder ) {
         if (!this.changed?.value) {
           if (this.selectedItem?.value) {
             if (this.state) {
