@@ -29,9 +29,9 @@ export interface ISelectMultipleTags extends IFieldProps {
 }
 
 export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
-  const selectedItem = useRef<IItemMultiple | null>()
-  const changed = useRef<boolean>()
-  const [activeItem, setActiveItem] = useState<IItemMultiple | null>(null)
+  const selectedItem = useRef<IItemMultiple | null>();
+  const changed = useRef<boolean>();
+  const [activeItem, setActiveItem] = useState<IItemMultiple | null>(null);
   const [itemsSelected, setItemsSelected] = useState<IItemMultiple[]>([]);
   const {
     disabled,
@@ -194,6 +194,11 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
     )
     : options;
 
+  const clearActive = () => {
+    setActiveItem(null);
+    changed.current = true;
+  };
+
   return (
     <StyledPopOverWrapper
       disabled={disabled}
@@ -219,7 +224,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
           onActiveItemChange={(item) => {
             if (!changed.current) {
               if (selectedItem.current) {
-                setActiveItem(selectedItem.current)
+                setActiveItem(selectedItem.current);
                 selectedItem.current = null;
               } else {
                 setActiveItem(item)
@@ -244,7 +249,10 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
             selectedItem.current = null;
             changed.current = false;
             setActiveItem(null)
-            } }}
+            },
+            onOpening: clearActive,
+            onClosing: clearActive
+          }}
           tagRenderer={renderTag}
           tagInputProps={{
             disabled,

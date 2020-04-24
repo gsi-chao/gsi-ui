@@ -65,9 +65,11 @@ const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
 };
 
 export const VSelectMultiple = observer((props: ISelectFieldProps) => {
-  const selectedItem = useRef<IItemMultiple | null>()
-  const changed = useRef<boolean>()
-  const [activeItem, setActiveItem] = useState<IItemRenderer | null>(null)
+  const selectedItem = useRef<IItemMultiple | null>();
+  const changed = useRef<boolean>();
+  const noChangeToClear = useRef<boolean>();
+  const usedClear = useRef<boolean>();
+  const [activeItem, setActiveItem] = useState<IItemRenderer | null>(null);
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [isOpenPopover, setIsOpenPopover] = useState<boolean>(false);
   const [query, setQuery] = useState<string | null>('');
@@ -238,7 +240,15 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
   };
 
   const onItemSelected = (value: IItemRenderer) => {
-    selectedItem.current = value?.item;
+    if (usedClear.current) {
+      noChangeToClear.current = true;
+      usedClear.current = false;
+    }
+    if (value?.item?.value === clearToken) {
+      usedClear.current = true;
+    } else {
+      selectedItem.current = value?.item;
+    }
     const itemValue =
       props.allowEmptyItem && value && value.item && value.item.value;
     const updateFieldState = () => {
@@ -318,6 +328,11 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     return itemA.item?.value === itemB.item?.value;
   };
 
+  const clearActive = () => {
+    setActiveItem(null);
+    changed.current = true;
+  };
+
   return (
     <StyledPopOverWrapper
       disabled={disabled}
@@ -348,9 +363,13 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
                   item: selectedItem.current,
                   selectedItems: []
                 });
-                selectedItem.current = null;
+                if (noChangeToClear.current) {
+                  noChangeToClear.current = false;
+                } else {
+                  selectedItem.current = null;
+                }
               } else {
-                setActiveItem(value || null)
+                setActiveItem(value)
               }
               changed.current = true
             } else {
@@ -362,6 +381,8 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
             captureDismiss: true,
             isOpen: isOpenPopover,
             onInteraction: handleInteraction,
+            onOpening: clearActive,
+            onClosing: clearActive,
             modifiers: {
               flip: { enabled: true },
               keepTogether: { enabled: true },
