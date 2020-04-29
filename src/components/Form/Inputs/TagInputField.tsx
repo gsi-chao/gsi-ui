@@ -66,7 +66,8 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       value,
       separator,
       tooltip,
-      displayRequired
+      displayRequired,
+      margin
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -105,6 +106,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         layer={layer}
         fill={fill}
         noLabel={noLabel}
+        margin={margin}
       >
         <FormFieldContainer
           required={required || displayRequired}
