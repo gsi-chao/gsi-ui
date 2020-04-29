@@ -70,8 +70,8 @@ const ItemSelect = Select.ofType<IItem>();
 
 const filterItem: ItemPredicate<IItem> = (query, item) => {
   return (
-    `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-    (item && item.label === 'No Selection' && item.value === '')
+    !query || (`${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+    (item && item.label === 'No Selection' && item.value === ''))
   );
 };
 
@@ -168,14 +168,17 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       <MenuItem disabled={true} text="No results." />
     );
 
+    const hasQueryValues = !!(this.state && this.state.query !== '');
+
+    const displayCreateWhenAllowEmptyItem = !!(this.props.allowEmptyItem && this.props?.fieldState?.value || this.props?.value) &&
+      renderedItems.length === 1;
+
     return (
       <>
         <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
           {renderedItems.length > 0
-            ? this.props.allowEmptyItem &&
-            renderedItems.length === 1 &&
-            this.state &&
-            this.state.query !== ''
+            ? displayCreateWhenAllowEmptyItem &&
+            hasQueryValues
               ? createItemView
               : itemsToRender
             : createItemView}
