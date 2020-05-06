@@ -117,7 +117,9 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     tooltip,
     allowSingleDayRange,
     contiguousCalendarMonths,
-    tipLabel
+    tipLabel,
+    precision,
+    useAmPm
   } = props;
 
   if (fieldState) {
@@ -144,6 +146,17 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     }
     return [null, null];
   };
+
+  const getTimePrecision = ()=>{
+    if(precision){
+      return {
+        timePrecision:{precision},
+        timePickerProps:{
+        useAmPm: useAmPm ? useAmPm : undefined
+      }
+      }
+    }
+  }
 
   return (
     <StyledDateRange
@@ -181,9 +194,9 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
           shortcuts={props.shortcuts}
           allowSingleDayRange={allowSingleDayRange}
           contiguousCalendarMonths={contiguousCalendarMonths}
+          {...getTimePrecision()}
         />
       </FormFieldContainer>
     </StyledDateRange>
   );
 });
-;
