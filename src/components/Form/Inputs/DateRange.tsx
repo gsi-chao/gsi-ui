@@ -147,16 +147,16 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     return [null, null];
   };
 
-  const getTimePrecision = ()=>{
-    if(precision){
+  const getTimePrecision: any = () => {
+    if (precision) {
       return {
-        timePrecision:{precision},
-        timePickerProps:{
-        useAmPm: useAmPm ? useAmPm : undefined
-      }
-      }
+        timePrecision: { precision },
+        timePickerProps: {
+          useAmPm: useAmPm ? useAmPm : undefined
+        }
+      };
     }
-  }
+  };
 
   return (
     <StyledDateRange
