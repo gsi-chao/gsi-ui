@@ -45,12 +45,14 @@ export const SearchSelect = (props: IProps) => {
     if (props.multi && !isArray(props.value)) {
       throw new Error('Multi Select value must be an array');
     }
-    if (!props.multi) {
+    if (!props.multi && props.value) {
       const option = findOptionsValue(props.options, props.value);
 
       option
         ? setSearch(option.label.toString())
         : setSearch(props.value.toString());
+    } else {
+      setSearch('');
     }
     setSelection(props.value);
   }, [props.value]);
@@ -108,7 +110,7 @@ export const SearchSelect = (props: IProps) => {
         ) {
           setIsOpen(nextOpenState);
           !nextOpenState && props.onChange && props.onChange(selection);
-          !props.multi && selection && setSearchSelectionText(selection);
+          !props.multi && selection && setSearchSelectionText(selection || '');
           return;
         }
         // when user click on the select info section.
@@ -128,7 +130,7 @@ export const SearchSelect = (props: IProps) => {
       !props.disabled && setIsOpen(nextOpenState);
       !nextOpenState && props.onChange && props.onChange(selection);
       props.multi && setSearch('');
-      !props.multi && selection && setSearchSelectionText(selection);
+      !props.multi && selection && setSearchSelectionText(selection || '');
       !props.multi && options.length === 0 && setSearch('');
     } catch (e) {
       !props.disabled && setIsOpen(nextOpenState);

@@ -20,6 +20,7 @@ const TestComponent = observer(() => {
   const [value1, setValue1] = useState<any>(1);
 
   const onChange1 = (value: any) => {
+    console.log(value);
     setValue1(value);
   };
   const options: IItem[] = Array(2000)
@@ -27,7 +28,7 @@ const TestComponent = observer(() => {
     .map((val, index) => {
       return {
         label: `Item Item Item Item Item Item ItemvItem ${index}`,
-        value: index
+        value: index.toString()
       };
     });
 
@@ -43,6 +44,7 @@ const TestComponent = observer(() => {
       {form.$.data.$}
       <VSearchSelectField
         label={'Label'}
+        tipLabel={'Label'}
         inline
         id={'example'}
         fieldState={form.$.data}

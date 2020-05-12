@@ -22,6 +22,7 @@ export interface ISearchSelectFieldProps extends IFieldProps {
   popoverWidth?: number;
   allowEmpty?: boolean;
   popoverMinimal?: boolean;
+  tipBgColor?: string;
 }
 
 export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
@@ -51,7 +52,8 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
     popoverWidth,
     sort,
     allowEmpty,
-    popoverMinimal
+    popoverMinimal,
+    tipBgColor
   } = props;
 
   useEffect(() => {
@@ -72,8 +74,8 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
     if (props.fieldState) {
       props.fieldState.onChange(value);
     }
-    if (props.value) {
-      props.onChange && props.onChange(value);
+    if (props.onChange) {
+      props.onChange!(value);
     }
   };
 
@@ -98,7 +100,14 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
         tooltip={tooltip}
         className={className}
       >
-        {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
+        {tipLabel && (
+          <span
+            className={'tipLabel'}
+            style={{ backgroundColor: tipBgColor ? tipBgColor : '#fff' }}
+          >
+            {tipLabel}
+          </span>
+        )}
         <SearchSelect
           disabled={disabled}
           sort={sort}
