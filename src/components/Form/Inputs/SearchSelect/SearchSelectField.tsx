@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { IconName } from '@blueprintjs/icons';
-import { Intent, IPopoverProps } from '@blueprintjs/core';
+import { Intent } from '@blueprintjs/core';
 
 import { observer } from 'mobx-react';
 import { IItem } from '../../types';
@@ -8,7 +7,6 @@ import { IFieldProps } from '../IFieldProps';
 import { FormFieldContainer } from '../FormFieldContainer';
 import { SearchSelect } from './SearchSelect';
 import { StyledPopOverWrapper } from '../style';
-import { toJS } from 'mobx';
 import { Validators } from '../../Validators';
 
 export interface ISearchSelectFieldProps extends IFieldProps {

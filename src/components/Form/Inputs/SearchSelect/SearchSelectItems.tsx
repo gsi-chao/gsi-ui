@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Menu, MenuItem, Keys } from '@blueprintjs/core';
-import { isArray } from 'lodash';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Keys, Menu, MenuItem } from '@blueprintjs/core';
+import { isArray, findIndex } from 'lodash';
 import VirtualList from 'react-tiny-virtual-list';
 
 import { IItem } from '../../types';
 import { SelectItemCheckbox } from './styled';
-import { getIndexValue } from '../../utils';
 
 interface IProps {
   options: IItem[];
@@ -21,6 +20,16 @@ interface IProps {
 
 export const SearchSelectItems = (props: IProps) => {
   const [active, setActive] = useState<any>(null);
+
+  const findOptionsIndexValue = (
+    options: IItem[],
+    value: number | string
+  ): any => {
+    return findIndex(
+      options,
+      (v: IItem) => v.value.toString() === value.toString()
+    );
+  };
 
   useEffect(() => {
     if (props.invokeKeyPress !== 'NONE') {
@@ -41,7 +50,7 @@ export const SearchSelectItems = (props: IProps) => {
 
   useEffect(() => {
     if (props.selection) {
-      const index = getIndexValue(props.options, props.selection);
+      const index = findOptionsIndexValue(props.options, props.selection);
       if (index !== -1) {
         setActive(index);
       }

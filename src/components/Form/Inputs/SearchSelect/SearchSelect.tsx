@@ -1,27 +1,15 @@
-import React, {
-  ChangeEventHandler,
-  SyntheticEvent,
-  useEffect,
-  useRef,
-  useState
-} from 'react';
-import { remove, isArray, cloneDeep, orderBy } from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
+import { cloneDeep, isArray, orderBy, remove, find } from 'lodash';
 import {
-  Classes,
-  Icon,
   InputGroup,
   Keys,
-  Menu,
-  MenuItem,
   Popover,
-  PopoverInteractionKind,
-  Tag
+  PopoverInteractionKind
 } from '@blueprintjs/core';
+
 import { IItem } from '../../types';
 import { SearchSelectItems } from './SearchSelectItems';
 import { SelectSelectionInfo } from './SelectSelectionInfo';
-import { getOptionValue } from '../../utils';
-import { FieldState } from 'formstate';
 
 interface IProps {
   value: any;
@@ -49,12 +37,15 @@ export const SearchSelect = (props: IProps) => {
   const [enableFilter, setEnableFilter] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  const findOptionsValue = (options: IItem[], value: number | string): any => {
+    return find(options, (v: IItem) => v.value.toString() === value.toString());
+  };
   useEffect(() => {
     if (props.multi && !isArray(props.value)) {
       throw new Error('Multi Select value must be an array');
     }
     if (!props.multi) {
-      const option = getOptionValue(props.options, props.value);
+      const option = findOptionsValue(props.options, props.value);
 
       option
         ? setSearch(option.label.toString())
@@ -101,7 +92,7 @@ export const SearchSelect = (props: IProps) => {
   };
 
   const setSearchSelectionText = (value: string | number) => {
-    const option = getOptionValue(props.options, value);
+    const option = findOptionsValue(props.options, value);
 
     option ? setSearch(option.label.toString()) : setSearch(value.toString());
   };
