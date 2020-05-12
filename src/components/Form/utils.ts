@@ -1,5 +1,6 @@
 import { FormState } from 'formstate';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, find, findIndex } from 'lodash';
+import { IItem } from './types';
 
 export const patchFormValues = (form: FormState<any>, object: any) => {
   const obj = cloneDeep(object);
@@ -54,4 +55,12 @@ export const replaceAll = (
     newValue = newValue.replace(replaceValue, replaceWith);
   }
   return newValue;
+};
+
+export const getOptionValue = (options: IItem[], value: number | string) => {
+  return find(options, (v: IItem) => v.value.toString() === value.toString());
+};
+
+export const getIndexValue = (options: IItem[], value: number | string) => {
+  return findIndex(options, (v: IItem) => v.value.toString() === value.toString());
 };

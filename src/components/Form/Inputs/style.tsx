@@ -303,6 +303,17 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
               text-overflow: ellipsis;
             }
           }
+          & > .gsi-input-select > input {
+            width: ${(props: IStyledFieldProps) =>
+              props.fixedInputWidthPx
+                ? `${props.fixedInputWidthPx}px`
+                : `100%`};
+          }
+          & > .gsi-selection-info{
+            ${(props: IStyledFieldProps) =>
+              props.fixedInputWidthPx &&
+              props.fixedInputWidthPx < 150 &&
+              'display: none'}
         }
       }
     }
@@ -361,24 +372,25 @@ export const IconDate = styled('div')`
 `;
 
 export const DateInputContainer = styled(DateInput)`
-.DayPicker-Day--today {
-    background: rgba(187,222,251,0.6);
-}
+  .DayPicker-Day--today {
+    background: rgba(187, 222, 251, 0.6);
+  }
 
-.DayPicker-Day:hover {
+  .DayPicker-Day:hover {
     background: rgba(225, 245, 254, 0.8) !important;
-    color: #182026!important;
-}
+    color: #182026 !important;
+  }
 
-.DayPicker-Day.DayPicker-Day--disabled, .DayPicker-Day.DayPicker-Day--disabled.DayPicker-Day:hover {
+  .DayPicker-Day.DayPicker-Day--disabled,
+  .DayPicker-Day.DayPicker-Day--disabled.DayPicker-Day:hover {
     background: transparent !important;
     cursor: no-drop !important;
     color: #d2d5d8 !important;
-}
+  }
 
-.DayPicker-Day {
+  .DayPicker-Day {
     margin: 1px !important;
-}
+  }
 
   @-moz-document url-prefix() {
     & .bp3-html-select.bp3-minimal select {
@@ -420,12 +432,9 @@ export const StyledMaskInput = styled(MaskedInput)`
   }
 `;
 
-
-
 export const StyledMenuNoMarginDivider = styled(Menu)`
-  max-width: 350px!important;
+  max-width: 350px !important;
   & .dividerNoMargin {
     margin: 0;
-  } 
+  }
 `;
-
