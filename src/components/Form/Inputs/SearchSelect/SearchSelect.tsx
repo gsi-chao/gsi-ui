@@ -23,6 +23,7 @@ interface IProps {
   fixedInputWidthPx?: number;
   disabled?: boolean;
   allowEmpty?: boolean;
+  popoverMinimal?: boolean;
 }
 
 export const SearchSelect = (props: IProps) => {
@@ -61,7 +62,7 @@ export const SearchSelect = (props: IProps) => {
   useEffect(() => {
     let w = 150;
     let opt = props.options.filter((value: IItem) => {
-      const factor = !props.multi ? 6.5 : 7.8;
+      const factor = !props.multi ? 6.8 : 7.8;
       const lw = value.label.toString().length * factor;
       if (lw > w) {
         w = lw;
@@ -194,6 +195,7 @@ export const SearchSelect = (props: IProps) => {
       isOpen={isOpen}
       canEscapeKeyClose={true}
       captureDismiss={true}
+      minimal={props.popoverMinimal}
       interactionKind={PopoverInteractionKind.CLICK}
       modifiers={{
         flip: { enabled: true },

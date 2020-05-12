@@ -25,7 +25,7 @@ export const SelectSelectionInfo = (props: IProps) => {
           <CarretIcon
             disabled={props.disabled}
             className={'bp3-tag  bp3-minimal gsi-selection-caret'}
-            icon={'caret-down'}
+            icon={'chevron-down'}
           />
         </FlexDiv>
       );
@@ -42,7 +42,7 @@ export const SelectSelectionInfo = (props: IProps) => {
         <CarretIcon
           disabled={props.disabled}
           className={'bp3-tag  bp3-minimal gsi-selection-caret'}
-          icon={'caret-down'}
+          icon={'chevron-down'}
         />
       </FlexDiv>
     ) : (
@@ -50,7 +50,7 @@ export const SelectSelectionInfo = (props: IProps) => {
         <CarretIcon
           disabled={props.disabled}
           className={'bp3-tag  bp3-minimal gsi-selection-caret'}
-          icon={'caret-down'}
+          icon={'chevron-down'}
         />
       </FlexDiv>
     );

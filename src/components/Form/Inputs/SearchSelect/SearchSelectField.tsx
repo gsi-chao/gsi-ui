@@ -21,6 +21,7 @@ export interface ISearchSelectFieldProps extends IFieldProps {
   multi?: boolean;
   popoverWidth?: number;
   allowEmpty?: boolean;
+  popoverMinimal?: boolean;
 }
 
 export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
@@ -49,7 +50,8 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
     onAddNewItem,
     popoverWidth,
     sort,
-    allowEmpty
+    allowEmpty,
+    popoverMinimal
   } = props;
 
   useEffect(() => {
@@ -109,6 +111,7 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
           popoverWidth={popoverWidth}
           fixedInputWidthPx={fixedInputWidthPx}
           allowEmpty={allowEmpty}
+          popoverMinimal={popoverMinimal}
         />
       </FormFieldContainer>
     </StyledPopOverWrapper>

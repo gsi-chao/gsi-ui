@@ -54,6 +54,7 @@ const TestComponent = observer(() => {
         required
         validators={[Validators.required, validator]}
         allowEmpty
+        fixedInputWidthPx={175}
       />
       <VSearchSelectField
         id={'example'}
@@ -65,6 +66,7 @@ const TestComponent = observer(() => {
         validators={[Validators.required]}
         allowEmpty
         inline
+        fixedInputWidthPx={130}
       />
     </>
   );
