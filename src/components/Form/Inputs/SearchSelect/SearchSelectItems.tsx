@@ -5,17 +5,23 @@ import VirtualList from 'react-tiny-virtual-list';
 
 import { IItem } from '../../types';
 import { SelectItemCheckbox } from './styled';
+import { getIndexValue } from '../../utils';
 
 interface IProps {
   options: IItem[];
   selection: any;
   multi?: boolean;
-  selectDeselectItem: (value: any) => void;
+  selectDeselectItem: (value: IItem) => void;
   invokeKeyPress?: number | 'NONE';
+  allowNewItem?: boolean;
+  onAddNewItem?: () => void;
+  search: string;
+  allowEmpty?: boolean;
 }
 
 export const SearchSelectItems = (props: IProps) => {
-  const [active, setActive] = useState<any>(0);
+  const [active, setActive] = useState<any>(null);
+
   useEffect(() => {
     if (props.invokeKeyPress !== 'NONE') {
       switch (props.invokeKeyPress) {
@@ -27,11 +33,20 @@ export const SearchSelectItems = (props: IProps) => {
           break;
         case Keys.ENTER:
           if (props.options[active]) {
-            props.selectDeselectItem(props.options[active].value);
+            props.selectDeselectItem(props.options[active]);
           }
       }
     }
   }, [props.invokeKeyPress]);
+
+  useEffect(() => {
+    if (props.selection) {
+      const index = getIndexValue(props.options, props.selection);
+      if (index !== -1) {
+        setActive(index);
+      }
+    }
+  }, [props.selection]);
 
   const onKeyUp = () => {
     active === 0 ? setActive(props.options.length - 1) : setActive(active - 1);
@@ -62,15 +77,18 @@ export const SearchSelectItems = (props: IProps) => {
     return props.options.length > 4 ? 150 : 30 * props.options.length + 1;
   }, [props.options]);
 
-  const onScroll = (offset: number, event: UIEvent) => {
-    setActive(Math.ceil(offset / 30));
-  };
-
   return (
     <Menu>
+      {props.allowEmpty && !props.multi && (
+        <MenuItem
+          active={props.selection === ''}
+          className={'select-item'}
+          text={'No Selection'}
+          onClick={() => props.selectDeselectItem({ value: '', label: '' })}
+        />
+      )}
       {props.options.length > 0 ? (
         <VirtualList
-          onScroll={onScroll}
           scrollToIndex={active}
           width="100%"
           height={getVirtualHeight()}
@@ -85,14 +103,18 @@ export const SearchSelectItems = (props: IProps) => {
               icon={props.options[index].icon}
               text={props.options[index].label}
               labelElement={getSelectedLabel(props.options[index].value)}
-              onClick={() =>
-                props.selectDeselectItem(props.options[index].value)
-              }
+              onClick={() => props.selectDeselectItem(props.options[index])}
             />
           )}
         />
+      ) : props.allowNewItem ? (
+        <MenuItem
+          text={`Create ${props.search}`}
+          icon={'add'}
+          onClick={() => props.onAddNewItem && props.onAddNewItem()}
+        />
       ) : (
-        <MenuItem text={'No results.'} />
+        <MenuItem text={'No results.'} disabled />
       )}
     </Menu>
   );
