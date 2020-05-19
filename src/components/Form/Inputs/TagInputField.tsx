@@ -81,19 +81,18 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       }
     }
 
-    const clearButton = (
-      <Button
-        disabled={disabled}
-        icon={
-          (!!fieldState && fieldState.$ && fieldState.$.length > 0) ||
-          (!!value && value.length > 0)
-            ? 'cross'
-            : 'refresh'
-        }
-        minimal={true}
-        onClick={this.handleClear}
-      />
-    );
+    const clearButton =
+      (!!fieldState && fieldState.$ && fieldState.$.length > 0) ||
+      (!!value && value.length > 0) ? (
+        <Button
+          disabled={disabled}
+          icon={'cross'}
+          minimal={true}
+          onClick={this.handleClear}
+        />
+      ) : (
+        undefined
+      );
 
     return (
       <StyledTagsInput
