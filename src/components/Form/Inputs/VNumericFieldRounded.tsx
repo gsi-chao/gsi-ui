@@ -46,7 +46,9 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     tipLabel,
     tooltip,
     displayRequired,
-    autoComplete
+    autoComplete,
+    onBlur,
+    onFocus
   } = props;
   const [state, setState] = useState<any>('');
 
@@ -101,6 +103,9 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     }
     val = fillWithZero(val, props.roundTo || 0);
     setState(val);
+    if (onBlur) {
+      onBlur();
+    }
   };
 
   const onChange = (e: any) => {
@@ -191,6 +196,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
               props.onPaste(oldValue, newValue);
             }
           }}
+          onFocus={onFocus}
           onBlur={MaskValue}
         />
       </FormFieldContainer>

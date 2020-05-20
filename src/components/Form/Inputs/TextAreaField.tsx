@@ -62,14 +62,13 @@ export class VTextAreaField extends React.Component<
       required,
       validators,
       margin,
-      value,
-      upperCaseFormat,
       heightArea,
       tooltip,
       growVertically,
       displayRequired,
       autoComplete,
-      cols
+      onFocus,
+      onBlur
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -113,6 +112,8 @@ export class VTextAreaField extends React.Component<
             inputRef={input => {
               this.inputRef = input;
             }}
+            onFocus={onFocus}
+            onBlur={onBlur}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }

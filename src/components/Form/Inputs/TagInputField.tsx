@@ -67,7 +67,9 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       separator,
       tooltip,
       displayRequired,
-      margin
+      margin,
+      onBlur,
+      onFocus
     } = this.props;
     if (fieldState) {
       if (required) {
@@ -122,6 +124,10 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
               placeholder,
               id,
               fill
+            }}
+            inputProps={{
+              onBlur,
+              onFocus
             }}
             rightElement={clearButton}
             tagProps={tagProps}

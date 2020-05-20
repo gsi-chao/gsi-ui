@@ -59,8 +59,8 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       tipLabel,
       tooltip,
       displayRequired,
-      clampValueOnBlur,
-      value,
+      onBlur,
+      onFocus,
       autoComplete
     } = this.props;
 
@@ -130,6 +130,8 @@ export class VNumericField extends React.Component<INumericFieldProps> {
                 e.preventDefault();
               }
             }}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
         </FormFieldContainer>
       </StyledNumericInput>

@@ -39,6 +39,10 @@ export interface IInputFieldProps extends IFieldProps {
   allowSingleDayRange?: boolean;
   contiguousCalendarMonths?: boolean;
   tipLabel?: string;
+  onBlurStart?: any,
+  onFocusStart?: any
+  onBlurEnd?: any,
+  onFocusEnd?: any
 }
 
 interface IIcon {
@@ -119,7 +123,11 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     contiguousCalendarMonths,
     tipLabel,
     precision,
-    useAmPm
+    useAmPm,
+    onBlurStart,
+    onFocusStart,
+    onBlurEnd,
+    onFocusEnd
   } = props;
 
   if (fieldState) {
@@ -194,6 +202,14 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
           shortcuts={props.shortcuts}
           allowSingleDayRange={allowSingleDayRange}
           contiguousCalendarMonths={contiguousCalendarMonths}
+          startInputProps={{
+            onBlur: onBlurStart,
+            onFocus: onFocusStart
+          }}
+          endInputProps={{
+            onBlur: onBlurEnd,
+            onFocus: onFocusEnd
+          }}
           {...getTimePrecision()}
         />
       </FormFieldContainer>
