@@ -32,6 +32,7 @@ export const SearchSelect = (props: IProps) => {
   const [options, setOptions] = useState<IItem[]>([]);
   const [search, setSearch] = useState<string>('');
   const [invokeKeyPress, setInvokeKeyPress] = useState<any>('NONE');
+  const [hasChange, setHasChange] = useState(false);
   const [popoverWidth, setPopoverWidth] = useState<number>(
     props.popoverWidth || props.fixedInputWidthPx || 150
   );
@@ -41,21 +42,23 @@ export const SearchSelect = (props: IProps) => {
   const findOptionsValue = (options: IItem[], value: number | string): any => {
     return find(options, (v: IItem) => v.value.toString() === value.toString());
   };
+
+  useEffect(() => {
+    !isOpen && setHasChange(false);
+  }, [isOpen]);
+
   useEffect(() => {
     if (props.multi && !isArray(props.value)) {
       throw new Error('Multi Select value must be an array');
     }
     if (!props.multi && props.value) {
       const option = findOptionsValue(props.options, props.value);
-
-      option
-        ? setSearch(option.label.toString())
-        : setSearch(props.value.toString());
+      option && setSearch(option.label.toString());
     } else {
       setSearch('');
     }
     setSelection(props.value);
-  }, [props.value]);
+  }, [props.value, props.options]);
 
   useEffect(() => {
     props.popoverWidth && setPopoverWidth(props.popoverWidth);
@@ -85,7 +88,7 @@ export const SearchSelect = (props: IProps) => {
       opt = orderBy(opt, ['label'], [props.sort]);
     }
     setOptions(opt);
-    !props.popoverWidth && setPopoverWidth(w + 20);
+    !props.popoverWidth && setPopoverWidth(w + 30);
   }, [props.options, search]);
 
   const onSearchChange = (e: any) => {
@@ -109,7 +112,7 @@ export const SearchSelect = (props: IProps) => {
           e.target.parentNode?.className?.indexOf('gsi-selection-caret') !== -1
         ) {
           setIsOpen(nextOpenState);
-          !nextOpenState && props.onChange && props.onChange(selection);
+          !nextOpenState && onChangeItems(selection);
           !props.multi && selection && setSearchSelectionText(selection || '');
           return;
         }
@@ -128,13 +131,18 @@ export const SearchSelect = (props: IProps) => {
         }
       }
       !props.disabled && setIsOpen(nextOpenState);
-      !nextOpenState && props.onChange && props.onChange(selection);
+      !nextOpenState && onChangeItems(selection);
       props.multi && setSearch('');
       !props.multi && selection && setSearchSelectionText(selection || '');
       !props.multi && options.length === 0 && setSearch('');
     } catch (e) {
       !props.disabled && setIsOpen(nextOpenState);
-      !nextOpenState && props.onChange && props.onChange(selection);
+    }
+  };
+
+  const onChangeItems = (selection: any) => {
+    if(hasChange){
+      props.onChange && props.onChange(selection)
     }
   };
 
@@ -159,6 +167,7 @@ export const SearchSelect = (props: IProps) => {
     }
     inputRef.current && inputRef.current.focus();
     !props.multi && setSearch(value.label.toString());
+    setHasChange(true);
   };
 
   const getSelectionLength = () => {
@@ -210,7 +219,9 @@ export const SearchSelect = (props: IProps) => {
         <InputGroup
           inputRef={ref => (inputRef.current = ref)}
           autoFocus={false}
-          className={'gsi-input-select'}
+          className={`gsi-input-select ${
+            props.multi ? 'gsi-input-multi-select' : ''
+          }`}
           disabled={props.disabled}
           rightElement={
             <SelectSelectionInfo

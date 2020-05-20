@@ -10,6 +10,7 @@ import {
   VSearchSelectField
 } from './components';
 import { FieldState, FormState } from 'formstate';
+import { Button } from '@blueprintjs/core';
 
 const validator = (value: number[]) => value.length <= 2 && 'Error a';
 const form = new FormState({
@@ -27,8 +28,8 @@ const TestComponent = observer(() => {
     .fill(1)
     .map((val, index) => {
       return {
-        label: `Item Item Item Item Item Item ItemvItem ${index}`,
-        value: index.toString()
+        label: `I ${index}`,
+        value: index
       };
     });
 
@@ -42,6 +43,9 @@ const TestComponent = observer(() => {
   return (
     <>
       {form.$.data.$}
+      <Button
+        onClick={() => setValue1(Math.floor(Math.random() * (2000 - 0)) + 0)}
+      />
       <VSearchSelectField
         label={'Label'}
         tipLabel={'Label'}
@@ -57,6 +61,7 @@ const TestComponent = observer(() => {
         validators={[Validators.required, validator]}
         allowEmpty
         fixedInputWidthPx={175}
+        onChange={onChange1}
       />
       <VSearchSelectField
         id={'example'}
@@ -68,7 +73,7 @@ const TestComponent = observer(() => {
         validators={[Validators.required]}
         allowEmpty
         inline
-        fixedInputWidthPx={130}
+        fixedInputWidthPx={100}
       />
     </>
   );

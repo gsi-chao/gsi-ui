@@ -67,14 +67,9 @@ export const SearchSelectItems = (props: IProps) => {
 
   const getSelectedLabel = (value: any) => {
     if (props.multi && isArray(props.selection)) {
-      return props.selection.includes(value) ? (
+      return (
         <SelectItemCheckbox
-          checked={true}
-          onClick={() => props.selectDeselectItem(value)}
-        />
-      ) : (
-        <SelectItemCheckbox
-          checked={false}
+          checked={props.selection.includes(value)}
           onClick={() => props.selectDeselectItem(value)}
         />
       );
