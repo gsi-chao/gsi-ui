@@ -283,9 +283,15 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
                 },
                 onFocus: () => {
                   isFocused.current = true;
+                  if (props.onFocus) {
+                    props.onFocus()
+                  }
                 },
                 onBlur: () => {
                   isFocused.current = false;
+                  if (props.onBlur) {
+                    props.onBlur()
+                  }
                 }
               }}
               modifiers={modifiers}

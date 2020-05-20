@@ -32,4 +32,5 @@ export interface IFieldProps {
   /** The fieldState */
   fieldState?: FieldState<any>;
   onBlur?: any;
+  onFocus?: any
 }
