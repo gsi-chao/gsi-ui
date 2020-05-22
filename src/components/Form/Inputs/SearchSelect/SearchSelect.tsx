@@ -53,7 +53,7 @@ export const SearchSelect = (props: IProps) => {
     }
     if (!props.multi && props.value) {
       const option = findOptionsValue(props.options, props.value);
-      option && setSearch(option.label.toString());
+      option && option.label && setSearch(option.label.toString());
     } else {
       setSearch('');
     }
@@ -67,22 +67,28 @@ export const SearchSelect = (props: IProps) => {
   useEffect(() => {
     let w = 150;
     let opt = props.options.filter((value: IItem) => {
-      const factor = !props.multi ? 6.8 : 7.8;
-      const lw = value.label.toString().length * factor;
-      if (lw > w) {
-        w = lw;
+      try {
+        const factor = !props.multi ? 6.8 : 7.8;
+        const lw =
+          value && value.label ? value.label.toString().length * factor : 100;
+        if (lw > w) {
+          w = lw;
+        }
+
+        return (
+          value.value
+            .toString()
+            .toLowerCase()
+            .indexOf(search.toLowerCase()) !== -1 ||
+          value.label
+            .toString()
+            .toLowerCase()
+            .indexOf(search.toLowerCase()) !== -1 ||
+          !enableFilter
+        );
+      } catch {
+        return false;
       }
-      return (
-        value.value
-          .toString()
-          .toLowerCase()
-          .indexOf(search.toLowerCase()) !== -1 ||
-        value.label
-          .toString()
-          .toLowerCase()
-          .indexOf(search.toLowerCase()) !== -1 ||
-        !enableFilter
-      );
     });
     if (props.sort) {
       opt = orderBy(opt, ['label'], [props.sort]);
@@ -100,7 +106,7 @@ export const SearchSelect = (props: IProps) => {
   const setSearchSelectionText = (value: string | number) => {
     const option = findOptionsValue(props.options, value);
 
-    option ? setSearch(option.label.toString()) : setSearch(value.toString());
+    option && option.label ? setSearch(option.label.toString()) : setSearch(value.toString());
   };
 
   const handleInteraction = (nextOpenState: boolean, e?: any) => {
@@ -141,8 +147,8 @@ export const SearchSelect = (props: IProps) => {
   };
 
   const onChangeItems = (selection: any) => {
-    if(hasChange){
-      props.onChange && props.onChange(selection)
+    if (hasChange) {
+      props.onChange && props.onChange(selection);
     }
   };
 
@@ -166,7 +172,7 @@ export const SearchSelect = (props: IProps) => {
       setEnableFilter(false);
     }
     inputRef.current && inputRef.current.focus();
-    !props.multi && setSearch(value.label.toString());
+    !props.multi && value.label && setSearch(value.label.toString());
     setHasChange(true);
   };
 
