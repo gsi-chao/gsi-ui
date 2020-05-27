@@ -245,7 +245,8 @@ export const SearchSelect = (props: IProps) => {
       <div
         style={{
           width: popoverWidth,
-          position: 'relative'
+          position: 'relative',
+          maxWidth: 400
         }}
         onKeyUpCapture={onKeyPress}
       >
