@@ -79,8 +79,12 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
   useEffect(() => {
     const propsValue = getValue();
 
-    if (Number(propsValue) !== Number(state) && state !== '-') {
+    const checkState = state === '' ? undefined : state;
+
+    if (Number(propsValue) !== Number(checkState) && state !== '-') {
       MaskValue();
+    } else if (propsValue === '') {
+      setState('');
     }
   }, [props.fieldState && props.fieldState.value, props.value]);
 
@@ -184,7 +188,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
           }}
           autoComplete={autoComplete ? autoComplete : 'no_auto'}
           onChange={onChange}
-          value={state || ''}
+          value={state ?? ''}
           intent={
             fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
           }
