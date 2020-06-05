@@ -19,6 +19,7 @@ export interface INumericFieldProps extends IFieldProps {
   tipLabel?: string;
   roundTo: number;
   maxDecimals: number;
+  noFillWithZero?: boolean;
 }
 
 /**
@@ -57,7 +58,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     const newValue =
       (isNumber(propsValue) &&
         props.roundTo &&
-        fillWithZero(propsValue, props.roundTo)) ||
+        fillWithZero(propsValue, props.roundTo, !!props.noFillWithZero)) ||
       propsValue;
     setState(newValue);
   }, [props.roundTo]);
@@ -105,7 +106,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     if (isNumber(val) && isFinite(val) && props.roundTo) {
       val = round(Number(val.toString()), props.roundTo);
     }
-    val = fillWithZero(val, props.roundTo || 0);
+    val = fillWithZero(val, props.roundTo || 0, !!props.noFillWithZero);
     setState(val);
     if (onBlur) {
       onBlur();
@@ -139,7 +140,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
       }
     } else if (
       (props.maxDecimals === 0 && regExpNoDecimalPlace.test(value)) ||
-      !value
+      !value || (Number(value) === 0 && `${value}`.length === 1)
     ) {
       setState(value);
       setPropsValues(value);
@@ -208,12 +209,12 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
   );
 });
 
-const fillWithZero = (value: any, round: number): any => {
+const fillWithZero = (value: any, round: number, noFillWithZero: boolean): any => {
   if (!isNumber(value)) {
     return '';
   }
 
-  if (round === 0) {
+  if (round === 0 || noFillWithZero) {
     return value;
   }
   const values = `${value || ''}`.split('.');
@@ -241,4 +242,4 @@ const canAddDecimalPlace = (value: any, round: number): boolean => {
 };
 
 const regExp = /^(-)?[0-9]*([.][0-9]*)?$/;
-const regExpNoDecimalPlace = /^(-)?[1-9][0-9]*?$/;
+const regExpNoDecimalPlace = /^(-)?([1-9][0-9]*)?$/;
