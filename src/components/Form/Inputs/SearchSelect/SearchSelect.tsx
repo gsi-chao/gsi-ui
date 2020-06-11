@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { cloneDeep, isArray, orderBy, remove, find } from 'lodash';
+import { cloneDeep, isArray, orderBy, remove, find, isNil } from 'lodash';
 import {
   InputGroup,
   Keys,
@@ -40,7 +40,13 @@ export const SearchSelect = (props: IProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const findOptionsValue = (options: IItem[], value: number | string): any => {
-    return find(options, (v: IItem) => v.value.toString() === value.toString());
+    return find(
+      options,
+      (v: IItem) =>
+        !isNil(v.value) &&
+        !isNil(value) &&
+        v.value.toString() === value.toString()
+    );
   };
 
   useEffect(() => {
@@ -74,6 +80,9 @@ export const SearchSelect = (props: IProps) => {
         if (lw > w) {
           w = lw;
         }
+        if (isNil(value.value) || isNil(value.label)) {
+          return false;
+        }
 
         return (
           value.value
@@ -106,7 +115,9 @@ export const SearchSelect = (props: IProps) => {
   const setSearchSelectionText = (value: string | number) => {
     const option = findOptionsValue(props.options, value);
 
-    option && option.label ? setSearch(option.label.toString()) : setSearch(value.toString());
+    option && option.label
+      ? setSearch(option.label.toString())
+      : setSearch(value.toString());
   };
 
   const handleInteraction = (nextOpenState: boolean, e?: any) => {

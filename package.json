@@ -59,7 +59,9 @@
     "precommit": "pretty-quick --staged",
     "lint": "tslint './src/**/*.{ts,tsx}'",
     "format": "prettier --write './src/**/*.{ts,tsx}'",
-    "precheck": "npm run format && npm run precommit && npm run lint"
+    "precheck": "npm run format && npm run precommit && npm run lint",
+    "commit": "git-cz",
+    "semver": "semantic-release"
   },
   "husky": {
     "hooks": {
@@ -150,7 +152,16 @@
     "webpack": "4.41.4",
     "webpack-dev-server": "3.10.1",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "4.3.1",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "cz-conventional-changelog": "3.2.0",
+    "semantic-release": "^17.0.8"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
