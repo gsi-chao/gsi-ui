@@ -1,1 +1,2 @@
-export {VOrgChartProps,VOrgChart} from './VOrgChart'
+export * from './VOrgChart';
+export * from './types';

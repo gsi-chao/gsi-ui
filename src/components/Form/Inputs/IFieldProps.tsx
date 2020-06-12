@@ -19,12 +19,18 @@ export interface IFieldProps {
   noLabel?: boolean;
   layer?: ILayer;
   onChange?: (value: any) => void;
+  onKeyPress?: (e: any) => void;
   required?: boolean;
   validators?: any[];
   minimal?: boolean;
   margin?: string;
   value?: any;
-
+  tooltip?: string;
+  displayRequired?: boolean;
+  autoComplete?: string;
+  onPaste?:(newValue: any, oldValue: any) => void
   /** The fieldState */
   fieldState?: FieldState<any>;
+  onBlur?: any;
+  onFocus?: any
 }

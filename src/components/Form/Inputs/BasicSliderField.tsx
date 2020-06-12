@@ -7,7 +7,7 @@ import { Intent, Slider } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledSlider } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 import { isNumber } from 'lodash';
 
@@ -57,9 +57,9 @@ export class VBasicSliderField extends React.Component<ISliderFieldProps> {
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);

@@ -2,12 +2,13 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
 /** FieldState */
-import { IconName, NumericInput, Intent } from '@blueprintjs/core';
+import { IconName, Intent, NumericInput } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledNumericInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
+import { isFinite, isNumber } from 'lodash';
 
 /**
  * Field Props
@@ -18,6 +19,9 @@ export interface INumericFieldProps extends IFieldProps {
   max?: number;
   buttonPosition?: 'left' | 'right' | 'none';
   fill?: boolean;
+  tipLabel?: string;
+  allowNumericCharactersOnly?: boolean;
+  clampValueOnBlur?: boolean;
 }
 
 /**
@@ -51,14 +55,21 @@ export class VNumericField extends React.Component<INumericFieldProps> {
       required,
       validators,
       margin,
-      value
+      allowNumericCharactersOnly,
+      tipLabel,
+      tooltip,
+      displayRequired,
+      onBlur,
+      onFocus,
+      autoComplete
     } = this.props;
+
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);
@@ -78,11 +89,13 @@ export class VNumericField extends React.Component<INumericFieldProps> {
         margin={margin}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
+          {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <NumericInput
             name={id}
             large={size === 'large'}
@@ -94,36 +107,85 @@ export class VNumericField extends React.Component<INumericFieldProps> {
               max,
               leftIcon,
               fill,
-              buttonPosition
+              buttonPosition,
+              allowNumericCharactersOnly
             }}
             onValueChange={this.onChange}
             value={this.valueField}
+            autoComplete={autoComplete ? autoComplete : 'no_auto'}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
+            onKeyPress={this.onKeyPress}
+            onPaste={e => {
+              const oldValue = e && e.currentTarget && e.currentTarget.value;
+              let newValue =
+                e && e.clipboardData && e.clipboardData.getData('Text');
+              newValue = newValue.replace(',', '.');
+              if (Number(newValue) && isNumber(Number(newValue))) {
+                if (this.props.onPaste) {
+                  this.props.onPaste(oldValue, newValue);
+                }
+              } else {
+                e.preventDefault();
+              }
+            }}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
         </FormFieldContainer>
       </StyledNumericInput>
     );
   }
 
+  onKeyPress = (event: any) => {
+    const keycode = event.keyCode ? event.keyCode : event.which;
+    if (
+      !(
+        event.shiftKey === false &&
+        ((keycode === 45 && this.isInTheStart(event)) ||
+          keycode === 46 ||
+          keycode === 8 ||
+          keycode === 37 ||
+          keycode === 39 ||
+          (keycode >= 48 && keycode <= 57))
+      )
+    ) {
+      event.preventDefault();
+    }
+  };
+
+  public isInTheStart = (event: any) => {
+    if (event.currentTarget && event.currentTarget) {
+      return !event.currentTarget.selectionStart;
+    }
+    return false;
+  };
+
   @computed
   get valueField() {
     if (this.props.fieldState) {
-      return this.props.fieldState.value;
+      return isNumber(Number(this.props.fieldState.value)) &&
+        isFinite(this.props.fieldState.value)
+        ? this.props.fieldState.value
+        : '';
     }
-    if (this.props.value) {
+    if (
+      this.props.value ||
+      (isNumber(Number(this.props.value)) && isFinite(this.props.value))
+    ) {
       return this.props.value;
     }
-    return 0;
+    return '';
   }
 
   onChange = (e: any, value: string) => {
+    const newValue = value === '' ? '' : e;
     if (this.props.fieldState) {
-      this.props.fieldState.onChange(e);
+      this.props.fieldState.onChange(newValue);
     }
     if (this.props.onChange) {
-      this.props.onChange!(e);
+      this.props.onChange!(newValue);
     }
   };
 }

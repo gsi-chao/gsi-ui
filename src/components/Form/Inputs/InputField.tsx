@@ -6,7 +6,7 @@ import { IconName, InputGroup, Intent } from '@blueprintjs/core';
 import { StyledInput } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 
 /**
@@ -18,13 +18,27 @@ export interface IInputFieldProps extends IFieldProps {
   rightElement?: JSX.Element;
   round?: boolean;
   fill?: boolean;
+  tipLabel?: string;
+  upperCaseFormat?: boolean;
+  inputRef?: any;
+}
+
+export interface IState {
+  start: number;
+  end: number;
 }
 
 @observer
-export class VInputField extends React.Component<IInputFieldProps> {
+export class VInputField extends React.Component<IInputFieldProps, IState> {
+  inputRef: any;
   constructor(props: IInputFieldProps) {
     super(props);
     this.onChange = this.onChange.bind(this);
+    this.state = {
+      start: 1,
+      end: 1
+    };
+    this.inputRef = props.inputRef ? props.inputRef : React.createRef();
   }
 
   public render() {
@@ -48,7 +62,13 @@ export class VInputField extends React.Component<IInputFieldProps> {
       required,
       validators,
       margin,
-      value
+      tipLabel,
+      displayRequired,
+      tooltip,
+      autoComplete,
+      onKeyPress,
+      onBlur,
+      onFocus
     } = this.props;
     let rightEl;
     if (!rightElement) {
@@ -57,9 +77,9 @@ export class VInputField extends React.Component<IInputFieldProps> {
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);
@@ -80,16 +100,20 @@ export class VInputField extends React.Component<IInputFieldProps> {
         margin={margin}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
+          {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <InputGroup
             large={size === 'large'}
             small={size === 'small'}
-            rightElement={rightEl}
+            rightElement={rightElement || rightEl}
             name={id}
+            autoComplete={autoComplete ? autoComplete : 'no_auto'}
+            inputRef={this.inputRef}
             {...{
               round,
               leftIcon,
@@ -100,10 +124,25 @@ export class VInputField extends React.Component<IInputFieldProps> {
             }}
             onChange={this.onChange}
             value={this.valueField}
+            onKeyPress={onKeyPress}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
-            style={{ paddingRight: 10 }}
+            style={{
+              paddingRight: 10,
+              textTransform: this.props.upperCaseFormat ? 'uppercase' : 'none'
+            }}
+            onPaste={e => {
+              const oldValue =
+                e && e.currentTarget && e.currentTarget.value;
+              const newValue =
+                e && e.clipboardData && e.clipboardData.getData('Text');
+              if (this.props.onPaste) {
+                this.props.onPaste(oldValue, newValue);
+              }
+            }}
+            onBlur={onBlur}
+            onFocus={onFocus}
           />
         </FormFieldContainer>
       </StyledInput>
@@ -113,7 +152,7 @@ export class VInputField extends React.Component<IInputFieldProps> {
   @computed
   get valueField() {
     if (this.props.fieldState) {
-      return this.props.fieldState.value;
+      return this.props.fieldState.value || '';
     }
     if (this.props.value) {
       return this.props.value;
@@ -121,12 +160,30 @@ export class VInputField extends React.Component<IInputFieldProps> {
     return '';
   }
 
-  onChange(e: any) {
+  onChange = (e: any) => {
+    if (this.props.upperCaseFormat) {
+      this.setState({
+        start: e.target.selectionStart,
+        end: e.target.selectionEnd
+      });
+    }
+
+    const parsedValue =
+      (this.props.upperCaseFormat && e.target.value.toString().toUpperCase()) ||
+      e.target.value;
     if (this.props.fieldState) {
-      this.props.fieldState.onChange(e.target.value);
+      this.props.fieldState.onChange(parsedValue);
     }
     if (this.props.onChange) {
-      this.props.onChange(e.target.value);
+      this.props.onChange(parsedValue);
     }
-  }
+    if (this.props.upperCaseFormat) {
+      setTimeout(() => {
+        this.inputRef.current.setSelectionRange(
+          this.state.start,
+          this.state.end
+        );
+      }, 30);
+    }
+  };
 }

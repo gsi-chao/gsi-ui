@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import { Button, Divider } from '@blueprintjs/core';
+import { Button, IconName, Tooltip } from '@blueprintjs/core';
 import { FieldState, FormState } from 'formstate';
 import {
   BodyContainer,
   ButtonsEndsContainers,
   CentralFlexCol,
   FlexCol,
-  SelectAllButtons,
+  StyledScroll,
   VSelectionListStyled
 } from './styles';
 import { IItemsList } from '../SelectionList';
-import { VCardPanel } from '../Card';
-import { VSelectField } from '../Form';
+import { VInputFieldWithSuggestions } from '../Form';
+import { getElementsEnumerated } from '../SelectionList/SelectionList';
+import { cloneDeep } from 'lodash';
 
 export interface ISelectItemsProps {
   itemsUnassigned: IItemsList[];
@@ -21,6 +22,10 @@ export interface ISelectItemsProps {
   handleSave: any;
   handleCancel: any;
   listsHeights?: string;
+  intentSave?: any;
+  intentCancel?: any;
+  displayCount?: boolean;
+  enableSelectedOrdering?: boolean;
   selection?: {
     textColor: string;
     background: string;
@@ -29,6 +34,10 @@ export interface ISelectItemsProps {
 export interface ISelectItemsState {
   itemsUnassigned: IItemsList[];
   itemsAssigned: IItemsList[];
+  lastSelectedUnnasigned: IItemsList | null;
+  lastSelectedAssigned: IItemsList | null;
+  queryUnnassigned?: string;
+  queryAssigned?: string;
 }
 
 export class SelectUnselectItems extends Component<
@@ -44,8 +53,11 @@ export class SelectUnselectItems extends Component<
     });
     this.state = {
       itemsUnassigned: [],
-      itemsAssigned: []
+      itemsAssigned: [],
+      lastSelectedAssigned: null,
+      lastSelectedUnnasigned: null
     };
+    this.setState = this.setState.bind(this);
   }
 
   componentDidMount() {
@@ -64,7 +76,8 @@ export class SelectUnselectItems extends Component<
       }
       return true;
     });
-    this.setState({ itemsAssigned, itemsUnassigned });
+    this.setState({ itemsAssigned, itemsUnassigned, queryUnnassigned: '' });
+    this.form.$.unselected.onChange('');
   };
 
   unselectItems = () => {
@@ -78,82 +91,167 @@ export class SelectUnselectItems extends Component<
       }
       return true;
     });
-    this.setState({ itemsAssigned, itemsUnassigned });
+    this.setState({ itemsAssigned, itemsUnassigned , queryAssigned: '' });
+    this.form.$.selected.onChange('');
   };
 
-  selectItemFromUnselectedList = (element: IItemsList) => {
-    const { itemsUnassigned } = this.state;
-    let itemIndex = -1;
-    itemsUnassigned.some((stateItem, index) => {
-      if (element.value === stateItem.value) {
-        itemIndex = index;
-      }
-      return element.value === stateItem.value;
+  selectItemFromUnselectedList = (element: IItemsList, evt?: any) => {
+    const {
+      itemsUnassigned,
+      lastSelectedUnnasigned,
+      queryUnnassigned
+    } = this.state;
+    const newList = handleListSelection(
+      element,
+      itemsUnassigned,
+      lastSelectedUnnasigned,
+      evt,
+      queryUnnassigned
+    );
+    this.setState({
+      itemsUnassigned: newList,
+      lastSelectedUnnasigned: evt.shiftKey ? lastSelectedUnnasigned : element
     });
-    if (itemIndex !== -1) {
-      itemsUnassigned[itemIndex].active = element.active;
-    }
-    this.setState({ itemsUnassigned });
   };
 
-  selectItemFromSelectedList = (element: IItemsList) => {
-    const { itemsAssigned } = this.state;
-    let itemIndex = -1;
-    itemsAssigned.some((stateItem, index) => {
-      if (element.value === stateItem.value) {
-        itemIndex = index;
-      }
-      return element.value === stateItem.value;
+  selectItemFromSelectedList = (element: IItemsList, evt?: any) => {
+    const { itemsAssigned, lastSelectedAssigned, queryAssigned } = this.state;
+    const newList = handleListSelection(
+      element,
+      itemsAssigned,
+      lastSelectedAssigned,
+      evt,
+      queryAssigned
+    );
+    this.setState({
+      itemsAssigned: newList,
+      lastSelectedAssigned: evt.shiftKey ? lastSelectedAssigned : element
     });
-    if (itemIndex !== -1) {
-      itemsAssigned[itemIndex].active = element.active;
-    }
-    this.setState({ itemsAssigned });
   };
 
   selectAll = () => {
     let { itemsAssigned, itemsUnassigned } = this.state;
-    itemsAssigned = [...itemsAssigned, ...itemsUnassigned];
-    itemsUnassigned = [];
-    this.setState({ itemsAssigned, itemsUnassigned });
+    const newItemsUnnasigned: IItemsList[] = [];
+    const newItemsAssigned: IItemsList[] = itemsAssigned.map(item => ({
+      ...item,
+      active: false
+    }));
+    itemsUnassigned = itemsUnassigned.map(item => ({
+      ...item,
+      active: false
+    }));
+    itemsUnassigned.forEach(item => {
+      if (
+        !this.state.queryUnnassigned ||
+        item.text
+          .toUpperCase()
+          .includes(this.state.queryUnnassigned.toUpperCase())
+      ) {
+        newItemsAssigned.push({ ...item, active: false });
+      } else {
+        newItemsUnnasigned.push(item);
+      }
+    });
+    this.setState({
+      itemsAssigned: newItemsAssigned,
+      itemsUnassigned: newItemsUnnasigned,
+      queryUnnassigned: ''
+    });
+    this.form.$.unselected.onChange('');
   };
 
   unselectAll = () => {
     let { itemsAssigned, itemsUnassigned } = this.state;
-    itemsUnassigned = [...itemsUnassigned, ...itemsAssigned];
-    itemsAssigned = [];
-    this.setState({ itemsAssigned, itemsUnassigned });
-  };
-
-  markFromUnassigned = (elementValue: string) => {
-    const { itemsUnassigned } = this.state;
-    const newElement = itemsUnassigned.find(
-      item => item.value === elementValue
-    );
-    if (newElement) {
-      newElement.active = true;
-      this.selectItemFromUnselectedList(newElement);
-    }
-  };
-
-  markFromAssigned = (elementValue: string) => {
-    const { itemsAssigned } = this.state;
-    const newElement = itemsAssigned.find(item => item.value === elementValue);
-    if (newElement) {
-      newElement.active = true;
-      this.selectItemFromSelectedList(newElement);
-    }
+    const newItemsAssigned: IItemsList[] = [];
+    const newItemsUnnasigned: IItemsList[] = itemsUnassigned.map(item => ({
+      ...item,
+      active: false
+    }));
+    itemsAssigned.map(item => ({
+      ...item,
+      active: false
+    }));
+    itemsAssigned.forEach(item => {
+      if (
+        !this.state.queryAssigned ||
+        item.text.toUpperCase().includes(this.state.queryAssigned.toUpperCase())
+      ) {
+        newItemsUnnasigned.push({ ...item, active: false });
+      } else {
+        newItemsAssigned.push(item);
+      }
+    });
+    this.setState({
+      itemsAssigned: newItemsAssigned,
+      itemsUnassigned: newItemsUnnasigned,
+      queryAssigned: ''
+    });
+    this.form.$.selected.onChange('');
   };
 
   handleSave = () => {
     const { itemsUnassigned, itemsAssigned } = this.state;
     this.props.handleSave({ itemsUnassigned, itemsAssigned });
   };
+
   handleCancel = () => {
     this.props.handleCancel();
   };
 
+  getAssignedItems = (elements: IItemsList[]): IItemsList[] => {
+    return this.props.enableSelectedOrdering
+      ? getElementsEnumerated(elements)
+      : elements;
+  };
+
+  reorderSelectedItems = (direction: 'UP' | 'DOWN') => {
+    if (this.state.itemsAssigned.filter(item => item.active).length === 1) {
+      const itemsAssigned = cloneDeep(this.state.itemsAssigned);
+      let itemIndex = -1;
+      const item = this.state.itemsAssigned.find((item, index) => {
+        if (item.active) {
+          itemIndex = index;
+        }
+        return item.active;
+      });
+      if (item && itemIndex !== -1) {
+        if (direction === 'UP' && itemIndex > 0) {
+          const otherItem = itemsAssigned[itemIndex - 1];
+          itemsAssigned[itemIndex - 1] = item;
+          itemsAssigned[itemIndex] = otherItem;
+        } else if (
+          direction === 'DOWN' &&
+          itemIndex < itemsAssigned.length - 1
+        ) {
+          const otherItem = itemsAssigned[itemIndex + 1];
+          itemsAssigned[itemIndex + 1] = item;
+          itemsAssigned[itemIndex] = otherItem;
+        }
+        this.setState({ itemsAssigned });
+      }
+    }
+  };
+
+  disableReorderButtons = (direction: 'UP' | 'DOWN') => {
+    if (this.state.itemsAssigned.filter(item => item.active).length !== 1) {
+      return true;
+    }
+    let itemIndex = -1;
+    this.state.itemsAssigned.some((item, index) => {
+      if (item.active) {
+        itemIndex = index;
+      }
+      return item.active;
+    });
+    return (
+      (direction === 'UP' && itemIndex === 0) ||
+      (direction === 'DOWN' &&
+        itemIndex === this.state.itemsAssigned.length - 1)
+    );
+  };
+
   render() {
+    const { intentSave, intentCancel, displayCount } = this.props;
     const { itemsUnassigned, itemsAssigned } = this.state;
     const itemsUnassignedSearch = itemsUnassigned.map(item => ({
       label: item.text,
@@ -167,84 +265,170 @@ export class SelectUnselectItems extends Component<
       <React.Fragment>
         <BodyContainer>
           <FlexCol flex={4}>
-            <h4>{this.props.unAssignedText || 'UnAssigned'}</h4>
-            <VSelectionListStyled
-              selection={this.props.selection}
-              height={this.props.listsHeights || ''}
-              elements={itemsUnassigned}
-              onSelect={this.selectItemFromUnselectedList}
-            />
-            <VSelectField
-              fill
-              noLabel
-              minimal
-              defaultText={'Search'}
-              margin={'0 0 10px'}
-              options={itemsUnassignedSearch}
-              id={'unselected'}
-              fieldState={this.form.$.unselected}
-              onChange={this.markFromUnassigned}
-            />
-            <SelectAllButtons
-              minimal
-              text={'Select All'}
-              rightIcon={'double-chevron-right'}
-              onClick={this.selectAll}
-            />
+            <h4>{`${this.props.unAssignedText ||
+              'UnAssigned'} ${(displayCount &&
+              `(${(itemsUnassigned && itemsUnassigned.length) || 0})`) ||
+              ''}`}</h4>
+            <StyledScroll
+              height={this.props.listsHeights || '242.5px'}
+              style={{
+                height: this.props.listsHeights || '242.5px',
+                marginBottom: '6px'
+              }}
+            >
+              <VSelectionListStyled
+                selection={this.props.selection}
+                elements={itemsUnassigned.filter(
+                  item =>
+                    !this.state.queryUnnassigned ||
+                    item.text.toUpperCase().includes(this.state.queryUnnassigned.toUpperCase())
+                )}
+                onSelect={this.selectItemFromUnselectedList}
+                height={this.props.listsHeights || '242.5px'}
+              />
+            </StyledScroll>
+            <div style={{ width: 'calc(100% + 3px)', marginBottom: '5px' }}>
+              <VInputFieldWithSuggestions
+                fill
+                noLabel
+                minimal
+                placeholder={'Search...'}
+                margin={'10px 0 10px'}
+                options={itemsUnassignedSearch}
+                id={'unselected'}
+                fieldState={this.form.$.unselected}
+                upperCaseFormat
+                autoComplete={'no'}
+                onChange={value => {
+                  onAutoComplete(
+                    value,
+                    this.state,
+                    this.setState,
+                    'queryUnnassigned',
+                    'itemsUnassigned'
+                  );
+                }}
+                layer={{
+                  inputWidth: 12
+                }}
+              />
+            </div>
           </FlexCol>
           <CentralFlexCol flex={1}>
-            <Button
-              large
-              minimal
-              icon={'chevron-right'}
-              onClick={this.selectItems}
-            />
-            <Button
-              large
-              minimal
-              icon={'chevron-left'}
-              onClick={this.unselectItems}
-            />
+            <Tooltip usePortal hoverCloseDelay={0} content={'Select'}>
+              <Button
+                large
+                minimal
+                icon={'chevron-right'}
+                onClick={this.selectItems}
+              />
+            </Tooltip>
+            <Tooltip usePortal hoverCloseDelay={0} content={'Unselect'}>
+              <Button
+                large
+                minimal
+                icon={'chevron-left'}
+                onClick={this.unselectItems}
+              />
+            </Tooltip>
+            <Tooltip usePortal hoverCloseDelay={0} content={'Select All'}>
+              <Button
+                large
+                minimal
+                icon={'double-chevron-right'}
+                onClick={this.selectAll}
+              />
+            </Tooltip>
+            <Tooltip usePortal hoverCloseDelay={0} content={'Unselect All'}>
+              <Button
+                large
+                minimal
+                icon={'double-chevron-left'}
+                onClick={this.unselectAll}
+              />
+            </Tooltip>
+            {this.props.enableSelectedOrdering && (
+              <>
+                <ButtonWithTooltipAllowingDisable
+                  disabled={this.disableReorderButtons('UP')}
+                  onClick={() => {
+                    this.reorderSelectedItems('UP');
+                  }}
+                  icon={'chevron-up'}
+                  text={'Move Item up'}
+                />
+                <ButtonWithTooltipAllowingDisable
+                  disabled={this.disableReorderButtons('DOWN')}
+                  onClick={() => {
+                    this.reorderSelectedItems('DOWN');
+                  }}
+                  icon={'chevron-down'}
+                  text={'Move Item Down'}
+                />
+              </>
+            )}
           </CentralFlexCol>
           <FlexCol flex={4}>
-            <h4>{this.props.assignedText || 'Assigned'}</h4>
-            <VSelectionListStyled
-              selection={this.props.selection}
-              height={this.props.listsHeights || ''}
-              elements={itemsAssigned}
-              onSelect={this.selectItemFromSelectedList}
-            />
-            <VSelectField
-              fill
-              minimal
-              noLabel
-              margin={'0 0 10px'}
-              defaultText={'Search'}
-              options={itemsAssignedSearch}
-              id={'selected'}
-              fieldState={this.form.$.selected}
-              onChange={this.markFromAssigned}
-            />
-            <SelectAllButtons
-              minimal
-              text={'UnSelect All'}
-              icon={'double-chevron-left'}
-              onClick={this.unselectAll}
-            />
+            <h4>{`${this.props.assignedText || 'Assigned'} ${(displayCount &&
+              `(${(itemsAssigned && itemsAssigned.length) || 0})`) ||
+              ''}`}</h4>
+            <StyledScroll
+              height={this.props.listsHeights || '242.5px'}
+              style={{
+                height: this.props.listsHeights || '242.5px',
+                marginBottom: '6px'
+              }}
+            >
+              <VSelectionListStyled
+                selection={this.props.selection}
+                elements={this.getAssignedItems(itemsAssigned).filter(
+                  item =>
+                    !this.state.queryAssigned ||
+                    item.text.toUpperCase().includes(this.state.queryAssigned.toUpperCase())
+                )}
+                onSelect={this.selectItemFromSelectedList}
+                height={this.props.listsHeights || '242.5px'}
+              />
+            </StyledScroll>
+            <div style={{ width: 'calc(100% + 3px)', marginBottom: '5px' }}>
+              <VInputFieldWithSuggestions
+                fill
+                minimal
+                noLabel
+                margin={'10px 0 10px'}
+                placeholder={'Search...'}
+                options={itemsAssignedSearch}
+                id={'selected'}
+                upperCaseFormat
+                fieldState={this.form.$.selected}
+                autoComplete={'no'}
+                onChange={value => {
+                  onAutoComplete(
+                    value,
+                    this.state,
+                    this.setState,
+                    'queryAssigned',
+                    'itemsAssigned'
+                  );
+                }}
+                layer={{
+                  inputWidth: 12
+                }}
+              />
+            </div>
           </FlexCol>
         </BodyContainer>
-        <Divider />
         <ButtonsEndsContainers>
           <Button
             minimal
-            intent={'none'}
+            intent={intentSave ? intentSave : 'success'}
             icon={'tick'}
             text={'Save'}
             onClick={this.handleSave}
           />
           <Button
             minimal
-            intent={'none'}
+            intent={intentCancel ? intentCancel : 'danger'}
             icon={'disable'}
             onClick={this.handleCancel}
             text={'Cancel'}
@@ -254,3 +438,108 @@ export class SelectUnselectItems extends Component<
     );
   }
 }
+
+const onAutoComplete = (
+  value: any,
+  state: ISelectItemsState,
+  setState: any,
+  stateKey: 'queryAssigned' | 'queryUnnassigned',
+  stateList: 'itemsUnassigned' | 'itemsAssigned'
+) => {
+  if (value !== state[stateKey]) {
+    const newList = cloneDeep(state[stateList] || []);
+    newList.forEach(item => {
+      if (value && !item.text.toUpperCase().includes(value.toUpperCase())) {
+        item.active = false;
+      }
+    });
+    setState({ ...state, [stateKey]: value, [stateList]: newList });
+  }
+};
+
+const ButtonWithTooltipAllowingDisable = ({
+  disabled,
+  onClick,
+  icon,
+  text
+}: IButtonWithTooltipAllowingDisable) => {
+  return disabled ? (
+    <Button large minimal icon={icon} onClick={onClick} disabled={disabled} />
+  ) : (
+    <Tooltip usePortal hoverCloseDelay={0} content={text}>
+      <Button large minimal icon={icon} onClick={onClick} disabled={disabled} />
+    </Tooltip>
+  );
+};
+
+export interface IButtonWithTooltipAllowingDisable {
+  disabled: boolean;
+  onClick: any;
+  icon: IconName | JSX.Element;
+  text: string;
+}
+
+const handleListSelection = (
+  element: IItemsList,
+  argList: IItemsList[],
+  lastSelected: IItemsList | null,
+  evt: any,
+  query: string = ''
+) => {
+  let newList = cloneDeep(argList);
+  if (!(evt.ctrlKey || evt.shiftKey)) {
+    newList = newList.map(item => ({
+      ...item,
+      active: false
+    }));
+    newList.some((stateItem, index) => {
+      const result = element.value === stateItem.value;
+      if (result) {
+        newList[index].active = true;
+      }
+      return result;
+    });
+  } else if (evt.ctrlKey) {
+    newList.some((stateItem, index) => {
+      const result = element.value === stateItem.value;
+      if (result) {
+        newList[index].active = !!element.active;
+      }
+      return result;
+    });
+  } else if (evt.shiftKey) {
+    newList = newList.map(item => ({
+      ...item,
+      active: false
+    }));
+    let lastSelectedIndex = 0;
+    let clickedElementIndex = -1;
+    newList.forEach((stateItem, index) => {
+      if (lastSelected && stateItem.value === lastSelected.value) {
+        lastSelectedIndex = index;
+      }
+      if (element && stateItem.value === element.value) {
+        clickedElementIndex = index;
+      }
+    });
+    const start =
+      lastSelectedIndex > clickedElementIndex
+        ? lastSelectedIndex
+        : clickedElementIndex;
+    const end =
+      lastSelectedIndex > clickedElementIndex
+        ? clickedElementIndex
+        : lastSelectedIndex;
+    newList.forEach((stateItem, index) => {
+      if (
+        start >= index &&
+        index >= end &&
+        (!query ||
+          newList[index].text.toUpperCase().includes(query.toUpperCase()))
+      ) {
+        newList[index].active = true;
+      }
+    });
+  }
+  return newList;
+};

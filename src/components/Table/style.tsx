@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Cell, ColumnHeaderCell } from '@blueprintjs/table';
 import { IConfignHeader } from './TableColumn';
 import { VInputField, VSelectField } from '../Form';
@@ -60,6 +60,8 @@ export const ColumnHeaderCellStyled = styled(ColumnHeaderCell)`
       props ? props.textColor : 'gray'} !important;
     text-align: ${(props: IConfignHeader) =>
       props.textAlign ? props.textAlign : 'center'} !important;
+    font-weight: ${(props: IConfignHeader) =>
+      props.headerBold ? '500' : '400'};
   }
 
   & div.bp3-table-reorder-handle {
@@ -104,14 +106,17 @@ export const TableContainer = styled.div`
 
   & .bp3-table-cell {
     box-shadow: none !important;
+    border-right: 1px solid rgba(128, 128, 128, 0.11);
+    font-size: 12px;
   }
   ${(props: ITableContainer) =>
     props.striped &&
-    `
-  & .bp3-table-cell-ledger-even{
-    background-color: rgba(220,220,221,0.49)!important;
-    border-bottom: 1px solid rgba(128,128,128,0.11);
-  }`};
+    css`
+      & .bp3-table-cell-ledger-even {
+        background-color: rgba(220, 220, 221, 0.49) !important;
+        border-bottom: 1px solid rgba(128, 128, 128, 0.11);
+      }
+    `};
 
   & .bp3-table-cell-ledger-odd {
     border-bottom: 1px solid white !important;
@@ -143,6 +148,7 @@ export const TableContainer = styled.div`
 
 export const StyledHeaderFilterInput = styled(VInputField)`
   width: calc(100% - 9px);
+  max-width: 100%;
 `;
 export const StyledHeaderFilterSelect = styled(VSelectField)`
   width: calc(100% - 9px);
@@ -153,6 +159,7 @@ export const StyledHeaderFilterSelect = styled(VSelectField)`
 export const StyledHeaderFilterSelectContainer = styled.div`
   & > .bp3-form-group {
     width: calc(100% - 9px);
+    max-width: 100%;
   }
   .gsi-input-and-error-container {
     width: 100% !important;

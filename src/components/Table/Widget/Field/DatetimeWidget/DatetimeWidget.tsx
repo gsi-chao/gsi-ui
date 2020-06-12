@@ -16,7 +16,14 @@ export interface IDatetimeWidget {
 export interface IProps
   extends IDatetimeWidget,
     ActionClickWidget,
-    IPropsWidgets {}
+    IPropsWidgets {
+  color: string;
+  onChange?(
+    rowIndex: number,
+    columnIndex: number,
+    newValue: string | boolean | number
+  ): void;
+}
 
 class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
   constructor(props: IProps) {
@@ -30,7 +37,7 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
   render() {
     if (this.isValidValueProps()) {
       return (
-        <DatetimeCell isValid={this.props.isValid!}>
+        <DatetimeCell color={this.props.color} isValid={this.props.isValid!}>
           {this.getDatetime()}
         </DatetimeCell>
       );
@@ -62,6 +69,13 @@ class DatetimeWidget extends Component<IProps, IDatetimeWidget> {
       this.props.column,
       moment(date).format('MM/DD/YYYY')
     );
+    if (this.props.onChange) {
+      this.props.onChange(
+        this.props.row,
+        this.props.column,
+        moment(date).format('MM/DD/YYYY')
+      );
+    }
   };
 
   isValidValueProps = () => {

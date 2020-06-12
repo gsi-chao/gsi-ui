@@ -11,7 +11,7 @@ it('renders without crashing VLoadProgressTask', () => {
     <VLoadProgressTask
       icon="export"
       isOpen={true}
-      onClose={() => console.log('test')}
+      onClose={() => console.log('')}
       title="Test"
     />,
     div
@@ -24,7 +24,7 @@ it('is showed VLoadProgressTask', () => {
     <VLoadProgressTask
       icon="export"
       isOpen={true}
-      onClose={() => console.log('test')}
+      onClose={() => console.log('')}
       title="Test"
     />
   );

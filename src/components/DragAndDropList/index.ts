@@ -1,2 +1,10 @@
 export { DragAndDropList } from './DragAndDropList';
-export { IDNDList, IDNDItem } from './types';
+export {
+  IDNDList,
+  IDNDItem,
+  IOnDragAndDropResponse,
+  IDragAndDropListProps,
+  IDragAndDropListState,
+  ISourceDestination,
+  Item
+} from './types';

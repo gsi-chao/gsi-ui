@@ -6,10 +6,11 @@ interface VLoaderProps {
   intent?: Intent;
   size?: number;
   color?: string;
+  hasBackdrop?: boolean;
 }
 export const VSpinner = (props: VLoaderProps) => {
   return (
-    <SpinnerContainer color={props.color}>
+    <SpinnerContainer hasBackdrop={props.hasBackdrop} color={props.color}>
       <Spinner
         intent={props.intent || Intent.PRIMARY}
         size={props.size || 50}

@@ -49,7 +49,7 @@ export const printErrorWidget = (
   ) => any
 ) => {
   if (widget) {
-    printErrorCallback;
+    Function.call(printErrorCallback);
   } else {
     printNotFoundWidget(row, column);
   }

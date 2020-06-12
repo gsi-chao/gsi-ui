@@ -2,12 +2,12 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
 /** FieldState */
-import { Intent, Checkbox, Alignment } from '@blueprintjs/core';
+import { Alignment, Checkbox, Intent } from '@blueprintjs/core';
 
 import { IFieldProps } from './IFieldProps';
 import { StyledCheckBoxInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 
 /**
@@ -17,6 +17,8 @@ export interface ICheckBoxFieldProps extends IFieldProps {
   rightElement?: Element;
   alignIndicator?: Alignment;
   checkBoxAtLeft?: boolean;
+  requiredJustVisual?: boolean;
+  fixedPadding?: number;
 }
 
 /**
@@ -46,14 +48,17 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
       required,
       validators,
       margin,
-      value
+      tooltip,
+      value,
+      requiredJustVisual,
+      fixedPadding
     } = this.props;
     if (fieldState) {
-      if (required) {
+      if (required && !requiredJustVisual) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);
@@ -72,12 +77,14 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
         checkBoxAtLeft={checkBoxAtLeft}
         noLabel={noLabel}
         margin={margin}
+        fixedPadding={fixedPadding}
       >
         <FormFieldContainer
           required={required}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <Checkbox
             name={id}
@@ -100,7 +107,7 @@ export class VCheckboxField extends React.Component<ICheckBoxFieldProps> {
   @computed
   get valueField() {
     if (this.props.fieldState) {
-      return this.props.fieldState.value;
+      return this.props.fieldState.value || false;
     }
     if (this.props.value) {
       return this.props.value;

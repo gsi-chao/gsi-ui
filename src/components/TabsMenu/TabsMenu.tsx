@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { Icon, Tab, TabId, Tabs } from '@blueprintjs/core';
-import { ITabsMenuProps, ITabsMenuState, ITabsTypes } from './types';
+import { ITabsMenuProps, ITabsMenuState } from './types';
 import { labelIcon, TabIcon, TabsStyle } from './style';
 
 export class VTabsMenu extends Component<ITabsMenuProps, ITabsMenuState> {
@@ -32,7 +32,7 @@ export class VTabsMenu extends Component<ITabsMenuProps, ITabsMenuState> {
         >
           {options.tabList.map(tab => {
             const label = tab.icon && (
-              <TabIcon>
+              <TabIcon key={tab.key}>
                 <Icon
                   style={labelIcon}
                   icon={tab.icon!.icon}

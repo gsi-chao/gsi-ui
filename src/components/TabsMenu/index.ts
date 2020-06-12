@@ -1,8 +1,2 @@
-export { VTabsMenu } from './TabsMenu';
-export {
-  IIconTabsMenuProps,
-  ITabsMenuProps,
-  ITabsMenuState,
-  ITabsMenuStyle,
-  ITabsTypes
-} from './types';
+export * from './TabsMenu';
+export * from './types';

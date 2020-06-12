@@ -13,12 +13,16 @@ export const BadgeStyle = styled.span`
       props.backgroundColorBadge ? props.backgroundColorBadge : 'red'};
     color: ${(props: IVBadgeStyle) =>
       props.textColorBadge ? props.textColorBadge : 'white'};
-    width: 25px;
-    height: 25px;
+    background: red;
+    width: auto;
+    height: auto;
     text-align: center;
-    line-height: 25px;
+    line-height: normal;
     border-radius: 50%;
     font-size: smaller;
     cursor: default;
+    min-width: 25px;
+    min-height: 25px;
+    padding: 4px;
   }
 `;

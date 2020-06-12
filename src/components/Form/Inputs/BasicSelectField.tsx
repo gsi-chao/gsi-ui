@@ -2,7 +2,6 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
 import {
-  FormGroup,
   HTMLSelect,
   IIconProps,
   Intent,
@@ -12,7 +11,7 @@ import {
 import { IFieldProps } from './IFieldProps';
 import { StyledFormGroup } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 
 /**
@@ -53,14 +52,16 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
       validators,
       noLabel,
       margin,
+      tooltip,
+      displayRequired,
       value
     } = this.props;
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);
@@ -79,10 +80,11 @@ export class VBasicSelectField extends React.Component<IBasicSelectFieldProps> {
         className={className}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           label={label}
           noLabel={noLabel}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <HTMLSelect
             options={options}

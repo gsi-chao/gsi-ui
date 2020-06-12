@@ -4,15 +4,17 @@ import { labelIcon } from '../../TabsMenu/style';
 import { LabelIcon } from '../style';
 import { IIconTabsPanelProps } from '../types';
 import { VBadge } from '../../Badge';
+import styled from 'styled-components';
 
 interface IVTabPanelProps {
   label?: string;
   id: string;
-  icon?: IIconTabsPanelProps;
+  icon?: IIconTabsPanelProps | React.ReactNode;
   active: boolean;
   borderColor?: string;
   activeColor?: string;
   activeTextColor?: string;
+  activeBackgroundColor?: string;
   textColor?: string;
   backgroundColor?: string;
   handleOnClick: (tabKey: string) => void;
@@ -21,6 +23,7 @@ interface IVTabPanelProps {
   dataBadge?: any;
   size?: 'small' | 'normal';
   activeBorderColor?: string;
+  padding?: string;
 }
 
 export class VTabPanel extends Component<IVTabPanelProps> {
@@ -33,6 +36,7 @@ export class VTabPanel extends Component<IVTabPanelProps> {
       borderColor,
       activeColor,
       activeTextColor,
+      activeBackgroundColor,
       textColor,
       backgroundColorBadge,
       dataBadge,
@@ -42,25 +46,25 @@ export class VTabPanel extends Component<IVTabPanelProps> {
     } = this.props;
     return (
       <LabelIcon
+        className={`${active && 'active'} gsi-tab-panel-item`}
         borderColor={borderColor}
         activeColor={activeColor}
         backgroundColor={backgroundColor}
         activeTextColor={activeTextColor}
+        activeBackgroundColor={activeBackgroundColor}
         textColor={textColor}
         active={active}
         onClick={this.handleOnClick}
         activeBorderColor={activeBorderColor}
         size={size}
+        padding={this.props.padding}
       >
-        {icon && (
-          <Icon
-            style={labelIcon}
-            icon={icon.icon}
-            iconSize={icon.iconSize && icon.iconSize}
-            intent={icon.intent && icon.intent}
-          />
+        {icon && typeof icon === 'object' && (
+          <Icon style={labelIcon} {...(icon as IIconTabsPanelProps)} />
         )}
-        <span>{label}</span>
+        {icon && React.isValidElement(icon) && <>{icon}</>}
+
+        <StyledSpan>{label}</StyledSpan>
         {dataBadge && (
           <VBadge
             backgroundColorBadge={backgroundColorBadge}
@@ -76,3 +80,9 @@ export class VTabPanel extends Component<IVTabPanelProps> {
     this.props.handleOnClick(this.props.id);
   };
 }
+
+const StyledSpan = styled.div`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;

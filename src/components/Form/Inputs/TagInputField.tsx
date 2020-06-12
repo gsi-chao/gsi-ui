@@ -13,10 +13,11 @@ import { IFieldProps } from './IFieldProps';
 import { StyledTagsInput } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import { Validators } from '../Validators';
 import { showToastNotification } from '../../ToastNotification';
 import { computed } from 'mobx';
 import { isArray } from 'lodash';
+
 /**
  * Field Props
  */
@@ -63,33 +64,37 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
       required,
       validators,
       value,
-      separator
+      separator,
+      tooltip,
+      displayRequired,
+      margin,
+      onBlur,
+      onFocus
     } = this.props;
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);
       }
     }
 
-    const clearButton = (
-      <Button
-        disabled={disabled}
-        icon={
-          (!!fieldState && fieldState.$.length > 0) ||
-          (!!value && value.length > 0)
-            ? 'cross'
-            : 'refresh'
-        }
-        minimal={true}
-        onClick={this.handleClear}
-      />
-    );
+    const clearButton =
+      (!!fieldState && fieldState.$ && fieldState.$.length > 0) ||
+      (!!value && value.length > 0) ? (
+        <Button
+          disabled={disabled}
+          icon={'cross'}
+          minimal={true}
+          onClick={this.handleClear}
+        />
+      ) : (
+        undefined
+      );
 
     return (
       <StyledTagsInput
@@ -102,12 +107,14 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         layer={layer}
         fill={fill}
         noLabel={noLabel}
+        margin={margin}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <TagInput
             separator={separator}
@@ -117,6 +124,10 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
               placeholder,
               id,
               fill
+            }}
+            inputProps={{
+              onBlur,
+              onFocus
             }}
             rightElement={clearButton}
             tagProps={tagProps}
@@ -147,6 +158,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
     let newValues = values;
     if (
       this.props.limit &&
+      newValues &&
       newValues.length > 0 &&
       newValues.length > this.props.limit
     ) {

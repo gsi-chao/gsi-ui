@@ -4,22 +4,28 @@ import React from 'react';
 import {
   Button,
   ButtonGroup,
+  Classes,
   Icon,
   IconName,
   Intent,
+  IPopoverProps,
+  MenuDivider,
   MenuItem
 } from '@blueprintjs/core';
 /** FieldState */
-import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
+import { ItemListRenderer, ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
 import { IFieldProps } from './IFieldProps';
-import { StyledPopOverWrapper } from './style';
+import { StyledMenuNoMarginDivider, StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import { Validators } from '../Validators';
 import { computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
+import { orderBy, uniqueId } from 'lodash';
+import { IItemMultiple } from './SelectMultipleField';
+import { FieldState } from 'formstate';
 
 /**
  * Field Props
@@ -37,6 +43,13 @@ export interface ISelectFieldProps extends IFieldProps {
   clearButton?: boolean;
   clearValue?: any;
   isLoading?: boolean;
+  tipLabel?: string;
+  popoverProps?: IPopoverProps;
+  resetOnClose?: boolean;
+  allowEmptyItem?: boolean;
+  allowOrder?: boolean;
+  orderDirection?: 'asc' | 'desc';
+  createNewItemFormQuery?: (item: IItem) => void;
 }
 
 /**
@@ -50,43 +63,150 @@ interface IItem {
 }
 
 interface IState {
-  item: IItem | undefined;
+  query: string | null;
 }
 
 const ItemSelect = Select.ofType<IItem>();
 
-const renderItem: ItemRenderer<IItem> = (
-  item,
-  { handleClick, modifiers, query }
-) => {
-  if (!modifiers.matchesPredicate) {
-    return null;
-  }
-  return (
-    <MenuItem
-      active={modifiers.active}
-      disabled={modifiers.disabled}
-      label={item.rep}
-      key={item.value}
-      onClick={handleClick}
-      text={item.label}
-    />
-  );
-};
-
 const filterItem: ItemPredicate<IItem> = (query, item) => {
-  const label = `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
-  return label;
+  return (
+    !query || (`${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+    (item && item.label === 'No Selection' && item.value === ''))
+  );
 };
 
 @observer
 export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   @observable showClear: boolean;
+  @observable selectedItem : FieldState<IItemMultiple | null>;
+  @observable changed : FieldState<boolean>;
+  @observable activeItem: FieldState<IItemMultiple | null>;
 
   constructor(props: ISelectFieldProps) {
     super(props);
     this.showClear = false;
+    this.selectedItem = new FieldState<IItemMultiple | null>(null);
+    this.activeItem = new FieldState<IItemMultiple | null>(null);
+    this.changed = new FieldState<boolean>(false);
+    this.state = {
+      query: ''
+    }
   }
+
+  renderItem: ItemRenderer<IItem> = (item, { handleClick, modifiers }) => {
+    if (!modifiers.matchesPredicate) {
+      return null;
+    }
+
+    const prevActive =
+      (this.props.fieldState && item.value === this.props.fieldState.value) ||
+      item.value === this.props.value;
+    const itemIsTheActiveByKeyBoard = (this.activeItem?.value && item.value === this.activeItem?.value?.value);
+
+    const active = !this.activeItem?.value && prevActive || !!itemIsTheActiveByKeyBoard;
+
+    return (
+      <MenuItem
+        active={active}
+        disabled={modifiers.disabled}
+        label={item.rep}
+        key={uniqueId()}
+        onClick={handleClick}
+        title={item.label}
+        text={item.label}
+        labelElement={
+          this.props.allowEmptyItem &&
+          item.value === '' &&
+          item.label === 'No Selection' ? (
+            <Icon color={active && 'white' || '#7486949c'} icon={'reset'} />
+          ) : null
+        }
+      />
+    );
+  };
+
+  public renderMenu: ItemListRenderer<IItem> = ({
+    items,
+    itemsParentRef,
+    query,
+    renderItem
+  }) => {
+    const renderedItems = items.map(renderItem).filter(item => item != null);
+    const hasValue = !!(this.props.value || this.props?.fieldState?.value);
+    const itemsToRender =
+      this.props.allowEmptyItem && renderedItems.length > 0 && hasValue ? (
+        <>
+          {renderedItems.map((item, index: number) => {
+            if (index === 0) {
+              return (
+                <React.Fragment key={`item_${index}`}>
+                  {item}
+                  <MenuDivider
+                    className={'dividerNoMargin'}
+                  />
+                </React.Fragment>
+              );
+            }
+            return <React.Fragment key={index}>{item}</React.Fragment>;
+          })}
+        </>
+      ) : (
+        renderedItems
+      );
+
+    const createItemView = this.props.createNewItemFormQuery ? (
+      <MenuItem
+        icon="add"
+        text={`Create "${query}"`}
+        active={true}
+        onClick={() => {
+          this.onItemSelected({ value: query, label: query });
+        }}
+        shouldDismissPopover={false}
+      />
+    ) : (
+      <MenuItem disabled={true} text="No results." />
+    );
+
+    const hasQueryValues = !!(this.state && this.state.query !== '');
+
+    const displayCreateWhenAllowEmptyItem = !!(this.props.allowEmptyItem && this.props?.fieldState?.value || this.props?.value) &&
+      renderedItems.length === 1;
+
+    return (
+      <>
+        <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
+          {renderedItems.length > 0
+            ? displayCreateWhenAllowEmptyItem &&
+            hasQueryValues
+              ? createItemView
+              : itemsToRender
+            : createItemView}
+        </StyledMenuNoMarginDivider>
+      </>
+    );
+  };
+
+  public getOptions = (): IItem[] => {
+    const { options, allowEmptyItem } = this.props;
+    const newOptions =
+      (options &&
+        options.length > 0 &&
+        (this.props.allowOrder
+          ? orderBy(options, ['label'], [this.props.orderDirection || false])
+          : options)) ||
+      [];
+    if (
+      allowEmptyItem &&
+      options &&
+      options.length > 0 &&
+      (this.props.value ||
+        this.props.fieldState && this.props.fieldState.value))
+    {
+      return [{ value: '', label: 'No Selection' }, ...newOptions];
+    }
+    return newOptions;
+  };
 
   public render() {
     const {
@@ -95,7 +215,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       fieldState,
       disabled,
       inline,
-      rightIcon,
       id,
       options,
       icon,
@@ -110,9 +229,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       iconOnly,
       minimal,
       margin,
-      clearButton,
-      isLoading,
-      value
+      tipLabel,
+      popoverProps,
+      tooltip,
+      displayRequired
     } = this.props;
 
     const initialContent =
@@ -128,14 +248,61 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);
       }
     }
+
+    const areItemsEqual = (
+      itemA: IItemMultiple,
+      itemB: IItemMultiple
+    ): boolean => {
+      return itemA.value === itemB.value;
+    };
+
+    const onActiveItemChange = (item: IItemMultiple | null) => {
+      const isOutEmptyOption = this.getOptions().some(item => !!(item.value === '' && item.label === 'No Selection'));
+      if ((this.props.allowEmptyItem && isOutEmptyOption) || this.props.allowOrder ) {
+        if (!this.changed?.value) {
+          if (this.selectedItem?.value) {
+            if (this.state) {
+              if (this.activeItem?.value?.value !== item?.value) {
+                this.activeItem.onChange(this.selectedItem?.value || null)
+              }
+            }
+            this.selectedItem.onChange(null);
+          } else {
+            if (this.activeItem?.value?.value !== item?.value) {
+              this.activeItem.onChange(item)
+            }
+          }
+          this.changed.onChange(true)
+        } else {
+          this.changed.onChange(false)
+        }
+      } else {
+        this.activeItem && this.activeItem.value?.value !== item?.value && this.activeItem.onChange(item)
+      }
+    };
+
+    const onOpening = () => {
+      const value = this.props.fieldState?.value || this.props.value;
+       if (value) {
+        const newActiveItem = this.getOptions() && this.getOptions().length > 0 && this.getOptions().find(el => el.value === value);
+        if (newActiveItem) {
+          this.activeItem.onChange(newActiveItem);
+          this.changed.onChange(true);
+          return;
+        }
+      }
+      this.activeItem.onChange(null);
+      this.changed.onChange(true);
+
+    };
 
     return (
       <StyledPopOverWrapper
@@ -151,20 +318,43 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         margin={margin}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
+          {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect
+            activeItem={this.activeItem?.value}
+            onActiveItemChange={onActiveItemChange}
+            resetOnSelect={true}
             itemPredicate={filterItem}
-            itemRenderer={renderItem}
-            items={options}
+            itemRenderer={this.renderItem}
+            items={this.getOptions()}
             disabled={this.disable()}
+            itemListRenderer={this.renderMenu}
             initialContent={initialContent}
-            noResults={<MenuItem disabled={true} text="No results." />}
             onItemSelect={this.onItemSelected}
+            itemsEqual={areItemsEqual}
             filterable={filterable}
+            popoverProps={{
+              modifiers: {
+                flip: { enabled: true },
+                keepTogether: { enabled: true },
+                preventOverflow: { enabled: true },
+              },
+              // looks like is not in use but is in use do not remove onOpening
+              onOpening,
+              ...popoverProps
+            }}
+            resetOnClose={this.props.resetOnClose}
+            className={this.props.isLoading ? Classes.SKELETON : ''}
+            onQueryChange={(value: string) => this.setState({ query: value })}
+            query={(this.state && this.state.query) || ''}
+            inputProps={{
+              rightElement: this.renderClearButton()
+            }}
           >
             {iconOnly ? (
               <ButtonGroup>
@@ -172,7 +362,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                   className={minimal ? 'bp3-minimal' : ''}
                   style={{
                     justifyContent: 'center',
-                    color: this.props.color ? this.props.color : 'black'
+                    color: this.props.color && this.props.color
                   }}
                   {...{
                     icon,
@@ -198,11 +388,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 disabled={this.disable()}
                 text={this.fieldText}
                 style={{
-                  color: this.props.color ? this.props.color : 'black'
+                  color: this.props.color && this.props.color
                 }}
               />
             )}
-            {this.showClear ? this.renderClearButton() : undefined}{' '}
           </ItemSelect>
         </FormFieldContainer>
       </StyledPopOverWrapper>
@@ -218,7 +407,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       <React.Fragment>
         <Icon
           style={{
-            color: this.props.color ? this.props.color : 'black'
+            color: this.props.color && this.props.color
           }}
           icon={this.props.rightIcon || 'chevron-down'}
         />
@@ -227,31 +416,16 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     );
   };
 
-  renderClearButton = () => {
-    const minimal = this.props.minimal;
-
-    return this.props.clearButton ? (
-      !this.props.isLoading ? (
-        <Button
-          style={{ width: '30px', paddingLeft: '15px' }}
-          className={minimal ? 'bp3-minimal' : ''}
-          onClick={this.onClear}
-          rightIcon={'refresh'}
-        />
-      ) : (
-        undefined
-      )
-    ) : (
-      undefined
-    );
-  };
-
+  renderClearButton = () => (
+    <Button
+      style={{ width: '30px' }}
+      minimal
+      onClick={this.onClear}
+      rightIcon={'filter-remove'}
+    />
+  );
   private onClear = () => {
-    if (this.props.clearValue) {
-      this.onItemSelected({ label: '', value: this.props.clearValue });
-    } else {
-      this.onItemSelected({ label: '', value: '' });
-    }
+    this.setState({ query: '' });
   };
 
   @computed
@@ -274,12 +448,19 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   }
 
   onItemSelected = (value: IItem) => {
-    this.setState({ item: value });
-    if (this.props.fieldState) {
-      this.props.fieldState.onChange(value.value);
+    if (
+      this.props.createNewItemFormQuery &&
+      value.value !== ''
+    ) {
+      this.props.createNewItemFormQuery(value);
     }
-    if (this.props.onChange) {
-      this.props.onChange!(value.value);
-    }
+    setTimeout(() => {
+      if (this.props.fieldState) {
+        this.props.fieldState.onChange(value.value);
+      }
+      if (this.props.onChange) {
+        this.props.onChange!(value.value);
+      }
+    });
   };
 }

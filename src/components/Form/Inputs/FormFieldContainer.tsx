@@ -5,9 +5,11 @@ export interface IFormFieldContainerProps {
   label: string | undefined;
   children: any;
   fieldState?: IFieldState;
+  value?: any;
   required?: boolean;
   className?: string;
   noLabel?: boolean;
+  tooltip?: string;
 }
 
 export interface IFieldState {
@@ -28,11 +30,19 @@ export class FormFieldContainer extends React.Component<
   }
 
   render() {
-    const { label, children, fieldState, required, noLabel } = this.props;
+    const {
+      label,
+      children,
+      fieldState,
+      required,
+      noLabel,
+      value,
+      tooltip
+    } = this.props;
     return (
       <React.Fragment>
         {!noLabel ? (
-          <label className={'field-label'}>
+          <label className={'field-label'} title={tooltip}>
             {required ? <RequiredSpan>*</RequiredSpan> : null}
             {label}
           </label>

@@ -22,7 +22,14 @@ export interface IDropdownWidget {
 export interface IProps
   extends IDropdownWidget,
     ActionClickWidget,
-    IPropsWidgets {}
+    IPropsWidgets {
+  color: string;
+  onChange?(
+    rowIndex: number,
+    columnIndex: number,
+    newValue: string | boolean | number
+  ): void;
+}
 
 class DropdownWidget extends Component<IProps, IDropdownWidget> {
   constructor(props: IProps) {
@@ -56,6 +63,7 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
           <DropdownStyled
             isValid={this.props.isValid!}
             isDisable={this.props.disable}
+            color={this.props.color}
           >
             <Button
               style={{ width: '100%' }}
@@ -105,6 +113,9 @@ class DropdownWidget extends Component<IProps, IDropdownWidget> {
   handleValueChange = (option: IOption) => {
     this.setState({ valueSelected: option.value });
     this.props.onClick(this.props.row, this.props.column, option.value);
+    if (this.props.onChange) {
+      this.props.onChange(this.props.row, this.props.column, option.value);
+    }
   };
 }
 

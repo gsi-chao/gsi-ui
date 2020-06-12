@@ -10,7 +10,7 @@ import {
   LEFT_PAGE,
   RIGHT_PAGE,
   VPaginatorProps
-} from './type';
+} from './types';
 
 const range = (from: number, to: number, step = 1) => {
   let i = from;
@@ -29,13 +29,15 @@ const InfoPage = (props: IInfoPage) => {
     <div style={{ margin: '0px 10px' }}>
       {props.currentPage && (
         <span>
-          Page <strong>{props.currentPage}</strong> of{' '}
-          <strong>{props.totalPages}</strong>
+          {props.pageLabel ? props.pageLabel : 'Page'}{' '}
+          <strong>{props.currentPage}</strong>{' '}
+          {props.ofLabel ? props.ofLabel : 'of'}
+          <strong> {props.totalPages} </strong>
         </span>
       )}
       <span>
-        {' / '}
-        Total: <strong className="text-secondary">{` ${props.totals}`}</strong>
+        {props.totalLabel ? props.totalLabel : 'Total'}:{' '}
+        <strong className="text-secondary">{` ${props.totals}`}</strong>
       </span>
     </div>
   );
@@ -53,7 +55,7 @@ const ItemsByPages = (props: IItemsByPages) => {
       label={props.label ? props.label : 'Items by pages:'}
       minimal
       options={props.options}
-      id="places"
+      id="items-by-page"
       fieldState={props.fieldState}
       onChange={props.onChange}
       color={props.color ? props.color : 'black'}
@@ -108,7 +110,7 @@ export class VPagination extends Component<VPaginatorProps, IState> {
   };
 
   componentDidMount() {
-    this.gotoPage(1);
+    this.gotoPage(this.props.currentPage);
   }
 
   gotoPage = (page: any) => {
@@ -193,7 +195,7 @@ export class VPagination extends Component<VPaginatorProps, IState> {
   render() {
     if (!this.getTotalsRecord()) return null;
 
-    if (this.getTotalPages() === 1) return null;
+    // if (this.getTotalPages() === 1) return null;
 
     const { currentPage } = this.state;
     const pages = this.fetchPageNumbers();
@@ -234,6 +236,7 @@ export class VPagination extends Component<VPaginatorProps, IState> {
                     this.handleClick(page, e);
                   }}
                   isLast={index + 1 === pages.length}
+                  border={this.getBorderRadius()}
                 >
                   {page}
                 </Page>
@@ -272,12 +275,20 @@ export class VPagination extends Component<VPaginatorProps, IState> {
       : 'black';
   };
 
+  private getBorderRadius = () => {
+    return this.props.customerStyle
+      ? this.props.customerStyle.borderRadius
+        ? this.props.customerStyle.borderRadius
+        : '8px'
+      : '8px';
+  };
+
   getStyles: any = () => {
     return {
       display: 'flex',
       alignItems: 'center',
       border: 'solid 1px whitesmoke',
-      borderRadius: '8px',
+      borderRadius: this.getBorderRadius(),
       width: 'fit-content',
       ...this.props.style
     };
@@ -297,6 +308,9 @@ export class VPagination extends Component<VPaginatorProps, IState> {
         currentPage={currentPage}
         totalPages={this.getTotalPages()}
         totals={this.getTotalsRecord()}
+        pageLabel={this.props.labels ? this.props.labels.pages : undefined}
+        ofLabel={this.props.labels ? this.props.labels.of : undefined}
+        totalLabel={this.props.labels ? this.props.labels.total : undefined}
       />
     );
   }
@@ -310,14 +324,19 @@ export class VPagination extends Component<VPaginatorProps, IState> {
         fieldState={this.form.$.pageLimit}
         options={this.getItemsByPages()}
         label={label}
-        onChange={value => {
-          this.form.$.pageLimit.onChange(value);
-          this.gotoPage(1);
-        }}
+        onChange={this.onItemsByPageChange}
         color={this.getColorCurrentPage()}
       />
     );
   }
+
+  private onItemsByPageChange = (value: number) => {
+    this.form.$.pageLimit.onChange(value);
+    this.gotoPage(1);
+    if (this.props.onPageSizeChanged) {
+      this.props.onPageSizeChanged(value);
+    }
+  };
 
   private getRightPage(index: number) {
     return (

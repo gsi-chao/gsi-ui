@@ -1,0 +1,30 @@
+.gsi-draggable-modal {
+  overflow: hidden !important;
+}
+
+.gsi-draggable-modal .bp3-dialog {
+  display: flex;
+  max-width: none;
+  -webkit-transform-origin: 50% 50% !important;
+  transform-origin: 50% 50% !important;
+  width: auto;
+}
+.gsi-draggable-modal .bp3-dialog-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden !important;
+  display: block;
+}
+
+.gsi-draggable-modal .gsi-draggable-modal-title {
+  cursor: move;
+  padding: 16px;
+}
+
+.gsi-draggable-modal .draggable-modal-title::before {
+  content: '\00a0';
+}

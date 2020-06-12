@@ -22,7 +22,9 @@ export const Pages = styled.ul`
 
 const getBorder = (props: IProps) => {
   if (props.isLast) {
-    return props.border ? props.border : '0px 8px 8px 0px;';
+    return props.border
+      ? `0px ${props.border} ${props.border} 0px`
+      : '0px 8px 8px 0px;';
   }
   return '0px';
 };

@@ -1,15 +1,20 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
-
 /** Blueprint */
-import { Icon, IconName, Intent } from '@blueprintjs/core';
-import { DateInput, IDateFormatProps, TimePicker } from '@blueprintjs/datetime';
+import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
+import {
+  IDateFormatProps,
+  IDatePickerModifiers,
+  TimePicker
+} from '@blueprintjs/datetime';
 /** FieldState */
-import { IconDate, StyledFormGroup } from './style';
+import { DateInputContainer, IconDate, StyledDatePicker } from './style';
 import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
-import { computed } from 'mobx';
+import { TimePrecision } from '@blueprintjs/datetime/lib/esm/timePicker';
+import { Validators } from '../Validators';
 
 /**
  * Field component. Must be an observer.
@@ -22,6 +27,17 @@ export interface IInputFieldProps extends IFieldProps {
   fill?: boolean;
   dateType: 'DATE' | 'DATETIME' | 'TIME';
   icon?: IIcon;
+  format?: string;
+  popoverProps?: IPopoverProps;
+  precision?: TimePrecision;
+  useAmPm?: boolean;
+  maxTime?: Date;
+  minTime?: Date;
+  canClearSelection?: boolean;
+  shortcuts?: boolean | any[];
+  showActionsBar?: boolean;
+  closeOnSelection?: boolean;
+  tipLabel?: string
 }
 
 interface IIcon {
@@ -34,56 +50,177 @@ interface IIcon {
 const momentFormatter = (format: string): IDateFormatProps => {
   return {
     formatDate: date => moment(date).format(format),
-    parseDate: str => moment(str, format).toDate(),
+    parseDate: str => {
+      if (!moment(str, format, true).isValid()) {
+        return false;
+      }
+      return moment(str, format).toDate();
+    },
     placeholder: `${format}`
   };
 };
 
-const FORMATS = {
-  DATE: momentFormatter('YYYY-MM-DD'),
-  DATETIME: momentFormatter('YYYY-MM-DD HH:mm:ss'),
-  TIME: momentFormatter('HH:mm:ss')
+const toDate = () => {
+  return moment().toDate();
 };
 
-@observer
-export class VDateTimePicker extends React.Component<IInputFieldProps> {
-  constructor(props: IInputFieldProps) {
-    super(props);
-  }
+const toDateNotSelect = (date: Date) => {
+  return moment(moment().toDate()).isSame(moment(date), 'd');
+};
 
-  changedDate = (date: any) => {
-    if (this.props.fieldState) {
-      this.props.fieldState.onChange(date);
+const outOfRangeError = (date: any, value: any, type: 'MIN' | 'MAX') => {
+  if (type === 'MIN') {
+    return moment(value).isBefore(moment(date), 'd');
+  }
+  return moment(value).isAfter(moment(date), 'd');
+};
+
+export const VDateTimePicker = observer((props: IInputFieldProps) => {
+  const {
+    label,
+    labelInfo,
+    fieldState,
+    disabled,
+    inline,
+    id,
+    className,
+    layer,
+    fill,
+    dateType,
+    rightElement,
+    icon,
+    margin,
+    value,
+    noLabel,
+    required,
+    popoverProps,
+    maxTime,
+    minTime,
+    useAmPm,
+    precision,
+    validators,
+    displayRequired,
+    tooltip,
+    format,
+    onChange,
+    canClearSelection,
+    shortcuts,
+    showActionsBar,
+    closeOnSelection
+  } = props;
+
+  const dateRef: any = useRef<HTMLElement>(null);
+  const isFocused: any = useRef();
+  const [minTimeCalculate, setMinTimeCalculate] = useState();
+  const [maxTimeCalculate, setMaxTimeCalculate] = useState();
+  const [defaultValue, setDefaultValue] = useState(toDate());
+  const [valueField, setValueField] = useState();
+
+  useEffect(() => {
+    calculateValue();
+  }, [fieldState?.value, value]);
+
+  useEffect(() => {
+    setDefaultValue(minTime ? minTime : maxTime ? maxTime : toDate());
+  }, [minTime, maxTime]);
+
+  useEffect(() => {
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(Validators.required, ...validators);
+        } else {
+          fieldState.validators(Validators.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
+      }
     }
-    if (this.props.onChange) {
-      this.props.onChange(date);
+  }, [fieldState]);
+
+  useEffect(() => {
+    setMinTimeCalculate(
+      minTime
+        ? outOfRangeError(minTime, valueField, 'MIN')
+          ? moment('1/1/1900').toDate()
+          : minTime
+        : moment('1/1/1900').toDate()
+    );
+  }, [minTime, valueField]);
+
+  useEffect(() => {
+    setMaxTimeCalculate(
+      maxTime
+        ? outOfRangeError(maxTime, valueField, 'MAX')
+          ? moment('1/1/2100').toDate()
+          : maxTime
+        : moment('1/1/2100').toDate()
+    );
+  }, [maxTime, valueField]);
+
+  const calculateValue = () => {
+    if (dateType === 'TIME' && ((!value && fieldState && !fieldState.value) || (!value && !fieldState))) {
+      setValueField(new Date(0,0,0,0,0,0));
+      return;
+    }
+
+    if ((dateType === 'DATE' || dateType === 'DATETIME') && (!value && !fieldState)) {
+      setValueField(null);
+      return;
+    }
+
+    if (fieldState) {
+      setValueField(fieldState.value);
+      return;
+    }
+    if (value) {
+      setValueField(value);
+      return;
     }
   };
 
-  public render() {
-    const {
-      label,
-      labelInfo,
-      fieldState,
-      disabled,
-      inline,
-      placeholder,
-      id,
-      className,
-      layer,
-      fill,
-      dateType,
-      rightElement,
-      icon,
-      margin,
-      value,
-      noLabel,
-      required
-    } = this.props;
-    let iconJSX;
+  const FORMATS = () => {
+    return {
+      DATE: momentFormatter(format || dFormat()['DATE']),
+      DATETIME: momentFormatter(`${format || dFormat()['DATETIME']}`),
+      TIME: momentFormatter(dFormat()['TIME'])
+    };
+  };
+
+  const dFormat = (): any => {
+    return {
+      DATE: 'MM/DD/YYYY',
+      DATETIME: 'MM/DD/YYYY HH:mm:ss',
+      TIME: 'HH:mm:ss'
+    };
+  };
+
+  const changedDate = (date: any) => {
+    if (
+      moment(date, format || dFormat()[dateType]).isValid() ||
+      date === null
+    ) {
+      if (fieldState) {
+        fieldState.onChange(date);
+      }
+      if (onChange) {
+        onChange(date);
+      }
+    }
+  };
+
+  const iconJSX = () => {
     if (icon) {
-      iconJSX = (
-        <IconDate backgroundColor={icon.backgroundColor}>
+      return (
+        <IconDate
+          backgroundColor={icon.backgroundColor}
+          onClick={e => {
+            e.stopPropagation();
+            if (isFocused && !isFocused.current) {
+              dateRef?.current?.focus();
+            }
+          }}
+        >
           <Icon
             color={icon.color}
             icon={icon.iconName}
@@ -92,53 +229,84 @@ export class VDateTimePicker extends React.Component<IInputFieldProps> {
         </IconDate>
       );
     } else {
-      iconJSX = rightElement;
+      return rightElement;
     }
-    return (
-      <StyledFormGroup
+  };
+
+  const modifiers: IDatePickerModifiers = { toDateNotSelect };
+
+  return (
+    <>
+      <StyledDatePicker
         className={className}
         disabled={disabled}
         inline={inline}
-        intent={
-          !!fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
-        }
+        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
         labelInfo={labelInfo}
         layer={layer}
         fill={fill}
         margin={margin}
+        noLabel={noLabel}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          value={value}
+          tooltip={tooltip}
         >
+          {props.tipLabel && <span className={'tipLabel'}>{props.tipLabel}</span>}
           {dateType === 'DATETIME' || dateType === 'DATE' ? (
-            <DateInput
-              {...FORMATS[dateType]}
+            <DateInputContainer
+              {...FORMATS()[dateType]}
               disabled={disabled}
-              defaultValue={moment().toDate()}
-              onChange={this.changedDate}
-              value={this.valueField}
-              timePrecision={dateType === 'DATETIME' ? 'second' : undefined}
-              rightElement={iconJSX}
+              minDate={minTimeCalculate}
+              maxDate={maxTimeCalculate}
+              defaultValue={defaultValue}
+              onChange={changedDate}
+              value={valueField}
+              timePrecision={dateType === 'DATETIME' ? precision : undefined}
+              rightElement={iconJSX()}
+              popoverProps={popoverProps}
+              canClearSelection={canClearSelection}
+              closeOnSelection={closeOnSelection}
+              shortcuts={shortcuts}
+              showActionsBar={showActionsBar}
+              timePickerProps={
+                dateType === 'DATETIME' ? { useAmPm } : undefined
+              }
+              inputProps={{
+                inputRef: (element: any) => {
+                  dateRef.current = element;
+                },
+                onFocus: () => {
+                  isFocused.current = true;
+                  if (props.onFocus) {
+                    props.onFocus()
+                  }
+                },
+                onBlur: () => {
+                  isFocused.current = false;
+                  if (props.onBlur) {
+                    props.onBlur()
+                  }
+                }
+              }}
+              modifiers={modifiers}
             />
           ) : (
-            <TimePicker precision={'second'} onChange={this.changedDate} />
+            <TimePicker
+              value={valueField}
+              useAmPm={useAmPm || false}
+              precision={precision || 'second'}
+              onChange={changedDate}
+              disabled={disabled}
+            />
           )}
         </FormFieldContainer>
-      </StyledFormGroup>
-    );
-  }
-  @computed
-  get valueField() {
-    if (this.props.fieldState) {
-      return this.props.fieldState.value;
-    }
-    if (this.props.value) {
-      return this.props.value;
-    }
-    return null;
-  }
-}
+      </StyledDatePicker>
+    </>
+  );
+});

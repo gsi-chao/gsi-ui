@@ -1,130 +1,175 @@
-import React, { Component } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Color, ColorResult } from 'react-color';
-import { Popover } from '@blueprintjs/core';
+import { Button, Intent, Popover } from '@blueprintjs/core';
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
-import {
-  TypePickerColor,
-  VColorResult,
-  VHSLColor,
-  VPosition,
-  VRGBColor
-} from './types';
+import { TypePickerColor, VColorResult, VPosition } from './types';
+import color from 'color';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 export interface IState {
-  displayColorPicker: boolean;
-  color: Color | undefined;
-  defaultColor: Color | undefined;
+  color: ColorResult | undefined;
+  currentColor: any;
 }
 
 export interface IProps {
   width?: number;
   height?: number;
-  Color: string | VHSLColor | VRGBColor;
+  Color: Color;
   typePickerColor: TypePickerColor;
   onChange: (color: VColorResult) => void;
   position?: VPosition;
-  disable?: boolean
+  disable?: boolean;
+  addButton?: {
+    text: string;
+    intent: Intent;
+  };
+  disableAlpha?: boolean;
+  boundary?: 'scrollParent' | 'viewport' | 'window';
 }
 
-export class VColorPicker extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
+export const VColorPicker = (props: IProps) => {
+  const [state, setState] = useState<IState>({
+    color: undefined,
+    currentColor: color(props.Color)
+  });
 
-    this.state = {
-      color: undefined,
-      displayColorPicker: false,
-      defaultColor: props.Color ? props.Color : undefined
-    };
-  }
+  const [isOpen, setIsOpen] = useState(false);
 
-  render() {
-    const colorPicker = this.getPickerColor();
+  const pickerRef = useRef(null);
 
-    const color = this.props.Color;
+  useEffect(() => {
+    setState({
+      currentColor: color(props.Color).toString(),
+      color: state.color
+    });
+  }, [props.Color]);
 
-
-    if(this.props.disable){
-    return  (
-      <React.Fragment>
-        <div style={
-          {
-              width:'30px',
-            height:'30px',
-            borderRadius:'7px',
-            backgroundColor:'#c1c1c178',
-            position:'absolute',
-            cursor:'not-allowed'
-
-        }}></div>
-
-        <InputColor
-        width={this.props.width}
-        height={this.props.height}
-        defaultColor={color}
-      /></React.Fragment>
-     )
-
+  const onOutsideClick = (e: any) => {
+    const cl = e.target.className;
+    if (!props.addButton && !cl.includes('gsi-input-color')) {
+      setIsOpen(false);
     }
+  };
 
-    return (
-      <React.Fragment>
-        <Popover
-          content={colorPicker}
-          target={
-            <InputColor
-              width={this.props.width}
-              height={this.props.height}
-              defaultColor={color}
-            />
-          }
-          position={this.props.position ? this.props.position : 'right'}
-        />
-      </React.Fragment>
-    );
-  }
-
-  getPickerColor = () => {
-    switch (this.props.typePickerColor) {
+  const getPickerColor = () => {
+    switch (props.typePickerColor) {
       case 'SketchPicker': {
-
         return (
-          <SketchPickerStyled
-            color={this.props.Color}
-            onChange={this.handleChange}
-
-          />
+          <OutsideClickHandler onOutsideClick={onOutsideClick}>
+            <SketchPickerStyled
+              color={state.currentColor}
+              onChangeComplete={handleChange}
+              disableAlpha={props.disableAlpha}
+            />
+            {props.addButton && (
+              <Button
+                onClick={handleClick}
+                text={props.addButton.text}
+                style={{ fontSize: 14 }}
+                minimal
+                large
+                fill
+                intent={props.addButton.intent}
+              />
+            )}
+          </OutsideClickHandler>
         );
       }
 
       case 'ChromePicker': {
         return (
-          <ChromePickerStyled
-            color={this.props.Color}
-            onChange={this.handleChange}
+          <OutsideClickHandler onOutsideClick={onOutsideClick}>
+            <ChromePickerStyled
+              color={state.currentColor}
+              onChangeComplete={handleChange}
+              disableAlpha={props.disableAlpha}
+            />
 
-          />
+            {props.addButton && (
+              <Button
+                onClick={handleClick}
+                text={props.addButton.text}
+                style={{ fontSize: 14 }}
+                minimal
+                large
+                fill
+                intent={props.addButton.intent}
+              />
+            )}
+          </OutsideClickHandler>
         );
       }
-
-      default: {
-        return (
-          <ChromePickerStyled
-            color={this.state.color}
-            onChange={this.handleChange}
-
-          />
-        );
-      }
-
     }
   };
 
-  handleChange = (color: ColorResult) => {
-    // this.setState({
-    //   color: color.rgb,
-    //   Color: undefined
-    // });
-
-    this.props.onChange(color);
+  const handleClick = () => {
+    if (state.color) {
+      props.onChange(state.color);
+    }
+    setIsOpen(false);
   };
-}
+
+  const handleChange = (col: ColorResult) => {
+    const { a, ...rgb } = col.rgb;
+    setState({
+      color: col,
+      currentColor: color(rgb)
+        .alpha(a || 1)
+        .toString()
+    });
+    if (!props.addButton) {
+      props.onChange(col);
+    }
+  };
+
+  const waitForHandleClick = () => {
+    if (props.addButton && isOpen) {
+      return;
+    }
+
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <div className={'gsi-color-picker'}>
+      {props.disable ? (
+        <InputColor
+          width={props.width}
+          height={props.height}
+          defaultColor={state.currentColor}
+          disable
+        />
+      ) : (
+        <Popover
+          content={getPickerColor()}
+          canEscapeKeyClose={false}
+          isOpen={isOpen}
+          interactionKind={'click'}
+          captureDismiss={false}
+          enforceFocus
+          usePortal={true}
+          ref={pickerRef}
+          target={
+            <InputColor
+              className="gsi-input-color"
+              width={props.width}
+              height={props.height}
+              defaultColor={state.currentColor}
+              onClick={waitForHandleClick}
+            />
+          }
+          position={props.position ? props.position : 'right'}
+          boundary={props.boundary ? props.boundary :'scrollParent'}
+          modifiers={{
+            preventOverflow: {
+              enabled: true,
+            }
+          }}
+          onInteraction={(nextOpenState: boolean) => {
+            if (!nextOpenState) setIsOpen(false);
+          }}
+        />
+      )}
+    </div>
+  );
+};

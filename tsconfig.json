@@ -26,7 +26,8 @@
     "node_modules",
     "**/*.spec.ts",
     "**/*.test.*",
-    "src/demo"
+    "src/demo",
+    "src/docs"
   ],
   "include": [
     "src/components"

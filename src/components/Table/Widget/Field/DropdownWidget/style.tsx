@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+
 export interface IProps {
   isValid: boolean;
   isDisable: boolean;
+  color: string;
 }
 export const DropdownStyled = styled.div`
   & .bp3-icon {
@@ -30,9 +32,7 @@ export const DropdownStyled = styled.div`
 
   & span.bp3-button-text {
     font-size: 12px;
-    font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
-      'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', 'Icons16',
-      sans-serif;
+    color: ${(props: IProps) => props.color}!important;
   }
   & :focus {
     outline: rgba(255, 255, 255, 0.6) auto 2px;

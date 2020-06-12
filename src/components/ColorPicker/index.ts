@@ -1,8 +1,10 @@
 export { VColorPicker } from './ColorPicker';
 export {
-  TypePickerColor,
-  VColorResult,
-  VPosition,
-  VHSLColor,
-  VRGBColor
-} from './types';
+  hexToRgb,
+  fromHexToDec,
+  fromDecToHex,
+  getNameColors,
+  getProperLetterColor,
+  hexToRGBA
+} from './util';
+export * from './types';

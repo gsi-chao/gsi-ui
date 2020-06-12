@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import { ITabsPanelStyle } from './types';
 
-export const constStyle = {
-  borderColor: '',
-  activeColor: '',
-  activeTextColor: ''
-};
 
 export const ContainerTabsPanel = styled.div`
   display: flex;
@@ -30,12 +25,20 @@ export const LabelIcon = styled.div`
   display: flex;
   align-items: center;
   border-style: solid;
-  ;
+  height: 100%;
   padding:${(props: ITabsPanelStyle) =>
-    props.size === 'small' ? '6px 15px' : '8px 20px'} ;
+    props.padding
+      ? props.padding
+      : props.size === 'small'
+      ? '6px 15px'
+      : '8px 20px'} ;
   cursor: pointer;
-  border-radius: 5px 5px 0 0;
   border-style: solid;
+  border: none;
+  ${(props: ITabsPanelStyle) =>
+    props.active && props.activeBackgroundColor
+      ? `background-color:${props.activeBackgroundColor}!important;`
+      : ''};
   ${(props: ITabsPanelStyle) =>
     props.active
       ? `
@@ -44,22 +47,20 @@ export const LabelIcon = styled.div`
           ? `background-color: ${props.backgroundColor};`
           : ''
       }
-  border-width: 1px 1px 0 1px;
-  border-color: rgba(142, 142, 142, 0.36);
-  border-top: ${
+  border-bottom: ${
     props.activeBorderColor
       ? `2px solid ${props.activeBorderColor} !important`
       : '2px solid #3d3e3e !important'
   };
-  backgorund-color: ${props.activeColor || '#fff'};
-  border-bottom: none!important;
+      top: 2px;
+      position: relative;
+      padding-bottom: 10px;
   `
       : `
     border-width: 0;
-    backgorund-color: transparent;
-    border-bottom: 2px solid rgba(142, 142, 142, 0.36) !important;
+    background-color: transparent;
     `}
-  & > span{
+  & > div, span{
   ${(props: ITabsPanelStyle) =>
     props.active && props.activeTextColor
       ? `color:${props.activeTextColor}!important;`
@@ -75,7 +76,7 @@ export const ContainerContent = styled.div`
   border-width: 0 1px 1px 1px;
   border-style: solid;
   ${(props: ITabsPanelStyle) =>
-    props.backgroundColor ? `background-color: ${props.backgroundColor};` : ''}
+    props.backgroundColor ? `background-color: ${props.backgroundColor};` : ''};
   border-color: ${(props: ITabsPanelStyle) =>
     props.borderColor ? props.borderColor : '#dbdcdd'};
   padding: ${(props: ITabsPanelStyle) => {

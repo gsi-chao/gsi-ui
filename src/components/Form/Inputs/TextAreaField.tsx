@@ -1,15 +1,14 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 /** Blueprint */
-import { FormGroup, Intent, TextArea } from '@blueprintjs/core';
-/** FieldState */
-
+import { Intent, TextArea } from '@blueprintjs/core';
 import { IFieldProps } from './IFieldProps';
 import { StyledTextArea } from './style';
 
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
+/** FieldState */
 
 /**
  * Field Props
@@ -21,12 +20,30 @@ import { computed } from 'mobx';
 
 export interface ITextAreaFieldProps extends IFieldProps {
   fill?: boolean;
+  upperCaseFormat?: boolean;
+  rows?: number;
+  heightArea?: number;
+  growVertically?: boolean;
+  cols?: number;
+}
+export interface IState {
+  start: number;
+  end: number;
 }
 
 @observer
-export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
+export class VTextAreaField extends React.Component<
+  ITextAreaFieldProps,
+  IState
+> {
+  inputRef: any;
   constructor(props: ITextAreaFieldProps) {
     super(props);
+    this.state = {
+      start: 1,
+      end: 1
+    };
+    this.inputRef = React.createRef();
   }
 
   public render() {
@@ -44,19 +61,27 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
       noLabel,
       required,
       validators,
-      value
+      margin,
+      heightArea,
+      tooltip,
+      growVertically,
+      displayRequired,
+      autoComplete,
+      onFocus,
+      onBlur
     } = this.props;
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);
       }
     }
+
     return (
       <StyledTextArea
         className={className}
@@ -68,18 +93,27 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
         labelInfo={labelInfo}
         fill={fill}
         noLabel={noLabel}
+        heightArea={heightArea}
+        margin={margin}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <TextArea
             large={size === 'large'}
             small={size === 'small'}
             onChange={this.onChange}
+            autoComplete={autoComplete ? autoComplete : 'no_auto'}
             value={this.valueField}
+            inputRef={input => {
+              this.inputRef = input;
+            }}
+            onFocus={onFocus}
+            onBlur={onBlur}
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
@@ -87,6 +121,21 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
             {...{
               disabled,
               id
+            }}
+            rows={this.props.rows ? this.props.rows : undefined}
+            growVertically={growVertically}
+            cols={this.props.rows ? this.props.rows : undefined}
+            style={{
+              textTransform: this.props.upperCaseFormat ? 'uppercase' : 'none'
+            }}
+            onPaste={e => {
+              const oldValue =
+                e && e.currentTarget && e.currentTarget.value;
+              const newValue =
+                e && e.clipboardData && e.clipboardData.getData('Text');
+              if (this.props.onPaste) {
+                this.props.onPaste(oldValue, newValue);
+              }
             }}
           />
         </FormFieldContainer>
@@ -97,7 +146,7 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
   @computed
   get valueField() {
     if (this.props.fieldState) {
-      return this.props.fieldState.value;
+      return this.props.fieldState.value || '';
     }
     if (this.props.value) {
       return this.props.value;
@@ -106,11 +155,25 @@ export class VTextAreaField extends React.Component<ITextAreaFieldProps> {
   }
 
   onChange = (e: any) => {
+    if (this.props.upperCaseFormat) {
+      this.setState({
+        start: e.target.selectionStart,
+        end: e.target.selectionEnd
+      });
+    }
+    const parsedValue =
+      (this.props.upperCaseFormat && e.target.value.toString().toUpperCase()) ||
+      e.target.value;
     if (this.props.fieldState) {
-      this.props.fieldState.onChange(e.target.value);
+      this.props.fieldState.onChange(parsedValue);
     }
     if (this.props.onChange) {
-      this.props.onChange!(e.target.value);
+      this.props.onChange!(parsedValue);
+    }
+    if (this.props.upperCaseFormat) {
+      setTimeout(() => {
+        this.inputRef.setSelectionRange(this.state.start, this.state.end);
+      }, 30);
     }
   };
 }

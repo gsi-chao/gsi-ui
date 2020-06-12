@@ -1,7 +1,9 @@
-# GSI-VX-UI
+# GSI-UI
+
 It's an extension of the blueprint framework. It has other components that are not included in blueprintjs.
 
 ## Components.
+
 - VTable - Extension of @blueprintjs/table, added multiple functionalities.
 - VBadge - Native component, not libraries.
 - VCardPanel - Configurable Card, uses Card @blueprintjs/core.

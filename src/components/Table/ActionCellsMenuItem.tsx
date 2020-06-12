@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IconName, Menu, MenuItem } from '@blueprintjs/core';
+import { IconName, Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
 import { IMenuContext } from '@blueprintjs/table';
 
 export type DefaultActions = 'copy' | 'paste' | 'export';
@@ -9,6 +9,11 @@ export interface IVContextualActionTableProps {
   action: (item: any) => void;
   text: string;
   icon?: IconName;
+  disabled?: (item: any) => boolean;
+  isMenuDivider?: boolean;
+  label?: string;
+  labelElement?: React.ReactNode;
+  actions?: IVContextualActionTableProps[];
 }
 
 export interface ICell {
@@ -39,6 +44,7 @@ export interface IActionCellMenuItemProps {
    */
   getCellData: (row: number, col: number) => any;
   contextOptions: IVColumnsContextual;
+  selectionData?: any;
   onDefaultActions: (action: DefaultActions, value: any) => void;
   hasCachedData: any;
   tableColsAndRowsTotals: any;
@@ -104,16 +110,59 @@ export class ActionCellsMenuItem extends React.PureComponent<
       // const actions = this.props.context_options.actions;
       const actions = this.props.contextOptions!.actions!;
       return actions.map((value: IVContextualActionTableProps, key: number) => {
-        return (
-          <MenuItem
-            key={key}
-            icon={value.icon}
-            text={value.text}
-            onClick={value.action}
-          />
-        );
+        return this.renderContextual(value, key);
       });
     }
+  };
+
+  getDisabled = (contextual: IVContextualActionTableProps): boolean => {
+    if (contextual.disabled) {
+      return contextual.disabled!(this.props.selectionData)!;
+    }
+
+    return false;
+  };
+
+  renderContextual = (
+    contextual: IVContextualActionTableProps,
+    key: number
+  ) => {
+    if (contextual.actions === undefined) {
+      return !contextual.isMenuDivider ? (
+        <MenuItem
+          key={key}
+          icon={contextual.icon}
+          text={contextual.text}
+          label={contextual.label}
+          labelElement={contextual.labelElement}
+          disabled={this.getDisabled(contextual)}
+          onClick={() => {
+            contextual.action(this.props.selectionData);
+          }}
+        />
+      ) : (
+        <MenuDivider key={key} title={contextual.text} />
+      );
+    }
+    return (
+      <MenuItem
+        key={key}
+        icon={contextual.icon}
+        text={contextual.text}
+        label={contextual.label}
+        labelElement={contextual.labelElement}
+        disabled={this.getDisabled(contextual)}
+        onClick={() => {
+          contextual.action(this.props.selectionData);
+        }}
+      >
+        {contextual.actions.map(
+          (value: IVContextualActionTableProps, key: number) => {
+            return this.renderContextual(value, key);
+          }
+        )}
+      </MenuItem>
+    );
   };
 
   private handleCopy = () => {

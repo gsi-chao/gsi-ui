@@ -1,21 +1,19 @@
-import { observer } from 'mobx-react';
-import React  from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { orderBy, get } from 'lodash';
 /** Blueprint */
-import {
-  Button,
-  IconName,
-  Intent,
-  MenuItem
-} from '@blueprintjs/core';
+import { Button, Classes, Icon, IconName, Intent, Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
 /** FieldState */
-import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
+import { ItemListRenderer, ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
 import { IFieldProps } from './IFieldProps';
 import { StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import { Validators } from '../Validators';
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import styled from 'styled-components';
 
 /**
  * Field Props
@@ -29,6 +27,14 @@ export interface ISelectFieldProps extends IFieldProps {
   defaultText?: string;
   fixedInputWidthPx?: number;
   iconOnly?: boolean;
+  tipLabel?: string;
+  resetOnClose?: boolean;
+  clearButton?: boolean;
+  isLoading?: boolean;
+  popoverMinimal?: boolean;
+  allowEmptyItem?: boolean;
+  allowOrder?: boolean;
+  orderDirection?: 'asc' | 'desc';
 }
 
 /**
@@ -44,198 +50,391 @@ export interface IItemMultiple {
   value: any;
   label: string;
   rep?: string;
+  readonly?: boolean;
 }
-interface IState {
-  selectedItems: IItemMultiple[];
-}
+
+const clearToken = `$empty#Option#first#item_unique_`;
+
 const ItemSelect = Select.ofType<IItemRenderer>();
 
-const renderItem: ItemRenderer<IItemRenderer> = (
-  { item, selectedItems },
-  { handleClick, modifiers }
-) => {
-  if (!modifiers.matchesPredicate) {
-    return null;
-  }
-
-  const founded = selectedItems.some(selected => selected.value === item.value);
+const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
   return (
-    <MenuItem
-      icon={founded ? 'tick' : 'blank'}
-      active={modifiers.active}
-      disabled={modifiers.disabled}
-      label={item.rep}
-      key={item.value}
-      onClick={handleClick}
-      text={item.label}
-    />
+    `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
+    (value && value.item && value.item.value === clearToken)
   );
 };
 
-const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
-  return `${value.item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0;
-};
+export const VSelectMultiple = observer((props: ISelectFieldProps) => {
+  const selectedItem = useRef<IItemMultiple | null>();
+  const changed = useRef<boolean>();
+  const noChangeToClear = useRef<boolean>();
+  const usedClear = useRef<boolean>();
+  const [activeItem, setActiveItem] = useState<IItemRenderer | null>(null);
+  const [selectedItems, setSelectedItems] = useState<any[]>([]);
+  const [isOpenPopover, setIsOpenPopover] = useState<boolean>(false);
+  const [query, setQuery] = useState<string | null>('');
 
-@observer
-export class VSelectMultiple extends React.Component<
-  ISelectFieldProps,
-  IState
-> {
-  constructor(props: ISelectFieldProps) {
-    super(props);
-    this.state = {
-      selectedItems: []
-    };
-  }
-
-  getFieldText() {
-    if (this.state.selectedItems.length === 1) {
-      return this.state.selectedItems[0].label;
-    }
-    if (this.state.selectedItems.length > 1) {
-      return `${this.state.selectedItems.length} Items selected`;
-    }
-    return this.props.defaultText || 'No selection';
-  }
-
-  render() {
-    const {
-      label,
-      labelInfo,
-      fieldState,
-      disabled,
-      inline,
-      rightIcon,
-      id,
-      icon,
-      filterable,
-      className,
-      layer,
-      fill,
-      noLabel,
-      required,
-      validators,
-      fixedInputWidthPx,
-      iconOnly,
-      minimal,
-      margin,
-      options
-    } = this.props;
-    const { selectedItems } = this.state;
-    const initialContent =
-      options && options.length === 0 ? (
-        <MenuItem
-          className={className}
-          disabled={true}
-          text={`${options.length} items loaded.`}
-        />
-      ) : (
-        undefined
-      );
-    if (fieldState) {
-      if (required) {
-        if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
-        } else {
-          fieldState.validators(validator.required);
-        }
-      } else if (validators && validators.length > 0) {
-        fieldState.validators(...validators);
-      }
+  const renderItem: ItemRenderer<IItemRenderer> = (
+    { item, selectedItems },
+    { handleClick, modifiers }
+  ) => {
+    if (!modifiers.matchesPredicate) {
+      return null;
     }
 
-    const renderOptions = options.map(item => ({ item, selectedItems }));
+    const active = activeItem?.item?.value && (item.value === activeItem?.item?.value);
 
+    const founded = selectedItems.some(selected => selected.value === item.value);
     return (
-      <StyledPopOverWrapper
-        disabled={disabled}
-        inline={inline}
-        intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
-        labelFor={id}
-        labelInfo={labelInfo}
-        layer={layer}
-        fill={fill}
-        noLabel={noLabel}
-        fixedInputWidthPx={fixedInputWidthPx}
-        margin={margin}
-      >
-        <FormFieldContainer
-          required={required}
-          noLabel={noLabel}
-          label={label}
-          fieldState={fieldState}
-        >
-          <ItemSelect
-            popoverProps={{ captureDismiss: true }}
-            itemPredicate={filterItem}
-            itemRenderer={renderItem}
-            items={renderOptions}
-            disabled={disabled}
-            initialContent={initialContent}
-            noResults={<MenuItem disabled={true} text="No results." />}
-            onItemSelect={this.onItemSelected}
-            filterable={filterable}
-          >
-            {iconOnly ? (
-              <Button
-                className={minimal ? 'bp3-minimal' : ''}
-                style={{ justifyContent: 'center' }}
-                {...{
-                  icon,
-                  disabled
-                }}
-                text={iconOnly && undefined}
-              />
-            ) : (
-              <Button
-                className={minimal ? 'bp3-minimal' : ''}
-                {...{
-                  icon,
-                  disabled
-                }}
-                rightIcon={rightIcon || 'chevron-down'}
-                text={this.getFieldText()}
-              />
-            )}
-          </ItemSelect>
-        </FormFieldContainer>
-      </StyledPopOverWrapper>
+      <MenuItem
+        icon={founded ? 'tick' : 'blank'}
+        disabled={modifiers.disabled}
+        label={item.rep}
+        active={active}
+        key={item.value}
+        onClick={handleClick}
+        text={item.label}
+        shouldDismissPopover={item.value === clearToken}
+        labelElement={
+          item.value === clearToken && item.label === 'No Selection' ? (
+            <Icon color={active && 'white' || '#7486949c'} icon={'reset'} />
+          ) : null
+        }
+      />
     );
-  }
-
-  selectOrDeselectItem = (value: IItemMultiple, callBack?: any) => {
-    const { selectedItems } = this.state;
-    let outerIndex = -1;
-    selectedItems.some((item, index) => {
-      const result = item.value === value.value;
-      if (result) {
-        outerIndex = index;
-      }
-      return result;
-    });
-    if (outerIndex === -1) {
-      selectedItems.push(value);
-    } else {
-      selectedItems.splice(outerIndex, 1);
-    }
-    this.setState({ selectedItems }, () => {
-      if (callBack) {
-        callBack();
-      }
-    });
   };
 
-  onItemSelected = (value: IItemRenderer) => {
-    const updateFieldState = () => {
-      if (this.props.fieldState) {
-        const ids = this.state.selectedItems.map(item => item.value);
-        this.props.fieldState.onChange(ids);
+  useEffect(() => {
+    if (props.fieldState) {
+      const ids = (props.fieldState && toJS(props.fieldState.value)) || [];
+
+      updateSelectItems(ids);
+    }
+  }, [props.fieldState && props.fieldState.value]);
+
+  useEffect(() => {
+    if (props.value) {
+      const ids = (props.value && props.value) || [];
+      updateSelectItems(ids);
+    }
+  }, [props.value]);
+
+  const updateSelectItems = (ids: any[]) => {
+    const selectedItemss = props.options.filter(option => {
+      if (ids && Array.isArray(ids) && ids.length > 0) {
+        return ids.some((id: any) => id.toString() === option.value.toString());
       }
-      if (this.props.onChange) {
-        const ids = this.state.selectedItems.map(item => item.value);
-        this.props.onChange!(ids);
+      return false;
+    });
+    setSelectedItems(selectedItemss);
+  };
+
+  const getFieldText = () => {
+    if (selectedItems.length === 1) {
+      return selectedItems[0].label;
+    }
+    if (selectedItems.length > 1) {
+      return `${selectedItems.length} Items selected`;
+    }
+    return props.defaultText || 'No selection';
+  };
+
+  const selectOrDeselectItem = (value: IItemMultiple, callBack?: any) => {
+    if (value && value.value !== clearToken) {
+      let outerIndex = -1;
+      if (
+        selectedItems &&
+        Array.isArray(selectedItems) &&
+        selectedItems.length > 0
+      ) {
+        selectedItems.some((item, index) => {
+          const result = item.value.toString() === value.value.toString();
+          if (result) {
+            outerIndex = index;
+          }
+          return result;
+        });
+      }
+
+      if (outerIndex === -1) {
+        selectedItems.push(value);
+      } else {
+        selectedItems.splice(outerIndex, 1);
+      }
+      setSelectedItems(selectedItems);
+    } else if (props.allowEmptyItem && value && value.value === clearToken) {
+      setActiveItem({
+        item: get(getOptions(), '[0]', null),
+        selectedItems: []
+      });
+      setSelectedItems([]);
+    }
+    if (callBack) {
+      callBack();
+    }
+  };
+
+  const renderMenu: ItemListRenderer<IItemRenderer> = ({
+    items,
+    itemsParentRef,
+    query,
+    renderItem
+  }) => {
+    const renderedItems = items.map(renderItem).filter(item => item != null);
+    const itemsToRender =
+      props.allowEmptyItem &&
+      renderedItems.length > 0 &&
+      selectedItems &&
+      selectedItems.length > 0 ? (
+        <>
+          {renderedItems.map((item, index: number) => {
+            if (index === 0) {
+              return (
+                <React.Fragment key={index}>
+                  {item}
+                  <MenuDivider
+                    key={`divider_$index`}
+                    className={'dividerNoMargin'}
+                  />
+                </React.Fragment>
+              );
+            }
+            return item;
+          })}
+        </>
+      ) : (
+        renderedItems
+      );
+    return (
+      <>
+        <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
+          {renderedItems.length > 0 ? (
+            itemsToRender
+          ) : (
+            <MenuItem disabled={true} text="No results." />
+          )}
+        </StyledMenuNoMarginDivider>
+      </>
+    );
+  };
+
+  const getOptions = (): IItemMultiple[] => {
+    const { options, allowEmptyItem } = props;
+    const newOptions =
+      (options &&
+        options.length > 0 &&
+        (props.allowOrder
+          ? orderBy(options, ['label'], [props.orderDirection || false])
+          : options)) ||
+      [];
+    if (
+      allowEmptyItem &&
+      options &&
+      options.length > 0 &&
+      selectedItems &&
+      selectedItems.length > 0
+    ) {
+      return [{ value: clearToken, label: 'No Selection' }, ...newOptions];
+    }
+    return newOptions;
+  };
+
+  const onItemSelected = (value: IItemRenderer) => {
+    if (usedClear.current) {
+      noChangeToClear.current = true;
+      usedClear.current = false;
+    }
+    if (value?.item?.value === clearToken) {
+      usedClear.current = true;
+    } else {
+      selectedItem.current = value?.item;
+    }
+    const itemValue =
+      props.allowEmptyItem && value && value.item && value.item.value;
+    const updateFieldState = () => {
+      if (props.fieldState) {
+        const ids = selectedItems.map(item => item.value);
+        fieldState!.onChange(itemValue === clearToken ? [] : ids);
+      }
+      if (props.onChange) {
+        const ids = selectedItems.map(item => item.value);
+        props.onChange!(itemValue === clearToken ? [] : ids);
       }
     };
-    this.selectOrDeselectItem(value.item, updateFieldState);
+    selectOrDeselectItem(value.item, updateFieldState);
   };
-}
+
+  const {
+    label,
+    labelInfo,
+    fieldState,
+    disabled,
+    inline,
+    rightIcon,
+    id,
+    icon,
+    filterable,
+    layer,
+    fill,
+    noLabel,
+    required,
+    validators,
+    fixedInputWidthPx,
+    iconOnly,
+    minimal,
+    margin,
+    tipLabel,
+    tooltip,
+    displayRequired,
+    popoverMinimal
+  } = props;
+
+  if (fieldState) {
+    if (required) {
+      if (validators && validators.length > 0) {
+        fieldState.validators(Validators.required, ...validators);
+      } else {
+        fieldState.validators(Validators.required);
+      }
+    } else if (validators && validators.length > 0) {
+      fieldState.validators(...validators);
+    }
+  }
+
+  const renderOptions = getOptions().map(item => ({ item, selectedItems }));
+
+  const handleInteraction = (nextOpenState: boolean) => {
+    setIsOpenPopover(nextOpenState);
+    // this.setState({ isOpenPopover: nextOpenState });
+  };
+
+  const onClear = () => {
+    setQuery('');
+  };
+
+  const renderClearButton = () => (
+    <Button
+      style={{ width: '30px' }}
+      minimal
+      onClick={onClear}
+      rightIcon={'filter-remove'}
+    />
+  );
+
+  const areItemsEqual = (
+    itemA: IItemRenderer,
+    itemB: IItemRenderer
+  ): boolean => {
+    return itemA.item?.value === itemB.item?.value;
+  };
+
+  const clearActive = () => {
+    setActiveItem(null);
+    changed.current = true;
+  };
+
+  return (
+    <StyledPopOverWrapper
+      disabled={disabled}
+      inline={inline}
+      intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
+      labelFor={id}
+      labelInfo={labelInfo}
+      layer={layer}
+      fill={fill}
+      noLabel={noLabel}
+      fixedInputWidthPx={fixedInputWidthPx}
+      margin={margin}
+    >
+      <FormFieldContainer
+        required={required || displayRequired}
+        noLabel={noLabel}
+        label={label}
+        fieldState={fieldState}
+        tooltip={tooltip}
+      >
+        {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
+        <ItemSelect
+          activeItem={activeItem}
+          onActiveItemChange={(value) => {
+            if (!changed.current) {
+              if (selectedItem.current) {
+                setActiveItem({
+                  item: selectedItem.current,
+                  selectedItems: []
+                });
+                if (noChangeToClear.current) {
+                  noChangeToClear.current = false;
+                } else {
+                  selectedItem.current = null;
+                }
+              } else {
+                setActiveItem(value)
+              }
+              changed.current = true
+            } else {
+              changed.current = false
+            }
+          }}
+          popoverProps={{
+            minimal: popoverMinimal,
+            captureDismiss: true,
+            isOpen: isOpenPopover,
+            onInteraction: handleInteraction,
+            onOpening: clearActive,
+            onClosing: clearActive,
+            modifiers: {
+              flip: { enabled: true },
+              keepTogether: { enabled: true },
+              preventOverflow: { enabled: true }
+            }
+          }}
+          itemPredicate={filterItem}
+          itemRenderer={renderItem}
+          items={renderOptions}
+          disabled={disabled}
+          itemsEqual={areItemsEqual}
+          itemListRenderer={renderMenu}
+          noResults={<MenuItem disabled={true} text="No results." />}
+          onItemSelect={onItemSelected}
+          filterable={filterable}
+          resetOnClose={props.resetOnClose && props.resetOnClose}
+          onQueryChange={(value: string) => setQuery(value)}
+          query={query || ''}
+          inputProps={{
+            rightElement: renderClearButton()
+          }}
+          className={props.isLoading ? Classes.SKELETON : ''}
+        >
+          {iconOnly ? (
+            <Button
+              className={minimal ? 'bp3-minimal' : ''}
+              style={{ justifyContent: 'center' }}
+              {...{
+                icon,
+                disabled
+              }}
+              text={iconOnly && undefined}
+            />
+          ) : (
+            <Button
+              className={minimal ? 'bp3-minimal' : ''}
+              {...{
+                icon,
+                disabled
+              }}
+              rightIcon={rightIcon || 'chevron-down'}
+              text={getFieldText()}
+            />
+          )}
+        </ItemSelect>
+      </FormFieldContainer>
+    </StyledPopOverWrapper>
+  );
+});
+
+export const StyledMenuNoMarginDivider = styled(Menu)`
+  & .dividerNoMargin {
+    margin: 0;
+  }
+`;

@@ -1,26 +1,12 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-
 /** Blueprint */
-import {
-  FormGroup,
-  Intent,
-  Alignment,
-  Radio,
-  RadioGroup,
-  IOptionProps
-} from '@blueprintjs/core';
+import { Alignment, Intent, IOptionProps, RadioGroup } from '@blueprintjs/core';
 
 import { IFieldProps } from './IFieldProps';
-import {
-  IStyledFieldProps,
-  layerInPercent,
-  StyledFormGroup,
-  StyledRadioButton
-} from './style';
-import styled from 'styled-components';
+import { StyledRadioButton } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
-import * as validator from '../Validators';
+import { Validators } from '../Validators';
 import { computed } from 'mobx';
 
 /**
@@ -30,6 +16,7 @@ export interface IRadioButtonFieldProps extends IFieldProps {
   alignIndicator?: Alignment;
   rightElement?: JSX.Element;
   options: IOptionProps[];
+  fill?: boolean;
 }
 
 /**
@@ -58,14 +45,17 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
       required,
       validators,
       margin,
-      value
+      value,
+      fill,
+      displayRequired,
+      tooltip
     } = this.props;
     if (fieldState) {
       if (required) {
         if (validators && validators.length > 0) {
-          fieldState.validators(validator.required, ...validators);
+          fieldState.validators(Validators.required, ...validators);
         } else {
-          fieldState.validators(validator.required);
+          fieldState.validators(Validators.required);
         }
       } else if (validators && validators.length > 0) {
         fieldState.validators(...validators);
@@ -83,12 +73,14 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
         layer={layer}
         noLabel={noLabel}
         margin={margin}
+        fill={fill}
       >
         <FormFieldContainer
-          required={required}
+          required={required || displayRequired}
           noLabel={noLabel}
           label={label}
           fieldState={fieldState}
+          tooltip={tooltip}
         >
           <RadioGroup
             name={id}
@@ -110,7 +102,7 @@ export class VRadioGroupField extends React.Component<IRadioButtonFieldProps> {
   @computed
   get valueField() {
     if (this.props.fieldState) {
-      return this.props.fieldState.value;
+      return this.props.fieldState.value || '';
     }
     if (this.props.value) {
       return this.props.value;

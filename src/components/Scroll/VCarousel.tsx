@@ -6,22 +6,7 @@ import {
 } from './style';
 import React, { Component } from 'react';
 import posed, { PoseGroup } from 'react-pose';
-
-interface StyledCardProps {
-  height?: string;
-  width?: string;
-  elements: any[];
-  buttonsJustify?: FlexJustify;
-}
-
-export type FlexJustify = 'center' | 'flex-end' | 'flex-start';
-
-interface PanelState {
-  activeIndex: number;
-  fromLeft: boolean;
-  fromRight: boolean;
-  activeElement: any;
-}
+import { PanelState, StyledCardProps } from './types';
 
 export class VCarousel extends Component<StyledCardProps, PanelState> {
   constructor(props: StyledCardProps) {
@@ -36,34 +21,42 @@ export class VCarousel extends Component<StyledCardProps, PanelState> {
 
   changeElement = (direction: 'LEFT' | 'RIGHT') => {
     if (direction === 'LEFT') {
-      this.setState(
-        {
-          fromLeft: true,
-          fromRight: false,
-          activeIndex: this.state.activeIndex - 1,
-          activeElement: null
-        },
-        () => {
-          this.setState({
-            activeElement: this.props.elements[this.state.activeIndex]
-          });
-        }
-      );
+      this.changeItemFromLeft();
     } else {
-      this.setState(
-        {
-          fromLeft: false,
-          fromRight: true,
-          activeIndex: this.state.activeIndex + 1,
-          activeElement: null
-        },
-        () => {
-          this.setState({
-            activeElement: this.props.elements[this.state.activeIndex]
-          });
-        }
-      );
+      this.changeItemFromRight();
     }
+  };
+
+  changeItemFromLeft = (nextIndex: number = this.state.activeIndex - 1) => {
+    this.setState(
+      {
+        fromLeft: true,
+        fromRight: false,
+        activeIndex: nextIndex,
+        activeElement: null
+      },
+      () => {
+        this.setState({
+          activeElement: this.props.elements[this.state.activeIndex]
+        });
+      }
+    );
+  };
+
+  changeItemFromRight = (nextIndex: number = this.state.activeIndex + 1) => {
+    this.setState(
+      {
+        fromLeft: false,
+        fromRight: true,
+        activeIndex: nextIndex,
+        activeElement: null
+      },
+      () => {
+        this.setState({
+          activeElement: this.props.elements[this.state.activeIndex]
+        });
+      }
+    );
   };
 
   render() {

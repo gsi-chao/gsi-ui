@@ -11,7 +11,9 @@ interface VSuspenseReactProps {
 export const VSuspenseLoading = (props: VSuspenseReactProps) => {
   return (
     <SuspenseContainer>
-      <Suspense fallback={<VSpinner intent={props.intent} />}>
+      <Suspense
+        fallback={<VSpinner hasBackdrop={true} intent={props.intent} />}
+      >
         {props.children}
       </Suspense>
     </SuspenseContainer>

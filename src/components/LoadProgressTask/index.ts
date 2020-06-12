@@ -1,1 +1,1 @@
-export { VLoadProgressTask } from './VLoadProgressTask';
+export * from './VLoadProgressTask';

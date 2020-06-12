@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Classes, Menu, MenuItem } from '@blueprintjs/core';
+import { Classes } from '@blueprintjs/core';
 import {
   ElevationType,
   IItemsList,
   ISelectionListProps
 } from './ISelectionList';
-import { StyledMenu, StyledMenuItem } from './style';
+import { SelectionListContainer, StyledMenu, StyledMenuItem } from './style';
+import { EmptyData } from '../Table';
 
 interface ISelctionListState {
   listSelected: IItemsList[];
@@ -25,16 +26,9 @@ export class VSelectionList extends Component<
   isActive = (elements: IItemsList) => {
     return !!this.state.listSelected.find(e => e.value === elements.value);
   };
-  onItemClick = (active: boolean, element: IItemsList) => {
-    /*const { listSelected } = this.state;
-    let new_list: IItemsList[];
-
-    active
-      ? (new_list = listSelected.filter(e => e.value !== element.value))
-      : (new_list = listSelected.concat(element));
-    this.setState({ listSelected: new_list });*/
+  onItemClick = (active: boolean, element: IItemsList, event: any) => {
     const newElement = { ...element, active: !element.active };
-    this.props.onSelect(newElement);
+    this.props.onSelect(newElement, event);
   };
 
   getElevation = (elevation: ElevationType): any => {
@@ -53,39 +47,66 @@ export class VSelectionList extends Component<
         return Classes.ELEVATION_0;
     }
   };
+
+  getElements = (elements: IItemsList[]): IItemsList[] => {
+    return this.props.enableEnumeration
+      ? getElementsEnumerated(elements)
+      : elements;
+  };
+
   render() {
-    const { elements, selection, elevation, className, padding } = this.props;
+    const {
+      elements,
+      selection,
+      elevation,
+      className,
+      padding,
+      height
+    } = this.props;
 
     return (
-      <StyledMenu
-        className={`${this.getElevation(elevation || 0)} ${className}`}
-        padding={padding}
-      >
-        {elements.map(element => {
-          const { active, text, value, icon } = element;
-          const backgroundColor =
-            !!selection && !!selection.background
-              ? selection!.background
-              : '#1985A1';
-          const textColor =
-            !!selection && !!selection.textColor
-              ? selection!.textColor
-              : 'white';
-          return (
-            <StyledMenuItem
-              key={value}
-              active={active}
-              background={backgroundColor}
-              color={textColor}
-              text={text}
-              onClick={() => {
-                this.onItemClick(active || false, element);
-              }}
-              icon={icon}
-            />
-          );
-        })}
-      </StyledMenu>
+      <SelectionListContainer height={height}>
+        {(elements && elements.length) > 0 ? (
+          <StyledMenu
+            className={`${this.getElevation(elevation || 0)} ${className}`}
+            padding={padding}
+          >
+            {this.getElements(elements).map(element => {
+              const { active, text, value, icon } = element;
+              const backgroundColor =
+                !!selection && !!selection.background
+                  ? selection!.background
+                  : '#0072ce';
+              const textColor =
+                !!selection && !!selection.textColor
+                  ? selection!.textColor
+                  : 'white';
+              return (
+                <StyledMenuItem
+                  key={value}
+                  active={active}
+                  background={backgroundColor}
+                  color={textColor}
+                  text={text}
+                  onClick={(event: any) => {
+                    this.onItemClick(active || false, element, event);
+                  }}
+                  icon={icon}
+                />
+              );
+            })}
+          </StyledMenu>
+        ) : (
+          <EmptyData settings={undefined} />
+        )}
+      </SelectionListContainer>
     );
   }
 }
+
+export const getElementsEnumerated = (elements: IItemsList[]): IItemsList[] => {
+  return elements.map((item: IItemsList, index: number) => ({
+    ...item,
+    text: `${index + 1}) ${item.text}`
+  }));
+};

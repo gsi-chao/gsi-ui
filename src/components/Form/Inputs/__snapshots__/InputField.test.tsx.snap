@@ -2,7 +2,7 @@
 
 exports[`renders without crashing InputField All Properties 1`] = `
 <div
-  className="bp3-form-group bp3-inline sc-bdVaJa sc-bwzfXH kbuCwl"
+  className="bp3-form-group bp3-inline sc-bdVaJa sc-bwzfXH bEbZmY"
 >
   <div
     className="bp3-form-content"
@@ -22,14 +22,17 @@ exports[`renders without crashing InputField All Properties 1`] = `
           className="bp3-input-group bp3-large"
         >
           <input
+            autoComplete="no_auto"
             className="bp3-input"
             id="test-input"
             name="test-input"
             onChange={[Function]}
+            onPaste={[Function]}
             placeholder="Username"
             style={
               Object {
                 "paddingRight": 10,
+                "textTransform": "none",
               }
             }
             value=""

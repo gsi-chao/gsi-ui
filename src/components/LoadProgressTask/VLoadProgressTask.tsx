@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, IconName, Intent, H4 } from '@blueprintjs/core';
+import { H4, Icon, IconName, Intent } from '@blueprintjs/core';
 import { SDialog, SProgressBar } from './style';
 
 interface IVLoadProgressTask {

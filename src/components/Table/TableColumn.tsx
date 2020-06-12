@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ISortResult, IVActionSortableTableProps, IVTableOrder } from './Table';
 import { Column } from '@blueprintjs/table';
@@ -30,8 +30,9 @@ export interface FilterByColumn {
 }
 
 export interface IConfignHeader extends IVConfigTextAlign {
-  backgroundColor: string;
-  textColor: string;
+  backgroundColor?: string;
+  textColor?: string;
+  headerBold?: boolean;
 }
 
 export default class TableColumn implements ISortableColumn {
@@ -131,9 +132,12 @@ export default class TableColumn implements ISortableColumn {
 
   renderColumnHeader = (columnIndex: number) => {
     const menuRenderer = this.getMenu(columnIndex);
-    const { backgroundColor, textColor, textAlign } = this.getConfigHeaderStyle(
-      columnIndex
-    );
+    const {
+      backgroundColor,
+      textColor,
+      textAlign,
+      headerBold
+    } = this.getConfigHeaderStyle(columnIndex);
     const columnName = this.getColumnName(columnIndex);
 
     return (
@@ -141,27 +145,18 @@ export default class TableColumn implements ISortableColumn {
         backgroundColor={backgroundColor}
         textColor={textColor}
         textAlign={textAlign}
+        headerBold={headerBold}
         name={columnName}
         menuRenderer={menuRenderer as any}
         nameRenderer={this.renderHeader}
       >
         {this.filterByColumn && this.filterByColumn.filterable ? (
-          this.filterByColumn.filterType === 'SELECT' ? (
-            <StyledHeaderFilterSelectContainer>
-              <VSelectMultiple
-                fieldState={this.form.$.filter}
-                onChange={this.handleFilter}
-                options={this.options || []}
-                id={`headerFilter${this.index}`}
-              />
-            </StyledHeaderFilterSelectContainer>
-          ) : (
-            <StyledHeaderFilterInput
-              fieldState={this.form.$.filter}
-              onChange={this.handleFilter}
-              id={`headerFilter${this.index}`}
-            />
-          )
+          <FilterInput
+            value={''}
+            index={this.index}
+            handleFilter={this.handleFilter}
+            type={this.filterByColumn.filterType}
+          />
         ) : null}
       </ColumnHeaderCellStyled>
     );
@@ -235,9 +230,10 @@ export default class TableColumn implements ISortableColumn {
   }
 
   private getConfigHeaderStyle(columnIndex: number) {
-    let backgroundColor = '#f3f9fd';
+    let backgroundColor: any = '#d6dce2';
     let textColor = 'black';
     let textAlign;
+    let headerBold;
 
     let configHeader: IVConfigHeader[] | IConfignHeader | undefined = this
       .header_config;
@@ -249,11 +245,20 @@ export default class TableColumn implements ISortableColumn {
     }
 
     if (configHeader) {
-      backgroundColor = configHeader.backgroundColor;
-      textColor = configHeader.textColor;
-      textAlign = configHeader.textAlign;
+      if (configHeader.backgroundColor) {
+        backgroundColor = configHeader.backgroundColor;
+      }
+      if (configHeader.textColor) {
+        textColor = configHeader.textColor;
+      }
+      if (configHeader.textAlign) {
+        textAlign = configHeader.textAlign;
+      }
+      if (configHeader.headerBold) {
+        headerBold = configHeader.headerBold;
+      }
     }
-    return { backgroundColor, textColor, textAlign };
+    return { backgroundColor, textColor, textAlign, headerBold };
   }
 
   private getColumnName(columnIndex: number) {
@@ -263,3 +268,36 @@ export default class TableColumn implements ISortableColumn {
       : this.columns[columnIndex].replace(/\b\w/g, l => l.toUpperCase());
   }
 }
+
+export interface FilterInputProps {
+  value: any;
+  handleFilter(value: any): void;
+  index: any;
+  options?: any[];
+  type?: 'SELECT' | 'INPUT';
+}
+
+export const FilterInput = (props: FilterInputProps) => {
+  const [value, setValue] = useState(props.value || '');
+  const handleFilter = (value: any) => {
+    props.handleFilter(value);
+    setValue(value);
+  };
+
+  return props.type === 'SELECT' ? (
+    <StyledHeaderFilterSelectContainer>
+      <VSelectMultiple
+        value={value}
+        onChange={handleFilter}
+        id={`headerFilter${props.index}`}
+        options={props.options || []}
+      />
+    </StyledHeaderFilterSelectContainer>
+  ) : (
+    <StyledHeaderFilterInput
+      value={value}
+      onChange={handleFilter}
+      id={`headerFilter${props.index}`}
+    />
+  );
+};

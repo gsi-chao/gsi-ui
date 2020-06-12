@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import { FormGroup } from '@blueprintjs/core';
+import { FormGroup, Intent, Menu } from '@blueprintjs/core';
 import { ILayer } from './ILayer';
+import { DateInput } from '@blueprintjs/datetime';
+import MaskedInput from 'react-text-mask';
 
 export interface IStyledFieldProps {
   inline?: boolean;
@@ -10,6 +12,8 @@ export interface IStyledFieldProps {
   noLabel?: boolean;
   fixedInputWidthPx?: number;
   margin?: string;
+  fixedPadding?: number;
+  heightArea?: number | undefined;
 }
 
 interface IIconStyle {
@@ -28,13 +32,13 @@ export const layerInPercent = (layer: ILayer): any => {
 
 export const StyledFormGroup = styled(FormGroup)`
   margin: ${(props: IStyledFieldProps) =>
-    props.margin ? props.margin : '0 0 15px'};
+    props.margin ? `${props.margin} !important` : '0 0 15px'};
   ${(props: IStyledFieldProps) => {
     const { layer, noLabel, checkBoxAtLeft, inline, fill } = props;
     let layerPercent: any = {};
     let inputOrientation = 'flex-start';
     let containerWidth = undefined;
-    let labelWidth = undefined;
+    let labelWidth = 0;
     let labelOrientation = undefined;
     let inputWidth = undefined;
     if (layer) {
@@ -67,6 +71,7 @@ export const StyledFormGroup = styled(FormGroup)`
                 : 'width: 100%!important;'
             }
             & label.field-label {
+                padding-right: 5px;
                 line-height: 30px;
                     ${labelWidth ? `width: ${labelWidth}%!important;` : ''}
                     ${
@@ -74,7 +79,7 @@ export const StyledFormGroup = styled(FormGroup)`
                     }    
             }
             & .gsi-form-field-container {
-                ${!noLabel ? `padding-left: 10px!important;` : ''}
+                ${!noLabel && inline ? `padding-left: 5px!important;` : ''}
                 width: ${
                   inputWidth
                     ? `${inputWidth}%`
@@ -88,12 +93,15 @@ export const StyledFormGroup = styled(FormGroup)`
                 & .gsi-input-and-error-container {
                   display: flex;
                   flex-direction: column;
-                ${fill ? 
-                `width: ${100}%;
+                ${
+                  fill
+                    ? `width: ${100}%;
                 & .bp3-popover-target {
                   width: 100%;
                 }
-                ` : `max-width: 200px;`};
+                `
+                    : `max-width: 200px;`
+                };
                 & .gsi-error-span {
                     padding-top: 1px;
                     font-size: 12px;
@@ -107,6 +115,15 @@ export const StyledFormGroup = styled(FormGroup)`
 `;
 export const StyledInput = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
+    & span.tipLabel {
+      background: white;
+      margin-bottom: -7px;
+      z-index: 1;
+      width: fit-content;
+      font-weight: 400;
+      font-size: 12px;
+      padding: 0 2px;
+    }
     & .bp3-input-group {
       width: 100%;
       & input {
@@ -129,11 +146,34 @@ export const StyledSelect = styled(StyledFormGroup)`
 
 export const StyledNumericInput = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
+    & span.tipLabel {
+      background: white;
+      margin-bottom: -7px;
+      z-index: 1;
+      width: fit-content;
+      font-weight: 400;
+      font-size: 12px;
+      padding: 0 2px;
+    }
     & .bp3-control-group.bp3-numeric-input {
       width: 100%;
       & .bp3-input-group {
         width: 100% !important;
       }
+    }
+  }
+`;
+
+export const StyledDatePicker = styled(StyledFormGroup)`
+  .gsi-input-and-error-container {
+    & span.tipLabel {
+      background: white;
+      margin-bottom: -7px;
+      z-index: 1;
+      width: fit-content;
+      font-weight: 400;
+      font-size: 12px;
+      padding: 0 2px;
     }
   }
 `;
@@ -171,7 +211,7 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
             props.checkBoxAtLeft &&
             props.layer &&
             props.layer.inputOrientation === 'end'
-              ? 9
+              ? props.fixedPadding || 5
               : 0}px !important;
           float: left;
         }
@@ -188,10 +228,30 @@ export const StyledTagsInput = styled(StyledFormGroup)`
   }
 `;
 
+export const StyledDateRange = styled(StyledFormGroup)`
+  .gsi-input-and-error-container {
+    & span.tipLabel {
+      background: white;
+      margin-bottom: -7px;
+      z-index: 1;
+      width: fit-content;
+      font-weight: 400;
+      font-size: 12px;
+      padding: 0 2px;
+    }
+  }
+  .bp3-input-group {
+    width: 50%;
+  }
+`;
+
 export const StyledTextArea = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
     & textarea {
+      resize: vertical;
       width: 100%;
+      ${(props: IStyledFieldProps) =>
+        props.heightArea && `height: ${props.heightArea}px`}
     }
   }
 `;
@@ -213,12 +273,20 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
     ${(props: IStyledFieldProps) =>
       props.fill ? `width: 100%!important;` : `max-width: 200px!important;`};
+    & span.tipLabel {
+      margin-bottom: -7px;
+      z-index: 1;
+      width: fit-content;
+      font-weight: 400;
+      font-size: 12px;
+      padding: 0 2px;
+    }
     & .bp3-popover-wrapper {
       width: 100%;
       & .bp3-popover-target {
         width: 100%;
         div {
-          button {
+          & > button:not(.crossButton) {
             width: ${(props: IStyledFieldProps) =>
               props.fixedInputWidthPx
                 ? `${props.fixedInputWidthPx}px`
@@ -235,6 +303,17 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
               text-overflow: ellipsis;
             }
           }
+          & > .gsi-input-select > input {
+            width: ${(props: IStyledFieldProps) =>
+              props.fixedInputWidthPx
+                ? `${props.fixedInputWidthPx}px`
+                : `100%`};
+          }
+          & > .gsi-selection-info{
+            ${(props: IStyledFieldProps) =>
+              props.fixedInputWidthPx &&
+              props.fixedInputWidthPx < 150 &&
+              'display: none'}
         }
       }
     }
@@ -243,31 +322,35 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
 
 export const StyledRadioButton = styled(StyledFormGroup)`
   & .bp3-form-content {
-  & label.field-label {
-    & .gsi-form-field-container {
-      & div {
-        display: flex;
-        position: relative;
-        top: -5px;
-        display: flex;
-        ${(props: IStyledFieldProps) => {
-          const inputOrientation =
-            props.layer && props.layer.inputOrientation === 'center'
-              ? 'center'
-              : props.layer.inputOrientation === 'end'
-              ? 'flex-end'
-              : 'flex-start';
-          return `justify-content: ${inputOrientation};`;
-        }};
-        & .bp3-control.bp3-radio.bp3-inline {
-          padding: 0 26px !important;
-          width: auto !important;
-          margin-right: 10px !important;
-          line-height: 27px;
-          .bp3-control-indicator {
-            margin-left: -26px;
-            margin-top: 0px;
+    & label.field-label {
+      & .gsi-form-field-container {
+        & div {
+          display: flex;
+          position: relative;
+          top: -5px;
+          ${(props: IStyledFieldProps) => {
+            const inputOrientation =
+              props.layer && props.layer.inputOrientation === 'center'
+                ? 'center'
+                : props.layer.inputOrientation === 'end'
+                ? 'flex-end'
+                : 'flex-start';
+            return `justify-content: ${inputOrientation};`;
+          }};
+          & .bp3-control.bp3-radio.bp3-inline {
+            padding: 0 26px !important;
+            width: auto !important;
+            margin-right: 10px !important;
+            line-height: 27px;
+            .bp3-control-indicator {
+              margin-left: -26px;
+              margin-top: 0;
+            }
           }
+        }
+        ,
+        & .bp3-control.bp3-inline {
+          margin-right: 10px !important;
         }
       }
     }
@@ -283,5 +366,75 @@ export const IconDate = styled('div')`
   justify-content: center;
   align-items: center;
   border: 1px solid #bdbfc0;
-  border-radius: 2px;
+  border-radius: 0 3px 3px 0;
+  position: absolute;
+  right: 0;
+`;
+
+export const DateInputContainer = styled(DateInput)`
+  .DayPicker-Day--today {
+    background: rgba(187, 222, 251, 0.6);
+  }
+
+  .DayPicker-Day:hover {
+    background: rgba(225, 245, 254, 0.8) !important;
+    color: #182026 !important;
+  }
+
+  .DayPicker-Day.DayPicker-Day--disabled,
+  .DayPicker-Day.DayPicker-Day--disabled.DayPicker-Day:hover {
+    background: transparent !important;
+    cursor: no-drop !important;
+    color: #d2d5d8 !important;
+  }
+
+  .DayPicker-Day {
+    margin: 1px !important;
+  }
+
+  @-moz-document url-prefix() {
+    & .bp3-html-select.bp3-minimal select {
+      font-size: 12px;
+    }
+  }
+`;
+
+interface IMaskedInput {
+  intent: Intent;
+  disabled?: boolean;
+}
+
+export const StyledMaskInput = styled(MaskedInput)`
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  ${(props: IMaskedInput) =>
+    props.intent && props.intent !== Intent.DANGER
+      ? 'box-shadow: 0 0 0 0 rgba(19, 124, 189, 0), 0 0 0 0 rgba(19, 124, 189, 0),\n    inset 0 0 0 1px rgba(16, 22, 26, 0.15),\n    inset 0 1px 1px rgba(16, 22, 26, 0.2);'
+      : 'box-shadow: 0 0 0 0 rgba(219, 55, 55, 0), 0 0 0 0 rgba(219, 55, 55, 0), inset 0 0 0 1px #db3737, inset 0 0 0 1px rgba(16, 22, 26, 0.15), inset 0 1px 1px rgba(16, 22, 26, 0.2);'};
+
+  background: ${(props: IMaskedInput) =>
+    props.disabled ? 'rgba(206, 217, 224, 0.5)' : '#ffffff'};
+  box-shadow: ${(props: IMaskedInput) => props.disabled && 'none'};
+  cursor: ${(props: IMaskedInput) => props.disabled && 'not-allowed'};
+  height: 30px;
+  padding: 0 10px;
+  vertical-align: middle;
+  line-height: 30px;
+  color: #182026;
+  font-size: 14px;
+  font-weight: 400;
+  transition: box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9);
+
+  &:focus {
+    box-shadow: 0 0 0 1px #137cbd, 0 0 0 3px rgba(19, 124, 189, 0.3),
+      inset 0 1px 1px rgba(16, 22, 26, 0.2);
+  }
+`;
+
+export const StyledMenuNoMarginDivider = styled(Menu)`
+  max-width: 350px !important;
+  & .dividerNoMargin {
+    margin: 0;
+  }
 `;

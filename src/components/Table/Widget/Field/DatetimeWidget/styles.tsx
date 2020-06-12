@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export interface IProps {
   isValid: boolean;
+  color: string;
 }
 
 export const DatetimeCell = styled.div`
@@ -52,14 +53,12 @@ export const DatetimeCell = styled.div`
       return props.isValid ? 'color: Black' : 'color: #f73636;';
     }};
     font-size: 12px;
-    font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
-      'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', 'Icons16',
-      sans-serif;
     font-weight: 400;
     transition: box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     height: 17px !important;
+    color: ${(props: IProps) => props.color}!important;
   }
 `;

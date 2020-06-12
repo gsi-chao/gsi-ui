@@ -1,5 +1,5 @@
 import { IconName, Intent, MaybeElement } from '@blueprintjs/core';
-import { CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 
 export interface ITabsPanelStyle {
   color?: string;
@@ -8,6 +8,7 @@ export interface ITabsPanelStyle {
   active?: boolean;
   activeColor?: string;
   activeTextColor?: string;
+  activeBackgroundColor?: string;
   textColor?: string;
   elevation?: number;
   padding?: string;
@@ -22,7 +23,6 @@ export interface ITabsPanelStyle {
 export interface ITabsPanelState {
   active: string;
   content: any;
-  isOpenConfirmationDialog: boolean;
   possibleKey: string;
 }
 
@@ -40,9 +40,14 @@ export interface ITabsPanelProps {
   lineColor?: string;
   activeTextColor?: string;
   activeBorderColor?: string;
+  activeBackgroundColor?: string;
   beforeChangeTabValidation?: boolean;
-  tabsAlertProps? : TabsAlertProps;
+  tabsAlertProps?: TabsAlertProps;
   handleChange(tab: ITabsPanelTypes): void;
+  tabsTagsContainerPadding?: string;
+  tabsTagItemPadding?: string;
+  isResponsive? : boolean;
+  mountAllTabs?: boolean;
 }
 
 export interface IIconTabsPanelProps {
@@ -53,15 +58,15 @@ export interface IIconTabsPanelProps {
 
 export interface ITabsPanelTypes {
   key: string;
-  icon?: IIconTabsPanelProps;
+  icon?: IIconTabsPanelProps | React.ReactNode;
   label?: string;
   content: any;
   textColorBadge?: string;
   backgroundColorBadge?: string;
   dataBadge?: any;
   activeBorderColor?: any;
+  hidden?: boolean;
 }
-
 
 export interface TabsAlertProps {
   cancelButtonText?: string;
@@ -72,5 +77,5 @@ export interface TabsAlertProps {
   icon?: IconName | MaybeElement;
   intent?: Intent;
   style?: CSSProperties;
-  bodyText?:string;
+  bodyText?: string;
 }

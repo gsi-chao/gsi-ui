@@ -15,6 +15,8 @@ interface ICardPanelProps {
   bodyPadding?: string;
   headerOrientation?: HeaderOrientation;
   headerTextJustify?: FlexJustify;
+  headerTextUppercase?: boolean;
+  headerTextBold?: boolean;
   heigthHeaderPx?: number;
 }
 
@@ -52,7 +54,7 @@ export const VCardHeader = styled.div`
       ? 'flex-end'
       : 'flex-start'};
   height: ${(props: ICardPanelProps) =>
-    props.heigthHeaderPx ? `${props.heigthHeaderPx} px` : '35px'};
+    props.heigthHeaderPx ? `${props.heigthHeaderPx}px` : '35px'};
   display: flex;
   align-items: center;
   padding: 0 15px;
@@ -74,10 +76,15 @@ export const VCardTextSpan = styled.span`
       : 'flex-start'};
   & span {
     margin: 0 5px 0 0;
+    font-weight: ${(props: ICardPanelProps) =>
+      props.headerTextBold ? 600 : 400};
+    text-transform: ${(props: ICardPanelProps) =>
+      props.headerTextUppercase && 'uppercase'};
   }
 `;
 
 export const VCardTextSpanContainer = styled.div`
+  flex: 1;
   width: 100%;
 `;
 
