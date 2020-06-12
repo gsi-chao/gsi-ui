@@ -7,7 +7,8 @@ import {
   IItem,
   SearchSelect,
   Validators,
-  VSearchSelectField
+  VSearchSelectField,
+  VColorPicker
 } from './components';
 import { FieldState, FormState } from 'formstate';
 import { Button } from '@blueprintjs/core';
@@ -74,6 +75,16 @@ const TestComponent = observer(() => {
         allowEmpty
         inline
         fixedInputWidthPx={100}
+      />
+      <VColorPicker
+        Color={'#fafafa'}
+        typePickerColor={'ChromePicker'}
+        position={'right'}
+        width={30}
+        height={30}
+        disableAlpha={true}
+        onChange={() => {}}
+        //addButton={{text:'Set choosen color', intent:'primary'}}
       />
     </>
   );
