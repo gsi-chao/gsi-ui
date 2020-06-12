@@ -16,10 +16,12 @@ interface IProps {
   onAddNewItem?: () => void;
   search: string;
   allowEmpty?: boolean;
+  onKeyPressed?:()=>void
 }
 
 export const SearchSelectItems = (props: IProps) => {
   const [active, setActive] = useState<any>(null);
+  const [isKeyUpOrDownPressed, setIsKeyUpOrDownPressed] = useState<boolean>(false)
 
   const findOptionsIndexValue = (
     options: IItem[],
@@ -40,29 +42,34 @@ export const SearchSelectItems = (props: IProps) => {
         case Keys.ARROW_UP:
           onKeyUp();
           break;
+        case Keys.DELETE:
+          setIsKeyUpOrDownPressed(false)
+          setActive(-1);
+          props.onKeyPressed && props.onKeyPressed();
+
+          break;
         case Keys.ENTER:
           if (props.options[active]) {
             props.selectDeselectItem(props.options[active]);
           }
+          props.onKeyPressed && props.onKeyPressed();
       }
     }
   }, [props.invokeKeyPress]);
 
   useEffect(() => {
-    if (props.selection) {
-      const index = findOptionsIndexValue(props.options, props.selection);
-      if (index !== -1) {
-        setActive(index);
-      }
-    }
+    const index = findOptionsIndexValue(props.options, props.selection);
+    setActive(index);
   }, [props.selection]);
 
   const onKeyUp = () => {
     active === 0 ? setActive(props.options.length - 1) : setActive(active - 1);
+    setIsKeyUpOrDownPressed(true)
   };
 
   const onKeyDown = () => {
     active === props.options.length - 1 ? setActive(0) : setActive(active + 1);
+    setIsKeyUpOrDownPressed(true)
   };
 
   const getSelectedLabel = (value: any) => {
@@ -77,6 +84,7 @@ export const SearchSelectItems = (props: IProps) => {
     return null;
   };
 
+
   const getVirtualHeight = useCallback(() => {
     return props.options.length > 4 ? 150 : 30 * props.options.length + 1;
   }, [props.options]);
@@ -85,7 +93,7 @@ export const SearchSelectItems = (props: IProps) => {
     <Menu>
       {props.allowEmpty && !props.multi && (
         <MenuItem
-          active={props.selection === ''}
+          active={ !isKeyUpOrDownPressed && (active === -1 || props.selection === '')}
           className={'select-item'}
           text={'No Selection'}
           onClick={() => props.selectDeselectItem({ value: '', label: '' })}

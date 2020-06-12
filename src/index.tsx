@@ -28,7 +28,7 @@ const TestComponent = observer(() => {
     .fill(1)
     .map((val, index) => {
       return {
-        label: `I ${index}`,
+        label: `i${index}`,
         value: index
       };
     });

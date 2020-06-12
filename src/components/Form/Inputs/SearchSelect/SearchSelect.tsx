@@ -57,7 +57,7 @@ export const SearchSelect = (props: IProps) => {
     if (props.multi && !isArray(props.value)) {
       throw new Error('Multi Select value must be an array');
     }
-    if (!props.multi && props.value) {
+    if (!props.multi && props.value !== '') {
       const option = findOptionsValue(props.options, props.value);
       option && option.label && setSearch(option.label.toString());
     } else {
@@ -105,6 +105,24 @@ export const SearchSelect = (props: IProps) => {
     setOptions(opt);
     !props.popoverWidth && setPopoverWidth(w + 30);
   }, [props.options, search]);
+
+  useEffect(() => {
+    const deselect = () => {
+      if (isOpen) {
+        setSelection('');
+        props.onChange && props.onChange('');
+      }
+    };
+    if (search.length === 0 && !props.multi) {
+      deselect();
+    }
+    if (invokeKeyPress !== 'NONE') {
+      if (invokeKeyPress === Keys.DELETE) {
+        deselect();
+        setSearch('');
+      }
+    }
+  }, [search, invokeKeyPress]);
 
   const onSearchChange = (e: any) => {
     !isOpen && setIsOpen(true);
@@ -200,7 +218,8 @@ export const SearchSelect = (props: IProps) => {
     if (
       keyCode === Keys.ARROW_UP ||
       keyCode === Keys.ARROW_DOWN ||
-      keyCode === Keys.ENTER
+      keyCode === Keys.ENTER ||
+      keyCode === Keys.DELETE
     ) {
       setInvokeKeyPress(keyCode);
       setTimeout(() => {
@@ -271,6 +290,7 @@ export const SearchSelect = (props: IProps) => {
           allowNewItem={!!props.allowNewItem}
           onAddNewItem={onAddNewItem}
           allowEmpty={props.allowEmpty}
+          onKeyPressed={()=>setIsOpen(false)}
         />
       </div>
     </Popover>
