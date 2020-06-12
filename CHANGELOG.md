@@ -1,3 +1,10 @@
+# [1.0.0-beta.2](https://github.com/gsi-chao/gsi-ui/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2020-06-12)
+
+
+### Features
+
+* **component:** added feature to deselect when search criteria is removed ([a98f4dd](https://github.com/gsi-chao/gsi-ui/commit/a98f4ddda33e91c0f0cf9330ec1590d013f8c452))
+
 # 1.0.0-beta.1 (2020-06-11)
 
 
