@@ -1,3 +1,10 @@
+# [1.0.0-beta.3](https://github.com/gsi-chao/gsi-ui/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2020-06-17)
+
+
+### Features
+
+* **selectionlist:** add double click event to selection list item ([925916d](https://github.com/gsi-chao/gsi-ui/commit/925916d8b15721769d81b0931b212f292fd768a4))
+
 # [1.0.0-beta.2](https://github.com/gsi-chao/gsi-ui/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2020-06-12)
 
 
