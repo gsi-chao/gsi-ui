@@ -1,3 +1,15 @@
+# [1.1.0-beta.1](https://github.com/gsi-chao/gsi-ui/compare/v1.0.0...v1.1.0-beta.1) (2020-06-17)
+
+
+### Bug Fixes
+
+* **vcolorpicker:** bug makes component closes immediately when color slider bar is moved ([ef825d0](https://github.com/gsi-chao/gsi-ui/commit/ef825d0a9a037eacd600b2a7e6ea2c6792f4faa8))
+
+
+### Features
+
+* **selectionlist:** add double click event to selection list item ([925916d](https://github.com/gsi-chao/gsi-ui/commit/925916d8b15721769d81b0931b212f292fd768a4))
+
 # [1.0.0-beta.3](https://github.com/gsi-chao/gsi-ui/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2020-06-17)
 
 
