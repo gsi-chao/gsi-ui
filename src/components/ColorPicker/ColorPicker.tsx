@@ -104,7 +104,7 @@ export const VColorPicker = (props: IProps) => {
 
   const handleClick = () => {
     if (state.color) {
-      props.onChange(state.color);
+      props.onChange && props.onChange(state.color);
     }
     setIsOpen(false);
   };
@@ -117,9 +117,6 @@ export const VColorPicker = (props: IProps) => {
         .alpha(a || 1)
         .toString()
     });
-    if (!props.addButton) {
-      props.onChange(col);
-    }
   };
 
   const waitForHandleClick = () => {
@@ -144,6 +141,7 @@ export const VColorPicker = (props: IProps) => {
           content={getPickerColor()}
           canEscapeKeyClose={false}
           isOpen={isOpen}
+          onClosing={() => !props.addButton && handleClick()}
           interactionKind={'click'}
           captureDismiss={false}
           enforceFocus
@@ -159,10 +157,10 @@ export const VColorPicker = (props: IProps) => {
             />
           }
           position={props.position ? props.position : 'right'}
-          boundary={props.boundary ? props.boundary :'scrollParent'}
+          boundary={props.boundary ? props.boundary : 'scrollParent'}
           modifiers={{
             preventOverflow: {
-              enabled: true,
+              enabled: true
             }
           }}
           onInteraction={(nextOpenState: boolean) => {
