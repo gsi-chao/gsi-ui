@@ -17,6 +17,7 @@ export interface ISelectionListProps {
   height?: string;
   enableEnumeration?: boolean;
   onSelect(list: IItemsList, event?: any): void;
+  onDoubleClick?(element: any): void;
   selection?: {
     textColor: string;
     background: string;

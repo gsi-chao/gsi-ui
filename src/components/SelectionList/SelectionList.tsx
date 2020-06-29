@@ -88,6 +88,9 @@ export class VSelectionList extends Component<
                   background={backgroundColor}
                   color={textColor}
                   text={text}
+                  onDoubleClick={() => {
+                    this.props.onDoubleClick!(element);
+                  }}
                   onClick={(event: any) => {
                     this.onItemClick(active || false, element, event);
                   }}
