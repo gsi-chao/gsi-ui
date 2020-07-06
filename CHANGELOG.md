@@ -1,3 +1,10 @@
+# [1.1.0-beta.2](https://github.com/gsi-chao/gsi-ui/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2020-07-06)
+
+
+### Bug Fixes
+
+* **selectfield:** fix show item when lookup in SelectField component ([866c3b1](https://github.com/gsi-chao/gsi-ui/commit/866c3b1cccedf9352ed753b92aabbe209bcd9584))
+
 # [1.1.0-beta.1](https://github.com/gsi-chao/gsi-ui/compare/v1.0.0...v1.1.0-beta.1) (2020-06-17)
 
 
