@@ -7,7 +7,8 @@ import {
   IItem,
   SearchSelect,
   Validators,
-  VSearchSelectField
+  VSearchSelectField,
+  SelectUnselectItems
 } from './components';
 import { FieldState, FormState } from 'formstate';
 import { Button } from '@blueprintjs/core';
@@ -17,63 +18,30 @@ const form = new FormState({
   data: new FieldState([1, 2])
 });
 const TestComponent = observer(() => {
-  const [value, setValue] = useState<any[]>([1]);
-  const [value1, setValue1] = useState<any>(1);
-
-  const onChange1 = (value: any) => {
-    console.log(value);
-    setValue1(value);
+  const onReturnAssignedUnassignedItems = (item: any) => {
+    console.log(`items:`, item);
   };
-  const options: IItem[] = Array(2000)
-    .fill(1)
-    .map((val, index) => {
-      return {
-        label: `I ${index}`,
-        value: index
-      };
-    });
 
-  const onAddNewItem = (v: string) => {
-    options.push({
-      value: v,
-      label: v
-    });
-    value.push(v);
+  const handleSave = (item: any) => {
+    console.log(`save:`, item);
   };
+
   return (
     <>
-      {form.$.data.$}
-      <Button
-        onClick={() => setValue1(Math.floor(Math.random() * (2000 - 0)) + 0)}
-      />
-      <VSearchSelectField
-        label={'Label'}
-        tipLabel={'Label'}
-        inline
-        id={'example'}
-        fieldState={form.$.data}
-        options={options}
-        multi
-        allowNewItem
-        onAddNewItem={onAddNewItem}
-        sort={'asc'}
-        required
-        validators={[Validators.required, validator]}
-        allowEmpty
-        fixedInputWidthPx={175}
-        onChange={onChange1}
-      />
-      <VSearchSelectField
-        id={'example'}
-        value={value1}
-        options={options}
-        onChange={onChange1}
-        label={'lolo'}
-        required
-        validators={[Validators.required]}
-        allowEmpty
-        inline
-        fixedInputWidthPx={100}
+      <SelectUnselectItems
+        itemsUnassigned={[
+          { text: 'One', value: 'one' },
+          { text: 'Two', value: 'two' }
+        ]}
+        itemsAssigned={[]}
+        assignedText={'Selected'}
+        unAssignedText={'Unselected'}
+        handleSave={handleSave}
+        handleCancel={() => console.log(`cancel`)}
+        intentSave={'success'}
+        intentCancel={'danger'}
+        displayCount
+        onReturnAssignedUnassignedItems={onReturnAssignedUnassignedItems}
       />
     </>
   );
