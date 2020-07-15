@@ -43,9 +43,9 @@ export const SearchSelect = (props: IProps) => {
     return find(
       options,
       (v: IItem) =>
-        !isNil(v.value) &&
+        !isNil(v?.value) &&
         !isNil(value) &&
-        v.value.toString() === value.toString()
+        `${v.value}`.toString() === `${value}`.toString()
     );
   };
 
@@ -59,7 +59,7 @@ export const SearchSelect = (props: IProps) => {
     }
     if (!props.multi && props.value !== '') {
       const option = findOptionsValue(props.options, props.value);
-      option && option.label && setSearch(option.label.toString());
+      option && option.label && setSearch(`${option.label}`.toString());
     } else {
       setSearch('');
     }
@@ -76,7 +76,9 @@ export const SearchSelect = (props: IProps) => {
       try {
         const factor = !props.multi ? 6.8 : 7.8;
         const lw =
-          value && value.label ? value.label.toString().length * factor : 100;
+          value && value.label
+            ? `${value.label}`.toString().length * factor
+            : 100;
         if (lw > w) {
           w = lw;
         }
@@ -85,11 +87,11 @@ export const SearchSelect = (props: IProps) => {
         }
 
         return (
-          value.value
+          `${value?.value}`
             .toString()
             .toLowerCase()
             .indexOf(search.toLowerCase()) !== -1 ||
-          value.label
+          `${value.label}`
             .toString()
             .toLowerCase()
             .indexOf(search.toLowerCase()) !== -1 ||
@@ -134,8 +136,8 @@ export const SearchSelect = (props: IProps) => {
     const option = findOptionsValue(props.options, value);
 
     option && option.label
-      ? setSearch(option.label.toString())
-      : setSearch(value.toString());
+      ? setSearch(`${option.label}`.toString())
+      : setSearch(`${value}`.toString());
   };
 
   const handleInteraction = (nextOpenState: boolean, e?: any) => {
@@ -201,7 +203,7 @@ export const SearchSelect = (props: IProps) => {
       setEnableFilter(false);
     }
     inputRef.current && inputRef.current.focus();
-    !props.multi && value.label && setSearch(value.label.toString());
+    !props.multi && value.label && setSearch(`${value.label}`.toString());
     setHasChange(true);
   };
 
@@ -290,7 +292,7 @@ export const SearchSelect = (props: IProps) => {
           allowNewItem={!!props.allowNewItem}
           onAddNewItem={onAddNewItem}
           allowEmpty={props.allowEmpty}
-          onKeyPressed={()=>setIsOpen(false)}
+          onKeyPressed={() => setIsOpen(false)}
         />
       </div>
     </Popover>
