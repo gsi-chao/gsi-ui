@@ -15,6 +15,7 @@ exports[`render correctly SelectionList component one segment 1`] = `
         className="bp3-menu-item bp3-popover-dismiss sc-bdVaJa iniwxh"
         color="white"
         onClick={[Function]}
+        onDoubleClick={[Function]}
       >
         <span
           className="bp3-icon bp3-icon-cut"
