@@ -135,7 +135,9 @@ export const SearchSelect = (props: IProps) => {
 
     option && option.label
       ? setSearch(option.label.toString())
-      : setSearch(value.toString());
+      : !isNil(value)
+      ? setSearch(value.toString())
+      : '';
   };
 
   const handleInteraction = (nextOpenState: boolean, e?: any) => {
@@ -201,7 +203,7 @@ export const SearchSelect = (props: IProps) => {
       setEnableFilter(false);
     }
     inputRef.current && inputRef.current.focus();
-    !props.multi && value.label && setSearch(value.label.toString());
+    !props.multi && value?.label && setSearch(value.label.toString());
     setHasChange(true);
   };
 
@@ -290,7 +292,7 @@ export const SearchSelect = (props: IProps) => {
           allowNewItem={!!props.allowNewItem}
           onAddNewItem={onAddNewItem}
           allowEmpty={props.allowEmpty}
-          onKeyPressed={()=>setIsOpen(false)}
+          onKeyPressed={() => setIsOpen(false)}
         />
       </div>
     </Popover>
