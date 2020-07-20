@@ -1,3 +1,10 @@
+# [1.2.0-beta.2](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.1...v1.2.0-beta.2) (2020-07-20)
+
+
+### Bug Fixes
+
+* **searchselect:** fixed issue that make the app crash due a toString in a null value ([a069867](https://github.com/gsi-chao/gsi-ui/commit/a0698676018c8a9a4e15b4dd9435383f6940e538))
+
 # [1.2.0-beta.1](https://github.com/gsi-chao/gsi-ui/compare/v1.1.1-beta.1...v1.2.0-beta.1) (2020-07-16)
 
 
