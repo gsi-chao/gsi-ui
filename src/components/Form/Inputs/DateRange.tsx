@@ -7,7 +7,7 @@ import {
   DateRange,
   DateRangeInput,
   IDateFormatProps,
-  TimePrecision
+  TimePrecision,
 } from '@blueprintjs/datetime';
 /** FieldState */
 import { StyledDateRange } from './style';
@@ -16,6 +16,7 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 
 import { isDate } from 'lodash';
+import { FieldState } from 'formstate';
 
 /**
  * Field component. Must be an observer.
@@ -39,10 +40,12 @@ export interface IInputFieldProps extends IFieldProps {
   allowSingleDayRange?: boolean;
   contiguousCalendarMonths?: boolean;
   tipLabel?: string;
-  onBlurStart?: any,
-  onFocusStart?: any
-  onBlurEnd?: any,
-  onFocusEnd?: any
+  onBlurStart?: any;
+  onFocusStart?: any;
+  onBlurEnd?: any;
+  onFocusEnd?: any;
+  fieldState?: FieldState<DateRange>;
+  value?: DateRange;
 }
 
 interface IIcon {
@@ -54,47 +57,53 @@ interface IIcon {
 
 const momentFormatter = (format: string): IDateFormatProps => {
   return {
-    formatDate: date => moment(date).format(format),
-    parseDate: str => {
-      if (!moment(str, format, true).isValid()) {
-        return false;
-      }
-      return moment(str, format).toDate();
-    },
-    placeholder: `${format}`
+    formatDate: (date) => moment(date).format(format),
+    parseDate: (str) =>
+      !moment(str, format, true).isValid()
+        ? false
+        : moment(str, format).toDate(),
+    placeholder: `${format}`,
   };
+};
+
+const getTimePrecision: any = (
+  precision?: TimePrecision,
+  useAmPm?: boolean
+) => {
+  if (precision) {
+    return {
+      timePrecision: { precision },
+      timePickerProps: {
+        useAmPm: useAmPm ?? undefined,
+      },
+    };
+  }
 };
 
 export const VDateRangePicker = observer((props: IInputFieldProps) => {
   const [date, setDate] = useState<DateRange>([null, null]);
 
   useEffect(() => {
-    if (props.fieldState?.value) {
-      setDate(props.fieldState.value);
-    }
     if (props.value) {
       setDate(props.value);
     }
-  }, [props.fieldState?.value, props.value]);
+  }, [props.value]);
 
-  const FORMATS = () => {
-    return momentFormatter(props.format || 'MM/DD/YYYY');
-  };
-
-  const changedDate = (dates: any[]) => {
-    if (dates && dates.length === 2) {
+  const changedDate = (dates: any[]): void => {
+    if (dates?.length === 2) {
       const newDates: any = [
         (isDate(dates[0]) && dates[0]) || null,
-        (isDate(dates[1]) && dates[1]) || null
+        (isDate(dates[1]) && dates[1]) || null,
       ];
+
+      if (props.fieldState) {
+        props.fieldState.onChange?.(newDates);
+        props.onChange?.(props.fieldState.value);
+        return;
+      }
       setDate(newDates);
       if ((newDates[0] && newDates[1]) || (!newDates[0] && !newDates[1])) {
-        if (props.fieldState) {
-          props.fieldState.onChange(newDates);
-        }
-        if (props.onChange) {
-          props.onChange(newDates);
-        }
+        props.onChange?.(newDates);
       }
     }
   };
@@ -127,15 +136,15 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     onBlurStart,
     onFocusStart,
     onBlurEnd,
-    onFocusEnd
+    onFocusEnd,
   } = props;
 
   if (fieldState) {
     if (required) {
       if (validators && validators.length > 0) {
-        fieldState.validators(Validators.required, ...validators);
+        fieldState.validators(Validators.requiredDateRange, ...validators);
       } else {
-        fieldState.validators(Validators.required);
+        fieldState.validators(Validators.requiredDateRange);
       }
     } else if (validators && validators.length > 0) {
       fieldState.validators(...validators);
@@ -143,27 +152,17 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
   }
 
   const getValueField = (): DateRange => {
-    if (date && date.length === 2) {
-      try {
-        date[0] = isDate(date[0]) ? new Date(date[0]) : null;
-        date[1] = isDate(date[1]) ? new Date(date[1]) : null;
-        return date;
-      } catch (e) {
-        return [null, null];
+    const dateNew = props.fieldState?.value || date;
+    try {
+      if (!props.fieldState && date?.length === 2) {
+        dateNew[0] = isDate(date[0]) ? new Date(date[0]) : null;
+        dateNew[1] = isDate(date[1]) ? new Date(date[1]) : null;
       }
+    } catch (e) {
+      dateNew[0] = null;
+      dateNew[1] = null;
     }
-    return [null, null];
-  };
-
-  const getTimePrecision: any = () => {
-    if (precision) {
-      return {
-        timePrecision: { precision },
-        timePickerProps: {
-          useAmPm: useAmPm ? useAmPm : undefined
-        }
-      };
-    }
+    return dateNew;
   };
 
   return (
@@ -171,7 +170,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
       className={className}
       disabled={disabled}
       inline={inline}
-      intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
+      intent={fieldState?.hasError ? Intent.DANGER : Intent.NONE}
       labelFor={id}
       labelInfo={labelInfo}
       layer={layer}
@@ -189,7 +188,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
       >
         {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
         <DateRangeInput
-          {...FORMATS()}
+          {...momentFormatter(props.format || 'MM/DD/YYYY')}
           disabled={disabled}
           minDate={minTime}
           maxDate={maxTime}
@@ -197,20 +196,20 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
           value={getValueField()}
           popoverProps={{
             minimal: true,
-            ...popoverProps
+            ...popoverProps,
           }}
           shortcuts={props.shortcuts}
           allowSingleDayRange={allowSingleDayRange}
           contiguousCalendarMonths={contiguousCalendarMonths}
           startInputProps={{
             onBlur: onBlurStart,
-            onFocus: onFocusStart
+            onFocus: onFocusStart,
           }}
           endInputProps={{
             onBlur: onBlurEnd,
-            onFocus: onFocusEnd
+            onFocus: onFocusEnd,
           }}
-          {...getTimePrecision()}
+          {...getTimePrecision(precision, useAmPm)}
         />
       </FormFieldContainer>
     </StyledDateRange>

@@ -1,9 +1,20 @@
 import validator from 'validator';
+import { DateRange } from '@blueprintjs/datetime';
 
 const required = (val: any) => {
   const noNumberValidation =
     typeof val !== 'number' && (!val || !val.toString().length);
   return noNumberValidation && 'This field is required.';
+};
+
+const requiredDateRange = ([start, end]: DateRange) => {
+  const validation = !start || !end;
+  return (
+    validation &&
+    `This field require${
+      !start && !end ? 'd' : !start ? ' start value' : ' end value'
+    }.`
+  );
 };
 
 const email = (value: string) =>
@@ -108,12 +119,13 @@ const isAlphanumeric = (value: string) =>
 const isNumeric = (value: string) =>
   !validator.isNumeric(value) && `The value must contain only numbers`;
 
-export const Validators:any = {
+export const Validators: any = {
   exact,
   lt,
   lte,
   email,
   required,
+  requiredDateRange,
   gt,
   gte,
   ltNumber,
