@@ -1,3 +1,10 @@
+# [1.2.0-beta.3](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.2...v1.2.0-beta.3) (2020-07-21)
+
+
+### Bug Fixes
+
+* **date-range:** fix date range fields and add require validation ([a5fad47](https://github.com/gsi-chao/gsi-ui/commit/a5fad478de9e5e449d1ac23d71e684719d1094cc))
+
 # [1.2.0-beta.2](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.1...v1.2.0-beta.2) (2020-07-20)
 
 
