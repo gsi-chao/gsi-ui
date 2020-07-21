@@ -161,7 +161,7 @@ export class SelectUnselectItems extends Component<
   };
 
   unselectAll = () => {
-    let { itemsAssigned, itemsUnassigned } = this.state;
+    const { itemsAssigned, itemsUnassigned } = this.state;
     const newItemsAssigned: IItemsList[] = [];
     const newItemsUnnasigned: IItemsList[] = itemsUnassigned.map(item => ({
       ...item,
