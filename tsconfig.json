@@ -3,11 +3,7 @@
     "outDir": "./lib/",
     "declarationDir": "./lib/types/",
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": false,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
@@ -29,7 +25,5 @@
     "src/demo",
     "src/docs"
   ],
-  "include": [
-    "src/components"
-  ]
+  "include": ["src"]
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { cloneDeep, isArray, orderBy, remove, find, isNil } from 'lodash';
+import { cloneDeep, find, isArray, isNil, orderBy, remove } from 'lodash';
 import {
   InputGroup,
   Keys,
@@ -132,12 +132,9 @@ export const SearchSelect = (props: IProps) => {
 
   const setSearchSelectionText = (value: string | number) => {
     const option = findOptionsValue(props.options, value);
-
-    option && option.label
+    option?.label
       ? setSearch(option.label.toString())
-      : !isNil(value)
-      ? setSearch(value.toString())
-      : '';
+      : !isNil(value) && setSearch(value.toString());
   };
 
   const handleInteraction = (nextOpenState: boolean, e?: any) => {
