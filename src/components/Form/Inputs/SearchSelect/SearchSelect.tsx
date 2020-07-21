@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { cloneDeep, isArray, orderBy, remove, find, isNil } from 'lodash';
+import { cloneDeep, find, isArray, isNil, orderBy, remove } from 'lodash';
 import {
   InputGroup,
   Keys,
   Popover,
-  PopoverInteractionKind
+  PopoverInteractionKind,
 } from '@blueprintjs/core';
 
 import { IItem } from '../../types';
@@ -85,14 +85,10 @@ export const SearchSelect = (props: IProps) => {
         }
 
         return (
-          value.value
-            .toString()
-            .toLowerCase()
-            .indexOf(search.toLowerCase()) !== -1 ||
-          value.label
-            .toString()
-            .toLowerCase()
-            .indexOf(search.toLowerCase()) !== -1 ||
+          value.value.toString().toLowerCase().indexOf(search.toLowerCase()) !==
+            -1 ||
+          value.label.toString().toLowerCase().indexOf(search.toLowerCase()) !==
+            -1 ||
           !enableFilter
         );
       } catch {
@@ -132,12 +128,9 @@ export const SearchSelect = (props: IProps) => {
 
   const setSearchSelectionText = (value: string | number) => {
     const option = findOptionsValue(props.options, value);
-
-    option && option.label
+    option?.label
       ? setSearch(option.label.toString())
-      : !isNil(value)
-      ? setSearch(value.toString())
-      : '';
+      : !isNil(value) && setSearch(value.toString());
   };
 
   const handleInteraction = (nextOpenState: boolean, e?: any) => {
@@ -192,7 +185,7 @@ export const SearchSelect = (props: IProps) => {
     if (props.multi && isArray(selection)) {
       const selected = cloneDeep(selection);
       if (selection.includes(value.value)) {
-        remove(selected, val => val === value.value);
+        remove(selected, (val) => val === value.value);
       } else {
         selected.push(value.value);
       }
@@ -249,13 +242,13 @@ export const SearchSelect = (props: IProps) => {
       modifiers={{
         flip: { enabled: true },
         keepTogether: { enabled: true },
-        preventOverflow: { enabled: true }
+        preventOverflow: { enabled: true },
       }}
       onInteraction={handleInteraction}
     >
       <div onKeyUpCapture={onKeyPress}>
         <InputGroup
-          inputRef={ref => (inputRef.current = ref)}
+          inputRef={(ref) => (inputRef.current = ref)}
           autoFocus={false}
           className={`gsi-input-select ${
             props.multi ? 'gsi-input-multi-select' : ''
@@ -278,7 +271,7 @@ export const SearchSelect = (props: IProps) => {
         style={{
           width: popoverWidth,
           position: 'relative',
-          maxWidth: 400
+          maxWidth: 400,
         }}
         onKeyUpCapture={onKeyPress}
       >
