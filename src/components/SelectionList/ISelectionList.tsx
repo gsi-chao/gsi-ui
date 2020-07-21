@@ -7,6 +7,7 @@ export interface IItemsList {
   icon?: IconName | JSX.Element | false | null | undefined;
   value: string;
   active?: boolean;
+  extraData?: any;
 }
 
 export interface ISelectionListProps {
@@ -22,4 +23,5 @@ export interface ISelectionListProps {
     textColor: string;
     background: string;
   };
+  getTemplate?(element: IItemsList): any;
 }

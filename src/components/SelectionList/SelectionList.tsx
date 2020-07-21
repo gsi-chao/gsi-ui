@@ -61,7 +61,8 @@ export class VSelectionList extends Component<
       elevation,
       className,
       padding,
-      height
+      height,
+      getTemplate
     } = this.props;
 
     return (
@@ -87,7 +88,7 @@ export class VSelectionList extends Component<
                   active={active}
                   background={backgroundColor}
                   color={textColor}
-                  text={text}
+                  text={getTemplate?.(element) ?? text}
                   onDoubleClick={() => {
                     this.props.onDoubleClick!(element);
                   }}
