@@ -36,6 +36,7 @@ export interface ISelectItemsProps {
     background: string;
   };
   onReturnAssignedUnassignedItems?: (obj: AssignedUnassignedItems) => void;
+  getTemplate?(element: IItemsList): any;
 }
 
 export interface ISelectItemsState {
@@ -280,7 +281,7 @@ export class SelectUnselectItems extends Component<
   };
 
   render() {
-    const { intentSave, intentCancel, displayCount } = this.props;
+    const { intentSave, intentCancel, displayCount, getTemplate } = this.props;
     const { itemsUnassigned, itemsAssigned } = this.state;
     const itemsUnassignedSearch = itemsUnassigned.map(item => ({
       label: item.text,
@@ -316,6 +317,7 @@ export class SelectUnselectItems extends Component<
                 )}
                 onSelect={this.selectItemFromUnselectedList}
                 height={this.props.listsHeights || '242.5px'}
+                {...{ getTemplate }}
               />
             </StyledScroll>
             <div style={{ width: 'calc(100% + 3px)', marginBottom: '5px' }}>
@@ -421,6 +423,7 @@ export class SelectUnselectItems extends Component<
                 )}
                 onSelect={this.selectItemFromSelectedList}
                 height={this.props.listsHeights || '242.5px'}
+                {...{ getTemplate }}
               />
             </StyledScroll>
             <div style={{ width: 'calc(100% + 3px)', marginBottom: '5px' }}>
