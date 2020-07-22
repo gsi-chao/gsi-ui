@@ -1,3 +1,10 @@
+# [1.2.0-beta.4](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.3...v1.2.0-beta.4) (2020-07-22)
+
+
+### Features
+
+* added template to SelectUnselect component' ([3cfeb0a](https://github.com/gsi-chao/gsi-ui/commit/3cfeb0a275c30d8c4e67058447573979c5df2f72))
+
 # [1.2.0-beta.3](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.2...v1.2.0-beta.3) (2020-07-21)
 
 
