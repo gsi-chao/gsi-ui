@@ -61,14 +61,8 @@ export const SearchSelect = (props: IProps) => {
       const option = findOptionsValue(props.options, props.value);
       option && option.label && setSearch(option.label.toString());
     } else {
-      if (props.multi && props.value.length === 1) {
-        const option = findOptionsValue(props.options, props.value[0]);
-        viewSelection(option);
-      } else {
-        clearSearch();
-      }
+      setSearch('');
     }
-
     setSelection(props.value);
   }, [props.value, props.options]);
 
@@ -111,10 +105,6 @@ export const SearchSelect = (props: IProps) => {
     setOptions(opt);
     !props.popoverWidth && setPopoverWidth(w + 30);
   }, [props.options, search]);
-
-  const clearSearch = () => {
-    setSearch('');
-  };
 
   const onSearchChange = (e: any) => {
     !isOpen && setIsOpen(true);
@@ -159,28 +149,11 @@ export const SearchSelect = (props: IProps) => {
       }
       !props.disabled && setIsOpen(nextOpenState);
       !nextOpenState && onChangeItems(selection);
-      props.multi && resetStateMulti();
+      props.multi && setSearch('');
       !props.multi && selection && setSearchSelectionText(selection || '');
-      !props.multi && options.length === 0 && clearSearch();
+      !props.multi && options.length === 0 && setSearch('');
     } catch (e) {
       !props.disabled && setIsOpen(nextOpenState);
-    }
-  };
-
-  const resetStateMulti = () => {
-    if (props.multi && selection?.length === 1 && !!props?.value?.length) {
-      const { options } = props;
-      const elementSelect = find(
-        options,
-        (item: IItem) => item.value === props.value[0]
-      );
-      const elementSelectLabel = elementSelect?.label ?? '';
-      if (elementSelectLabel !== search) {
-        setSearch(elementSelectLabel);
-        setEnableFilter(false);
-      }
-    } else if (props.multi && !props?.value?.length && !selection.length) {
-      clearSearch();
     }
   };
 
@@ -203,12 +176,7 @@ export const SearchSelect = (props: IProps) => {
       } else {
         selected.push(value.value);
       }
-      setEnableFilter(false);
-      clearSearch();
-      if (selected.length === 1) {
-        const option = findOptionsValue(props.options, selected[0]);
-        viewSelection(option);
-      }
+
       setSelection(selected);
     } else {
       setSelection(value.value);
@@ -224,14 +192,6 @@ export const SearchSelect = (props: IProps) => {
       return selection.length;
     }
     return 0;
-  };
-
-  const viewSelection = (value: IItem) => {
-    if (value.label) {
-      setSearch(value.label.toString());
-    } else {
-      clearSearch();
-    }
   };
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLElement>) => {
@@ -252,7 +212,7 @@ export const SearchSelect = (props: IProps) => {
   const onAddNewItem = () => {
     props.onAddNewItem && props.onAddNewItem(search);
     setIsOpen(false);
-    clearSearch();
+    setSearch('');
   };
 
   return (

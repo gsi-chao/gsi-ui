@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Keys, Menu, MenuItem } from '@blueprintjs/core';
-import { findIndex, isArray } from 'lodash';
+import { isArray, findIndex } from 'lodash';
 import VirtualList from 'react-tiny-virtual-list';
 
 import { IItem } from '../../types';
@@ -55,7 +55,7 @@ export const SearchSelectItems = (props: IProps) => {
         setActive(index);
       }
     }
-  }, [props.selection, props.options]);
+  }, [props.selection]);
 
   const onKeyUp = () => {
     active === 0 ? setActive(props.options.length - 1) : setActive(active - 1);
