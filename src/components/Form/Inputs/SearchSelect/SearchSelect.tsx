@@ -4,7 +4,7 @@ import {
   InputGroup,
   Keys,
   Popover,
-  PopoverInteractionKind,
+  PopoverInteractionKind
 } from '@blueprintjs/core';
 
 import { IItem } from '../../types';
@@ -61,7 +61,12 @@ export const SearchSelect = (props: IProps) => {
       const option = findOptionsValue(props.options, props.value);
       option && option.label && setSearch(option.label.toString());
     } else {
-      setSearch('');
+      if (props.multi && props.value.length === 1) {
+        const option = findOptionsValue(props.options, props.value[0]);
+        viewSelection(option);
+      } else {
+        clearSearch();
+      }
     }
     setSelection(props.value);
   }, [props.value, props.options]);
@@ -85,10 +90,14 @@ export const SearchSelect = (props: IProps) => {
         }
 
         return (
-          value.value.toString().toLowerCase().indexOf(search.toLowerCase()) !==
-            -1 ||
-          value.label.toString().toLowerCase().indexOf(search.toLowerCase()) !==
-            -1 ||
+          value.value
+            .toString()
+            .toLowerCase()
+            .indexOf(search.toLowerCase()) !== -1 ||
+          value.label
+            .toString()
+            .toLowerCase()
+            .indexOf(search.toLowerCase()) !== -1 ||
           !enableFilter
         );
       } catch {
@@ -119,6 +128,10 @@ export const SearchSelect = (props: IProps) => {
       }
     }
   }, [search, invokeKeyPress]);
+
+  const clearSearch = () => {
+    setSearch('');
+  };
 
   const onSearchChange = (e: any) => {
     !isOpen && setIsOpen(true);
@@ -162,11 +175,27 @@ export const SearchSelect = (props: IProps) => {
       }
       !props.disabled && setIsOpen(nextOpenState);
       !nextOpenState && onChangeItems(selection);
-      props.multi && setSearch('');
+      props.multi && resetStateMulti();
       !props.multi && selection && setSearchSelectionText(selection || '');
-      !props.multi && options.length === 0 && setSearch('');
+      !props.multi && options.length === 0 && clearSearch();
     } catch (e) {
       !props.disabled && setIsOpen(nextOpenState);
+    }
+  };
+  const resetStateMulti = () => {
+    if (props.multi && selection?.length === 1 && !!props?.value?.length) {
+      const { options } = props;
+      const elementSelect = find(
+        options,
+        (item: IItem) => item.value === props.value[0]
+      );
+      const elementSelectLabel = elementSelect?.label ?? '';
+      if (elementSelectLabel !== search) {
+        setSearch(elementSelectLabel);
+        setEnableFilter(false);
+      }
+    } else if (props.multi && !props?.value?.length && !selection.length) {
+      clearSearch();
     }
   };
 
@@ -185,11 +214,16 @@ export const SearchSelect = (props: IProps) => {
     if (props.multi && isArray(selection)) {
       const selected = cloneDeep(selection);
       if (selection.includes(value.value)) {
-        remove(selected, (val) => val === value.value);
+        remove(selected, val => val === value.value);
       } else {
         selected.push(value.value);
       }
-
+      setEnableFilter(false);
+      clearSearch();
+      if (selected.length === 1) {
+        const option = findOptionsValue(props.options, selected[0]);
+        viewSelection(option);
+      }
       setSelection(selected);
     } else {
       setSelection(value.value);
@@ -198,6 +232,14 @@ export const SearchSelect = (props: IProps) => {
     inputRef.current && inputRef.current.focus();
     !props.multi && value?.label && setSearch(value.label.toString());
     setHasChange(true);
+  };
+
+  const viewSelection = (value: IItem) => {
+    if (value.label) {
+      setSearch(value.label.toString());
+    } else {
+      clearSearch();
+    }
   };
 
   const getSelectionLength = () => {
@@ -226,7 +268,7 @@ export const SearchSelect = (props: IProps) => {
   const onAddNewItem = () => {
     props.onAddNewItem && props.onAddNewItem(search);
     setIsOpen(false);
-    setSearch('');
+    clearSearch();
   };
 
   return (
@@ -242,13 +284,13 @@ export const SearchSelect = (props: IProps) => {
       modifiers={{
         flip: { enabled: true },
         keepTogether: { enabled: true },
-        preventOverflow: { enabled: true },
+        preventOverflow: { enabled: true }
       }}
       onInteraction={handleInteraction}
     >
       <div onKeyUpCapture={onKeyPress}>
         <InputGroup
-          inputRef={(ref) => (inputRef.current = ref)}
+          inputRef={ref => (inputRef.current = ref)}
           autoFocus={false}
           className={`gsi-input-select ${
             props.multi ? 'gsi-input-multi-select' : ''
@@ -271,7 +313,7 @@ export const SearchSelect = (props: IProps) => {
         style={{
           width: popoverWidth,
           position: 'relative',
-          maxWidth: 400,
+          maxWidth: 400
         }}
         onKeyUpCapture={onKeyPress}
       >
