@@ -1,3 +1,10 @@
+# [1.2.0-beta.5](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.4...v1.2.0-beta.5) (2020-08-29)
+
+
+### Features
+
+* **search-select:** add the ability to display the label when selecting an item ([1ff5c05](https://github.com/gsi-chao/gsi-ui/commit/1ff5c05fd6f75c36abd0a3a4152e58d146fda9c9))
+
 # [1.2.0-beta.4](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.3...v1.2.0-beta.4) (2020-07-22)
 
 
