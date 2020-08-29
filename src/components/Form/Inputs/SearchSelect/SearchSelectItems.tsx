@@ -65,7 +65,7 @@ export const SearchSelectItems = (props: IProps) => {
   useEffect(() => {
     const index = findOptionsIndexValue(props.options, props.selection);
     setActive(index);
-  }, [props.selection]);
+  }, [props.selection, props.options]);
 
   const onKeyUp = () => {
     active === 0 ? setActive(props.options.length - 1) : setActive(active - 1);
