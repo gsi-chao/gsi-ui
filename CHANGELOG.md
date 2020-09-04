@@ -1,3 +1,10 @@
+# [1.2.0-beta.7](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.6...v1.2.0-beta.7) (2020-09-04)
+
+
+### Features
+
+* **VSearchSelectField.tsx:** Added new way of displaying data list items: as an indented tree. ([310f40b](https://github.com/gsi-chao/gsi-ui/commit/310f40b10b4e87c5f5f148a262a3f683a34142bf))
+
 # [1.2.0-beta.6](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.5...v1.2.0-beta.6) (2020-09-04)
 
 
