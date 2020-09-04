@@ -1,3 +1,10 @@
+# [1.2.0-beta.6](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.5...v1.2.0-beta.6) (2020-09-04)
+
+
+### Bug Fixes
+
+* **VSearchSelectField.tsx:** Component crashes if get defined value but no options. Gets last item selected when reset search value. ([bdfb2b3](https://github.com/gsi-chao/gsi-ui/commit/bdfb2b3e62a14721ca9f8d90bd15a032bc522781))
+
 # [1.2.0-beta.5](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.4...v1.2.0-beta.5) (2020-08-29)
 
 
