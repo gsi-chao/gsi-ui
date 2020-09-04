@@ -61,7 +61,7 @@ export const SearchSelect = (props: IProps) => {
       const option = findOptionsValue(props.options, props.value);
       option && option.label && setSearch(option.label.toString());
     } else {
-      if (props.multi && props.value.length === 1) {
+      if (props.multi && props.value.length === 1 && !!props.options?.length) {
         const option = findOptionsValue(props.options, props.value[0]);
         viewSelection(option);
       } else {
@@ -114,8 +114,9 @@ export const SearchSelect = (props: IProps) => {
   useEffect(() => {
     const deselect = () => {
       if (isOpen) {
-        setSelection('');
-        props.onChange && props.onChange('');
+        const reset = !props.allowEmpty && !props.multi ? selection : '';
+        setSelection(reset);
+        props.onChange && props.onChange(reset);
       }
     };
     if (search.length === 0 && !props.multi) {
