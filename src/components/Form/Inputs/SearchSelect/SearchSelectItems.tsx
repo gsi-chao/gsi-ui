@@ -5,6 +5,7 @@ import VirtualList from 'react-tiny-virtual-list';
 
 import { IItem } from '../../types';
 import { SelectItemCheckbox } from './styled';
+import {get} from 'lodash'
 
 interface IProps {
   options: IItem[];
@@ -17,6 +18,7 @@ interface IProps {
   search: string;
   allowEmpty?: boolean;
   onKeyPressed?: () => void;
+  displayAsTree?: boolean
 }
 
 export const SearchSelectItems = (props: IProps) => {
@@ -114,12 +116,13 @@ export const SearchSelectItems = (props: IProps) => {
           itemSize={30} // Also supports variable heights (array or function getter)
           renderItem={({ index, style }) => (
             <MenuItem
-              style={style}
+              style={{...props.displayAsTree && { paddingLeft: props.displayAsTree && get(props.options, `[${index}].isParent`, false) ? '7px':'20px'}, ...style}}
               active={index === active}
               key={index}
               className={'select-item'}
               icon={props.options[index].icon}
               text={props.options[index].label}
+
               labelElement={getSelectedLabel(props.options[index].value)}
               onClick={() => props.selectDeselectItem(props.options[index])}
             />

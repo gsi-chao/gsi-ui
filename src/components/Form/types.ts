@@ -4,5 +4,6 @@ export interface IItem {
   value: any;
   label: string;
   rep?: string;
-  icon?: IconName
+  icon?: IconName;
+  isParent?: boolean;
 }
