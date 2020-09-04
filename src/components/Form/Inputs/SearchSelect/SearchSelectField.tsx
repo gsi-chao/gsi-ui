@@ -23,6 +23,7 @@ export interface ISearchSelectFieldProps extends IFieldProps {
   allowEmpty?: boolean;
   popoverMinimal?: boolean;
   tipBgColor?: string;
+  displayAsTree?: boolean
 }
 
 export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
@@ -53,7 +54,8 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
     sort,
     allowEmpty,
     popoverMinimal,
-    tipBgColor
+    tipBgColor,
+    displayAsTree
   } = props;
 
   useEffect(() => {
@@ -121,6 +123,7 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
           fixedInputWidthPx={fixedInputWidthPx}
           allowEmpty={allowEmpty}
           popoverMinimal={popoverMinimal}
+          displayAsTree={displayAsTree}
         />
       </FormFieldContainer>
     </StyledPopOverWrapper>

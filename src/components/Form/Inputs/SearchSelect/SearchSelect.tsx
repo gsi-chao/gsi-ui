@@ -24,6 +24,7 @@ interface IProps {
   disabled?: boolean;
   allowEmpty?: boolean;
   popoverMinimal?: boolean;
+  displayAsTree?: boolean
 }
 
 export const SearchSelect = (props: IProps) => {
@@ -104,7 +105,7 @@ export const SearchSelect = (props: IProps) => {
         return false;
       }
     });
-    if (props.sort) {
+    if (props.sort && !props.displayAsTree) {
       opt = orderBy(opt, ['label'], [props.sort]);
     }
     setOptions(opt);
@@ -328,6 +329,7 @@ export const SearchSelect = (props: IProps) => {
           onAddNewItem={onAddNewItem}
           allowEmpty={props.allowEmpty}
           onKeyPressed={() => setIsOpen(false)}
+          displayAsTree={props.displayAsTree}
         />
       </div>
     </Popover>
