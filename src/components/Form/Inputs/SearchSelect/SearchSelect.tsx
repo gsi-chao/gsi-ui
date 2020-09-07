@@ -61,7 +61,7 @@ export const SearchSelect = (props: IProps) => {
     }
     if (!props.multi && props.value !== '') {
       const option = findOptionsValue(props.options, props.value);
-      option?.label && setSearch(option.label.toString());
+      !!option?.label && setSearch(option.label.toString());
     } else {
       if (props.multi && props.value.length === 1 && !!props.options?.length) {
         const option = findOptionsValue(props.options, props.value[0]);
@@ -242,7 +242,7 @@ export const SearchSelect = (props: IProps) => {
   };
 
   const viewSelection = (value: IItem) => {
-    if (!!value.label) {
+    if (!!value?.label) {
       setSearch(value.label.toString());
     } else {
       clearSearch();
