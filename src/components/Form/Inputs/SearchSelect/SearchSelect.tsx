@@ -24,7 +24,8 @@ interface IProps {
   disabled?: boolean;
   allowEmpty?: boolean;
   popoverMinimal?: boolean;
-  displayAsTree?: boolean
+  displayAsTree?: boolean;
+  treeChildIndentWidth?: number;
 }
 
 export const SearchSelect = (props: IProps) => {
@@ -113,10 +114,14 @@ export const SearchSelect = (props: IProps) => {
   }, [props.options, search]);
 
   useEffect(() => {
-    const deselect = () => {
-      if (isOpen) {
-        const reset = !props.allowEmpty && !props.multi ? selection : '';
+    const deselect = (isKeyDeletedPressed = false) => {
+      if (isOpen || isKeyDeletedPressed) {
+        const reset = (!props.allowEmpty && !props.multi ) ? selection : [];
         setSelection(reset);
+        if (!!reset) {
+          setEnableFilter(false);
+          setIsOpen(true);
+        }
         props.onChange && props.onChange(reset);
       }
     };
@@ -125,7 +130,7 @@ export const SearchSelect = (props: IProps) => {
     }
     if (invokeKeyPress !== 'NONE') {
       if (invokeKeyPress === Keys.DELETE) {
-        deselect();
+        deselect(true);
         setSearch('');
       }
     }
@@ -230,6 +235,7 @@ export const SearchSelect = (props: IProps) => {
     } else {
       setSelection(value.value);
       setEnableFilter(false);
+      if(!!!value.value && props.allowEmpty) clearSearch()
     }
     inputRef.current && inputRef.current.focus();
     !props.multi && value?.label && setSearch(value.label.toString());
@@ -329,8 +335,9 @@ export const SearchSelect = (props: IProps) => {
           allowNewItem={!!props.allowNewItem}
           onAddNewItem={onAddNewItem}
           allowEmpty={props.allowEmpty}
-          onKeyPressed={() => setIsOpen(false)}
+          onKeyPressed={() => setIsOpen(!!(!props.allowEmpty && !props.multi))}
           displayAsTree={props.displayAsTree}
+          treeChildIndentWidth={props.treeChildIndentWidth}
         />
       </div>
     </Popover>
