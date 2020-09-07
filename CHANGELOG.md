@@ -1,3 +1,10 @@
+# [1.2.0-beta.9](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.8...v1.2.0-beta.9) (2020-09-07)
+
+
+### Bug Fixes
+
+* fixed search select label ([1db4592](https://github.com/gsi-chao/gsi-ui/commit/1db45923485bb6c0cf5ab5f1fdc08e52c85bdf88))
+
 # [1.2.0-beta.8](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.7...v1.2.0-beta.8) (2020-09-07)
 
 
