@@ -61,7 +61,7 @@ export const SearchSelect = (props: IProps) => {
     }
     if (!props.multi && props.value !== '') {
       const option = findOptionsValue(props.options, props.value);
-      option && option.label && setSearch(option.label.toString());
+      option?.label && setSearch(option.label.toString());
     } else {
       if (props.multi && props.value.length === 1 && !!props.options?.length) {
         const option = findOptionsValue(props.options, props.value[0]);
@@ -82,8 +82,7 @@ export const SearchSelect = (props: IProps) => {
     let opt = props.options.filter((value: IItem) => {
       try {
         const factor = !props.multi ? 6.8 : 7.8;
-        const lw =
-          value && value.label ? value.label.toString().length * factor : 100;
+        const lw = value?.label ? value.label.toString().length * factor : 100;
         if (lw > w) {
           w = lw;
         }
@@ -116,7 +115,7 @@ export const SearchSelect = (props: IProps) => {
   useEffect(() => {
     const deselect = (isKeyDeletedPressed = false) => {
       if (isOpen || isKeyDeletedPressed) {
-        const reset = (!props.allowEmpty && !props.multi ) ? selection : [];
+        const reset = !props.allowEmpty && !props.multi ? selection : [];
         setSelection(reset);
         if (!!reset) {
           setEnableFilter(false);
@@ -235,7 +234,7 @@ export const SearchSelect = (props: IProps) => {
     } else {
       setSelection(value.value);
       setEnableFilter(false);
-      if(!!!value.value && props.allowEmpty) clearSearch()
+      if (!value.value && props.allowEmpty) clearSearch();
     }
     inputRef.current && inputRef.current.focus();
     !props.multi && value?.label && setSearch(value.label.toString());
@@ -243,7 +242,7 @@ export const SearchSelect = (props: IProps) => {
   };
 
   const viewSelection = (value: IItem) => {
-    if (value.label) {
+    if (!!value.label) {
       setSearch(value.label.toString());
     } else {
       clearSearch();
