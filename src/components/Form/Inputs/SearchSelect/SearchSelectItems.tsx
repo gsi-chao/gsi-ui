@@ -5,7 +5,7 @@ import VirtualList from 'react-tiny-virtual-list';
 
 import { IItem } from '../../types';
 import { SelectItemCheckbox } from './styled';
-import {get} from 'lodash'
+import { get } from 'lodash';
 
 interface IProps {
   options: IItem[];
@@ -18,7 +18,8 @@ interface IProps {
   search: string;
   allowEmpty?: boolean;
   onKeyPressed?: () => void;
-  displayAsTree?: boolean
+  displayAsTree?: boolean;
+  treeChildIndentWidth?: number;
 }
 
 export const SearchSelectItems = (props: IProps) => {
@@ -51,7 +52,7 @@ export const SearchSelectItems = (props: IProps) => {
           break;
         case Keys.DELETE:
           setIsKeyUpOrDownPressed(false);
-          setActive(-1);
+          props.allowEmpty && props.multi &&  setActive(  -1);
           props.onKeyPressed && props.onKeyPressed();
 
           break;
@@ -116,13 +117,21 @@ export const SearchSelectItems = (props: IProps) => {
           itemSize={30} // Also supports variable heights (array or function getter)
           renderItem={({ index, style }) => (
             <MenuItem
-              style={{...props.displayAsTree && { paddingLeft: props.displayAsTree && get(props.options, `[${index}].isParent`, false) ? '7px':'20px'}, ...style}}
+              style={{
+                ...(props.displayAsTree && {
+                  paddingLeft:
+                    props.displayAsTree &&
+                    get(props.options, `[${index}].isParent`, false)
+                      ? '7px'
+                      : props?.treeChildIndentWidth ?? '30px'
+                }),
+                ...style
+              }}
               active={index === active}
               key={index}
               className={'select-item'}
               icon={props.options[index].icon}
               text={props.options[index].label}
-
               labelElement={getSelectedLabel(props.options[index].value)}
               onClick={() => props.selectDeselectItem(props.options[index])}
             />
