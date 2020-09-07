@@ -1,3 +1,10 @@
+# [1.2.0-beta.10](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.9...v1.2.0-beta.10) (2020-09-07)
+
+
+### Bug Fixes
+
+* fixed undefined variable ([c290a5b](https://github.com/gsi-chao/gsi-ui/commit/c290a5bc862f9eb654ef833e0493cb89a7c3ffa2))
+
 # [1.2.0-beta.9](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.8...v1.2.0-beta.9) (2020-09-07)
 
 
