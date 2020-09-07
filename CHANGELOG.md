@@ -1,3 +1,10 @@
+# [1.2.0-beta.8](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.7...v1.2.0-beta.8) (2020-09-07)
+
+
+### Bug Fixes
+
+* **VSearchSelectField.tsx:** Did some minor component behavior adjustments. ([2cc5066](https://github.com/gsi-chao/gsi-ui/commit/2cc5066cd81e95df0645fdab85e158ae86abd942))
+
 # [1.2.0-beta.7](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.6...v1.2.0-beta.7) (2020-09-04)
 
 
