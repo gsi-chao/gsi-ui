@@ -91,10 +91,6 @@ export const SearchSelect = (props: IProps) => {
         }
 
         return (
-          value.value
-            .toString()
-            .toLowerCase()
-            .indexOf(search.toLowerCase()) !== -1 ||
           value.label
             .toString()
             .toLowerCase()
