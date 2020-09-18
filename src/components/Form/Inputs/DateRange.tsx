@@ -17,6 +17,7 @@ import { Validators } from '../Validators';
 
 import { isDate } from 'lodash';
 import { FieldState } from 'formstate';
+import { DayPickerProps } from 'react-day-picker';
 
 /**
  * Field component. Must be an observer.
@@ -30,6 +31,7 @@ export interface IInputFieldProps extends IFieldProps {
   icon?: IIcon;
   format?: string;
   popoverProps?: IPopoverProps;
+  dayPickerProps?: DayPickerProps;
   precision?: TimePrecision;
   useAmPm?: boolean;
   maxTime?: Date;
@@ -123,6 +125,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     noLabel,
     required,
     popoverProps,
+    dayPickerProps,
     maxTime,
     minTime,
     validators,
@@ -198,6 +201,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
             minimal: true,
             ...popoverProps,
           }}
+          dayPickerProps={dayPickerProps}
           shortcuts={props.shortcuts}
           allowSingleDayRange={allowSingleDayRange}
           contiguousCalendarMonths={contiguousCalendarMonths}
