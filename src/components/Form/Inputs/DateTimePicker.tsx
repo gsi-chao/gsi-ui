@@ -15,6 +15,7 @@ import { IFieldProps } from './IFieldProps';
 import { FormFieldContainer } from './FormFieldContainer';
 import { TimePrecision } from '@blueprintjs/datetime/lib/esm/timePicker';
 import { Validators } from '../Validators';
+import { DayPickerProps } from 'react-day-picker';
 
 /**
  * Field component. Must be an observer.
@@ -29,6 +30,7 @@ export interface IInputFieldProps extends IFieldProps {
   icon?: IIcon;
   format?: string;
   popoverProps?: IPopoverProps;
+  dayPickerProps?: DayPickerProps;
   precision?: TimePrecision;
   useAmPm?: boolean;
   maxTime?: Date;
@@ -94,6 +96,7 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     noLabel,
     required,
     popoverProps,
+    dayPickerProps,
     maxTime,
     minTime,
     useAmPm,
@@ -142,8 +145,8 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     setMinTimeCalculate(
       minTime
         ? outOfRangeError(minTime, valueField, 'MIN')
-          ? moment('1/1/1900').toDate()
-          : minTime
+        ? moment('1/1/1900').toDate()
+        : minTime
         : moment('1/1/1900').toDate()
     );
   }, [minTime, valueField]);
@@ -152,8 +155,8 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     setMaxTimeCalculate(
       maxTime
         ? outOfRangeError(maxTime, valueField, 'MAX')
-          ? moment('1/1/2100').toDate()
-          : maxTime
+        ? moment('1/1/2100').toDate()
+        : maxTime
         : moment('1/1/2100').toDate()
     );
   }, [maxTime, valueField]);
@@ -270,6 +273,7 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
               timePrecision={dateType === 'DATETIME' ? precision : undefined}
               rightElement={iconJSX()}
               popoverProps={popoverProps}
+              dayPickerProps={dayPickerProps}
               canClearSelection={canClearSelection}
               closeOnSelection={closeOnSelection}
               shortcuts={shortcuts}
