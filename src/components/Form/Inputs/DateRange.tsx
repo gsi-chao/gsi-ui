@@ -201,7 +201,10 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
             minimal: true,
             ...popoverProps,
           }}
-          dayPickerProps={dayPickerProps}
+          dayPickerProps={{
+            fixedWeeks: true,
+            ...dayPickerProps
+          }}
           shortcuts={props.shortcuts}
           allowSingleDayRange={allowSingleDayRange}
           contiguousCalendarMonths={contiguousCalendarMonths}
