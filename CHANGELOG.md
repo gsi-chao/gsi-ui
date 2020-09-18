@@ -1,3 +1,10 @@
+# [1.2.0-beta.13](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.12...v1.2.0-beta.13) (2020-09-18)
+
+
+### Features
+
+* **VDateTimePicker:** Make display 6 weeks per months prop set as default. ([55c4aa1](https://github.com/gsi-chao/gsi-ui/commit/55c4aa1052f5a085f96722ef1db720dd903edeb2))
+
 # [1.2.0-beta.12](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.11...v1.2.0-beta.12) (2020-09-18)
 
 
