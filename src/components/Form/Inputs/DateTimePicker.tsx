@@ -273,7 +273,10 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
               timePrecision={dateType === 'DATETIME' ? precision : undefined}
               rightElement={iconJSX()}
               popoverProps={popoverProps}
-              dayPickerProps={dayPickerProps}
+              dayPickerProps={{
+                fixedWeeks: true,
+            ...dayPickerProps
+              }}
               canClearSelection={canClearSelection}
               closeOnSelection={closeOnSelection}
               shortcuts={shortcuts}
