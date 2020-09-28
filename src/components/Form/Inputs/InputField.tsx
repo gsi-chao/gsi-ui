@@ -17,6 +17,7 @@ export interface IInputFieldProps extends IFieldProps {
   leftIcon?: IconName;
   rightElement?: JSX.Element;
   round?: boolean;
+  readOnly?: boolean;
   fill?: boolean;
   tipLabel?: string;
   upperCaseFormat?: boolean;
@@ -68,7 +69,8 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
       autoComplete,
       onKeyPress,
       onBlur,
-      onFocus
+      onFocus,
+      readOnly
     } = this.props;
     let rightEl;
     if (!rightElement) {
@@ -133,8 +135,7 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
               textTransform: this.props.upperCaseFormat ? 'uppercase' : 'none'
             }}
             onPaste={e => {
-              const oldValue =
-                e && e.currentTarget && e.currentTarget.value;
+              const oldValue = e && e.currentTarget && e.currentTarget.value;
               const newValue =
                 e && e.clipboardData && e.clipboardData.getData('Text');
               if (this.props.onPaste) {
@@ -143,6 +144,7 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
             }}
             onBlur={onBlur}
             onFocus={onFocus}
+            readOnly={readOnly}
           />
         </FormFieldContainer>
       </StyledInput>
