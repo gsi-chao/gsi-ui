@@ -3,8 +3,8 @@ import { DateRangeInputSectionStyled } from '../styled/styles';
 import { DateRangeInput } from './DateRangeInput';
 import { IDateRangeInputSection } from '../type/IDateRangeInputSection';
 import { DateRangeUtils } from '../utils/DateRangeUtils';
-import moment from 'moment';
 import { DEFAULT_FORMAT } from '../type/ITypes';
+import moment from 'moment';
 
 export const DateRangeInputSection = (props: IDateRangeInputSection) => {
   const { state, format, dateType } = props;

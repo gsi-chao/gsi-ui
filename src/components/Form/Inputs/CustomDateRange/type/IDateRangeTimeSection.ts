@@ -1,4 +1,4 @@
-import { TimePrecision } from '@blueprintjs/datetime/src/timePicker';
+import { TimePrecision } from '@blueprintjs/datetime';
 
 export interface IDateRangeTimeSection {
   startTime: {
