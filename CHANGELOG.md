@@ -1,3 +1,11 @@
+# [1.2.0-beta.15](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.14...v1.2.0-beta.15) (2020-09-28)
+
+
+### Features
+
+* **custom_date-range:** add custom date range component ([e92574c](https://github.com/gsi-chao/gsi-ui/commit/e92574cd9e2329abd0a77c4ce0b49a565a3883c6))
+* **custom-date-range:** refactor code in Custom Date Range component ([ad7b41b](https://github.com/gsi-chao/gsi-ui/commit/ad7b41b9b3925bdadfe3dda2497ab416471d0dd4))
+
 # [1.2.0-beta.14](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.13...v1.2.0-beta.14) (2020-09-28)
 
 
