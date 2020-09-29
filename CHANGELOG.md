@@ -1,3 +1,10 @@
+# [1.2.0-beta.16](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.15...v1.2.0-beta.16) (2020-09-29)
+
+
+### Bug Fixes
+
+* **custom-range-components:** include validation on the  custom date range Component ([fd686d1](https://github.com/gsi-chao/gsi-ui/commit/fd686d1b7f5db733c978aff006503b1e9a5aed76))
+
 # [1.2.0-beta.15](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.14...v1.2.0-beta.15) (2020-09-28)
 
 
