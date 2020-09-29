@@ -14,11 +14,11 @@ export interface IDateRange {
   state: IStateCustomDateRange;
   onChangeDate: (selectedDates: DateRange) => void;
   onChangeTime: (type: 'START' | 'END') => (value: Date) => void;
+  onChangeState: (date: DateRange) => void;
   dateType: IDateType;
   format?: string;
   maxTime?: Date;
   minTime?: Date;
-  onChange?: (date: DateRange) => void;
   onShortcutChange?: (shortcut: IDateRangeShortcut, index: number) => void;
   shortcuts?: boolean | IDateRangeShortcut[];
   selectedShortcutIndex?: number;

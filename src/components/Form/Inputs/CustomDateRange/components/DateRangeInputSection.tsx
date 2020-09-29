@@ -7,7 +7,7 @@ import { DEFAULT_FORMAT } from '../type/ITypes';
 import moment from 'moment';
 
 export const DateRangeInputSection = (props: IDateRangeInputSection) => {
-  const { state, format, dateType } = props;
+  const { state, format, dateType, onFocus } = props;
 
   const [startDate, endDate] = useMemo(() => {
     const [date1, date2] = DateRangeUtils.buildRangeDate(state, dateType);
@@ -28,6 +28,7 @@ export const DateRangeInputSection = (props: IDateRangeInputSection) => {
           id={'date-range-input-start-date'}
           placeholder={format}
           valueField={startDate}
+          onFocus={onFocus}
         />
       </div>
 
@@ -36,6 +37,7 @@ export const DateRangeInputSection = (props: IDateRangeInputSection) => {
           id={'date-range-input-end-date'}
           placeholder={format}
           valueField={endDate}
+          onFocus={onFocus}
         />
       </div>
     </DateRangeInputSectionStyled>
