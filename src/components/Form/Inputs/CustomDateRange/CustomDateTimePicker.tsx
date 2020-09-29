@@ -124,12 +124,16 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
     globalOnChange(newState);
   };
 
-  const globalOnChange = async (state: IStateCustomDateRange) => {
+  const globalOnChange = (state: IStateCustomDateRange) => {
     const newDates: DateRange = DateRangeUtils.buildRangeDate(state, dateType);
 
-    fieldState?.onChange?.(newDates);
+    onChangeState(newDates);
+  };
+
+  const onChangeState = async (dateRange: DateRange) => {
+    fieldState?.onChange?.(dateRange);
     await fieldState?.validate();
-    onChange?.(newDates);
+    onChange?.(dateRange);
   };
 
   return (
@@ -156,10 +160,10 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
         {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
         <DateRangeComponents
           state={state}
+          onChangeState={onChangeState}
           onChangeDate={onChangeDate}
           onChangeTime={onChangeTime}
           dateType={dateType}
-          onChange={onChange}
           format={format}
           minTime={minTime}
           maxTime={maxTime}

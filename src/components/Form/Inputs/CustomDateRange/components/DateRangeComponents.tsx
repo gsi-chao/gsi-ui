@@ -1,5 +1,5 @@
-import React from 'react';
-import { Popover } from '@blueprintjs/core';
+import React, { useRef, useState } from 'react';
+import { Popover, PopoverInteractionKind } from '@blueprintjs/core';
 import { IDateRange } from '../type/IDateRange';
 import { DateRangeDateTimeSection } from './DateRangeDateTimeSection';
 import { DateRangeInputSection } from './DateRangeInputSection';
@@ -7,6 +7,7 @@ import { DEFAULT_FORMAT } from '../type/ITypes';
 import { DateRangeTimeSection } from './DateRangeTimeSection';
 import { DateRangeTimeSectionWrapper } from '../styled/styles';
 import { DateRangeUtils } from '../utils/DateRangeUtils';
+import { IDateRangeShortcut } from '@blueprintjs/datetime';
 
 export const DateRangeComponents = (props: IDateRange) => {
   const {
@@ -28,15 +29,45 @@ export const DateRangeComponents = (props: IDateRange) => {
     useAmPm,
     precision,
     dayPickerProps,
-    modifiers
+    modifiers,
+    onChangeState
   } = props;
+  const [isOpen, setOpen] = useState(false);
 
   const { startTime, endTime } = DateRangeUtils.transformState(state);
 
   const onClosing = async () => await fieldState?.validate();
 
+  const isNullDateRangeRef = useRef(false);
+
+  const internalOnShortcutChange = (
+    shortcut: IDateRangeShortcut,
+    index: number
+  ) => {
+    const isNotNullRange = shortcut.dateRange.every(it => !!it);
+    if (isNotNullRange) {
+      onChangeState(shortcut.dateRange);
+    } else {
+      onChangeState([null, null]);
+      isNullDateRangeRef.current = true;
+    }
+
+    onShortcutChange?.(shortcut, index);
+  };
+
+  const onFocusInput = () => {
+    setOpen(!isOpen);
+  };
+
+  const onInteraction = (nextOpenState: boolean) => {
+    if (!nextOpenState && !isNullDateRangeRef.current) setOpen(false);
+    isNullDateRangeRef.current = false;
+  };
+
   return (
     <Popover
+      interactionKind={PopoverInteractionKind.HOVER}
+      isOpen={isOpen}
       content={
         <div>
           {dateType === 'DATE' || dateType === 'DATETIME' ? (
@@ -46,7 +77,7 @@ export const DateRangeComponents = (props: IDateRange) => {
               onChangeTime={onChangeTime}
               dateType={dateType}
               shortcuts={shortcuts ? shortcuts : false}
-              onShortcutChange={onShortcutChange}
+              onShortcutChange={internalOnShortcutChange}
               selectedShortcutIndex={selectedShortcutIndex}
               minTime={minTime}
               maxTime={maxTime}
@@ -85,11 +116,13 @@ export const DateRangeComponents = (props: IDateRange) => {
         preventOverflow: { boundariesElement: 'viewport' },
         ...modifiers
       }}
+      onInteraction={onInteraction}
     >
       <DateRangeInputSection
         format={format ?? DEFAULT_FORMAT}
         state={state}
         dateType={dateType}
+        onFocus={onFocusInput}
       />
     </Popover>
   );
