@@ -6,6 +6,7 @@ import {
 import { IFieldProps } from '../../IFieldProps';
 import { IDateType } from './ITypes';
 import { DayPickerProps } from 'react-day-picker';
+import { Modifiers as PopperModifiers } from 'popper.js';
 
 export interface ICustomDateTimePicker extends IFieldProps {
   dateType: IDateType;
@@ -23,6 +24,7 @@ export interface ICustomDateTimePicker extends IFieldProps {
   useAmPm?: boolean;
   precision?: TimePrecision;
   dayPickerProps?: DayPickerProps;
+  modifiers?: PopperModifiers;
 }
 
 export interface ITimeProps {

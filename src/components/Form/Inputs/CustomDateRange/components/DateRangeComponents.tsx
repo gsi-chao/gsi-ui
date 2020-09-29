@@ -27,7 +27,8 @@ export const DateRangeComponents = (props: IDateRange) => {
     onOpening,
     useAmPm,
     precision,
-    dayPickerProps
+    dayPickerProps,
+    modifiers
   } = props;
 
   const { startTime, endTime } = DateRangeUtils.transformState(state);
@@ -36,7 +37,6 @@ export const DateRangeComponents = (props: IDateRange) => {
 
   return (
     <Popover
-      usePortal={false}
       content={
         <div>
           {dateType === 'DATE' || dateType === 'DATETIME' ? (
@@ -81,6 +81,10 @@ export const DateRangeComponents = (props: IDateRange) => {
       minimal
       onClosing={onClosing}
       onOpening={onOpening}
+      modifiers={{
+        preventOverflow: { boundariesElement: 'viewport' },
+        ...modifiers
+      }}
     >
       <DateRangeInputSection
         format={format ?? DEFAULT_FORMAT}

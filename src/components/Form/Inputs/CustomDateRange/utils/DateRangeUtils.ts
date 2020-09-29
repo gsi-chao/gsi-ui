@@ -4,7 +4,6 @@ import { IDateType } from '../type/ITypes';
 import { DateRange } from '@blueprintjs/datetime';
 import { FieldState } from 'formstate';
 import { ITransformState } from '../type/ITransformState';
-import { isDate } from 'lodash';
 
 const includeTimeToDate = (date: Date, hour: number, minute: number) => {
   return moment(date)
@@ -48,7 +47,10 @@ const buildRangeDate = (
       const dateTime1 = moment(`${date1} ${time1}`).toDate();
       const dateTime2 = moment(`${date2} ${time2}`).toDate();
 
-      responseDate = [dateTime1, dateTime2];
+      responseDate = [
+        moment(dateTime1).isValid() ? dateTime1 : null,
+        moment(dateTime2).isValid() ? dateTime2 : null
+      ];
   }
 
   return responseDate;
@@ -75,13 +77,27 @@ const initialDate = (
     }
   };
 
-  const buildState = (range: any) =>
-    range.length === 2 && range.every((it: any) => !!it && isDate(it))
-      ? {
-          start: getTimeAndDate(range[0]),
-          end: getTimeAndDate(range[1])
-        }
-      : defaultConfig;
+  const buildState = (range: any) => {
+    if (range.length === 2 && range.some((it: any) => !!it)) {
+      const [start, end] = range;
+      const {
+        start: defaultConfigStart,
+        end: defaultConfigEnd
+      } = defaultConfig;
+
+      return {
+        start: getTimeAndDate(
+          moment(start).isValid() ? start : null,
+          defaultConfigStart
+        ),
+        end: getTimeAndDate(
+          moment(end).isValid() ? end : null,
+          defaultConfigEnd
+        )
+      };
+    }
+    return defaultConfig;
+  };
 
   if (fieldState) {
     return buildState(fieldState.value);
@@ -94,14 +110,21 @@ const initialDate = (
   return defaultConfig;
 };
 
-const getTimeAndDate = (date: Date) => {
-  const dateParse = moment(`${date}`).format('MM-DD-YYYY');
-  const timeParse = moment(`${date}`).format('hh:mm A');
+const getTimeAndDate = (
+  date: Date | null,
+  defaultConfig: { date: Date | null; time: Date }
+) => {
+  if (date) {
+    const dateParse = moment(`${date}`).format('MM-DD-YYYY');
+    const timeParse = moment(`${date}`).format('hh:mm A');
 
-  return {
-    date: moment(`${dateParse}`).toDate(),
-    time: moment(`${dateParse} ${timeParse}`).toDate()
-  };
+    return {
+      date: moment(`${dateParse}`).toDate(),
+      time: moment(`${dateParse} ${timeParse}`).toDate()
+    };
+  }
+
+  return defaultConfig;
 };
 
 const transformState = (state: IStateCustomDateRange): ITransformState => {
