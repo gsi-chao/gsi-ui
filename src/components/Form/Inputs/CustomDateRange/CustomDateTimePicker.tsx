@@ -41,7 +41,8 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
     endTimeProps,
     useAmPm,
     precision,
-    dayPickerProps
+    dayPickerProps,
+    modifiers
   } = props;
 
   const startValueTime = startTimeProps?.initValue;
@@ -123,10 +124,11 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
     globalOnChange(newState);
   };
 
-  const globalOnChange = (state: IStateCustomDateRange) => {
+  const globalOnChange = async (state: IStateCustomDateRange) => {
     const newDates: DateRange = DateRangeUtils.buildRangeDate(state, dateType);
 
     fieldState?.onChange?.(newDates);
+    await fieldState?.validate();
     onChange?.(newDates);
   };
 
@@ -171,6 +173,7 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
           useAmPm={useAmPm}
           precision={precision}
           dayPickerProps={dayPickerProps}
+          modifiers={modifiers}
         />
       </FormFieldContainer>
     </StyledDatePicker>

@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import { IDateRangeInput } from '../type/IDateRangeInput';
-import { VInputField } from '../../InputField';
+import { VInputFieldStyled } from '../styled/styles';
 
 export const DateRangeInput: FC<IDateRangeInput> = ({
   valueField,
   ...props
 }) => {
   return (
-    <VInputField
+    <VInputFieldStyled
       value={valueField}
       readOnly
       inline={true}

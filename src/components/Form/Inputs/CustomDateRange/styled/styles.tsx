@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { VInputField } from '../../InputField';
 
 export const DateRangeInputSectionStyled = styled.div`
   display: flex;
@@ -35,4 +36,13 @@ export const DateRangeTimeSectionDateTimeBody = styled.div`
   position: absolute;
   top: 280px;
   right: 5px;
+`;
+
+export const VInputFieldStyled = styled(VInputField)`
+  &
+    > div.bp3-form-content
+    > div.gsi-form-field-container
+    > div.gsi-input-and-error-container {
+    max-width: none;
+  }
 `;

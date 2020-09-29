@@ -8,6 +8,7 @@ import { IDateType } from './ITypes';
 import { ITimeProps } from './ICustomDateTimePicker';
 import { FieldState } from 'formstate';
 import { DayPickerProps } from 'react-day-picker';
+import { Modifiers as PopperModifiers } from 'popper.js';
 
 export interface IDateRange {
   state: IStateCustomDateRange;
@@ -29,4 +30,5 @@ export interface IDateRange {
   useAmPm?: boolean;
   precision?: TimePrecision;
   dayPickerProps?: DayPickerProps;
+  modifiers?: PopperModifiers;
 }
