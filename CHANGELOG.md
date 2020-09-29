@@ -1,3 +1,10 @@
+# [1.2.0-beta.17](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.16...v1.2.0-beta.17) (2020-09-29)
+
+
+### Features
+
+* **custom-date-range:** include the interaction with times in custom date range component ([41fc4b7](https://github.com/gsi-chao/gsi-ui/commit/41fc4b77ed161294e9d88abe923aa70071eac92b))
+
 # [1.2.0-beta.16](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.15...v1.2.0-beta.16) (2020-09-29)
 
 
