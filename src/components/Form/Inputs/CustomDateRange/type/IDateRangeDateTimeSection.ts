@@ -1,9 +1,11 @@
-import { IDateRangeShortcut } from '@blueprintjs/datetime/src/shortcuts';
 import { IStateCustomDateRange } from './IStateCustomDateRange';
-import { DateRange } from '@blueprintjs/datetime';
+import {
+  DateRange,
+  IDateRangeShortcut,
+  TimePrecision
+} from '@blueprintjs/datetime';
 import { IDateType } from './ITypes';
 import { ITimeProps } from './ICustomDateTimePicker';
-import { TimePrecision } from '@blueprintjs/datetime/src/timePicker';
 import { DayPickerProps } from 'react-day-picker';
 
 export interface IDateRangeDateTimeSection {

@@ -1,1 +1,1 @@
-export { CustomDateTimePicker } from './CustomDateTimePicker';
+export { VCustomDateTimePicker } from './CustomDateTimePicker';

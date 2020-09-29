@@ -8,9 +8,9 @@ import { DateRangeUtils } from './utils/DateRangeUtils';
 import { DateRange } from '@blueprintjs/datetime';
 import { DateRangeComponents } from './components/DateRangeComponents';
 import { Validators } from '../../Validators';
-import { Observer } from 'mobx-react';
+import moment from 'moment';
 
-export const CustomDateTimePicker = (props: ICustomDateTimePicker) => {
+export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
   const {
     className,
     disabled,
@@ -44,12 +44,19 @@ export const CustomDateTimePicker = (props: ICustomDateTimePicker) => {
     dayPickerProps
   } = props;
 
-  const startValueTime = startTimeProps?.value;
-  const endValueTime = endTimeProps?.value;
+  const startValueTime = startTimeProps?.initValue;
+  const endValueTime = endTimeProps?.initValue;
 
-  const [state, setState] = useState<IStateCustomDateRange>(
-    DateRangeUtils.initialDate(fieldState, value, startValueTime, endValueTime)
-  );
+  const [state, setState] = useState<IStateCustomDateRange>({
+    start: {
+      date: null,
+      time: DateRangeUtils.includeTimeToDate(moment().toDate(), 24, 0)
+    },
+    end: {
+      date: null,
+      time: DateRangeUtils.includeTimeToDate(moment().toDate(), 23, 59)
+    }
+  });
 
   const {
     startDate,
@@ -61,6 +68,17 @@ export const CustomDateTimePicker = (props: ICustomDateTimePicker) => {
   useEffect(() => {
     initialState();
   }, []);
+
+  useEffect(() => {
+    setState(
+      DateRangeUtils.initialDate(
+        fieldState,
+        value,
+        startValueTime,
+        endValueTime
+      )
+    );
+  }, [fieldState, value, startValueTime, endValueTime]);
 
   const initialState = () => {
     const hasValidators = !!validators?.length;
@@ -113,52 +131,48 @@ export const CustomDateTimePicker = (props: ICustomDateTimePicker) => {
   };
 
   return (
-    <Observer
-      render={() => (
-        <StyledDatePicker
-          className={className}
+    <StyledDatePicker
+      className={className}
+      disabled={disabled}
+      inline={inline}
+      intent={fieldState?.hasError ? Intent.DANGER : Intent.NONE}
+      labelFor={id}
+      labelInfo={labelInfo}
+      layer={layer}
+      fill={fill}
+      margin={margin}
+      noLabel={noLabel}
+    >
+      <FormFieldContainer
+        required={required || displayRequired}
+        noLabel={noLabel}
+        label={label}
+        fieldState={fieldState}
+        value={value}
+        tooltip={tooltip}
+      >
+        {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
+        <DateRangeComponents
+          state={state}
+          onChangeDate={onChangeDate}
+          onChangeTime={onChangeTime}
+          dateType={dateType}
+          onChange={onChange}
+          format={format}
+          minTime={minTime}
+          maxTime={maxTime}
+          shortcuts={shortcuts}
+          selectedShortcutIndex={selectedShortcutIndex}
+          onShortcutChange={onShortcutChange}
           disabled={disabled}
-          inline={inline}
-          intent={fieldState?.hasError ? Intent.DANGER : Intent.NONE}
-          labelFor={id}
-          labelInfo={labelInfo}
-          layer={layer}
-          fill={fill}
-          margin={margin}
-          noLabel={noLabel}
-        >
-          <FormFieldContainer
-            required={required || displayRequired}
-            noLabel={noLabel}
-            label={label}
-            fieldState={fieldState}
-            value={value}
-            tooltip={tooltip}
-          >
-            {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
-            <DateRangeComponents
-              state={state}
-              onChangeDate={onChangeDate}
-              onChangeTime={onChangeTime}
-              dateType={dateType}
-              onChange={onChange}
-              format={format}
-              minTime={minTime}
-              maxTime={maxTime}
-              shortcuts={shortcuts}
-              selectedShortcutIndex={selectedShortcutIndex}
-              onShortcutChange={onShortcutChange}
-              disabled={disabled}
-              startTimeProps={startTimeProps}
-              endTimeProps={endTimeProps}
-              fieldState={fieldState}
-              useAmPm={useAmPm}
-              precision={precision}
-              dayPickerProps={dayPickerProps}
-            />
-          </FormFieldContainer>
-        </StyledDatePicker>
-      )}
-    />
+          startTimeProps={startTimeProps}
+          endTimeProps={endTimeProps}
+          fieldState={fieldState}
+          useAmPm={useAmPm}
+          precision={precision}
+          dayPickerProps={dayPickerProps}
+        />
+      </FormFieldContainer>
+    </StyledDatePicker>
   );
 };

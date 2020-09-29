@@ -4,6 +4,7 @@ import { IDateType } from '../type/ITypes';
 import { DateRange } from '@blueprintjs/datetime';
 import { FieldState } from 'formstate';
 import { ITransformState } from '../type/ITransformState';
+import { isDate } from 'lodash';
 
 const includeTimeToDate = (date: Date, hour: number, minute: number) => {
   return moment(date)
@@ -75,7 +76,7 @@ const initialDate = (
   };
 
   const buildState = (range: any) =>
-    range.length === 2 && range.every((it: any) => !!it)
+    range.length === 2 && range.every((it: any) => !!it && isDate(it))
       ? {
           start: getTimeAndDate(range[0]),
           end: getTimeAndDate(range[1])
