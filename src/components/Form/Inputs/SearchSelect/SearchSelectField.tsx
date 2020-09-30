@@ -24,7 +24,8 @@ export interface ISearchSelectFieldProps extends IFieldProps {
   popoverMinimal?: boolean;
   tipBgColor?: string;
   displayAsTree?: boolean;
-  treeChildIndentWidth?:number
+  treeChildIndentWidth?:number,
+  getValueOnSelectMenuItem?:boolean
 }
 
 export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
@@ -57,7 +58,8 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
     popoverMinimal,
     tipBgColor,
     displayAsTree,
-    treeChildIndentWidth
+    treeChildIndentWidth,
+    getValueOnSelectMenuItem
   } = props;
 
   useEffect(() => {
@@ -127,6 +129,7 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
           popoverMinimal={popoverMinimal}
           displayAsTree={displayAsTree}
           treeChildIndentWidth={treeChildIndentWidth}
+          getValueOnSelectMenuItem={getValueOnSelectMenuItem}
         />
       </FormFieldContainer>
     </StyledPopOverWrapper>
