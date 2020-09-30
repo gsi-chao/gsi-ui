@@ -42,7 +42,8 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
     useAmPm,
     precision,
     dayPickerProps,
-    modifiers
+    popoverProps,
+    onCloseSelectorDate
   } = props;
 
   const startValueTime = startTimeProps?.initValue;
@@ -175,7 +176,8 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
           useAmPm={useAmPm}
           precision={precision}
           dayPickerProps={dayPickerProps}
-          modifiers={modifiers}
+          popoverProps={popoverProps}
+          onCloseSelectorDate={onCloseSelectorDate}
         />
       </FormFieldContainer>
     </StyledDatePicker>

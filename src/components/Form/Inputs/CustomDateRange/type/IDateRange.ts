@@ -30,5 +30,6 @@ export interface IDateRange {
   useAmPm?: boolean;
   precision?: TimePrecision;
   dayPickerProps?: DayPickerProps;
-  modifiers?: PopperModifiers;
+  popoverProps?: PopperModifiers;
+  onCloseSelectorDate?: () => void;
 }
