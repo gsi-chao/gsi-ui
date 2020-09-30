@@ -16,7 +16,7 @@ export const DateRangeDateTimeSectionBody = styled.div`
   display: flex;
   flex-direction: column;
   min-height: ${(props: IDateRangeDateTimeSectionBody) =>
-    props.dateType === 'DATETIME' ? '332px' : 'auto'};
+    props.dateType === 'DATETIME' ? '300px' : 'auto'};
 `;
 
 export const DateRangeTimeSectionBody = styled.div`
@@ -34,7 +34,7 @@ export const DateRangeTimeSectionWrapper = styled.div`
 export const DateRangeTimeSectionDateTimeBody = styled.div`
   width: 440px;
   position: absolute;
-  top: 280px;
+  top: 250px;
   right: 5px;
 `;
 
