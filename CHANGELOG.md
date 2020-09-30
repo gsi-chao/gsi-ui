@@ -1,3 +1,10 @@
+# [1.2.0-beta.20](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.19...v1.2.0-beta.20) (2020-09-30)
+
+
+### Features
+
+* **custom-date-range:** add disabled prop in VCustomDateRange ([ece3fea](https://github.com/gsi-chao/gsi-ui/commit/ece3fea61e09b77f2cbeb4abea1d0fdab209fcc4))
+
 # [1.2.0-beta.19](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.18...v1.2.0-beta.19) (2020-09-30)
 
 
