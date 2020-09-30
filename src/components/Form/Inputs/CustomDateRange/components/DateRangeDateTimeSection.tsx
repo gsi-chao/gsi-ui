@@ -1,8 +1,8 @@
 import React from 'react';
-import { DateRangePicker } from '@blueprintjs/datetime';
 import { IDateRangeDateTimeSection } from '../type/IDateRangeDateTimeSection';
 import {
   DateRangeDateTimeSectionBody,
+  DateRangePickerStyled,
   DateRangeTimeSectionDateTimeBody
 } from '../styled/styles';
 import { DateRangeTimeSection } from './DateRangeTimeSection';
@@ -36,7 +36,7 @@ export const DateRangeDateTimeSection = (props: IDateRangeDateTimeSection) => {
 
   return (
     <DateRangeDateTimeSectionBody dateType={dateType}>
-      <DateRangePicker
+      <DateRangePickerStyled
         value={[startDate, endDate]}
         onChange={onChangeDate}
         dayPickerProps={{
@@ -48,6 +48,7 @@ export const DateRangeDateTimeSection = (props: IDateRangeDateTimeSection) => {
         onShortcutChange={onShortcutChange}
         selectedShortcutIndex={selectedShortcutIndex}
         shortcuts={shortcuts}
+        disabled={disabled}
       />
       {dateType === 'DATETIME' && (
         <DateRangeTimeSectionDateTimeBody>

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { VInputField } from '../../InputField';
+import { DateRangePicker } from '@blueprintjs/datetime';
+import { propagateChangeConfirmed } from 'mobx/lib/core/observable';
 
 export const DateRangeInputSectionStyled = styled.div`
   display: flex;
@@ -45,4 +47,12 @@ export const VInputFieldStyled = styled(VInputField)`
     > div.gsi-input-and-error-container {
     max-width: none;
   }
+`;
+
+interface IDateRangePickerStyled {
+  disabled?: boolean;
+}
+export const DateRangePickerStyled = styled(DateRangePicker)`
+  pointer-events: ${(props: IDateRangePickerStyled) =>
+    props.disabled && 'none'};
 `;
