@@ -29,14 +29,18 @@ export const DateRangeComponents = (props: IDateRange) => {
     useAmPm,
     precision,
     dayPickerProps,
-    modifiers,
-    onChangeState
+    popoverProps,
+    onChangeState,
+    onCloseSelectorDate
   } = props;
   const [isOpen, setOpen] = useState(false);
 
   const { startTime, endTime } = DateRangeUtils.transformState(state);
 
-  const onClosing = async () => await fieldState?.validate();
+  const onClosing = async () => {
+    await fieldState?.validate();
+    onCloseSelectorDate?.();
+  };
 
   const isNullDateRangeRef = useRef(false);
 
@@ -75,7 +79,7 @@ export const DateRangeComponents = (props: IDateRange) => {
       autoFocus={false}
       modifiers={{
         preventOverflow: { boundariesElement: 'viewport' },
-        ...modifiers
+        ...popoverProps
       }}
       onInteraction={onInteraction}
       content={
