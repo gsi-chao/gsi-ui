@@ -1,3 +1,10 @@
+# [1.2.0-beta.19](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.18...v1.2.0-beta.19) (2020-09-30)
+
+
+### Bug Fixes
+
+* **custom-date-range:** incluye onCloseSelectorDate prop in VCustomDateRange ([4ef1f98](https://github.com/gsi-chao/gsi-ui/commit/4ef1f983aca20f3c8b065ffead18bbf092806268))
+
 # [1.2.0-beta.18](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.17...v1.2.0-beta.18) (2020-09-30)
 
 
