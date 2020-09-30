@@ -106,7 +106,6 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
       }
     };
 
-    setState(newState);
     globalOnChange(newState);
   };
 
@@ -120,7 +119,6 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
       }
     };
 
-    setState(newState);
     globalOnChange(newState);
   };
 

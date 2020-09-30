@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Popover, PopoverInteractionKind } from '@blueprintjs/core';
+import { Popover, PopoverInteractionKind, Position } from '@blueprintjs/core';
 import { IDateRange } from '../type/IDateRange';
 import { DateRangeDateTimeSection } from './DateRangeDateTimeSection';
 import { DateRangeInputSection } from './DateRangeInputSection';
@@ -66,8 +66,18 @@ export const DateRangeComponents = (props: IDateRange) => {
 
   return (
     <Popover
+      minimal
       interactionKind={PopoverInteractionKind.HOVER}
       isOpen={isOpen}
+      onClosing={onClosing}
+      onOpening={onOpening}
+      position={Position.BOTTOM_LEFT}
+      autoFocus={false}
+      modifiers={{
+        preventOverflow: { boundariesElement: 'viewport' },
+        ...modifiers
+      }}
+      onInteraction={onInteraction}
       content={
         <div>
           {dateType === 'DATE' || dateType === 'DATETIME' ? (
@@ -109,14 +119,6 @@ export const DateRangeComponents = (props: IDateRange) => {
           )}
         </div>
       }
-      minimal
-      onClosing={onClosing}
-      onOpening={onOpening}
-      modifiers={{
-        preventOverflow: { boundariesElement: 'viewport' },
-        ...modifiers
-      }}
-      onInteraction={onInteraction}
     >
       <DateRangeInputSection
         format={format ?? DEFAULT_FORMAT}
