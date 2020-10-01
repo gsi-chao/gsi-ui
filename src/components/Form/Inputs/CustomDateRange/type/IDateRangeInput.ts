@@ -5,4 +5,5 @@ export interface IDateRangeInput {
   disabled?: boolean;
   onBlur?: () => void;
   onFocus?: () => void;
+  onClick?: () => void;
 }

@@ -5,5 +5,5 @@ export interface IDateRangeInputSection {
   state: IStateCustomDateRange;
   format: string;
   dateType: IDateType;
-  onFocus?: () => void;
+  onClick?: () => void;
 }
