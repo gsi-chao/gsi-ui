@@ -59,8 +59,8 @@ export const DateRangeComponents = (props: IDateRange) => {
     onShortcutChange?.(shortcut, index);
   };
 
-  const onFocusInput = () => {
-    setOpen(!isOpen);
+  const onClickInput = () => {
+    !disabled && setOpen(true);
   };
 
   const onInteraction = (nextOpenState: boolean) => {
@@ -128,7 +128,7 @@ export const DateRangeComponents = (props: IDateRange) => {
         format={format ?? DEFAULT_FORMAT}
         state={state}
         dateType={dateType}
-        onFocus={onFocusInput}
+        onClick={onClickInput}
       />
     </Popover>
   );

@@ -70,7 +70,8 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
       onKeyPress,
       onBlur,
       onFocus,
-      readOnly
+      readOnly,
+      onClick
     } = this.props;
     let rightEl;
     if (!rightElement) {
@@ -143,6 +144,7 @@ export class VInputField extends React.Component<IInputFieldProps, IState> {
               }
             }}
             onBlur={onBlur}
+            onClick={onClick}
             onFocus={onFocus}
             readOnly={readOnly}
           />
