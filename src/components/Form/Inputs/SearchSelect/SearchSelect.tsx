@@ -26,7 +26,7 @@ interface IProps {
   popoverMinimal?: boolean;
   displayAsTree?: boolean;
   treeChildIndentWidth?: number;
-  getValueOnSelectMenuItem?:boolean;
+  getValueOnSelectMenuItem?: boolean;
 }
 
 export const SearchSelect = (props: IProps) => {
@@ -52,9 +52,12 @@ export const SearchSelect = (props: IProps) => {
     );
   };
 
-  useEffect(()=>{
-    selection?.length && props.getValueOnSelectMenuItem && onChangeItems(selection);
-  },[selection?.length])
+  useEffect(() => {
+    if (hasChange && selection?.length && props.getValueOnSelectMenuItem) {
+      onChangeItems(selection);
+      setHasChange(false);
+    }
+  }, [hasChange]);
 
   useEffect(() => {
     !isOpen && setHasChange(false);
