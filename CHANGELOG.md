@@ -1,3 +1,10 @@
+# [1.2.0-beta.22](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.21...v1.2.0-beta.22) (2020-10-01)
+
+
+### Bug Fixes
+
+* **custom-date-range:** add the ability for the custom date range to open the popover with click ([b7c9a3b](https://github.com/gsi-chao/gsi-ui/commit/b7c9a3b488b881bb41c37b3e07bd3c723a579732))
+
 # [1.2.0-beta.21](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.20...v1.2.0-beta.21) (2020-09-30)
 
 
