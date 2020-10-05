@@ -6,7 +6,6 @@ import {
 import { IStateCustomDateRange } from './IStateCustomDateRange';
 import { IDateType } from './ITypes';
 import { ITimeProps } from './ICustomDateTimePicker';
-import { FieldState } from 'formstate';
 import { DayPickerProps } from 'react-day-picker';
 import { Modifiers as PopperModifiers } from 'popper.js';
 
@@ -25,11 +24,10 @@ export interface IDateRange {
   disabled?: boolean;
   startTimeProps?: ITimeProps;
   endTimeProps?: ITimeProps;
-  fieldState?: FieldState<any>;
   onOpening?: () => void;
+  onClosing?: () => void;
   useAmPm?: boolean;
   precision?: TimePrecision;
   dayPickerProps?: DayPickerProps;
   popoverProps?: PopperModifiers;
-  onCloseSelectorDate?: () => void;
 }
