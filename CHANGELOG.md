@@ -1,3 +1,10 @@
+# [1.2.0-beta.23](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.22...v1.2.0-beta.23) (2020-10-05)
+
+
+### Bug Fixes
+
+* **custom-date-range:** optimize custom date range component ([4c43055](https://github.com/gsi-chao/gsi-ui/commit/4c43055ce227c344c6c286c8a6c4bd1c31dd9b04))
+
 # [1.2.0-beta.22](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.21...v1.2.0-beta.22) (2020-10-01)
 
 
