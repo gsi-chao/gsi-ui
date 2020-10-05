@@ -25,7 +25,6 @@ export interface ICustomDateTimePicker extends IFieldProps {
   precision?: TimePrecision;
   dayPickerProps?: DayPickerProps;
   popoverProps?: PopperModifiers;
-  onCloseSelectorDate?: () => void;
 }
 
 export interface ITimeProps {

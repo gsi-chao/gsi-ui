@@ -8,6 +8,7 @@ import { DateRangeUtils } from './utils/DateRangeUtils';
 import { DateRange } from '@blueprintjs/datetime';
 import { DateRangeComponents } from './components/DateRangeComponents';
 import { Validators } from '../../Validators';
+import { Observer } from 'mobx-react';
 import moment from 'moment';
 
 export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
@@ -42,8 +43,7 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
     useAmPm,
     precision,
     dayPickerProps,
-    popoverProps,
-    onCloseSelectorDate
+    popoverProps
   } = props;
 
   const startValueTime = startTimeProps?.initValue;
@@ -80,7 +80,13 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
         endValueTime
       )
     );
-  }, [fieldState, value, startValueTime, endValueTime]);
+    (async () => {
+      if (fieldState?.value) {
+        const [start, end] = fieldState.value;
+        (start || end) && (await fieldState?.validate());
+      }
+    })();
+  }, [fieldState?.value, value, startValueTime, endValueTime]);
 
   const initialState = () => {
     const hasValidators = !!validators?.length;
@@ -106,8 +112,7 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
         time: endTime
       }
     };
-
-    globalOnChange(newState);
+    setState(newState);
   };
 
   const onChangeTime = (type: 'START' | 'END') => (value: Date) => {
@@ -119,14 +124,12 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
         time: value
       }
     };
-
-    globalOnChange(newState);
+    setState(newState);
   };
 
-  const globalOnChange = (state: IStateCustomDateRange) => {
+  const globalOnChange = async () => {
     const newDates: DateRange = DateRangeUtils.buildRangeDate(state, dateType);
-
-    onChangeState(newDates);
+    await onChangeState(newDates);
   };
 
   const onChangeState = async (dateRange: DateRange) => {
@@ -136,50 +139,53 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
   };
 
   return (
-    <StyledDatePicker
-      className={className}
-      disabled={disabled}
-      inline={inline}
-      intent={fieldState?.hasError ? Intent.DANGER : Intent.NONE}
-      labelFor={id}
-      labelInfo={labelInfo}
-      layer={layer}
-      fill={fill}
-      margin={margin}
-      noLabel={noLabel}
-    >
-      <FormFieldContainer
-        required={required || displayRequired}
-        noLabel={noLabel}
-        label={label}
-        fieldState={fieldState}
-        value={value}
-        tooltip={tooltip}
-      >
-        {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
-        <DateRangeComponents
-          state={state}
-          onChangeState={onChangeState}
-          onChangeDate={onChangeDate}
-          onChangeTime={onChangeTime}
-          dateType={dateType}
-          format={format}
-          minTime={minTime}
-          maxTime={maxTime}
-          shortcuts={shortcuts}
-          selectedShortcutIndex={selectedShortcutIndex}
-          onShortcutChange={onShortcutChange}
+    <Observer
+      render={() => (
+        <StyledDatePicker
+          className={className}
           disabled={disabled}
-          startTimeProps={startTimeProps}
-          endTimeProps={endTimeProps}
-          fieldState={fieldState}
-          useAmPm={useAmPm}
-          precision={precision}
-          dayPickerProps={dayPickerProps}
-          popoverProps={popoverProps}
-          onCloseSelectorDate={onCloseSelectorDate}
-        />
-      </FormFieldContainer>
-    </StyledDatePicker>
+          inline={inline}
+          intent={fieldState?.hasError ? Intent.DANGER : Intent.NONE}
+          labelFor={id}
+          labelInfo={labelInfo}
+          layer={layer}
+          fill={fill}
+          margin={margin}
+          noLabel={noLabel}
+        >
+          <FormFieldContainer
+            required={required || displayRequired}
+            noLabel={noLabel}
+            label={label}
+            fieldState={fieldState}
+            value={value}
+            tooltip={tooltip}
+          >
+            {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
+            <DateRangeComponents
+              state={state}
+              onChangeState={onChangeState}
+              onChangeDate={onChangeDate}
+              onChangeTime={onChangeTime}
+              dateType={dateType}
+              format={format}
+              minTime={minTime}
+              maxTime={maxTime}
+              shortcuts={shortcuts}
+              selectedShortcutIndex={selectedShortcutIndex}
+              onShortcutChange={onShortcutChange}
+              disabled={disabled}
+              startTimeProps={startTimeProps}
+              endTimeProps={endTimeProps}
+              useAmPm={useAmPm}
+              precision={precision}
+              dayPickerProps={dayPickerProps}
+              popoverProps={popoverProps}
+              onClosing={globalOnChange}
+            />
+          </FormFieldContainer>
+        </StyledDatePicker>
+      )}
+    />
   );
 };

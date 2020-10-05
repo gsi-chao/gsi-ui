@@ -24,23 +24,17 @@ export const DateRangeComponents = (props: IDateRange) => {
     onChangeTime,
     startTimeProps,
     endTimeProps,
-    fieldState,
     onOpening,
+    onClosing,
     useAmPm,
     precision,
     dayPickerProps,
     popoverProps,
-    onChangeState,
-    onCloseSelectorDate
+    onChangeState
   } = props;
   const [isOpen, setOpen] = useState(false);
 
   const { startTime, endTime } = DateRangeUtils.transformState(state);
-
-  const onClosing = async () => {
-    await fieldState?.validate();
-    onCloseSelectorDate?.();
-  };
 
   const isNullDateRangeRef = useRef(false);
 
@@ -128,6 +122,7 @@ export const DateRangeComponents = (props: IDateRange) => {
         format={format ?? DEFAULT_FORMAT}
         state={state}
         dateType={dateType}
+        disabled={disabled}
         onClick={onClickInput}
       />
     </Popover>
