@@ -1,3 +1,10 @@
+# [1.2.0-beta.24](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.23...v1.2.0-beta.24) (2020-10-05)
+
+
+### Bug Fixes
+
+* **VSearchSelectField:** Granular Adjustment about when to trigger reaction and get the selected menu item value. ([1557515](https://github.com/gsi-chao/gsi-ui/commit/15575151dfb170438d134109dc434f6f506b382d))
+
 # [1.2.0-beta.23](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.22...v1.2.0-beta.23) (2020-10-05)
 
 
