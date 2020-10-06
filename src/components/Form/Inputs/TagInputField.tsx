@@ -81,9 +81,9 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
     if (this.onPasteCapture) {
       this.inputRef.blur();
       setTimeout(() => {
+        this.setOnPasteCapture(false);
         this.inputRef.focus();
       });
-      this.setOnPasteCapture(false);
     }
   };
 
@@ -204,6 +204,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
 
   private handleChange = (values: React.ReactNode[]) => {
     this.setInputValue('');
+    this.setOnPasteCapture(false);
     let newValues = values;
     if (
       this.props.limit &&
