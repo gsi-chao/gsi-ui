@@ -1,3 +1,10 @@
+# [1.2.0-beta.25](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.24...v1.2.0-beta.25) (2020-10-06)
+
+
+### Features
+
+* **VTagsInput:** Updated VTagsInput ([282ca63](https://github.com/gsi-chao/gsi-ui/commit/282ca638b852d33c6c881c07769fb9c6e21465e2))
+
 # [1.2.0-beta.24](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.23...v1.2.0-beta.24) (2020-10-05)
 
 
