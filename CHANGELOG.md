@@ -1,3 +1,10 @@
+# [1.2.0-beta.28](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.27...v1.2.0-beta.28) (2020-10-07)
+
+
+### Bug Fixes
+
+* **daterange-multipletags:** changes to the CustomDaterange and VSelectMultipleTags Components ([17767cc](https://github.com/gsi-chao/gsi-ui/commit/17767cc608ff68cd154f394ad076611d13800a0c))
+
 # [1.2.0-beta.27](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.26...v1.2.0-beta.27) (2020-10-06)
 
 
