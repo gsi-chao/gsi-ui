@@ -86,7 +86,7 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
         (start || end) && (await fieldState?.validate());
       }
     })();
-  }, [fieldState?.value, value, startValueTime, endValueTime]);
+  }, [fieldState?.value, value]);
 
   const initialState = () => {
     const hasValidators = !!validators?.length;
