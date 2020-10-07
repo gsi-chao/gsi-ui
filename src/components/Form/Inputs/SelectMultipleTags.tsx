@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, HTMLInputProps, IconName, Intent, ITagProps, MenuItem } from '@blueprintjs/core';
+import {
+  Button,
+  HTMLInputProps,
+  IconName,
+  Intent,
+  ITagProps,
+  MenuItem
+} from '@blueprintjs/core';
 import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
 import { IFieldProps } from './IFieldProps';
 import { IItemMultiple } from './SelectMultipleField';
@@ -58,10 +65,6 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
   } = props;
 
   useEffect(() => {
-    updateFieldState();
-  }, [itemsSelected]);
-
-  useEffect(() => {
     const newValue = (fieldState && fieldState.$) || value || [];
     if (newValue.length !== itemsSelected.length) {
       setItemsSelected(
@@ -100,7 +103,8 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
     if (!modifiers.matchesPredicate) {
       return null;
     }
-    const active = activeItem?.value && (item.value === activeItem?.value);
+    const active = activeItem?.value && item.value === activeItem?.value;
+
     return (
       <MenuItem
         disabled={props.disabled}
@@ -131,15 +135,18 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
   };
 
   const selectItems = (itemsToSelect: IItemMultiple) => {
-    setItemsSelected([...itemsSelected, itemsToSelect]);
+    const newState = [...itemsSelected, itemsToSelect];
+    updateFieldState(newState);
   };
 
   const deselectItem = (index: number) => {
-    setItemsSelected(itemsSelected.filter((_item, i) => i !== index));
+    const newState = itemsSelected.filter((_item, i) => i !== index);
+    updateFieldState(newState);
   };
 
   const handleItemSelect = (item: IItemMultiple) => {
     selectedItem.current = item;
+    setActiveItem(item);
     if (!isItemSelected(item)) {
       selectItem(item);
     } else {
@@ -147,15 +154,11 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
     }
   };
 
-  const updateFieldState = () => {
-    if (props.fieldState) {
-      const ids = itemsSelected.map(item => item.value);
-      props.fieldState.onChange(ids);
-    }
-    if (props.onChange) {
-      const ids = itemsSelected.map(item => item.value);
-      props.onChange!(ids);
-    }
+  const updateFieldState = (items: IItemMultiple[] = itemsSelected) => {
+    const ids = items.map(item => item.value);
+
+    props.fieldState?.onChange(ids);
+    props.onChange?.(ids);
   };
 
   const handleClear = () => {
@@ -186,13 +189,10 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
       undefined
     );
 
-  const getItems = () => props.allowOrder
-    ? orderBy(
-      options,
-      ['label'],
-      [props.orderDirection || false]
-    )
-    : options;
+  const getItems = () =>
+    props.allowOrder
+      ? orderBy(options, ['label'], [props.orderDirection || false])
+      : options;
 
   const clearActive = () => {
     setActiveItem(null);
@@ -221,21 +221,18 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
       >
         <MultiSelectTag
           activeItem={activeItem}
-          onActiveItemChange={(item) => {
+          onActiveItemChange={item => {
             if (!changed.current) {
               if (selectedItem.current) {
                 setActiveItem(selectedItem.current);
                 selectedItem.current = null;
-              } else {
-                setActiveItem(item)
               }
-              changed.current = true
+              changed.current = true;
             } else {
-              changed.current = false
+              changed.current = false;
             }
           }}
           itemPredicate={filterItem}
-
           placeholder={placeholder || ''}
           openOnKeyDown={false}
           resetOnSelect={true}
@@ -245,10 +242,12 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
           items={getItems()}
           noResults={<MenuItem disabled={true} text="No results." />}
           onItemSelect={handleItemSelect}
-          popoverProps={{ minimal: true, onClose: () => {
-            selectedItem.current = null;
-            changed.current = false;
-            setActiveItem(null)
+          popoverProps={{
+            minimal: true,
+            onClose: () => {
+              selectedItem.current = null;
+              changed.current = false;
+              setActiveItem(null);
             },
             onOpening: clearActive,
             onClosing: clearActive

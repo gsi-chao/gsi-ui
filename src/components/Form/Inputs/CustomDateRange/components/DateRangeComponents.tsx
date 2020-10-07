@@ -47,8 +47,8 @@ export const DateRangeComponents = (props: IDateRange) => {
       onChangeState(shortcut.dateRange);
     } else {
       onChangeState([null, null]);
-      isNullDateRangeRef.current = true;
     }
+    isNullDateRangeRef.current = true;
 
     onShortcutChange?.(shortcut, index);
   };
