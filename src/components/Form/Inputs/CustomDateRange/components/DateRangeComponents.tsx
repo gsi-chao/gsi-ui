@@ -7,7 +7,7 @@ import { DEFAULT_FORMAT } from '../type/ITypes';
 import { DateRangeTimeSection } from './DateRangeTimeSection';
 import { DateRangeTimeSectionWrapper } from '../styled/styles';
 import { DateRangeUtils } from '../utils/DateRangeUtils';
-import { IDateRangeShortcut } from '@blueprintjs/datetime';
+import { DateRange, IDateRangeShortcut } from '@blueprintjs/datetime';
 
 export const DateRangeComponents = (props: IDateRange) => {
   const {
@@ -30,7 +30,7 @@ export const DateRangeComponents = (props: IDateRange) => {
     precision,
     dayPickerProps,
     popoverProps,
-    onChangeState
+    onChangeDateTime
   } = props;
   const [isOpen, setOpen] = useState(false);
 
@@ -43,13 +43,11 @@ export const DateRangeComponents = (props: IDateRange) => {
     index: number
   ) => {
     const isNotNullRange = shortcut.dateRange.every(it => !!it);
-    if (isNotNullRange) {
-      onChangeState(shortcut.dateRange);
-    } else {
-      onChangeState([null, null]);
-    }
+    const newValue: DateRange = isNotNullRange
+      ? shortcut.dateRange
+      : [null, null];
+    shortcut?.includeTime ? onChangeDateTime(newValue) : onChangeDate(newValue);
     isNullDateRangeRef.current = true;
-
     onShortcutChange?.(shortcut, index);
   };
 

@@ -13,7 +13,7 @@ export interface IDateRange {
   state: IStateCustomDateRange;
   onChangeDate: (selectedDates: DateRange) => void;
   onChangeTime: (type: 'START' | 'END') => (value: Date) => void;
-  onChangeState: (date: DateRange) => void;
+  onChangeDateTime: (selectedDates: DateRange) => void;
   dateType: IDateType;
   format?: string;
   maxTime?: Date;
