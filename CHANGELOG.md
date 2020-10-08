@@ -1,3 +1,10 @@
+# [1.2.0-beta.29](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.28...v1.2.0-beta.29) (2020-10-08)
+
+
+### Bug Fixes
+
+* **custom-date-range:** shortcut problem solved ([6d4bc14](https://github.com/gsi-chao/gsi-ui/commit/6d4bc14a0475951ddd761190c303ae410250c016))
+
 # [1.2.0-beta.28](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.27...v1.2.0-beta.28) (2020-10-07)
 
 
