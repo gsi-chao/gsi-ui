@@ -127,6 +127,25 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
     setState(newState);
   };
 
+  const onChangeDateTime = (dateRange: DateRange) => {
+    const [startDateSelected, endDateSelected] = dateRange;
+
+    setState({
+      start: {
+        date: startDateSelected,
+        time: startDateSelected
+          ? startDateSelected
+          : DateRangeUtils.includeTimeToDate(moment().toDate(), 24, 0)
+      },
+      end: {
+        date: endDateSelected,
+        time: endDateSelected
+          ? endDateSelected
+          : DateRangeUtils.includeTimeToDate(moment().toDate(), 23, 59)
+      }
+    });
+  };
+
   const globalOnChange = async () => {
     const newDates: DateRange = DateRangeUtils.buildRangeDate(state, dateType);
     await onChangeState(newDates);
@@ -164,9 +183,9 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
             {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
             <DateRangeComponents
               state={state}
-              onChangeState={onChangeState}
               onChangeDate={onChangeDate}
               onChangeTime={onChangeTime}
+              onChangeDateTime={onChangeDateTime}
               dateType={dateType}
               format={format}
               minTime={minTime}
