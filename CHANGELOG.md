@@ -1,3 +1,10 @@
+# [1.2.0-beta.30](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.29...v1.2.0-beta.30) (2020-10-14)
+
+
+### Bug Fixes
+
+* **searchselectitems:** fix behavior with seleted items ([f21a498](https://github.com/gsi-chao/gsi-ui/commit/f21a4983d7f119b0a4bb25710d1d1331f5fc90b6))
+
 # [1.2.0-beta.29](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.28...v1.2.0-beta.29) (2020-10-08)
 
 
