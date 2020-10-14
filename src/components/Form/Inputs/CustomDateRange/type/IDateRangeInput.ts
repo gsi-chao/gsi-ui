@@ -6,4 +6,5 @@ export interface IDateRangeInput {
   onBlur?: () => void;
   onFocus?: () => void;
   onClick?: () => void;
+  upperCaseFormat?: boolean;
 }

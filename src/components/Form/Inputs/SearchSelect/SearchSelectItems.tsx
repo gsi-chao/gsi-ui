@@ -52,7 +52,7 @@ export const SearchSelectItems = (props: IProps) => {
           break;
         case Keys.DELETE:
           setIsKeyUpOrDownPressed(false);
-          props.allowEmpty && props.multi &&  setActive(  -1);
+          props.allowEmpty && props.multi && setActive(-1);
           props.onKeyPressed && props.onKeyPressed();
 
           break;
@@ -110,7 +110,11 @@ export const SearchSelectItems = (props: IProps) => {
       )}
       {props.options.length > 0 ? (
         <VirtualList
-          scrollToIndex={active}
+          scrollToIndex={
+            props.selection.length > 1
+              ? findOptionsIndexValue(props.options, props.selection[0])
+              : active
+          }
           width="100%"
           height={getVirtualHeight()}
           itemCount={props.options.length}

@@ -30,6 +30,7 @@ export const DateRangeInputSection = (props: IDateRangeInputSection) => {
           valueField={startDate}
           onClick={onClick}
           disabled={disabled}
+          upperCaseFormat
         />
       </div>
 
@@ -40,6 +41,7 @@ export const DateRangeInputSection = (props: IDateRangeInputSection) => {
           valueField={endDate}
           onClick={onClick}
           disabled={disabled}
+          upperCaseFormat
         />
       </div>
     </DateRangeInputSectionStyled>
