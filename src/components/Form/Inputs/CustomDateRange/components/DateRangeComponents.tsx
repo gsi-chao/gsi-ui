@@ -8,6 +8,7 @@ import { DateRangeTimeSection } from './DateRangeTimeSection';
 import { DateRangeTimeSectionWrapper } from '../styled/styles';
 import { DateRangeUtils } from '../utils/DateRangeUtils';
 import { DateRange, IDateRangeShortcut } from '@blueprintjs/datetime';
+import moment from 'moment';
 
 export const DateRangeComponents = (props: IDateRange) => {
   const {
@@ -46,7 +47,16 @@ export const DateRangeComponents = (props: IDateRange) => {
     const newValue: DateRange = isNotNullRange
       ? shortcut.dateRange
       : [null, null];
-    shortcut?.includeTime ? onChangeDateTime(newValue) : onChangeDate(newValue);
+    if (shortcut?.includeTime) {
+      onChangeDateTime(newValue);
+    } else {
+      onChangeDate(newValue);
+      if (!isNotNullRange) {
+        const toDay = moment().toDate();
+        onChangeTime('START')(DateRangeUtils.includeTimeToDate(toDay, 24, 0));
+        onChangeTime('END')(DateRangeUtils.includeTimeToDate(toDay, 23, 59));
+      }
+    }
     isNullDateRangeRef.current = true;
     onShortcutChange?.(shortcut, index);
   };
