@@ -1,3 +1,10 @@
+# [1.2.0-beta.31](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.30...v1.2.0-beta.31) (2020-10-21)
+
+
+### Bug Fixes
+
+* **custom-date-range:** reset time when selecting user-defined shortcut ([510790b](https://github.com/gsi-chao/gsi-ui/commit/510790bf4d7ca965730c0b8c9d65271804688004))
+
 # [1.2.0-beta.30](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.29...v1.2.0-beta.30) (2020-10-14)
 
 
