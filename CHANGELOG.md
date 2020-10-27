@@ -1,3 +1,10 @@
+# [1.2.0-beta.32](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.31...v1.2.0-beta.32) (2020-10-27)
+
+
+### Features
+
+* **custom-date-range:** include allowSingleDayRange props in Custom Date range Component ([9dcf5f7](https://github.com/gsi-chao/gsi-ui/commit/9dcf5f790e9dd64440a41e1eb046dc159c53d66f))
+
 # [1.2.0-beta.31](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.30...v1.2.0-beta.31) (2020-10-21)
 
 
