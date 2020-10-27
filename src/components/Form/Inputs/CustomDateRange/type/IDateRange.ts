@@ -30,4 +30,5 @@ export interface IDateRange {
   precision?: TimePrecision;
   dayPickerProps?: DayPickerProps;
   popoverProps?: PopperModifiers;
+  allowSingleDayRange?: boolean;
 }

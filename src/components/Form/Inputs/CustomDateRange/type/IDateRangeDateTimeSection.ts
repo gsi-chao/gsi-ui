@@ -24,4 +24,5 @@ export interface IDateRangeDateTimeSection {
   useAmPm?: boolean;
   precision?: TimePrecision;
   dayPickerProps?: DayPickerProps;
+  allowSingleDayRange?: boolean;
 }
