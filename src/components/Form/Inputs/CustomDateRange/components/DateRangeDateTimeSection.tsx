@@ -24,7 +24,8 @@ export const DateRangeDateTimeSection = (props: IDateRangeDateTimeSection) => {
     endTimeProps,
     useAmPm,
     precision,
-    dayPickerProps
+    dayPickerProps,
+    allowSingleDayRange
   } = props;
 
   const {
@@ -49,6 +50,7 @@ export const DateRangeDateTimeSection = (props: IDateRangeDateTimeSection) => {
         selectedShortcutIndex={selectedShortcutIndex}
         shortcuts={shortcuts}
         disabled={disabled}
+        allowSingleDayRange={allowSingleDayRange}
       />
       {dateType === 'DATETIME' && (
         <DateRangeTimeSectionDateTimeBody>

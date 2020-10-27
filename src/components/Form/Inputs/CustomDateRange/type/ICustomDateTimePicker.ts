@@ -25,6 +25,7 @@ export interface ICustomDateTimePicker extends IFieldProps {
   precision?: TimePrecision;
   dayPickerProps?: DayPickerProps;
   popoverProps?: PopperModifiers;
+  allowSingleDayRange?: boolean;
 }
 
 export interface ITimeProps {

@@ -31,7 +31,8 @@ export const DateRangeComponents = (props: IDateRange) => {
     precision,
     dayPickerProps,
     popoverProps,
-    onChangeDateTime
+    onChangeDateTime,
+    allowSingleDayRange
   } = props;
   const [isOpen, setOpen] = useState(false);
 
@@ -103,6 +104,7 @@ export const DateRangeComponents = (props: IDateRange) => {
               useAmPm={useAmPm}
               precision={precision}
               dayPickerProps={dayPickerProps}
+              allowSingleDayRange={allowSingleDayRange}
             />
           ) : (
             <DateRangeTimeSectionWrapper>
