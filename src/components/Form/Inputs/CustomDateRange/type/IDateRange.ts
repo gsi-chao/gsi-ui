@@ -5,7 +5,7 @@ import {
 } from '@blueprintjs/datetime';
 import { IStateCustomDateRange } from './IStateCustomDateRange';
 import { IDateType } from './ITypes';
-import { ITimeProps } from './ICustomDateTimePicker';
+import { ITimeProps, ITipLabel } from './ICustomDateTimePicker';
 import { DayPickerProps } from 'react-day-picker';
 import { Modifiers as PopperModifiers } from 'popper.js';
 
@@ -31,4 +31,6 @@ export interface IDateRange {
   dayPickerProps?: DayPickerProps;
   popoverProps?: PopperModifiers;
   allowSingleDayRange?: boolean;
+  tipLabels?: ITipLabel;
+  upperCaseFormat?: boolean;
 }

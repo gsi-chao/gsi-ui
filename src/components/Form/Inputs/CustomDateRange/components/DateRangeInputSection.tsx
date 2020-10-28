@@ -5,9 +5,18 @@ import { IDateRangeInputSection } from '../type/IDateRangeInputSection';
 import { DateRangeUtils } from '../utils/DateRangeUtils';
 import { DEFAULT_FORMAT } from '../type/ITypes';
 import moment from 'moment';
+import { Boundary } from '@blueprintjs/core';
 
 export const DateRangeInputSection = (props: IDateRangeInputSection) => {
-  const { state, format, disabled, dateType, onClick } = props;
+  const {
+    state,
+    format,
+    disabled,
+    dateType,
+    onClick,
+    upperCaseFormat,
+    tipLabels
+  } = props;
 
   const [startDate, endDate] = useMemo(() => {
     const [date1, date2] = DateRangeUtils.buildRangeDate(state, dateType);
@@ -28,9 +37,10 @@ export const DateRangeInputSection = (props: IDateRangeInputSection) => {
           id={'date-range-input-start-date'}
           placeholder={format}
           valueField={startDate}
-          onClick={onClick}
+          onClick={onClick?.(Boundary.START)}
           disabled={disabled}
-          upperCaseFormat
+          upperCaseFormat={upperCaseFormat}
+          tipLabel={tipLabels?.start}
         />
       </div>
 
@@ -39,9 +49,10 @@ export const DateRangeInputSection = (props: IDateRangeInputSection) => {
           id={'date-range-input-end-date'}
           placeholder={format}
           valueField={endDate}
-          onClick={onClick}
+          onClick={onClick?.(Boundary.END)}
           disabled={disabled}
-          upperCaseFormat
+          upperCaseFormat={upperCaseFormat}
+          tipLabel={tipLabels?.end}
         />
       </div>
     </DateRangeInputSectionStyled>

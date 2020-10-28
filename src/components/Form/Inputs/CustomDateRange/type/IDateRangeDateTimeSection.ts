@@ -7,9 +7,11 @@ import {
 import { IDateType } from './ITypes';
 import { ITimeProps } from './ICustomDateTimePicker';
 import { DayPickerProps } from 'react-day-picker';
+import { Boundary } from '@blueprintjs/core';
 
 export interface IDateRangeDateTimeSection {
   state: IStateCustomDateRange;
+  boundary: Boundary;
   onChangeDate: (selectedDates: DateRange) => void;
   onChangeTime: (type: 'START' | 'END') => (value: Date) => void;
   dateType: IDateType;
@@ -25,4 +27,9 @@ export interface IDateRangeDateTimeSection {
   precision?: TimePrecision;
   dayPickerProps?: DayPickerProps;
   allowSingleDayRange?: boolean;
+  onHoverChange?: (
+    hoveredDates: DateRange,
+    hoveredDay: Date,
+    hoveredBoundary: Boundary
+  ) => void;
 }

@@ -7,4 +7,5 @@ export interface IDateRangeInput {
   onFocus?: () => void;
   onClick?: () => void;
   upperCaseFormat?: boolean;
+  tipLabel?: string;
 }
