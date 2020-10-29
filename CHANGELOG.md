@@ -1,3 +1,10 @@
+# [1.2.0-beta.34](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.33...v1.2.0-beta.34) (2020-10-29)
+
+
+### Features
+
+* **input with suggestion:** added support tu search ignoring case ([8c8e61c](https://github.com/gsi-chao/gsi-ui/commit/8c8e61c96d20081f323890f08d4fdb0dc1ed179e))
+
 # [1.2.0-beta.33](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.32...v1.2.0-beta.33) (2020-10-29)
 
 
