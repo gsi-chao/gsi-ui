@@ -1,5 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { Popover, PopoverInteractionKind, Position } from '@blueprintjs/core';
+import {
+  Boundary,
+  Popover,
+  PopoverInteractionKind,
+  Position
+} from '@blueprintjs/core';
 import { IDateRange } from '../type/IDateRange';
 import { DateRangeDateTimeSection } from './DateRangeDateTimeSection';
 import { DateRangeInputSection } from './DateRangeInputSection';
@@ -32,13 +37,14 @@ export const DateRangeComponents = (props: IDateRange) => {
     dayPickerProps,
     popoverProps,
     onChangeDateTime,
-    allowSingleDayRange
+    allowSingleDayRange,
+    tipLabels,
+    upperCaseFormat
   } = props;
   const [isOpen, setOpen] = useState(false);
-
   const { startTime, endTime } = DateRangeUtils.transformState(state);
-
   const isNullDateRangeRef = useRef(false);
+  const [boundary, setBoundary] = useState<Boundary>(Boundary.START);
 
   const internalOnShortcutChange = (
     shortcut: IDateRangeShortcut,
@@ -62,13 +68,25 @@ export const DateRangeComponents = (props: IDateRange) => {
     onShortcutChange?.(shortcut, index);
   };
 
-  const onClickInput = () => {
+  const onClickInput = (type: Boundary) => () => {
+    setBoundary(type);
     !disabled && setOpen(true);
   };
 
   const onInteraction = (nextOpenState: boolean) => {
     if (!nextOpenState && !isNullDateRangeRef.current) setOpen(false);
     isNullDateRangeRef.current = false;
+  };
+
+  const handleDateRangePickerChange = (selectedDates: DateRange) => {
+    if (!isOpen) return;
+
+    const [selectedStart, selectedEnd] = selectedDates;
+    setBoundary((boundaryF: Boundary) =>
+      !selectedStart ? Boundary.START : !selectedEnd ? Boundary.END : boundaryF
+    );
+
+    onChangeDate(selectedDates);
   };
 
   return (
@@ -90,7 +108,8 @@ export const DateRangeComponents = (props: IDateRange) => {
           {dateType === 'DATE' || dateType === 'DATETIME' ? (
             <DateRangeDateTimeSection
               state={state}
-              onChangeDate={onChangeDate}
+              boundary={boundary}
+              onChangeDate={handleDateRangePickerChange}
               onChangeTime={onChangeTime}
               dateType={dateType}
               shortcuts={shortcuts ? shortcuts : false}
@@ -134,6 +153,8 @@ export const DateRangeComponents = (props: IDateRange) => {
         dateType={dateType}
         disabled={disabled}
         onClick={onClickInput}
+        upperCaseFormat={upperCaseFormat}
+        tipLabels={tipLabels}
       />
     </Popover>
   );

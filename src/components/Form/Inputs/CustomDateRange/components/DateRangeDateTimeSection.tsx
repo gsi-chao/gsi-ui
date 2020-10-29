@@ -25,7 +25,9 @@ export const DateRangeDateTimeSection = (props: IDateRangeDateTimeSection) => {
     useAmPm,
     precision,
     dayPickerProps,
-    allowSingleDayRange
+    allowSingleDayRange,
+    boundary,
+    onHoverChange
   } = props;
 
   const {
@@ -44,6 +46,7 @@ export const DateRangeDateTimeSection = (props: IDateRangeDateTimeSection) => {
           fixedWeeks: true,
           ...dayPickerProps
         }}
+        boundaryToModify={boundary}
         maxDate={maxTime}
         minDate={minTime}
         onShortcutChange={onShortcutChange}
@@ -51,6 +54,7 @@ export const DateRangeDateTimeSection = (props: IDateRangeDateTimeSection) => {
         shortcuts={shortcuts}
         disabled={disabled}
         allowSingleDayRange={allowSingleDayRange}
+        onHoverChange={onHoverChange}
       />
       {dateType === 'DATETIME' && (
         <DateRangeTimeSectionDateTimeBody>

@@ -26,10 +26,17 @@ export interface ICustomDateTimePicker extends IFieldProps {
   dayPickerProps?: DayPickerProps;
   popoverProps?: PopperModifiers;
   allowSingleDayRange?: boolean;
+  upperCaseFormat?: boolean;
+  subLabels?: ITipLabel;
 }
 
 export interface ITimeProps {
   initValue?: Date;
   useAmPm?: boolean;
   precision?: TimePrecision;
+}
+
+export interface ITipLabel {
+  start: string;
+  end: string;
 }
