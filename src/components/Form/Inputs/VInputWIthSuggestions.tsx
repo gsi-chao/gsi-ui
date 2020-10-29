@@ -16,7 +16,6 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed } from 'mobx';
 import styled from 'styled-components';
-import {IItemMultiple} from "./SelectMultipleField";
 
 /**
  * Field component. Must be an observer.
@@ -65,9 +64,6 @@ export class VInputFieldWithSuggestions extends React.Component<
   handleClick = (value: string) => {
     this.onClickedOption(value);
   };
-
-  allowValueInList = (item: IItemMultiple) =>
-      !this.valueField || `${item.label}`.toUpperCase().includes(`${this.valueField}`.toUpperCase())
 
   public render() {
     const {
@@ -129,10 +125,15 @@ export class VInputFieldWithSuggestions extends React.Component<
           content={
             <Menu style={{ maxHeight: '220px', overflow: 'auto' }}>
               {(this.props.options &&
-                this.props.options.filter(this.allowValueInList
+                this.props.options.filter(
+                  item =>
+                    !this.valueField || item.label.includes(this.valueField)
                 ).length > 0 &&
                 this.props.options
-                  .filter(this.allowValueInList)
+                  .filter(
+                    item =>
+                      !this.valueField || item.label.includes(this.valueField)
+                  )
                   .map(item => (
                     <MenuItem
                       popoverProps={{
