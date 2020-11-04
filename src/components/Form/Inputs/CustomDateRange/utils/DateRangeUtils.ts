@@ -1,6 +1,11 @@
 import moment from 'moment';
 import { IStateCustomDateRange } from '../type/IStateCustomDateRange';
-import { IDateType } from '../type/ITypes';
+import {
+  FormatDefaultDate,
+  FormatDefaultDateTime,
+  FormatDefaultTime,
+  IDateType
+} from '../type/ITypes';
 import { DateRange } from '@blueprintjs/datetime';
 import { FieldState } from 'formstate';
 import { ITransformState } from '../type/ITransformState';
@@ -20,6 +25,18 @@ const momentFormatter = (str: Date, format: string): string => {
     : moment(str, format).format(format);
 };
 
+const momentTwoFormatter = (
+  str: Date | null,
+  format1: string,
+  format2: string
+): string => {
+  if (!str) return '';
+
+  return !moment(str, format1, true).isValid()
+    ? ''
+    : moment(str, format1).format(format2);
+};
+
 const isValidDate = (date: Date | null) => !!date && moment(date).isValid();
 
 const buildRangeDate = (
@@ -31,6 +48,13 @@ const buildRangeDate = (
   const { date: endDate, time: endTime } = end;
   let responseDate: DateRange = [null, null];
 
+  const formatExpression = (date: Date | null, isDate: boolean) =>
+    momentTwoFormatter(
+      date,
+      moment.defaultFormat,
+      isDate ? FormatDefaultDate : FormatDefaultTime
+    );
+
   switch (dateType) {
     case 'TIME':
       responseDate = [startTime, endTime];
@@ -39,13 +63,19 @@ const buildRangeDate = (
       responseDate = [startDate, endDate];
       break;
     case 'DATETIME':
-      const date1 = moment(`${startDate}`).format('MM-DD-YYYY');
-      const date2 = moment(`${endDate}`).format('MM-DD-YYYY');
-      const time1 = moment(`${startTime}`).format('hh:mm A');
-      const time2 = moment(`${endTime}`).format('hh:mm A');
+      const date1 = formatExpression(startDate, true);
+      const date2 = formatExpression(endDate, true);
+      const time1 = formatExpression(startTime, false);
+      const time2 = formatExpression(endTime, false);
 
-      const dateTime1 = moment(`${date1} ${time1}`).toDate();
-      const dateTime2 = moment(`${date2} ${time2}`).toDate();
+      const dateTime1 = moment(
+        `${date1} ${time1}`,
+        FormatDefaultDateTime
+      ).toDate();
+      const dateTime2 = moment(
+        `${date2} ${time2}`,
+        FormatDefaultDateTime
+      ).toDate();
 
       responseDate = [
         moment(dateTime1).isValid() ? dateTime1 : null,
@@ -119,8 +149,8 @@ const getTimeAndDate = (
     const timeParse = moment(`${date}`).format('hh:mm A');
 
     return {
-      date: moment(`${dateParse}`).toDate(),
-      time: moment(`${dateParse} ${timeParse}`).toDate()
+      date: moment(`${dateParse}`, FormatDefaultDate).toDate(),
+      time: moment(`${dateParse} ${timeParse}`, FormatDefaultDateTime).toDate()
     };
   }
 
@@ -137,6 +167,7 @@ const transformState = (state: IStateCustomDateRange): ITransformState => {
 export const DateRangeUtils = {
   includeTimeToDate,
   momentFormatter,
+  momentTwoFormatter,
   buildRangeDate,
   isValidDate,
   initialDate,
