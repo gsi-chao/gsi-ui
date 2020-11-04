@@ -1,3 +1,10 @@
+# [1.2.0-beta.35](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.34...v1.2.0-beta.35) (2020-11-04)
+
+
+### Bug Fixes
+
+* **custom-date-range:** solved problem with custom date range in firefox browser ([512afa9](https://github.com/gsi-chao/gsi-ui/commit/512afa970caec742dcebd9e0bbecc009e878da0b))
+
 # [1.2.0-beta.34](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.33...v1.2.0-beta.34) (2020-10-29)
 
 
