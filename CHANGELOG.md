@@ -1,3 +1,10 @@
+# [1.2.0-beta.36](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.35...v1.2.0-beta.36) (2020-11-06)
+
+
+### Bug Fixes
+
+* **search_input_select:** add ability to loading and remove value when Empty is allowed ([54dd7bf](https://github.com/gsi-chao/gsi-ui/commit/54dd7bf637c3d9676d39d8ea98623b9a36e30c4a))
+
 # [1.2.0-beta.35](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.34...v1.2.0-beta.35) (2020-11-04)
 
 
