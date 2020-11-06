@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { cloneDeep, find, isArray, isNil, orderBy, remove } from 'lodash';
 import {
+  Classes,
   InputGroup,
   Keys,
   Popover,
@@ -27,6 +28,7 @@ interface IProps {
   displayAsTree?: boolean;
   treeChildIndentWidth?: number;
   getValueOnSelectMenuItem?: boolean;
+  isLoading?: boolean;
 }
 
 export const SearchSelect = (props: IProps) => {
@@ -102,8 +104,7 @@ export const SearchSelect = (props: IProps) => {
           value.label
             .toString()
             .toLowerCase()
-            .indexOf(search.toLowerCase()) !== -1 ||
-          !enableFilter
+            .indexOf(search.toLowerCase()) !== -1 || !enableFilter
         );
       } catch {
         return false;
@@ -119,7 +120,12 @@ export const SearchSelect = (props: IProps) => {
   useEffect(() => {
     const deselect = (isKeyDeletedPressed = false) => {
       if (isOpen || isKeyDeletedPressed) {
-        const reset = !props.allowEmpty && !props.multi ? selection : [];
+        const reset =
+          !props.allowEmpty && !props.multi
+            ? selection
+            : props?.multi
+            ? []
+            : '';
         setSelection(reset);
         if (!!reset) {
           setEnableFilter(false);
@@ -128,7 +134,7 @@ export const SearchSelect = (props: IProps) => {
         props.onChange && props.onChange(reset);
       }
     };
-    if (search.length === 0 && !props.multi) {
+    if (search.length === 0) {
       deselect();
     }
     if (invokeKeyPress !== 'NONE') {
@@ -158,40 +164,49 @@ export const SearchSelect = (props: IProps) => {
 
   const handleInteraction = (nextOpenState: boolean, e?: any) => {
     try {
-      if (e && !props.disabled) {
-        // when user click on the input or caret
-        if (
-          e.target.parentNode?.className?.indexOf('gsi-input-select') !== -1 ||
-          e.target.parentNode?.className?.indexOf('gsi-selection-caret') !== -1
-        ) {
-          setIsOpen(nextOpenState);
-          !nextOpenState && onChangeItems(selection);
-          !props.multi && selection && setSearchSelectionText(selection || '');
-          return;
+      if (!props?.isLoading) {
+        if (e && !props.disabled) {
+          // when user click on the input or caret
+          if (
+            e.target.parentNode?.className?.indexOf('gsi-input-select') !==
+              -1 ||
+            e.target.parentNode?.className?.indexOf('gsi-selection-caret') !==
+              -1
+          ) {
+            setIsOpen(nextOpenState);
+            !nextOpenState && onChangeItems(selection);
+            !props.multi &&
+              selection &&
+              setSearchSelectionText(selection || '');
+            return;
+          }
+          // when user click on the select info section.
+          if (
+            e.target.className.indexOf('gsi-selection-info-deselect') !== -1
+          ) {
+            setIsOpen(false);
+            return;
+          }
+          // when user click on the popover
+          if (
+            e.currentTarget.className &&
+            e.currentTarget?.className?.indexOf('gsi-select-popover') !== -1
+          ) {
+            setIsOpen(props.multi ? props.multi : false);
+            return;
+          }
         }
-        // when user click on the select info section.
-        if (e.target.className.indexOf('gsi-selection-info-deselect') !== -1) {
-          setIsOpen(false);
-          return;
-        }
-        // when user click on the popover
-        if (
-          e.currentTarget.className &&
-          e.currentTarget?.className?.indexOf('gsi-select-popover') !== -1
-        ) {
-          setIsOpen(props.multi ? props.multi : false);
-          return;
-        }
+        !props.disabled && setIsOpen(nextOpenState);
+        !nextOpenState && onChangeItems(selection);
+        props.multi && resetStateMulti();
+        !props.multi && selection && setSearchSelectionText(selection || '');
+        !props.multi && options.length === 0 && clearSearch();
       }
-      !props.disabled && setIsOpen(nextOpenState);
-      !nextOpenState && onChangeItems(selection);
-      props.multi && resetStateMulti();
-      !props.multi && selection && setSearchSelectionText(selection || '');
-      !props.multi && options.length === 0 && clearSearch();
     } catch (e) {
       !props.disabled && setIsOpen(nextOpenState);
     }
   };
+
   const resetStateMulti = () => {
     if (props.multi && selection?.length === 1 && !!props?.value?.length) {
       const { options } = props;
@@ -303,9 +318,13 @@ export const SearchSelect = (props: IProps) => {
         <InputGroup
           inputRef={ref => (inputRef.current = ref)}
           autoFocus={false}
-          className={`gsi-input-select ${
-            props.multi ? 'gsi-input-multi-select' : ''
-          }`}
+          className={
+            !props.isLoading
+              ? `gsi-input-select ${
+                  props.multi ? 'gsi-input-multi-select' : ''
+                }`
+              : Classes.SKELETON
+          }
           disabled={props.disabled}
           rightElement={
             <SelectSelectionInfo
