@@ -124,7 +124,9 @@ export const SearchSelect = (props: IProps) => {
           !props.allowEmpty && !props.multi
             ? selection
             : props?.multi
-            ? []
+            ? isArray(selection) && !!selection.length
+              ? selection
+              : []
             : '';
         setSelection(reset);
         if (!!reset) {
@@ -134,6 +136,7 @@ export const SearchSelect = (props: IProps) => {
         props.onChange && props.onChange(reset);
       }
     };
+
     if (search.length === 0) {
       deselect();
     }
