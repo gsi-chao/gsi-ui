@@ -48,7 +48,7 @@ export const SearchSelect = (props: IProps) => {
     return find(
       options,
       (v: IItem) =>
-        !isNil(v.value) &&
+        !isNil(v?.value) &&
         !isNil(value) &&
         v.value.toString() === value.toString()
     );

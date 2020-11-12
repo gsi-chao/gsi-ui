@@ -119,7 +119,7 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
           disabled={disabled}
           sort={sort}
           value={props.fieldState ? props.fieldState.value : value}
-          options={options}
+          options={options != null && Array.isArray(options) ? options : []}
           multi={multi}
           onChange={changeValueOrField}
           allowNewItem={allowNewItem}
