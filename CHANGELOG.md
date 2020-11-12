@@ -1,3 +1,10 @@
+# [1.2.0-beta.37](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.36...v1.2.0-beta.37) (2020-11-12)
+
+
+### Bug Fixes
+
+* **VSearchSelectField:** Add validation to options prop. ([ccca639](https://github.com/gsi-chao/gsi-ui/commit/ccca639c2b1726402317ae1fbc3f6332497fa45e))
+
 # [1.2.0-beta.36](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.35...v1.2.0-beta.36) (2020-11-06)
 
 
