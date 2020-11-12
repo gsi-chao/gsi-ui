@@ -1,3 +1,10 @@
+# [1.2.0-beta.38](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.37...v1.2.0-beta.38) (2020-11-12)
+
+
+### Bug Fixes
+
+* **i1767:** multiple selection component is not working properly ([c8915fc](https://github.com/gsi-chao/gsi-ui/commit/c8915fc6a1b964bf7723477f5550871f9d9605be))
+
 # [1.2.0-beta.37](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.36...v1.2.0-beta.37) (2020-11-12)
 
 
