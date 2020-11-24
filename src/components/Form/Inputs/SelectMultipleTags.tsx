@@ -163,6 +163,8 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
 
   const handleClear = () => {
     setItemsSelected([]);
+    props.fieldState?.onChange([]);
+    props.onChange?.([]);
   };
 
   const filterItem: ItemPredicate<IItemMultiple> = (
