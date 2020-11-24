@@ -1,3 +1,10 @@
+# [1.2.0-beta.39](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.38...v1.2.0-beta.39) (2020-11-24)
+
+
+### Bug Fixes
+
+* **vmultipletags:** added onChange to clear button ([90957b0](https://github.com/gsi-chao/gsi-ui/commit/90957b0fcc31de5220ca21c2d65381f754e25a14))
+
 # [1.2.0-beta.38](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.37...v1.2.0-beta.38) (2020-11-12)
 
 
