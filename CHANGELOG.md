@@ -1,3 +1,10 @@
+# [1.2.0-beta.40](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.39...v1.2.0-beta.40) (2020-12-02)
+
+
+### Bug Fixes
+
+* **search_select:** solved last one selected is not showing up right SearchSelect ([cd0495b](https://github.com/gsi-chao/gsi-ui/commit/cd0495b37ccf377f3173764215e4cab6751b3e0f))
+
 # [1.2.0-beta.39](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.38...v1.2.0-beta.39) (2020-11-24)
 
 
