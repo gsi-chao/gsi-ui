@@ -211,11 +211,11 @@ export const SearchSelect = (props: IProps) => {
   };
 
   const resetStateMulti = () => {
-    if (props.multi && selection?.length === 1 && !!props?.value?.length) {
+    if (props.multi && selection?.length === 1) {
       const { options } = props;
       const elementSelect = find(
         options,
-        (item: IItem) => item.value === props.value[0]
+        (item: IItem) => item.value === selection[0]
       );
       const elementSelectLabel = elementSelect?.label ?? '';
       if (elementSelectLabel !== search) {
