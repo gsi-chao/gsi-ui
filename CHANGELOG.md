@@ -1,3 +1,10 @@
+# [1.2.0-beta.41](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.40...v1.2.0-beta.41) (2020-12-10)
+
+
+### Features
+
+* **placeholder:** add placeholder property in VSearchSelect ([6e45b7f](https://github.com/gsi-chao/gsi-ui/commit/6e45b7f8ed23bf0ce139e589d3e9392a2b72255a))
+
 # [1.2.0-beta.40](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.39...v1.2.0-beta.40) (2020-12-02)
 
 
