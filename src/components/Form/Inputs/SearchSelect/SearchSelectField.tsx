@@ -60,7 +60,8 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
     displayAsTree,
     treeChildIndentWidth,
     getValueOnSelectMenuItem,
-    loading
+    loading,
+    placeholder
   } = props;
 
   useEffect(() => {
@@ -132,6 +133,7 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
           treeChildIndentWidth={treeChildIndentWidth}
           getValueOnSelectMenuItem={getValueOnSelectMenuItem}
           isLoading={loading}
+          placeholder={placeholder}
         />
       </FormFieldContainer>
     </StyledPopOverWrapper>
