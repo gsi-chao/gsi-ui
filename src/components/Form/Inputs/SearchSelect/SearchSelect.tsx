@@ -29,6 +29,7 @@ interface IProps {
   treeChildIndentWidth?: number;
   getValueOnSelectMenuItem?: boolean;
   isLoading?: boolean;
+  placeholder?: string;
 }
 
 export const SearchSelect = (props: IProps) => {
@@ -338,7 +339,7 @@ export const SearchSelect = (props: IProps) => {
             />
           }
           onChange={onSearchChange}
-          placeholder={'Search Items'}
+          placeholder={props?.placeholder ?? 'Search'}
           value={search}
         />
       </div>
