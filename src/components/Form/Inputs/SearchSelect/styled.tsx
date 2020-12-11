@@ -12,6 +12,14 @@ export const FlexDiv = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(251, 251, 251, 1) 10%,
+    rgba(254, 254, 254, 1) 90%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  margin-right: 1px;
   cursor: ${(props: IFlexDiv) => props.disabled && 'not-allowed'};
   .gsi-selection-info {
     margin: 5px 0;
