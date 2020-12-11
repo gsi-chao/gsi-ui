@@ -1,3 +1,10 @@
+# [1.2.0-beta.42](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.41...v1.2.0-beta.42) (2020-12-11)
+
+
+### Features
+
+* **vsearchselect:** added Gradient to avoid overlaps in some situations in VSearch ([4efbf73](https://github.com/gsi-chao/gsi-ui/commit/4efbf7385f2444bca839c16978179af71bfc1b0a))
+
 # [1.2.0-beta.41](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.40...v1.2.0-beta.41) (2020-12-10)
 
 
