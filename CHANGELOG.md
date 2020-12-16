@@ -1,3 +1,10 @@
+# [1.2.0-beta.43](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.42...v1.2.0-beta.43) (2020-12-16)
+
+
+### Features
+
+* **vtaginput:** added validation to empty value to avoid crazy stuffs ([f378fda](https://github.com/gsi-chao/gsi-ui/commit/f378fda5d1af6890d87e62a9b7dcf0dc6e6a768a))
+
 # [1.2.0-beta.42](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.41...v1.2.0-beta.42) (2020-12-11)
 
 
