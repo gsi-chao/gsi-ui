@@ -68,7 +68,9 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
 
   @action updateField = (value: any) => {
     if (this.innerSeparator.test(value)) {
-      const splitedValues = `${value}`.split(this.innerSeparator).filter(el => !!el);
+      const splitedValues = `${value}`
+        .split(this.innerSeparator)
+        .filter(el => !!el);
       this.handleChange([...(this.valueField || []), ...(splitedValues || [])]);
     } else {
       this.setInputValue(value);
@@ -84,6 +86,12 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
         this.setOnPasteCapture(false);
         this.inputRef.focus();
       });
+    }
+  };
+
+  avoidInsertSeparatorOnly = (event: any) => {
+    if ([188, 32].includes(event?.which) && !this.inputValue) {
+      event.preventDefault();
     }
   };
 
@@ -175,6 +183,7 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
+            onKeyDown={this.avoidInsertSeparatorOnly}
             inputRef={this.setRef}
             addOnBlur
             inputValue={this.inputValue}
