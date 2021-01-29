@@ -19,3 +19,4 @@ It's an extension of the blueprint framework. It has other components that are n
 - VTabsMenu - Extension of @blueprintjs/core Tabs. added customizable functions.
 - VToastNotification - Extension of @blueprintjs/core Toaster.
 - VOrgChart - Native Component uses orgchart library. Useful to represent hierarchies.
+- VSearchSelect - Select with virtual scroll

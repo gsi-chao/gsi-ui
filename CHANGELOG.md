@@ -1,3 +1,4 @@
+
 # [1.2.0-beta.43](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.42...v1.2.0-beta.43) (2020-12-16)
 
 
@@ -301,7 +302,6 @@
 * updated SelectUnselectItems component ([5edd2ba](https://github.com/gsi-chao/gsi-ui/commit/5edd2bad104e5849813ad45163cb40149668d5f1))
 
 ## [1.1.1-beta.1](https://github.com/gsi-chao/gsi-ui/compare/v1.1.0...v1.1.1-beta.1) (2020-07-08)
-
 
 ### Bug Fixes
 
