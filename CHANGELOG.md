@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0...v1.2.1) (2021-01-29)
+
+
+### Bug Fixes
+
+* **scroll carousel:** changed transform on hover action ([7ec1108](https://github.com/gsi-chao/gsi-ui/commit/7ec11087084dde20755b7fa6e192cedd5d50f1a3))
+
 # [1.2.0](https://github.com/gsi-chao/gsi-ui/compare/v1.1.1...v1.2.0) (2021-01-29)
 
 
