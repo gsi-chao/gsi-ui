@@ -1,12 +1,7 @@
 import styled from 'styled-components';
 
-interface ICarouselContainer {
-  sliding: boolean;
-  direction: string;
-}
-
 interface IPaddingProps {
-  padding: string
+  padding: string;
 }
 
 export const SliderWrapper = styled.div`
@@ -27,15 +22,14 @@ export const SliderWrapper = styled.div`
     }
 
     &:not(&--open):hover .item {
-      transform: translateX(-25%);
+      transform: translateX(-2%);
     }
 
     &:not(&--open) .item:hover ~ .item {
-      transform: translateX(25%);
+      transform: translateX(3%);
     }
   }
   .item {
-    //flex: 0 0 19.7%;
     transition: transform 300ms ease 100ms;
     margin: 0;
     position: relative;
