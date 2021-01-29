@@ -28,9 +28,10 @@ export interface IFieldProps {
   tooltip?: string;
   displayRequired?: boolean;
   autoComplete?: string;
-  onPaste?:(newValue: any, oldValue: any) => void
+  onPaste?: (newValue: any, oldValue: any) => void;
   /** The fieldState */
   fieldState?: FieldState<any>;
   onBlur?: any;
-  onFocus?: any
+  onFocus?: any;
+  onClick?: any;
 }

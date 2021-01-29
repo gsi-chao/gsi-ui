@@ -15,7 +15,7 @@ import { StyledTagsInput } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { showToastNotification } from '../../ToastNotification';
-import { computed } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { isArray } from 'lodash';
 
 /**
@@ -41,9 +41,59 @@ export interface ITagFieldProps extends IFieldProps {
 
 @observer
 export class VTagInputField extends React.Component<ITagFieldProps> {
+  private innerSeparator = /[,\n\r\s]/;
+  @observable inputValue: any;
+  @observable onPasteCapture: any;
+  inputRef: any;
   constructor(props: ITagFieldProps) {
     super(props);
+    this.inputValue = '';
   }
+
+  setRef = (ref: any) => {
+    this.inputRef = ref;
+  };
+
+  @action setInputValue = (value: any) => {
+    this.inputValue = value;
+  };
+
+  @action setOnPasteCapture = (value: boolean) => {
+    this.onPasteCapture = value;
+  };
+
+  @action handleOnPasteCapture = () => {
+    this.setOnPasteCapture(true);
+  };
+
+  @action updateField = (value: any) => {
+    if (this.innerSeparator.test(value)) {
+      const splitedValues = `${value}`
+        .split(this.innerSeparator)
+        .filter(el => !!el);
+      this.handleChange([...(this.valueField || []), ...(splitedValues || [])]);
+    } else {
+      this.setInputValue(value);
+    }
+  };
+
+  @action onInputChange = (e: any) => {
+    const value = e?.target?.value;
+    this.updateField(value);
+    if (this.onPasteCapture) {
+      this.inputRef.blur();
+      setTimeout(() => {
+        this.setOnPasteCapture(false);
+        this.inputRef.focus();
+      });
+    }
+  };
+
+  avoidInsertSeparatorOnly = (event: any) => {
+    if ([188, 32].includes(event?.which) && !this.inputValue) {
+      event.preventDefault();
+    }
+  };
 
   public render() {
     const {
@@ -117,17 +167,13 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
           tooltip={tooltip}
         >
           <TagInput
-            separator={separator}
+            separator={separator || this.innerSeparator}
             {...{
               leftIcon,
               disabled,
               placeholder,
               id,
               fill
-            }}
-            inputProps={{
-              onBlur,
-              onFocus
             }}
             rightElement={clearButton}
             tagProps={tagProps}
@@ -137,6 +183,17 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
+            onKeyDown={this.avoidInsertSeparatorOnly}
+            inputRef={this.setRef}
+            addOnBlur
+            inputValue={this.inputValue}
+            inputProps={{
+              onBlur,
+              onFocus,
+              onPasteCapture: this.handleOnPasteCapture,
+              itemRef: this.inputRef
+            }}
+            onInputChange={this.onInputChange}
           />
         </FormFieldContainer>
       </StyledTagsInput>
@@ -155,6 +212,8 @@ export class VTagInputField extends React.Component<ITagFieldProps> {
   }
 
   private handleChange = (values: React.ReactNode[]) => {
+    this.setInputValue('');
+    this.setOnPasteCapture(false);
     let newValues = values;
     if (
       this.props.limit &&

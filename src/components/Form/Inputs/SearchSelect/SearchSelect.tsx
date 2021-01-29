@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { cloneDeep, isArray, orderBy, remove, find, isNil } from 'lodash';
+import { cloneDeep, find, isArray, isNil, orderBy, remove } from 'lodash';
 import {
+  Classes,
   InputGroup,
   Keys,
   Popover,
@@ -24,6 +25,11 @@ interface IProps {
   disabled?: boolean;
   allowEmpty?: boolean;
   popoverMinimal?: boolean;
+  displayAsTree?: boolean;
+  treeChildIndentWidth?: number;
+  getValueOnSelectMenuItem?: boolean;
+  isLoading?: boolean;
+  placeholder?: string;
 }
 
 export const SearchSelect = (props: IProps) => {
@@ -43,11 +49,18 @@ export const SearchSelect = (props: IProps) => {
     return find(
       options,
       (v: IItem) =>
-        !isNil(v.value) &&
+        !isNil(v?.value) &&
         !isNil(value) &&
         v.value.toString() === value.toString()
     );
   };
+
+  useEffect(() => {
+    if (hasChange && selection?.length && props.getValueOnSelectMenuItem) {
+      onChangeItems(selection);
+      setHasChange(false);
+    }
+  }, [hasChange]);
 
   useEffect(() => {
     !isOpen && setHasChange(false);
@@ -59,9 +72,14 @@ export const SearchSelect = (props: IProps) => {
     }
     if (!props.multi && props.value !== '') {
       const option = findOptionsValue(props.options, props.value);
-      option && option.label && setSearch(option.label.toString());
+      !!option?.label && setSearch(option.label.toString());
     } else {
-      setSearch('');
+      if (props.multi && props.value.length === 1 && !!props.options?.length) {
+        const option = findOptionsValue(props.options, props.value[0]);
+        viewSelection(option);
+      } else {
+        clearSearch();
+      }
     }
     setSelection(props.value);
   }, [props.value, props.options]);
@@ -75,8 +93,7 @@ export const SearchSelect = (props: IProps) => {
     let opt = props.options.filter((value: IItem) => {
       try {
         const factor = !props.multi ? 6.8 : 7.8;
-        const lw =
-          value && value.label ? value.label.toString().length * factor : 100;
+        const lw = value?.label ? value.label.toString().length * factor : 100;
         if (lw > w) {
           w = lw;
         }
@@ -85,21 +102,16 @@ export const SearchSelect = (props: IProps) => {
         }
 
         return (
-          value.value
-            .toString()
-            .toLowerCase()
-            .indexOf(search.toLowerCase()) !== -1 ||
           value.label
             .toString()
             .toLowerCase()
-            .indexOf(search.toLowerCase()) !== -1 ||
-          !enableFilter
+            .indexOf(search.toLowerCase()) !== -1 || !enableFilter
         );
       } catch {
         return false;
       }
     });
-    if (props.sort) {
+    if (props.sort && !props.displayAsTree) {
       opt = orderBy(opt, ['label'], [props.sort]);
     }
     setOptions(opt);
@@ -107,22 +119,39 @@ export const SearchSelect = (props: IProps) => {
   }, [props.options, search]);
 
   useEffect(() => {
-    const deselect = () => {
-      if (isOpen) {
-        setSelection('');
-        props.onChange && props.onChange('');
+    const deselect = (isKeyDeletedPressed = false) => {
+      if (isOpen || isKeyDeletedPressed) {
+        const reset =
+          !props.allowEmpty && !props.multi
+            ? selection
+            : props?.multi
+            ? isArray(selection) && !!selection.length
+              ? selection
+              : []
+            : '';
+        setSelection(reset);
+        if (!!reset) {
+          setEnableFilter(false);
+          setIsOpen(true);
+        }
+        props.onChange && props.onChange(reset);
       }
     };
-    if (search.length === 0 && !props.multi) {
+
+    if (search.length === 0) {
       deselect();
     }
     if (invokeKeyPress !== 'NONE') {
       if (invokeKeyPress === Keys.DELETE) {
-        deselect();
+        deselect(true);
         setSearch('');
       }
     }
   }, [search, invokeKeyPress]);
+
+  const clearSearch = () => {
+    setSearch('');
+  };
 
   const onSearchChange = (e: any) => {
     !isOpen && setIsOpen(true);
@@ -132,46 +161,70 @@ export const SearchSelect = (props: IProps) => {
 
   const setSearchSelectionText = (value: string | number) => {
     const option = findOptionsValue(props.options, value);
-
-    option && option.label
+    option?.label
       ? setSearch(option.label.toString())
-      : setSearch(value.toString());
+      : !isNil(value) && setSearch(value.toString());
   };
 
   const handleInteraction = (nextOpenState: boolean, e?: any) => {
     try {
-      if (e && !props.disabled) {
-        // when user click on the input or caret
-        if (
-          e.target.parentNode?.className?.indexOf('gsi-input-select') !== -1 ||
-          e.target.parentNode?.className?.indexOf('gsi-selection-caret') !== -1
-        ) {
-          setIsOpen(nextOpenState);
-          !nextOpenState && onChangeItems(selection);
-          !props.multi && selection && setSearchSelectionText(selection || '');
-          return;
+      if (!props?.isLoading) {
+        if (e && !props.disabled) {
+          // when user click on the input or caret
+          if (
+            e.target.parentNode?.className?.indexOf('gsi-input-select') !==
+              -1 ||
+            e.target.parentNode?.className?.indexOf('gsi-selection-caret') !==
+              -1
+          ) {
+            setIsOpen(nextOpenState);
+            !nextOpenState && onChangeItems(selection);
+            !props.multi &&
+              selection &&
+              setSearchSelectionText(selection || '');
+            return;
+          }
+          // when user click on the select info section.
+          if (
+            e.target.className.indexOf('gsi-selection-info-deselect') !== -1
+          ) {
+            setIsOpen(false);
+            return;
+          }
+          // when user click on the popover
+          if (
+            e.currentTarget.className &&
+            e.currentTarget?.className?.indexOf('gsi-select-popover') !== -1
+          ) {
+            setIsOpen(props.multi ? props.multi : false);
+            return;
+          }
         }
-        // when user click on the select info section.
-        if (e.target.className.indexOf('gsi-selection-info-deselect') !== -1) {
-          setIsOpen(false);
-          return;
-        }
-        // when user click on the popover
-        if (
-          e.currentTarget.className &&
-          e.currentTarget?.className?.indexOf('gsi-select-popover') !== -1
-        ) {
-          setIsOpen(props.multi ? props.multi : false);
-          return;
-        }
+        !props.disabled && setIsOpen(nextOpenState);
+        !nextOpenState && onChangeItems(selection);
+        props.multi && resetStateMulti();
+        !props.multi && selection && setSearchSelectionText(selection || '');
+        !props.multi && options.length === 0 && clearSearch();
       }
-      !props.disabled && setIsOpen(nextOpenState);
-      !nextOpenState && onChangeItems(selection);
-      props.multi && setSearch('');
-      !props.multi && selection && setSearchSelectionText(selection || '');
-      !props.multi && options.length === 0 && setSearch('');
     } catch (e) {
       !props.disabled && setIsOpen(nextOpenState);
+    }
+  };
+
+  const resetStateMulti = () => {
+    if (props.multi && selection?.length === 1) {
+      const { options } = props;
+      const elementSelect = find(
+        options,
+        (item: IItem) => item.value === selection[0]
+      );
+      const elementSelectLabel = elementSelect?.label ?? '';
+      if (elementSelectLabel !== search) {
+        setSearch(elementSelectLabel);
+        setEnableFilter(false);
+      }
+    } else if (props.multi && !props?.value?.length && !selection.length) {
+      clearSearch();
     }
   };
 
@@ -194,15 +247,29 @@ export const SearchSelect = (props: IProps) => {
       } else {
         selected.push(value.value);
       }
-
+      setEnableFilter(false);
+      clearSearch();
+      if (selected.length === 1) {
+        const option = findOptionsValue(props.options, selected[0]);
+        viewSelection(option);
+      }
       setSelection(selected);
     } else {
       setSelection(value.value);
       setEnableFilter(false);
+      if (!value.value && props.allowEmpty) clearSearch();
     }
     inputRef.current && inputRef.current.focus();
-    !props.multi && value.label && setSearch(value.label.toString());
+    !props.multi && value?.label && setSearch(value.label.toString());
     setHasChange(true);
+  };
+
+  const viewSelection = (value: IItem) => {
+    if (!!value?.label) {
+      setSearch(value.label.toString());
+    } else {
+      clearSearch();
+    }
   };
 
   const getSelectionLength = () => {
@@ -231,7 +298,7 @@ export const SearchSelect = (props: IProps) => {
   const onAddNewItem = () => {
     props.onAddNewItem && props.onAddNewItem(search);
     setIsOpen(false);
-    setSearch('');
+    clearSearch();
   };
 
   return (
@@ -255,9 +322,13 @@ export const SearchSelect = (props: IProps) => {
         <InputGroup
           inputRef={ref => (inputRef.current = ref)}
           autoFocus={false}
-          className={`gsi-input-select ${
-            props.multi ? 'gsi-input-multi-select' : ''
-          }`}
+          className={
+            !props.isLoading
+              ? `gsi-input-select ${
+                  props.multi ? 'gsi-input-multi-select' : ''
+                }`
+              : Classes.SKELETON
+          }
           disabled={props.disabled}
           rightElement={
             <SelectSelectionInfo
@@ -268,7 +339,7 @@ export const SearchSelect = (props: IProps) => {
             />
           }
           onChange={onSearchChange}
-          placeholder={'Search Items'}
+          placeholder={props?.placeholder ?? 'Search'}
           value={search}
         />
       </div>
@@ -290,7 +361,9 @@ export const SearchSelect = (props: IProps) => {
           allowNewItem={!!props.allowNewItem}
           onAddNewItem={onAddNewItem}
           allowEmpty={props.allowEmpty}
-          onKeyPressed={()=>setIsOpen(false)}
+          onKeyPressed={() => setIsOpen(!!(!props.allowEmpty && !props.multi))}
+          displayAsTree={props.displayAsTree}
+          treeChildIndentWidth={props.treeChildIndentWidth}
         />
       </div>
     </Popover>

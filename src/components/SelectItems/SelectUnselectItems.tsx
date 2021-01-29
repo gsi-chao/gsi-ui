@@ -14,13 +14,18 @@ import { VInputFieldWithSuggestions } from '../Form';
 import { getElementsEnumerated } from '../SelectionList/SelectionList';
 import { cloneDeep } from 'lodash';
 
+type AssignedUnassignedItems = {
+  itemsAssigned: IItemsList[];
+  itemsUnassigned: IItemsList[];
+};
+
 export interface ISelectItemsProps {
   itemsUnassigned: IItemsList[];
   itemsAssigned: IItemsList[];
   unAssignedText?: string;
   assignedText?: string;
-  handleSave: any;
-  handleCancel: any;
+  handleSave?: (obj: AssignedUnassignedItems) => void;
+  handleCancel?: () => void;
   listsHeights?: string;
   intentSave?: any;
   intentCancel?: any;
@@ -30,7 +35,10 @@ export interface ISelectItemsProps {
     textColor: string;
     background: string;
   };
+  onReturnAssignedUnassignedItems?: (obj: AssignedUnassignedItems) => void;
+  getTemplate?(element: IItemsList): any;
 }
+
 export interface ISelectItemsState {
   itemsUnassigned: IItemsList[];
   itemsAssigned: IItemsList[];
@@ -65,6 +73,15 @@ export class SelectUnselectItems extends Component<
     this.setState({ itemsAssigned, itemsUnassigned });
   }
 
+  componentDidUpdate(prevProps: ISelectItemsProps) {
+    if (this.props.itemsUnassigned !== prevProps.itemsUnassigned) {
+      this.setState({
+        itemsAssigned: [],
+        itemsUnassigned: this.props.itemsUnassigned
+      });
+    }
+  }
+
   selectItems = () => {
     const { itemsAssigned } = this.state;
     let { itemsUnassigned } = this.state;
@@ -78,6 +95,7 @@ export class SelectUnselectItems extends Component<
     });
     this.setState({ itemsAssigned, itemsUnassigned, queryUnnassigned: '' });
     this.form.$.unselected.onChange('');
+    this.onReturnAssignedUnassignedItems({ itemsAssigned, itemsUnassigned });
   };
 
   unselectItems = () => {
@@ -91,8 +109,9 @@ export class SelectUnselectItems extends Component<
       }
       return true;
     });
-    this.setState({ itemsAssigned, itemsUnassigned , queryAssigned: '' });
+    this.setState({ itemsAssigned, itemsUnassigned, queryAssigned: '' });
     this.form.$.selected.onChange('');
+    this.onReturnAssignedUnassignedItems({ itemsAssigned, itemsUnassigned });
   };
 
   selectItemFromUnselectedList = (element: IItemsList, evt?: any) => {
@@ -158,10 +177,14 @@ export class SelectUnselectItems extends Component<
       queryUnnassigned: ''
     });
     this.form.$.unselected.onChange('');
+    this.onReturnAssignedUnassignedItems({
+      itemsAssigned: newItemsAssigned,
+      itemsUnassigned: newItemsUnnasigned
+    });
   };
 
   unselectAll = () => {
-    let { itemsAssigned, itemsUnassigned } = this.state;
+    const { itemsAssigned, itemsUnassigned } = this.state;
     const newItemsAssigned: IItemsList[] = [];
     const newItemsUnnasigned: IItemsList[] = itemsUnassigned.map(item => ({
       ...item,
@@ -187,15 +210,22 @@ export class SelectUnselectItems extends Component<
       queryAssigned: ''
     });
     this.form.$.selected.onChange('');
+    this.onReturnAssignedUnassignedItems({
+      itemsAssigned: newItemsAssigned,
+      itemsUnassigned: newItemsUnnasigned
+    });
   };
+
+  onReturnAssignedUnassignedItems = (obj: AssignedUnassignedItems) =>
+    this.props.onReturnAssignedUnassignedItems?.(obj);
 
   handleSave = () => {
     const { itemsUnassigned, itemsAssigned } = this.state;
-    this.props.handleSave({ itemsUnassigned, itemsAssigned });
+    this.props.handleSave?.({ itemsUnassigned, itemsAssigned });
   };
 
   handleCancel = () => {
-    this.props.handleCancel();
+    this.props.handleCancel?.();
   };
 
   getAssignedItems = (elements: IItemsList[]): IItemsList[] => {
@@ -251,7 +281,7 @@ export class SelectUnselectItems extends Component<
   };
 
   render() {
-    const { intentSave, intentCancel, displayCount } = this.props;
+    const { intentSave, intentCancel, displayCount, getTemplate } = this.props;
     const { itemsUnassigned, itemsAssigned } = this.state;
     const itemsUnassignedSearch = itemsUnassigned.map(item => ({
       label: item.text,
@@ -281,10 +311,13 @@ export class SelectUnselectItems extends Component<
                 elements={itemsUnassigned.filter(
                   item =>
                     !this.state.queryUnnassigned ||
-                    item.text.toUpperCase().includes(this.state.queryUnnassigned.toUpperCase())
+                    item.text
+                      .toUpperCase()
+                      .includes(this.state.queryUnnassigned.toUpperCase())
                 )}
                 onSelect={this.selectItemFromUnselectedList}
                 height={this.props.listsHeights || '242.5px'}
+                {...{ getTemplate }}
               />
             </StyledScroll>
             <div style={{ width: 'calc(100% + 3px)', marginBottom: '5px' }}>
@@ -384,10 +417,13 @@ export class SelectUnselectItems extends Component<
                 elements={this.getAssignedItems(itemsAssigned).filter(
                   item =>
                     !this.state.queryAssigned ||
-                    item.text.toUpperCase().includes(this.state.queryAssigned.toUpperCase())
+                    item.text
+                      .toUpperCase()
+                      .includes(this.state.queryAssigned.toUpperCase())
                 )}
                 onSelect={this.selectItemFromSelectedList}
                 height={this.props.listsHeights || '242.5px'}
+                {...{ getTemplate }}
               />
             </StyledScroll>
             <div style={{ width: 'calc(100% + 3px)', marginBottom: '5px' }}>
@@ -418,22 +454,24 @@ export class SelectUnselectItems extends Component<
             </div>
           </FlexCol>
         </BodyContainer>
-        <ButtonsEndsContainers>
-          <Button
-            minimal
-            intent={intentSave ? intentSave : 'success'}
-            icon={'tick'}
-            text={'Save'}
-            onClick={this.handleSave}
-          />
-          <Button
-            minimal
-            intent={intentCancel ? intentCancel : 'danger'}
-            icon={'disable'}
-            onClick={this.handleCancel}
-            text={'Cancel'}
-          />
-        </ButtonsEndsContainers>
+        {this.props.handleSave && (
+          <ButtonsEndsContainers>
+            <Button
+              minimal
+              intent={intentSave ? intentSave : 'success'}
+              icon={'tick'}
+              text={'Save'}
+              onClick={this.handleSave}
+            />
+            <Button
+              minimal
+              intent={intentCancel ? intentCancel : 'danger'}
+              icon={'disable'}
+              onClick={this.handleCancel}
+              text={'Cancel'}
+            />
+          </ButtonsEndsContainers>
+        )}
       </React.Fragment>
     );
   }
