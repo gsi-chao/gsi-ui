@@ -1,3 +1,56 @@
+# [1.2.0](https://github.com/gsi-chao/gsi-ui/compare/v1.1.1...v1.2.0) (2021-01-29)
+
+
+### Bug Fixes
+
+* **custom-date-range:** add the ability for the custom date range to open the popover with click ([b7c9a3b](https://github.com/gsi-chao/gsi-ui/commit/b7c9a3b488b881bb41c37b3e07bd3c723a579732))
+* **custom-date-range:** incluye onCloseSelectorDate prop in VCustomDateRange ([4ef1f98](https://github.com/gsi-chao/gsi-ui/commit/4ef1f983aca20f3c8b065ffead18bbf092806268))
+* **custom-date-range:** optimize custom date range component ([4c43055](https://github.com/gsi-chao/gsi-ui/commit/4c43055ce227c344c6c286c8a6c4bd1c31dd9b04))
+* **custom-date-range:** optimize the interaction with the custom date range ([0acb5b7](https://github.com/gsi-chao/gsi-ui/commit/0acb5b788df55f3c6043ebd8b8451962fcab0c04))
+* **custom-date-range:** reset time when selecting user-defined shortcut ([510790b](https://github.com/gsi-chao/gsi-ui/commit/510790bf4d7ca965730c0b8c9d65271804688004))
+* **custom-date-range:** shortcut problem solved ([6d4bc14](https://github.com/gsi-chao/gsi-ui/commit/6d4bc14a0475951ddd761190c303ae410250c016))
+* **custom-date-range:** solved problem with custom date range in firefox browser ([512afa9](https://github.com/gsi-chao/gsi-ui/commit/512afa970caec742dcebd9e0bbecc009e878da0b))
+* **custom-date-range:** update performance on custom date range ([d8a6d3f](https://github.com/gsi-chao/gsi-ui/commit/d8a6d3f03402660c8332aa21e82bb0c1e3706afb))
+* **custom-range-components:** include validation on the  custom date range Component ([fd686d1](https://github.com/gsi-chao/gsi-ui/commit/fd686d1b7f5db733c978aff006503b1e9a5aed76))
+* **date-range:** fix date range fields and add require validation ([a5fad47](https://github.com/gsi-chao/gsi-ui/commit/a5fad478de9e5e449d1ac23d71e684719d1094cc))
+* **daterange-multipletags:** changes to the CustomDaterange and VSelectMultipleTags Components ([17767cc](https://github.com/gsi-chao/gsi-ui/commit/17767cc608ff68cd154f394ad076611d13800a0c))
+* **i1767:** multiple selection component is not working properly ([c8915fc](https://github.com/gsi-chao/gsi-ui/commit/c8915fc6a1b964bf7723477f5550871f9d9605be))
+* **search_input_select:** add ability to loading and remove value when Empty is allowed ([54dd7bf](https://github.com/gsi-chao/gsi-ui/commit/54dd7bf637c3d9676d39d8ea98623b9a36e30c4a))
+* **search_select:** solved last one selected is not showing up right SearchSelect ([cd0495b](https://github.com/gsi-chao/gsi-ui/commit/cd0495b37ccf377f3173764215e4cab6751b3e0f))
+* **searchselect:** fixed issue that make the app crash due a toString in a null value ([a069867](https://github.com/gsi-chao/gsi-ui/commit/a0698676018c8a9a4e15b4dd9435383f6940e538))
+* **SearchSelect.tsx:** Sometimes when a search is done by any criteria results aren't match each other. ([366da56](https://github.com/gsi-chao/gsi-ui/commit/366da56c91419dfbb47d82dd990235b963d2de90))
+* **searchselectitems:** fix behavior with seleted items ([f21a498](https://github.com/gsi-chao/gsi-ui/commit/f21a4983d7f119b0a4bb25710d1d1331f5fc90b6))
+* **vmultipletags:** added onChange to clear button ([90957b0](https://github.com/gsi-chao/gsi-ui/commit/90957b0fcc31de5220ca21c2d65381f754e25a14))
+* **VSearchSelectField:** Add validation to options prop. ([ccca639](https://github.com/gsi-chao/gsi-ui/commit/ccca639c2b1726402317ae1fbc3f6332497fa45e))
+* **VSearchSelectField:** Granular Adjustment about when to trigger reaction and get the selected menu item value. ([1557515](https://github.com/gsi-chao/gsi-ui/commit/15575151dfb170438d134109dc434f6f506b382d))
+* fixed search select label ([1db4592](https://github.com/gsi-chao/gsi-ui/commit/1db45923485bb6c0cf5ab5f1fdc08e52c85bdf88))
+* fixed undefined variable ([c290a5b](https://github.com/gsi-chao/gsi-ui/commit/c290a5bc862f9eb654ef833e0493cb89a7c3ffa2))
+* **VSearchSelectField.tsx:** Component crashes if get defined value but no options. Gets last item selected when reset search value. ([bdfb2b3](https://github.com/gsi-chao/gsi-ui/commit/bdfb2b3e62a14721ca9f8d90bd15a032bc522781))
+* **VSearchSelectField.tsx:** Did some minor component behavior adjustments. ([2cc5066](https://github.com/gsi-chao/gsi-ui/commit/2cc5066cd81e95df0645fdab85e158ae86abd942))
+
+
+### Features
+
+* **custom_date-range:** add custom date range component ([e92574c](https://github.com/gsi-chao/gsi-ui/commit/e92574cd9e2329abd0a77c4ce0b49a565a3883c6))
+* **custom_date-range:** add custom date range component ([6980e0c](https://github.com/gsi-chao/gsi-ui/commit/6980e0c9abf7010c9ed16606511cc42060e14155))
+* **custom-date-range:** add disabled prop in VCustomDateRange ([ece3fea](https://github.com/gsi-chao/gsi-ui/commit/ece3fea61e09b77f2cbeb4abea1d0fdab209fcc4))
+* **custom-date-range:** include allowSingleDayRange props in Custom Date range Component ([9dcf5f7](https://github.com/gsi-chao/gsi-ui/commit/9dcf5f790e9dd64440a41e1eb046dc159c53d66f))
+* **custom-date-range:** include the interaction with times in custom date range component ([41fc4b7](https://github.com/gsi-chao/gsi-ui/commit/41fc4b77ed161294e9d88abe923aa70071eac92b))
+* **custom-date-range:** refactor code in Custom Date Range component ([ad7b41b](https://github.com/gsi-chao/gsi-ui/commit/ad7b41b9b3925bdadfe3dda2497ab416471d0dd4))
+* **input with suggestion:** added support tu search ignoring case ([8c8e61c](https://github.com/gsi-chao/gsi-ui/commit/8c8e61c96d20081f323890f08d4fdb0dc1ed179e))
+* **placeholder:** add placeholder property in VSearchSelect ([6e45b7f](https://github.com/gsi-chao/gsi-ui/commit/6e45b7f8ed23bf0ce139e589d3e9392a2b72255a))
+* **search-select:** add the ability to display the label when selecting an item ([1ff5c05](https://github.com/gsi-chao/gsi-ui/commit/1ff5c05fd6f75c36abd0a3a4152e58d146fda9c9))
+* **VDateTimePicker:** Add prop to display 6 weeks per months. ([75a38bd](https://github.com/gsi-chao/gsi-ui/commit/75a38bd332986ef7d8071818432d019093fb5fb1))
+* **VDateTimePicker:** Make display 6 weeks per months prop set as default. ([55c4aa1](https://github.com/gsi-chao/gsi-ui/commit/55c4aa1052f5a085f96722ef1db720dd903edeb2))
+* **vsearchselect:** added Gradient to avoid overlaps in some situations in VSearch ([4efbf73](https://github.com/gsi-chao/gsi-ui/commit/4efbf7385f2444bca839c16978179af71bfc1b0a))
+* **VSearchSelectField:** Makes value be available right away on select/deselect an item on menu list.(Besides clicking off dropdown menu ) ([24be03b](https://github.com/gsi-chao/gsi-ui/commit/24be03b01e802aeccc54089f02e272303bd8c4f3))
+* **VSearchSelectField.tsx:** Added new way of displaying data list items: as an indented tree. ([310f40b](https://github.com/gsi-chao/gsi-ui/commit/310f40b10b4e87c5f5f148a262a3f683a34142bf))
+* **vtaginput:** added validation to empty value to avoid crazy stuffs ([f378fda](https://github.com/gsi-chao/gsi-ui/commit/f378fda5d1af6890d87e62a9b7dcf0dc6e6a768a))
+* **VTagsInput:** Updated VTagsInput ([3b87aee](https://github.com/gsi-chao/gsi-ui/commit/3b87aeece2719e42a4744dfcfbbb2963afcdf02a))
+* **VTagsInput:** Updated VTagsInput ([8f1538e](https://github.com/gsi-chao/gsi-ui/commit/8f1538e5885fb6d4a9cf453d9a07b8dded2530e1))
+* **VTagsInput:** Updated VTagsInput ([282ca63](https://github.com/gsi-chao/gsi-ui/commit/282ca638b852d33c6c881c07769fb9c6e21465e2))
+* added template to SelectUnselect component' ([3cfeb0a](https://github.com/gsi-chao/gsi-ui/commit/3cfeb0a275c30d8c4e67058447573979c5df2f72))
+* updated SelectUnselectItems component ([5edd2ba](https://github.com/gsi-chao/gsi-ui/commit/5edd2bad104e5849813ad45163cb40149668d5f1))
 
 # [1.2.0-beta.43](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0-beta.42...v1.2.0-beta.43) (2020-12-16)
 
