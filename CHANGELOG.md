@@ -1,3 +1,10 @@
+## [1.2.2-beta.1](https://github.com/gsi-chao/gsi-ui/compare/v1.2.1...v1.2.2-beta.1) (2021-02-10)
+
+
+### Bug Fixes
+
+* **modaldialog:** fixed position after resize app Dialog ([3f2f472](https://github.com/gsi-chao/gsi-ui/commit/3f2f4722c6bf0b65a2cad6d607736eb574fa2b75))
+
 ## [1.2.1](https://github.com/gsi-chao/gsi-ui/compare/v1.2.0...v1.2.1) (2021-01-29)
 
 
