@@ -116,11 +116,12 @@ export const draggableModalReducer = (
   state: ModalsState,
   action: Action
 ): ModalsState => {
+  const windowSize = getWindowSize();
   switch (action.type) {
     case 'resize':
       const size = clampResize(
-        state.windowSize.width,
-        state.windowSize.height,
+        windowSize.width,
+        windowSize.height,
         action.x,
         action.y,
         action.width,
@@ -147,8 +148,8 @@ export const draggableModalReducer = (
           [action.id]: {
             ...state.modals[action.id],
             ...clampDrag(
-              state.windowSize.width,
-              state.windowSize.height,
+              windowSize.width,
+              windowSize.height,
               action.x,
               action.y,
               state.modals[action.id].width,
@@ -160,19 +161,19 @@ export const draggableModalReducer = (
       };
     case 'show': {
       const modalState = state.modals[action.id];
-      const centerX = state.windowSize.width / 2 - modalState.width / 2;
-      const centerY = state.windowSize.height / 2 - modalState.height / 2;
+      const centerX = windowSize.width / 2 - modalState.width / 2;
+      const centerY = windowSize.height / 2 - modalState.height / 2;
       const position = clampDrag(
-        state.windowSize.width,
-        state.windowSize.height,
+        windowSize.width,
+        windowSize.height,
         centerX,
         centerY,
         modalState.width,
         modalState.height
       );
       const size = clampResize(
-        state.windowSize.width,
-        state.windowSize.height,
+        windowSize.width,
+        windowSize.height,
         position.x,
         position.y,
         modalState.width,
@@ -220,21 +221,19 @@ export const draggableModalReducer = (
       };
     }
     case 'mount':
+      const width = action.size.width ? action.size.width : 600;
+      const height = action.size.height ? action.size.height : 600;
       return {
         ...state,
         maxZIndex: state.maxZIndex + 1,
         modals: {
           ...state.modals,
           [action.id]: {
+            width,
+            height,
             visible: false,
-            width: action.size.width ? action.size.width : 600,
-            height: action.size.height ? action.size.height : 600,
-            x:
-              state.windowSize.width / 2 -
-              (action.size.width ? action.size.width : 600) / 2,
-            y:
-              state.windowSize.height / 2 -
-              (action.size.height ? action.size.height : 600) / 2,
+            x: (windowSize.width - width) / 2,
+            y: (windowSize.height - height) / 2,
             zIndex: state.maxZIndex + 1
           }
         }
@@ -249,22 +248,16 @@ export const draggableModalReducer = (
     case 'windowResize':
       return {
         ...state,
-        windowSize: action.size,
+        windowSize,
         modals: mapObject(state.modals, (modalState: ModalState) => {
-          if (!modalState.visible) {
-            return modalState;
-          }
-          const position = clampDrag(
-            state.windowSize.width,
-            state.windowSize.height,
-            modalState.x,
-            modalState.y,
-            modalState.width,
-            modalState.height
-          );
+          const position = {
+            x: (windowSize.width - modalState.width) / 2,
+            y: (windowSize.height - modalState.height) / 2
+          };
+
           const size = clampResize(
-            state.windowSize.width,
-            state.windowSize.height,
+            windowSize.width,
+            windowSize.height,
             position.x,
             position.y,
             modalState.width,
