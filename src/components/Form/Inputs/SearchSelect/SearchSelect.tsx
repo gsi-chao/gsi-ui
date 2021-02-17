@@ -30,6 +30,7 @@ interface IProps {
   getValueOnSelectMenuItem?: boolean;
   isLoading?: boolean;
   placeholder?: string;
+  cleanSearchAfterIteration?: boolean;
 }
 
 export const SearchSelect = (props: IProps) => {
@@ -73,13 +74,8 @@ export const SearchSelect = (props: IProps) => {
     if (!props.multi && props.value !== '') {
       const option = findOptionsValue(props.options, props.value);
       !!option?.label && setSearch(option.label.toString());
-    } else {
-      if (props.multi && props.value.length === 1 && !!props.options?.length) {
-        const option = findOptionsValue(props.options, props.value[0]);
-        viewSelection(option);
-      } else {
-        clearSearch();
-      }
+    } else if (props.multi && !props.value.length) {
+      clearSearch();
     }
     setSelection(props.value);
   }, [props.value, props.options]);
@@ -203,6 +199,7 @@ export const SearchSelect = (props: IProps) => {
         !props.disabled && setIsOpen(nextOpenState);
         !nextOpenState && onChangeItems(selection);
         props.multi && resetStateMulti();
+        props.multi && handleUpdateSearchText(nextOpenState);
         !props.multi && selection && setSearchSelectionText(selection || '');
         !props.multi && options.length === 0 && clearSearch();
       }
@@ -249,10 +246,6 @@ export const SearchSelect = (props: IProps) => {
       }
       setEnableFilter(false);
       clearSearch();
-      if (selected.length === 1) {
-        const option = findOptionsValue(props.options, selected[0]);
-        viewSelection(option);
-      }
       setSelection(selected);
     } else {
       setSelection(value.value);
@@ -262,14 +255,6 @@ export const SearchSelect = (props: IProps) => {
     inputRef.current && inputRef.current.focus();
     !props.multi && value?.label && setSearch(value.label.toString());
     setHasChange(true);
-  };
-
-  const viewSelection = (value: IItem) => {
-    if (!!value?.label) {
-      setSearch(value.label.toString());
-    } else {
-      clearSearch();
-    }
   };
 
   const getSelectionLength = () => {
@@ -298,6 +283,18 @@ export const SearchSelect = (props: IProps) => {
   const onAddNewItem = () => {
     props.onAddNewItem && props.onAddNewItem(search);
     setIsOpen(false);
+    clearSearch();
+  };
+
+  const handleUpdateSearchText = (state: boolean) => {
+    if (!state && selection?.length === 1) {
+      const option = findOptionsValue(
+        props.options,
+        selection[0]
+      )?.label?.toString?.();
+      setSearch(option || '');
+      return;
+    }
     clearSearch();
   };
 
