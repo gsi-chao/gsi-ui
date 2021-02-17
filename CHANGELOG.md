@@ -1,3 +1,10 @@
+## [1.2.2-beta.2](https://github.com/gsi-chao/gsi-ui/compare/v1.2.2-beta.1...v1.2.2-beta.2) (2021-02-17)
+
+
+### Bug Fixes
+
+* **searchselect:** fixed issue when search in search Select ([b0a0adb](https://github.com/gsi-chao/gsi-ui/commit/b0a0adb1c3d2b261be64de40295f078013017b57))
+
 ## [1.2.2-beta.1](https://github.com/gsi-chao/gsi-ui/compare/v1.2.1...v1.2.2-beta.1) (2021-02-10)
 
 
