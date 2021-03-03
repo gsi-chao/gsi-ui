@@ -1,3 +1,10 @@
+## [1.2.2-beta.3](https://github.com/gsi-chao/gsi-ui/compare/v1.2.2-beta.2...v1.2.2-beta.3) (2021-03-03)
+
+
+### Bug Fixes
+
+* **search select:** fixed cache issue with simple search Selects ([4202cce](https://github.com/gsi-chao/gsi-ui/commit/4202cce04c996eea317f43f4953e2dacbc6151ab))
+
 ## [1.2.2-beta.2](https://github.com/gsi-chao/gsi-ui/compare/v1.2.2-beta.1...v1.2.2-beta.2) (2021-02-17)
 
 
