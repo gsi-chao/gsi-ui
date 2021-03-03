@@ -74,7 +74,9 @@ export const SearchSelect = (props: IProps) => {
     if (!props.multi && props.value !== '') {
       const option = findOptionsValue(props.options, props.value);
       !!option?.label && setSearch(option.label.toString());
-    } else if (props.multi && !props.value.length) {
+    } else if (!props.multi && !props.value) {
+      clearSearch();
+    } else if (props.multi && !props.value?.length) {
       clearSearch();
     }
     setSelection(props.value);
