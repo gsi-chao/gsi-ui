@@ -31,8 +31,7 @@ exports[`renders without crashing InputField All Properties 1`] = `
             placeholder="Username"
             style={
               Object {
-                "paddingLeft": undefined,
-                "paddingRight": undefined,
+                "paddingRight": 10,
                 "textTransform": "none",
               }
             }

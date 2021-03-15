@@ -73,7 +73,6 @@ Array [
   <div>
     <button
       className="bp3-button bp3-intent-primary sc-bZQynM fqsBLH"
-      onBlur={[Function]}
       onClick={[Function]}
       onKeyDown={[Function]}
       onKeyUp={[Function]}

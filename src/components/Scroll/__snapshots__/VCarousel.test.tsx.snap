@@ -13,7 +13,6 @@ exports[`render correctly VScrollCarrousel component one segment 1`] = `
     <button
       className="bp3-button bp3-disabled bp3-minimal"
       disabled={true}
-      onBlur={[Function]}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
       tabIndex={-1}
@@ -41,7 +40,6 @@ exports[`render correctly VScrollCarrousel component one segment 1`] = `
     </button>
     <button
       className="bp3-button bp3-minimal"
-      onBlur={[Function]}
       onClick={[Function]}
       onKeyDown={[Function]}
       onKeyUp={[Function]}
