@@ -65,11 +65,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
   } = props;
 
   useEffect(() => {
-    markItemsSelected();
-  }, [fieldState?.$, value]);
-
-  const markItemsSelected = () => {
-    const newValue = fieldState?.$ || value || [];
+    const newValue = (fieldState && fieldState.$) || value || [];
     if (newValue.length !== itemsSelected.length) {
       setItemsSelected(
         options.filter(item => newValue.some((el: any) => el === item.value))
@@ -89,7 +85,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
         }
       }
     }
-  };
+  }, [fieldState && fieldState.$, value]);
 
   const areItemsEqual = (
     itemA: IItemMultiple,
@@ -183,6 +179,18 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
 
   const initialContent = undefined;
 
+  const clearButton =
+    itemsSelected.length > 0 ? (
+      <Button
+        icon="cross"
+        className={'crossButton'}
+        minimal={true}
+        onClick={handleClear}
+      />
+    ) : (
+      undefined
+    );
+
   const getItems = () =>
     props.allowOrder
       ? orderBy(options, ['label'], [props.orderDirection || false])
@@ -191,18 +199,6 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
   const clearActive = () => {
     setActiveItem(null);
     changed.current = true;
-  };
-
-  const onActiveItemChange = (item: any) => {
-    if (!changed.current) {
-      if (selectedItem.current) {
-        setActiveItem(selectedItem.current);
-        selectedItem.current = null;
-      }
-      changed.current = true;
-    } else {
-      changed.current = false;
-    }
   };
 
   return (
@@ -227,7 +223,17 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
       >
         <MultiSelectTag
           activeItem={activeItem}
-          onActiveItemChange={onActiveItemChange}
+          onActiveItemChange={item => {
+            if (!changed.current) {
+              if (selectedItem.current) {
+                setActiveItem(selectedItem.current);
+                selectedItem.current = null;
+              }
+              changed.current = true;
+            } else {
+              changed.current = false;
+            }
+          }}
           itemPredicate={filterItem}
           placeholder={placeholder || ''}
           openOnKeyDown={false}
@@ -255,17 +261,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
             inputRef,
             inputProps,
             onRemove: (!props.disabled && handleTagRemove) || (() => {}),
-            rightElement:
-              !props.disabled && itemsSelected.length > 0 ? (
-                <Button
-                  icon="cross"
-                  className={'crossButton'}
-                  minimal={true}
-                  onClick={handleClear}
-                />
-              ) : (
-                <></>
-              )
+            rightElement: (!props.disabled && clearButton) || <></>
           }}
           selectedItems={itemsSelected}
           {...{ initialContent, resetOnClose }}
