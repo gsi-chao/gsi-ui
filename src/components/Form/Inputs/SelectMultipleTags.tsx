@@ -118,7 +118,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
     );
   };
 
-  const handleTagRemove = (value: React.ReactNode, index: number) => {
+  const handleTagRemove = (_tag: string, index: number) => {
     deselectItem(index);
   };
 
