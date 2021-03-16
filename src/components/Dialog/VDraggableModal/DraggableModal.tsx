@@ -4,12 +4,12 @@ import { uniqueId } from 'lodash';
 import { DraggableModalContext } from './DraggableModalContext';
 import { DraggableModalInner } from './DraggableModalInner';
 import { getModalState } from './draggableModalReducer';
-import { StyledCardProps } from '../../Card/VCardPanel';
 import { IDialogProps } from '@blueprintjs/core';
 import { getNumberMatch } from './utils';
+import { StyledVCardProps } from '../../Card';
 
 // todo add props
-export interface DraggableModalProps extends StyledCardProps, IDialogProps {
+export interface DraggableModalProps extends StyledVCardProps, IDialogProps {
   isOpen: boolean;
   onSave?: () => void;
   onCancel?: () => void;
