@@ -1,3 +1,10 @@
+# [1.3.0-beta.1](https://github.com/gsi-chao/gsi-ui/compare/v1.2.2-beta.3...v1.3.0-beta.1) (2021-03-17)
+
+
+### Features
+
+* **blueprintjs:** updated BlueprintJS dependencies ([98c77a1](https://github.com/gsi-chao/gsi-ui/commit/98c77a1461c4ca4523957156b96bc65de6abcb5e))
+
 # [1.3.0-beta.1](https://github.com/gsi-chao/gsi-ui/compare/v1.2.2-beta.3...v1.3.0-beta.1) (2021-03-16)
 
 
