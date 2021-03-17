@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 interface InitialState {
   initX: number;
@@ -59,11 +58,11 @@ export const useResize = (
           initHeight,
           mouseDownY
         } = initialDragState;
-        let dx = e.clientX - mouseDownX;
-        let dy = e.clientY - mouseDownY;
+        const dx = e.clientX - mouseDownX;
+        const dy = e.clientY - mouseDownY;
         const width = initWidth + dx;
         const height = initHeight + dy;
-        return onResize({ x: initX, y: initY, width, height });
+        return onResize({ width, height, x: initX, y: initY });
       }
     };
     window.addEventListener('mousemove', onMouseMove, { passive: true });

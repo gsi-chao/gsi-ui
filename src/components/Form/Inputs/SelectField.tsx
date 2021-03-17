@@ -77,7 +77,7 @@ const filterItem: ItemPredicate<IItem> = (query, item) => {
   return (
     !query ||
     `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-      (item && item.label === 'No Selection' && item.value === '')
+    (item && item.label === 'No Selection' && item.value === '')
   );
 };
 
@@ -356,13 +356,12 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             itemsEqual={areItemsEqual}
             filterable={filterable}
             popoverProps={{
+              onOpening,
               modifiers: {
                 flip: { enabled: true },
                 keepTogether: { enabled: true },
                 preventOverflow: { enabled: true }
               },
-              // looks like is not in use but is in use do not remove onOpening
-              onOpening,
               ...popoverProps
             }}
             resetOnClose={this.props.resetOnClose}

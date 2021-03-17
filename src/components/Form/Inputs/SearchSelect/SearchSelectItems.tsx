@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Keys, Menu, MenuItem } from '@blueprintjs/core';
-import { isArray, findIndex, isNil } from 'lodash';
+import { isArray, findIndex, isNil, get } from 'lodash';
 import VirtualList from 'react-tiny-virtual-list';
 
 import { IItem } from '../../types';
 import { SelectItemCheckbox } from './styled';
-import { get } from 'lodash';
 
 interface IProps {
   options: IItem[];

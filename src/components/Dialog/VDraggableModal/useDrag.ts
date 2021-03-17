@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 export const useDrag = (
   x: number,
@@ -32,8 +31,8 @@ export const useDrag = (
     const onMouseMove = (e: MouseEvent): void => {
       if (dragging) {
         const { initX, mouseDownX, initY, mouseDownY } = initialDragState;
-        let dx = e.clientX - mouseDownX;
-        let dy = e.clientY - mouseDownY;
+        const dx = e.clientX - mouseDownX;
+        const dy = e.clientY - mouseDownY;
         const x = initX + dx;
         const y = initY + dy;
         onDrag({ x, y });

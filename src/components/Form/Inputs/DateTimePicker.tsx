@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react';
-import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 /** Blueprint */
 import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
@@ -39,7 +38,7 @@ export interface IInputFieldProps extends IFieldProps {
   shortcuts?: boolean | any[];
   showActionsBar?: boolean;
   closeOnSelection?: boolean;
-  tipLabel?: string
+  tipLabel?: string;
 }
 
 interface IIcon {
@@ -145,8 +144,8 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     setMinTimeCalculate(
       minTime
         ? outOfRangeError(minTime, valueField, 'MIN')
-        ? moment('1/1/1900').toDate()
-        : minTime
+          ? moment('1/1/1900').toDate()
+          : minTime
         : moment('1/1/1900').toDate()
     );
   }, [minTime, valueField]);
@@ -155,19 +154,25 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     setMaxTimeCalculate(
       maxTime
         ? outOfRangeError(maxTime, valueField, 'MAX')
-        ? moment('1/1/2100').toDate()
-        : maxTime
+          ? moment('1/1/2100').toDate()
+          : maxTime
         : moment('1/1/2100').toDate()
     );
   }, [maxTime, valueField]);
 
   const calculateValue = () => {
-    if (dateType === 'TIME' && ((!value && fieldState && !fieldState.value) || (!value && !fieldState))) {
-      setValueField(new Date(0,0,0,0,0,0));
+    if (
+      dateType === 'TIME' &&
+      ((!value && fieldState && !fieldState.value) || (!value && !fieldState))
+    ) {
+      setValueField(new Date(0, 0, 0, 0, 0, 0));
       return;
     }
 
-    if ((dateType === 'DATE' || dateType === 'DATETIME') && (!value && !fieldState)) {
+    if (
+      (dateType === 'DATE' || dateType === 'DATETIME') &&
+      !value && !fieldState
+    ) {
       setValueField(null);
       return;
     }
@@ -231,9 +236,8 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
           />
         </IconDate>
       );
-    } else {
-      return rightElement;
     }
+    return rightElement;
   };
 
   const modifiers: IDatePickerModifiers = { toDateNotSelect };
@@ -260,7 +264,9 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
           value={value}
           tooltip={tooltip}
         >
-          {props.tipLabel && <span className={'tipLabel'}>{props.tipLabel}</span>}
+          {props.tipLabel && (
+            <span className={'tipLabel'}>{props.tipLabel}</span>
+          )}
           {dateType === 'DATETIME' || dateType === 'DATE' ? (
             <DateInputContainer
               {...FORMATS()[dateType]}
@@ -275,7 +281,7 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
               popoverProps={popoverProps}
               dayPickerProps={{
                 fixedWeeks: true,
-            ...dayPickerProps
+                ...dayPickerProps
               }}
               canClearSelection={canClearSelection}
               closeOnSelection={closeOnSelection}
@@ -291,13 +297,13 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
                 onFocus: () => {
                   isFocused.current = true;
                   if (props.onFocus) {
-                    props.onFocus()
+                    props.onFocus();
                   }
                 },
                 onBlur: () => {
                   isFocused.current = false;
                   if (props.onBlur) {
-                    props.onBlur()
+                    props.onBlur();
                   }
                 }
               }}

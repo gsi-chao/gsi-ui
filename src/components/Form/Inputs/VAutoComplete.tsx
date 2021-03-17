@@ -1,9 +1,22 @@
 import { observer } from 'mobx-react';
 import React, { ChangeEvent } from 'react';
 /** Blueprint */
-import { Button, Classes, IconName, Intent, IPopoverProps, Menu, MenuItem } from '@blueprintjs/core';
+import {
+  Button,
+  Classes,
+  IconName,
+  Intent,
+  IPopoverProps,
+  Menu,
+  MenuItem
+} from '@blueprintjs/core';
 /** FieldState */
-import { ItemListRenderer, ItemPredicate, ItemRenderer, Suggest } from '@blueprintjs/select';
+import {
+  ItemListRenderer,
+  ItemPredicate,
+  ItemRenderer,
+  Suggest
+} from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
@@ -61,7 +74,7 @@ const ItemSelect = Suggest.ofType<IItem>();
 const filterItem: ItemPredicate<IItem> = (query, item) => {
   return (
     `${item.label}`.toLowerCase().indexOf(query.toLowerCase()) >= 0 ||
-    (item && (item.label === 'No Selection' && item.value === ''))
+    (item && item.label === 'No Selection' && item.value === '')
   );
 };
 
@@ -207,13 +220,13 @@ export class VAutoComplete extends React.Component<ISelectFieldProps, IState> {
             noResults={<MenuItem disabled={true} text="No results." />}
             selectedItem={this.state?.item || undefined}
             popoverProps={{
+              minimal,
               modifiers: {
                 arrow: { enabled: true },
                 flip: { enabled: true },
                 keepTogether: { enabled: true },
                 preventOverflow: { enabled: true }
               },
-              minimal,
               ...popoverProps
             }}
             resetOnClose={this.props.resetOnClose}
@@ -222,7 +235,7 @@ export class VAutoComplete extends React.Component<ISelectFieldProps, IState> {
               query: string,
               event?: ChangeEvent<HTMLInputElement>
             ) => {
-              this.setState({query: query, item: undefined})
+              this.setState({ query, item: undefined });
               if (this.props.onQueryChange) {
                 this.props.onQueryChange(query, event);
               }

@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { DraggableModalContext } from './DraggableModalContext';
 import { getWindowSize } from './utils';
 import {
