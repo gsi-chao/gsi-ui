@@ -1,3 +1,10 @@
+# [1.3.0-beta.2](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.1...v1.3.0-beta.2) (2021-04-12)
+
+
+### Features
+
+* **date-time-picker:** added intl to VDateTimePicker and pass yarn precheck command ([b3c008f](https://github.com/gsi-chao/gsi-ui/commit/b3c008f133faeff7b23676121e5016a5273a110b))
+
 # [1.3.0-beta.1](https://github.com/gsi-chao/gsi-ui/compare/v1.2.2-beta.3...v1.3.0-beta.1) (2021-03-17)
 
 
