@@ -42,14 +42,14 @@ const Slider = ({ padding, children, isResponsive }: any) => {
           {hasPrev && isResponsive && (
             <SlideButton
               onClick={handlePrev}
-              icon={<Icon icon="chevron-left"/>}
+              icon={<Icon icon="chevron-left" />}
               typeS="prev"
             />
           )}
           {hasNext && isResponsive && (
             <SlideButton
               onClick={handleNext}
-              icon={<Icon icon="chevron-right"/>}
+              icon={<Icon icon="chevron-right" />}
               typeS="next"
             />
           )}

@@ -140,7 +140,8 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
       }
     } else if (
       (props.maxDecimals === 0 && regExpNoDecimalPlace.test(value)) ||
-      !value || (Number(value) === 0 && `${value}`.length === 1)
+      !value ||
+      (Number(value) === 0 && `${value}`.length === 1)
     ) {
       setState(value);
       setPropsValues(value);
@@ -209,7 +210,11 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
   );
 });
 
-const fillWithZero = (value: any, round: number, noFillWithZero: boolean): any => {
+const fillWithZero = (
+  value: any,
+  round: number,
+  noFillWithZero: boolean
+): any => {
   if (!isNumber(value)) {
     return '';
   }

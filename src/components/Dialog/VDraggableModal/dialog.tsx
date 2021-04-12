@@ -22,8 +22,8 @@ interface IDialogBodyContainer {
 
 export const DialogBodyContainer = styled.div`
   width: 100%;
-  padding:  ${(props: IDialogBodyContainer) =>
-  !!props.buttonHeight ? '0px' : '5px'};
+  padding: ${(props: IDialogBodyContainer) =>
+    !!props.buttonHeight ? '0px' : '5px'};
   overflow-y: auto;
   overflow-x: hidden;
   flex: 1;

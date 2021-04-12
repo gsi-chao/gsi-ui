@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { ITabsPanelStyle } from './types';
 
-
 export const ContainerTabsPanel = styled.div`
   display: flex;
   flex-direction: column;

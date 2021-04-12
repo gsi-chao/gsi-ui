@@ -47,7 +47,10 @@ export const hexToRgb = (hex: string) => {
 export const hexToRGBA = (color: string, opacity: number) => {
   // @ts-ignore
   const rgb: any[] = color
-    .replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m: any, r: any, g: any, b: any) => `# r r g g b b`)
+    .replace(
+      /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+      (m: any, r: any, g: any, b: any) => `# r r g g b b`
+    )
     .substring(1)
     .match(/.{2}/g)
     .map(x => parseInt(x, 16));

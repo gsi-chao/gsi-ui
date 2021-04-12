@@ -1,6 +1,10 @@
 import { observer } from 'mobx-react';
 import React, { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
+import MomentLocaleUtils from 'react-day-picker/moment';
+import 'moment/locale/fr';
+import 'moment/locale/en-gb';
+import 'moment/locale/es';
 /** Blueprint */
 import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
 import {
@@ -39,6 +43,9 @@ export interface IInputFieldProps extends IFieldProps {
   showActionsBar?: boolean;
   closeOnSelection?: boolean;
   tipLabel?: string;
+  locale?: string;
+  clearButtonText?: string;
+  todayButtonText?: string;
 }
 
 interface IIcon {
@@ -108,7 +115,10 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     canClearSelection,
     shortcuts,
     showActionsBar,
-    closeOnSelection
+    closeOnSelection,
+    locale = 'en',
+    clearButtonText = 'Clear',
+    todayButtonText = 'Today'
   } = props;
 
   const dateRef: any = useRef<HTMLElement>(null);
@@ -171,7 +181,8 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
 
     if (
       (dateType === 'DATE' || dateType === 'DATETIME') &&
-      !value && !fieldState
+      !value &&
+      !fieldState
     ) {
       setValueField(null);
       return;
@@ -245,24 +256,22 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
   return (
     <>
       <StyledDatePicker
-        className={className}
-        disabled={disabled}
-        inline={inline}
+        {...{
+          className,
+          disabled,
+          inline,
+          labelInfo,
+          layer,
+          fill,
+          margin,
+          noLabel
+        }}
         intent={fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE}
         labelFor={id}
-        labelInfo={labelInfo}
-        layer={layer}
-        fill={fill}
-        margin={margin}
-        noLabel={noLabel}
       >
         <FormFieldContainer
+          {...{ noLabel, label, fieldState, value, tooltip }}
           required={required || displayRequired}
-          noLabel={noLabel}
-          label={label}
-          fieldState={fieldState}
-          value={value}
-          tooltip={tooltip}
         >
           {props.tipLabel && (
             <span className={'tipLabel'}>{props.tipLabel}</span>
@@ -270,23 +279,30 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
           {dateType === 'DATETIME' || dateType === 'DATE' ? (
             <DateInputContainer
               {...FORMATS()[dateType]}
-              disabled={disabled}
+              {...{
+                locale,
+                disabled,
+                defaultValue,
+                popoverProps,
+                canClearSelection,
+                closeOnSelection,
+                shortcuts,
+                showActionsBar,
+                modifiers,
+                clearButtonText,
+                todayButtonText
+              }}
+              localeUtils={MomentLocaleUtils}
               minDate={minTimeCalculate}
               maxDate={maxTimeCalculate}
-              defaultValue={defaultValue}
               onChange={changedDate}
               value={valueField}
               timePrecision={dateType === 'DATETIME' ? precision : undefined}
               rightElement={iconJSX()}
-              popoverProps={popoverProps}
               dayPickerProps={{
                 fixedWeeks: true,
                 ...dayPickerProps
               }}
-              canClearSelection={canClearSelection}
-              closeOnSelection={closeOnSelection}
-              shortcuts={shortcuts}
-              showActionsBar={showActionsBar}
               timePickerProps={
                 dateType === 'DATETIME' ? { useAmPm } : undefined
               }
@@ -307,7 +323,6 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
                   }
                 }
               }}
-              modifiers={modifiers}
             />
           ) : (
             <TimePicker
