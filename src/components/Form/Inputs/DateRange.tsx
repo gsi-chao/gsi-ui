@@ -7,7 +7,7 @@ import {
   DateRange,
   DateRangeInput,
   IDateFormatProps,
-  TimePrecision,
+  TimePrecision
 } from '@blueprintjs/datetime';
 /** FieldState */
 import { StyledDateRange } from './style';
@@ -59,12 +59,12 @@ interface IIcon {
 
 const momentFormatter = (format: string): IDateFormatProps => {
   return {
-    formatDate: (date) => moment(date).format(format),
-    parseDate: (str) =>
+    formatDate: date => moment(date).format(format),
+    parseDate: str =>
       !moment(str, format, true).isValid()
         ? false
         : moment(str, format).toDate(),
-    placeholder: `${format}`,
+    placeholder: `${format}`
   };
 };
 
@@ -76,8 +76,8 @@ const getTimePrecision: any = (
     return {
       timePrecision: { precision },
       timePickerProps: {
-        useAmPm: useAmPm ?? undefined,
-      },
+        useAmPm: useAmPm ?? undefined
+      }
     };
   }
 };
@@ -95,7 +95,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     if (dates?.length === 2) {
       const newDates: any = [
         (isDate(dates[0]) && dates[0]) || null,
-        (isDate(dates[1]) && dates[1]) || null,
+        (isDate(dates[1]) && dates[1]) || null
       ];
 
       if (props.fieldState) {
@@ -139,7 +139,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     onBlurStart,
     onFocusStart,
     onBlurEnd,
-    onFocusEnd,
+    onFocusEnd
   } = props;
 
   if (fieldState) {
@@ -199,7 +199,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
           value={getValueField()}
           popoverProps={{
             minimal: true,
-            ...popoverProps,
+            ...popoverProps
           }}
           dayPickerProps={{
             fixedWeeks: true,
@@ -210,11 +210,11 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
           contiguousCalendarMonths={contiguousCalendarMonths}
           startInputProps={{
             onBlur: onBlurStart,
-            onFocus: onFocusStart,
+            onFocus: onFocusStart
           }}
           endInputProps={{
             onBlur: onBlurEnd,
-            onFocus: onFocusEnd,
+            onFocus: onFocusEnd
           }}
           {...getTimePrecision(precision, useAmPm)}
         />

@@ -1,5 +1,11 @@
 import { Collapse, Elevation, Icon, IconName } from '@blueprintjs/core';
-import { VCard, VCardBody, VCardHeader, VCardTextSpan, VCardTextSpanContainer } from './style';
+import {
+  VCard,
+  VCardBody,
+  VCardHeader,
+  VCardTextSpan,
+  VCardTextSpanContainer
+} from './style';
 import React, { Component } from 'react';
 import { FlexJustify, HeaderOrientation } from './types';
 
@@ -34,7 +40,7 @@ export interface StyledCardProps {
   onHeaderFocus?: any;
   id?: string;
   headerTextComponent?: any;
-  headerClass?:string;
+  headerClass?: string;
 }
 
 interface PanelState {

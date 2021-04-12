@@ -128,7 +128,6 @@ export class VMaskField extends React.Component<IMaskInputProps> {
             intent={
               fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
             }
-
           />
         </FormFieldContainer>
       </StyledInput>

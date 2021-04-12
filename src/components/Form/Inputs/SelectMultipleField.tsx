@@ -1,9 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { orderBy, get } from 'lodash';
 /** Blueprint */
-import { Button, Classes, Icon, IconName, Intent, Menu, MenuDivider, MenuItem } from '@blueprintjs/core';
+import {
+  Button,
+  Classes,
+  Icon,
+  IconName,
+  Intent,
+  Menu,
+  MenuDivider,
+  MenuItem
+} from '@blueprintjs/core';
 /** FieldState */
-import { ItemListRenderer, ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
+import {
+  ItemListRenderer,
+  ItemPredicate,
+  ItemRenderer,
+  Select
+} from '@blueprintjs/select';
 
 import '@blueprintjs/select/lib/css/blueprint-select.css';
 
@@ -82,9 +96,12 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
       return null;
     }
 
-    const active = activeItem?.item?.value && (item.value === activeItem?.item?.value);
+    const active =
+      activeItem?.item?.value && item.value === activeItem?.item?.value;
 
-    const founded = selectedItems.some(selected => selected.value === item.value);
+    const founded = selectedItems.some(
+      selected => selected.value === item.value
+    );
     return (
       <MenuItem
         icon={founded ? 'tick' : 'blank'}
@@ -97,7 +114,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
         shouldDismissPopover={item.value === clearToken}
         labelElement={
           item.value === clearToken && item.label === 'No Selection' ? (
-            <Icon color={active && 'white' || '#7486949c'} icon={'reset'} />
+            <Icon color={(active && 'white') || '#7486949c'} icon={'reset'} />
           ) : null
         }
       />
@@ -356,7 +373,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
         {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
         <ItemSelect
           activeItem={activeItem}
-          onActiveItemChange={(value) => {
+          onActiveItemChange={value => {
             if (!changed.current) {
               if (selectedItem.current) {
                 setActiveItem({
@@ -369,11 +386,11 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
                   selectedItem.current = null;
                 }
               } else {
-                setActiveItem(value)
+                setActiveItem(value);
               }
-              changed.current = true
+              changed.current = true;
             } else {
-              changed.current = false
+              changed.current = false;
             }
           }}
           popoverProps={{

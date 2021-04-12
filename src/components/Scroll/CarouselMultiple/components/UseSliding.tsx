@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import {} from 'lodash';
 
-
 const useSliding = (width: any, countElements: any) => {
   const containerRef = useRef<any>(null);
   const [distance, setDistance] = useState(0);
@@ -13,7 +12,9 @@ const useSliding = (width: any, countElements: any) => {
     if (width > 0) {
       const containerWidth = containerRef.current.clientWidth;
       setElementWidth(Math.floor(width / countElements));
-      const totalInViewport = Math.floor(containerWidth / Math.floor(width / countElements));
+      const totalInViewport = Math.floor(
+        containerWidth / Math.floor(width / countElements)
+      );
       setTotalInViewport(totalInViewport);
       if (countElements <= totalInViewport) {
         setDistance(0);

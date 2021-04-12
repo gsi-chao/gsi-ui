@@ -4,5 +4,5 @@ export interface IPagination extends PaginationProps {
   buttonColor?: string;
   position?: 'start' | 'center' | 'end';
   local?: string;
-  disabled?: boolean
+  disabled?: boolean;
 }

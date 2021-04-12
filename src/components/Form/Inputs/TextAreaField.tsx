@@ -129,8 +129,7 @@ export class VTextAreaField extends React.Component<
               textTransform: this.props.upperCaseFormat ? 'uppercase' : 'none'
             }}
             onPaste={e => {
-              const oldValue =
-                e && e.currentTarget && e.currentTarget.value;
+              const oldValue = e && e.currentTarget && e.currentTarget.value;
               const newValue =
                 e && e.clipboardData && e.clipboardData.getData('Text');
               if (this.props.onPaste) {

@@ -709,8 +709,8 @@ export const VTable = (props: IProps) => {
         if (
           containerRegion.rows[0] <= checkRegion.rows[0] &&
           containerRegion.rows[1] >= checkRegion.rows[1] &&
-          (containerRegion.cols[0] <= checkRegion.cols[0] &&
-            containerRegion.cols[1] >= checkRegion.cols[1])
+          containerRegion.cols[0] <= checkRegion.cols[0] &&
+          containerRegion.cols[1] >= checkRegion.cols[1]
         ) {
           return true;
         }
@@ -805,12 +805,12 @@ export const VTable = (props: IProps) => {
         !!(
           innerRegion.cols &&
           region.cols &&
-          (innerRegion.cols[0] === region.cols[0] &&
-            innerRegion.cols[1] === region.cols[1]) &&
+          innerRegion.cols[0] === region.cols[0] &&
+          innerRegion.cols[1] === region.cols[1] &&
           innerRegion.rows &&
           region.rows &&
-          (innerRegion.rows[0] === region.rows[0] &&
-            innerRegion.rows[1] === region.rows[1])
+          innerRegion.rows[0] === region.rows[0] &&
+          innerRegion.rows[1] === region.rows[1]
         )
     );
   };

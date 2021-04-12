@@ -198,5 +198,5 @@ export class VRegExpInputField extends React.Component<
         }, 30);
       }
     }
-  }
+  };
 }

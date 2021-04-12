@@ -1,5 +1,2 @@
 export { VDraggableDialog } from './VDraggableDialog';
-export {
-  VDraggableModal,
-  VDraggableModalProvider
-} from './VDraggableModal';
+export { VDraggableModal, VDraggableModalProvider } from './VDraggableModal';
