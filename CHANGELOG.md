@@ -1,3 +1,10 @@
+# [1.3.0-beta.3](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.2...v1.3.0-beta.3) (2021-08-05)
+
+
+### Features
+
+* **wx-i3611:** added default false to DATETIME components ([2713ea3](https://github.com/gsi-chao/gsi-ui/commit/2713ea3f484749d51d604211ebe716179b569fa5))
+
 # [1.3.0-beta.2](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.1...v1.3.0-beta.2) (2021-04-12)
 
 
