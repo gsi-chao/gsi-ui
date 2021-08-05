@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import moment from 'moment';
 import MomentLocaleUtils from 'react-day-picker/moment';
 import 'moment/locale/fr';
@@ -115,7 +115,6 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     canClearSelection,
     shortcuts,
     showActionsBar,
-    closeOnSelection,
     locale = 'en',
     clearButtonText = 'Clear',
     todayButtonText = 'Today'
@@ -252,6 +251,13 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
   };
 
   const modifiers: IDatePickerModifiers = { toDateNotSelect };
+
+  const closeOnSelection = useMemo(() => {
+    if (props.closeOnSelection === undefined && props.dateType === 'DATETIME') {
+      return false;
+    }
+    return props.closeOnSelection;
+  }, [props.closeOnSelection, props.dateType]);
 
   return (
     <>
