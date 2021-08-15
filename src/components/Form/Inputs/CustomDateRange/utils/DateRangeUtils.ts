@@ -92,15 +92,17 @@ const initialDate = (
   startValueTime?: Date,
   endValueTime?: Date
 ): IStateCustomDateRange => {
+  const startDate = fieldState?.value?.[0] || value?.[0];
+  const endDate = fieldState?.value?.[1] || value?.[1];
   const defaultConfig = {
     start: {
-      date: null,
+      date: moment(startDate)?.isValid() ? startDate : null,
       time: startValueTime
         ? startValueTime
         : DateRangeUtils.includeTimeToDate(moment().toDate(), 24, 0)
     },
     end: {
-      date: null,
+      date: moment(endDate)?.isValid() ? endDate : null,
       time: endValueTime
         ? endValueTime
         : DateRangeUtils.includeTimeToDate(moment().toDate(), 23, 59)

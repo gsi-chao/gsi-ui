@@ -70,6 +70,8 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
     endTime
   } = DateRangeUtils.transformState(state);
 
+  const [updateOrder, setUpdateOrder] = useState<boolean>(false);
+
   useEffect(() => {
     initialState();
   }, []);
@@ -160,6 +162,38 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
     onChange?.(dateRange);
   };
 
+  const onBlurInputs = (input: 'START_DATE' | 'END_DATE') => (event: any) => {
+    const date = new Date(event?.target?.value);
+    const newValue = fieldState?.value || value || [null, null];
+    if (moment(date).isValid()) {
+      if (input === 'START_DATE') {
+        newValue[0] = date;
+      } else {
+        newValue[1] = date;
+      }
+      if (
+        newValue[0] &&
+        newValue[1] &&
+        moment(newValue[0]).diff(newValue[1]) > 1
+      ) {
+        setUpdateOrder(true);
+        return;
+      }
+      fieldState?.onChange(newValue);
+      onChange?.(newValue);
+      setState(
+        DateRangeUtils.initialDate(
+          fieldState,
+          newValue,
+          startValueTime,
+          endValueTime
+        )
+      );
+      return;
+    }
+    setUpdateOrder(true);
+  };
+
   return (
     <Observer
       render={() => (
@@ -207,6 +241,8 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
               allowSingleDayRange={allowSingleDayRange}
               upperCaseFormat={upperCaseFormat}
               tipLabels={subLabels}
+              onBlurInputs={onBlurInputs}
+              {...{ updateOrder, setUpdateOrder }}
             />
           </FormFieldContainer>
         </StyledDatePicker>

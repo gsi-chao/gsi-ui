@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { DateRangeInputSectionStyled } from '../styled/styles';
 import { DateRangeInput } from './DateRangeInput';
 import { IDateRangeInputSection } from '../type/IDateRangeInputSection';
@@ -15,7 +15,11 @@ export const DateRangeInputSection = (props: IDateRangeInputSection) => {
     dateType,
     onClick,
     upperCaseFormat,
-    tipLabels
+    tipLabels,
+    onBlurInputs,
+    onFocusInputs,
+    setUpdateOrder,
+    updateOrder
   } = props;
 
   const [startDate, endDate] = useMemo(() => {
@@ -30,29 +34,54 @@ export const DateRangeInputSection = (props: IDateRangeInputSection) => {
     return isValid ? [build(date1), build(date2)] : ['', ''];
   }, [state]);
 
+  const [startDateVal, setStartDate] = useState<string>(startDate);
+  const [endDateVal, setEndDate] = useState<string>(startDate);
+
+  useEffect(() => {
+    setStartDate(startDate);
+  }, [startDate]);
+
+  useEffect(() => {
+    setEndDate(endDate);
+  }, [endDate]);
+
+  useEffect(() => {
+    if (updateOrder) {
+      setStartDate(startDate);
+      setEndDate(endDate);
+      setUpdateOrder?.(false);
+    }
+  }, [updateOrder]);
+
   return (
     <DateRangeInputSectionStyled>
       <div style={{ flexGrow: 1, paddingRight: '2px' }}>
         <DateRangeInput
           id={'date-range-input-start-date'}
-          placeholder={format}
-          valueField={startDate}
+          format={format}
+          valueField={startDateVal}
           onClick={onClick?.(Boundary.START)}
           disabled={disabled}
           upperCaseFormat={upperCaseFormat}
           tipLabel={tipLabels?.start}
+          onBlur={onBlurInputs?.('START_DATE')}
+          onChange={setStartDate}
+          onFocus={onFocusInputs}
         />
       </div>
 
       <div style={{ flexGrow: 1 }}>
         <DateRangeInput
           id={'date-range-input-end-date'}
-          placeholder={format}
-          valueField={endDate}
+          format={format}
+          valueField={endDateVal}
           onClick={onClick?.(Boundary.END)}
           disabled={disabled}
           upperCaseFormat={upperCaseFormat}
           tipLabel={tipLabels?.end}
+          onBlur={onBlurInputs?.('END_DATE')}
+          onChange={setEndDate}
+          onFocus={onFocusInputs}
         />
       </div>
     </DateRangeInputSectionStyled>

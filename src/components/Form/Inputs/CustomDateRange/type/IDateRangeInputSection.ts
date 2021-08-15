@@ -11,4 +11,8 @@ export interface IDateRangeInputSection {
   onClick?: (type: Boundary) => () => void;
   tipLabels?: ITipLabel;
   upperCaseFormat?: boolean;
+  onBlurInputs?: (input: 'START_DATE' | 'END_DATE') => (event: any) => void;
+  onFocusInputs?: () => void;
+  updateOrder?: boolean;
+  setUpdateOrder?: (value: boolean) => void;
 }

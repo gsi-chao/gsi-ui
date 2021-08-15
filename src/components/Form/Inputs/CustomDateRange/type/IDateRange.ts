@@ -33,4 +33,7 @@ export interface IDateRange {
   allowSingleDayRange?: boolean;
   tipLabels?: ITipLabel;
   upperCaseFormat?: boolean;
+  onBlurInputs?: (input: 'START_DATE' | 'END_DATE') => (event: any) => void;
+  updateOrder?: boolean;
+  setUpdateOrder?: (value: boolean) => void;
 }
