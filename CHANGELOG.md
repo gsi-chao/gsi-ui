@@ -1,3 +1,10 @@
+# [1.3.0-beta.5](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.4...v1.3.0-beta.5) (2021-08-15)
+
+
+### Bug Fixes
+
+* **daterange:** fixed issue with fill in date inputs ([75a0499](https://github.com/gsi-chao/gsi-ui/commit/75a049916e1d4a65e4b315932b4073498e5b2784))
+
 # [1.3.0-beta.4](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.3...v1.3.0-beta.4) (2021-08-15)
 
 
