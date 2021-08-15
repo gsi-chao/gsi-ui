@@ -1,9 +1,10 @@
 export interface IDateRangeInput {
   id: string;
-  placeholder: string;
+  format: string;
   valueField: string;
   disabled?: boolean;
-  onBlur?: () => void;
+  onBlur?: (event: any) => void;
+  onChange?: (event: any) => void;
   onFocus?: () => void;
   onClick?: () => void;
   upperCaseFormat?: boolean;

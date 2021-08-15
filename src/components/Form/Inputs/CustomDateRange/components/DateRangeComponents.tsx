@@ -39,12 +39,19 @@ export const DateRangeComponents = (props: IDateRange) => {
     onChangeDateTime,
     allowSingleDayRange,
     tipLabels,
-    upperCaseFormat
+    upperCaseFormat,
+    onBlurInputs,
+    setUpdateOrder,
+    updateOrder
   } = props;
   const [isOpen, setOpen] = useState(false);
   const { startTime, endTime } = DateRangeUtils.transformState(state);
   const isNullDateRangeRef = useRef(false);
   const [boundary, setBoundary] = useState<Boundary>(Boundary.START);
+
+  const onFocusInputs = () => {
+    setTimeout(() => setOpen(true));
+  };
 
   const internalOnShortcutChange = (
     shortcut: IDateRangeShortcut,
@@ -92,6 +99,7 @@ export const DateRangeComponents = (props: IDateRange) => {
   return (
     <Popover
       minimal
+      enforceFocus={false}
       interactionKind={PopoverInteractionKind.HOVER}
       isOpen={isOpen}
       onClosing={onClosing}
@@ -155,6 +163,9 @@ export const DateRangeComponents = (props: IDateRange) => {
         onClick={onClickInput}
         upperCaseFormat={upperCaseFormat}
         tipLabels={tipLabels}
+        onBlurInputs={onBlurInputs}
+        onFocusInputs={onFocusInputs}
+        {...{ updateOrder, setUpdateOrder }}
       />
     </Popover>
   );
