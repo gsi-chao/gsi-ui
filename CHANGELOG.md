@@ -1,3 +1,10 @@
+# [1.3.0-beta.4](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.3...v1.3.0-beta.4) (2021-08-15)
+
+
+### Features
+
+* **daterangeinput:** added functionality to write directly in the date range inputs ([6c388bd](https://github.com/gsi-chao/gsi-ui/commit/6c388bdb8f2d864c679b962b4caeebc53eb889e0))
+
 # [1.3.0-beta.3](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.2...v1.3.0-beta.3) (2021-08-05)
 
 
