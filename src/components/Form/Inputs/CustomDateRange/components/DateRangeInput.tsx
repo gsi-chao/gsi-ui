@@ -14,6 +14,7 @@ export const DateRangeInput: FC<IDateRangeInput> = ({
       value={valueField}
       inline={true}
       noLabel
+      fill
       margin={'0'}
       guide={false}
       placeholder={format}
