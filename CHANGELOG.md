@@ -1,3 +1,10 @@
+# [1.3.0-beta.8](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.7...v1.3.0-beta.8) (2021-08-19)
+
+
+### Bug Fixes
+
+* **serach-select:** cannot select items in a dropdown by clicking on the checkbox ([1ad2c5b](https://github.com/gsi-chao/gsi-ui/commit/1ad2c5bdd133e6ba9c85f611e362365812d01d5b))
+
 # [1.3.0-beta.7](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.6...v1.3.0-beta.7) (2021-08-19)
 
 
