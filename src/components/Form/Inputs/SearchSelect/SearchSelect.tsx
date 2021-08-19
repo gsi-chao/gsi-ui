@@ -83,7 +83,7 @@ export const SearchSelect = (props: IProps) => {
   }, [props.value, props.options]);
 
   useEffect(() => {
-    props.multi && initValueStateMulti();
+    props.multi && !!selection?.lenght && initValueStateMulti();
   }, [selection]);
 
   useEffect(() => {
