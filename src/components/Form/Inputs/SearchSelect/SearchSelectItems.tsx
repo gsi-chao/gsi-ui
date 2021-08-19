@@ -1,6 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Keys, Menu, MenuItem } from '@blueprintjs/core';
-import { isArray, findIndex, isNil, get } from 'lodash';
+import {
+  isArray,
+  findIndex,
+  isNil,
+  get,
+  LoDashExplicitNumberArrayWrapper
+} from 'lodash';
 import VirtualList from 'react-tiny-virtual-list';
 
 import { IItem } from '../../types';
@@ -79,12 +85,17 @@ export const SearchSelectItems = (props: IProps) => {
     setIsKeyUpOrDownPressed(true);
   };
 
-  const getSelectedLabel = (value: any) => {
+  const getSelectedLabel = (option: any, index: number) => {
     if (props.multi && isArray(props.selection)) {
+      const { value } = option;
       return (
         <SelectItemCheckbox
           checked={props.selection.includes(value)}
-          onClick={() => props.selectDeselectItem(value)}
+          onClick={e => {
+            e.preventDefault();
+            setActive(index);
+            props.selectDeselectItem(option);
+          }}
         />
       );
     }
@@ -135,8 +146,11 @@ export const SearchSelectItems = (props: IProps) => {
               className={'select-item'}
               icon={props.options[index].icon}
               text={props.options[index].label}
-              labelElement={getSelectedLabel(props.options[index].value)}
-              onClick={() => props.selectDeselectItem(props.options[index])}
+              labelElement={getSelectedLabel(props.options[index], index)}
+              onClick={(e: any) => {
+                e.preventDefault();
+                props.selectDeselectItem(props.options[index]);
+              }}
             />
           )}
         />
