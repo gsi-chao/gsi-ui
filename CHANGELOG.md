@@ -1,3 +1,10 @@
+# [1.3.0-beta.6](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.5...v1.3.0-beta.6) (2021-08-19)
+
+
+### Features
+
+* **search-select:** add ability to initialize multi selector ([2ab76a9](https://github.com/gsi-chao/gsi-ui/commit/2ab76a934c546638563277922b66d43aa0a56011))
+
 # [1.3.0-beta.5](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.4...v1.3.0-beta.5) (2021-08-15)
 
 
