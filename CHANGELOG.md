@@ -1,3 +1,10 @@
+# [1.3.0-beta.7](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.6...v1.3.0-beta.7) (2021-08-19)
+
+
+### Bug Fixes
+
+* **search-select:** resolve bug in Search and Select component ([df909db](https://github.com/gsi-chao/gsi-ui/commit/df909dbdc828b3aa1998a9ff67430ec032df1063))
+
 # [1.3.0-beta.6](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.5...v1.3.0-beta.6) (2021-08-19)
 
 
