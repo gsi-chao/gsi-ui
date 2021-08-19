@@ -83,6 +83,10 @@ export const SearchSelect = (props: IProps) => {
   }, [props.value, props.options]);
 
   useEffect(() => {
+    props.multi && initValueStateMulti();
+  }, [selection]);
+
+  useEffect(() => {
     props.popoverWidth && setPopoverWidth(props.popoverWidth);
   }, [props.popoverWidth]);
 
@@ -200,14 +204,18 @@ export const SearchSelect = (props: IProps) => {
         }
         !props.disabled && setIsOpen(nextOpenState);
         !nextOpenState && onChangeItems(selection);
-        props.multi && resetStateMulti();
-        props.multi && handleUpdateSearchText(nextOpenState);
+        initValueStateMulti(nextOpenState);
         !props.multi && selection && setSearchSelectionText(selection || '');
         !props.multi && options.length === 0 && clearSearch();
       }
     } catch (e) {
       !props.disabled && setIsOpen(nextOpenState);
     }
+  };
+
+  const initValueStateMulti = (nextOpenState = false) => {
+    props.multi && resetStateMulti();
+    props.multi && handleUpdateSearchText(nextOpenState);
   };
 
   const resetStateMulti = () => {
