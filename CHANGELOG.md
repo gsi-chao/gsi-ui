@@ -1,3 +1,10 @@
+# [1.3.0-beta.9](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.8...v1.3.0-beta.9) (2021-08-26)
+
+
+### Bug Fixes
+
+* **webpack-error:** fix webpack error ([5971f5c](https://github.com/gsi-chao/gsi-ui/commit/5971f5cbc85f7234cca08c0f688880794130bb09))
+
 # [1.3.0-beta.8](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.7...v1.3.0-beta.8) (2021-08-19)
 
 
