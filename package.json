@@ -71,6 +71,8 @@
   },
   "devDependencies": {
     "@babel/core": "7.7.7",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
     "@types/color": "^3.0.0",
     "@types/enzyme": "^3.10.4",
     "@types/enzyme-adapter-react-16": "^1.0.5",
@@ -106,6 +108,7 @@
     "copyfiles": "^2.1.1",
     "cross-env": "^6.0.3",
     "css-loader": "3.4.0",
+    "cz-conventional-changelog": "3.2.0",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
     "enzyme": "^3.11.0",
@@ -141,6 +144,7 @@
     "react-dev-utils": "^10.0.0",
     "react-test-renderer": "^16.12.0",
     "resolve": "1.14.1",
+    "semantic-release": "^17.0.8",
     "style-loader": "1.1.2",
     "terser-webpack-plugin": "2.3.1",
     "ts-pnp": "1.1.5",
@@ -149,14 +153,10 @@
     "tslint-config-prettier": "^1.18.0",
     "typescript": "3.7.4",
     "url-loader": "3.0.0",
-    "webpack": "4.41.4",
-    "webpack-dev-server": "3.10.1",
+    "webpack": "4.46.0",
+    "webpack-dev-server": "3.11.2",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "4.3.1",
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/git": "^9.0.0",
-    "cz-conventional-changelog": "3.2.0",
-    "semantic-release": "^17.0.8"
+    "workbox-webpack-plugin": "4.3.1"
   },
   "config": {
     "commitizen": {
