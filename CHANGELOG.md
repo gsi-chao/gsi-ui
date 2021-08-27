@@ -1,3 +1,10 @@
+# [1.3.0-beta.10](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.9...v1.3.0-beta.10) (2021-08-27)
+
+
+### Features
+
+* **date-time:** add the ability to write the date in the dateTime component ([cdbe59f](https://github.com/gsi-chao/gsi-ui/commit/cdbe59f6a83ade2cb4a68f5f3c6bfc84f640dc74))
+
 # [1.3.0-beta.9](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.8...v1.3.0-beta.9) (2021-08-26)
 
 
