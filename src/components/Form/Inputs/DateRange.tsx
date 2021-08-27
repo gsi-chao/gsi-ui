@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { observer } from 'mobx-react';
-import moment from 'moment';
 /** Blueprint */
 import { IconName, Intent, IPopoverProps } from '@blueprintjs/core';
 import {
+  DateFormatProps,
   DateRange,
   DateRangeInput,
-  IDateFormatProps,
   TimePrecision
 } from '@blueprintjs/datetime';
+import { FieldState } from 'formstate';
+import { isDate } from 'lodash';
+import { observer } from 'mobx-react';
+import moment from 'moment';
+import 'moment/locale/en-gb';
+import 'moment/locale/es';
+import 'moment/locale/fr';
+import { DayPickerProps } from 'react-day-picker';
+import MomentLocaleUtils from 'react-day-picker/moment';
+import { Validators } from '../Validators';
+import { FormFieldContainer } from './FormFieldContainer';
+import { IFieldProps } from './IFieldProps';
 /** FieldState */
 import { StyledDateRange } from './style';
-import { IFieldProps } from './IFieldProps';
-import { FormFieldContainer } from './FormFieldContainer';
-import { Validators } from '../Validators';
-
-import { isDate } from 'lodash';
-import { FieldState } from 'formstate';
-import { DayPickerProps } from 'react-day-picker';
 
 /**
  * Field component. Must be an observer.
@@ -48,6 +51,7 @@ export interface IInputFieldProps extends IFieldProps {
   onFocusEnd?: any;
   fieldState?: FieldState<DateRange>;
   value?: DateRange;
+  locale?: string;
 }
 
 interface IIcon {
@@ -57,13 +61,13 @@ interface IIcon {
   iconName: IconName;
 }
 
-const momentFormatter = (format: string): IDateFormatProps => {
+const momentFormatter = (format: string): DateFormatProps => {
   return {
-    formatDate: date => moment(date).format(format),
-    parseDate: str =>
-      !moment(str, format, true).isValid()
-        ? false
-        : moment(str, format).toDate(),
+    formatDate: (date: Date) => moment(date).format(format),
+    parseDate: (str: string, locale: string) =>
+      moment(str, format)
+        .locale(locale)
+        .toDate(),
     placeholder: `${format}`
   };
 };
@@ -139,7 +143,8 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
     onBlurStart,
     onFocusStart,
     onBlurEnd,
-    onFocusEnd
+    onFocusEnd,
+    locale = 'en'
   } = props;
 
   if (fieldState) {
@@ -192,6 +197,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
         {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
         <DateRangeInput
           {...momentFormatter(props.format || 'MM/DD/YYYY')}
+          {...{ locale }}
           disabled={disabled}
           minDate={minTime}
           maxDate={maxTime}
@@ -206,6 +212,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
             ...dayPickerProps
           }}
           shortcuts={props.shortcuts}
+          localeUtils={MomentLocaleUtils}
           allowSingleDayRange={allowSingleDayRange}
           contiguousCalendarMonths={contiguousCalendarMonths}
           startInputProps={{
