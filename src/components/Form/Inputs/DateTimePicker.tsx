@@ -1,24 +1,24 @@
-import { observer } from 'mobx-react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import moment from 'moment';
-import MomentLocaleUtils from 'react-day-picker/moment';
-import 'moment/locale/fr';
-import 'moment/locale/en-gb';
-import 'moment/locale/es';
 /** Blueprint */
 import { Icon, IconName, Intent, IPopoverProps } from '@blueprintjs/core';
 import {
-  IDateFormatProps,
-  IDatePickerModifiers,
+  DateFormatProps,
+  DatePickerModifiers,
   TimePicker
 } from '@blueprintjs/datetime';
+import { TimePrecision } from '@blueprintjs/datetime/lib/esm/timePicker';
+import { observer } from 'mobx-react';
+import moment from 'moment';
+import 'moment/locale/en-gb';
+import 'moment/locale/es';
+import 'moment/locale/fr';
+import { DayPickerProps } from 'react-day-picker';
+import MomentLocaleUtils from 'react-day-picker/moment';
+import { Validators } from '../Validators';
+import { FormFieldContainer } from './FormFieldContainer';
+import { IFieldProps } from './IFieldProps';
 /** FieldState */
 import { DateInputContainer, IconDate, StyledDatePicker } from './style';
-import { IFieldProps } from './IFieldProps';
-import { FormFieldContainer } from './FormFieldContainer';
-import { TimePrecision } from '@blueprintjs/datetime/lib/esm/timePicker';
-import { Validators } from '../Validators';
-import { DayPickerProps } from 'react-day-picker';
 
 /**
  * Field component. Must be an observer.
@@ -55,15 +55,13 @@ interface IIcon {
   iconName: IconName;
 }
 
-const momentFormatter = (format: string): IDateFormatProps => {
+const momentFormatter = (format: string): DateFormatProps => {
   return {
-    formatDate: date => moment(date).format(format),
-    parseDate: str => {
-      if (!moment(str, format, true).isValid()) {
-        return false;
-      }
-      return moment(str, format).toDate();
-    },
+    formatDate: (date: Date) => moment(date).format(format),
+    parseDate: (str: string, locale: string) =>
+      moment(str, format)
+        .locale(locale)
+        .toDate(),
     placeholder: `${format}`
   };
 };
@@ -122,10 +120,10 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
 
   const dateRef: any = useRef<HTMLElement>(null);
   const isFocused: any = useRef();
-  const [minTimeCalculate, setMinTimeCalculate] = useState();
-  const [maxTimeCalculate, setMaxTimeCalculate] = useState();
+  const [minTimeCalculate, setMinTimeCalculate] = useState<any>();
+  const [maxTimeCalculate, setMaxTimeCalculate] = useState<any>();
   const [defaultValue, setDefaultValue] = useState(toDate());
-  const [valueField, setValueField] = useState();
+  const [valueField, setValueField] = useState<any>();
 
   useEffect(() => {
     calculateValue();
@@ -250,7 +248,7 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     return rightElement;
   };
 
-  const modifiers: IDatePickerModifiers = { toDateNotSelect };
+  const modifiers: DatePickerModifiers = { toDateNotSelect };
 
   const closeOnSelection = useMemo(() => {
     if (props.closeOnSelection === undefined && props.dateType === 'DATETIME') {
