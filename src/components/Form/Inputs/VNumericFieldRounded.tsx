@@ -131,10 +131,10 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
               `${newValue &&
                 round(Number(newValue.toString()), props.roundTo)}` || '';
           }
-          setState(value);
+          setState(newValue);
           setPropsValues(newValue);
         } else {
-          setState(value);
+          setState(newValue);
           setPropsValues(newValue);
         }
       }
