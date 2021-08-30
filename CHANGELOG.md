@@ -1,3 +1,10 @@
+# [1.3.0-beta.12](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.11...v1.3.0-beta.12) (2021-08-30)
+
+
+### Bug Fixes
+
+* **numeric_rounded:** solve problem with negative numbers in the  numeric rounded  component ([88aa151](https://github.com/gsi-chao/gsi-ui/commit/88aa15197a33774ad6b1be34e36d426c07ca08ab))
+
 # [1.3.0-beta.11](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.10...v1.3.0-beta.11) (2021-08-30)
 
 
