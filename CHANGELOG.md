@@ -1,3 +1,10 @@
+# [1.3.0-beta.11](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.10...v1.3.0-beta.11) (2021-08-30)
+
+
+### Bug Fixes
+
+* **numeric-rounded:** fix entering decimal first doesnt work ([5902a47](https://github.com/gsi-chao/gsi-ui/commit/5902a47ba797b0234df053067d15bcac23ca1f70))
+
 # [1.3.0-beta.10](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.9...v1.3.0-beta.10) (2021-08-27)
 
 
