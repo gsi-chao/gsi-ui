@@ -5,7 +5,7 @@ import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/datetime/lib/css/blueprint-datetime.css';
 
 const TestComponent = observer(() => {
-  return <>Test Index</>;
+  return <>Test Component</>;
 });
 
 ReactDOM.render(<TestComponent />, document.getElementById('root'));
