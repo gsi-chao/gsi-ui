@@ -10,7 +10,7 @@ import {
 } from './types/types';
 import { StyledDateRange } from './styles/styles';
 
-const VCustomDateRangeV2 = (props: IVCustomDateRangeV2) => {
+export const VCustomDateRangeV2 = observer((props: IVCustomDateRangeV2) => {
   const {
     defaultEndTimeWithEndDay,
     fieldState,
@@ -28,8 +28,7 @@ const VCustomDateRangeV2 = (props: IVCustomDateRangeV2) => {
     handleOnChange,
     handleChangeFromExterior,
     setShortcuts,
-    setComponentRef,
-    formatDate
+    setComponentRef
   } = useLocalStore(() => new CustomDateRangeV2Store(onChangeShortcut));
 
   const shortcuts: IDateRangeShortcut[] = useMemo(() => {
@@ -109,9 +108,9 @@ const VCustomDateRangeV2 = (props: IVCustomDateRangeV2) => {
       }}
     />
   );
-};
+});
 
-export default observer(VCustomDateRangeV2);
+export default VCustomDateRangeV2;
 
 const momentFormatter = (format: any) => {
   return {

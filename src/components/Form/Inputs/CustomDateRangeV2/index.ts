@@ -1,1 +1,1 @@
-export * from './CustomDateRangeV2';
+export { VCustomDateRangeV2 } from './CustomDateRangeV2';
