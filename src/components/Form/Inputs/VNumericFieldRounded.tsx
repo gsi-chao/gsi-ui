@@ -82,7 +82,12 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 
     const checkState = state === '' ? undefined : state;
 
-    if (Number(propsValue) !== Number(checkState) && state !== '-') {
+    if (
+      Number(propsValue) !== Number(checkState) &&
+      state !== '-' &&
+      state !== '.' &&
+      state !== '-.'
+    ) {
       MaskValue();
     } else if (propsValue === '') {
       setState('');
@@ -98,7 +103,11 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 
   const parseToNumber = (value: any) => {
     const parsedValue = parseFloat(value);
-    return isNumber(parsedValue) && isFinite(parsedValue) ? parsedValue : '';
+    return isNumber(parsedValue) && isFinite(parsedValue)
+      ? parsedValue
+      : value === '.' || value === '-' || value === '-.'
+      ? value
+      : '';
   };
 
   const MaskValue = () => {
@@ -122,8 +131,13 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
       if (!props.maxDecimals || canAddDecimalPlace(value, props.maxDecimals)) {
         let newValue = value;
         if (props.roundTo && props.roundTo > 0) {
-          if (
+          if (value === '.0') {
+            newValue = '0.0';
+          } else if (value === '-.0') {
+            newValue = '-0.0';
+          } else if (
             `${value}` &&
+            !`${value}`.endsWith('.') &&
             isNumber(Number(value)) &&
             isFinite(Number(value))
           ) {
@@ -131,10 +145,10 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
               `${newValue &&
                 round(Number(newValue.toString()), props.roundTo)}` || '';
           }
-          setState(value);
+          setState(newValue);
           setPropsValues(newValue);
         } else {
-          setState(value);
+          setState(newValue);
           setPropsValues(newValue);
         }
       }
