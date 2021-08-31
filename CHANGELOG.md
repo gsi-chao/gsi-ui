@@ -1,3 +1,10 @@
+# [1.3.0-beta.13](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.12...v1.3.0-beta.13) (2021-08-31)
+
+
+### Features
+
+* **customdaterangev2:** added new component for date ranges ([193b7e5](https://github.com/gsi-chao/gsi-ui/commit/193b7e553e11797e9d207b9f087199a74905ebb1))
+
 # [1.3.0-beta.12](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.11...v1.3.0-beta.12) (2021-08-30)
 
 
