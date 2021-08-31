@@ -1,3 +1,10 @@
+# [1.3.0-beta.14](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.13...v1.3.0-beta.14) (2021-08-31)
+
+
+### Features
+
+* **customrangev2:** fixed not displaying as an option ([1552c94](https://github.com/gsi-chao/gsi-ui/commit/1552c944d6c75847aba9d88ac185769fdb0b17c5))
+
 # [1.3.0-beta.13](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.12...v1.3.0-beta.13) (2021-08-31)
 
 
