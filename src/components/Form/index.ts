@@ -28,3 +28,4 @@ export { VRegExpInputField } from './Inputs/RegExpInputField';
 export { IItem } from './types';
 export * from './Inputs/SearchSelect';
 export * from './Inputs/CustomDateRange';
+export * from './Inputs/CustomDateRangeV2';
