@@ -8,6 +8,7 @@ import { IDateType } from './ITypes';
 import { ITimeProps, ITipLabel } from './ICustomDateTimePicker';
 import { DayPickerProps } from 'react-day-picker';
 import { Modifiers as PopperModifiers } from 'popper.js';
+import { Boundary } from '@blueprintjs/core';
 
 export interface IDateRange {
   state: IStateCustomDateRange;
@@ -33,7 +34,7 @@ export interface IDateRange {
   allowSingleDayRange?: boolean;
   tipLabels?: ITipLabel;
   upperCaseFormat?: boolean;
-  onBlurInputs?: (input: 'START_DATE' | 'END_DATE') => (event: any) => void;
+  onBlurInputs?: (input: Boundary) => (event: any) => void;
   updateOrder?: boolean;
   setUpdateOrder?: (value: boolean) => void;
 }

@@ -64,9 +64,9 @@ export const DateRangeInputSection = (props: IDateRangeInputSection) => {
           disabled={disabled}
           upperCaseFormat={upperCaseFormat}
           tipLabel={tipLabels?.start}
-          onBlur={onBlurInputs?.('START_DATE')}
+          onBlur={onBlurInputs?.(Boundary.START)}
           onChange={setStartDate}
-          onFocus={onFocusInputs}
+          onFocus={onFocusInputs?.(Boundary.START)}
         />
       </div>
 
@@ -79,9 +79,9 @@ export const DateRangeInputSection = (props: IDateRangeInputSection) => {
           disabled={disabled}
           upperCaseFormat={upperCaseFormat}
           tipLabel={tipLabels?.end}
-          onBlur={onBlurInputs?.('END_DATE')}
+          onBlur={onBlurInputs?.(Boundary.END)}
           onChange={setEndDate}
-          onFocus={onFocusInputs}
+          onFocus={onFocusInputs?.(Boundary.END)}
         />
       </div>
     </DateRangeInputSectionStyled>

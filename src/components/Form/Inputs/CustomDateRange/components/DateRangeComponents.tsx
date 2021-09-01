@@ -40,7 +40,6 @@ export const DateRangeComponents = (props: IDateRange) => {
     allowSingleDayRange,
     tipLabels,
     upperCaseFormat,
-    onBlurInputs,
     setUpdateOrder,
     updateOrder
   } = props;
@@ -49,8 +48,13 @@ export const DateRangeComponents = (props: IDateRange) => {
   const isNullDateRangeRef = useRef(false);
   const [boundary, setBoundary] = useState<Boundary>(Boundary.START);
 
-  const onFocusInputs = () => {
+  const onFocusInputs = (bound: Boundary) => () => {
+    setBoundary(bound);
     setTimeout(() => setOpen(true));
+  };
+
+  const onBlurInputs = (bound: Boundary) => (event: any) => {
+    props.onBlurInputs?.(bound)(event);
   };
 
   const internalOnShortcutChange = (
@@ -88,9 +92,21 @@ export const DateRangeComponents = (props: IDateRange) => {
   const handleDateRangePickerChange = (selectedDates: DateRange) => {
     if (!isOpen) return;
 
+    const { startDate } = DateRangeUtils.transformState(state);
     const [selectedStart, selectedEnd] = selectedDates;
-    setBoundary((boundaryF: Boundary) =>
-      !selectedStart ? Boundary.START : !selectedEnd ? Boundary.END : boundaryF
+    const nextBoundary =
+      selectedStart &&
+      startDate &&
+      moment(startDate).format('MM/DD/YYYY') ===
+        moment(selectedStart).format('MM/DD/YYYY')
+        ? Boundary?.START
+        : Boundary.END;
+    setBoundary(
+      !selectedStart
+        ? Boundary.START
+        : !selectedEnd
+        ? Boundary.END
+        : nextBoundary
     );
 
     onChangeDate(selectedDates);

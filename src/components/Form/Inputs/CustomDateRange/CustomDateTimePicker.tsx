@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Intent } from '@blueprintjs/core';
+import { Boundary, Intent } from '@blueprintjs/core';
 import { ICustomDateTimePicker } from './type/ICustomDateTimePicker';
 import { StyledDatePicker } from '../style';
 import { FormFieldContainer } from '../FormFieldContainer';
@@ -162,11 +162,11 @@ export const VCustomDateTimePicker = (props: ICustomDateTimePicker) => {
     onChange?.(dateRange);
   };
 
-  const onBlurInputs = (input: 'START_DATE' | 'END_DATE') => (event: any) => {
+  const onBlurInputs = (input: Boundary) => (event: any) => {
     const date = new Date(event?.target?.value);
     const newValue = fieldState?.value || value || [null, null];
     if (moment(date).isValid()) {
-      if (input === 'START_DATE') {
+      if (input === Boundary.START) {
         newValue[0] = date;
       } else {
         newValue[1] = date;
