@@ -1,3 +1,10 @@
+# [1.3.0-beta.15](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.14...v1.3.0-beta.15) (2021-09-01)
+
+
+### Bug Fixes
+
+* **customdatepicker:** fixed issue with selecting ranges ([8df0efd](https://github.com/gsi-chao/gsi-ui/commit/8df0efd1ecc39928a9a4f3914891ad67d2f37350))
+
 # [1.3.0-beta.14](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.13...v1.3.0-beta.14) (2021-08-31)
 
 
