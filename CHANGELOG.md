@@ -1,3 +1,10 @@
+# [1.3.0-beta.16](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.15...v1.3.0-beta.16) (2021-09-02)
+
+
+### Bug Fixes
+
+* **datepicket:** fix autocompletate ([c111aa3](https://github.com/gsi-chao/gsi-ui/commit/c111aa386aba804c4312539419b0f7c94b844ff2))
+
 # [1.3.0-beta.15](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.14...v1.3.0-beta.15) (2021-09-01)
 
 
