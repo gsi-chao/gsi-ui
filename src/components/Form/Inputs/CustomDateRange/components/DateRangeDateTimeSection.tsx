@@ -7,6 +7,8 @@ import {
 } from '../styled/styles';
 import { DateRangeTimeSection } from './DateRangeTimeSection';
 import { DateRangeUtils } from '../utils/DateRangeUtils';
+import { Boundary } from '@blueprintjs/core';
+import { DateRange } from '@blueprintjs/datetime';
 
 export const DateRangeDateTimeSection = (props: IDateRangeDateTimeSection) => {
   const {
@@ -37,14 +39,25 @@ export const DateRangeDateTimeSection = (props: IDateRangeDateTimeSection) => {
     endTime
   } = DateRangeUtils.transformState(state);
 
+  const onDayClick = (
+    day: Date,
+    modifiers: any,
+    e: React.MouseEvent<HTMLDivElement>
+  ) => {
+    const dateToSend: DateRange =
+      boundary === Boundary.START ? [day, endDate] : [startDate, day];
+    props?.dayPickerProps?.onDayClick?.(day, modifiers, e);
+    onChangeDate(dateToSend);
+  };
+
   return (
     <DateRangeDateTimeSectionBody dateType={dateType}>
       <DateRangePickerStyled
         value={[startDate, endDate]}
-        onChange={onChangeDate}
         dayPickerProps={{
-          fixedWeeks: true,
-          ...dayPickerProps
+          ...dayPickerProps,
+          onDayClick,
+          fixedWeeks: true
         }}
         boundaryToModify={boundary}
         maxDate={maxTime}

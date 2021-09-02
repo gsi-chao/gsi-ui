@@ -12,8 +12,13 @@ import { DEFAULT_FORMAT } from '../type/ITypes';
 import { DateRangeTimeSection } from './DateRangeTimeSection';
 import { DateRangeTimeSectionWrapper } from '../styled/styles';
 import { DateRangeUtils } from '../utils/DateRangeUtils';
-import { DateRange, IDateRangeShortcut } from '@blueprintjs/datetime';
+import {
+  DateRange,
+  DateRangeShortcut,
+  IDateRangeShortcut
+} from '@blueprintjs/datetime';
 import moment from 'moment';
+import { useClickAway } from 'react-use';
 
 export const DateRangeComponents = (props: IDateRange) => {
   const {
@@ -50,15 +55,16 @@ export const DateRangeComponents = (props: IDateRange) => {
 
   const onFocusInputs = (bound: Boundary) => () => {
     setBoundary(bound);
-    setTimeout(() => setOpen(true));
+    if (!disabled && !isOpen) {
+      setOpen(true);
+    }
   };
-
   const onBlurInputs = (bound: Boundary) => (event: any) => {
     props.onBlurInputs?.(bound)(event);
   };
 
   const internalOnShortcutChange = (
-    shortcut: IDateRangeShortcut,
+    shortcut: DateRangeShortcut,
     index: number
   ) => {
     const isNotNullRange = shortcut.dateRange.every(it => !!it);
@@ -81,17 +87,9 @@ export const DateRangeComponents = (props: IDateRange) => {
 
   const onClickInput = (type: Boundary) => () => {
     setBoundary(type);
-    !disabled && setOpen(true);
-  };
-
-  const onInteraction = (nextOpenState: boolean) => {
-    if (!nextOpenState && !isNullDateRangeRef.current) setOpen(false);
-    isNullDateRangeRef.current = false;
   };
 
   const handleDateRangePickerChange = (selectedDates: DateRange) => {
-    if (!isOpen) return;
-
     const { startDate } = DateRangeUtils.transformState(state);
     const [selectedStart, selectedEnd] = selectedDates;
     const nextBoundary =
@@ -109,8 +107,17 @@ export const DateRangeComponents = (props: IDateRange) => {
         : nextBoundary
     );
 
+    if (selectedStart && selectedEnd) {
+      if (moment(selectedEnd).diff(selectedStart, 'day') < 1) {
+        onChangeDate([selectedEnd, selectedStart]);
+        return;
+      }
+    }
     onChangeDate(selectedDates);
   };
+
+  const ref = useRef<null | HTMLDivElement>(null);
+  useClickAway(ref, () => setOpen(false));
 
   return (
     <Popover
@@ -120,15 +127,15 @@ export const DateRangeComponents = (props: IDateRange) => {
       isOpen={isOpen}
       onClosing={onClosing}
       onOpening={onOpening}
+      usePortal
       position={Position.BOTTOM_LEFT}
       autoFocus={false}
       modifiers={{
         preventOverflow: { boundariesElement: 'viewport' },
         ...popoverProps
       }}
-      onInteraction={onInteraction}
       content={
-        <div>
+        <div ref={ref}>
           {dateType === 'DATE' || dateType === 'DATETIME' ? (
             <DateRangeDateTimeSection
               state={state}
