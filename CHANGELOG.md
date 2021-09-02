@@ -1,3 +1,10 @@
+# [1.3.0-beta.17](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.16...v1.3.0-beta.17) (2021-09-02)
+
+
+### Bug Fixes
+
+* **vcustomdaterange:** fixed issue with selecting dates on input focus ([a11586b](https://github.com/gsi-chao/gsi-ui/commit/a11586bffb658388c8f5f1c7df582f8ad32edc91))
+
 # [1.3.0-beta.16](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.15...v1.3.0-beta.16) (2021-09-02)
 
 
