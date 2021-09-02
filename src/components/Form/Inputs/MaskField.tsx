@@ -108,7 +108,7 @@ export class VMaskField extends React.Component<IMaskInputProps> {
           <StyledMaskInput
             name={id}
             mask={this.props.mask}
-            autoComplete={autoComplete ? autoComplete : 'no_auto'}
+            autoComplete={autoComplete ? autoComplete : 'off'}
             guide={this.props.guide}
             keepCharPositions={this.props.keepCharPositions}
             placeholderChar={this.props.placeholderChar}

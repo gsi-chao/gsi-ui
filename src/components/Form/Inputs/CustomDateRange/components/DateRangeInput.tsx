@@ -20,6 +20,7 @@ export const DateRangeInput: FC<IDateRangeInput> = ({
       placeholder={format}
       mask={mask}
       {...props}
+      autoComplete={'off'}
     />
   );
 };
