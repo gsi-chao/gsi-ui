@@ -49,7 +49,10 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     displayRequired,
     autoComplete,
     onBlur,
-    onFocus
+    onFocus,
+    maxDecimals,
+    roundTo,
+    noFillWithZero
   } = props;
   const [state, setState] = useState<any>('');
 
@@ -58,10 +61,10 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     const newValue =
       (isNumber(propsValue) &&
         props.roundTo &&
-        fillWithZero(propsValue, props.roundTo, !!props.noFillWithZero)) ||
+        fillWithZero(propsValue, roundTo, !!noFillWithZero)) ||
       propsValue;
     setState(newValue);
-  }, [props.roundTo]);
+  }, [roundTo]);
 
   useEffect(() => {
     if (fieldState) {
@@ -77,23 +80,6 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     }
   }, [required, validators]);
 
-  useEffect(() => {
-    const propsValue = getValue();
-
-    const checkState = state === '' ? undefined : state;
-
-    if (
-      Number(propsValue) !== Number(checkState) &&
-      state !== '-' &&
-      state !== '.' &&
-      state !== '-.'
-    ) {
-      MaskValue();
-    } else if (propsValue === '') {
-      setState('');
-    }
-  }, [props.fieldState && props.fieldState.value, props.value]);
-
   const getValue = () => {
     if (props.fieldState) {
       return parseToNumber(props.fieldState.value);
@@ -103,60 +89,52 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 
   const parseToNumber = (value: any) => {
     const parsedValue = parseFloat(value);
-    return isNumber(parsedValue) && isFinite(parsedValue)
-      ? parsedValue
-      : value === '.' || value === '-' || value === '-.'
-      ? value
-      : '';
+    return isNumber(parsedValue) && isFinite(parsedValue) ? parsedValue : '';
   };
 
   const MaskValue = () => {
     let val = getValue();
-    if (isNumber(val) && isFinite(val) && props.roundTo) {
-      val = round(Number(val.toString()), props.roundTo);
+    if (isNumber(val) && isFinite(val) && roundTo) {
+      val = round(Number(val.toString()), roundTo);
     }
-    val = fillWithZero(val, props.roundTo || 0, !!props.noFillWithZero);
+    val = fillWithZero(val, roundTo || 0, !!noFillWithZero);
     setState(val);
-    if (onBlur) {
-      onBlur();
-    }
+    onBlur?.();
   };
 
   const onChange = (e: any) => {
-    const value = e.target.value;
-    if (
-      (props.maxDecimals && props.maxDecimals > 0 && regExp.test(value)) ||
-      !value
-    ) {
-      if (!props.maxDecimals || canAddDecimalPlace(value, props.maxDecimals)) {
-        let newValue = value;
-        if (props.roundTo && props.roundTo > 0) {
-          if (value === '.0') {
-            newValue = '0.0';
-          } else if (value === '-.0') {
-            newValue = '-0.0';
-          } else if (
+    const value = convertValidValue(e.target.value);
+
+    if (!!value && regExp.test(value)) {
+      if (!!maxDecimals) {
+        if (canAddDecimalPlace(value, maxDecimals)) {
+          setState(value);
+          setPropsValues(value);
+        } else {
+          let newValue = value;
+          if (
+            !!roundTo &&
             `${value}` &&
             !`${value}`.endsWith('.') &&
             isNumber(Number(value)) &&
             isFinite(Number(value))
           ) {
             newValue =
-              `${newValue &&
-                round(Number(newValue.toString()), props.roundTo)}` || '';
+              `${newValue && round(Number(newValue.toString()), roundTo)}` ||
+              '';
+            setState(newValue);
+            setPropsValues(newValue);
           }
-          setState(newValue);
-          setPropsValues(newValue);
-        } else {
-          setState(newValue);
-          setPropsValues(newValue);
         }
+      } else if (
+        (!maxDecimals && regExpNoDecimalPlace.test(value)) ||
+        !value ||
+        (Number(value) === 0 && `${value}`.length === 1)
+      ) {
+        setState(value);
+        setPropsValues(value);
       }
-    } else if (
-      (props.maxDecimals === 0 && regExpNoDecimalPlace.test(value)) ||
-      !value ||
-      (Number(value) === 0 && `${value}`.length === 1)
-    ) {
+    } else if (!value) {
       setState(value);
       setPropsValues(value);
     }
@@ -258,6 +236,30 @@ const canAddDecimalPlace = (value: any, round: number): boolean => {
     return !secondValue.length || secondValue.length <= round;
   }
   return true;
+};
+
+const startsWithZero = (value: string) => {
+  if (value) {
+    const values = `${value || ''}`.split('.');
+    if (values.length === 2) {
+      const num = values[1];
+      if (regExp.test(num)) {
+        return `0.${num}`;
+      }
+    }
+  }
+};
+
+const convertValidValue = (value: string) => {
+  if (!!value) {
+    if (value.startsWith('.')) {
+      return startsWithZero(value);
+    }
+    if (value.startsWith('-.')) {
+      return `-${startsWithZero(value)}`;
+    }
+  }
+  return value;
 };
 
 const regExp = /^(-)?[0-9]*([.][0-9]*)?$/;
