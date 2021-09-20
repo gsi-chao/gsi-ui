@@ -6,7 +6,7 @@ import {
   ISelectionListProps
 } from './ISelectionList';
 import { SelectionListContainer, StyledMenu, StyledMenuItem } from './style';
-import { EmptyData } from '../Table';
+import { EmptyData } from './EmptyData';
 
 interface ISelctionListState {
   listSelected: IItemsList[];

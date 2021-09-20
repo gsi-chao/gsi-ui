@@ -6,6 +6,7 @@ exports[`render correctly Spinner 1`] = `
 >
   <div
     className="bp3-spinner bp3-intent-primary"
+    role="progressbar"
   >
     <div
       className="bp3-spinner-animation"

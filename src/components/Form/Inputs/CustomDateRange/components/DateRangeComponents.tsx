@@ -12,11 +12,7 @@ import { DEFAULT_FORMAT } from '../type/ITypes';
 import { DateRangeTimeSection } from './DateRangeTimeSection';
 import { DateRangeTimeSectionWrapper } from '../styled/styles';
 import { DateRangeUtils } from '../utils/DateRangeUtils';
-import {
-  DateRange,
-  DateRangeShortcut,
-  IDateRangeShortcut
-} from '@blueprintjs/datetime';
+import { DateRange, DateRangeShortcut } from '@blueprintjs/datetime';
 import moment from 'moment';
 import { useClickAway } from 'react-use';
 

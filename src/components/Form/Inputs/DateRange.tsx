@@ -205,6 +205,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
           value={getValueField()}
           popoverProps={{
             minimal: true,
+            shouldReturnFocusOnClose: false,
             ...popoverProps
           }}
           dayPickerProps={{

@@ -2,7 +2,16 @@ import React from 'react';
 import { Icon, IconName } from '@blueprintjs/core';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
 
-import { ISettingEmptyData } from '../Table';
+interface ISettingEmptyData {
+  textSize?: number;
+  iconSize?: number;
+  color?: string;
+  backgroundColor?: string;
+  height?: string;
+  text?: string;
+  icon?: IconName | MaybeElement;
+  customerIcon?: any;
+}
 
 interface IEmptyData {
   settings: ISettingEmptyData | undefined;

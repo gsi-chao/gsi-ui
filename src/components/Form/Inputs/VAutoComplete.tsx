@@ -221,6 +221,7 @@ export class VAutoComplete extends React.Component<ISelectFieldProps, IState> {
             selectedItem={this.state?.item || undefined}
             popoverProps={{
               minimal,
+              shouldReturnFocusOnClose: false,
               modifiers: {
                 arrow: { enabled: true },
                 flip: { enabled: true },

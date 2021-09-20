@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Icon } from '@blueprintjs/core';
 import ReactResizeDetector from 'react-resize-detector';
 

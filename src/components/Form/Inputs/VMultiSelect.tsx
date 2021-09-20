@@ -96,6 +96,7 @@ export class VMultiSelect<T> extends React.PureComponent<
         isOpen={this.state.isOpen}
         position={Position.BOTTOM_LEFT}
         {...popoverProps}
+        shouldReturnFocusOnClose={false}
         className={`${listProps.className} ${popoverProps.className}`}
         onInteraction={this.handlePopoverInteraction}
         popoverClassName={`${Classes.MULTISELECT_POPOVER} ${popoverProps.popoverClassName}`}
