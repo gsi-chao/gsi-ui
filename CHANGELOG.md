@@ -1,3 +1,10 @@
+# [1.3.0-beta.20](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.19...v1.3.0-beta.20) (2021-09-20)
+
+
+### Bug Fixes
+
+* **menufocus:** fixed issue with first element in menu marked on focus ([6240e70](https://github.com/gsi-chao/gsi-ui/commit/6240e70ee71d79634d654794b8eed898083625c1))
+
 # [1.3.0-beta.19](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.18...v1.3.0-beta.19) (2021-09-20)
 
 
