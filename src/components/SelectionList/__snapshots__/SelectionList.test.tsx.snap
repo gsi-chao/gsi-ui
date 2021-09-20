@@ -2,17 +2,17 @@
 
 exports[`render correctly SelectionList component one segment 1`] = `
 <div
-  className="sc-htpNat cZlelS"
+  className="sc-bxivhb cqOLfQ"
 >
   <ul
-    className="bp3-menu sc-bwzfXH bGgvvP bp3-elevation-0 undefined"
+    className="bp3-menu sc-bdVaJa sc-htpNat cPfcFE bp3-elevation-0 undefined"
   >
     <li
       className=""
     >
       <a
         background="#0072ce"
-        className="bp3-menu-item bp3-popover-dismiss sc-bdVaJa iniwxh"
+        className="bp3-menu-item bp3-popover-dismiss sc-bwzfXH gGWqEm"
         color="white"
         onClick={[Function]}
         onDoubleClick={[Function]}

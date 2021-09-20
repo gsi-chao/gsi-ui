@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { Dialog, Menu } from '@blueprintjs/core';
+import { Dialog } from '@blueprintjs/core';
+import { NoFocusMenu } from '../SelectionList/style';
 
-export const OptionsMenu = styled(Menu)`
+export const OptionsMenu = styled(NoFocusMenu)`
   display: flex;
   width: fit-content;
   min-width: 50px;

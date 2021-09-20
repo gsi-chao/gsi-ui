@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import { FormGroup, Intent, Menu } from '@blueprintjs/core';
+import { FormGroup, Intent } from '@blueprintjs/core';
 import { ILayer } from './ILayer';
 import { DateInput } from '@blueprintjs/datetime';
 import MaskedInput from 'react-text-mask';
+import { NoFocusMenu } from '../../SelectionList/style';
 
 export interface IStyledFieldProps {
   inline?: boolean;
@@ -432,7 +433,7 @@ export const StyledMaskInput = styled(MaskedInput)`
   }
 `;
 
-export const StyledMenuNoMarginDivider = styled(Menu)`
+export const StyledMenuNoMarginDivider = styled(NoFocusMenu)`
   max-width: 350px !important;
   & .dividerNoMargin {
     margin: 0;

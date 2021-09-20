@@ -9,6 +9,14 @@ export interface StyledMenuProps {
   className?: string;
 }
 
+export const NoFocusMenu = styled(Menu)`
+  & *:focus {
+    outline: none !important;
+    outline-offset: unset !important;
+    -moz-outline-radius: unset !important;
+  }
+`;
+
 export interface StyledContainerProps {
   height?: string;
 }
@@ -24,7 +32,7 @@ export const StyledMenuItem = styled(MenuItem)`
   margin-bottom: 2px;
 `;
 
-export const StyledMenu = styled(Menu)`
+export const StyledMenu = styled(NoFocusMenu)`
   ${(props: StyledMenuProps) => {
     const { padding } = props;
     return padding ? `padding: ${padding}!important;` : '';
