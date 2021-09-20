@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { StyledDNDList } from './style';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 
 /**
  * Moves an item from one list to another list.

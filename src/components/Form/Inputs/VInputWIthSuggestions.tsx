@@ -122,6 +122,7 @@ export class VInputFieldWithSuggestions extends React.Component<
             keepTogether: { enabled: true },
             preventOverflow: { enabled: true }
           }}
+          shouldReturnFocusOnClose={false}
           position={'bottom-left'}
           usePortal={true}
           portalClassName="foo"

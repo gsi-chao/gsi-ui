@@ -1,4 +1,4 @@
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 
 import React, { useEffect, useState } from 'react';
 import { isFinite, isNumber, round } from 'lodash';

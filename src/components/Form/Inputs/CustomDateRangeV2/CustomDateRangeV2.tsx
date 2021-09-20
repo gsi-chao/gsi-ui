@@ -94,6 +94,7 @@ export const VCustomDateRangeV2 = observer((props: IVCustomDateRangeV2) => {
       value={range}
       onChange={handleOnChange(fieldState, onChange, defaultEndTimeWithEndDay)}
       popoverProps={{
+        shouldReturnFocusOnClose: false,
         onOpened: removePopoverDismiss,
         minimal: true
       }}

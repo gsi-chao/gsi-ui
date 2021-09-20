@@ -1,5 +1,5 @@
 import React from 'react';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import { StyledCustomDraggableItem } from './style';
 import { SelectedItemHelpButtonList } from './types';
 import { CustomDraggableItemHelpButtons } from './CustomDraggableItemHelpButtons';

@@ -33,7 +33,7 @@ import { observer } from 'mobx-react';
 import { VSpinner } from '../Spinner';
 import { DNDItemWrapper } from './DNDItemWrapper';
 import { DNDList } from './DNDList';
-import { EmptyData } from '../Table/components/EmptyData';
+import { EmptyData } from '../SelectionList/EmptyData';
 
 const reorder = (
   list: IDNDList,

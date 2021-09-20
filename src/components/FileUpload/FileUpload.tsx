@@ -94,6 +94,7 @@ export const FileUpload = (props: FileUploadProps) => {
           </OptionsMenu>
         }
         position={Position.BOTTOM_LEFT}
+        shouldReturnFocusOnClose={false}
       >
         <AnchorButton minimal onClick={toggleIsOpenMenu} icon={'menu'} />
       </Popover>

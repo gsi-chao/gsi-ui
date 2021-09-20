@@ -1,4 +1,3 @@
-export * from './Table';
 export * from './ProgresLabel';
 export * from './TabsMenu';
 export * from './Card';

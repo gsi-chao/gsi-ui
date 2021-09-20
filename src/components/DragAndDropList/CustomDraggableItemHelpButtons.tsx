@@ -1,5 +1,5 @@
 import React from 'react';
-import { observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react';
 import { SelectedItemHelpButton, SelectedItemHelpButtonList } from './types';
 import { Button } from '@blueprintjs/core';
 
