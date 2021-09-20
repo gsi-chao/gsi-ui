@@ -1,3 +1,10 @@
+# [1.3.0-beta.19](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.18...v1.3.0-beta.19) (2021-09-20)
+
+
+### Features
+
+* **blueprint dependencies:** updated Blueprint dependencies after new prop added ([772caaf](https://github.com/gsi-chao/gsi-ui/commit/772caaf01818d7bc4b5ab741b8abbf5c2b7f36f6))
+
 # [1.3.0-beta.18](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.17...v1.3.0-beta.18) (2021-09-16)
 
 
