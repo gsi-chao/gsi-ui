@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { orderBy, get } from 'lodash';
+import { get, orderBy } from 'lodash';
 /** Blueprint */
 import {
   Button,
@@ -7,7 +7,6 @@ import {
   Icon,
   IconName,
   Intent,
-  Menu,
   MenuDivider,
   MenuItem
 } from '@blueprintjs/core';
@@ -28,6 +27,7 @@ import { Validators } from '../Validators';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
+import { NoFocusMenu } from '../../SelectionList/style';
 
 /**
  * Field Props
@@ -450,7 +450,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
   );
 });
 
-export const StyledMenuNoMarginDivider = styled(Menu)`
+export const StyledMenuNoMarginDivider = styled(NoFocusMenu)`
   & .dividerNoMargin {
     margin: 0;
   }

@@ -7,7 +7,6 @@ import {
   IconName,
   Intent,
   IPopoverProps,
-  Menu,
   MenuItem
 } from '@blueprintjs/core';
 /** FieldState */
@@ -26,6 +25,7 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
 import { computed, observable } from 'mobx';
 import styled from 'styled-components';
+import { NoFocusMenu } from '../../SelectionList/style';
 
 /**
  * Field Props
@@ -288,7 +288,7 @@ export class VAutoComplete extends React.Component<ISelectFieldProps, IState> {
   };
 }
 
-export const StyledMenuNoMarginDivider = styled(Menu)`
+export const StyledMenuNoMarginDivider = styled(NoFocusMenu)`
   & .dividerNoMargin {
     margin: 0;
   }

@@ -1,16 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Keys, Menu, MenuItem } from '@blueprintjs/core';
-import {
-  isArray,
-  findIndex,
-  isNil,
-  get,
-  LoDashExplicitNumberArrayWrapper
-} from 'lodash';
+import { Keys, MenuItem } from '@blueprintjs/core';
+import { findIndex, get, isArray, isNil } from 'lodash';
 import VirtualList from 'react-tiny-virtual-list';
 
 import { IItem } from '../../types';
 import { SelectItemCheckbox } from './styled';
+import { NoFocusMenu } from '../../../SelectionList/style';
 
 interface IProps {
   options: IItem[];
@@ -107,7 +102,7 @@ export const SearchSelectItems = (props: IProps) => {
   }, [props.options]);
 
   return (
-    <Menu>
+    <NoFocusMenu>
       {props.allowEmpty && !props.multi && (
         <MenuItem
           active={
@@ -163,6 +158,6 @@ export const SearchSelectItems = (props: IProps) => {
       ) : (
         <MenuItem text={'No results.'} disabled />
       )}
-    </Menu>
+    </NoFocusMenu>
   );
 };
