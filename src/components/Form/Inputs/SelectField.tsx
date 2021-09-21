@@ -26,7 +26,7 @@ import { IFieldProps } from './IFieldProps';
 import { StyledMenuNoMarginDivider, StyledPopOverWrapper } from './style';
 import { FormFieldContainer } from './FormFieldContainer';
 import { Validators } from '../Validators';
-import { computed, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { VSpinner } from '../../Spinner';
 import { orderBy, uniqueId } from 'lodash';
 import { IItemMultiple } from './SelectMultipleField';
@@ -87,6 +87,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   @observable selectedItem: FieldState<IItemMultiple | null>;
   @observable changed: FieldState<boolean>;
   @observable activeItem: FieldState<IItemMultiple | null>;
+  @observable ref: any;
 
   constructor(props: ISelectFieldProps) {
     super(props);
@@ -97,7 +98,12 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     this.state = {
       query: ''
     };
+    this.ref = React.createRef();
   }
+
+  @action setRef = (ref: any) => {
+    this.ref = ref;
+  };
 
   renderItem: ItemRenderer<IItem> = (item, { handleClick, modifiers }) => {
     if (!modifiers.matchesPredicate) {
@@ -317,6 +323,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           return;
         }
       }
+      if (this.ref?.hasOwnProperty('previousFocusedElement')) {
+        this.ref.previousFocusedElement = undefined;
+      }
       this.activeItem.onChange(null);
       this.changed.onChange(true);
     };
@@ -343,6 +352,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         >
           {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
           <ItemSelect
+            ref={this.setRef}
             activeItem={this.activeItem?.value}
             onActiveItemChange={onActiveItemChange}
             resetOnSelect={true}
@@ -362,6 +372,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 keepTogether: { enabled: true },
                 preventOverflow: { enabled: true }
               },
+              shouldReturnFocusOnClose: false,
               ...popoverProps
             }}
             resetOnClose={this.props.resetOnClose}

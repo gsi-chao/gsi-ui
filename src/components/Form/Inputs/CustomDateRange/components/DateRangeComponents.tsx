@@ -130,6 +130,7 @@ export const DateRangeComponents = (props: IDateRange) => {
         preventOverflow: { boundariesElement: 'viewport' },
         ...popoverProps
       }}
+      shouldReturnFocusOnClose={false}
       content={
         <div ref={ref}>
           {dateType === 'DATE' || dateType === 'DATETIME' ? (

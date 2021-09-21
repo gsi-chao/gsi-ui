@@ -87,6 +87,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [isOpenPopover, setIsOpenPopover] = useState<boolean>(false);
   const [query, setQuery] = useState<string | null>('');
+  const ref = useRef<any>(null);
 
   const renderItem: ItemRenderer<IItemRenderer> = (
     { item, selectedItems },
@@ -346,6 +347,9 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
   };
 
   const clearActive = () => {
+    if (ref?.current?.hasOwnProperty('previousFocusedElement')) {
+      ref.current.previousFocusedElement = undefined;
+    }
     setActiveItem(null);
     changed.current = true;
   };
@@ -372,6 +376,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
       >
         {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
         <ItemSelect
+          ref={ref}
           activeItem={activeItem}
           onActiveItemChange={value => {
             if (!changed.current) {
@@ -404,7 +409,8 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
               flip: { enabled: true },
               keepTogether: { enabled: true },
               preventOverflow: { enabled: true }
-            }
+            },
+            shouldReturnFocusOnClose: false
           }}
           itemPredicate={filterItem}
           itemRenderer={renderItem}
