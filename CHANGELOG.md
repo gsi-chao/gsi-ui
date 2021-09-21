@@ -1,3 +1,10 @@
+# [1.3.0-beta.21](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.20...v1.3.0-beta.21) (2021-09-21)
+
+
+### Features
+
+* **select:** fixed issue with focus in the select fields when leaving the component ([a1f31d6](https://github.com/gsi-chao/gsi-ui/commit/a1f31d611ae7d9136d27bc970368d4d0898c788b))
+
 # [1.3.0-beta.20](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.19...v1.3.0-beta.20) (2021-09-20)
 
 
