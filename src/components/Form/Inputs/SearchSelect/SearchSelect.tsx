@@ -314,6 +314,7 @@ export const SearchSelect = (props: IProps) => {
       popoverClassName={'bp3-select-popover gsi-select-popover'}
       enforceFocus={false}
       isOpen={isOpen}
+      autoFocus={false}
       canEscapeKeyClose={true}
       captureDismiss={true}
       minimal={props.popoverMinimal}
@@ -324,6 +325,7 @@ export const SearchSelect = (props: IProps) => {
         preventOverflow: { enabled: true }
       }}
       onInteraction={handleInteraction}
+      shouldReturnFocusOnClose={false}
     >
       <div onKeyUpCapture={onKeyPress}>
         <InputGroup

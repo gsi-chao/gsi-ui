@@ -166,6 +166,7 @@ export const VColorPicker = (props: IProps) => {
           onInteraction={(nextOpenState: boolean) => {
             if (!nextOpenState) setIsOpen(false);
           }}
+          shouldReturnFocusOnClose={false}
         />
       )}
     </div>
