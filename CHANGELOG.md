@@ -1,3 +1,10 @@
+# [1.3.0-beta.22](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.21...v1.3.0-beta.22) (2021-09-22)
+
+
+### Bug Fixes
+
+* **select:** fixed issue whit focus in select when it has value ([5edabd4](https://github.com/gsi-chao/gsi-ui/commit/5edabd4b5b30c3b28463f4556dd01d8c906aaa4d))
+
 # [1.3.0-beta.21](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.20...v1.3.0-beta.21) (2021-09-21)
 
 
