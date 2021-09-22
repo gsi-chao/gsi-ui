@@ -312,6 +312,9 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
 
     const onOpening = () => {
       const value = this.props.fieldState?.value || this.props.value;
+      if (this.ref?.hasOwnProperty('previousFocusedElement')) {
+        this.ref.previousFocusedElement = undefined;
+      }
       if (value) {
         const newActiveItem =
           this.getOptions() &&
@@ -322,9 +325,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
           this.changed.onChange(true);
           return;
         }
-      }
-      if (this.ref?.hasOwnProperty('previousFocusedElement')) {
-        this.ref.previousFocusedElement = undefined;
       }
       this.activeItem.onChange(null);
       this.changed.onChange(true);
