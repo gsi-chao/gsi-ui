@@ -1,3 +1,10 @@
+# [1.3.0-beta.23](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.22...v1.3.0-beta.23) (2021-09-23)
+
+
+### Features
+
+* **vselectfield:** added controlled to select field ([96dc611](https://github.com/gsi-chao/gsi-ui/commit/96dc611d12120ddfb65b1089b451e6da4cd9f95a))
+
 # [1.3.0-beta.22](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.21...v1.3.0-beta.22) (2021-09-22)
 
 
