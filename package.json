@@ -11,7 +11,7 @@
     "lib"
   ],
   "dependencies": {
-    "@blueprintjs/core": "3.50.1",
+    "@blueprintjs/core": "3.50.2",
     "@blueprintjs/datetime": "3.23.8",
     "@blueprintjs/icons": "3.29.0",
     "@blueprintjs/select": "3.18.0",

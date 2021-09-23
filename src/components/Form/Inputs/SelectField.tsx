@@ -10,8 +10,7 @@ import {
   Intent,
   IPopoverProps,
   MenuDivider,
-  MenuItem,
-  PopoverInteractionKind
+  MenuItem
 } from '@blueprintjs/core';
 /** FieldState */
 import {
@@ -89,7 +88,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   @observable changed: FieldState<boolean>;
   @observable activeItem: FieldState<IItemMultiple | null>;
   @observable ref: any;
-  @observable isOpen: boolean = false;
 
   constructor(props: ISelectFieldProps) {
     super(props);
@@ -102,10 +100,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     };
     this.ref = React.createRef();
   }
-
-  @action setIsOpen = (value: boolean) => {
-    this.isOpen = value;
-  };
 
   @action setRef = (ref: any) => {
     this.ref = ref;
@@ -336,16 +330,6 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       this.changed.onChange(true);
     };
 
-    const onInteraction = (nextOpenState: boolean, e?: any) => {
-      try {
-        if (!this.props?.isLoading && e && !this.props.disabled) {
-          !this.props.disabled && this.setIsOpen(nextOpenState);
-        }
-      } catch (e) {
-        !this.props.disabled && this.setIsOpen(false);
-      }
-    };
-
     return (
       <StyledPopOverWrapper
         disabled={this.disable()}
@@ -383,21 +367,13 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             filterable={filterable}
             popoverProps={{
               onOpening,
-              onInteraction,
-              isOpen: this.isOpen,
               modifiers: {
                 flip: { enabled: true },
                 keepTogether: { enabled: true },
                 preventOverflow: { enabled: true }
               },
               shouldReturnFocusOnClose: false,
-              targetClassName: 'gsi-select-popover',
-              popoverClassName: 'bp3-select-popover gsi-select-popover',
-              enforceFocus: false,
-              autoFocus: false,
-              canEscapeKeyClose: true,
-              captureDismiss: true,
-              interactionKind: PopoverInteractionKind.CLICK,
+              usePortal: false,
               ...popoverProps
             }}
             resetOnClose={this.props.resetOnClose}
@@ -405,8 +381,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             onQueryChange={(value: string) => this.setState({ query: value })}
             query={(this.state && this.state.query) || ''}
             inputProps={{
-              rightElement: this.renderClearButton(),
-              autoFocus: false
+              rightElement: this.renderClearButton()
             }}
           >
             {iconOnly ? (
