@@ -299,7 +299,9 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
               localeUtils={MomentLocaleUtils}
               minDate={minTimeCalculate}
               popoverProps={{
-                shouldReturnFocusOnClose: false
+                shouldReturnFocusOnClose: false,
+                usePortal: false,
+                minimal: true
               }}
               maxDate={maxTimeCalculate}
               onChange={changedDate}
