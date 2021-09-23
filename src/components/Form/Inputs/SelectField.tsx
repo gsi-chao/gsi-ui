@@ -88,6 +88,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
   @observable changed: FieldState<boolean>;
   @observable activeItem: FieldState<IItemMultiple | null>;
   @observable ref: any;
+  @observable isOpen: boolean = false;
 
   constructor(props: ISelectFieldProps) {
     super(props);
@@ -100,6 +101,10 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     };
     this.ref = React.createRef();
   }
+
+  @action setIsOpen = (value: boolean) => {
+    this.isOpen = value;
+  };
 
   @action setRef = (ref: any) => {
     this.ref = ref;
@@ -330,6 +335,16 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       this.changed.onChange(true);
     };
 
+    const onInteraction = (nextOpenState: boolean, e?: any) => {
+      try {
+        if (!this.props?.isLoading && e && !this.props.disabled) {
+          !this.props.disabled && this.setIsOpen(nextOpenState);
+        }
+      } catch (e) {
+        !this.props.disabled && this.setIsOpen(false);
+      }
+    };
+
     return (
       <StyledPopOverWrapper
         disabled={this.disable()}
@@ -367,6 +382,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             filterable={filterable}
             popoverProps={{
               onOpening,
+              onInteraction,
+              isOpen: this.isOpen,
               modifiers: {
                 flip: { enabled: true },
                 keepTogether: { enabled: true },
