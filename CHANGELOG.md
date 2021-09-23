@@ -1,3 +1,10 @@
+# [1.3.0-beta.24](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.23...v1.3.0-beta.24) (2021-09-23)
+
+
+### Bug Fixes
+
+* **vselectfield:** added new property to avoid closing the outer drawer ([6f83666](https://github.com/gsi-chao/gsi-ui/commit/6f836660a8148272d0343176e0d614c25817c11b))
+
 # [1.3.0-beta.23](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.22...v1.3.0-beta.23) (2021-09-23)
 
 
