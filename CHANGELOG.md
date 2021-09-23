@@ -1,3 +1,10 @@
+# [1.3.0-beta.25](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.24...v1.3.0-beta.25) (2021-09-23)
+
+
+### Bug Fixes
+
+* **vselectfield:** fixed issue with select ([9d3fe94](https://github.com/gsi-chao/gsi-ui/commit/9d3fe94f8764618496867678c3fb424175e820fc))
+
 # [1.3.0-beta.24](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.23...v1.3.0-beta.24) (2021-09-23)
 
 
