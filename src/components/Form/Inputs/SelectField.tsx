@@ -10,7 +10,8 @@ import {
   Intent,
   IPopoverProps,
   MenuDivider,
-  MenuItem
+  MenuItem,
+  PopoverInteractionKind
 } from '@blueprintjs/core';
 /** FieldState */
 import {
@@ -390,6 +391,13 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 preventOverflow: { enabled: true }
               },
               shouldReturnFocusOnClose: false,
+              targetClassName: 'gsi-select-popover',
+              popoverClassName: 'bp3-select-popover gsi-select-popover',
+              enforceFocus: false,
+              autoFocus: false,
+              canEscapeKeyClose: true,
+              captureDismiss: true,
+              interactionKind: PopoverInteractionKind.CLICK,
               ...popoverProps
             }}
             resetOnClose={this.props.resetOnClose}
@@ -397,7 +405,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             onQueryChange={(value: string) => this.setState({ query: value })}
             query={(this.state && this.state.query) || ''}
             inputProps={{
-              rightElement: this.renderClearButton()
+              rightElement: this.renderClearButton(),
+              autoFocus: false
             }}
           >
             {iconOnly ? (
