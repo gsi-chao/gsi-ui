@@ -48,13 +48,12 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     tooltip,
     displayRequired,
     autoComplete,
-    onBlur,
-    onFocus,
     maxDecimals,
     roundTo,
     noFillWithZero
   } = props;
   const [state, setState] = useState<any>('');
+  const [focused, setFocused] = useState<any>(false);
 
   useEffect(() => {
     const propsValue = getValue();
@@ -99,7 +98,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     }
     val = fillWithZero(val, roundTo || 0, !!noFillWithZero);
     setState(val);
-    onBlur?.();
+    props.onBlur?.();
   };
 
   const onChange = (e: any) => {
@@ -149,6 +148,23 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     }
   };
 
+  useEffect(() => {
+    const value = props?.fieldState?.value || props?.value;
+    if (!focused && Number(value !== Number(state))) {
+      MaskValue();
+    }
+  }, [props?.fieldState?.value, props?.value]);
+
+  const onFocus = (event: any) => {
+    props?.onFocus?.(event);
+    setFocused(true);
+  };
+
+  const onBlur = () => {
+    setFocused(false);
+    MaskValue();
+  };
+
   return (
     <StyledNumericInput
       className={className}
@@ -195,7 +211,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
             }
           }}
           onFocus={onFocus}
-          onBlur={MaskValue}
+          onBlur={onBlur}
         />
       </FormFieldContainer>
     </StyledNumericInput>
