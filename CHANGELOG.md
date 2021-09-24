@@ -1,3 +1,10 @@
+# [1.3.0-beta.27](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.26...v1.3.0-beta.27) (2021-09-24)
+
+
+### Features
+
+* **vnumericrounded:** fixed issue with numeric rounded not responding to external changes ([386264b](https://github.com/gsi-chao/gsi-ui/commit/386264bb1b57662548a7cd1ebda1f4b0b8a817f8))
+
 # [1.3.0-beta.26](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.25...v1.3.0-beta.26) (2021-09-24)
 
 
