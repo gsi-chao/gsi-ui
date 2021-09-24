@@ -1,3 +1,10 @@
+# [1.3.0-beta.26](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.25...v1.3.0-beta.26) (2021-09-24)
+
+
+### Bug Fixes
+
+* added back propertie usePortal to avoid issues ([f452c54](https://github.com/gsi-chao/gsi-ui/commit/f452c54ca67101c32dde1a46ae97edea9b1aa54e))
+
 # [1.3.0-beta.25](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.24...v1.3.0-beta.25) (2021-09-23)
 
 
