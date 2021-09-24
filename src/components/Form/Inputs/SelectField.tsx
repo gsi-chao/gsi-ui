@@ -373,7 +373,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 preventOverflow: { enabled: true }
               },
               shouldReturnFocusOnClose: false,
-              usePortal: false,
+              captureDismiss: true,
               ...popoverProps
             }}
             resetOnClose={this.props.resetOnClose}
