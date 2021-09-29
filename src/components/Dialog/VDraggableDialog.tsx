@@ -142,7 +142,7 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
         <DialogStyled
           hasBackdrop={false}
           usePortal={false}
-          autoFocus
+          autoFocus={false}
           canOutsideClickClose={false}
           canEscapeKeyClose={false}
           style={{ paddingBottom: '0' }}
