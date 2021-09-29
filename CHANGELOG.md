@@ -1,3 +1,10 @@
+# [1.3.0-beta.28](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.27...v1.3.0-beta.28) (2021-09-29)
+
+
+### Features
+
+* **vdraggabledialog:** removed autofocus from the appDialog ([747855a](https://github.com/gsi-chao/gsi-ui/commit/747855acbe7c1e136c8b7d4767bd06db963b8c06))
+
 # [1.3.0-beta.27](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.26...v1.3.0-beta.27) (2021-09-24)
 
 
