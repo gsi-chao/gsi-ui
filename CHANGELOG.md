@@ -1,3 +1,10 @@
+# [1.3.0-beta.32](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.31...v1.3.0-beta.32) (2021-09-30)
+
+
+### Bug Fixes
+
+* **numeric-rounded:** fix problem when paste number ([a4ace7f](https://github.com/gsi-chao/gsi-ui/commit/a4ace7f6a1804869126d500b55dd60bb52528733))
+
 # [1.3.0-beta.31](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.30...v1.3.0-beta.31) (2021-09-30)
 
 
