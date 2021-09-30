@@ -151,6 +151,7 @@ const VDraggable = (props: IDraggableDialog): JSX.Element => {
           onClose={props.onClose}
           onClosed={resetPosition}
           transitionDuration={10}
+          enforceFocus={false}
           width={dimension && dimension.width}
           height={dimension && dimension.height}
         />
