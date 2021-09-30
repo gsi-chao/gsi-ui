@@ -1,3 +1,10 @@
+# [1.3.0-beta.29](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.28...v1.3.0-beta.29) (2021-09-30)
+
+
+### Features
+
+* **appdialog:** removed enforce focus to avoid focus the first element in the dialog ([79401f5](https://github.com/gsi-chao/gsi-ui/commit/79401f5c6c76b0b96f424173dddf2800d8e7a458))
+
 # [1.3.0-beta.28](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.27...v1.3.0-beta.28) (2021-09-29)
 
 
