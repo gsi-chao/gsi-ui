@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { cloneDeep, find, isArray, isNil, orderBy, remove } from 'lodash';
 import {
   Classes,
@@ -11,6 +11,8 @@ import {
 import { IItem } from '../../types';
 import { SearchSelectItems } from './SearchSelectItems';
 import { SelectSelectionInfo } from './SelectSelectionInfo';
+import { observer, useLocalStore } from 'mobx-react';
+import { SearchSelectStore } from './SearchSelectStore';
 
 interface IProps {
   value: any;
@@ -33,17 +35,30 @@ interface IProps {
   cleanSearchAfterIteration?: boolean;
 }
 
-export const SearchSelect = (props: IProps) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selection, setSelection] = useState<any>(null);
-  const [options, setOptions] = useState<IItem[]>([]);
-  const [search, setSearch] = useState<string>('');
-  const [invokeKeyPress, setInvokeKeyPress] = useState<any>('NONE');
-  const [hasChange, setHasChange] = useState(false);
-  const [popoverWidth, setPopoverWidth] = useState<number>(
-    props.popoverWidth || props.fixedInputWidthPx || 150
+export const SearchSelect = observer((props: IProps) => {
+  const {
+    options,
+    search,
+    popoverWidth,
+    hasChange,
+    invokeKeyPress,
+    enableFilter,
+    isOpen,
+    selection,
+    setSearch,
+    setHasChange,
+    setInvokeKeyPress,
+    setEnableFilter,
+    setPopoverWidth,
+    setSelection,
+    setIsOpen,
+    setOptions
+  } = useLocalStore<SearchSelectStore>(
+    () =>
+      new SearchSelectStore(
+        props.popoverWidth || props.fixedInputWidthPx || 150
+      )
   );
-  const [enableFilter, setEnableFilter] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const findOptionsValue = (options: IItem[], value: number | string): any => {
@@ -83,7 +98,7 @@ export const SearchSelect = (props: IProps) => {
   }, [props.value, props.options]);
 
   useEffect(() => {
-    props.multi && !!getSelectionLength() && initValueStateMulti();
+    props.multi && !!getSelectionLength() && initValueStateMulti(isOpen);
   }, [selection]);
 
   useEffect(() => {
@@ -297,7 +312,7 @@ export const SearchSelect = (props: IProps) => {
   };
 
   const handleUpdateSearchText = (state: boolean) => {
-    if (!state && selection?.length === 1 && !isOpen) {
+    if (!state && selection?.length === 1) {
       const option = findOptionsValue(
         props.options,
         selection[0]
@@ -377,4 +392,4 @@ export const SearchSelect = (props: IProps) => {
       </div>
     </Popover>
   );
-};
+});
