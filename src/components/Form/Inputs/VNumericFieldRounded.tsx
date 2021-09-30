@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 
 import React, { useEffect, useState } from 'react';
-import { isFinite, isNumber, round } from 'lodash';
+import { cloneDeep, isFinite, isNumber, round } from 'lodash';
 /** Blueprint */
 /** FieldState */
 import { IconName, InputGroup, Intent } from '@blueprintjs/core';
@@ -91,12 +91,18 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     return isNumber(parsedValue) && isFinite(parsedValue) ? parsedValue : '';
   };
 
-  const MaskValue = () => {
-    let val = getValue();
+  const calculeMask = (value: any) => {
+    let val = cloneDeep(value);
     if (isNumber(val) && isFinite(val) && roundTo) {
       val = round(Number(val.toString()), roundTo);
     }
     val = fillWithZero(val, roundTo || 0, !!noFillWithZero);
+    return val;
+  };
+
+  const MaskValue = () => {
+    let val = getValue();
+    val = calculeMask(val);
     setState(val);
     props.onBlur?.();
   };
@@ -165,6 +171,15 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     MaskValue();
   };
 
+  const onPaste = (e: {
+    currentTarget: { value: any };
+    clipboardData: { getData: (str: string) => void };
+  }) => {
+    const oldValue = e && e.currentTarget && e.currentTarget.value;
+    const newValue = e && e.clipboardData && e.clipboardData.getData('Text');
+    props?.onPaste?.(calculeMask(oldValue), calculeMask(newValue));
+  };
+
   return (
     <StyledNumericInput
       className={className}
@@ -202,16 +217,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
           intent={
             fieldState && fieldState.hasError ? Intent.DANGER : Intent.NONE
           }
-          onPaste={e => {
-            const oldValue = e && e.currentTarget && e.currentTarget.value;
-            const newValue =
-              e && e.clipboardData && e.clipboardData.getData('Text');
-            if (props.onPaste) {
-              props.onPaste(oldValue, newValue);
-            }
-          }}
-          onFocus={onFocus}
-          onBlur={onBlur}
+          {...{ onPaste, onFocus, onBlur }}
         />
       </FormFieldContainer>
     </StyledNumericInput>
