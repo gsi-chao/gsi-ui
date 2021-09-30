@@ -1,3 +1,10 @@
+# [1.3.0-beta.30](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.29...v1.3.0-beta.30) (2021-09-30)
+
+
+### Bug Fixes
+
+* **paste-number:** include mask when paste number ([30b0367](https://github.com/gsi-chao/gsi-ui/commit/30b03673934675391064930027e0ecedefec6078))
+
 # [1.3.0-beta.29](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.28...v1.3.0-beta.29) (2021-09-30)
 
 
