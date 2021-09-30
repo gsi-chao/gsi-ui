@@ -297,7 +297,7 @@ export const SearchSelect = (props: IProps) => {
   };
 
   const handleUpdateSearchText = (state: boolean) => {
-    if (!state && selection?.length === 1) {
+    if (!state && selection?.length === 1 && !isOpen) {
       const option = findOptionsValue(
         props.options,
         selection[0]
