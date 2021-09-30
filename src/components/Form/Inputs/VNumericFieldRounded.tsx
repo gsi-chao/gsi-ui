@@ -155,9 +155,9 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
   };
 
   useEffect(() => {
-    const value = props?.fieldState?.value || props?.value;
-    if (!focused && Number(value !== Number(state))) {
-      MaskValue();
+    const value = getValue();
+    if (value !== state) {
+      !focused ? MaskValue() : setState(value);
     }
   }, [props?.fieldState?.value, props?.value]);
 
@@ -177,7 +177,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
   }) => {
     const oldValue = e && e.currentTarget && e.currentTarget.value;
     const newValue = e && e.clipboardData && e.clipboardData.getData('Text');
-    props?.onPaste?.(calculeMask(oldValue), calculeMask(newValue));
+    props?.onPaste?.(oldValue, newValue);
   };
 
   return (
