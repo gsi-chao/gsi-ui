@@ -1,3 +1,10 @@
+# [1.3.0-beta.33](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.32...v1.3.0-beta.33) (2021-09-30)
+
+
+### Features
+
+* **searchselect:** added store to select to improve performance and avoid issues ([12e05ef](https://github.com/gsi-chao/gsi-ui/commit/12e05efc2cac8bf8e8a06a3d6906a582674e8b36))
+
 # [1.3.0-beta.32](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.31...v1.3.0-beta.32) (2021-09-30)
 
 
