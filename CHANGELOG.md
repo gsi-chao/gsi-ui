@@ -1,3 +1,10 @@
+# [1.3.0-beta.34](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.33...v1.3.0-beta.34) (2021-09-30)
+
+
+### Bug Fixes
+
+* **number:** restore the ability to write '. ##' and convert to '0. ##' ([6654777](https://github.com/gsi-chao/gsi-ui/commit/66547775a8cf805e0c7c9c8a26f78385f4119bf0))
+
 # [1.3.0-beta.33](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.32...v1.3.0-beta.33) (2021-09-30)
 
 
