@@ -79,6 +79,17 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
     }
   }, [required, validators]);
 
+  useEffect(() => {
+    const value = getValue();
+    if (value !== state) {
+      if (!focused) {
+        MaskValue();
+      } else if (!String(state).endsWith('.')) {
+        setState(value);
+      }
+    }
+  }, [props?.fieldState?.value, props?.value]);
+
   const getValue = () => {
     if (props.fieldState) {
       return parseToNumber(props.fieldState.value);
@@ -153,13 +164,6 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
       props.onChange!(parseToNumber(val));
     }
   };
-
-  useEffect(() => {
-    const value = getValue();
-    if (value !== state) {
-      !focused ? MaskValue() : setState(value);
-    }
-  }, [props?.fieldState?.value, props?.value]);
 
   const onFocus = (event: any) => {
     props?.onFocus?.(event);
