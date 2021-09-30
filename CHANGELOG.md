@@ -1,3 +1,10 @@
+# [1.3.0-beta.31](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.30...v1.3.0-beta.31) (2021-09-30)
+
+
+### Features
+
+* **vsearchselect:** fixed issue with select multiple on select value ([196ec51](https://github.com/gsi-chao/gsi-ui/commit/196ec51f1e973921217e3bf41f75f015bff71ced))
+
 # [1.3.0-beta.30](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.29...v1.3.0-beta.30) (2021-09-30)
 
 
