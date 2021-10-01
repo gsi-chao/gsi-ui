@@ -348,7 +348,12 @@ export class SelectUnselectItems extends Component<
             </div>
           </FlexCol>
           <CentralFlexCol flex={1}>
-            <Tooltip usePortal hoverCloseDelay={0} content={'Select'}>
+            <Tooltip
+              usePortal
+              hoverCloseDelay={0}
+              content={'Select'}
+              openOnTargetFocus={false}
+            >
               <Button
                 large
                 minimal
@@ -356,7 +361,12 @@ export class SelectUnselectItems extends Component<
                 onClick={this.selectItems}
               />
             </Tooltip>
-            <Tooltip usePortal hoverCloseDelay={0} content={'Unselect'}>
+            <Tooltip
+              usePortal
+              hoverCloseDelay={0}
+              content={'Unselect'}
+              openOnTargetFocus={false}
+            >
               <Button
                 large
                 minimal
@@ -364,7 +374,12 @@ export class SelectUnselectItems extends Component<
                 onClick={this.unselectItems}
               />
             </Tooltip>
-            <Tooltip usePortal hoverCloseDelay={0} content={'Select All'}>
+            <Tooltip
+              usePortal
+              hoverCloseDelay={0}
+              content={'Select All'}
+              openOnTargetFocus={false}
+            >
               <Button
                 large
                 minimal
@@ -372,7 +387,12 @@ export class SelectUnselectItems extends Component<
                 onClick={this.selectAll}
               />
             </Tooltip>
-            <Tooltip usePortal hoverCloseDelay={0} content={'Unselect All'}>
+            <Tooltip
+              usePortal
+              hoverCloseDelay={0}
+              content={'Unselect All'}
+              openOnTargetFocus={false}
+            >
               <Button
                 large
                 minimal
@@ -504,7 +524,12 @@ const ButtonWithTooltipAllowingDisable = ({
   return disabled ? (
     <Button large minimal icon={icon} onClick={onClick} disabled={disabled} />
   ) : (
-    <Tooltip usePortal hoverCloseDelay={0} content={text}>
+    <Tooltip
+      usePortal
+      hoverCloseDelay={0}
+      content={text}
+      openOnTargetFocus={false}
+    >
       <Button large minimal icon={icon} onClick={onClick} disabled={disabled} />
     </Tooltip>
   );

@@ -134,7 +134,7 @@ export const DraggableModalInner = memo(
         hasBackdrop={true}
         canOutsideClickClose={false}
         isOpen={isOpen}
-        autoFocus={true}
+        autoFocus={false}
         enforceFocus={false}
       >
         <VCardPanel
