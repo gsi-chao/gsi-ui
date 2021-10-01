@@ -1,3 +1,10 @@
+# [1.3.0-beta.35](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.34...v1.3.0-beta.35) (2021-10-01)
+
+
+### Features
+
+* **vdraggablemodal:** removed autofocus ([338360c](https://github.com/gsi-chao/gsi-ui/commit/338360cab93ffeb50dd64dcc3b3bb6ff957e13c0))
+
 # [1.3.0-beta.34](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.33...v1.3.0-beta.34) (2021-09-30)
 
 
