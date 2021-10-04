@@ -1,3 +1,10 @@
+# [1.3.0-beta.36](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.35...v1.3.0-beta.36) (2021-10-04)
+
+
+### Features
+
+* **searchselect:** updated search select behavior ([fcd42bd](https://github.com/gsi-chao/gsi-ui/commit/fcd42bd4fa38732b60b70a51418501392e210ff9))
+
 # [1.3.0-beta.35](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.34...v1.3.0-beta.35) (2021-10-01)
 
 
