@@ -40,19 +40,20 @@ export const SearchSelect = observer((props: IProps) => {
     options,
     search,
     popoverWidth,
-    hasChange,
     invokeKeyPress,
     enableFilter,
     isOpen,
     selection,
     setSearch,
-    setHasChange,
     setInvokeKeyPress,
     setEnableFilter,
     setPopoverWidth,
     setSelection,
     setIsOpen,
-    setOptions
+    setOptions,
+    handleIsOpen,
+    setHasChange,
+    hasChange
   } = useLocalStore<SearchSelectStore>(
     () =>
       new SearchSelectStore(
@@ -70,17 +71,6 @@ export const SearchSelect = observer((props: IProps) => {
         v.value.toString() === value.toString()
     );
   };
-
-  useEffect(() => {
-    if (hasChange && selection?.length && props.getValueOnSelectMenuItem) {
-      onChangeItems(selection);
-      setHasChange(false);
-    }
-  }, [hasChange]);
-
-  useEffect(() => {
-    !isOpen && setHasChange(false);
-  }, [isOpen]);
 
   useEffect(() => {
     if (props.multi && !isArray(props.value)) {
@@ -137,7 +127,7 @@ export const SearchSelect = observer((props: IProps) => {
 
   useEffect(() => {
     const deselect = (isKeyDeletedPressed = false) => {
-      if (isOpen || isKeyDeletedPressed) {
+      if (isOpen && isKeyDeletedPressed) {
         const reset =
           !props.allowEmpty && !props.multi
             ? selection
@@ -195,7 +185,7 @@ export const SearchSelect = observer((props: IProps) => {
               -1
           ) {
             setIsOpen(nextOpenState);
-            !nextOpenState && onChangeItems(selection);
+            !nextOpenState && !props.multi && onChangeItems(selection);
             !props.multi &&
               selection &&
               setSearchSelectionText(selection || '');
@@ -218,7 +208,7 @@ export const SearchSelect = observer((props: IProps) => {
           }
         }
         !props.disabled && setIsOpen(nextOpenState);
-        !nextOpenState && onChangeItems(selection);
+        !nextOpenState && !props.multi && onChangeItems(selection);
         initValueStateMulti(nextOpenState);
         !props.multi && selection && setSearchSelectionText(selection || '');
         !props.multi && options.length === 0 && clearSearch();
@@ -251,14 +241,18 @@ export const SearchSelect = observer((props: IProps) => {
   };
 
   const onChangeItems = (selection: any) => {
-    if (hasChange) {
-      props.onChange && props.onChange(selection);
-    }
+    props.onChange?.(selection);
+  };
+
+  const shouldUpdateOnClose = () => {
+    return (
+      props.multi && !props.getValueOnSelectMenuItem && !isOpen && !hasChange
+    );
   };
 
   const deselectAllItems = () => {
     setSelection([]);
-    props.onChange && props.onChange([]);
+    props.onChange?.([]);
   };
 
   const selectDeselectItem = (value: IItem) => {
@@ -272,6 +266,9 @@ export const SearchSelect = observer((props: IProps) => {
       setEnableFilter(false);
       clearSearch();
       setSelection(selected);
+      if (props.getValueOnSelectMenuItem) {
+        props.onChange?.(selected);
+      }
     } else {
       setSelection(value.value);
       setEnableFilter(false);
@@ -279,7 +276,6 @@ export const SearchSelect = observer((props: IProps) => {
     }
     inputRef.current && inputRef.current.focus();
     !props.multi && value?.label && setSearch(value.label.toString());
-    setHasChange(true);
   };
 
   const getSelectionLength = () => {
@@ -323,6 +319,17 @@ export const SearchSelect = observer((props: IProps) => {
     clearSearch();
   };
 
+  const onClose = () => {
+    if (shouldUpdateOnClose()) {
+      setHasChange(true);
+      onChangeItems(selection);
+    }
+  };
+
+  const onOpened = () => {
+    setHasChange(false);
+  };
+
   return (
     <Popover
       targetClassName={'gsi-select-popover'}
@@ -341,6 +348,8 @@ export const SearchSelect = observer((props: IProps) => {
       }}
       onInteraction={handleInteraction}
       shouldReturnFocusOnClose={false}
+      onClose={onClose}
+      onOpened={onOpened}
     >
       <div onKeyUpCapture={onKeyPress}>
         <InputGroup
@@ -385,7 +394,7 @@ export const SearchSelect = observer((props: IProps) => {
           allowNewItem={!!props.allowNewItem}
           onAddNewItem={onAddNewItem}
           allowEmpty={props.allowEmpty}
-          onKeyPressed={() => setIsOpen(!!(!props.allowEmpty && !props.multi))}
+          onKeyPressed={handleIsOpen(!props.allowEmpty && !props.multi)}
           displayAsTree={props.displayAsTree}
           treeChildIndentWidth={props.treeChildIndentWidth}
         />

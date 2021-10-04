@@ -16,6 +16,9 @@ export class SearchSelectStore {
   @action setIsOpen = (isOpen: boolean) => {
     this.isOpen = isOpen;
   };
+  handleIsOpen = (isOpen: boolean) => () => {
+    this.setIsOpen(isOpen);
+  };
   @action setSelection = (selection: any) => {
     this.selection = selection;
   };
