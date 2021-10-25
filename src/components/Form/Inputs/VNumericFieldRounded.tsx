@@ -289,4 +289,4 @@ const convertValidValue = (value: string) => {
 };
 
 const regExp = /^(-)?[0-9]*([.][0-9]*)?$/;
-const regExpNoDecimalPlace = /^(-)?([1-9][0-9]*)?$/;
+const regExpNoDecimalPlace = /^(-)?([0-9]*)?$/;
