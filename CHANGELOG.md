@@ -1,3 +1,10 @@
+# [1.3.0-beta.38](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.37...v1.3.0-beta.38) (2021-10-25)
+
+
+### Features
+
+* **vnumericrounded:** fixed issue with no maxdecimalsplaces ([511c5bc](https://github.com/gsi-chao/gsi-ui/commit/511c5bc69321d335d5dfffdca3fccd3e3cc4ab46))
+
 # [1.3.0-beta.37](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.36...v1.3.0-beta.37) (2021-10-25)
 
 
