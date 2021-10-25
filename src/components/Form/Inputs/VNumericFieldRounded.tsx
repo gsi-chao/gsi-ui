@@ -81,7 +81,7 @@ export const VNumericFieldRounded = observer((props: INumericFieldProps) => {
 
   useEffect(() => {
     const value = getValue();
-    if (value !== state) {
+    if (value !== parseToNumber(state)) {
       if (!focused) {
         MaskValue();
       } else if (!String(state).endsWith('.')) {
