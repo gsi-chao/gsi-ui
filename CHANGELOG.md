@@ -1,3 +1,10 @@
+# [1.3.0-beta.37](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.36...v1.3.0-beta.37) (2021-10-25)
+
+
+### Features
+
+* **vnumericrounded:** fixed issue with VNumericInputCaret ([092d940](https://github.com/gsi-chao/gsi-ui/commit/092d9405253854b445fea65f066e804cc426ab2a))
+
 # [1.3.0-beta.36](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.35...v1.3.0-beta.36) (2021-10-04)
 
 
