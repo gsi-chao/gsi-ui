@@ -49,7 +49,7 @@
     "shortid": "^2.2.15",
     "styled-components": "^4.2.0",
     "text-mask-addons": "^3.8.0",
-    "validator": "^12.1.0"
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
