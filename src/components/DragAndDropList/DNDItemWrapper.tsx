@@ -1,5 +1,5 @@
 import { CustomDraggableItem } from './CustomDraggableItem';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { DNDItem } from './style';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import { IDNDItem, IDNDList, SelectedItemHelpButtonList } from './types';
@@ -46,6 +46,9 @@ export const DNDItemWrapper = (props: DNDItemWrapperProps) => {
       ref={props.innerRef}
       {...providedDraggable.draggableProps}
       {...providedDraggable.dragHandleProps}
+      style={{
+        ...((providedDraggable.draggableProps.style || {}) as CSSProperties)
+      }}
     >
       <CustomDraggableItem
         label={item.label}
