@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import {
   DragDropContext,
   Draggable,
@@ -81,7 +81,7 @@ export const DnDList = (props: IProps) => {
           >
             {items.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided, snapshot) => (
+                {provided => (
                   <DNDItem
                     ref={provided.innerRef}
                     {...provided.draggableProps}
@@ -89,6 +89,10 @@ export const DnDList = (props: IProps) => {
                     margin={props.marginItem}
                     padding={props.paddingItem}
                     draggableStyle={provided.draggableProps.style}
+                    style={{
+                      ...((provided.draggableProps.style ||
+                        {}) as CSSProperties)
+                    }}
                   >
                     {item.content}
                   </DNDItem>
