@@ -26,6 +26,7 @@ export interface ISearchSelectFieldProps extends IFieldProps {
   displayAsTree?: boolean;
   treeChildIndentWidth?: number;
   getValueOnSelectMenuItem?: boolean;
+  displayValueTooltip?: boolean;
 }
 
 export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
@@ -134,6 +135,7 @@ export const VSearchSelectField = observer((props: ISearchSelectFieldProps) => {
           getValueOnSelectMenuItem={getValueOnSelectMenuItem}
           isLoading={loading}
           placeholder={placeholder}
+          displayValueTooltip={props.displayValueTooltip}
         />
       </FormFieldContainer>
     </StyledPopOverWrapper>

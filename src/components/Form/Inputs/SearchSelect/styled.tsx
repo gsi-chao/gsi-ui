@@ -47,3 +47,9 @@ export const CarretIcon = styled(Icon)`
     fill: #5c7080;
   }
 `;
+
+export const StyledUl = styled.ul`
+  padding-inline-start: 18px;
+  margin-block-start: 2px;
+  margin-block-end: 2px;
+`;

@@ -5,7 +5,8 @@ import {
   InputGroup,
   Keys,
   Popover,
-  PopoverInteractionKind
+  PopoverInteractionKind,
+  Tooltip
 } from '@blueprintjs/core';
 
 import { IItem } from '../../types';
@@ -13,6 +14,7 @@ import { SearchSelectItems } from './SearchSelectItems';
 import { SelectSelectionInfo } from './SelectSelectionInfo';
 import { observer, useLocalStore } from 'mobx-react';
 import { SearchSelectStore } from './SearchSelectStore';
+import { StyledUl } from './styled';
 
 interface IProps {
   value: any;
@@ -33,6 +35,7 @@ interface IProps {
   isLoading?: boolean;
   placeholder?: string;
   cleanSearchAfterIteration?: boolean;
+  displayValueTooltip?: boolean;
 }
 
 export const SearchSelect = observer((props: IProps) => {
@@ -44,6 +47,10 @@ export const SearchSelect = observer((props: IProps) => {
     enableFilter,
     isOpen,
     selection,
+    hasChange,
+    displayTooltip,
+    arrayOfValues,
+    hideToolTip,
     setSearch,
     setInvokeKeyPress,
     setEnableFilter,
@@ -53,7 +60,7 @@ export const SearchSelect = observer((props: IProps) => {
     setOptions,
     handleIsOpen,
     setHasChange,
-    hasChange
+    showTooltipWithDisabled
   } = useLocalStore<SearchSelectStore>(
     () =>
       new SearchSelectStore(
@@ -351,30 +358,49 @@ export const SearchSelect = observer((props: IProps) => {
       onClose={onClose}
       onOpened={onOpened}
     >
-      <div onKeyUpCapture={onKeyPress}>
-        <InputGroup
-          inputRef={ref => (inputRef.current = ref)}
-          autoFocus={false}
-          className={
-            !props.isLoading
-              ? `gsi-input-select ${
-                  props.multi ? 'gsi-input-multi-select' : ''
-                }`
-              : Classes.SKELETON
+      <div
+        onKeyUpCapture={onKeyPress}
+        onMouseOver={showTooltipWithDisabled(!props.displayValueTooltip)}
+        onMouseLeave={hideToolTip}
+      >
+        <Tooltip
+          isOpen={displayTooltip}
+          content={
+            !props.multi ? (
+              arrayOfValues?.[0]
+            ) : (
+              <StyledUl>
+                {arrayOfValues.map((val, index) => (
+                  <li key={index}>{val}</li>
+                ))}
+              </StyledUl>
+            )
           }
-          disabled={props.disabled}
-          rightElement={
-            <SelectSelectionInfo
-              disabled={props.disabled ? props.disabled : false}
-              count={getSelectionLength()}
-              multi={!!props.multi}
-              deselectAllItems={deselectAllItems}
-            />
-          }
-          onChange={onSearchChange}
-          placeholder={props?.placeholder ?? 'Search'}
-          value={search}
-        />
+        >
+          <InputGroup
+            inputRef={ref => (inputRef.current = ref)}
+            autoFocus={false}
+            className={
+              !props.isLoading
+                ? `gsi-input-select ${
+                    props.multi ? 'gsi-input-multi-select' : ''
+                  }`
+                : Classes.SKELETON
+            }
+            disabled={props.disabled}
+            rightElement={
+              <SelectSelectionInfo
+                disabled={props.disabled ? props.disabled : false}
+                count={getSelectionLength()}
+                multi={!!props.multi}
+                deselectAllItems={deselectAllItems}
+              />
+            }
+            onChange={onSearchChange}
+            placeholder={props?.placeholder ?? 'Search'}
+            value={search}
+          />
+        </Tooltip>
       </div>
       <div
         style={{
