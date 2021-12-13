@@ -1,3 +1,11 @@
+# [1.3.0-beta.39](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.38...v1.3.0-beta.39) (2021-12-13)
+
+
+### Features
+
+* **dnd:** updated dnd dependencie to avoid issues ([b204713](https://github.com/gsi-chao/gsi-ui/commit/b2047132579315003013d54e2a9570458ec46356))
+* **vsearchselect:** added tooltip for select when over the selected value ([8ea8847](https://github.com/gsi-chao/gsi-ui/commit/8ea88474f25173a53e2df8f4cb23345e836c8346))
+
 # [1.3.0-beta.38](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.37...v1.3.0-beta.38) (2021-10-25)
 
 
