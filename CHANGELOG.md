@@ -1,3 +1,10 @@
+# [1.3.0-beta.40](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.39...v1.3.0-beta.40) (2021-12-15)
+
+
+### Features
+
+* **text-select:** add additional search text on select ([023a301](https://github.com/gsi-chao/gsi-ui/commit/023a30164244730a2a0fe98fab81067871a74962))
+
 # [1.3.0-beta.39](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.38...v1.3.0-beta.39) (2021-12-13)
 
 
