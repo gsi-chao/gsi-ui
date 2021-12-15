@@ -16,12 +16,14 @@ import { observer, useLocalStore } from 'mobx-react';
 import { SearchSelectStore } from './SearchSelectStore';
 import { StyledUl } from './styled';
 
+type OptionItem = IItem & { additionalSearchText?: string };
+
 interface IProps {
   value: any;
   multi?: boolean;
   allowNewItem?: boolean;
   onAddNewItem?: (value: string) => void;
-  options: IItem[];
+  options: OptionItem[];
   onChange?: (value: any) => void;
   sort?: 'asc' | 'desc' | undefined;
   popoverWidth?: number;
@@ -104,7 +106,7 @@ export const SearchSelect = observer((props: IProps) => {
 
   useEffect(() => {
     let w = 150;
-    let opt = props.options.filter((value: IItem) => {
+    let opt = props.options.filter((value: OptionItem) => {
       try {
         const factor = !props.multi ? 6.8 : 7.8;
         const lw = value?.label ? value.label.toString().length * factor : 100;
@@ -119,7 +121,13 @@ export const SearchSelect = observer((props: IProps) => {
           value.label
             .toString()
             .toLowerCase()
-            .indexOf(search.toLowerCase()) !== -1 || !enableFilter
+            .indexOf(search.toLowerCase()) !== -1 ||
+          (value?.additionalSearchText &&
+            value.additionalSearchText
+              .toString()
+              .toLowerCase()
+              ?.indexOf(search.toLowerCase()) !== -1) ||
+          !enableFilter
         );
       } catch {
         return false;
