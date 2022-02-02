@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { VInputField } from '../Form';
 
 interface IDNDContainer {
@@ -16,7 +16,15 @@ export const DNDContainer = styled.div`
   }
 `;
 
-export const DNDItem = styled.div`
+export const DNDItemBody = styled.div<{ disabled?: boolean }>`
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      cursor: not-allowed !important;
+    `};
+`;
+
+export const DNDItem = styled.div<{ disabled?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -33,6 +41,12 @@ export const DNDItem = styled.div`
     cursor: grabbing;
     text-decoration: none;
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      pointer-events: none !important;
+    `};
 `;
 
 export const StyledCustomDraggableItem = styled.div`
@@ -95,7 +109,9 @@ export interface StyledDragAndDropListContainerProps {
   sourceListBackGroundColor?: string;
 }
 
-export const StyledDivContainer = styled.div`
+export const StyledDivContainer = styled.div<
+  StyledDragAndDropListContainerProps
+>`
   width: 100%;
   height: 100%;
   &.sourceList {

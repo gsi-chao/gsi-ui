@@ -1,7 +1,9 @@
 // todo remove deprecate component.
 
-import React, { useEffect, useState } from 'react';
+import { Button } from '@blueprintjs/core';
 import { find } from 'lodash';
+import { observer } from 'mobx-react';
+import React, { useEffect, useState } from 'react';
 import {
   DragDropContext,
   Draggable,
@@ -15,6 +17,11 @@ import {
   DropResult,
   ResponderProvided
 } from 'react-beautiful-dnd';
+import { VCardPanel } from '../Card';
+import { EmptyData } from '../SelectionList/EmptyData';
+import { VSpinner } from '../Spinner';
+import { DNDItemWrapper } from './DNDItemWrapper';
+import { DNDList } from './DNDList';
 import {
   DNDContainer,
   DragListSpinnerContainer,
@@ -27,13 +34,6 @@ import {
   IDragAndDropListProps,
   IDragAndDropListState
 } from './types';
-import { VCardPanel } from '../Card';
-import { Button } from '@blueprintjs/core';
-import { observer } from 'mobx-react';
-import { VSpinner } from '../Spinner';
-import { DNDItemWrapper } from './DNDItemWrapper';
-import { DNDList } from './DNDList';
-import { EmptyData } from '../SelectionList/EmptyData';
 
 const reorder = (
   list: IDNDList,
@@ -319,6 +319,7 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
                                   ) => (
                                     <DNDItemWrapper
                                       innerRef={providedDraggable.innerRef}
+                                      disabled={value?.disabled}
                                       onClick={() => {
                                         handleItemSelection(
                                           item.value,
