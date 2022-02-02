@@ -1,3 +1,10 @@
+# [1.3.0-beta.41](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.40...v1.3.0-beta.41) (2022-02-02)
+
+
+### Features
+
+* **draganddroplist:** add the ability to disable a list ([c97e46a](https://github.com/gsi-chao/gsi-ui/commit/c97e46a0d8660e0558d9aa889e73da967eb7376c))
+
 # [1.3.0-beta.40](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.39...v1.3.0-beta.40) (2021-12-15)
 
 
