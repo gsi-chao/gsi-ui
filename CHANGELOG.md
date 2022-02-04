@@ -1,3 +1,10 @@
+# [1.3.0-beta.42](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.41...v1.3.0-beta.42) (2022-02-04)
+
+
+### Bug Fixes
+
+* **draganddroplist:** add ability to deselect item when changing list in DragAndDropList ([99347dc](https://github.com/gsi-chao/gsi-ui/commit/99347dca77648246e2e26965015c89e7e6090582))
+
 # [1.3.0-beta.41](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.40...v1.3.0-beta.41) (2022-02-02)
 
 
