@@ -79,7 +79,7 @@ export const DragAndDropList = observer((props: IDragAndDropListProps) => {
   });
 
   useEffect(() => {
-    setState({ ...state, items: props.list || [] });
+    setState({ ...state, items: props.list || [], selectedItemId: '' });
   }, [props.list]);
 
   useEffect(() => {
