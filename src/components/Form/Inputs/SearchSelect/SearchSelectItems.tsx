@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Keys, MenuItem } from '@blueprintjs/core';
 import { findIndex, get, isArray, isNil } from 'lodash';
 import VirtualList from 'react-tiny-virtual-list';
@@ -97,6 +97,15 @@ export const SearchSelectItems = (props: IProps) => {
     return null;
   };
 
+  const notIncludeSearch = useMemo(
+    () =>
+      !!props.search &&
+      !props.options.find(
+        item => item.label === props.search || item.label === props.search
+      ),
+    [props.options, props.search]
+  );
+
   const getVirtualHeight = useCallback(() => {
     return props.options.length > 4 ? 150 : 30 * props.options.length + 1;
   }, [props.options]);
@@ -113,6 +122,7 @@ export const SearchSelectItems = (props: IProps) => {
           onClick={() => props.selectDeselectItem({ value: '', label: '' })}
         />
       )}
+
       {props.options.length > 0 ? (
         <VirtualList
           scrollToIndex={
@@ -149,14 +159,16 @@ export const SearchSelectItems = (props: IProps) => {
             />
           )}
         />
-      ) : props.allowNewItem ? (
+      ) : !props.allowNewItem ? (
+        <MenuItem text={'No results.'} disabled />
+      ) : null}
+
+      {props.allowNewItem && notIncludeSearch && (
         <MenuItem
           text={`Create ${props.search}`}
           icon={'add'}
           onClick={() => props.onAddNewItem && props.onAddNewItem()}
         />
-      ) : (
-        <MenuItem text={'No results.'} disabled />
       )}
     </NoFocusMenu>
   );
