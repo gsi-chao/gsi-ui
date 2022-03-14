@@ -1,3 +1,10 @@
+# [1.3.0-beta.43](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.42...v1.3.0-beta.43) (2022-03-14)
+
+
+### Bug Fixes
+
+* **wx-i3922:** problem creating new item in searchSelect when matching text ([42f5848](https://github.com/gsi-chao/gsi-ui/commit/42f5848a5ec458ee0226052ec2c5b6cf6217a06a))
+
 # [1.3.0-beta.42](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.41...v1.3.0-beta.42) (2022-02-04)
 
 
