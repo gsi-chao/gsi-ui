@@ -116,8 +116,16 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
     const itemIsTheActiveByKeyBoard =
       this.activeItem?.value && item.value === this.activeItem?.value?.value;
 
-    const active =
-      (!this.activeItem?.value && prevActive) || !!itemIsTheActiveByKeyBoard;
+    const notIncludeSearch =
+      !!this.state.query &&
+      !this.props.options.find(
+        (item: IItem) =>
+          item.label === this.state.query || item.label === this.state.query
+      );
+
+    const active = notIncludeSearch
+      ? false
+      : (!this.activeItem?.value && prevActive) || !!itemIsTheActiveByKeyBoard;
 
     return (
       <MenuItem
@@ -166,38 +174,38 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
         renderedItems
       );
 
-    const createItemView = this.props.createNewItemFormQuery ? (
-      <MenuItem
-        icon="add"
-        text={`Create "${query}"`}
-        active={true}
-        onClick={() => {
-          this.onItemSelected({ value: query, label: query });
-        }}
-        shouldDismissPopover={false}
-      />
-    ) : (
-      <MenuItem disabled={true} text="No results." />
-    );
-
     const hasQueryValues = !!(this.state && this.state.query !== '');
 
-    const displayCreateWhenAllowEmptyItem =
-      !!(
-        (this.props.allowEmptyItem && this.props?.fieldState?.value) ||
-        this.props?.value
-      ) && renderedItems.length === 0;
+    const notIncludeSearch =
+      !!hasQueryValues &&
+      !this.props.options.find(
+        (item: IItem) =>
+          item.label === this.state.query || item.label === this.state.query
+      );
+
+    const createItemView = this.props.createNewItemFormQuery &&
+      notIncludeSearch && (
+        <MenuItem
+          icon="add"
+          text={`Create "${query}"`}
+          active={true}
+          onClick={() => {
+            this.onItemSelected({ value: query, label: query });
+          }}
+          shouldDismissPopover={false}
+        />
+      );
 
     return (
-      <>
-        <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
-          {renderedItems.length > 0
-            ? displayCreateWhenAllowEmptyItem && hasQueryValues
-              ? createItemView
-              : itemsToRender
-            : createItemView}
-        </StyledMenuNoMarginDivider>
-      </>
+      <StyledMenuNoMarginDivider ulRef={itemsParentRef}>
+        {renderedItems.length > 0 ? (
+          itemsToRender
+        ) : !notIncludeSearch ? (
+          <MenuItem disabled={true} text="No results." />
+        ) : null}
+
+        {createItemView}
+      </StyledMenuNoMarginDivider>
     );
   };
 
@@ -282,6 +290,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       const isOutEmptyOption = this.getOptions().some(
         item => !!(item.value === '' && item.label === 'No Selection')
       );
+
       if (
         (this.props.allowEmptyItem && isOutEmptyOption) ||
         this.props.allowOrder
@@ -452,6 +461,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       rightIcon={'filter-remove'}
     />
   );
+
   private onClear = () => {
     this.setState({ query: '' });
   };
