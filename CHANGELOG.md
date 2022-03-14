@@ -1,3 +1,10 @@
+# [1.3.0-beta.44](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.43...v1.3.0-beta.44) (2022-03-14)
+
+
+### Bug Fixes
+
+* **wx-i3922:** problem creating new item in SelectField when matching text ([25cbda7](https://github.com/gsi-chao/gsi-ui/commit/25cbda7cd5ee6a136d2dbcfee1eb3f0296d163a6))
+
 # [1.3.0-beta.43](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.42...v1.3.0-beta.43) (2022-03-14)
 
 
