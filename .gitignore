@@ -25,3 +25,4 @@ yarn.lock
 
 .idea
 /src/docs/
+.vscode
