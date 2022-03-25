@@ -18,6 +18,8 @@ export interface DraggableModalProps extends StyledCardProps, IDialogProps {
   disabled?: boolean;
   enableDrag?: boolean;
   hideEndContainer?: boolean;
+  top?: string;
+  left?: string;
 }
 
 export const VDraggableModal = (
