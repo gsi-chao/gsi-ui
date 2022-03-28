@@ -1,3 +1,10 @@
+# [1.3.0-beta.47](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.46...v1.3.0-beta.47) (2022-03-28)
+
+
+### Bug Fixes
+
+* **mask:** unrecognized input mask type ([cb1f343](https://github.com/gsi-chao/gsi-ui/commit/cb1f3433b6e5859293550ad55cac4607f0512714))
+
 # [1.3.0-beta.46](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.45...v1.3.0-beta.46) (2022-03-28)
 
 
