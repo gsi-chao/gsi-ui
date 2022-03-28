@@ -1,3 +1,10 @@
+# [1.3.0-beta.46](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.45...v1.3.0-beta.46) (2022-03-28)
+
+
+### Bug Fixes
+
+* **mask:** add type mask ([f1db073](https://github.com/gsi-chao/gsi-ui/commit/f1db073e0d6f729c81cea60bb0e8e05eed635844))
+
 # [1.3.0-beta.45](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.44...v1.3.0-beta.45) (2022-03-28)
 
 
