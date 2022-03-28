@@ -82,7 +82,7 @@
     "@types/react-outside-click-handler": "^1.2.0",
     "@types/react-resize-detector": "^4.2.0",
     "@types/react-test-renderer": "^16.9.1",
-    "@types/react-text-mask": "^5.4.6",
+    "@types/react-text-mask": "5.4.6",
     "@types/styled-components": "^5.1.24",
     "@types/validator": "^12.0.1",
     "@typescript-eslint/eslint-plugin": "^2.13.0",
