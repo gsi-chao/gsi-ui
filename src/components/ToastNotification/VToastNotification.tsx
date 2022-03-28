@@ -1,5 +1,4 @@
 import { IconName, Toaster } from '@blueprintjs/core';
-import React from 'react';
 import { ToastType } from './types';
 
 export interface IToastNotificationProps {
@@ -35,6 +34,8 @@ export const showToastNotification = (props: IToastNotificationProps) => {
       : type === 'danger'
       ? 'delete'
       : 'blank';
+
+  const iconfx = icon || iconFromType;
   const ToastProps = {
     message,
     onDismiss,
@@ -42,12 +43,8 @@ export const showToastNotification = (props: IToastNotificationProps) => {
     className,
     intent: type,
     timeout: timeout || 3000,
-    icon: icon || iconFromType
+    ...((!noIcon || iconfx !== 'blank') && { icon: iconfx })
   };
-
-  if (noIcon || ToastProps.icon === 'blank') {
-    delete ToastProps.icon;
-  }
 
   if (!notifications) {
     notifications = Toaster.create({

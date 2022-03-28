@@ -56,7 +56,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
     label,
     tagProps,
     inputRef,
-    resetOnClose,
+    resetOnClose = true,
     inputProps,
     tooltip,
     placeholder,
@@ -238,7 +238,6 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
           placeholder={placeholder || ''}
           openOnKeyDown={false}
           resetOnSelect={true}
-          resetOnClose={true}
           itemRenderer={renderItem}
           itemsEqual={areItemsEqual}
           items={getItems()}
