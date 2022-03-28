@@ -1,3 +1,15 @@
+# [1.3.0-beta.45](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.44...v1.3.0-beta.45) (2022-03-28)
+
+
+### Bug Fixes
+
+* **draggablemodal:** i modified the behavior of the component in small screens ([1c6e623](https://github.com/gsi-chao/gsi-ui/commit/1c6e62378bd27b90c553c8fbb68aa984ebea8ff8))
+
+
+### Features
+
+* **maintenance:** library maintenance ([facaf57](https://github.com/gsi-chao/gsi-ui/commit/facaf578fe2afb20675022b2d41d23acad6d3c20))
+
 # [1.3.0-beta.44](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.43...v1.3.0-beta.44) (2022-03-14)
 
 
