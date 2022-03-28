@@ -17,6 +17,7 @@ import {
   IQueryListRendererProps,
   QueryList
 } from '@blueprintjs/select';
+import { invoke } from 'lodash';
 
 export interface IVMultiSelectProps<T> extends IMultiSelectProps<T> {
   resetOnClose?: boolean;
@@ -43,7 +44,8 @@ export class VMultiSelect<T> extends React.PureComponent<
   private refHandlers = {
     input: (ref: HTMLInputElement | null) => {
       this.input = ref;
-      Utils.safeInvokeMember(this.props.tagInputProps, 'inputRef', ref);
+      this.props?.tagInputProps &&
+        invoke(this.props.tagInputProps, 'inputRef', ref);
     },
     queryList: (ref: QueryList<T> | null) => (this.queryList = ref)
   };
