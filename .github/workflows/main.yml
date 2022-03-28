@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node_version: ['12']
+        node_version: ['14']
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -26,7 +26,7 @@ jobs:
       - name: Install Dependencies
         run: yarn
 
-      - name: Install Dependencies
+      - name: Build Project
         run: yarn build
 
       - name: Semantic Release
