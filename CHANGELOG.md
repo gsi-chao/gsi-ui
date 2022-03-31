@@ -1,3 +1,10 @@
+# [1.3.0-beta.48](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.47...v1.3.0-beta.48) (2022-03-31)
+
+
+### Features
+
+* **select-field:** add upperCaseFormatFilter prop in select field ([6a6eaf5](https://github.com/gsi-chao/gsi-ui/commit/6a6eaf5eab1d529bddbd1bbc35eeb2f006cbcdeb))
+
 # [1.3.0-beta.47](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.46...v1.3.0-beta.47) (2022-03-28)
 
 
