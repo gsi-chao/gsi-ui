@@ -1,5 +1,3 @@
-import { observer } from 'mobx-react';
-import React from 'react';
 /** Blueprint */
 import {
   Button,
@@ -19,18 +17,18 @@ import {
   ItemRenderer,
   Select
 } from '@blueprintjs/select';
-
 import '@blueprintjs/select/lib/css/blueprint-select.css';
-
-import { IFieldProps } from './IFieldProps';
-import { StyledMenuNoMarginDivider, StyledPopOverWrapper } from './style';
-import { FormFieldContainer } from './FormFieldContainer';
-import { Validators } from '../Validators';
-import { action, computed, observable } from 'mobx';
-import { VSpinner } from '../../Spinner';
-import { orderBy, uniqueId } from 'lodash';
-import { IItemMultiple } from './SelectMultipleField';
 import { FieldState } from 'formstate';
+import { orderBy, uniqueId } from 'lodash';
+import { action, computed, observable } from 'mobx';
+import { observer } from 'mobx-react';
+import React from 'react';
+import { VSpinner } from '../../Spinner';
+import { Validators } from '../Validators';
+import { FormFieldContainer } from './FormFieldContainer';
+import { IFieldProps } from './IFieldProps';
+import { IItemMultiple } from './SelectMultipleField';
+import { StyledMenuNoMarginDivider, StyledPopOverWrapper } from './style';
 
 /**
  * Field Props
@@ -54,6 +52,7 @@ export interface ISelectFieldProps extends IFieldProps {
   allowEmptyItem?: boolean;
   allowOrder?: boolean;
   orderDirection?: 'asc' | 'desc';
+  upperCaseFormatFilter?: boolean;
   createNewItemFormQuery?: (item: IItem) => void;
 }
 
@@ -254,7 +253,8 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
       tipLabel,
       popoverProps,
       tooltip,
-      displayRequired
+      displayRequired,
+      upperCaseFormatFilter
     } = this.props;
 
     const initialContent =
@@ -388,7 +388,11 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             resetOnClose={this.props.resetOnClose}
             className={this.props.isLoading ? Classes.SKELETON : ''}
             onQueryChange={(value: string) => this.setState({ query: value })}
-            query={(this.state && this.state.query) || ''}
+            query={
+              upperCaseFormatFilter
+                ? ((this.state && this.state.query) || '').toUpperCase()
+                : (this.state && this.state.query) || ''
+            }
             inputProps={{
               rightElement: this.renderClearButton()
             }}
