@@ -1,3 +1,10 @@
+# [1.3.0-beta.49](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.48...v1.3.0-beta.49) (2022-04-05)
+
+
+### Bug Fixes
+
+* **draggablemodalreducer:** changing the actions in order to specify behavior when screen is small ([c8d48ad](https://github.com/gsi-chao/gsi-ui/commit/c8d48ad38d932e34e72a7ba48b3063dc374fb8f3))
+
 # [1.3.0-beta.48](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.47...v1.3.0-beta.48) (2022-03-31)
 
 
