@@ -15,13 +15,6 @@ export const DialogDS = styled(Dialog)`
     margin: 0;
     
   } */
-
-  @media screen and (max-width: 720px) {
-    top: ${({ theme }: any): string =>
-      theme.top ? `${theme.top}!important` : '0!important'};
-    left: ${({ theme }: any): string =>
-      theme.left ? `${theme.left}!important` : '0!important'};
-  }
 `;
 
 interface IDialogBodyContainer {

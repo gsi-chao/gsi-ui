@@ -118,7 +118,7 @@ export const draggableModalReducer = (
 ): ModalsState => {
   const windowSize = getWindowSize();
   switch (action.type) {
-    case 'resize':
+    case 'resize': {
       const size = clampResize(
         windowSize.width,
         windowSize.height,
@@ -139,7 +139,8 @@ export const draggableModalReducer = (
           }
         }
       };
-    case 'drag':
+    }
+    case 'drag': {
       return {
         ...state,
         maxZIndex: getNextZIndex(state, action.id),
@@ -159,10 +160,17 @@ export const draggableModalReducer = (
           }
         }
       };
+    }
     case 'show': {
       const modalState = state.modals[action.id];
-      const centerX = windowSize.width / 2 - modalState.width / 2;
-      const centerY = windowSize.height / 2 - modalState.height / 2;
+      const centerX =
+        windowSize.width < 720 || windowSize.height < 420
+          ? 0
+          : (windowSize.width - modalState.width) / 2;
+      const centerY =
+        windowSize.width < 720 || windowSize.height < 420
+          ? 0
+          : (windowSize.height - modalState.height) / 2;
       const position = clampDrag(
         windowSize.width,
         windowSize.height,
@@ -194,7 +202,7 @@ export const draggableModalReducer = (
         }
       };
     }
-    case 'focus':
+    case 'focus': {
       const modalState = state.modals[action.id];
       return {
         ...state,
@@ -207,6 +215,7 @@ export const draggableModalReducer = (
           }
         }
       };
+    }
     case 'hide': {
       const modalState = state.modals[action.id];
       return {
@@ -220,9 +229,17 @@ export const draggableModalReducer = (
         }
       };
     }
-    case 'mount':
+    case 'mount': {
       const width = action.size.width ? action.size.width : 600;
       const height = action.size.height ? action.size.height : 600;
+      const calculatedX =
+        windowSize.width < 720 || windowSize.height < 420
+          ? 0
+          : (windowSize.width - width) / 2;
+      const calculatedY =
+        windowSize.width < 720 || windowSize.height < 420
+          ? 0
+          : (windowSize.height - height) / 2;
       return {
         ...state,
         maxZIndex: state.maxZIndex + 1,
@@ -232,29 +249,36 @@ export const draggableModalReducer = (
             width,
             height,
             visible: false,
-            x: (windowSize.width - width) / 2,
-            y: (windowSize.height - height) / 2,
+            x: calculatedX,
+            y: calculatedY,
             zIndex: state.maxZIndex + 1
           }
         }
       };
-    case 'unmount':
+    }
+    case 'unmount': {
       const modalsClone = { ...state.modals };
       delete modalsClone[action.id];
       return {
         ...state,
         modals: modalsClone
       };
-    case 'windowResize':
+    }
+    case 'windowResize': {
       return {
         ...state,
         windowSize,
         modals: mapObject(state.modals, (modalState: ModalState) => {
           const position = {
-            x: (windowSize.width - modalState.width) / 2,
-            y: (windowSize.height - modalState.height) / 2
+            x:
+              windowSize.width < 720 || windowSize.height < 420
+                ? 0
+                : (windowSize.width - modalState.width) / 2,
+            y:
+              windowSize.width < 720 || windowSize.height < 420
+                ? 0
+                : (windowSize.height - modalState.height) / 2
           };
-
           const size = clampResize(
             windowSize.width,
             windowSize.height,
@@ -270,6 +294,7 @@ export const draggableModalReducer = (
           };
         })
       };
+    }
     default:
       throw new Error();
   }
