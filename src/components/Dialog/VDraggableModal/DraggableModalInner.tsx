@@ -16,7 +16,6 @@ import {
 import { VSpinner } from '../../Spinner';
 import './dialog.css';
 import { getNumberMatch } from './utils';
-import { ThemeProvider } from 'styled-components';
 
 const modalStyle: React.CSSProperties = {
   margin: 0,
@@ -128,73 +127,68 @@ export const DraggableModalInner = memo(
 
     const onMouseDrag = useDrag(x, y, onDragWithID);
     const onMouseResize = useResize(x, y, width, height, onResizeWithID);
-    const theme = { top, left };
 
     return (
-      <ThemeProvider theme={theme}>
-        <DialogDS
-          portalClassName={'gsi-draggable-modal'}
-          style={style}
-          canEscapeKeyClose={false}
-          hasBackdrop={true}
-          canOutsideClickClose={false}
-          isOpen={isOpen}
-          autoFocus={false}
-          enforceFocus={false}
+      <DialogDS
+        portalClassName={'gsi-draggable-modal'}
+        style={style}
+        canEscapeKeyClose={false}
+        hasBackdrop={true}
+        canOutsideClickClose={false}
+        isOpen={isOpen}
+        autoFocus={false}
+        enforceFocus={false}
+      >
+        <VCardPanel
+          {...modalProps}
+          headerClass={'gsi-draggable-modal-title'}
+          height={
+            modalProps.hasOwnProperty('height')
+              ? modalProps.height
+              : `${modalState.height}px`
+          }
+          width={
+            modalProps.hasOwnProperty('width')
+              ? modalProps.width
+              : `${modalState.width}px`
+          }
+          onHeaderFocus={onFocus}
+          onHeaderMouseDrag={onMouseDrag}
+          bodyPadding={'0px'}
         >
-          <VCardPanel
-            {...modalProps}
-            headerClass={'gsi-draggable-modal-title'}
-            height={
-              modalProps.hasOwnProperty('height')
-                ? modalProps.height
-                : `${modalState.height}px`
-            }
-            width={
-              modalProps.hasOwnProperty('width')
-                ? modalProps.width
-                : `${modalState.width}px`
-            }
-            onHeaderFocus={onFocus}
-            onHeaderMouseDrag={onMouseDrag}
-            bodyPadding={'0px'}
-          >
-            <DialogBodyContainer
-              buttonHeight={hideEndContainer ? '0px' : '45px'}
-            >
-              {children}
-            </DialogBodyContainer>
-            {!hideEndContainer && (
-              <DialogButtonsEndsContainers>
-                {buttonsEndComponent ? (
-                  buttonsEndComponent
-                ) : isSaving ? (
-                  <VSpinner size={24} />
-                ) : (
-                  <>
-                    <AnchorButton
-                      minimal
-                      icon={'tick'}
-                      disabled={disabled}
-                      text={saveText ? saveText : 'Save'}
-                      onClick={onSave}
-                      intent={'success'}
-                    />
-                    <AnchorButton
-                      minimal
-                      icon={'disable'}
-                      text={cancelText ? cancelText : 'Cancel'}
-                      onClick={onCancel}
-                      intent={'danger'}
-                    />
-                  </>
-                )}
-              </DialogButtonsEndsContainers>
-            )}
-          </VCardPanel>
-          {enableDrag && <ResizeHandle onMouseDown={onMouseResize} />}
-        </DialogDS>
-      </ThemeProvider>
+          <DialogBodyContainer buttonHeight={hideEndContainer ? '0px' : '45px'}>
+            {children}
+          </DialogBodyContainer>
+          {!hideEndContainer && (
+            <DialogButtonsEndsContainers>
+              {buttonsEndComponent ? (
+                buttonsEndComponent
+              ) : isSaving ? (
+                <VSpinner size={24} />
+              ) : (
+                <>
+                  <AnchorButton
+                    minimal
+                    icon={'tick'}
+                    disabled={disabled}
+                    text={saveText ? saveText : 'Save'}
+                    onClick={onSave}
+                    intent={'success'}
+                  />
+                  <AnchorButton
+                    minimal
+                    icon={'disable'}
+                    text={cancelText ? cancelText : 'Cancel'}
+                    onClick={onCancel}
+                    intent={'danger'}
+                  />
+                </>
+              )}
+            </DialogButtonsEndsContainers>
+          )}
+        </VCardPanel>
+        {enableDrag && <ResizeHandle onMouseDown={onMouseResize} />}
+      </DialogDS>
     );
   }
 );
