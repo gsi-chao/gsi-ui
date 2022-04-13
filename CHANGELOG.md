@@ -1,3 +1,10 @@
+# [1.3.0-beta.51](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.50...v1.3.0-beta.51) (2022-04-13)
+
+
+### Features
+
+* **types-componentes:** update the types of some components ([13eed36](https://github.com/gsi-chao/gsi-ui/commit/13eed3681ef5425d64e69f9b6c8c0a77b2a31ab3))
+
 # [1.3.0-beta.50](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.49...v1.3.0-beta.50) (2022-04-13)
 
 
