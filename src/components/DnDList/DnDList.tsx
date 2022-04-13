@@ -1,12 +1,20 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, {
+  CSSProperties,
+  PropsWithChildren,
+  useEffect,
+  useState
+} from 'react';
 import {
-  DragDropContext,
-  Draggable,
-  Droppable,
+  DragDropContext as WDragDropContext,
+  Draggable as WDraggable,
+  Droppable as WDroppable,
   DropResult
 } from 'react-beautiful-dnd';
 import { DNDItem, DnDListContainer } from './style';
 
+const DragDropContext: PropsWithChildren<any> = WDragDropContext;
+const Draggable: PropsWithChildren<any> = WDraggable;
+const Droppable: PropsWithChildren<any> = WDroppable;
 interface Item {
   id: string;
   content: React.ReactNode;
@@ -66,7 +74,7 @@ export const DnDList = (props: IProps) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable" direction={props.direction}>
-        {(provided, snapshot) => (
+        {(provided: any, snapshot: any) => (
           <DnDListContainer
             {...provided.droppableProps}
             ref={provided.innerRef}
@@ -81,7 +89,7 @@ export const DnDList = (props: IProps) => {
           >
             {items.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
-                {provided => (
+                {(provided: any) => (
                   <DNDItem
                     ref={provided.innerRef}
                     {...provided.draggableProps}

@@ -7,7 +7,7 @@ import {
   Intent,
   Menu,
   MenuItem,
-  Popover
+  Popover as WPopover
 } from '@blueprintjs/core';
 /** FieldState */
 import { StyledInput } from './style';
@@ -18,6 +18,7 @@ import { computed } from 'mobx';
 import styled from 'styled-components';
 import { IItemMultiple } from './SelectMultipleField';
 
+const Popover: React.PropsWithChildren<any> = WPopover;
 /**
  * Field component. Must be an observer.
  */

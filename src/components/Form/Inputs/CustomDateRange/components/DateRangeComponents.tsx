@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { PropsWithChildren, useRef, useState } from 'react';
 import {
   Boundary,
-  Popover,
+  Popover as WPopover,
   PopoverInteractionKind,
   Position
 } from '@blueprintjs/core';
@@ -15,6 +15,8 @@ import { DateRangeUtils } from '../utils/DateRangeUtils';
 import { DateRange, DateRangeShortcut } from '@blueprintjs/datetime';
 import moment from 'moment';
 import { useClickAway } from 'react-use';
+
+const Popover: PropsWithChildren<any> = WPopover;
 
 export const DateRangeComponents = (props: IDateRange) => {
   const {

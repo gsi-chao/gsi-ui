@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import { Icon } from '@blueprintjs/core';
 import ReactResizeDetector from 'react-resize-detector';
 
@@ -7,6 +7,8 @@ import SlideButton from './components/SlideButton';
 import UseSliding from './components/UseSliding';
 import UseSizeElement from './components/UseSizeElement';
 import SliderContext from './context';
+
+const WReactResizeDetector: PropsWithChildren<any> = ReactResizeDetector;
 
 const Slider = ({ padding, children, isResponsive }: any) => {
   const [resolution, setState] = useState<{ width: number; height: number }>();
@@ -31,7 +33,7 @@ const Slider = ({ padding, children, isResponsive }: any) => {
   };
 
   return (
-    <ReactResizeDetector handleWidth {...{ onResize }}>
+    <WReactResizeDetector handleWidth {...{ onResize }}>
       <SliderContext.Provider value={contextValue}>
         <SliderWrapper padding={padding}>
           <div className="slider">
@@ -59,7 +61,7 @@ const Slider = ({ padding, children, isResponsive }: any) => {
           )}
         </SliderWrapper>
       </SliderContext.Provider>
-    </ReactResizeDetector>
+    </WReactResizeDetector>
   );
 };
 

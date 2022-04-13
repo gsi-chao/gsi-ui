@@ -1,4 +1,5 @@
 import { Card } from '@blueprintjs/core';
+import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import { FlexJustify, HeaderOrientation } from './types';
 
@@ -20,7 +21,7 @@ interface ICardPanelProps {
   heigthHeaderPx?: number;
 }
 
-export const VCard = styled(Card)`
+export const VCard = styled<PropsWithChildren<any>>(Card)`
     padding: 0!important;
     ${(props: ICardPanelProps) =>
       props.collapse === 'true'

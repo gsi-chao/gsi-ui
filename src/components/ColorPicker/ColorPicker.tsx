@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { Color, ColorResult } from 'react-color';
 import { Button, Intent, Popover } from '@blueprintjs/core';
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
@@ -6,6 +6,7 @@ import { TypePickerColor, VColorResult, VPosition } from './types';
 import color from 'color';
 import OutsideClickHandler from 'react-outside-click-handler';
 
+const WOutsideClickHandler: PropsWithChildren<any> = OutsideClickHandler;
 export interface IState {
   color: ColorResult | undefined;
   currentColor: any;
@@ -55,7 +56,7 @@ export const VColorPicker = (props: IProps) => {
     switch (props.typePickerColor) {
       case 'SketchPicker': {
         return (
-          <OutsideClickHandler onOutsideClick={onOutsideClick}>
+          <WOutsideClickHandler onOutsideClick={onOutsideClick}>
             <SketchPickerStyled
               color={state.currentColor}
               onChangeComplete={handleChange}
@@ -72,13 +73,13 @@ export const VColorPicker = (props: IProps) => {
                 intent={props.addButton.intent}
               />
             )}
-          </OutsideClickHandler>
+          </WOutsideClickHandler>
         );
       }
 
       case 'ChromePicker': {
         return (
-          <OutsideClickHandler onOutsideClick={onOutsideClick}>
+          <WOutsideClickHandler onOutsideClick={onOutsideClick}>
             <ChromePickerStyled
               color={state.currentColor}
               onChangeComplete={handleChange}
@@ -96,7 +97,7 @@ export const VColorPicker = (props: IProps) => {
                 intent={props.addButton.intent}
               />
             )}
-          </OutsideClickHandler>
+          </WOutsideClickHandler>
         );
       }
     }

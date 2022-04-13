@@ -3,15 +3,15 @@
 import { Button } from '@blueprintjs/core';
 import { find } from 'lodash';
 import { observer } from 'mobx-react';
-import React, { useEffect, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import {
-  DragDropContext,
-  Draggable,
+  DragDropContext as WDragDropContext,
+  Draggable as WDraggable,
+  Droppable as WDroppable,
   DraggableLocation,
   DraggableProvided,
   DraggableStateSnapshot,
   DragStart,
-  Droppable,
   DroppableProvided,
   DroppableStateSnapshot,
   DropResult,
@@ -46,6 +46,10 @@ const reorder = (
 
   return result;
 };
+
+const DragDropContext: PropsWithChildren<any> = WDragDropContext;
+const Draggable: PropsWithChildren<any> = WDraggable;
+const Droppable: PropsWithChildren<any> = WDroppable;
 
 /**
  * Moves an item from one list to another list.

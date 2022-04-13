@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import {
   Classes as CoreClasses,
   DISPLAYNAME_PREFIX,
   Keys,
-  Popover,
+  Popover as WPopover,
   Position,
   TagInput,
   TagInputAddMethod,
@@ -18,6 +18,8 @@ import {
   QueryList
 } from '@blueprintjs/select';
 import { invoke } from 'lodash';
+
+const Popover: PropsWithChildren<any> = WPopover;
 
 export interface IVMultiSelectProps<T> extends IMultiSelectProps<T> {
   resetOnClose?: boolean;

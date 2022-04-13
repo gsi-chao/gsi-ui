@@ -116,12 +116,12 @@ export const DraggableModalInner = memo(
     ]);
 
     const onDragWithID = useCallback(
-      args => dispatch({ id, type: 'drag', ...args }),
+      (args: any) => dispatch({ id, type: 'drag', ...args }),
       [dispatch, id]
     );
 
     const onResizeWithID = useCallback(
-      args => dispatch({ id, type: 'resize', ...args }),
+      (args: any) => dispatch({ id, type: 'resize', ...args }),
       [dispatch, id]
     );
 

@@ -86,7 +86,7 @@ export const SearchSelectItems = (props: IProps) => {
       return (
         <SelectItemCheckbox
           checked={props.selection.includes(value)}
-          onClick={e => {
+          onClick={(e: any) => {
             e.preventDefault();
             setActive(index);
             props.selectDeselectItem(option);
