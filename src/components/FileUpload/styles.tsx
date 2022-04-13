@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { PropsWithChildren } from 'react';
 import { Dialog } from '@blueprintjs/core';
 import { NoFocusMenu } from '../SelectionList/style';
 
@@ -8,7 +9,7 @@ export const OptionsMenu = styled(NoFocusMenu)`
   min-width: 50px;
 `;
 
-export const StyledDialog = styled(Dialog)`
+export const StyledDialog = styled<PropsWithChildren<any>>(Dialog)`
   height: 380px;
   width: 340px;
 `;
