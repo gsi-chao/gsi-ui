@@ -1,7 +1,43 @@
-import styled from 'styled-components';
 import { Dialog } from '@blueprintjs/core';
+import { PropsWithChildren } from 'react';
+import styled from 'styled-components';
 
-export const DialogDS = styled(Dialog)`
+export const DialogDS = styled<PropsWithChildren<any>>(Dialog)`
+  width: auto;
+  max-height: 100%;
+  overflow: hidden;
+  padding-bottom: 0;
+  margin: 0;
+  width: auto;
+  max-height: 100%;
+  overflow: hidden;
+  padding-bottom: 0;
+  margin: 0;
+  width: auto;
+  max-height: 100%;
+  overflow: hidden;
+  padding-bottom: 0;
+  margin: 0;
+  width: auto;
+  max-height: 100%;
+  overflow: hidden;
+  padding-bottom: 0;
+  margin: 0;
+  width: auto;
+  max-height: 100%;
+  overflow: hidden;
+  padding-bottom: 0;
+  margin: 0;
+  width: auto;
+  max-height: 100%;
+  overflow: hidden;
+  padding-bottom: 0;
+  margin: 0;
+  width: auto;
+  max-height: 100%;
+  overflow: hidden;
+  padding-bottom: 0;
+  margin: 0;
   width: auto;
   max-height: 100%;
   overflow: hidden;
@@ -63,7 +99,6 @@ export const RisizeContainer = styled.div`
     border-top: 0;
     border-left: 0;
   }
-
   & > .ant-design-draggable-modal-resize-handle {
     right: -10px;
     width: 44px;

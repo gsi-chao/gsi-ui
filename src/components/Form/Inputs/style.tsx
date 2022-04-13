@@ -1,9 +1,10 @@
-import styled from 'styled-components';
 import { FormGroup, Intent } from '@blueprintjs/core';
-import { ILayer } from './ILayer';
 import { DateInput } from '@blueprintjs/datetime';
+import { PropsWithChildren } from 'react';
 import MaskedInput from 'react-text-mask';
+import styled from 'styled-components';
 import { NoFocusMenu } from '../../SelectionList/style';
+import { ILayer } from './ILayer';
 
 export interface IStyledFieldProps {
   inline?: boolean;
@@ -31,7 +32,7 @@ export const layerInPercent = (layer: ILayer): any => {
   };
 };
 
-export const StyledFormGroup = styled(FormGroup)`
+export const StyledFormGroup = styled<PropsWithChildren<any>>(FormGroup)`
   margin: ${(props: IStyledFieldProps) =>
     props.margin ? `${props.margin} !important` : '0 0 15px'};
   ${(props: IStyledFieldProps) => {
@@ -114,7 +115,7 @@ export const StyledFormGroup = styled(FormGroup)`
 `;
   }}
 `;
-export const StyledInput = styled(StyledFormGroup)`
+export const StyledInput = styled<PropsWithChildren<any>>(StyledFormGroup)`
   .gsi-input-and-error-container {
     & span.tipLabel {
       background: white;
@@ -145,7 +146,9 @@ export const StyledSelect = styled(StyledFormGroup)`
   }
 `;
 
-export const StyledNumericInput = styled(StyledFormGroup)`
+export const StyledNumericInput = styled<PropsWithChildren<any>>(
+  StyledFormGroup
+)`
   .gsi-input-and-error-container {
     & span.tipLabel {
       background: white;
@@ -165,7 +168,7 @@ export const StyledNumericInput = styled(StyledFormGroup)`
   }
 `;
 
-export const StyledDatePicker = styled(StyledFormGroup)`
+export const StyledDatePicker = styled<PropsWithChildren<any>>(StyledFormGroup)`
   .gsi-input-and-error-container {
     & span.tipLabel {
       background: white;
@@ -179,7 +182,9 @@ export const StyledDatePicker = styled(StyledFormGroup)`
   }
 `;
 
-export const StyledCheckBoxInput = styled(StyledFormGroup)`
+export const StyledCheckBoxInput = styled<PropsWithChildren<any>>(
+  StyledFormGroup
+)`
   label.field-label {
     padding-left: ${(props: IStyledFieldProps) =>
       props.checkBoxAtLeft &&
@@ -194,10 +199,10 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
       & .bp3-control.bp3-checkbox,
       .bp3-inline.bp3-align-right {
         ${(props: IStyledFieldProps) =>
-          props.checkBoxAtLeft ? '' : `padding: 0!important;`};
-        width: 0 !important;
-        text-align: left;
-        margin-right: 0 !important;
+          props.checkBoxAtLeft ? '' : `padding: 0!important;`}
+        width: 0 !important
+        text-align: left
+        margin-right: 0 !important
         ${(props: IStyledFieldProps) => {
           const inputOrientation =
             props.layer && props.layer.inputOrientation === 'center'
@@ -206,7 +211,7 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
               ? 'flex-end'
               : 'flex-start';
           return `align-self: ${inputOrientation};`;
-        }};
+        }}
         & span.bp3-control-indicator {
           margin-left: ${(props: IStyledFieldProps) =>
             props.checkBoxAtLeft &&
@@ -221,7 +226,7 @@ export const StyledCheckBoxInput = styled(StyledFormGroup)`
   }
 `;
 
-export const StyledTagsInput = styled(StyledFormGroup)`
+export const StyledTagsInput = styled<PropsWithChildren<any>>(StyledFormGroup)`
   .gsi-input-and-error-container {
     & .bp3-input.bp3-tag-input {
       width: 100%;
@@ -229,7 +234,7 @@ export const StyledTagsInput = styled(StyledFormGroup)`
   }
 `;
 
-export const StyledDateRange = styled(StyledFormGroup)`
+export const StyledDateRange = styled<PropsWithChildren<any>>(StyledFormGroup)`
   .gsi-input-and-error-container {
     & span.tipLabel {
       background: white;
@@ -246,7 +251,7 @@ export const StyledDateRange = styled(StyledFormGroup)`
   }
 `;
 
-export const StyledTextArea = styled(StyledFormGroup)`
+export const StyledTextArea = styled<PropsWithChildren<any>>(StyledFormGroup)`
   .gsi-input-and-error-container {
     & textarea {
       resize: vertical;
@@ -257,20 +262,22 @@ export const StyledTextArea = styled(StyledFormGroup)`
   }
 `;
 
-export const StyledSlider = styled(StyledFormGroup)`
+export const StyledSlider = styled<PropsWithChildren<any>>(StyledFormGroup)`
   .gsi-input-and-error-container {
     padding-left: 9px !important;
     ${(props: IStyledFieldProps) =>
       props.fill
         ? `width: calc(100% - 21px)!important;`
-        : `max-width: 200px!important;`};
+        : `max-width: 200px!important;`}
     & .bp3-slider {
       width: 100%;
     }
   }
 `;
 
-export const StyledPopOverWrapper = styled(StyledFormGroup)`
+export const StyledPopOverWrapper = styled<PropsWithChildren<any>>(
+  StyledFormGroup
+)`
   .gsi-input-and-error-container {
     ${(props: IStyledFieldProps) =>
       props.fill ? `width: 100%!important;` : `max-width: 200px!important;`};
@@ -321,7 +328,9 @@ export const StyledPopOverWrapper = styled(StyledFormGroup)`
   }
 `;
 
-export const StyledRadioButton = styled(StyledFormGroup)`
+export const StyledRadioButton = styled<PropsWithChildren<any>>(
+  StyledFormGroup
+)`
   & .bp3-form-content {
     & label.field-label {
       & .gsi-form-field-container {
@@ -337,7 +346,7 @@ export const StyledRadioButton = styled(StyledFormGroup)`
                 ? 'flex-end'
                 : 'flex-start';
             return `justify-content: ${inputOrientation};`;
-          }};
+          }}
           & .bp3-control.bp3-radio.bp3-inline {
             padding: 0 26px !important;
             width: auto !important;
@@ -376,23 +385,19 @@ export const DateInputContainer = styled(DateInput)`
   .DayPicker-Day--today {
     background: rgba(187, 222, 251, 0.6);
   }
-
   .DayPicker-Day:hover {
     background: rgba(225, 245, 254, 0.8) !important;
     color: #182026 !important;
   }
-
   .DayPicker-Day.DayPicker-Day--disabled,
   .DayPicker-Day.DayPicker-Day--disabled.DayPicker-Day:hover {
     background: transparent !important;
     cursor: no-drop !important;
     color: #d2d5d8 !important;
   }
-
   .DayPicker-Day {
     margin: 1px !important;
   }
-
   @-moz-document url-prefix() {
     & .bp3-html-select.bp3-minimal select {
       font-size: 12px;
@@ -412,21 +417,19 @@ export const StyledMaskInput = styled(MaskedInput)`
   ${(props: IMaskedInput) =>
     props.intent && props.intent !== Intent.DANGER
       ? 'box-shadow: 0 0 0 0 rgba(19, 124, 189, 0), 0 0 0 0 rgba(19, 124, 189, 0),\n    inset 0 0 0 1px rgba(16, 22, 26, 0.15),\n    inset 0 1px 1px rgba(16, 22, 26, 0.2);'
-      : 'box-shadow: 0 0 0 0 rgba(219, 55, 55, 0), 0 0 0 0 rgba(219, 55, 55, 0), inset 0 0 0 1px #db3737, inset 0 0 0 1px rgba(16, 22, 26, 0.15), inset 0 1px 1px rgba(16, 22, 26, 0.2);'};
-
+      : 'box-shadow: 0 0 0 0 rgba(219, 55, 55, 0), 0 0 0 0 rgba(219, 55, 55, 0), inset 0 0 0 1px #db3737, inset 0 0 0 1px rgba(16, 22, 26, 0.15), inset 0 1px 1px rgba(16, 22, 26, 0.2);'}
   background: ${(props: IMaskedInput) =>
-    props.disabled ? 'rgba(206, 217, 224, 0.5)' : '#ffffff'};
-  box-shadow: ${(props: IMaskedInput) => props.disabled && 'none'};
-  cursor: ${(props: IMaskedInput) => props.disabled && 'not-allowed'};
-  height: 30px;
-  padding: 0 10px;
-  vertical-align: middle;
-  line-height: 30px;
-  color: #182026;
-  font-size: 14px;
+    props.disabled ? 'rgba(206, 217, 224, 0.5)' : '#ffffff'}
+  box-shadow: ${(props: IMaskedInput) => props.disabled && 'none'}
+  cursor: ${(props: IMaskedInput) => props.disabled && 'not-allowed'}
+  height: 30px
+  padding: 0 10px
+  vertical-align: middle
+  line-height: 30px
+  color: #182026
+  font-size: 14px
   font-weight: 400;
   transition: box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9);
-
   &:focus {
     box-shadow: 0 0 0 1px #137cbd, 0 0 0 3px rgba(19, 124, 189, 0.3),
       inset 0 1px 1px rgba(16, 22, 26, 0.2);
