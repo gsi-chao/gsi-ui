@@ -1,3 +1,18 @@
+# [1.3.0-beta.50](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.49...v1.3.0-beta.50) (2022-04-13)
+
+
+### Bug Fixes
+
+* **color:** add color dependendcy ([cb43cf4](https://github.com/gsi-chao/gsi-ui/commit/cb43cf409cbc8879e21c8bbed5636d9fd35ead10))
+* **compilation:** solve compilation problem ([c0e660a](https://github.com/gsi-chao/gsi-ui/commit/c0e660a68a8ceed05f97ba3c1c45e0af1a125bc6))
+* **compilation:** solve the compilation problem ([be9d460](https://github.com/gsi-chao/gsi-ui/commit/be9d46067b2c1794add040a8522546fd1a14384d))
+* **workflows:** change workflow action ([b790df3](https://github.com/gsi-chao/gsi-ui/commit/b790df3dfa23503d22c3f00e30437da948493c33))
+
+
+### Features
+
+* **typescript:** update typescript version ([583572b](https://github.com/gsi-chao/gsi-ui/commit/583572ba49a3a1c68dd489f6d19ac754b88b8622))
+
 # [1.3.0-beta.49](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.48...v1.3.0-beta.49) (2022-04-05)
 
 
