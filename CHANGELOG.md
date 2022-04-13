@@ -1,3 +1,10 @@
+# [1.3.0-beta.52](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.51...v1.3.0-beta.52) (2022-04-13)
+
+
+### Features
+
+* **react:** update react version to 16.14.0 ([382e333](https://github.com/gsi-chao/gsi-ui/commit/382e33373e479369aefe6befd79226c31dcd88b0))
+
 # [1.3.0-beta.51](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.50...v1.3.0-beta.51) (2022-04-13)
 
 
