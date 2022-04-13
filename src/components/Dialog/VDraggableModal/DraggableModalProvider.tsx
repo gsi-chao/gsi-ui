@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { PropsWithChildren, useEffect, useReducer } from 'react';
 import { DraggableModalContext } from './DraggableModalContext';
 import { getWindowSize } from './utils';
 import {
@@ -8,9 +8,7 @@ import {
 
 export const VDraggableModalProvider = ({
   children
-}: {
-  children: React.ReactNode;
-}): React.ReactElement => {
+}: PropsWithChildren<any>): React.ReactElement => {
   const [state, dispatch] = useReducer(
     draggableModalReducer,
     initialModalsState

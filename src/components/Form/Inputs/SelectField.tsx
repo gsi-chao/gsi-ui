@@ -22,7 +22,7 @@ import { FieldState } from 'formstate';
 import { orderBy, uniqueId } from 'lodash';
 import { action, computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { VSpinner } from '../../Spinner';
 import { Validators } from '../Validators';
 import { FormFieldContainer } from './FormFieldContainer';
@@ -70,7 +70,7 @@ interface IState {
   query: string | null;
 }
 
-const ItemSelect = Select.ofType<IItem>();
+const ItemSelect: PropsWithChildren<any> = Select.ofType<IItem>();
 
 const filterItem: ItemPredicate<IItem> = (query, item) => {
   return (

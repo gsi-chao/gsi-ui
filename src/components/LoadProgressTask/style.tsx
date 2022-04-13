@@ -19,4 +19,4 @@ export const SDialog = styled<PropsWithChildren<any>>(Dialog)`
   }
 `;
 
-export const SProgressBar = styled(ProgressBar)``;
+export const SProgressBar = styled<PropsWithChildren<any>>(ProgressBar)``;

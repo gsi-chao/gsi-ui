@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { Checkbox, Icon, InputGroup } from '@blueprintjs/core';
+import { Checkbox, Icon } from '@blueprintjs/core';
+import { PropsWithChildren } from 'react';
 
-export const SelectItemCheckbox = styled(Checkbox)`
+export const SelectItemCheckbox = styled<PropsWithChildren<any>>(Checkbox)`
   margin-bottom: 0;
 `;
 
@@ -38,7 +39,7 @@ export const FlexDiv = styled.div`
   }
 `;
 
-export const CarretIcon = styled(Icon)`
+export const CarretIcon = styled<PropsWithChildren<any>>(Icon)`
   background: transparent !important;
   cursor: ${(props: IFlexDiv) => (props.disabled ? 'not-allowed' : 'pointer')};
   margin: 5px 0 !important;

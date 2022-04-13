@@ -1,5 +1,5 @@
 import Pagination from 'rc-pagination';
-import React from 'react';
+import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 import 'rc-pagination/assets/index.css';
 import 'rc-select/assets/index.css';
@@ -8,7 +8,7 @@ import { IPagination } from './types';
 function getPosition(position: 'start' | 'center' | 'end') {
   return position !== 'center' ? `flex-${position}` : position;
 }
-export const PaginationStyled = styled(Pagination)`
+export const PaginationStyled = styled<PropsWithChildren<any>>(Pagination)`
   display: flex;
   justify-content: ${(props: IPagination) =>
     getPosition(props.position || 'center')};

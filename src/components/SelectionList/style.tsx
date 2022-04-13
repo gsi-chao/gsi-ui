@@ -1,4 +1,5 @@
 import { Menu, MenuItem } from '@blueprintjs/core';
+import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 export interface StyledMenuProps {
@@ -9,7 +10,7 @@ export interface StyledMenuProps {
   className?: string;
 }
 
-export const NoFocusMenu = styled(Menu)`
+export const NoFocusMenu = styled<PropsWithChildren<any>>(Menu)`
   & *:focus {
     outline: none !important;
     outline-offset: unset !important;
@@ -21,7 +22,7 @@ export interface StyledContainerProps {
   height?: string;
 }
 
-export const StyledMenuItem = styled(MenuItem)`
+export const StyledMenuItem = styled<PropsWithChildren<any>>(MenuItem)`
   ${(props: StyledMenuProps) => {
     const { active, background, color } = props;
     return active

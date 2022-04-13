@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Button, IconName, Tooltip } from '@blueprintjs/core';
+import React, { Component, PropsWithChildren } from 'react';
+import { Button, IconName, Tooltip as WTooltip } from '@blueprintjs/core';
 import { FieldState, FormState } from 'formstate';
 import {
   BodyContainer,
@@ -13,6 +13,8 @@ import { IItemsList } from '../SelectionList';
 import { VInputFieldWithSuggestions } from '../Form';
 import { getElementsEnumerated } from '../SelectionList/SelectionList';
 import { cloneDeep } from 'lodash';
+
+const Tooltip: PropsWithChildren<any> = WTooltip;
 
 type AssignedUnassignedItems = {
   itemsAssigned: IItemsList[];

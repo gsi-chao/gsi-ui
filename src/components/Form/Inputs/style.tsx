@@ -381,7 +381,7 @@ export const IconDate = styled('div')`
   right: 0;
 `;
 
-export const DateInputContainer = styled(DateInput)`
+export const DateInputContainer = styled<PropsWithChildren<any>>(DateInput)`
   .DayPicker-Day--today {
     background: rgba(187, 222, 251, 0.6);
   }

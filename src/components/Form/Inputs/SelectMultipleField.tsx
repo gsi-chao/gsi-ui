@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { get, orderBy } from 'lodash';
 /** Blueprint */
 import {
@@ -69,7 +69,7 @@ export interface IItemMultiple {
 
 const clearToken = `$empty#Option#first#item_unique_`;
 
-const ItemSelect = Select.ofType<IItemRenderer>();
+const ItemSelect: PropsWithChildren<any> = Select.ofType<IItemRenderer>();
 
 const filterItem: ItemPredicate<IItemRenderer> = (query, value) => {
   return (
@@ -378,7 +378,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
         <ItemSelect
           ref={ref}
           activeItem={activeItem}
-          onActiveItemChange={value => {
+          onActiveItemChange={(value: any) => {
             if (!changed.current) {
               if (selectedItem.current) {
                 setActiveItem({

@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { PropsWithChildren, useEffect, useRef } from 'react';
 import { cloneDeep, find, isArray, isNil, orderBy, remove } from 'lodash';
 import {
   Classes,
   InputGroup,
   Keys,
-  Popover,
   PopoverInteractionKind,
-  Tooltip
+  Popover as WPopover,
+  Tooltip as WTooltip
 } from '@blueprintjs/core';
 
 import { IItem } from '../../types';
@@ -15,6 +15,9 @@ import { SelectSelectionInfo } from './SelectSelectionInfo';
 import { observer, useLocalStore } from 'mobx-react';
 import { SearchSelectStore } from './SearchSelectStore';
 import { StyledUl } from './styled';
+
+const Tooltip: PropsWithChildren<any> = WTooltip;
+const Popover: PropsWithChildren<any> = WPopover;
 
 type OptionItem = IItem & { additionalSearchText?: string };
 

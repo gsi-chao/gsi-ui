@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { ITabsPanelProps, ITabsPanelState, ITabsPanelTypes } from './types';
 import { VTabPanel } from './TabPanel/TabPanel';
 import {
@@ -7,10 +7,12 @@ import {
   ContainerTabsPanel,
   TabsSpaceFiller
 } from './style';
-import { Alert } from '@blueprintjs/core';
+import { Alert as WAlert } from '@blueprintjs/core';
 import CarouselMultiple from '../Scroll/CarouselMultiple/VCarouselMultiple';
 import ItemSC from '../Scroll/CarouselMultiple/components/Item';
 import { find } from 'lodash';
+
+const Alert: PropsWithChildren<any> = WAlert;
 
 export const VTabsPanel = (props: ITabsPanelProps) => {
   const getContent = (key: any = props.tabList[0].key) => {

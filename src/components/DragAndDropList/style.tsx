@@ -1,3 +1,4 @@
+import { PropsWithChildren } from 'react';
 import styled, { css } from 'styled-components';
 import { VInputField } from '../Form';
 
@@ -24,7 +25,7 @@ export const DNDItemBody = styled.div<{ disabled?: boolean }>`
     `};
 `;
 
-export const DNDItem = styled.div<{ disabled?: boolean }>`
+export const DNDItem = styled.div<PropsWithChildren<any>>`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -101,7 +102,7 @@ export const StyledDNDList = styled.div`
   }
 `;
 
-export const FilterInput = styled(VInputField)`
+export const FilterInput = styled<PropsWithChildren<any>>(VInputField)`
   margin: 0 2px 2px !important;
 `;
 

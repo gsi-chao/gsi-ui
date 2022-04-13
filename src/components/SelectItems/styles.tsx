@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { VSelectionList } from '../SelectionList';
 import { Button } from '@blueprintjs/core';
 import { Scrollbar } from 'react-scrollbars-custom';
+import { PropsWithChildren } from 'react';
 
 export interface IColStyled {
   flex: number;
@@ -69,17 +70,19 @@ export const CentralFlexCol = styled(FlexCol)`
   }
 `;
 
-export const VSelectionListStyled = styled(VSelectionList)`
+export const VSelectionListStyled = styled<PropsWithChildren<any>>(
+  VSelectionList
+)`
   margin-bottom: 10px;
   height: ${(props: ISelectionListProps) =>
     props.height ? props.height : '241px'};
 `;
 
-export const SelectAllButtons = styled(Button)`
+export const SelectAllButtons = styled<PropsWithChildren<any>>(Button)`
   width: 100%;
 `;
 
-export const StyledScroll = styled(Scrollbar)`
+export const StyledScroll = styled<PropsWithChildren<any>>(Scrollbar)`
   box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.15), 0 0 0 rgba(16, 22, 26, 0),
     0 0 0 rgba(16, 22, 26, 0);
   border-radius: 3px;
