@@ -1,3 +1,10 @@
+# [1.3.0-beta.53](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.52...v1.3.0-beta.53) (2022-04-14)
+
+
+### Bug Fixes
+
+* **inline:** solved problem inline in FormControl ([4c693cb](https://github.com/gsi-chao/gsi-ui/commit/4c693cbc892737aa189cfa5408c426c45f6f2072))
+
 # [1.3.0-beta.52](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.51...v1.3.0-beta.52) (2022-04-13)
 
 
