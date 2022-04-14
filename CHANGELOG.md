@@ -1,3 +1,10 @@
+# [1.3.0-beta.54](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.53...v1.3.0-beta.54) (2022-04-14)
+
+
+### Bug Fixes
+
+* **vmaskinput:** solved problem in vmaskinput styled ([79d0e4c](https://github.com/gsi-chao/gsi-ui/commit/79d0e4ca51ce2e3a8b155dfa596f385f2105b29c))
+
 # [1.3.0-beta.53](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.52...v1.3.0-beta.53) (2022-04-14)
 
 
