@@ -65,8 +65,8 @@ export const StyledFormGroup = styled<PropsWithChildren<any>>(FormGroup)`
               inline
                 ? `row${checkBoxAtLeft ? `-reverse` : ''};
             align-content: center;`
-                : 'column;'
-            }
+                : 'column'
+            };
             ${
               containerWidth
                 ? `width: ${containerWidth}%!important;`
@@ -416,18 +416,18 @@ export const StyledMaskInput = styled(MaskedInput)`
   border-radius: 3px;
   ${(props: IMaskedInput) =>
     props.intent && props.intent !== Intent.DANGER
-      ? 'box-shadow: 0 0 0 0 rgba(19, 124, 189, 0), 0 0 0 0 rgba(19, 124, 189, 0),\n    inset 0 0 0 1px rgba(16, 22, 26, 0.15),\n    inset 0 1px 1px rgba(16, 22, 26, 0.2);'
+      ? 'box-shadow: 0 0 0 0 rgba(19, 124, 189, 0), 0 0 0 0 rgba(19, 124, 189, 0), inset 0 0 0 1px rgba(16, 22, 26, 0.15), inset 0 1px 1px rgba(16, 22, 26, 0.2);'
       : 'box-shadow: 0 0 0 0 rgba(219, 55, 55, 0), 0 0 0 0 rgba(219, 55, 55, 0), inset 0 0 0 1px #db3737, inset 0 0 0 1px rgba(16, 22, 26, 0.15), inset 0 1px 1px rgba(16, 22, 26, 0.2);'}
   background: ${(props: IMaskedInput) =>
-    props.disabled ? 'rgba(206, 217, 224, 0.5)' : '#ffffff'}
-  box-shadow: ${(props: IMaskedInput) => props.disabled && 'none'}
-  cursor: ${(props: IMaskedInput) => props.disabled && 'not-allowed'}
-  height: 30px
-  padding: 0 10px
-  vertical-align: middle
-  line-height: 30px
-  color: #182026
-  font-size: 14px
+    props.disabled ? 'rgba(206, 217, 224, 0.5)' : '#ffffff'};
+  box-shadow: ${(props: IMaskedInput) => props.disabled && 'none'};
+  cursor: ${(props: IMaskedInput) => props.disabled && 'not-allowed'};
+  height: 30px;
+  padding: 0 10px;
+  vertical-align: middle;
+  line-height: 30px;
+  color: #182026;
+  font-size: 14px;
   font-weight: 400;
   transition: box-shadow 100ms cubic-bezier(0.4, 1, 0.75, 0.9);
   &:focus {
