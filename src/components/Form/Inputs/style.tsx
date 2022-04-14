@@ -65,7 +65,7 @@ export const StyledFormGroup = styled<PropsWithChildren<any>>(FormGroup)`
               inline
                 ? `row${checkBoxAtLeft ? `-reverse` : ''};
             align-content: center;`
-                : 'column'
+                : 'column;'
             }
             ${
               containerWidth
