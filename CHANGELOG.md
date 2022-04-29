@@ -1,3 +1,10 @@
+# [1.3.0-beta.55](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.54...v1.3.0-beta.55) (2022-04-29)
+
+
+### Bug Fixes
+
+* **datetimepicker:** don't display an invalid date when the value is not a valid date ([4e504b0](https://github.com/gsi-chao/gsi-ui/commit/4e504b0a29e09340ff0fb6c813cfb57c2c09fa1f))
+
 # [1.3.0-beta.54](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.53...v1.3.0-beta.54) (2022-04-14)
 
 
