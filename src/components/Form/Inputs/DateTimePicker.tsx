@@ -186,11 +186,15 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     }
 
     if (fieldState) {
-      setValueField(fieldState.value);
+      setValueField(
+        moment(fieldState.value).isValid()
+          ? moment(fieldState.value).toDate()
+          : null
+      );
       return;
     }
     if (value) {
-      setValueField(value);
+      setValueField(moment(value).isValid() ? moment(value).toDate() : null);
       return;
     }
   };
