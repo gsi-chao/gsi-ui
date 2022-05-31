@@ -1,3 +1,10 @@
+# [1.3.0-beta.57](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.56...v1.3.0-beta.57) (2022-05-31)
+
+
+### Bug Fixes
+
+* **selectmultitags:** fixes issue to make items select on first time ([26d6543](https://github.com/gsi-chao/gsi-ui/commit/26d6543d1a2ce9b074101ec618faeeb4cb479546))
+
 # [1.3.0-beta.56](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.55...v1.3.0-beta.56) (2022-05-31)
 
 
