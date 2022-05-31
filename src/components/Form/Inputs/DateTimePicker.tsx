@@ -215,7 +215,7 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
     };
   };
 
-  const changedDate = (date: any) => {
+  const changeDate = (date: any) => {
     if (
       moment(date, format || dFormat()[dateType]).isValid() ||
       date === null
@@ -226,6 +226,20 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
       if (onChange) {
         onChange(date);
       }
+    }
+  };
+
+  const changedDate = (date: any) => {
+    if (!!closeOnSelection || props.dateType === 'TIME') {
+      changeDate(date);
+    } else {
+      setValueField(date);
+    }
+  };
+
+  const onClosed = () => {
+    if (!closeOnSelection && !closeOnSelection !== undefined) {
+      changeDate(valueField);
     }
   };
 
@@ -305,7 +319,8 @@ export const VDateTimePicker = observer((props: IInputFieldProps) => {
                 shouldReturnFocusOnClose: false,
                 captureDismiss: true,
                 minimal: true,
-                ...popoverProps
+                ...popoverProps,
+                onClosed
               }}
               maxDate={maxTimeCalculate}
               onChange={changedDate}
