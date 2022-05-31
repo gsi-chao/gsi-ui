@@ -1,3 +1,10 @@
+# [1.3.0-beta.56](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.55...v1.3.0-beta.56) (2022-05-31)
+
+
+### Features
+
+* **datetimepicker:** fixed issue with closing selection and on change value ([2d35b9b](https://github.com/gsi-chao/gsi-ui/commit/2d35b9bf05e323f86dea50673388e7347edc6ec3))
+
 # [1.3.0-beta.55](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.54...v1.3.0-beta.55) (2022-04-29)
 
 
