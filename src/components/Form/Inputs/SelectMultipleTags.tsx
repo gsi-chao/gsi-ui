@@ -123,7 +123,9 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
   };
 
   const getSelectedItemIndex = (item: IItemMultiple) => {
-    return itemsSelected.indexOf(item);
+    return itemsSelected.findIndex(
+      element => JSON.stringify(element) === JSON.stringify(item)
+    );
   };
 
   const isItemSelected = (item: IItemMultiple) => {
