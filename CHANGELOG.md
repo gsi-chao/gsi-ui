@@ -1,3 +1,10 @@
+# [1.3.0-beta.58](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.57...v1.3.0-beta.58) (2022-05-31)
+
+
+### Bug Fixes
+
+* **selectmultipletags:** select the items also when the options change ([028d0a3](https://github.com/gsi-chao/gsi-ui/commit/028d0a309647fef150b62834337de5be0bb5b217))
+
 # [1.3.0-beta.57](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.56...v1.3.0-beta.57) (2022-05-31)
 
 
