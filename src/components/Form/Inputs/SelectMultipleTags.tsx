@@ -65,7 +65,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
   } = props;
 
   useEffect(() => {
-    const newValue = fieldState?.$?.value ?? value ?? [];
+    const newValue = fieldState?.value ?? value ?? [];
     if (newValue.length !== itemsSelected.length) {
       setItemsSelected(
         options.filter(item => newValue.some((el: any) => el === item.value))
@@ -85,7 +85,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
         }
       }
     }
-  }, [fieldState && fieldState.$.value, value]);
+  }, [fieldState && fieldState?.value, value, options]);
 
   const areItemsEqual = (
     itemA: IItemMultiple,
