@@ -68,7 +68,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
     const newValue = fieldState?.value ?? value ?? [];
     if (newValue.length !== itemsSelected.length) {
       setItemsSelected(
-        options.filter(item => newValue.some((el: any) => el === item.value))
+        options.filter(item => newValue?.some((el: any) => el === item.value))
       );
     } else {
       if (newValue.length > 0) {
