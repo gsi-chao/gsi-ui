@@ -14,7 +14,7 @@ import { FormFieldContainer } from './FormFieldContainer';
 import { StyledPopOverWrapper } from './style';
 import { observer } from 'mobx-react';
 import { VMultiSelect } from './VMultiSelect';
-import { orderBy } from 'lodash';
+import { isArray, orderBy } from 'lodash';
 
 const MultiSelectTag = VMultiSelect.ofType<IItemMultiple>();
 
@@ -65,14 +65,16 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
   } = props;
 
   useEffect(() => {
-    const newValue = fieldState?.value ?? value ?? [];
+    const tValue = fieldState?.value ?? value ?? [];
+    const newValue = isArray(tValue) ? tValue : [];
+
     if (newValue.length !== itemsSelected.length) {
       setItemsSelected(
-        options.filter(item => newValue?.some((el: any) => el === item.value))
+        options.filter(item => newValue.some((el: any) => el === item.value))
       );
     } else {
       if (newValue.length > 0) {
-        const founded = newValue.some(
+        const founded = newValue?.some(
           (item: any, index: number) =>
             itemsSelected.length > index && item !== itemsSelected[index].value
         );
