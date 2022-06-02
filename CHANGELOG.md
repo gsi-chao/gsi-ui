@@ -1,3 +1,10 @@
+# [1.3.0-beta.60](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.59...v1.3.0-beta.60) (2022-06-02)
+
+
+### Bug Fixes
+
+* **selectmultipletags:** validate when input is an empty string ([332328c](https://github.com/gsi-chao/gsi-ui/commit/332328cf2682e071a5fa49a952c7eb3eed02a390))
+
 # [1.3.0-beta.59](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.58...v1.3.0-beta.59) (2022-05-31)
 
 
