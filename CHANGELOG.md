@@ -1,3 +1,10 @@
+# [1.3.0-beta.61](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.60...v1.3.0-beta.61) (2022-06-02)
+
+
+### Bug Fixes
+
+* **multitags:** check that the input is always an array ([4db15fc](https://github.com/gsi-chao/gsi-ui/commit/4db15fcbbdbaadc8b6a82b20910bbc062f14358c))
+
 # [1.3.0-beta.60](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.59...v1.3.0-beta.60) (2022-06-02)
 
 
