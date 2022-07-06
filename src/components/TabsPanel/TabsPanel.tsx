@@ -205,7 +205,8 @@ const getStyle = (active: boolean) => {
     ? {
         width: `100%`,
         height: `100%`,
-        visibility: `visible`
+        visibility: `visible`,
+        display: 'block'
       }
     : {
         width: `0%`,
@@ -213,6 +214,7 @@ const getStyle = (active: boolean) => {
         visibility: `hidden`,
         position: 'absolute',
         left: '-1000000',
-        top: '-1000000'
+        top: '-1000000',
+        display: 'none'
       };
 };
