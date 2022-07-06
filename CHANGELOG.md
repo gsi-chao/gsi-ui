@@ -1,3 +1,10 @@
+# [1.3.0-beta.62](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.61...v1.3.0-beta.62) (2022-07-06)
+
+
+### Bug Fixes
+
+* **tabs-pane:** include display: none to all mounted tabs not visible ([32ea370](https://github.com/gsi-chao/gsi-ui/commit/32ea370abe97be0ac95fff2716889f465a1a356e))
+
 # [1.3.0-beta.61](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.60...v1.3.0-beta.61) (2022-06-02)
 
 
