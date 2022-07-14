@@ -15,6 +15,7 @@ import { StyledPopOverWrapper } from './style';
 import { observer } from 'mobx-react';
 import { VMultiSelect } from './VMultiSelect';
 import { isArray, orderBy } from 'lodash';
+import { Validators } from '../Validators';
 
 const MultiSelectTag = VMultiSelect.ofType<IItemMultiple>();
 
@@ -61,8 +62,23 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
     tooltip,
     placeholder,
     displayRequired,
-    value
+    value,
+    validators
   } = props;
+
+  useEffect(() => {
+    if (fieldState) {
+      if (required) {
+        if (validators && validators.length > 0) {
+          fieldState.validators(Validators.required, ...validators);
+        } else {
+          fieldState.validators(Validators.required);
+        }
+      } else if (validators && validators.length > 0) {
+        fieldState.validators(...validators);
+      }
+    }
+  }, [fieldState, validators, required]);
 
   useEffect(() => {
     const tValue = fieldState?.value ?? value ?? [];
