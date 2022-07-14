@@ -1,3 +1,10 @@
+# [1.3.0-beta.63](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.62...v1.3.0-beta.63) (2022-07-14)
+
+
+### Bug Fixes
+
+* **selectmultipletags:** add validation capability on SelectMultipleTags ([1f8a2bd](https://github.com/gsi-chao/gsi-ui/commit/1f8a2bda171a66f3425782f9d94905cd44b1a096))
+
 # [1.3.0-beta.62](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.61...v1.3.0-beta.62) (2022-07-06)
 
 
