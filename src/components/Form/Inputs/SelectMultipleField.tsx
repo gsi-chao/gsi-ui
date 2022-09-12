@@ -8,7 +8,8 @@ import {
   IconName,
   Intent,
   MenuDivider,
-  MenuItem
+  MenuItem,
+  IPopoverProps
 } from '@blueprintjs/core';
 /** FieldState */
 import {
@@ -49,6 +50,7 @@ export interface ISelectFieldProps extends IFieldProps {
   allowEmptyItem?: boolean;
   allowOrder?: boolean;
   orderDirection?: 'asc' | 'desc';
+  popoverProps?: IPopoverProps;
 }
 
 /**
@@ -304,7 +306,8 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
     tipLabel,
     tooltip,
     displayRequired,
-    popoverMinimal
+    popoverMinimal,
+    popoverProps
   } = props;
 
   if (fieldState) {
@@ -410,7 +413,8 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
               keepTogether: { enabled: true },
               preventOverflow: { enabled: true }
             },
-            shouldReturnFocusOnClose: false
+            shouldReturnFocusOnClose: false,
+            ...popoverProps
           }}
           itemPredicate={filterItem}
           itemRenderer={renderItem}
