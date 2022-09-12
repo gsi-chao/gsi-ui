@@ -1,3 +1,10 @@
+# [1.3.0-beta.64](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.63...v1.3.0-beta.64) (2022-09-12)
+
+
+### Features
+
+* **selectmultiplefied:** add popoverProps to SelectMultipleField ([c23583e](https://github.com/gsi-chao/gsi-ui/commit/c23583e339df67120a5b6e760d17c7674e38cfea))
+
 # [1.3.0-beta.63](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.62...v1.3.0-beta.63) (2022-07-14)
 
 
