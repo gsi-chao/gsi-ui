@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { Color, ColorResult } from 'react-color';
-import { Button, Intent, Popover } from '@blueprintjs/core';
+import { Button, Intent, IRef } from '@blueprintjs/core';
+import { Popover2 } from '@blueprintjs/popover2';
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
 import { TypePickerColor, VColorResult, VPosition } from './types';
 import color from 'color';
@@ -25,7 +26,7 @@ export interface IProps {
     intent: Intent;
   };
   disableAlpha?: boolean;
-  boundary?: 'scrollParent' | 'viewport' | 'window';
+  boundary?: 'document' | 'viewport';
 }
 
 export const VColorPicker = (props: IProps) => {
@@ -128,6 +129,18 @@ export const VColorPicker = (props: IProps) => {
     setIsOpen(!isOpen);
   };
 
+  const renderTarget = ({ ref: tooltipRef, isOpen, ...tooltipProps }: any) => (
+    <InputColor
+      elementRef={tooltipRef as IRef<HTMLButtonElement>}
+      className="gsi-input-color"
+      width={props.width}
+      height={props.height}
+      defaultColor={state.currentColor}
+      onClick={waitForHandleClick}
+      {...tooltipProps}
+    />
+  );
+
   return (
     <div className={'gsi-color-picker'}>
       {props.disable ? (
@@ -138,7 +151,8 @@ export const VColorPicker = (props: IProps) => {
           disable
         />
       ) : (
-        <Popover
+        <Popover2
+          {...{ renderTarget }}
           content={getPickerColor()}
           canEscapeKeyClose={false}
           isOpen={isOpen}
@@ -148,17 +162,8 @@ export const VColorPicker = (props: IProps) => {
           enforceFocus
           usePortal={true}
           ref={pickerRef}
-          target={
-            <InputColor
-              className="gsi-input-color"
-              width={props.width}
-              height={props.height}
-              defaultColor={state.currentColor}
-              onClick={waitForHandleClick}
-            />
-          }
-          position={props.position ? props.position : 'right'}
-          boundary={props.boundary ? props.boundary : 'scrollParent'}
+          position={props?.position ?? 'right'}
+          rootBoundary={props?.boundary ?? 'viewport'}
           modifiers={{
             preventOverflow: {
               enabled: true

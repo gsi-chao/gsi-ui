@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, IconName } from '@blueprintjs/core';
 import { MaybeElement } from '@blueprintjs/core/src/common/props';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../commons/constants';
 
 interface ISettingEmptyData {
   textSize?: number;
@@ -96,7 +97,7 @@ export const EmptyData = (props: IEmptyData) => {
           {renderIcon}
           <p
             style={{ color, fontSize: textSize, fontWeight: 400, width: 100 }}
-            className="bp3-heading"
+            className={`${BLUEPRINTJS_CLASS_PREFIX}-heading`}
           >
             {text}
           </p>

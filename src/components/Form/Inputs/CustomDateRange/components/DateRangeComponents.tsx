@@ -1,22 +1,17 @@
-import React, { PropsWithChildren, useRef, useState } from 'react';
-import {
-  Boundary,
-  Popover as WPopover,
-  PopoverInteractionKind,
-  Position
-} from '@blueprintjs/core';
-import { IDateRange } from '../type/IDateRange';
-import { DateRangeDateTimeSection } from './DateRangeDateTimeSection';
-import { DateRangeInputSection } from './DateRangeInputSection';
-import { DEFAULT_FORMAT } from '../type/ITypes';
-import { DateRangeTimeSection } from './DateRangeTimeSection';
-import { DateRangeTimeSectionWrapper } from '../styled/styles';
-import { DateRangeUtils } from '../utils/DateRangeUtils';
-import { DateRange, DateRangeShortcut } from '@blueprintjs/datetime';
+import React, { useRef, useState } from 'react';
 import moment from 'moment';
+import { Boundary, PopoverInteractionKind, Position } from '@blueprintjs/core';
+import { DateRange, DateRangeShortcut } from '@blueprintjs/datetime';
 import { useClickAway } from 'react-use';
 
-const Popover: PropsWithChildren<any> = WPopover;
+import { Popover } from '../../../../commons/constants';
+import { DateRangeTimeSectionWrapper } from '../styled/styles';
+import { IDateRange } from '../type/IDateRange';
+import { DEFAULT_FORMAT } from '../type/ITypes';
+import { DateRangeUtils } from '../utils/DateRangeUtils';
+import { DateRangeDateTimeSection } from './DateRangeDateTimeSection';
+import { DateRangeInputSection } from './DateRangeInputSection';
+import { DateRangeTimeSection } from './DateRangeTimeSection';
 
 export const DateRangeComponents = (props: IDateRange) => {
   const {

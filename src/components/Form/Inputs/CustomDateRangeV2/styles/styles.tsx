@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { DateRangeInput } from '@blueprintjs/datetime';
 import { PropsWithChildren } from 'react';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../../../../commons/constants';
 
 interface IStyledDateRangeProps {
   isUserDefined?: boolean;
 }
 
 export const StyledDateRange = styled<PropsWithChildren<any>>(DateRangeInput)`
-  & ul.bp3-daterangepicker-shortcuts {
+  & ul.${BLUEPRINTJS_CLASS_PREFIX}-daterangepicker-shortcuts {
     & li {
       ${(props: IStyledDateRangeProps) =>
         props.isUserDefined &&

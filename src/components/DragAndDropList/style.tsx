@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
 import styled, { css } from 'styled-components';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../commons/constants';
 import { VInputField } from '../Form';
 
 interface IDNDContainer {
@@ -89,7 +90,7 @@ export const StyledCustomDraggableItem = styled.div`
     padding-bottom: 2px;
     display: flex;
     align-items: flex-end;
-    & > .bp3-button {
+    & > .${BLUEPRINTJS_CLASS_PREFIX}-button {
       margin-right: 1px;
     }
   }

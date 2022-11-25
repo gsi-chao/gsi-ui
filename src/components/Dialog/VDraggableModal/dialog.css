@@ -2,14 +2,14 @@
   overflow: hidden !important;
 }
 
-.gsi-draggable-modal .bp3-dialog {
+.gsi-draggable-modal .bp4-dialog {
   display: flex;
   max-width: none;
   -webkit-transform-origin: 50% 50% !important;
   transform-origin: 50% 50% !important;
   width: auto;
 }
-.gsi-draggable-modal .bp3-dialog-container {
+.gsi-draggable-modal .bp4-dialog-container {
   position: fixed;
   top: 0;
   right: 0;

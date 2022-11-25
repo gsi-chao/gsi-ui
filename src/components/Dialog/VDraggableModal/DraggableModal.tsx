@@ -5,22 +5,23 @@ import { DraggableModalContext } from './DraggableModalContext';
 import { DraggableModalInner } from './DraggableModalInner';
 import { getModalState } from './draggableModalReducer';
 import { StyledCardProps } from '../../Card/VCardPanel';
-import { IDialogProps } from '@blueprintjs/core';
+import { DialogProps } from '@blueprintjs/core';
 import { getNumberMatch } from './utils';
 
 // todo add props
-export interface DraggableModalProps extends StyledCardProps, IDialogProps {
-  isOpen: boolean;
-  onSave?: () => void;
-  onCancel?: () => void;
-  buttonsEndComponent?: any;
-  isSaving?: boolean;
-  disabled?: boolean;
-  enableDrag?: boolean;
-  hideEndContainer?: boolean;
-  top?: string;
-  left?: string;
-}
+export type DraggableModalProps = StyledCardProps &
+  DialogProps & {
+    isOpen: boolean;
+    onSave?: () => void;
+    onCancel?: () => void;
+    buttonsEndComponent?: any;
+    isSaving?: boolean;
+    disabled?: boolean;
+    enableDrag?: boolean;
+    hideEndContainer?: boolean;
+    top?: string;
+    left?: string;
+  };
 
 export const VDraggableModal = (
   props: DraggableModalProps

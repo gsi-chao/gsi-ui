@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 export interface IFormFieldContainerProps {
@@ -25,10 +25,6 @@ export const RequiredSpan = styled.span`
 export class FormFieldContainer extends React.Component<
   IFormFieldContainerProps
 > {
-  constructor(props: IFormFieldContainerProps) {
-    super(props);
-  }
-
   render() {
     const {
       label,
@@ -36,7 +32,6 @@ export class FormFieldContainer extends React.Component<
       fieldState,
       required,
       noLabel,
-      value,
       tooltip
     } = this.props;
     return (

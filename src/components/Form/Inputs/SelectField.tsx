@@ -23,6 +23,7 @@ import { orderBy, uniqueId } from 'lodash';
 import { action, computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React, { PropsWithChildren } from 'react';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../../commons/constants';
 import { VSpinner } from '../../Spinner';
 import { Validators } from '../Validators';
 import { FormFieldContainer } from './FormFieldContainer';
@@ -400,7 +401,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
             {iconOnly ? (
               <ButtonGroup>
                 <Button
-                  className={minimal ? 'bp3-minimal' : ''}
+                  className={minimal ? `${BLUEPRINTJS_CLASS_PREFIX}-minimal` : ''}
                   style={{
                     justifyContent: 'center',
                     color: this.props.color && this.props.color
@@ -420,7 +421,7 @@ export class VSelectField extends React.Component<ISelectFieldProps, IState> {
                 onMouseLeave={() => {
                   this.showClear = false;
                 }}
-                className={minimal ? 'bp3-minimal' : ''}
+                className={minimal ? `${BLUEPRINTJS_CLASS_PREFIX}-minimal` : ''}
                 {...{
                   icon,
                   disabled

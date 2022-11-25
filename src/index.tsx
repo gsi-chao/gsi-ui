@@ -1,11 +1,15 @@
+import React from 'react';
+import { observer } from 'mobx-react';
+import { createRoot } from 'react-dom/client';
 import '@blueprintjs/core/lib/css/blueprint.css';
 import '@blueprintjs/datetime/lib/css/blueprint-datetime.css';
-import { observer } from 'mobx-react';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import '@blueprintjs/popover2/lib/css/blueprint-popover2.css';
+import {TestMultipleTags} from './docs/TestMultipleTags';
 
 const TestComponent = observer(() => {
-  return <>Test Component!!!</>;
+  return <TestMultipleTags />; //<>Test Component!!!</>
 });
 
-ReactDOM.render(<TestComponent />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(<TestComponent />);

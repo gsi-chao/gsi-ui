@@ -1,14 +1,10 @@
-import React, { useEffect, useRef, useState, PropsWithChildren } from 'react';
-import {
-  AnchorButton,
-  MenuItem,
-  Position,
-  Popover as WPopover
-} from '@blueprintjs/core';
-import ConfirmAndEditFile from './ConfirmAndEditFile';
-import { OptionsMenu } from './styles';
+import React, { useEffect, useRef, useState } from 'react';
+import { AnchorButton, MenuItem, Position } from '@blueprintjs/core';
 
-const Popover: PropsWithChildren<any> = WPopover;
+import { Popover } from '../commons/constants';
+import { OptionsMenu } from './styles';
+import ConfirmAndEditFile from './ConfirmAndEditFile';
+
 export interface FileUploadProps {
   handleFileUpload?: any;
   handleFileDelete?: any;

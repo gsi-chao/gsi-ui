@@ -4,20 +4,18 @@ import {
   HTMLInputProps,
   IconName,
   Intent,
-  ITagProps,
-  MenuItem
+  MenuItem,
+  TagProps
 } from '@blueprintjs/core';
-import { ItemPredicate, ItemRenderer } from '@blueprintjs/select';
+import { MultiSelect2, ItemPredicate, ItemRenderer } from '@blueprintjs/select';
+
 import { IFieldProps } from './IFieldProps';
 import { IItemMultiple } from './SelectMultipleField';
 import { FormFieldContainer } from './FormFieldContainer';
 import { StyledPopOverWrapper } from './style';
 import { observer } from 'mobx-react';
-import { VMultiSelect } from './VMultiSelect';
 import { isArray, orderBy } from 'lodash';
 import { Validators } from '../Validators';
-
-const MultiSelectTag = VMultiSelect.ofType<IItemMultiple>();
 
 export interface ISelectMultipleTags extends IFieldProps {
   filterable?: boolean;
@@ -28,7 +26,7 @@ export interface ISelectMultipleTags extends IFieldProps {
   defaultText?: string;
   fixedInputWidthPx?: number;
   iconOnly?: boolean;
-  tagProps?: ITagProps | ((value: React.ReactNode, index: number) => ITagProps);
+  tagProps?: TagProps | ((value: React.ReactNode, index: number) => TagProps);
   inputRef?: (input: HTMLInputElement | null) => void;
   inputProps?: HTMLInputProps;
   resetOnClose?: boolean;
@@ -241,7 +239,7 @@ export const VSelectMultipleTags = observer((props: ISelectMultipleTags) => {
         fieldState={fieldState}
         tooltip={tooltip}
       >
-        <MultiSelectTag
+        <MultiSelect2
           activeItem={activeItem}
           onActiveItemChange={item => {
             if (!changed.current) {

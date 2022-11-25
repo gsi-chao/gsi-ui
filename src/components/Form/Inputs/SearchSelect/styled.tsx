@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import { Checkbox, Icon } from '@blueprintjs/core';
 import { PropsWithChildren } from 'react';
 
+import { BLUEPRINTJS_CLASS_PREFIX } from '../../../commons/constants';
+
 export const SelectItemCheckbox = styled<PropsWithChildren<any>>(Checkbox)`
   margin-bottom: 0;
 `;
@@ -53,4 +55,10 @@ export const StyledUl = styled.ul`
   padding-inline-start: 18px;
   margin-block-start: 2px;
   margin-block-end: 2px;
+`;
+
+export const StyledSearchSelect = styled.div`
+  & > .${BLUEPRINTJS_CLASS_PREFIX}-popover2-target {
+    width: 100% !important;
+  }
 `;

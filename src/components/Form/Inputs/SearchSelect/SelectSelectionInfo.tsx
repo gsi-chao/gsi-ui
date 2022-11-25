@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { CarretIcon, FlexDiv } from './styled';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../../../commons/constants';
 
 interface IProps {
   count: number;
@@ -14,7 +15,9 @@ export const SelectSelectionInfo = (props: IProps) => {
     if (props.count > 0) {
       return (
         <FlexDiv disabled={props.disabled}>
-          <span className={'bp3-tag  bp3-minimal gsi-selection-info'}>
+          <span
+            className={`${BLUEPRINTJS_CLASS_PREFIX}-tag  ${BLUEPRINTJS_CLASS_PREFIX}-minimal gsi-selection-info`}
+          >
             {`${props.count} Selected`}{' '}
             <span
               className={'gsi-selection-info gsi-selection-info-deselect'}
@@ -24,7 +27,7 @@ export const SelectSelectionInfo = (props: IProps) => {
           </span>
           <CarretIcon
             disabled={props.disabled}
-            className={'bp3-tag  bp3-minimal gsi-selection-caret'}
+            className={`${BLUEPRINTJS_CLASS_PREFIX}-tag  ${BLUEPRINTJS_CLASS_PREFIX}-minimal gsi-selection-caret`}
             icon={'chevron-down'}
           />
         </FlexDiv>
@@ -33,15 +36,13 @@ export const SelectSelectionInfo = (props: IProps) => {
     return props.multi ? (
       <FlexDiv disabled={props.disabled}>
         <span
-          className={
-            'bp3-tag  bp3-minimal gsi-selection-info gsi-selection-info-no-selection'
-          }
+          className={`${BLUEPRINTJS_CLASS_PREFIX}-tag  ${BLUEPRINTJS_CLASS_PREFIX}-minimal gsi-selection-info gsi-selection-info-no-selection`}
         >
           No Selection
         </span>
         <CarretIcon
           disabled={props.disabled}
-          className={'bp3-tag  bp3-minimal gsi-selection-caret'}
+          className={`${BLUEPRINTJS_CLASS_PREFIX}-tag  ${BLUEPRINTJS_CLASS_PREFIX}-minimal gsi-selection-caret`}
           icon={'chevron-down'}
         />
       </FlexDiv>
@@ -49,7 +50,7 @@ export const SelectSelectionInfo = (props: IProps) => {
       <FlexDiv disabled={props.disabled}>
         <CarretIcon
           disabled={props.disabled}
-          className={'bp3-tag  bp3-minimal gsi-selection-caret'}
+          className={`${BLUEPRINTJS_CLASS_PREFIX}-tag  ${BLUEPRINTJS_CLASS_PREFIX}-minimal gsi-selection-caret`}
           icon={'chevron-down'}
         />
       </FlexDiv>

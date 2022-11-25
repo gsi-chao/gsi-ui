@@ -1,21 +1,22 @@
 import styled from 'styled-components';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../commons/constants';
 import { ITabsMenuStyle } from './types';
 
 export const TabsStyle = styled.div`
-  & .bp3-tab {
+  & .${BLUEPRINTJS_CLASS_PREFIX}-tab {
     color: ${(prop: ITabsMenuStyle) => prop.color && prop.color};
   }
   & :hover {
     color: ${(prop: ITabsMenuStyle) => prop.hoverColor && prop.hoverColor};
   }
-  .bp3-tab-indicator {
+  .${BLUEPRINTJS_CLASS_PREFIX}-tab-indicator {
     background-color: ${(props: ITabsMenuStyle) =>
       props.indicatorActive && props.indicatorActive};
   }
   & :focus {
     outline: none;
   }
-  .bp3-tab[aria-selected='true'] {
+  .${BLUEPRINTJS_CLASS_PREFIX}-tab[aria-selected='true'] {
     color: ${(prop: ITabsMenuStyle) => prop.active && prop.active};
   }
 `;

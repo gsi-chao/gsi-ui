@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { PropsWithChildren } from 'react';
 import { Dialog } from '@blueprintjs/core';
 import { NoFocusMenu } from '../SelectionList/style';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../commons/constants';
 
 export const OptionsMenu = styled(NoFocusMenu)`
   display: flex;
@@ -25,7 +26,7 @@ export const FileNameContainer = styled.div`
   width: 320px;
   display: flex;
   justify-content: space-between;
-  & .bp3-form-group {
+  & .${BLUEPRINTJS_CLASS_PREFIX}-form-group {
     width: 100%;
   }
 `;

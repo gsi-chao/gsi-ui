@@ -1,12 +1,10 @@
-import React, { PropsWithChildren, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { cloneDeep, find, isArray, isNil, orderBy, remove } from 'lodash';
 import {
   Classes,
   InputGroup,
   Keys,
-  PopoverInteractionKind,
-  Popover as WPopover,
-  Tooltip as WTooltip
+  PopoverInteractionKind
 } from '@blueprintjs/core';
 
 import { IItem } from '../../types';
@@ -14,10 +12,12 @@ import { SearchSelectItems } from './SearchSelectItems';
 import { SelectSelectionInfo } from './SelectSelectionInfo';
 import { observer, useLocalStore } from 'mobx-react';
 import { SearchSelectStore } from './SearchSelectStore';
-import { StyledUl } from './styled';
-
-const Tooltip: PropsWithChildren<any> = WTooltip;
-const Popover: PropsWithChildren<any> = WPopover;
+import { StyledSearchSelect, StyledUl } from './styled';
+import {
+  BLUEPRINTJS_CLASS_PREFIX,
+  Popover,
+  Tooltip
+} from '../../../commons/constants';
 
 type OptionItem = IItem & { additionalSearchText?: string };
 
@@ -351,7 +351,7 @@ export const SearchSelect = observer((props: IProps) => {
   return (
     <Popover
       targetClassName={'gsi-select-popover'}
-      popoverClassName={'bp3-select-popover gsi-select-popover'}
+      popoverClassName={`${BLUEPRINTJS_CLASS_PREFIX}-select-popover gsi-select-popover`}
       enforceFocus={false}
       isOpen={isOpen}
       autoFocus={false}
@@ -368,8 +368,33 @@ export const SearchSelect = observer((props: IProps) => {
       shouldReturnFocusOnClose={false}
       onClose={onClose}
       onOpened={onOpened}
+      content={
+        <div
+          style={{
+            width: popoverWidth,
+            position: 'relative',
+            maxWidth: 400
+          }}
+          onKeyUpCapture={onKeyPress}
+        >
+          <SearchSelectItems
+            options={options}
+            multi={props.multi}
+            selection={selection}
+            selectDeselectItem={selectDeselectItem}
+            invokeKeyPress={invokeKeyPress}
+            search={search}
+            allowNewItem={!!props.allowNewItem}
+            onAddNewItem={onAddNewItem}
+            allowEmpty={props.allowEmpty}
+            onKeyPressed={handleIsOpen(!props.allowEmpty && !props.multi)}
+            displayAsTree={props.displayAsTree}
+            treeChildIndentWidth={props.treeChildIndentWidth}
+          />
+        </div>
+      }
     >
-      <div
+      <StyledSearchSelect
         onKeyUpCapture={onKeyPress}
         onMouseOver={showTooltipWithDisabled(!props.displayValueTooltip)}
         onMouseLeave={hideToolTip}
@@ -412,30 +437,7 @@ export const SearchSelect = observer((props: IProps) => {
             value={search}
           />
         </Tooltip>
-      </div>
-      <div
-        style={{
-          width: popoverWidth,
-          position: 'relative',
-          maxWidth: 400
-        }}
-        onKeyUpCapture={onKeyPress}
-      >
-        <SearchSelectItems
-          options={options}
-          multi={props.multi}
-          selection={selection}
-          selectDeselectItem={selectDeselectItem}
-          invokeKeyPress={invokeKeyPress}
-          search={search}
-          allowNewItem={!!props.allowNewItem}
-          onAddNewItem={onAddNewItem}
-          allowEmpty={props.allowEmpty}
-          onKeyPressed={handleIsOpen(!props.allowEmpty && !props.multi)}
-          displayAsTree={props.displayAsTree}
-          treeChildIndentWidth={props.treeChildIndentWidth}
-        />
-      </div>
+      </StyledSearchSelect>
     </Popover>
   );
 });

@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../commons/constants';
 
 interface ISpinnerContainer {
   color?: string;
@@ -23,7 +24,8 @@ export const SpinnerContainer = styled.div`
   ${(props: ISpinnerContainer) =>
     props.color &&
     css`
-      .bp3-spinner .bp3-spinner-head {
+      .${BLUEPRINTJS_CLASS_PREFIX}-spinner
+        .${BLUEPRINTJS_CLASS_PREFIX}-spinner-head {
         stroke: ${props.color};
       }
     `};

@@ -3,6 +3,7 @@ import { VSelectionList } from '../SelectionList';
 import { Button } from '@blueprintjs/core';
 import { Scrollbar } from 'react-scrollbars-custom';
 import { PropsWithChildren } from 'react';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../commons/constants';
 
 export interface IColStyled {
   flex: number;
@@ -62,7 +63,7 @@ export const CentralFlexCol = styled(FlexCol)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  & button.bp3-button.bp3-large {
+  & button.${BLUEPRINTJS_CLASS_PREFIX}-button.${BLUEPRINTJS_CLASS_PREFIX}-large {
     margin-bottom: 0px;
     position: relative;
     padding: 0 15px;

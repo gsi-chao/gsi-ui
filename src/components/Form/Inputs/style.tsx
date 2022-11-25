@@ -3,6 +3,7 @@ import { DateInput } from '@blueprintjs/datetime';
 import { PropsWithChildren } from 'react';
 import MaskedInput from 'react-text-mask';
 import styled from 'styled-components';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../../commons/constants';
 import { NoFocusMenu } from '../../SelectionList/style';
 import { ILayer } from './ILayer';
 
@@ -59,7 +60,7 @@ export const StyledFormGroup = styled<PropsWithChildren<any>>(FormGroup)`
       }
     }
     return `
-        & .bp3-form-content {
+        & .${BLUEPRINTJS_CLASS_PREFIX}-form-content {
             display: flex;
             flex-direction:${
               inline
@@ -98,7 +99,7 @@ export const StyledFormGroup = styled<PropsWithChildren<any>>(FormGroup)`
                 ${
                   fill
                     ? `width: ${100}%;
-                & .bp3-popover-target {
+                & .${BLUEPRINTJS_CLASS_PREFIX}-popover-target {
                   width: 100%;
                 }
                 `
@@ -126,7 +127,7 @@ export const StyledInput = styled<PropsWithChildren<any>>(StyledFormGroup)`
       font-size: 12px;
       padding: 0 2px;
     }
-    & .bp3-input-group {
+    & .${BLUEPRINTJS_CLASS_PREFIX}-input-group {
       width: 100%;
       & input {
         width: 100%;
@@ -137,7 +138,7 @@ export const StyledInput = styled<PropsWithChildren<any>>(StyledFormGroup)`
 
 export const StyledSelect = styled(StyledFormGroup)`
   .gsi-input-and-error-container {
-    & .bp3-input-group {
+    & .${BLUEPRINTJS_CLASS_PREFIX}-input-group {
       width: 100%;
       & select {
         width: 100%;
@@ -159,9 +160,10 @@ export const StyledNumericInput = styled<PropsWithChildren<any>>(
       font-size: 12px;
       padding: 0 2px;
     }
-    & .bp3-control-group.bp3-numeric-input {
+    &
+      .${BLUEPRINTJS_CLASS_PREFIX}-control-group.${BLUEPRINTJS_CLASS_PREFIX}-numeric-input {
       width: 100%;
-      & .bp3-input-group {
+      & .${BLUEPRINTJS_CLASS_PREFIX}-input-group {
         width: 100% !important;
       }
     }
@@ -196,13 +198,14 @@ export const StyledCheckBoxInput = styled<PropsWithChildren<any>>(
   }
   .gsi-form-field-container {
     & .gsi-input-and-error-container {
-      & .bp3-control.bp3-checkbox,
-      .bp3-inline.bp3-align-right {
+      &
+        .${BLUEPRINTJS_CLASS_PREFIX}-control.${BLUEPRINTJS_CLASS_PREFIX}-checkbox,
+        .${BLUEPRINTJS_CLASS_PREFIX}-inline.${BLUEPRINTJS_CLASS_PREFIX}-align-right {
         ${(props: IStyledFieldProps) =>
           props.checkBoxAtLeft ? '' : `padding: 0!important;`}
-        width: 0 !important
-        text-align: left
-        margin-right: 0 !important
+        width: 0 !important;
+        text-align: left;
+        margin-right: 0 !important;
         ${(props: IStyledFieldProps) => {
           const inputOrientation =
             props.layer && props.layer.inputOrientation === 'center'
@@ -212,7 +215,7 @@ export const StyledCheckBoxInput = styled<PropsWithChildren<any>>(
               : 'flex-start';
           return `align-self: ${inputOrientation};`;
         }}
-        & span.bp3-control-indicator {
+        & span.${BLUEPRINTJS_CLASS_PREFIX}-control-indicator {
           margin-left: ${(props: IStyledFieldProps) =>
             props.checkBoxAtLeft &&
             props.layer &&
@@ -228,7 +231,7 @@ export const StyledCheckBoxInput = styled<PropsWithChildren<any>>(
 
 export const StyledTagsInput = styled<PropsWithChildren<any>>(StyledFormGroup)`
   .gsi-input-and-error-container {
-    & .bp3-input.bp3-tag-input {
+    & .${BLUEPRINTJS_CLASS_PREFIX}-input.${BLUEPRINTJS_CLASS_PREFIX}-tag-input {
       width: 100%;
     }
   }
@@ -246,7 +249,7 @@ export const StyledDateRange = styled<PropsWithChildren<any>>(StyledFormGroup)`
       padding: 0 2px;
     }
   }
-  .bp3-input-group {
+  .${BLUEPRINTJS_CLASS_PREFIX}-input-group {
     width: 50%;
   }
 `;
@@ -269,7 +272,7 @@ export const StyledSlider = styled<PropsWithChildren<any>>(StyledFormGroup)`
       props.fill
         ? `width: calc(100% - 21px)!important;`
         : `max-width: 200px!important;`}
-    & .bp3-slider {
+    & .${BLUEPRINTJS_CLASS_PREFIX}-slider {
       width: 100%;
     }
   }
@@ -289,9 +292,9 @@ export const StyledPopOverWrapper = styled<PropsWithChildren<any>>(
       font-size: 12px;
       padding: 0 2px;
     }
-    & .bp3-popover-wrapper {
+    & .${BLUEPRINTJS_CLASS_PREFIX}-popover-wrapper {
       width: 100%;
-      & .bp3-popover-target {
+      & .${BLUEPRINTJS_CLASS_PREFIX}-popover-target {
         width: 100%;
         div {
           & > button:not(.crossButton) {
@@ -305,7 +308,7 @@ export const StyledPopOverWrapper = styled<PropsWithChildren<any>>(
               outline: rgba(16, 22, 26, 0.4) auto 2px;
               outline-offset: 2px;
             }
-            & span.bp3-button-text {
+            & span.${BLUEPRINTJS_CLASS_PREFIX}-button-text {
               overflow: hidden;
               white-space: nowrap;
               text-overflow: ellipsis;
@@ -331,7 +334,7 @@ export const StyledPopOverWrapper = styled<PropsWithChildren<any>>(
 export const StyledRadioButton = styled<PropsWithChildren<any>>(
   StyledFormGroup
 )`
-  & .bp3-form-content {
+  & .${BLUEPRINTJS_CLASS_PREFIX}-form-content {
     & label.field-label {
       & .gsi-form-field-container {
         & div {
@@ -347,19 +350,19 @@ export const StyledRadioButton = styled<PropsWithChildren<any>>(
                 : 'flex-start';
             return `justify-content: ${inputOrientation};`;
           }}
-          & .bp3-control.bp3-radio.bp3-inline {
+          & .${BLUEPRINTJS_CLASS_PREFIX}-control.${BLUEPRINTJS_CLASS_PREFIX}-radio.${BLUEPRINTJS_CLASS_PREFIX}-inline {
             padding: 0 26px !important;
             width: auto !important;
             margin-right: 10px !important;
             line-height: 27px;
-            .bp3-control-indicator {
+            .${BLUEPRINTJS_CLASS_PREFIX}-control-indicator {
               margin-left: -26px;
               margin-top: 0;
             }
           }
         }
         ,
-        & .bp3-control.bp3-inline {
+        & .${BLUEPRINTJS_CLASS_PREFIX}-control.${BLUEPRINTJS_CLASS_PREFIX}-inline {
           margin-right: 10px !important;
         }
       }
@@ -399,7 +402,9 @@ export const DateInputContainer = styled<PropsWithChildren<any>>(DateInput)`
     margin: 1px !important;
   }
   @-moz-document url-prefix() {
-    & .bp3-html-select.bp3-minimal select {
+    &
+      .${BLUEPRINTJS_CLASS_PREFIX}-html-select.${BLUEPRINTJS_CLASS_PREFIX}-minimal
+      select {
       font-size: 12px;
     }
   }

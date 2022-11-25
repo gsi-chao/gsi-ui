@@ -3,6 +3,7 @@ import moment from 'moment';
 import { FieldState } from 'formstate';
 import { FormatType, IDateRangeShortcut } from '../types/types';
 import { DateRange, DateRangeInput } from '@blueprintjs/datetime';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../../../../commons/constants';
 
 export class CustomDateRangeV2Store {
   @observable range: DateRange = [null, null];
@@ -83,11 +84,11 @@ export class CustomDateRangeV2Store {
 
   removePopoverDismiss = () => {
     const shortcuts = document.querySelectorAll(
-      '.bp3-daterangepicker-shortcuts li .bp3-menu-item'
+      `.${BLUEPRINTJS_CLASS_PREFIX}-daterangepicker-shortcuts li .${BLUEPRINTJS_CLASS_PREFIX}-menu-item`
     );
 
     shortcuts.forEach(shortcut => {
-      shortcut.classList.remove('bp3-popover-dismiss');
+      shortcut.classList.remove(`${BLUEPRINTJS_CLASS_PREFIX}-popover-dismiss`);
       shortcut.addEventListener(
         'click',
         this.handleChangeShortcut(shortcut?.textContent || '')

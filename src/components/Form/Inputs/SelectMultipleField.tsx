@@ -29,6 +29,7 @@ import { toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import { NoFocusMenu } from '../../SelectionList/style';
+import { BLUEPRINTJS_CLASS_PREFIX } from '../../commons/constants';
 
 /**
  * Field Props
@@ -184,7 +185,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
       setSelectedItems(selectedItems);
     } else if (props.allowEmptyItem && value && value.value === clearToken) {
       setActiveItem({
-        item: get(getOptions(), '[0]', null),
+        item: get<IItemMultiple[], string, any>(getOptions(), '[0]', null),
         selectedItems: []
       });
       setSelectedItems([]);
@@ -435,7 +436,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
         >
           {iconOnly ? (
             <Button
-              className={minimal ? 'bp3-minimal' : ''}
+              className={minimal ? `${BLUEPRINTJS_CLASS_PREFIX}-minimal` : ''}
               style={{ justifyContent: 'center' }}
               {...{
                 icon,
@@ -445,7 +446,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
             />
           ) : (
             <Button
-              className={minimal ? 'bp3-minimal' : ''}
+              className={minimal ? `${BLUEPRINTJS_CLASS_PREFIX}-minimal` : ''}
               {...{
                 icon,
                 disabled
