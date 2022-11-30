@@ -1,2 +1,2 @@
 export { VCarousel } from './VCarousel';
-export { PanelState, StyledCardProps } from './types';
+export type { PanelState, StyledCardProps } from './types';

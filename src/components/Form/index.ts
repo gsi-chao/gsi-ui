@@ -25,7 +25,7 @@ export { VAutoComplete } from './Inputs/VAutoComplete';
 export { VInputFieldWithSuggestions } from './Inputs/VInputWIthSuggestions';
 export { VDateRangePicker } from './Inputs/DateRange';
 export { VRegExpInputField } from './Inputs/RegExpInputField';
-export { IItem } from './types';
+export type { IItem } from './types';
 export * from './Inputs/SearchSelect';
 export * from './Inputs/CustomDateRange';
 export * from './Inputs/CustomDateRangeV2';

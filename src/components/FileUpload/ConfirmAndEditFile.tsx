@@ -81,7 +81,7 @@ const ConfirmAndEditFile = (props: ConfirmAndEditFileProps) => {
 
   return (
     <>
-      <StyledDialog isOpen={isOpen} isCloseButtonShown={false}>
+      <StyledDialog isOpen={isOpen}>
         <VCardPanel
           width={'340px'}
           bodyPadding={'10px'}

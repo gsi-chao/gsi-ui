@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
-/** Blueprint */
+import moment from 'moment';
+import MomentLocaleUtils from 'react-day-picker/moment';
 import { IconName, Intent, IPopoverProps } from '@blueprintjs/core';
 import {
   DateFormatProps,
   DateRange,
-  DateRangeInput,
   TimePrecision
 } from '@blueprintjs/datetime';
+import { DateRangeInput2 } from '@blueprintjs/datetime2';
 import { FieldState } from 'formstate';
 import { isDate } from 'lodash';
 import { observer } from 'mobx-react';
-import moment from 'moment';
-import 'moment/locale/en-gb';
-import 'moment/locale/es';
-import 'moment/locale/fr';
 import { DayPickerProps } from 'react-day-picker';
-import MomentLocaleUtils from 'react-day-picker/moment';
+
 import { Validators } from '../Validators';
 import { FormFieldContainer } from './FormFieldContainer';
 import { IFieldProps } from './IFieldProps';
-/** FieldState */
 import { StyledDateRange } from './style';
+
+import 'moment/locale/en-gb';
+import 'moment/locale/es';
+import 'moment/locale/fr';
 
 /**
  * Field component. Must be an observer.
@@ -195,7 +195,7 @@ export const VDateRangePicker = observer((props: IInputFieldProps) => {
         tooltip={tooltip}
       >
         {tipLabel && <span className={'tipLabel'}>{tipLabel}</span>}
-        <DateRangeInput
+        <DateRangeInput2
           {...momentFormatter(props.format || 'MM/DD/YYYY')}
           {...{ locale }}
           disabled={disabled}

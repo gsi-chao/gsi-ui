@@ -1,2 +1,2 @@
 export { VBadge } from './Badge';
-export { IVBadgeProps, IVBadgeStyle } from './types';
+export type { IVBadgeProps, IVBadgeStyle } from './types';

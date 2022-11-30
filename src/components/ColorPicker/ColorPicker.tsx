@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { Color, ColorResult } from 'react-color';
-import { Button, Intent, IRef } from '@blueprintjs/core';
+import { Button, Intent } from '@blueprintjs/core';
 import { Popover2 } from '@blueprintjs/popover2';
+
 import { ChromePickerStyled, InputColor, SketchPickerStyled } from './style';
 import { TypePickerColor, VColorResult, VPosition } from './types';
 import color from 'color';
@@ -16,7 +17,7 @@ export interface IState {
 export interface IProps {
   width?: number;
   height?: number;
-  Color: Color;
+  color: Color;
   typePickerColor: TypePickerColor;
   onChange: (color: VColorResult) => void;
   position?: VPosition;
@@ -32,7 +33,7 @@ export interface IProps {
 export const VColorPicker = (props: IProps) => {
   const [state, setState] = useState<IState>({
     color: undefined,
-    currentColor: color(props.Color)
+    currentColor: color(props.color)
   });
 
   const [isOpen, setIsOpen] = useState(false);
@@ -41,10 +42,10 @@ export const VColorPicker = (props: IProps) => {
 
   useEffect(() => {
     setState({
-      currentColor: color(props.Color).toString(),
+      currentColor: color(props.color).toString(),
       color: state.color
     });
-  }, [props.Color]);
+  }, [props.color]);
 
   const onOutsideClick = (e: any) => {
     const cl = e.target.className;
@@ -131,13 +132,13 @@ export const VColorPicker = (props: IProps) => {
 
   const renderTarget = ({ ref: tooltipRef, isOpen, ...tooltipProps }: any) => (
     <InputColor
-      elementRef={tooltipRef as IRef<HTMLButtonElement>}
+      {...tooltipProps}
+      elementRef={tooltipRef}
       className="gsi-input-color"
       width={props.width}
       height={props.height}
       defaultColor={state.currentColor}
       onClick={waitForHandleClick}
-      {...tooltipProps}
     />
   );
 

@@ -1,3 +1,3 @@
-export { IItemsList } from './ISelectionList';
 export { VSelectionList } from './SelectionList';
-export { EmptyData } from './EmptyData';
+export type { IItemsList } from './ISelectionList';
+export type { EmptyData } from './EmptyData';

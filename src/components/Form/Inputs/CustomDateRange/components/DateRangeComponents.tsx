@@ -122,9 +122,9 @@ export const DateRangeComponents = (props: IDateRange) => {
       onOpening={onOpening}
       usePortal
       position={Position.BOTTOM_LEFT}
+      rootBoundary="viewport"
       autoFocus={false}
       modifiers={{
-        preventOverflow: { boundariesElement: 'viewport' },
         ...popoverProps
       }}
       shouldReturnFocusOnClose={false}

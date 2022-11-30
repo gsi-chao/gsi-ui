@@ -1,4 +1,6 @@
-import { IconName, Toaster } from '@blueprintjs/core';
+import { IconName } from '@blueprintjs/core';
+import { createToaster } from './createToaster';
+
 import { ToastType } from './types';
 
 export interface IToastNotificationProps {
@@ -14,7 +16,7 @@ export interface IToastNotificationProps {
 
 let notifications: any = undefined;
 
-export const showToastNotification = (props: IToastNotificationProps) => {
+export const showToastNotification = async (props: IToastNotificationProps) => {
   const {
     action,
     className,
@@ -47,7 +49,7 @@ export const showToastNotification = (props: IToastNotificationProps) => {
   };
 
   if (!notifications) {
-    notifications = Toaster.create({
+    notifications = await createToaster({
       className,
       canEscapeKeyClear: true,
       position: 'top-right'

@@ -1,5 +1,5 @@
 export { DragAndDropList } from './DragAndDropList';
-export {
+export type {
   IDNDList,
   IDNDItem,
   IOnDragAndDropResponse,
