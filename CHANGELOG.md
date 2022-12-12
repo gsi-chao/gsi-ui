@@ -1,3 +1,17 @@
+# [1.3.0-beta.65](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.64...v1.3.0-beta.65) (2022-12-12)
+
+
+### Bug Fixes
+
+* **build:** build issue ([de58fb7](https://github.com/gsi-chao/gsi-ui/commit/de58fb7a9c0bc69082853b79bf5a9ff82cb12120))
+* **build:** sloved build issues ([aee9f1b](https://github.com/gsi-chao/gsi-ui/commit/aee9f1b0b27314eaa24f5a2d10e3d2e12a4edafd))
+* **build:** solved build issues ([baa2d25](https://github.com/gsi-chao/gsi-ui/commit/baa2d251f2424ea4cbec6a1cc646e0805c807500))
+* **build-issue:** github shares issues are resolved ([34e07ed](https://github.com/gsi-chao/gsi-ui/commit/34e07ed1302a4768543721418429620e25704030))
+* **build-issue:** github shares issues are resolved ([7a42555](https://github.com/gsi-chao/gsi-ui/commit/7a425555acdd4f9131e7c3a25cb0c9d45e6a8d6e))
+* **search-select:** remove focus to search select ([f2ab831](https://github.com/gsi-chao/gsi-ui/commit/f2ab8316405c3b92dee04b35ff656d67f2778136))
+* **select-multiple-field:** solved issue to build ([5b726b6](https://github.com/gsi-chao/gsi-ui/commit/5b726b69ef6a966105da4655b818b2b279628ebf))
+* **typescript:** update typescript ([42c9195](https://github.com/gsi-chao/gsi-ui/commit/42c91958f6d656d76d4fcf90b798ce88a28f49fe))
+
 # [1.3.0-beta.64](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.63...v1.3.0-beta.64) (2022-09-12)
 
 
