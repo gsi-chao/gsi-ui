@@ -184,7 +184,7 @@ export const VSelectMultiple = observer((props: ISelectFieldProps) => {
       setSelectedItems(selectedItems);
     } else if (props.allowEmptyItem && value && value.value === clearToken) {
       setActiveItem({
-        item: get(getOptions(), '[0]', null),
+        item: get(getOptions(), '[0]', {} as IItemMultiple),
         selectedItems: []
       });
       setSelectedItems([]);
