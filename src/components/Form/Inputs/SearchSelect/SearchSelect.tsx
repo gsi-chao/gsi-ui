@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useRef } from 'react';
+import React, { PropsWithChildren, useEffect } from 'react';
 import { cloneDeep, find, isArray, isNil, orderBy, remove } from 'lodash';
 import {
   Classes,
@@ -72,7 +72,6 @@ export const SearchSelect = observer((props: IProps) => {
         props.popoverWidth || props.fixedInputWidthPx || 150
       )
   );
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const findOptionsValue = (options: IItem[], value: number | string): any => {
     return find(
@@ -292,7 +291,6 @@ export const SearchSelect = observer((props: IProps) => {
       setEnableFilter(false);
       if (!value.value && props.allowEmpty) clearSearch();
     }
-    inputRef.current && inputRef.current.focus();
     !props.multi && value?.label && setSearch(value.label.toString());
   };
 
@@ -389,7 +387,6 @@ export const SearchSelect = observer((props: IProps) => {
           }
         >
           <InputGroup
-            inputRef={ref => (inputRef.current = ref)}
             autoFocus={false}
             className={
               !props.isLoading
