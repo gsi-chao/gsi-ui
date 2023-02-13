@@ -36,7 +36,6 @@ export class FormFieldContainer extends React.Component<
       fieldState,
       required,
       noLabel,
-      value,
       tooltip
     } = this.props;
     return (
