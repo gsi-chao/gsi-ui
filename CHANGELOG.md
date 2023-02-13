@@ -1,3 +1,10 @@
+# [1.3.0-beta.66](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.65...v1.3.0-beta.66) (2023-02-13)
+
+
+### Features
+
+* **serach-select-async:** add search select async ([24bdd14](https://github.com/gsi-chao/gsi-ui/commit/24bdd1495df7c8aacd32bc62a1a729b9db9d4d1a))
+
 # [1.3.0-beta.65](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.64...v1.3.0-beta.65) (2022-12-12)
 
 
