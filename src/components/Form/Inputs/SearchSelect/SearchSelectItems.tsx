@@ -15,7 +15,7 @@ interface IProps {
   invokeKeyPress?: number | 'NONE';
   allowNewItem?: boolean;
   onAddNewItem?: () => void;
-  search: string;
+  search?: string;
   allowEmpty?: boolean;
   onKeyPressed?: () => void;
   displayAsTree?: boolean;
