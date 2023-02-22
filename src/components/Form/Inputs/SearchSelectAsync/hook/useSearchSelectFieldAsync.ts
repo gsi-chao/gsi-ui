@@ -13,6 +13,7 @@ export const useSearchSelectFieldAsync = ({
   required,
   validators,
   fieldState,
+  isLoading,
   value,
   onChange,
   onLoadData
@@ -23,6 +24,8 @@ export const useSearchSelectFieldAsync = ({
   const [isOpen, changePopoverView] = useState(false);
   const [loading, changeLoading] = useState(false);
   const [selection, setSelection] = useState<any[] | any>(multi ? [] : '');
+
+  const isDisabledPopover = !!(disabled || isLoading);
 
   useEffect(() => onClearComponent, []);
 
@@ -113,7 +116,11 @@ export const useSearchSelectFieldAsync = ({
     refInputSearch.current?.focus?.();
   };
 
-  const onTogglePopover = () => changePopoverView(!isOpen);
+  const onTogglePopover = () => {
+    if (!disabled && !(loading || isLoading)) {
+      changePopoverView(!isOpen);
+    }
+  };
 
   const selectDeselectItem = (item: IItem) => {
     if (multi && isArray(selection)) {
@@ -128,7 +135,7 @@ export const useSearchSelectFieldAsync = ({
     setSelection(item.value);
   };
 
-  const handleInteraction = (nextOpenState: boolean, e?: any) => {
+  const handleInteraction = async (nextOpenState: boolean, e?: any) => {
     if (!!e && !disabled) {
       if (
         e.target.parentNode?.className?.indexOf('gsi-input-select') !== -1 ||
@@ -153,10 +160,15 @@ export const useSearchSelectFieldAsync = ({
     }
 
     !disabled && changePopoverView(nextOpenState);
-    !nextOpenState && changeValueOrField(selection);
+    if (!nextOpenState) {
+      changeValueOrField(selection);
+      await fieldState?.validate?.();
+    } else {
+      fieldState?.setError('');
+    }
   };
 
-  const changeValueOrField = (value: any) => {
+  const changeValueOrField = async (value: any) => {
     if (fieldState) {
       fieldState.onChange(value);
     }
@@ -195,6 +207,7 @@ export const useSearchSelectFieldAsync = ({
     options,
     selection,
     refInputSearch,
+    isDisabledPopover,
     onSearchData,
     onTogglePopover,
     deselectAllItems,
