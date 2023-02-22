@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const VSearchSelectBody = styled.div`
-  .input-search-select2 {
+  .bp3-form-group {
     margin: 0 0 2px;
     cursor: pointer;
 

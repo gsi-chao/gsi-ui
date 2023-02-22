@@ -7,11 +7,12 @@ import { VSearchSelectFieldAsyncProps } from './VSearchSelectFieldAsync';
 
 export type VSearchSelectAsyncSectionProps = Pick<
   VSearchSelectFieldAsyncProps,
-  'multi'
+  'multi' | 'allowEmpty'
 >;
 
 export const VSearchSelectAsyncSection: FC<VSearchSelectAsyncSectionProps> = ({
-  multi
+  multi,
+  allowEmpty
 }) => {
   const { options, selection, selectDeselectItem } = useContext(
     VSearchSelectFieldAsyncContext
@@ -28,7 +29,7 @@ export const VSearchSelectAsyncSection: FC<VSearchSelectAsyncSectionProps> = ({
   return (
     <VSearchSelectSectionBody>
       <SearchSelectItems
-        {...{ options, selection, multi, selectDeselectItem }}
+        {...{ options, selection, multi, selectDeselectItem, allowEmpty }}
         allowNewItem={false}
       />
     </VSearchSelectSectionBody>
