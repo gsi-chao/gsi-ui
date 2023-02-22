@@ -1,3 +1,10 @@
+# [1.3.0-beta.67](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.66...v1.3.0-beta.67) (2023-02-22)
+
+
+### Features
+
+* **search-select-async:** add disabledRequired, fill, isLoadign, popoverWidth, disabled and layer ([b5a2614](https://github.com/gsi-chao/gsi-ui/commit/b5a26146517c7cfecf6c4a4b9a4b88e88e63e927))
+
 # [1.3.0-beta.66](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.65...v1.3.0-beta.66) (2023-02-13)
 
 
