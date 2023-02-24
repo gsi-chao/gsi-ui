@@ -21,7 +21,7 @@ export const VSearchSelectAsyncInput = forwardRef(
       setSearch(value);
       onChangeFirstLoad();
       const filter = () => onSearchData({ search: value, firstLoad: false });
-      amountCharacterSearch >= value.length && tbFunc(filter);
+      value.length >= amountCharacterSearch && tbFunc(filter);
     };
 
     const onClear = () => {
