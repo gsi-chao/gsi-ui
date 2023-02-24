@@ -1,3 +1,10 @@
+# [1.3.0-beta.68](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.67...v1.3.0-beta.68) (2023-02-24)
+
+
+### Bug Fixes
+
+* **search-select-async:** add amount Character Search in select async ([106ef1a](https://github.com/gsi-chao/gsi-ui/commit/106ef1a9ea3cc329045d07d57207e131d665b349))
+
 # [1.3.0-beta.67](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.66...v1.3.0-beta.67) (2023-02-22)
 
 
