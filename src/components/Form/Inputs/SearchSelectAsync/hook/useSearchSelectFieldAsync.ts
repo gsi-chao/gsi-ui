@@ -76,10 +76,10 @@ export const useSearchSelectFieldAsync = ({
     );
   }, [fieldState?.value, value, options]);
 
-  const onFirstLoad = (load?: unknown) => {
+  const onFirstLoad = async (load?: unknown) => {
     const search = load ?? getValueFirstLoad();
     if (!!search) {
-      onSearchData({ search, firstLoad: true });
+      await onSearchData({ search, firstLoad: true });
       firstLoadChange.current = true;
       setSelection(search);
       return;
