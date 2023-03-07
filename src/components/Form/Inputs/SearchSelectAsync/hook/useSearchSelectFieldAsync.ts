@@ -79,8 +79,8 @@ export const useSearchSelectFieldAsync = ({
   const onFirstLoad = async (load?: unknown) => {
     const search = load ?? getValueFirstLoad();
     if (!!search) {
-      await onSearchData({ search, firstLoad: true });
       firstLoadChange.current = true;
+      await onSearchData({ search, firstLoad: true });
       setSelection(search);
       return;
     }
