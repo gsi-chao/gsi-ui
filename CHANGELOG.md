@@ -1,3 +1,10 @@
+# [1.3.0-beta.69](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.68...v1.3.0-beta.69) (2023-03-07)
+
+
+### Bug Fixes
+
+* **search select async:** await for on serach data ([1b058a6](https://github.com/gsi-chao/gsi-ui/commit/1b058a6caebf9a669031e226810b653024cec739))
+
 # [1.3.0-beta.68](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.67...v1.3.0-beta.68) (2023-02-24)
 
 
