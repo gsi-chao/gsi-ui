@@ -1,4 +1,5 @@
 import { isArray } from 'lodash';
+import { abort } from 'process';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { IItem } from '../../../types';
 import { Validators } from '../../../Validators';
@@ -24,6 +25,8 @@ export const useSearchSelectFieldAsync = ({
   const [isOpen, changePopoverView] = useState(false);
   const [loading, changeLoading] = useState(false);
   const [selection, setSelection] = useState<any[] | any>(multi ? [] : '');
+  const controller = new AbortController();
+  const { signal } = controller;
 
   const isDisabledPopover = !!(disabled || isLoading);
 
@@ -81,7 +84,7 @@ export const useSearchSelectFieldAsync = ({
     if (!!search) {
       firstLoadChange.current = true;
       await onSearchData({ search, firstLoad: true });
-      setSelection(search);
+      !signal.aborted && setSelection(search);
       return;
     }
   };
@@ -190,6 +193,7 @@ export const useSearchSelectFieldAsync = ({
   };
 
   const onClearComponent = () => {
+    controller.abort();
     firstLoadChange.current = false;
     setOptions([]);
     setSelection(multi ? [] : '');
