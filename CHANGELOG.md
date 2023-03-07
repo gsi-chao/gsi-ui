@@ -1,3 +1,10 @@
+# [1.3.0-beta.72](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.71...v1.3.0-beta.72) (2023-03-07)
+
+
+### Bug Fixes
+
+* **search-async-select:** add abort controller ([9328874](https://github.com/gsi-chao/gsi-ui/commit/9328874220b0b2b162d46786bc01505460440094))
+
 # [1.3.0-beta.71](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.70...v1.3.0-beta.71) (2023-03-07)
 
 
