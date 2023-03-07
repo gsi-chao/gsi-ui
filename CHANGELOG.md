@@ -1,3 +1,10 @@
+# [1.3.0-beta.71](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.70...v1.3.0-beta.71) (2023-03-07)
+
+
+### Features
+
+* **search-select:** add abortController in get data ([676ef12](https://github.com/gsi-chao/gsi-ui/commit/676ef1214172969b1af5368a091f9789e09d728b))
+
 # [1.3.0-beta.70](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.69...v1.3.0-beta.70) (2023-03-07)
 
 
