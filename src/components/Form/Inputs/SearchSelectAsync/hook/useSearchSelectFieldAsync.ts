@@ -82,9 +82,11 @@ export const useSearchSelectFieldAsync = ({
   const onFirstLoad = async (load?: unknown) => {
     const search = load ?? getValueFirstLoad();
     if (!!search) {
-      firstLoadChange.current = true;
       await onSearchData({ search, firstLoad: true });
-      !signal.aborted && setSelection(search);
+      if (!signal.aborted) {
+        firstLoadChange.current = true;
+        setSelection(search);
+      }
       return;
     }
   };
@@ -193,10 +195,10 @@ export const useSearchSelectFieldAsync = ({
   };
 
   const onClearComponent = () => {
-    controller.abort();
     firstLoadChange.current = false;
     setOptions([]);
     setSelection(multi ? [] : '');
+    controller.abort();
   };
 
   const onChangeFirstLoad = () => {
