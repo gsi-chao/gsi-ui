@@ -1,3 +1,10 @@
+# [1.3.0-beta.70](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.69...v1.3.0-beta.70) (2023-03-07)
+
+
+### Bug Fixes
+
+* **search select async:** only ask for the data once ([69a8287](https://github.com/gsi-chao/gsi-ui/commit/69a8287fb7658692906bc13b1a4b112879378b21))
+
 # [1.3.0-beta.69](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.68...v1.3.0-beta.69) (2023-03-07)
 
 
