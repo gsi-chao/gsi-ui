@@ -1,3 +1,10 @@
+# [1.3.0-beta.73](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.72...v1.3.0-beta.73) (2023-03-07)
+
+
+### Bug Fixes
+
+* **search:** not clear data when reload component ([44e4d83](https://github.com/gsi-chao/gsi-ui/commit/44e4d8349601b4c7d9b29a1ad4d2a83362ddcffd))
+
 # [1.3.0-beta.72](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.71...v1.3.0-beta.72) (2023-03-07)
 
 
