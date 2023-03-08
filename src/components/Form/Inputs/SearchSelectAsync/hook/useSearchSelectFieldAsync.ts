@@ -195,6 +195,11 @@ export const useSearchSelectFieldAsync = ({
   };
 
   const onClearComponent = () => {
+    firstLoadChange.current = false;
+    setOptions([]);
+    setSelection(multi ? [] : '');
+    changeLoading(false);
+    changePopoverView(false);
     controller.abort();
   };
 
