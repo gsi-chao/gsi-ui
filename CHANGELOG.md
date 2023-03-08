@@ -1,3 +1,10 @@
+# [1.3.0-beta.75](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.74...v1.3.0-beta.75) (2023-03-08)
+
+
+### Bug Fixes
+
+* **select:** resolve issues in search select async ([e4a906c](https://github.com/gsi-chao/gsi-ui/commit/e4a906c5a11cd1d5ae65f84abceab3f83bc1e5cc))
+
 # [1.3.0-beta.74](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.73...v1.3.0-beta.74) (2023-03-08)
 
 
