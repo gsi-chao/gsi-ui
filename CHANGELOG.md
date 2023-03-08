@@ -1,3 +1,10 @@
+# [1.3.0-beta.74](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.73...v1.3.0-beta.74) (2023-03-08)
+
+
+### Bug Fixes
+
+* **serach select async:** clear select async ([669cffe](https://github.com/gsi-chao/gsi-ui/commit/669cffe1a16dd577aa443f15262dc698604abf15))
+
 # [1.3.0-beta.73](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.72...v1.3.0-beta.73) (2023-03-07)
 
 
