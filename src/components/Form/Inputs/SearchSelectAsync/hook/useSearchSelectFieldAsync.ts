@@ -141,21 +141,23 @@ export const useSearchSelectFieldAsync = ({
   };
 
   const handleInteraction = async (nextOpenState: boolean, e?: any) => {
-    if (!!e && !disabled) {
+    if (!!e && !disabled && !signal.aborted) {
       if (
-        e.target.parentNode?.className?.indexOf('gsi-input-select') !== -1 ||
-        e.target.parentNode?.className?.indexOf('gsi-selection-caret') !== -1
+        e.target?.parentNode?.className?.indexOf('gsi-input-select') !== -1 ||
+        e.target?.parentNode?.className?.indexOf('gsi-selection-caret') !== -1
       ) {
         changePopoverView(nextOpenState);
       }
 
-      if (e.target.className.indexOf('gsi-selection-info-deselect') !== -1) {
+      if (
+        e.target?.className?.indexOf?.('gsi-selection-info-deselect') !== -1
+      ) {
         changePopoverView(false);
         return;
       }
 
       if (
-        e.currentTarget.className &&
+        e.currentTarget?.className &&
         e.currentTarget?.className?.indexOf('gsi-select-popover') !== -1 &&
         multi
       ) {
