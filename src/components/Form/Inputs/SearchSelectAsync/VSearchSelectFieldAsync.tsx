@@ -1,7 +1,9 @@
 import {
   Classes,
+  IconName,
   InputGroup,
   Intent,
+  MaybeElement,
   Popover as WPopover,
   PopoverInteractionKind,
   Position
@@ -44,6 +46,7 @@ export type VSearchSelectFieldAsyncProps = Pick<
   | 'displayRequired'
 > & {
   onLoadData: (params: LoadData) => Promise<IItem[]>;
+  placeholderSearch?: string;
   popoverMinimal?: boolean;
   popoverWidth?: number;
   multi?: boolean;
@@ -51,6 +54,8 @@ export type VSearchSelectFieldAsyncProps = Pick<
   isLoading?: boolean;
   amountCharacterSearch?: number;
   allowEmpty?: boolean;
+  rightIcon?: IconName | MaybeElement;
+  suppessLeftIconSearch?: boolean;
 };
 
 const Popover: PropsWithChildren<any> = WPopover;
@@ -76,6 +81,9 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
     fieldState,
     fill,
     tooltip,
+    rightIcon,
+    placeholderSearch,
+    suppessLeftIconSearch,
     multi = false,
     disabled = false,
     popoverMinimal = true,
@@ -88,6 +96,7 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
       count,
       isOpen,
       options,
+      isValue,
       loading,
       selection,
       refInputSearch,
@@ -152,7 +161,14 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
             disabled={isDisabledPopover}
             content={
               <VSearchSelectFieldAsyncItems
-                {...{ multi, popoverWidth, allowEmpty }}
+                {...{
+                  id,
+                  multi,
+                  popoverWidth,
+                  allowEmpty,
+                  placeholderSearch,
+                  suppessLeftIconSearch
+                }}
               />
             }
           >
@@ -196,9 +212,10 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
                     defaultValue={text}
                     rightElement={
                       <SelectSelectionInfo
-                        {...{ count, deselectAllItems }}
+                        {...{ count, deselectAllItems, rightIcon }}
                         disabled={disabled}
                         multi={multi}
+                        allowEmpty={allowEmpty && isValue}
                       />
                     }
                   />

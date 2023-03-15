@@ -4,8 +4,18 @@ import { useThrottleDebounce } from '../../../CustomHooks';
 import { VInputField } from '../InputField';
 import { VSearchSelectFieldAsyncContext } from './context/VSearchSelectFieldAsyncContext';
 
+type VSearchSelectAsyncInputProps = {
+  id: string;
+  fill?: boolean;
+  placeholder?: string;
+  suppessLeftIcon?: boolean;
+};
+
 export const VSearchSelectAsyncInput = forwardRef(
-  ({ fill }: { fill?: boolean }, ref) => {
+  (
+    { id, fill, placeholder, suppessLeftIcon }: VSearchSelectAsyncInputProps,
+    ref
+  ) => {
     const {
       loading,
       amountCharacterSearch,
@@ -33,11 +43,12 @@ export const VSearchSelectAsyncInput = forwardRef(
       <VInputField
         {...{ fill }}
         inputRef={ref}
-        id="search-select-input"
+        id={`search-select-input-${id}`}
+        key={`search-select-input-${id}`}
         value={search}
         onChange={onChange}
-        leftIcon={'search'}
-        placeholder={'Search...'}
+        {...(!suppessLeftIcon && { leftIcon: 'search' })}
+        placeholder={placeholder ?? 'Search...'}
         rightElement={
           loading ? (
             <Spinner size={Spinner.SIZE_SMALL} />

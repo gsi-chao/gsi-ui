@@ -117,6 +117,12 @@ export const useSearchSelectFieldAsync = ({
     return null;
   };
 
+  const isValue = useMemo(() => !!getValueFirstLoad(), [
+    fieldState?.value,
+    value,
+    options
+  ]);
+
   const onOpeningPopover = () => {
     refInputSearch.current?.focus?.();
   };
@@ -213,6 +219,7 @@ export const useSearchSelectFieldAsync = ({
     text,
     count,
     isOpen,
+    isValue,
     loading,
     options,
     selection,

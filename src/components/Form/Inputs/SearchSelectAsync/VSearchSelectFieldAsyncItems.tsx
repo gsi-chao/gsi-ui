@@ -11,16 +11,25 @@ type VSearchSelectFieldAsyncItemsProps = VSearchSelectAsyncSectionProps & {
 };
 
 export const VSearchSelectFieldAsyncItems: FC<VSearchSelectFieldAsyncItemsProps> = ({
+  id,
   multi,
   allowEmpty,
-  popoverWidth
+  popoverWidth,
+  placeholderSearch,
+  suppessLeftIconSearch
 }) => {
   const { refInputSearch } = useContext(VSearchSelectFieldAsyncContext);
 
   return (
     <div style={{ width: `${popoverWidth ? `${popoverWidth}px` : '100%'}` }}>
-      <VSearchSelectAsyncInput ref={refInputSearch} fill={!!popoverWidth} />
-      <VSearchSelectAsyncSection {...{ multi, allowEmpty }} />
+      <VSearchSelectAsyncInput
+        {...{ id }}
+        ref={refInputSearch}
+        fill={!!popoverWidth}
+        placeholder={placeholderSearch}
+        suppessLeftIcon={suppessLeftIconSearch}
+      />
+      <VSearchSelectAsyncSection {...{ id, multi, allowEmpty }} />
     </div>
   );
 };
