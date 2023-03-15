@@ -215,7 +215,7 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
                         {...{ count, deselectAllItems, rightIcon }}
                         disabled={disabled}
                         multi={multi}
-                        allowEmpty={allowEmpty && isValue}
+                        allowEmpty={allowEmpty && isValue && !disabled}
                       />
                     }
                   />
