@@ -1,3 +1,10 @@
+# [1.3.0-beta.77](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.76...v1.3.0-beta.77) (2023-03-15)
+
+
+### Features
+
+* **serach-select:** remove the clear selection button  when the component is disabled ([05d6eda](https://github.com/gsi-chao/gsi-ui/commit/05d6edaf0a7db24c7ef553ebbf1be1d9c44f2efb))
+
 # [1.3.0-beta.76](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.75...v1.3.0-beta.76) (2023-03-15)
 
 
