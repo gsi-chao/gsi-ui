@@ -195,7 +195,7 @@ export const useSearchSelectFieldAsync = ({
     changeLoading(false);
   };
 
-  const onClearSearchData = () => onFirstLoad(selection);
+  const onClearSearchData = () => setOptions([]);
 
   const deselectAllItems = () => {
     setSelection([]);
