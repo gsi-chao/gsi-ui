@@ -1,3 +1,10 @@
+# [1.3.0-beta.78](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.77...v1.3.0-beta.78) (2023-03-21)
+
+
+### Bug Fixes
+
+* **vsearchselectasync component:** change the clear search functionality behavior ([e8a37e6](https://github.com/gsi-chao/gsi-ui/commit/e8a37e6292e094b302539125bb69c03445af46b3))
+
 # [1.3.0-beta.77](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.76...v1.3.0-beta.77) (2023-03-15)
 
 
