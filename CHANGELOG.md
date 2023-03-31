@@ -1,3 +1,10 @@
+# [1.3.0-beta.80](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.79...v1.3.0-beta.80) (2023-03-31)
+
+
+### Bug Fixes
+
+* **vsearchselectfieldasync:** change in new prop needed ([63e4c67](https://github.com/gsi-chao/gsi-ui/commit/63e4c678de937fe2c2c40f65ea37ed6fe04c60fc))
+
 # [1.3.0-beta.79](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.78...v1.3.0-beta.79) (2023-03-31)
 
 
