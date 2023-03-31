@@ -56,6 +56,7 @@ export type VSearchSelectFieldAsyncProps = Pick<
   allowEmpty?: boolean;
   rightIcon?: IconName | MaybeElement;
   suppessLeftIconSearch?: boolean;
+  allowFirstLoad: boolean;
 };
 
 const Popover: PropsWithChildren<any> = WPopover;
@@ -89,7 +90,8 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
     popoverMinimal = true,
     amountCharacterSearch = 3,
     onChange,
-    onLoadData
+    onLoadData,
+    allowFirstLoad
   }) => {
     const {
       text,
@@ -119,7 +121,8 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
       value,
       isLoading,
       onChange,
-      onLoadData
+      onLoadData,
+      allowFirstLoad
     });
 
     return (
