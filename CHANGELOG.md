@@ -1,3 +1,10 @@
+# [1.3.0-beta.79](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.78...v1.3.0-beta.79) (2023-03-31)
+
+
+### Bug Fixes
+
+* **vsearchselectfieldasync:** fix bug ([fa0cd31](https://github.com/gsi-chao/gsi-ui/commit/fa0cd317aaf12598292f418f2cccf5f191cc88f9))
+
 # [1.3.0-beta.78](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.77...v1.3.0-beta.78) (2023-03-21)
 
 
