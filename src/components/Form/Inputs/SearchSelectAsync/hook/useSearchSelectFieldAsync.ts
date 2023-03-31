@@ -17,7 +17,8 @@ export const useSearchSelectFieldAsync = ({
   isLoading,
   value,
   onChange,
-  onLoadData
+  onLoadData,
+  allowFirstLoad
 }: Partial<VSearchSelectFieldAsyncProps>) => {
   const refInputSearch = useRef<HTMLInputElement>();
   const firstLoadChange = useRef<boolean>(false);
@@ -47,7 +48,7 @@ export const useSearchSelectFieldAsync = ({
   }, [validators]);
 
   useEffect(() => {
-    !firstLoadChange.current && onFirstLoad();
+    (!firstLoadChange.current || allowFirstLoad) && onFirstLoad();
   }, [fieldState?.value, value]);
 
   const count = useMemo(() => {
