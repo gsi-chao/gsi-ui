@@ -56,7 +56,7 @@ export type VSearchSelectFieldAsyncProps = Pick<
   allowEmpty?: boolean;
   rightIcon?: IconName | MaybeElement;
   suppessLeftIconSearch?: boolean;
-  allowFirstLoad: boolean;
+  allowFirstLoad?: boolean;
 };
 
 const Popover: PropsWithChildren<any> = WPopover;
