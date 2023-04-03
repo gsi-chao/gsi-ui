@@ -90,6 +90,7 @@ export const useSearchSelectFieldAsync = ({
       }
       return;
     }
+    onClearComponent();
   };
 
   const getValueFirstLoad = () => {
