@@ -1,3 +1,10 @@
+# [1.3.0-beta.81](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.80...v1.3.0-beta.81) (2023-04-03)
+
+
+### Bug Fixes
+
+* **vsearchselectfieldasync:** fix needed when empty value ([74a158a](https://github.com/gsi-chao/gsi-ui/commit/74a158a356802bfc2976c3cc26933b9cff038f8c))
+
 # [1.3.0-beta.80](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.79...v1.3.0-beta.80) (2023-03-31)
 
 
