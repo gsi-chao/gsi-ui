@@ -1,3 +1,10 @@
+# [1.3.0-beta.82](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.81...v1.3.0-beta.82) (2023-05-15)
+
+
+### Features
+
+* **searchasyncselect:** add tip label to the component ([866fbf0](https://github.com/gsi-chao/gsi-ui/commit/866fbf0757c4abbc8f58644b23a719a43d3fe861))
+
 # [1.3.0-beta.81](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.80...v1.3.0-beta.81) (2023-04-03)
 
 
