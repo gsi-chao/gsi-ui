@@ -57,6 +57,8 @@ export type VSearchSelectFieldAsyncProps = Pick<
   rightIcon?: IconName | MaybeElement;
   suppessLeftIconSearch?: boolean;
   allowFirstLoad?: boolean;
+  tipLabel?: string;
+  tipBgColor?: string;
 };
 
 const Popover: PropsWithChildren<any> = WPopover;
@@ -91,7 +93,9 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
     amountCharacterSearch = 3,
     onChange,
     onLoadData,
-    allowFirstLoad
+    allowFirstLoad,
+    tipLabel,
+    tipBgColor
   }) => {
     const {
       text,
@@ -198,6 +202,16 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
                   {...{ noLabel, label, fieldState, tooltip }}
                   required={required || displayRequired}
                 >
+                  {tipLabel && (
+                    <span
+                      className={'tipLabel'}
+                      style={{
+                        backgroundColor: tipBgColor ? tipBgColor : '#fff'
+                      }}
+                    >
+                      {tipLabel}
+                    </span>
+                  )}
                   <InputGroup
                     {...{
                       id,
