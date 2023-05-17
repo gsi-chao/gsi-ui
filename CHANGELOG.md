@@ -1,3 +1,10 @@
+# [1.3.0-beta.83](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.82...v1.3.0-beta.83) (2023-05-17)
+
+
+### Features
+
+* **searchselectasync:** new sort prop ([3ea6548](https://github.com/gsi-chao/gsi-ui/commit/3ea65485e1284048481f4058ac0ba8fce4c44ae2))
+
 # [1.3.0-beta.82](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.81...v1.3.0-beta.82) (2023-05-15)
 
 
