@@ -1,4 +1,4 @@
-import { isArray } from 'lodash';
+import { isArray, orderBy } from 'lodash';
 import { abort } from 'process';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { IItem } from '../../../types';
@@ -18,7 +18,8 @@ export const useSearchSelectFieldAsync = ({
   value,
   onChange,
   onLoadData,
-  allowFirstLoad
+  allowFirstLoad,
+  sort
 }: Partial<VSearchSelectFieldAsyncProps>) => {
   const refInputSearch = useRef<HTMLInputElement>();
   const firstLoadChange = useRef<boolean>(false);
@@ -192,7 +193,10 @@ export const useSearchSelectFieldAsync = ({
 
   const onSearchData = async (params: LoadData) => {
     changeLoading(true);
-    const data = (await onLoadData?.(params)) ?? [];
+    let data = (await onLoadData?.(params)) ?? [];
+    if (sort) {
+      data = orderBy(data, ['label'], [sort]);
+    }
     setOptions(data);
     changeLoading(false);
   };

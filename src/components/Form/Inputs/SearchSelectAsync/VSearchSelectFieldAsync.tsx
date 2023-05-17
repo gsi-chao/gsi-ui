@@ -59,6 +59,7 @@ export type VSearchSelectFieldAsyncProps = Pick<
   allowFirstLoad?: boolean;
   tipLabel?: string;
   tipBgColor?: string;
+  sort?: 'asc' | 'desc' | undefined;
 };
 
 const Popover: PropsWithChildren<any> = WPopover;
@@ -95,7 +96,8 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
     onLoadData,
     allowFirstLoad,
     tipLabel,
-    tipBgColor
+    tipBgColor,
+    sort
   }) => {
     const {
       text,
@@ -126,7 +128,8 @@ export const VSearchSelectFieldAsync: FC<VSearchSelectFieldAsyncProps> = observe
       isLoading,
       onChange,
       onLoadData,
-      allowFirstLoad
+      allowFirstLoad,
+      sort
     });
 
     return (
