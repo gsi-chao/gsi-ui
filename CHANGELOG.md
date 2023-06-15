@@ -1,3 +1,10 @@
+# [1.3.0-beta.84](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.83...v1.3.0-beta.84) (2023-06-15)
+
+
+### Bug Fixes
+
+* **searchasyncselect:** fix async onChange event value not getting updated ([7516df7](https://github.com/gsi-chao/gsi-ui/commit/7516df746bb33512cf64ba356afa1c771efe3c19))
+
 # [1.3.0-beta.83](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.82...v1.3.0-beta.83) (2023-05-17)
 
 
