@@ -23,6 +23,7 @@ export const useSearchSelectFieldAsync = ({
 }: Partial<VSearchSelectFieldAsyncProps>) => {
   const refInputSearch = useRef<HTMLInputElement>();
   const firstLoadChange = useRef<boolean>(false);
+  const selectionValue = useRef<any[] | any>(multi ? [] : '');
   const [options, setOptions] = useState<IItem[]>([]);
   const [isOpen, changePopoverView] = useState(false);
   const [loading, changeLoading] = useState(false);
@@ -137,16 +138,22 @@ export const useSearchSelectFieldAsync = ({
   };
 
   const selectDeselectItem = (item: IItem) => {
-    if (multi && isArray(selection)) {
-      if (selection.includes(item.value)) {
-        setSelection(selection.filter(value => value !== item.value));
+    if (multi && isArray(selectionValue.current)) {
+      if (selectionValue.current.includes(item.value)) {
+        const updateSelection = selectionValue.current.filter(
+          value => value !== item.value
+        );
+        setSelection(updateSelection);
+        selectionValue.current = updateSelection;
       } else {
         setSelection((current: unknown[]) => [...current, item.value]);
+        selectionValue.current = [...selectionValue.current, item.value];
       }
       return;
     }
 
     setSelection(item.value);
+    selectionValue.current = item.value;
   };
 
   const handleInteraction = async (nextOpenState: boolean, e?: any) => {
@@ -177,7 +184,7 @@ export const useSearchSelectFieldAsync = ({
 
     !disabled && changePopoverView(nextOpenState);
     if (!nextOpenState) {
-      changeValueOrField(selection);
+      changeValueOrField(selectionValue.current);
       await fieldState?.validate?.();
     } else {
       fieldState?.setError('');
@@ -206,12 +213,14 @@ export const useSearchSelectFieldAsync = ({
   const deselectAllItems = () => {
     setSelection([]);
     changeValueOrField([]);
+    selectionValue.current = [];
   };
 
   const onClearComponent = () => {
     firstLoadChange.current = false;
     setOptions([]);
     setSelection(multi ? [] : '');
+    selectionValue.current = multi ? [] : '';
     changeLoading(false);
     changePopoverView(false);
     controller.abort();
