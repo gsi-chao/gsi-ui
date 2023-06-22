@@ -89,6 +89,7 @@ export const useSearchSelectFieldAsync = ({
       if (!signal.aborted) {
         firstLoadChange.current = true;
         setSelection(search);
+        selectionValue.current = search;
       }
       return;
     }
