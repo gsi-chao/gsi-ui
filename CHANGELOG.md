@@ -1,3 +1,10 @@
+# [1.3.0-beta.85](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.84...v1.3.0-beta.85) (2023-06-22)
+
+
+### Bug Fixes
+
+* **async search select:** fix onChange empty ([d7c248a](https://github.com/gsi-chao/gsi-ui/commit/d7c248a4078f65de9aa971f8f4320e957e4797da))
+
 # [1.3.0-beta.84](https://github.com/gsi-chao/gsi-ui/compare/v1.3.0-beta.83...v1.3.0-beta.84) (2023-06-15)
 
 
